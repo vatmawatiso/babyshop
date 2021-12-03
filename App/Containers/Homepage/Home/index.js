@@ -8,7 +8,8 @@ import {
   Dimensions,
   TouchableOpacity,
   ImageBackground,
-  Pressable
+  Pressable,
+  FlatList
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -53,11 +54,35 @@ const Home = (props) => {
       }
     ],
     arrayUsers: [],
+    arrayData:[],
     loading: false
   })
 
-  const renderItemExpore = (item,index) => {
-    console.log('item', item);
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
+    },
+  ]
+
+  const renderItemExpore = (item, index) => {
+    //console.log('item', item);
     return (
       <View style={styles.viewRenderExplore}>
         <View style={styles.viewImage}>
@@ -74,28 +99,43 @@ const Home = (props) => {
             <Text style={styles.textWork}>{item.item.value.message}</Text>
             <Text style={styles.textDistance}>{item.item.value.distance}</Text>
           </View>
-
-            <Text style={styles.judul}>    Toko{'\n'}Bangunan</Text>
-            <Text style={styles.judul1}>   Jasa{'\n'} Tukang</Text>
-            <Text style={styles.judul2}>   Konsultan{'\n'}      Arsitek</Text>
-            <Text style={styles.judul3}>    Transaksi{'\n'}     Properti</Text>
-            <Text style={styles.judul4}>    Alat{'\n'}  Bahan</Text>
-
-            <View style={styles.product}>
-              <Text style={styles.teks}>sjgsagdaksj</Text>
-            </View>
-            <View style={styles.product1}>
-              <Text style={styles.teks}>sjgsagdaksj</Text>
-            </View>
-
         </View>
-
-  
-
       </View>
     )
   }
 
+  const RenderItem = (item, index) => (
+    <View style={styles.card}>
+        <View style={{width:'50%' }}>
+            <Image source={{uri: item.image}} style={{width:100, height:100}} />
+           <Text style={{color:'#000'}}>{item.title}</Text>
+        </ View>
+    </ View>
+  );
+
+  const CardProduct = () =>{
+      return(
+        <FlatList
+            columnWrapperStyle={{justifyContent: 'space-between'}}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              marginTop: toDp(10),
+              paddingBottom: toDp(30),
+
+            }}
+
+            numColumns={2}
+            data={DATA}
+              renderItem={({item, index}) => {
+                return (
+                  RenderItem(item, index)
+                )
+              }}
+          />
+      )
+    }
+
+  
   
   return (
     <View style={styles.container}>
@@ -117,13 +157,14 @@ const Home = (props) => {
                 <Image source={allLogo.ichomerenovation} style={styles.icon} />
             </Pressable>
         </View>
+        
         <Carousel
-            layout={"default"}
-            data={state.arrayFriends}
-            sliderWidth={width}
-            itemWidth={toDp(350)}
-            renderItem={(item, index) => renderItemExpore(item, index)}
-            onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
+          layout={"default"}
+          data={state.arrayFriends}
+          sliderWidth={width}
+          itemWidth={toDp(350)}
+          renderItem={(item, index) => renderItemExpore(item, index)}
+          onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
         />
     </View>
   )
@@ -135,6 +176,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  card: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },  
   product: {
     backgroundColor: '#C4C4C4',
     top: toDp(180),
