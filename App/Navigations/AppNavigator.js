@@ -5,6 +5,7 @@ import SplashScreen from '../Containers/SplashScreen'
 import Login from '../Containers/Login'
 import Register from '../Containers/Register'
 import Homepage from '../Containers/Homepage'
+import Profilone from '../Containers/Profilone'
 
 const AppNavigator = createStackNavigator(
   {
@@ -12,6 +13,7 @@ const AppNavigator = createStackNavigator(
     Login: { screen: Login },
     Register: { screen: Register },
     Homepage: { screen: Homepage },
+    Profilone: { screen: Profilone },
   },
   {
     headerMode: 'none',

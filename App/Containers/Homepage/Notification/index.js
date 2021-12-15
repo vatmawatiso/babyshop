@@ -1,77 +1,48 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  ImageBackground,
+  Pressable
+} from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
+import Search from '@Search'
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Image source={{uri: item.image}} style={{width:100, height:100}} />
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
-
+const [src, setSrc]=useState(null);
 const Notification = () => {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    const color = item.id === selectedId ? 'white' : 'black';
-    const {height, width} = Dimensions.get('window');
-
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
-      />
-    );
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={DATA}
-        numColumns={2}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={selectedId}
-      />
-    </SafeAreaView>
-  );
+    <View style={styles.container}>
+      <Search onChangeText={(text)=> setSrc(text)} />
+      {/* <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} /> */}
+      <View style={styles.profil}>
+        <Text style={styles.title}>Notification</Text>
+      </View>
+    </View>
+  )
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: toDp(350),
-    right: toDp(0),
-    top: toDp(95),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  item: {
-    padding: toDp(27),
-    marginVertical: 10,
-    marginHorizontal: 16,
-    
+  profil: {
+    backgroundColor: '#2A334B',
+    top: toDp(-190),
+    width: toDp(316),
+    height: toDp(116),
+    borderRadius: toDp(25)
   },
   title: {
-    fontSize: 32,
-  }
+    fontSize: toDp(30),
+    color: 'white',
+  },
 });
 
 export default Notification;

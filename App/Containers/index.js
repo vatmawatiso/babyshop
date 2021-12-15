@@ -16,11 +16,8 @@ import { toDp } from '@percentageToDP';
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 
-
 const { width, height } = Dimensions.get('window')
-
 const Home = (props) => {
-  const [src, setSrc]=useState(null);
 
   const [state, setState] = useState({
     arrayFriends: [
@@ -64,55 +61,31 @@ const Home = (props) => {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-      title: 'Semen',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang : '4',
-      terjual: '| Terjual 50',
+      title: 'First Item',
       image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
     },
     {
       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-      title: 'Batu Bata',
-      harga: 'Rp. 50.000',
-      dariKota: 'Kab. Cirebon',
-      bintang : '4',
-      terjual: '| Terjual 50',
+      title: 'Second Item',
       image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
     },
     {
       id: '58694a0f-3da1-471f-bd96-145571e29d723',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang : '4',
-      terjual: '| Terjual 50',
+      title: 'Third Item',
       image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
     },
     {
       id: '58694a0f-3da1-471f-bd96-145571e29d724',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang : '4',
-      terjual: '| Terjual 50',
+      title: 'Third Item',
       image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
     },{
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
-      title: 'Semen',
-      harga: 'Rp. 80.000',
-      dariKota: 'Kab. Cirebon',
-      bintang : '4',
-      terjual: '| Terjual 50',
+      title: 'First Item',
       image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
     },
     {
       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f636',
-      title: 'Batu Bata',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang : '4',
-      terjual: '| Terjual 50',
+      title: 'Second Item',
       image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
     },
   ]
@@ -122,7 +95,7 @@ const Home = (props) => {
     return (
       <View style={styles.viewRenderExplore}>
         <View style={styles.viewImage}>
-          <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
+          <LinearGradient colors={['#F3f3f3', 'transparent']} style={styles.gradientTop} />
           <Image source={{uri: item.item.value.picture}} style={styles.imageProfile} />
           <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
         </View>
@@ -144,14 +117,8 @@ const Home = (props) => {
     <Pressable onPress={()=> alert('Produk : '+index)}>
       <View style={styles.card}>
           <View style={styles.txtProduct}>
-             <Image source={{uri: item.image}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.title}</Text>
-             <Text style={styles.harga}>{item.harga}</Text>
-             <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.dariKota}</Text>
-             <Image source={allLogo.icstar} style={styles.star} />
-             <Text style={styles.bintang}>{item.bintang}</Text>
-             <Text style={styles.terjual}>{item.terjual}</Text>
+              <Image source={{uri: item.image}} style={styles.imgProduct} />
+             <Text style={{color:'#000'}}>{item.title}</Text>
           </ View>
       </ View>
     </Pressable>
@@ -159,7 +126,7 @@ const Home = (props) => {
 
   const CardProduct = () =>{
       return(
-        <FlatList style={{backgroundColor:'white', minHeight:400, width:width, marginTop:-10,}}
+        <FlatList style={{backgroundColor:'red', minHeight:400, width:width, marginTop:10,}}
             columnWrapperStyle={{justifyContent: 'space-between'}}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -184,8 +151,8 @@ const Home = (props) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.ScrollView}>
-        <View style={{width:'100%', height: toDp(220),marginTop: toDp(25), backgroundColor: 'white'}}>
+      <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
+        <View style={{width:'100%', height: toDp(220),marginTop: toDp(25), backgroundColor: 'red'}}>
           <Carousel
             layout={"default"}
             data={state.arrayFriends}
@@ -199,31 +166,24 @@ const Home = (props) => {
         <View style={styles.content}>
             <Pressable style={styles.presable}>
                 <Image source={allLogo.ichouse} style={styles.icon} />
-                <Text style={styles.textIcon, {textAlign: 'center'}}>Toko{'\n'}Bangunan</Text>
             </Pressable>
             <Pressable style={styles.presable}>
                 <Image source={allLogo.icworkers} style={styles.icon} />
-                <Text style={styles.textIcon, {textAlign: 'center'}}>Jasa{'\n'}Tukang</Text>
             </Pressable>
             <Pressable style={styles.presable}>
                 <Image source={allLogo.icbuilder} style={styles.icon} />
-                <Text style={styles.textIcon, {textAlign: 'center'}}>Konsultan{'\n'}Arsitek</Text>
             </Pressable>
             <Pressable style={styles.presable}>
                 <Image source={allLogo.icbrokerage} style={styles.icon} />
-                <Text style={styles.textIcon, {textAlign: 'center'}}>Transaksi{'\n'}Properti</Text>
             </Pressable>
             <Pressable style={styles.presable}>
                 <Image source={allLogo.ichomerenovation} style={styles.icon} />
-                <Text style={styles.textIcon, {textAlign: 'center'}}>Alat dan{'\n'}Bahan</Text>
             </Pressable>
         </View>
 
 
 
         <CardProduct/>
-
-        </ScrollView>
 
 
 
@@ -238,14 +198,68 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: '#f3f3f3',
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius:toDp(10),
+    height: toDp(180),
+
+  },
+  txtProduct:{
+    width:'100%',
+    backgroundColor:'cyan'
+  },
+  imgProduct:{
+    width: toDp(100),
+    height:toDp(100)
+  },
+  product: {
+    backgroundColor: '#C4C4C4',
+    top: toDp(180),
+    width: toDp(151),
     height: toDp(221),
-    right: toDp(2),
-    shadowColor: "#000",
+    left: toDp(8),
+    borderRadius: toDp(15),
+  },
+  product1: {
+    backgroundColor: '#C4C4C4',
+    top: toDp(-41),
+    width: toDp(151),
+    height: toDp(221),
+    left: toDp(175),
+    borderRadius: toDp(15),
+  },
+  judul: {
+    top: toDp(250),
+    left: toDp(7),
+    fontSize: toDp(8)
+  },
+  judul1: {
+    top: toDp(230),
+    left: toDp(80),
+    fontSize: toDp(8)
+  },
+  judul2: {
+    top: toDp(210),
+    left: toDp(141),
+    fontSize: toDp(8)
+  },
+  judul3: {
+    top: toDp(190),
+    left: toDp(210),
+    fontSize: toDp(8)
+  },
+  judul4: {
+    top: toDp(170),
+    left: toDp(289),
+    fontSize: toDp(8)
+  },
+  viewHeader: {
+    width: '90%',
+    height: toDp(140),
+    marginTop: toDp(16),
+    backgroundColor: '#52B788',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -254,45 +268,49 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+    flexDirection: 'row',
+    borderRadius: toDp(8),
+    justifyContent: 'center',
+    //alignItems: 'center'
   },
-  bintang: {
-    bottom: toDp(13),
-    left: toDp(15)
-  },
-  terjual: {
-    bottom: toDp(26),
-    left: toDp(28)
-  },
-  address: {
-    bottom: toDp(-4)
-  },
-  star: {
-    bottom: toDp(3),
-    right: toDp(0)
-  },
-  dariKota: {
-    bottom: toDp(6),
-    left: toDp(15)
-  },
-  textproduct: {
-    fontWeight: 'bold',
-    fontSize: toDp(12)
-  },
-  txtProduct:{
-    width:'100%',
-    backgroundColor:'white'
-  },
-  imgProduct:{
-    width: toDp(100),
-    height:toDp(100)
+  viewPhotoName: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imgProfile: {
     width: toDp(80),
     height: toDp(80),
-    borderRadius: toDp(40),
+    borderRadius: toDp(40)
+  },
+  textName: {
+    marginTop: toDp(4),
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: toDp(14)
+  },
+  viewValueScore: {
+    width: toDp(82),
+    height: toDp(42),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#CBDFBD',
+    borderRadius: toDp(25),
+    shadowColor: "#000",
+    shadowOffset: {
+    	width: 0,
+    	height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginTop: toDp(8)
+  },
+  viewScore: {
+    marginTop: toDp(16),
+    alignItems: 'center'
   },
   viewRenderExplore: {
-    backgroundColor:'white',
+    backgroundColor:'cyan',
     width: '100%',
     height: toDp(200),
     justifyContent: 'center',
@@ -307,6 +325,7 @@ const styles = StyleSheet.create({
     height: toDp(200),
     resizeMode: 'contain',
     position:'absolute',
+
   },
   viewImageContent: {
     width: '100%',
@@ -372,9 +391,9 @@ const styles = StyleSheet.create({
     width: toDp(350),
     height: toDp(70),
     bottom: toDp(10),
-    top: toDp(-5),
+    top: toDp(5),
     flexDirection: 'row',
-    backgroundColor: 'white'
+    backgroundColor: '#ccc'
   },
   presable: {
     flex: 1,
