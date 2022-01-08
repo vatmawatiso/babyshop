@@ -125,10 +125,10 @@ const Wishlist = () => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.ScrollView}>
-      <Search onChangeText={(text)=> setSrc(text)} />
-      <View style={{width: '100%', marginTop: toDp(25), flexDirection: 'column', height: toDp(100)}}>
+      {/* <Search onChangeText={(text)=> setSrc(text)} /> */}
+      <View style={{width: '100%', marginTop: toDp(1), flexDirection: 'column', height: toDp(100)}}>
         <View style={{width: '100%'}}>
-          <Text style={{fontSize: toDp(15), fontSize: toDp(13), marginLeft: toDp(14)}}>Kategori</Text>
+          <Text style={{fontSize: toDp(10), fontSize: toDp(13), marginLeft: toDp(14)}}>Kategori</Text>
         </View>
             <View style={{width: '100%'}}>
               <SelectableChips
@@ -142,7 +142,7 @@ const Wishlist = () => {
                     top: toDp(6),  
                   }}
                   valueStyle={{
-                    fontSize: toDp(9),
+                    fontSize: toDp(8),
                     color: 'white'
                   }}
                   
@@ -215,9 +215,9 @@ const Wishlist = () => {
       </View>
 
       <View style={styles.textVocher}>
-        <View style={styles.judul1}>
-        <Text style={styles.textVocher}>Promo dan Vocher T.B Global Energy</Text>
-        </View>
+          <View style={styles.judul1}>
+              <Text style={styles.textVocher}>Promo dan Vocher T.B Global Energy</Text>
+          </View>
       </View>
          <View style={styles.contentVocher}>
               <View style={styles.vocher}>
@@ -236,7 +236,7 @@ const Wishlist = () => {
               </View>
          </View>
          <View style={styles.titleContent}>
-         <Text style={styles.textContent}>Bahan Bangunan Berkualitas</Text>
+              <Text style={styles.textContent}>Bahan Bangunan Berkualitas</Text>
          </View>
          
          <CardProduct/>
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     right: toDp(75)
   },
   content: {
-    top: toDp(-18),
+    top: toDp(-5),
     backgroundColor: 'white',
     height: toDp(75)
   },
@@ -337,10 +337,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     textAlign: 'center',
     borderRadius: toDp(15),
-    width: toDp(64),
-    height: toDp(64),
-    margin: toDp(12),
-    paddingTop: toDp(40)
+    width: toDp(70),
+    height: toDp(70),
+    fontSize:toDp(10),
+    margin: toDp(10),
+    paddingTop: toDp(53)
   },
   imgProduk: {
     position: 'absolute',
@@ -360,8 +361,8 @@ const styles = StyleSheet.create({
   },
   textVocher: {
     right: toDp(32),
-    top: toDp(-3),
-    fontSize: toDp(11)
+    top: toDp(3),
+    fontSize: toDp(12)
   },
   judul: {
     left: toDp(89)
@@ -371,14 +372,14 @@ const styles = StyleSheet.create({
   },
   contentVocher: {
     flexDirection: 'row',
-    right: toDp(50),
+    right: toDp(59),
   },
   vocher: {
-    top: toDp(-15),
+    top: toDp(10),
     backgroundColor: '#C4C4C4',
-    margin: toDp(22),
+    margin: toDp(5),
     paddingRight: toDp(20),
-    left: toDp(46),
+    left: toDp(65),
     borderRadius: toDp(15)
   },
   titleVocher: {
@@ -390,15 +391,18 @@ const styles = StyleSheet.create({
     left: toDp(10)
   },
   textContent: {
-    top: toDp(-25),
+    top: toDp(-4),
     right: toDp(83),
-    fontSize: toDp(11)
+    fontSize: toDp(12)
   },
   titleContent: {
-    left: toDp(97)
+    left: toDp(97),
+    paddingBottom:toDp(5),
+    marginTop:toDp(20)
   },
   card: {
     backgroundColor: 'white',
+    bottom:toDp(-15),
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
@@ -416,11 +420,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   bintang: {
-    bottom: toDp(13),
+    bottom: toDp(17),
     left: toDp(15)
   },
   terjual: {
-    bottom: toDp(26),
+    bottom: toDp(37),
     left: toDp(28)
   },
   address: {
@@ -440,7 +444,9 @@ const styles = StyleSheet.create({
   },
   txtProduct:{
     width:'100%',
-    backgroundColor:'white'
+    backgroundColor:'white',
+    marginTop:toDp(-16),
+    marginBottom:toDp(50)
   },
   imgProduct:{
     width: toDp(100),

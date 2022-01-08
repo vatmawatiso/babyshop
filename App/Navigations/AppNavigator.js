@@ -6,6 +6,11 @@ import Login from '../Containers/Login'
 import Register from '../Containers/Register'
 import Homepage from '../Containers/Homepage'
 import Profilone from '../Containers/Profilone'
+import Keranjang from '../Containers/Keranjang'
+import Editprofil from '../Containers/Editprofil'
+import Chat from '../Containers/Chat'
+import Notification from '../Containers/Homepage/Notification'
+import Jasakirim from '../Containers/Jasakirim'
 
 const AppNavigator = createStackNavigator(
   {
@@ -14,10 +19,17 @@ const AppNavigator = createStackNavigator(
     Register: { screen: Register },
     Homepage: { screen: Homepage },
     Profilone: { screen: Profilone },
+    Keranjang: { screen: Keranjang },
+    Editprofil: { screen: Editprofil },
+    Chat: { screen: Chat },
+    Jasakirim: { screen: Jasakirim },
+    Notification: { screen: Notification },
+   
+    
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Homepage',
+    initialRouteName: 'Jasakirim',
   
   }
 );

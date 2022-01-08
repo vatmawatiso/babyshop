@@ -185,7 +185,7 @@ const Home = (props) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.ScrollView}>
-        <View style={{width:'100%', height: toDp(220),marginTop: toDp(25), backgroundColor: 'white'}}>
+        <View style={{width:'100%', height: toDp(230),marginTop: toDp(-5), backgroundColor: 'white'}}>
           <Carousel
             layout={"default"}
             data={state.arrayFriends}
@@ -210,10 +210,6 @@ const Home = (props) => {
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Konsultan{'\n'}Arsitek</Text>
             </Pressable>
             <Pressable style={styles.presable}>
-                <Image source={allLogo.icbrokerage} style={styles.icon} />
-                <Text style={styles.textIcon, {textAlign: 'center'}}>Transaksi{'\n'}Properti</Text>
-            </Pressable>
-            <Pressable style={styles.presable}>
                 <Image source={allLogo.ichomerenovation} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Alat dan{'\n'}Bahan</Text>
             </Pressable>
@@ -236,6 +232,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'white',
+    // bottom:toDp(140)
   },
   card: {
     backgroundColor: 'white',
@@ -243,7 +240,7 @@ const styles = StyleSheet.create({
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius:toDp(10),
-    height: toDp(221),
+    height: toDp(251),
     right: toDp(2),
     shadowColor: "#000",
     shadowOffset: {
@@ -256,11 +253,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   bintang: {
-    bottom: toDp(13),
+    bottom: toDp(17),
     left: toDp(15)
   },
   terjual: {
-    bottom: toDp(26),
+    bottom: toDp(37),
     left: toDp(28)
   },
   address: {
@@ -271,7 +268,7 @@ const styles = StyleSheet.create({
     right: toDp(0)
   },
   dariKota: {
-    bottom: toDp(6),
+    bottom: toDp(10),
     left: toDp(15)
   },
   textproduct: {
@@ -372,8 +369,9 @@ const styles = StyleSheet.create({
     width: toDp(350),
     height: toDp(70),
     bottom: toDp(10),
-    top: toDp(-5),
+    top: toDp(-10),
     flexDirection: 'row',
+    left:toDp(5),
     backgroundColor: 'white'
   },
   presable: {

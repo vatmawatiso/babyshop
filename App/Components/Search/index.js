@@ -4,6 +4,7 @@ import {BackHandler, Dimensions, StyleSheet, Text, View, Image, Alert, TextInput
 // import LinearGradient from 'react-native-linear-gradient'
 import { allLogo } from '@Assets'
 import { toDp } from '@percentageToDP'
+import NavigatorService from '@NavigatorService'
 
 let { width, height } = Dimensions.get('window')
 
@@ -21,13 +22,13 @@ class Search extends Component {
           <Image style={styles.searchIcon} source={allLogo.icsearch} />
           <TextInput
               style={styles.input}
-              placeholder="User Nickname"
+              placeholder="Pencarian......."
               underlineColorAndroid="transparent"
               placeholderTextColor="#FFF"
               onChangeText={(text)=>this.props.onFilter}
           />
-          <TouchableOpacity>
-            <Image source={allLogo.iccart} style={styles.cart} />
+          <TouchableOpacity onPress={() => NavigatorService.navigate('Keranjang')}>
+            <Image source={allLogo.iccart} style={styles.cart}  />
           </TouchableOpacity>
           <TouchableOpacity>
             <Image source={allLogo.icnav} style={styles.nav} />
@@ -43,7 +44,8 @@ class Search extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'cyan'
+    backgroundColor:'cyan',
+    marginBottom:toDp(-60)
   },
   header: {
     width:'100%',
@@ -82,9 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFF',
     width:'100%',
-    paddingHorizontal:toDp(8)
-
-
+    paddingHorizontal:toDp(10)
 },
 cart: {
   padding: toDp(0),
@@ -103,13 +103,13 @@ nav: {
 searchIcon: {
     resizeMode: 'contain',
     tintColor: 'white',
-    width: toDp(30),
-    height: toDp(30),
+    width: toDp(25),
+    height: toDp(25),
     zIndex:3,
-    padding: toDp(4),
+    padding: toDp(8),
     position: 'absolute',
-    left: toDp(15),
-    top: Platform.OS === 'ios' ? toDp(15) : toDp(15)
+    left: toDp(17),
+    top: Platform.OS === 'ios' ? toDp(18) : toDp(18)
 
 },
 input: {

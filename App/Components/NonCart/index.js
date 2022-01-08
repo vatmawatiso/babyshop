@@ -18,15 +18,18 @@ import { toDp } from '@percentageToDP'
 import NavigatorService from '@NavigatorService'
 
 let { width, height } = Dimensions.get('window')
+
+
+
 const title = (text) => {
-  let newText = text.substr(0,12);
+  let newText = text.substr(0,11);
 
   return(
     <Text>{newText}</Text>
   )
 }
 
-class Header extends Component {
+class NonCart extends Component {
 
   render() {
     return (
@@ -41,17 +44,10 @@ class Header extends Component {
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.icarrow} style={styles.icBack} />
               </TouchableOpacity>
+
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
-                  {/* <Pressable 
-                      onPress={() => NavigatorService.navigate('Keranjang')}
-                      style={styles.touchHeader}>
-                      <Image source={allLogo.iccart} style={styles.cart} />
-                  </Pressable>  */}
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                  <Image source={allLogo.iccart} style={styles.cart} />
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.icnav} style={styles.nav} />
                 </TouchableOpacity>
@@ -106,13 +102,8 @@ const styles = StyleSheet.create({
   touchHeader: {
     padding: toDp(4),
   },
-  cart: {
-    left: toDp(100),
-    width: toDp(28),
-    height: toDp(28)
-  },
   nav: {
-    left: toDp(100),
+    left: toDp(140),
     width: toDp(28),
     height: toDp(28),
   },
@@ -133,4 +124,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Header
+export default NonCart

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
+  TextInput,
   Text,
   View,
   Image,
@@ -10,34 +11,47 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import Search from '@Search';
-import NavigatorService from '@NavigatorService';
+
+import NavigatorService from '@NavigatorService'
 
 import Home from './Home'
 import Wishlist from './Wishlist'
 import Notification from './Notification'
 import Profilone from '../Profilone'
+import Search from '@Search'
 
 const Homepage = () => {
 
   const [state, setState] = useState({
     content: 'home', // home, user, setting
   })
-    const [scr, setScr] = useState(null);
+
+  const [text, setText] = useState('');
+  const [src, setSrc]=useState(null);
 
   return (
     <View style={styles.container}>
-      <Search onChangeText={(text) => setScr(text)}/>
+      <Search onChangeText={(text)=> setSrc(text)} />
+      {/* <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} /> */}
+      {/* <Image source={allLogo.icsearch} style={styles.search} /> */}
+        {/* <TextInput
+        style={styles.cari, {top: toDp(-20), left: toDp(40), fontSize: toDp(12)}}
+        placeholder="Pencarian. . ."
+        placeholderTextColor= 'white'
+        onChangeText={text => setText(text)}
+        defaultValue={text}
+      /> */}
+        {/* <Text style={styles.title}>Pencarian . . .</Text> */}
+        <Image source={allLogo.iccart} style={styles.cart} />
+        <Image source={allLogo.icnav} style={styles.nav} />
+      
 
       <View style={styles.content}>
         {
           state.content == 'home' ?
             <Home />
-          : state.content == 'wishlist' ?
+          : 
             <Wishlist />
-          :
-            <Notification />
-
         }
       </View>
 
@@ -46,12 +60,12 @@ const Homepage = () => {
           <Image source={allLogo.ichome} style={styles.icon} />
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'wishlist' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'wishlist' }))}>
-          <Image source={allLogo.icwishlist} style={styles.icon} />
+          <Image source={allLogo.iccategory} style={styles.icon} />
         </Pressable>
-        <Pressable style={[styles.presable, {backgroundColor: state.content === 'notification' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'notification' }))}>
+        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Notification')}>
           <Image source={allLogo.icnotification} style={styles.icon} />
         </Pressable>
-        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Profilone' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Profilone')}>
+        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Profilone' ? '#234D6C' : '#2A334B'}]}  onPress={()=> NavigatorService.navigate('Profilone')}>
           <Image source={allLogo.icprofil} style={styles.icon} />
         </Pressable>
       </View>
@@ -65,13 +79,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
+
   },
   header: {
-    top: toDp(40),
+    top: toDp(20),
     right: toDp(30),
-    height: toDp(45),
+    height: toDp(35),
     width: toDp(250),
-    marginBottom: toDp(20),
     backgroundColor: '#2A334B',
     borderRadius: toDp(25),
     shadowColor: "#000",
@@ -86,53 +100,43 @@ const styles = StyleSheet.create({
   search: {
     padding: toDp(1),
     tintColor: 'white',
-    width: toDp(30),
-    height: toDp(30),
     top: toDp(7),
     left: toDp(15),
     transform: [{ rotate: '10deg' }],
-
   },
   cart: {
     padding: toDp(1),
-    top: toDp(-20),
-    left: toDp(260)
+    top: toDp(-45),
+    left: toDp(260) 
   },
   nav: {
     padding: toDp(1),
-    top: toDp(-41),
-    left: toDp(290)
+    top: toDp(-66),
+    left: toDp(290) 
   },
   content: {
     flex: 1
   },
   footer: {
-    width: toDp(319),
+    width: toDp(340),
     height: toDp(52),
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',
-    borderRadius: toDp(25),
+    borderRadius: toDp(25)
   },
   presable: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: toDp(25),
+    borderRadius: toDp(25), 
   },
   icon: {
     width: toDp(28),
     height: toDp(26),
     resizeMode: 'contain',
     tintColor: 'white'
-  },
-  title: {
-    fontWeight: '300',
-    fontSize: toDp(12),
-    color: 'white',
-    marginTop: toDp(-15),
-    marginLeft: toDp(55)
-  },
+  }
 
 });
 

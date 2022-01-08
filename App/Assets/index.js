@@ -30,6 +30,18 @@ const allLogo = {
   icwallet: require('./img/ic_wallet.png'),
   icstore: require('./img/ic_store.png'),
   icline: require('./img/ic_line.png'),
+  icorders: require('./img/ic_orders.png'),
+  iclineright: require('./img/ic_lineright.png'),
+  icbuyer: require('./img/ic_buyer.png'),
+  icpacking: require('./img/ic_packing.png'),
+  ictruck: require('./img/ic_truck.png'),
+  icstars: require('./img/ic_stars.png'),
+  icaddress1: require('./img/ic_address1.png'),
+  ickotak: require('./img/ic_kotak.png'),
+  icsilang: require('./img/ic_silang.png'),
+  icgerobak: require('./img/ic_gerobak.png'),
+  ictrash: require('./img/ic_trash.png'),
+  icvector: require('./img/ic_vector.png'),
 
 }
 
