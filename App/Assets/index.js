@@ -42,6 +42,17 @@ const allLogo = {
   icgerobak: require('./img/ic_gerobak.png'),
   ictrash: require('./img/ic_trash.png'),
   icvector: require('./img/ic_vector.png'),
+  icchat: require('./img/ic_chat.png'),
+  iclineblack: require('./img/ic_lineblack.png'),
+  icplus: require('./img/ic_plus.png'),
+  icvoucher: require('./img/ic_voucher.png'),
+  ictransfer: require('./img/ic_transfer.png'),
+  icBCA: require('./img/ic_BCA.png'),
+  icMANDIRI: require('./img/ic_MANDIRI.png'),
+  icBNI: require('./img/ic_BNI.png'),
+  icBRI: require('./img/ic_BRI.png'),
+  icBSI: require('./img/ic_BSI.png'),
+  icPERMATA: require('./img/ic_PERMATA.png'),
 
 }
 

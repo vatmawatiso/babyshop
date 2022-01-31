@@ -5,6 +5,7 @@ import {BackHandler,
         Text, 
         View, 
         Image, 
+        TextInput,
         Alert, 
         Platform, 
         TouchableOpacity, 
@@ -16,20 +17,19 @@ import LinearGradient from 'react-native-linear-gradient'
 import { allLogo } from '@Assets'
 import { toDp } from '@percentageToDP'
 import NavigatorService from '@NavigatorService'
+import { color } from 'react-native-reanimated'
+import { parseZone } from 'moment'
 
 let { width, height } = Dimensions.get('window')
-
-
-
 const title = (text) => {
-  let newText = text.substr(0,13);
+  let newText = text.substr(0,12);
 
   return(
-    <Text>{newText}</Text>
+    <Text style={{fontSize:toDp(16)}}>{newText}</Text>
   )
 }
 
-class NonCart extends Component {
+class Order extends Component {
 
   render() {
     return (
@@ -44,12 +44,19 @@ class NonCart extends Component {
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.icarrow} style={styles.icBack} />
               </TouchableOpacity>
-
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(130) }]}>{title(this.props.title)}</Text>
+              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
+              <Image source={allLogo.icsearch} style={styles.search} />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Pencarian.."
+                    underlineColorAndroid="transparent"
+                    placeholderTextColor="#FFF"
+                    onChangeText={(text)=>this.props.onFilter}
+                />
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                  <Image source={allLogo.icnav} style={styles.nav} />
+                  <Image source={allLogo.icchat} style={styles.chat} />
                 </TouchableOpacity>
               </View>
 
@@ -74,11 +81,24 @@ class NonCart extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    bottom: toDp(50)
+    bottom: toDp(50),
   },
   icheader: {
     flexDirection: 'row'
   },
+  input: {
+    // paddingTop: 5,
+    // paddingRight: 5,
+    // paddingBottom: 5,
+    backgroundColor: '#2A334B',
+    borderRadius: toDp(25),
+    paddingLeft:toDp(35),
+    width:toDp(130),
+    height:toDp(40),
+    right:toDp(20),
+    color:'#FFF',
+    fontSize:toDp(12)
+},
   header: {
     width,
     //height: 'auto',
@@ -102,10 +122,20 @@ const styles = StyleSheet.create({
   touchHeader: {
     padding: toDp(4),
   },
-  nav: {
-    left: toDp(110),
-    width: toDp(28),
-    height: toDp(28),
+  search: {
+    left: toDp(10),
+    top:toDp(10),
+    width: toDp(21),
+    height: toDp(22),
+    tintColor:'white',
+    position:'relative',
+    zIndex:1,
+  },
+  chat: {
+    right: toDp(10),
+    top:toDp(8),
+    width: toDp(22),
+    height: toDp(22),
   },
   icBack: {
     marginHorizontal: toDp(8),
@@ -117,11 +147,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: toDp(18),
+    fontSize: toDp(20),
     marginLeft: toDp(8),
 
   },
 })
 
 
-export default NonCart
+export default Order

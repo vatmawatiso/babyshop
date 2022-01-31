@@ -1,0 +1,121 @@
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  ImageBackground,
+  Pressable
+} from "react-native";
+import { allLogo } from '@Assets';
+import { toDp } from '@percentageToDP';
+
+import NavigatorService from '@NavigatorService'
+import  Order  from '@Order'
+
+import Belumbayar from './Belumbayar'
+import Dikemas from './Dikemas'
+import Dikirim from './Dikirim'
+import Dibatalkan from "./Dibatalkan";
+import Selesai from './Selesai'
+
+const Orderpage = (props) => {  
+
+  const [con, setCon] = useState(props.navigation.state.params.content);
+
+  return (
+    <View style={styles.container}>
+      <Order 
+            title={'Pesanan Saya'}
+            onPress={() => props.navigation.goBack()}
+        />
+      <View style={styles.content}>
+      {
+          con == 'Belumbayar' ?
+            <Belumbayar />
+          :con == 'Dikemas' ?
+            <Dikemas />
+          :con == 'Dikirim' ?
+            <Dikirim />
+          :con == 'Selesai' ?
+          <Selesai />
+          :
+          <Dibatalkan />
+        }
+      </View>
+
+      <View style={styles.body}> 
+            <Pressable style={[styles.presable]} onPress={() => setCon('Belumbayar')}>
+                <Text style={[styles.txtOrder, {color: con === 'Belumbayar' ? '#6495ED' : 'black'}]}>Belum Bayar</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
+            <Text style={[styles.txtOrder, {color: con === 'Dikemas' ? '#6495ED' : 'black'}]}>Dikemas</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
+                <Text style={[styles.txtOrder, {color: con === 'Dikirim' ? '#6495ED' : 'black'}]}>Dikirim</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
+                <Text style={[styles.txtOrder, {color: con === 'Selesai' ? '#6495ED' : 'black'}]}>Selesai</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
+                <Text style={[styles.txtOrder, {color: con === 'Dibatalkan' ? '#6495ED' : 'black'}]}>Dibatalkan</Text>
+            </Pressable>
+      </View>
+
+    </View>
+  )
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    top:toDp(50)
+  },
+  header: {
+    width: '100%',
+    height: toDp(184),
+    backgroundColor: '#52B788',
+    borderBottomLeftRadius: toDp(26),
+    borderBottomRightRadius: toDp(26),
+    shadowColor: "#000",
+    shadowOffset: {
+    	width: 0,
+    	height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  content: {
+    flex: 1,
+    width: '100%'
+  },
+  body: {
+    bottom:toDp(575),
+    backgroundColor: "white",
+    flexDirection: 'row',
+  },
+  presable: {
+    flex: 0,
+    justifyContent: 'space-between',
+    margin:toDp(7)
+    
+  },
+  icon: {
+    width: toDp(31),
+    height: toDp(31),
+    resizeMode: 'contain'
+  },
+  title: {
+    fontWeight: '800',
+    fontSize: toDp(20),
+    color: 'white',
+    marginTop: toDp(80),
+    marginLeft: toDp(16)
+  },
+});
+
+export default Orderpage;

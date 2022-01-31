@@ -19,17 +19,7 @@ import NavigatorService from '@NavigatorService'
 
 let { width, height } = Dimensions.get('window')
 
-
-
-const title = (text) => {
-  let newText = text.substr(0,13);
-
-  return(
-    <Text>{newText}</Text>
-  )
-}
-
-class NonCart extends Component {
+class Back extends Component {
 
   render() {
     return (
@@ -37,22 +27,13 @@ class NonCart extends Component {
         <View style={styles.header}>
           <LinearGradient
             colors={['white', 'white']}
-            //colors={['white', 'white']}
             style={[styles.linearHeader, {justifyContent: 'space-between'}]}
           >
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.icarrow} style={styles.icBack} />
               </TouchableOpacity>
-
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(130) }]}>{title(this.props.title)}</Text>
-              
-              <View style={styles.icheader}>
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                  <Image source={allLogo.icnav} style={styles.nav} />
-                </TouchableOpacity>
-              </View>
-
+              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(17) }]}>{this.props.title}</Text>
             </View>
 
             {
@@ -73,7 +54,7 @@ class NonCart extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: -1,
     bottom: toDp(50)
   },
   icheader: {
@@ -102,8 +83,13 @@ const styles = StyleSheet.create({
   touchHeader: {
     padding: toDp(4),
   },
+  cart: {
+    left: toDp(100),
+    width: toDp(28),
+    height: toDp(28)
+  },
   nav: {
-    left: toDp(110),
+    left: toDp(100),
     width: toDp(28),
     height: toDp(28),
   },
@@ -117,11 +103,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: toDp(18),
+    fontSize: toDp(12),
     marginLeft: toDp(8),
 
   },
 })
 
 
-export default NonCart
+export default Back

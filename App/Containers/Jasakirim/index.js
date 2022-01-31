@@ -5,9 +5,12 @@ import {
   View,
   Image,
   Switch,
+  TouchableOpacity,
+  FlatList,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -31,51 +34,126 @@ const Jasakirim = (props) => {
     },
   ]
 
-  const jasakirim = [
-    {
-      id: '1',
-      jasakirim: 'Reguler',
-    },
-    {
-      id: '2',
-      jasakirim: 'Antar Aja',
-    },
-    {
-      id: '3',
-      jasakirim: 'Si Cepat Reg',
-    },
-    {
-      id: '4',
-      jasakirim: 'J&T Express',
-    },
-    {
-      id: '4',
-      jasakirim: 'JNE Reguler',
-    },
-    {
-      id: '6',
-      jasakirim: 'ID Express',
-    },
-    {
-      id: '7',
-      jasakirim: 'Pos Kilat Khusus',
-    },
-    {
-      id: '8',
-      jasakirim: 'Kargo',
-    },
-  ]
+  const [isSwitchOn,setSwitch] = useState(false)
+  const [val,setval] = useState(false)
+  const [state,setState] = useState({
+    
+    jasper:[
+      {
+        'id':1,
+        'name':'JNE',
+        'status' : true
+      },
+      {
+        'id':2,
+        'name':'TIKI',
+        'status' : false
+      },
+      {
+        'id':3,
+        'name':'Anteraja',
+        'status' : false
+      },
+      {
+        'id':4,
+        'name':'Kargo',
+        'status' : false
+      },
+      {'id':5,
+      'name':'Lion Parcel',
+      'status' : false
+      },
+      {'id':6,
+      'name':'J&T Express',
+      'status' : false
+      },
+      {
+        'id':7,
+      'name':'Si Cepat',
+      'status' : false
+      },
+      {
+        'id':8,
+      'name':'Pos Kilat',
+      'status' : false
+      },
+      {
+        'id':9,
+      'name':'J&T Express',
+      'status' : false
+      },
+      {
+        'id':10,
+      'name':'Si Cepat',
+      'status' : false
+      },
+      {
+        'id':11,
+      'name':'Pos Kilat',
+      'status' : false
+      },
+      {
+        'id':12,
+      'name':'J&T Express',
+      'status' : false
+      },
+      {
+        'id':13,
+      'name':'Si Cepat',
+      'status' : false
+      },
+    ] 
+  })
 
-  // const RenderItem = (item, index) => (
+  const setSwitchValue = (val, ind, id) => {
+    const tempData = JSON.parse(JSON.stringify(state.jasper));
+    tempData[ind].status = val;
+    setState({ jasper: tempData });
+    //langsung push data terbaru ke server
+    //tulis kode disini
+}
+
+  const renderswitch = ({item, index}) => {
   return (
-    <View style={styles.container}>
+    <View style={{width:toDp(316), left:toDp(20), borderRadius:toDp(15)}}>
+        <View style={{flexDirection:'row', 
+                        justifyContent:'space-between',
+                        alignItems:'center',
+                        width:'100%',
+                        borderRadius:toDp(15),
+                        width:toDp(316),
+                        height:toDp(340),
+                        padding:12, 
+                        height:50, 
+                        backgroundColor:'#C4C4C4'}}>
 
-        <NonCart
+                <Text>{item.name}</Text>
+                
+                <Switch  
+                  thumbColor={'#f4f3f4'}
+                  trackColor={{false:'grey', true:'#6495ED'}}
+                  ios_backgroundColor='grey'
+                 
+                  onValueChange={(value) => setSwitchValue(value, index,item.id)} 
+                  value={item.status}
+                  
+                />  
+        
+        </View>
+        <View style={{borderWidth:1, borderColor:'white'}} />
+    </View>
+    )
+  } 
+   
+    
+     return (
+      <View style={styles.container}>
+         <NonCart
           title={'Jasa Kirim'}
           onPress={() => props.navigation.goBack()}
         />
-
-        <View style={styles.content}>
+        <ScrollView>
+         <View style={styles.content}>
             <View style={styles.address}>
                 <Image source={allLogo.icaddress1} style={styles.icAddress} />
                 <Text style={styles.titleAddress}>Alamat Pengiriman</Text>
@@ -86,44 +164,41 @@ const Jasakirim = (props) => {
                     </Pressable>
             </View>
         </View>
-        <View style={styles.body}>
-            <View style={styles.courier}>
-                <Text style={styles.txtCourier}>Reguler</Text>
-                <Text style={styles.txtCourier}>Antar Aja</Text>
-                <Text style={styles.txtCourier}>Si Cepat Reg</Text>
-                <Text style={styles.txtCourier}>Ninja Express</Text>
-                <Text style={styles.txtCourier}>J and T Express</Text>
-                <Text style={styles.txtCourier}>JNE Reguler</Text>
-                <Text style={styles.txtCourier}>ID Express</Text>
-                <Text style={styles.txtCourier}>Post Kilat Khusus</Text>
-                <Text style={styles.txtCourier}>Kargo</Text>
-            </View>
-        </View>
-
-    
-
-    </View>
-  )
-};
+      <View style={{bottom:toDp(35)}}>
+        <FlatList
+          data={state.jasper}
+          renderItem={renderswitch}
+          keyExtractor={item => item.id}
+          ListFooterComponent={() => <View style={{height: toDp(50)}} />}
+        />
+      </View>
+      </ScrollView>
+      </View>
+    );
+  
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     top:toDp(50),
+    // backgroundColor:'red'
   },
   content: {
-      backgroundColor:'red',
-      bottom:toDp(30),
+      marginTop:toDp(70),
+      bottom:toDp(50),
       width:toDp(360),
-      height:toDp(145),
+      height:toDp(120),
+      // backgroundColor:'cyan'
   },
   address: {
-      backgroundColor:'cyan',
+      backgroundColor:'#C4C4C4',
       width:toDp(316),
       height:toDp(105),
-      top:toDp(10),
+      top:toDp(-5),
       marginLeft:toDp(20),
-      borderRadius:toDp(15)
+      borderRadius:toDp(15),
+      position:'relative'
   },
   icAddress: {
       left:toDp(10),
@@ -135,25 +210,26 @@ const styles = StyleSheet.create({
   },
   txtAddress: {
       left:toDp(38),
-      fontSize:toDp(12)
+      fontSize:toDp(12),
   },
   body: {
     backgroundColor:'yellow',
     bottom:toDp(30),
     width:toDp(360),
-    height:toDp(350),
+    height:toDp(360),
   },
   courier: {
-    backgroundColor:'pink',
+    backgroundColor:'#C4C4C4',
     width:toDp(316),
-    height:toDp(340),
+    height:toDp(330),
     left:toDp(20),
     borderRadius:toDp(15),
     alignItems:'flex-start',
     justifyContent:'space-between',
   },
   txtCourier: {
-    
+    marginTop:toDp(10),
+    left:toDp(10)
   }
 });
 
