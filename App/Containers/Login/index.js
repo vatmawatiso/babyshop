@@ -52,7 +52,7 @@ const Login = (props) => {
                      <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
                  </Pressable>
               </View>
-              <Pressable style={styles.pressableForgot}>
+              <Pressable style={{left:toDp(80)}} onPress={()=> NavigatorService.navigate('Lupapassword')}>
                       <Text style={styles.textForgot}>Forgot Password</Text>
                   </Pressable>
 
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: toDp(10),
     paddingTop: toDp(5),
-    left: toDp(83)
+    bottom:toDp(2)
   }, 
   pressableLogin: {
     width: toDp(75),

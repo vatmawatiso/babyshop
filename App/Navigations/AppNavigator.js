@@ -26,6 +26,10 @@ import Jasatukang from '../Containers/Jasatukang'
 import Tokobangunan from '../Containers/Tokobangunan'
 import Konsultan from '../Containers/Konsultan'
 import Alatbahan from '../Containers/Alatbahan'
+import Lupapassword from '../Containers/Lupapassword'
+import Konfiremail from '../Containers/Konfiremail'
+import Buatpassword from '../Containers/Buatpassword'
+import Produk from '../Containers/Produk'
 
 
 const AppNavigator = createStackNavigator(
@@ -53,13 +57,17 @@ const AppNavigator = createStackNavigator(
     Pembayaran: { screen: Pembayaran },
     Jasatukang: { screen: Jasatukang },
     Tokobangunan: { screen: Tokobangunan },
-    Alatbahan: { screen: Alatbahan },
     Konsultan: { screen: Konsultan },
+    Alatbahan: { screen: Alatbahan },
+    Lupapassword: { screen: Lupapassword },
+    Konfiremail: { screen: Konfiremail },
+    Buatpassword: { screen: Buatpassword },
+    Produk: { screen: Produk },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Alatbahan',
+    initialRouteName: 'Produk',
   
   }
 );

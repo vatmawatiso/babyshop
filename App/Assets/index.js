@@ -53,6 +53,7 @@ const allLogo = {
   icBRI: require('./img/ic_BRI.png'),
   icBSI: require('./img/ic_BSI.png'),
   icPERMATA: require('./img/ic_PERMATA.png'),
+  icemail: require('./img/ic_email.png'),
 
 }
 
