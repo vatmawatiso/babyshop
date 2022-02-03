@@ -68,6 +68,21 @@ const Produk = (props) => {
         arrayData:[],
         loading: false
       })
+
+      const DATA = [
+        {
+          id: '1',
+          name: 'TB Sumber Kasih FM',
+          harga: 'Rp 500.000 - 700.000',
+          rating: '5.8',
+          terjual: '27',
+          stok: '5',
+          warna: 'Hijau, Merah, Kuning, Biru',
+          beban: '100kg',
+          kapasitas: '4CBF',
+          dikirimdari: 'Indonesia Kota bandung'
+        },
+      ]
     
       const renderItemExpore = (item, index) => {
         //console.log('item', item);
@@ -78,12 +93,7 @@ const Produk = (props) => {
               <Image source={{uri: item.item.value.picture}} style={styles.imageProfile} />
               <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
             </View>
-            <View style={styles.detailProduk}>
-                <Text style={{position:'relative'}}>{item.item.value.name}</Text>
-                <Text style={{position:'absolute'}}>{item.item.value.harga}</Text>
-                <Text>{item.item.value.rating}</Text>
-                <Text>{item.item.value.terjual}</Text>
-            </View>
+         
           </View>
         )
       }
@@ -105,17 +115,56 @@ return (
           />
         </View> 
 
-        <Text>Gerobak</Text>
-
-
+        <View style={styles.content}>
+            {RenderItem(DATA,0)}
+        </View>
   </View>
 )};
 
+const RenderItem = (item, index) => {
+  return (
+
+    <View style={styles.detailProduk}>
+        <View>
+            <Text style={{marginBottom:10}}>{item[index].name}</Text>
+            <Text style={{marginBottom:5}}>{item[index].harga}</Text>
+            <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
+        </View>
+
+          <Text style={{fontWeight:'bold', top:toDp(10)}}>Rincian Produk</Text>
+          <View style={{top:toDp(20)}}>
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text>Stok</Text>
+                <Text style={{left:toDp(100)}}>{item[index].stok}</Text>
+            </View>
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text>Beban Kapasitas</Text>
+                <Text style={{left:toDp(100)}}>{item[index].beban}</Text>
+            </View>
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text>Warna</Text>
+                <Text>{item[index].warna}</Text>
+            </View>
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text>Kapasitas</Text>
+                <Text>{item[index].kapasitas}</Text>
+            </View>
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text>Dikirim Dari </Text>
+                <Text>{item[index].dikirimdari}</Text>
+            </View>
+          </View>
+        
+    </View>
+
+  )
+
+};
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor: 'yellow',
+    backgroundColor: 'white',
     alignItems: 'center',
     top: toDp(50),
   },
@@ -168,7 +217,9 @@ const styles = StyleSheet.create({
     top: toDp(16),
   },
   detailProduk: {
-      top:toDp(130)
+    bottom:toDp(50),
+    right:toDp(50),
+    
   }
 });
 
