@@ -19,11 +19,11 @@ import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
-import { TextInput } from "react-native-gesture-handler";
 
 const { width, height } = Dimensions.get('window')
 
 const Produk = (props) => {
+
 
     const [state, setState] = useState({
         arrayFriends: [
@@ -69,6 +69,7 @@ const Produk = (props) => {
         loading: false
       })
 
+
       const DATA = [
         {
           id: '1',
@@ -83,6 +84,8 @@ const Produk = (props) => {
           dikirimdari: 'Indonesia Kota bandung'
         },
       ]
+
+     
     
       const renderItemExpore = (item, index) => {
         //console.log('item', item);
@@ -98,68 +101,71 @@ const Produk = (props) => {
         )
       }
 
-return (
-  <View style={styles.container}>
-    <Header
-      title={'Produk'}
-      onPress={() => props.navigation.goBack()}
-    />
-        <View style={{width:'100%', height: toDp(230), bottom:toDp(50), backgroundColor: 'white'}}>
-          <Carousel
-            layout={"default"}
-            data={state.arrayFriends}
-            sliderWidth={width}
-            itemWidth={toDp(350)}
-            renderItem={(item, index) => renderItemExpore(item, index)}
-            onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
+      return (
+        <View style={styles.container}>
+          <Header
+            title={'Produk'}
+            onPress={() => props.navigation.goBack()}
           />
-        </View> 
+              <View style={{width:'100%', height: toDp(230), bottom:toDp(50), backgroundColor: 'white'}}>
+                <Carousel
+                  layout={"default"}
+                  data={state.arrayFriends}
+                  sliderWidth={width}
+                  itemWidth={toDp(350)}
+                  renderItem={(item, index) => renderItemExpore(item, index)}
+                  onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
+                />
+              </View> 
 
-        <View style={styles.content}>
-            {RenderItem(DATA,0)}
+              <View style={styles.content}>
+                  {RenderItem(DATA,0)}
+              </View>
         </View>
-  </View>
-)};
+      )};
 
-const RenderItem = (item, index) => {
-  return (
+      const RenderItem = (item, index) => {
+        return (
 
-    <View style={styles.detailProduk}>
-        <View>
-            <Text style={{marginBottom:10}}>{item[index].name}</Text>
-            <Text style={{marginBottom:5}}>{item[index].harga}</Text>
-            <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
-        </View>
+          <View style={styles.detailProduk}>
+              <View>
+                  <Text style={{marginBottom:10}}>{item[index].name}</Text>
+                  <Text style={{marginBottom:5}}>{item[index].harga}</Text>
+                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                      <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
+                      <Image source={allLogo.icwishlist} style={{left:toDp(100), bottom:toDp(5)}}/>
+                  </View>
+              </View>
 
-          <Text style={{fontWeight:'bold', top:toDp(10)}}>Rincian Produk</Text>
-          <View style={{top:toDp(20)}}>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text>Stok</Text>
-                <Text style={{left:toDp(100)}}>{item[index].stok}</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text>Beban Kapasitas</Text>
-                <Text style={{left:toDp(100)}}>{item[index].beban}</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text>Warna</Text>
-                <Text>{item[index].warna}</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text>Kapasitas</Text>
-                <Text>{item[index].kapasitas}</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text>Dikirim Dari </Text>
-                <Text>{item[index].dikirimdari}</Text>
-            </View>
+                <Text style={{fontWeight:'bold', top:toDp(2)}}>Rincian Produk</Text>
+                <View style={{top:toDp(10)}}>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Stok</Text>
+                        <Text style={{right:toDp(80)}}>{item[index].stok}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Beban Kapasitas</Text>
+                        <Text style={{right:toDp(50)}}>{item[index].beban}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Warna</Text>
+                        <Text style={{left:toDp(69)}}>{item[index].warna}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Kapasitas</Text>
+                        <Text style={{right:toDp(55)}}>{item[index].kapasitas}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Dikirim Dari </Text>
+                        <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
+                    </View>
+                </View>
+              
           </View>
-        
-    </View>
 
-  )
+        )
 
-};
+      };
 
 const styles = StyleSheet.create({
   container: {
@@ -167,6 +173,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     top: toDp(50),
+  },
+  dropdown:{
+    height:25,
+    borderRadius:40,
+    width:100,
   },
   viewRenderExplore: {
     backgroundColor:'white',

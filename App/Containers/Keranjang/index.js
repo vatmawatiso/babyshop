@@ -102,6 +102,7 @@ const Keranjang = (props) => {
                           buttonTextStyle={{fontSize:10}}
                           rowTextStyle={{fontSize:12}}
                           dropdownStyle={{borderRadius:7}}
+                          defaultButtonText={'Varian'}
                           rowStyle={{height:35,padding:5}}
                           data={countries}
                           onSelect={(selectedItem, index) => {
