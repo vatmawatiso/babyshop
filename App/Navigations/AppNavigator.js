@@ -30,6 +30,8 @@ import Lupapassword from '../Containers/Lupapassword'
 import Konfiremail from '../Containers/Konfiremail'
 import Buatpassword from '../Containers/Buatpassword'
 import Produk from '../Containers/Produk'
+import Successorder from '../Containers/Successorder'
+import Nilaiorder from '../Containers/Nilaiorder'
 
 
 const AppNavigator = createStackNavigator(
@@ -63,11 +65,13 @@ const AppNavigator = createStackNavigator(
     Konfiremail: { screen: Konfiremail },
     Buatpassword: { screen: Buatpassword },
     Produk: { screen: Produk },
+    Successorder: { screen: Successorder },
+    Nilaiorder: { screen: Nilaiorder },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Produk',
+    initialRouteName: 'Nilaiorder',
   
   }
 );

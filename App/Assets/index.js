@@ -54,6 +54,9 @@ const allLogo = {
   icBSI: require('./img/ic_BSI.png'),
   icPERMATA: require('./img/ic_PERMATA.png'),
   icemail: require('./img/ic_email.png'),
+  icrating: require('./img/ic_rating.png'),
+  iccamera: require('./img/ic_camera.png'),
+  icvideo: require('./img/ic_video.png'),
 
 }
 
