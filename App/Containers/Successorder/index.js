@@ -8,12 +8,16 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
-  ScrollView
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
+import ImagePicker from 'react-native-image-crop-picker'
+
+const { width, height } = Dimensions.get('window')
 
 const Successorder = (props) => {
 
@@ -24,6 +28,36 @@ const Successorder = (props) => {
           Konfirmasibayar: 'Rp 800.000'
         },
       ]
+    
+      const [state, setState] = useState({
+        options: {
+          width: 750,
+          height: 750,
+          cropping: true
+        }
+    })
+
+    const camera = () => {
+        ImagePicker.openCamera(state.options).then(response => {
+        //   upImageToServer(response)
+        console.log(response)
+        }).catch(err => {
+          console.log(err)
+          if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+            Alert.alert(
+              'Pengaturan',
+              'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+              [
+                {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
+                {text: 'Aktifkan', onPress: () => {
+                  Linking.openSettings();
+                }},
+              ],
+              {cancelable: false},
+            );
+          }
+        })
+      }
 
      return (
       <View style={styles.container}>

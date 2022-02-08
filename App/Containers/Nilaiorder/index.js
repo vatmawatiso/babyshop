@@ -8,12 +8,19 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
+  Dimensions,
   ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
+import ImagePicker from 'react-native-image-crop-picker'
+import { Linking } from "react-native";
+import  Rating from 'react-native-easy-rating';
+import StarRating from 'react-native-star-rating-widget';
+
+const { width, height } = Dimensions.get('window')
 
 const Nilaiorder = (props) => {
 
@@ -36,8 +43,63 @@ const Nilaiorder = (props) => {
         email: '',
         jenkel: '',
         nomer: '',
-        password: ''
+        password: '',
+        options: {
+            width: 750,
+            height: 750,
+            cropping: true
+          }
     })
+    const [rating, setRating] = useState(0);
+
+
+    const camera = () => {
+        ImagePicker.openCamera(state.options).then(response => {
+        //   upImageToServer(response)
+        console.log(response)
+        }).catch(err => {
+          console.log(err)
+          if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+            Alert.alert(
+              'Pengaturan',
+              'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+              [
+                {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
+                {text: 'Aktifkan', onPress: () => {
+                  Linking.openSettings();
+                }},
+              ],
+              {cancelable: false},
+            );
+          }
+        })
+      }
+
+      
+      const video = () => {
+        ImagePicker.openCamera({
+            mediaType: 'video',
+          }).then(response => {
+            //   upImageToServer(response)
+            console.log(response)
+            }).catch(err => {
+              console.log(err)
+              if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+                Alert.alert(
+                  'Pengaturan',
+                  'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+                  [
+                    {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
+                    {text: 'Aktifkan', onPress: () => {
+                      Linking.openSettings();
+                    }},
+                  ],
+                  {cancelable: false},
+                );
+              }
+            })
+    }
+
 
      return (
       <View style={styles.container}>
@@ -57,20 +119,26 @@ const Nilaiorder = (props) => {
 
         <View>
             <View style={{flexDirection:'row', bottom:toDp(10), justifyContent:'center'}}>
-                <Image source={allLogo.icrating} style={{marginHorizontal:5}}/>
-                <Image source={allLogo.icrating} style={{marginHorizontal:5}}/>
-                <Image source={allLogo.icrating} style={{marginHorizontal:5}}/>
-                <Image source={allLogo.icrating} style={{marginHorizontal:5}}/>
-                <Image source={allLogo.icrating} style={{marginHorizontal:5}}/>
+            {/* <Rating
+                rating={rating}
+                max={5}
+                iconWidth={50}
+                iconHeight={50}
+                onRate={setRating}
+            /> */}
+            <StarRating
+                rating={rating}
+                onChange={setRating}
+            />
             </View>
             <Text style={styles.txtRating}>Tambahkan 50 karakter dengan foto dan video untuk{"\n"}memberikan komentar tentang produk yang anda beli</Text>
             
             <View style={{flexDirection:'row', justifyContent:'space-between', top:toDp(20)}}>
-                <Pressable style={styles.btnCamera}>
+                <Pressable style={styles.btnCamera} onPress={()=> camera()}>
                     <Image source={allLogo.iccamera} style={styles.iccamera}/>
                     <Text style={styles.txtCamera}>Kamera</Text>
                 </Pressable>
-                <Pressable style={styles.btnCamera}>
+                <Pressable style={styles.btnCamera} onPress={()=> video()}>
                     <Image source={allLogo.icvideo} style={styles.icvideo}/>
                     <Text style={styles.txtCamera}>Video</Text>
                 </Pressable>
