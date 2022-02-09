@@ -17,7 +17,6 @@ import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
 import ImagePicker from 'react-native-image-crop-picker'
 import { Linking } from "react-native";
-import  Rating from 'react-native-easy-rating';
 import StarRating from 'react-native-star-rating-widget';
 
 const { width, height } = Dimensions.get('window')
@@ -119,17 +118,12 @@ const Nilaiorder = (props) => {
 
         <View>
             <View style={{flexDirection:'row', bottom:toDp(10), justifyContent:'center'}}>
-            {/* <Rating
-                rating={rating}
-                max={5}
-                iconWidth={50}
-                iconHeight={50}
-                onRate={setRating}
-            /> */}
-            <StarRating
-                rating={rating}
-                onChange={setRating}
-            />
+                <StarRating
+                    rating={rating}
+                    starSize={50}
+                    enableHalfStar={false}
+                    onChange={setRating}
+                />
             </View>
             <Text style={styles.txtRating}>Tambahkan 50 karakter dengan foto dan video untuk{"\n"}memberikan komentar tentang produk yang anda beli</Text>
             
@@ -138,7 +132,7 @@ const Nilaiorder = (props) => {
                     <Image source={allLogo.iccamera} style={styles.iccamera}/>
                     <Text style={styles.txtCamera}>Kamera</Text>
                 </Pressable>
-                <Pressable style={styles.btnCamera} onPress={()=> video()}>
+                <Pressable style={styles.btnCamera} onPress={()=> alert('Coming soon')}>
                     <Image source={allLogo.icvideo} style={styles.icvideo}/>
                     <Text style={styles.txtCamera}>Video</Text>
                 </Pressable>

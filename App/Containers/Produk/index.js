@@ -19,6 +19,7 @@ import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
+import CollapsibleView from "@eliav2/react-native-collapsible-view";
 
 const { width, height } = Dimensions.get('window')
 
@@ -107,6 +108,7 @@ const Produk = (props) => {
             title={'Produk'}
             onPress={() => props.navigation.goBack()}
           />
+          
               <View style={{width:'100%', height: toDp(230), bottom:toDp(50), backgroundColor: 'white'}}>
                 <Carousel
                   layout={"default"}
@@ -160,7 +162,37 @@ const Produk = (props) => {
                         <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
                     </View>
                 </View>
-              
+                <CollapsibleView 
+                  title={<Text style={{ color: "black", fontSize: 12 }}>Lihat Lainnya</Text>}
+                  arrowStyling={{ rounded: true, thickness: 1, color: "black" }}
+                  collapsibleContainerStyle={{position: "absolute", top: "100%", right:toDp(70)}}
+                  style={{ borderWidth: 0,
+                           left:toDp(50),
+
+                   }}>
+                    <View style={{top:toDp(10)}}>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Stok</Text>
+                        <Text style={{right:toDp(80)}}>{item[index].stok}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Beban Kapasitas</Text>
+                        <Text style={{right:toDp(50)}}>{item[index].beban}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Warna</Text>
+                        <Text style={{left:toDp(69)}}>{item[index].warna}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Kapasitas</Text>
+                        <Text style={{right:toDp(55)}}>{item[index].kapasitas}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text>Dikirim Dari </Text>
+                        <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
+                    </View>
+                </View>
+                </CollapsibleView>
           </View>
 
         )
@@ -173,6 +205,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     top: toDp(50),
+  },
+  contentContainer: {
+    paddingVertical: 20
   },
   dropdown:{
     height:25,

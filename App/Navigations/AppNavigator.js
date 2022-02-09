@@ -71,7 +71,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Nilaiorder',
+    initialRouteName: 'Produk',
   
   }
 );
