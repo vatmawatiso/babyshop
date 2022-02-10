@@ -57,6 +57,8 @@ const allLogo = {
   icrating: require('./img/ic_rating.png'),
   iccamera: require('./img/ic_camera.png'),
   icvideo: require('./img/ic_video.png'),
+  icchatWhite: require('./img/ic_chatWhite.png'),
+  iccartWhite: require('./img/ic_cartWhite.png'),
 
 }
 

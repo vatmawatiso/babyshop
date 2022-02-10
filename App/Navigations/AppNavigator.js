@@ -32,6 +32,7 @@ import Buatpassword from '../Containers/Buatpassword'
 import Produk from '../Containers/Produk'
 import Successorder from '../Containers/Successorder'
 import Nilaiorder from '../Containers/Nilaiorder'
+import Toko from '../Containers/Seller/Toko'
 
 
 const AppNavigator = createStackNavigator(
@@ -67,6 +68,7 @@ const AppNavigator = createStackNavigator(
     Produk: { screen: Produk },
     Successorder: { screen: Successorder },
     Nilaiorder: { screen: Nilaiorder },
+    Toko: { screen: Toko },
     
   },
   {

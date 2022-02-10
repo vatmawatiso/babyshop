@@ -17,6 +17,7 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
+import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
@@ -86,7 +87,7 @@ const Produk = (props) => {
         },
       ]
 
-     
+     const [controlledValue, setControlledValue] = useState(false);
     
       const renderItemExpore = (item, index) => {
         //console.log('item', item);
@@ -109,7 +110,7 @@ const Produk = (props) => {
             onPress={() => props.navigation.goBack()}
           />
           
-              <View style={{width:'100%', height: toDp(230), bottom:toDp(50), backgroundColor: 'white'}}>
+              <View style={{width:'100%', height: toDp(230), bottom:toDp(40), backgroundColor: 'white'}}>
                 <Carousel
                   layout={"default"}
                   data={state.arrayFriends}
@@ -120,9 +121,42 @@ const Produk = (props) => {
                 />
               </View> 
 
-              <View style={styles.content}>
+              <View style={[styles.content, {marginBottom: controlledValue==true ? 100:0,}]}>
                   {RenderItem(DATA,0)}
               </View>
+              
+              <View style={styles.Ulasan}>
+                  <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
+                    <CollapsibleView 
+                      title={<Text style={styles.txtLihat}>Lihat Lainnya</Text>}
+                      collapsibleProps={{onAnimationend: () => setControlledValue(!controlledValue) }}
+                      arrowStyling={{ rounded: true, thickness: 1, color: "black" }}
+                      collapsibleContainerStyle={{position: "absolute", top: "100%", right:toDp(70)}}
+                      style={{ borderWidth: 0,
+                              left:toDp(60),
+
+                      }}>
+                        <Text>hey there!</Text>
+                        <Text>hey there!</Text>
+                        <Text>hey there!</Text>
+                        <Text>hey there!</Text>
+                    </CollapsibleView>
+                 
+              </View>
+              <View style={styles.btnMenu}>
+                  <Pressable style={{ left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
+                      <Image source={allLogo.icchatWhite} style={styles.icchatWhite}/>
+                  </Pressable>
+                  <Pressable style={{ left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
+                      <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
+                  </Pressable>
+            
+                  <View style={{borderWidth:0.5, borderColor:'white', width:50, rotation:90 }} />
+                  <Pressable style={{ right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
+                      <Text style={styles.txtBeli}>Beli Sekarang</Text>
+                  </Pressable>
+              </View>
+                
         </View>
       )};
 
@@ -162,37 +196,42 @@ const Produk = (props) => {
                         <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
                     </View>
                 </View>
-                <CollapsibleView 
-                  title={<Text style={{ color: "black", fontSize: 12 }}>Lihat Lainnya</Text>}
-                  arrowStyling={{ rounded: true, thickness: 1, color: "black" }}
-                  collapsibleContainerStyle={{position: "absolute", top: "100%", right:toDp(70)}}
-                  style={{ borderWidth: 0,
-                           left:toDp(50),
 
-                   }}>
-                    <View style={{top:toDp(10)}}>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Stok</Text>
-                        <Text style={{right:toDp(80)}}>{item[index].stok}</Text>
+                <View>
+                    <CollapsibleView 
+                      title={<Text style={{ color: "black", fontSize: 12 }}>Lihat Lainnya</Text>}
+                      arrowStyling={{ rounded: true, thickness: 1, color: "black" }}
+                      collapsibleContainerStyle={{position: "absolute", top: "100%", right:toDp(70)}}
+                      style={{ borderWidth: 0,
+                              left:toDp(50),
+
+                      }}>
+                        <View style={{top:toDp(10)}}>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Stok</Text>
+                            <Text style={{right:toDp(80)}}>{item[index].stok}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Beban Kapasitas</Text>
+                            <Text style={{right:toDp(50)}}>{item[index].beban}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Warna</Text>
+                            <Text style={{left:toDp(69)}}>{item[index].warna}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Kapasitas</Text>
+                            <Text style={{right:toDp(55)}}>{item[index].kapasitas}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Dikirim Dari </Text>
+                            <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
+                        </View>
                     </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Beban Kapasitas</Text>
-                        <Text style={{right:toDp(50)}}>{item[index].beban}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Warna</Text>
-                        <Text style={{left:toDp(69)}}>{item[index].warna}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Kapasitas</Text>
-                        <Text style={{right:toDp(55)}}>{item[index].kapasitas}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Dikirim Dari </Text>
-                        <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
-                    </View>
+                    </CollapsibleView>
                 </View>
-                </CollapsibleView>
+                
+                
           </View>
 
         )
@@ -263,9 +302,38 @@ const styles = StyleSheet.create({
     top: toDp(16),
   },
   detailProduk: {
-    bottom:toDp(50),
+    bottom:toDp(55),
     right:toDp(50),
     
+  },
+  Ulasan: {
+    backgroundColor:'#C4C4C4',
+    width:toDp(316),
+    height:toDp(47),
+    bottom:toDp(65),
+    borderRadius:toDp(15),
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center'
+  },
+  txtUlasan: {
+    marginLeft:toDp(15)
+  },
+  txtLihat: {
+    marginRight:toDp(60)
+  },
+  btnMenu: {
+    flexDirection:'row', 
+    bottom:toDp(55), 
+    backgroundColor:'#2A334B', 
+    width:toDp(320), 
+    height:toDp(52), 
+    borderRadius:toDp(15), 
+    justifyContent:'space-between', 
+    alignItems:'center'
+  },
+  txtBeli: {
+    color:'white',
   }
 });
 
