@@ -48,7 +48,7 @@ const Toko = (props) => {
         <View style={styles.Body}>
             <View style={styles.BodySaldo}>
                 <Text style={styles.txtSkor}>Skor Toko</Text>
-                <Image source={allLogo. iclineright} style={styles.iclineright} />
+                <Image source={allLogo.iclineright} style={styles.iclineright} />
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
                 <Text>Saldo</Text>
@@ -56,10 +56,38 @@ const Toko = (props) => {
             </View>
         </View>
 
-        <View>
-            <Text>Penjual</Text>
-            <Image source={allLogo. iclineright} style={styles.iclineright} />
-        </View>
+          <View style={styles.Penjualan}>
+              <Pressable style={{flexDirection:'row', justifyContent:'space-between'}}>
+                  <Text style={styles.txtPenjualan}>Penjualan</Text>
+                  <Image source={allLogo. iclineright} style={styles.iclineright1} />
+              </Pressable>
+              <View style={{borderWidth:0.5, borderColor:'grey'}} />
+
+              
+              <Pressable>
+                  <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
+                    <Image source={allLogo.icorders} style={styles.icorders}/>
+                    <Text style={{right:toDp(20), top:toDp(5)}}>Pesanan Baru</Text>
+                    <Image source={allLogo.iconly} style={{left:toDp(20)}}/>
+                    <Text style={{top:toDp(5)}}>Siap dikirim</Text>
+                  </View>
+                  <Text style={{margin:toDp(10)}}>Kata Pembeli</Text>
+              </Pressable>
+              <View style={{borderWidth:0.5, borderColor:'grey'}} />
+
+              <Pressable>
+                  <View>
+                    <Text>Ulasan</Text>
+                    <Text>Diskusi</Text>
+                    <Text>Pesanan Dikomplain</Text>
+                  </View>
+              </Pressable>
+              
+          </View>
+              
+              
+          
+       
         
     </View>
   )
@@ -114,21 +142,43 @@ elevation: 5,
     height:toDp(80),
     borderRadius:toDp(10),
     top:toDp(30),
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-elevation: 5,
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
   },
   BodySaldo: {
       flexDirection:'row',
       justifyContent:'space-between',
       margin:toDp(10)
   },
+  Penjualan: {
+    backgroundColor:'cyan',
+    width:toDp(335),
+    height:toDp(300),
+    top:toDp(40),
+    borderRadius:toDp(10),
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+  },
+  txtPenjualan: {
+    margin:toDp(10)
+  },
+  iclineright1: {
+    margin:toDp(10),
+    width:toDp(10),
+    height:toDp(15),
+  }
 });
 
 export default Toko;

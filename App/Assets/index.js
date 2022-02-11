@@ -59,6 +59,7 @@ const allLogo = {
   icvideo: require('./img/ic_video.png'),
   icchatWhite: require('./img/ic_chatWhite.png'),
   iccartWhite: require('./img/ic_cartWhite.png'),
+  iconly: require('./img/ic_only.png'),
 
 }
 
