@@ -57,9 +57,12 @@ const allLogo = {
   icrating: require('./img/ic_rating.png'),
   iccamera: require('./img/ic_camera.png'),
   icvideo: require('./img/ic_video.png'),
-  icchatWhite: require('./img/ic_chatWhite.png'),
   iccartWhite: require('./img/ic_cartWhite.png'),
   iconly: require('./img/ic_only.png'),
+  iculasan: require('./img/ic_ulasan.png'),
+  icchatbox: require('./img/ic_chatbox.png'),
+  icdiscussion: require('./img/ic_discussion.png'),
+  icgroup: require('./img/ic_group.png'),
 
 }
 

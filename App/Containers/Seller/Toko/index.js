@@ -46,14 +46,18 @@ const Toko = (props) => {
                 </View>
         </View>
         <View style={styles.Body}>
+          <Pressable>
             <View style={styles.BodySaldo}>
                 <Text style={styles.txtSkor}>Skor Toko</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
             </View>
+          </Pressable>
+          <Pressable>
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
                 <Text>Saldo</Text>
                 <Text>Rp 5.000.000</Text>
             </View>
+          </Pressable>
         </View>
 
           <View style={styles.Penjualan}>
@@ -62,27 +66,44 @@ const Toko = (props) => {
                   <Image source={allLogo. iclineright} style={styles.iclineright1} />
               </Pressable>
               <View style={{borderWidth:0.5, borderColor:'grey'}} />
-
               
-              <Pressable>
-                  <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
-                    <Image source={allLogo.icorders} style={styles.icorders}/>
-                    <Text style={{right:toDp(20), top:toDp(5)}}>Pesanan Baru</Text>
-                    <Image source={allLogo.iconly} style={{left:toDp(20)}}/>
-                    <Text style={{top:toDp(5)}}>Siap dikirim</Text>
-                  </View>
-                  <Text style={{margin:toDp(10)}}>Kata Pembeli</Text>
-              </Pressable>
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                        <Image source={allLogo.icorders}/>
+                        <Text style={{padding:toDp(5)}}>Pesanan Baru</Text>
+                    </View>
+                  </Pressable>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                          <Image source={allLogo.iconly}/>
+                          <Text style={{padding:toDp(5)}}>Siap dikirim</Text>
+                    </View>
+                  </Pressable>        
+              </View>
+              <Text style={{margin:toDp(10)}}>Kata Pembeli</Text> 
               <View style={{borderWidth:0.5, borderColor:'grey'}} />
 
-              <Pressable>
-                  <View>
-                    <Text>Ulasan</Text>
-                    <Text>Diskusi</Text>
-                    <Text>Pesanan Dikomplain</Text>
-                  </View>
-              </Pressable>
-              
+              <View style={styles.bodyJual}>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.iculasan}/>
+                      <Text style={{padding:toDp(5)}}>ulasan</Text>
+                    </View>
+                  </Pressable>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.icchatbox}/>
+                      <Text style={{padding:toDp(5)}}>Diskusi</Text>
+                    </View>
+                  </Pressable>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.icdiscussion}/>
+                      <Text style={{padding:toDp(5)}}>Pesanan Komplain</Text>
+                    </View>
+                  </Pressable>
+              </View>
           </View>
               
               
@@ -107,7 +128,7 @@ const styles = StyleSheet.create({
   },
   Tokosaya: {
     flexDirection:'row',
-    backgroundColor:'cyan',
+    backgroundColor:'#C4C4C4',
     width:toDp(335),
     height:toDp(90),
     borderRadius:toDp(10),
@@ -137,7 +158,7 @@ elevation: 5,
       height:toDp(15)
   },
   Body: {
-    backgroundColor:'cyan',
+    backgroundColor:'#C4C4C4',
     width:toDp(335),
     height:toDp(80),
     borderRadius:toDp(10),
@@ -157,7 +178,7 @@ elevation: 5,
       margin:toDp(10)
   },
   Penjualan: {
-    backgroundColor:'cyan',
+    backgroundColor:'#C4C4C4',
     width:toDp(335),
     height:toDp(300),
     top:toDp(40),
@@ -178,7 +199,10 @@ elevation: 5,
     margin:toDp(10),
     width:toDp(10),
     height:toDp(15),
-  }
+  },
+  // bodyJual: {
+  //   margin:toDp(10)
+  // }
 });
 
 export default Toko;

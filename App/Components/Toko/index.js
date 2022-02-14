@@ -22,7 +22,7 @@ let { width, height } = Dimensions.get('window')
 
 
 const title = (text) => {
-  let newText = text.substr(0,13);
+  let newText = text.substr(0,15);
 
   return(
     <Text>{newText}</Text>
@@ -30,6 +30,7 @@ const title = (text) => {
 }
 
 class HeaderToko extends Component {
+
 
   render() {
     return (
@@ -45,7 +46,7 @@ class HeaderToko extends Component {
                 <Image source={allLogo.icarrow} style={styles.icBack} />
               </TouchableOpacity>
 
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(130) }]}>{title(this.props.title)}</Text>
+              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(140) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     padding: toDp(4),
   },
   nav: {
-    left: toDp(110),
+    left: toDp(100),
     width: toDp(28),
     height: toDp(28),
   },
@@ -118,10 +119,11 @@ const styles = StyleSheet.create({
   title: {
     color: 'black',
     fontSize: toDp(18),
-    marginLeft: toDp(8),
+    marginLeft: toDp(12),
 
   },
 })
+
 
 
 export default HeaderToko

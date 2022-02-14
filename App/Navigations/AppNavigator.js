@@ -33,6 +33,13 @@ import Produk from '../Containers/Produk'
 import Successorder from '../Containers/Successorder'
 import Nilaiorder from '../Containers/Nilaiorder'
 import Toko from '../Containers/Seller/Toko'
+import Settingtoko from '../Containers/Seller/Settingtoko'
+import Alamattoko from '../Containers/Seller/Alamattoko'
+import Layananjasa from '../Containers/Seller/Layananjasa'
+import Informasitoko from '../Containers/Seller/Informasitoko'
+import Ubahtoko from '../Containers/Seller/Ubahtoko'
+import Catatantoko from '../Containers/Seller/Catatantoko'
+import Tambahcatatan from '../Containers/Seller/Tambahcatatan'
 
 
 const AppNavigator = createStackNavigator(
@@ -69,11 +76,18 @@ const AppNavigator = createStackNavigator(
     Successorder: { screen: Successorder },
     Nilaiorder: { screen: Nilaiorder },
     Toko: { screen: Toko },
+    Settingtoko: { screen: Settingtoko },
+    Alamattoko: { screen: Alamattoko },
+    Layananjasa: { screen: Layananjasa },
+    Informasitoko: { screen: Informasitoko },
+    Ubahtoko: { screen: Ubahtoko },
+    Catatantoko: { screen: Catatantoko },
+    Tambahcatatan: { screen: Tambahcatatan },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Toko',
+    initialRouteName: 'Tambahcatatan',
   
   }
 );
