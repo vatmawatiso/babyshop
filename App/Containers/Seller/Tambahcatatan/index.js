@@ -19,8 +19,8 @@ const Tambahcatatan = (props) => {
 
   const [state, setState] = useState({
     loading: false,
-    nama: '',
-    deskripsi: ''
+    judul: '',
+    isi: ''
 })
 
   return (
@@ -36,18 +36,22 @@ const Tambahcatatan = (props) => {
             <TextInput  autoCapitalize={'none'}
                     style={styles.textInput}                        
                     placeholderTextColor={'grey'}
-                    value={state.username}
-                    onChangeText={(text) => setState(state => ({...state, username: text })) }
+                    value={state.judul}
+                    onChangeText={(text) => setState(state => ({...state, judul: text })) }
                 />
 
             <Text style={styles.txtCatatan}>Isi Catatan</Text>
             <TextInput  autoCapitalize={'none'}
                     style={styles.textInput1}                        
                     placeholderTextColor={'grey'}
-                    value={state.username}
-                    onChangeText={(text) => setState(state => ({...state, username: text })) }
+                    value={state.isi}
+                    onChangeText={(text) => setState(state => ({...state, isi: text })) }
                 />
         </View>
+
+        <Pressable style={styles.btnSimpan}>
+          <Text style={styles.txtSimpan}>Simpan</Text>
+        </Pressable>
 
     </View>
   )
@@ -59,7 +63,7 @@ const styles = StyleSheet.create({
     top:toDp(50)
   },
   content: {
-      backgroundColor:'#C4C4C4',
+      backgroundColor:'#E7E7E7',
       width:toDp(335),
       height:toDp(220),
       top:toDp(20),
@@ -71,7 +75,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(8),
-    top:toDp(3),
+    margin:toDp(8),
+    bottom:toDp(10),
+    borderWidth:0.5,
   },
   textInput1: {
     width: toDp(320),
@@ -79,13 +85,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(8),
-    top:toDp(3),
+    margin:toDp(8),
+    bottom:toDp(28),
+    borderWidth:0.5,
   },
   txtJudul: {
-    margin:toDp(8)
+    margin:toDp(8),
+    color:'#2A334B'
   },
   txtCatatan: {
-    margin:toDp(8)
+    margin:toDp(8),
+    bottom:toDp(20),
+    color:'#2A334B'
+  },
+  btnSimpan: {
+    backgroundColor:'#2A334B',
+    width:toDp(335),
+    height:toDp(40),
+    borderRadius:toDp(8),
+    top:toDp(40),
+    justifyContent:'center',
+  },
+  txtSimpan: {
+    color:'white',
+    textAlign:'center'
   }
 });
 
