@@ -63,6 +63,7 @@ const allLogo = {
   icchatbox: require('./img/ic_chatbox.png'),
   icdiscussion: require('./img/ic_discussion.png'),
   icgroup: require('./img/ic_group.png'),
+  icbuilding: require('./img/ic_building.png'),
 
 }
 

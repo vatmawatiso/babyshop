@@ -53,16 +53,16 @@ const Ubahtoko = (props) => {
                 <TextInput  autoCapitalize={'none'}
                     style={styles.textInput}                        
                     placeholderTextColor={'grey'}
-                    value={state.username}
-                    onChangeText={(text) => setState(state => ({...state, username: text })) }
+                    value={state.nama}
+                    onChangeText={(text) => setState(state => ({...state, nama: text })) }
                 />
 
                 <Text style={styles.txtDeskripsi}>Deskripsi Toko</Text>
                 <TextInput  autoCapitalize={'none'}
                     style={styles.textInput1}                         
                     placeholderTextColor={'grey'}
-                    value={state.username}
-                    onChangeText={(text) => setState(state => ({...state, username: text })) }
+                    value={state.deskripsi}
+                    onChangeText={(text) => setState(state => ({...state, deskripsi: text })) }
                 />
             </View>
         </View>

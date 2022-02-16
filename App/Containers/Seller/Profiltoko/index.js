@@ -29,6 +29,13 @@ const Profiltoko = (props) => {
     },
   ]
 
+  const total = [
+    {
+      pesanan: '12',
+      penjualan: '50'
+    },
+  ]
+
 
   return (
     <View style={styles.container}>
@@ -64,6 +71,37 @@ const Profiltoko = (props) => {
             </View>
         </View>
 
+        <View style={styles.bodyMenu}>
+          <Pressable>
+            <Text style={styles.txtToko}>Toko Saya</Text>
+          </Pressable>
+          <Pressable>
+            <Text style={styles.txtProduk}>Produk Saya</Text>
+          </Pressable>
+          <Pressable>
+            <Text style={styles.txtKategori}>Kategori</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.bodyPenjualan}>
+            <Pressable style={styles.btnPesanan}>
+                <Text style={styles.txtPesanan}>Total Pesanan</Text>
+                <Text style={styles.Totalpesanan}>{total[0].pesanan}</Text>
+            </Pressable>
+            <Pressable style={styles.btnPenjualan}>
+                <Text style={styles.txtPenjualan}>Total Penjualan</Text>
+                <Text style={styles.Totalpenjualan}>{total[0].penjualan}</Text>
+            </Pressable>
+
+            <View style={styles.tambahProduk}>
+                <Image source={allLogo.icbuilding} style={styles.icbuilding}/>
+                <Pressable style={styles.btnTambah}>
+                    <Text style={styles.txtTambah}>Tambah Produk</Text>
+                </Pressable>
+            </View>
+            
+        </View>
+
     </View>
   )
 };
@@ -78,7 +116,16 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(116),
     borderRadius:toDp(8),
-    top:toDp(20)
+    top:toDp(20),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
   },
   imgProfil: {
     height: toDp(50),
@@ -141,6 +188,133 @@ const styles = StyleSheet.create({
     bottom:toDp(20),
     left:toDp(30),
     color:'white'
+  },
+  bodyMenu: {
+    backgroundColor:'#E7E7E7',
+    width:toDp(335),
+    height:toDp(36),
+    borderRadius:toDp(8),
+    top:toDp(30),
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
+  }, 
+  txtToko: {
+    marginLeft:toDp(5)
+  },
+  txtProduk: {
+  
+  },
+  txtKategori: {
+    marginRight:toDp(5)
+  },
+  bodyPenjualan: {
+    backgroundColor:'#E7E7E7',
+    width:toDp(335),
+    height:toDp(365),
+    borderRadius:toDp(8),
+    top:toDp(40),
+    flexDirection:'row',
+    justifyContent:'space-between',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
+  },
+  btnPesanan: {
+    margin:toDp(10),
+    backgroundColor:'#2A334B',
+    width:toDp(88),
+    height:toDp(60),
+    borderRadius:toDp(8),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
+  },
+  btnPenjualan: {
+    margin:toDp(10),
+    backgroundColor:'#2A334B',
+    width:toDp(88),
+    height:toDp(60),
+    borderRadius:toDp(8),
+    left:toDp(118),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
+  },
+  txtPesanan: {
+    color:'white',
+    textAlign:'center'
+  },
+  txtPenjualan: {
+    color:'white',
+    textAlign:'center'
+  },
+  tambahProduk: {
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+    right:toDp(125),
+    top:toDp(20),
+  },
+  icbuilding: {
+    width:toDp(153),
+    height:toDp(147),
+  },
+  btnTambah: {
+    top:toDp(20),
+    backgroundColor:'#2A334B',
+    width:toDp(171),
+    height:toDp(40),
+    justifyContent:'center',
+    borderRadius:toDp(8),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
+  },
+  txtTambah: {
+    textAlign:'center',
+    color:'white'
+  },
+  Totalpesanan: {
+    color:'white',
+    textAlign:'center'
+  },
+  Totalpenjualan: {
+    color:'white',
+    textAlign:'center'
   }
 });
 
