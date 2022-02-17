@@ -1,0 +1,203 @@
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Alert,
+  ImageBackground,
+  Pressable
+} from "react-native";
+import { allLogo } from '@Assets';
+import { toDp } from '@percentageToDP';
+import  Profiltoko  from '@Profiltoko'
+import  NonCart  from '@NonCart'
+import NavigatorService from '@NavigatorService'
+import { TextInput } from "react-native-gesture-handler";
+
+const Homeseller = (props) => {
+  const [src, setSrc]=useState(null);
+
+//   const DATA = [
+//     {
+//       id: '2938492',
+//       nama: 'TB Jaya Abadi Bandung',
+//       memberUser: 'Member Classic',
+//       pengikutUser: 'Pengikut (100)',
+//       mengikutiUser : 'Mengikuti (4)',
+//       type: 'Pembeli',
+//       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+//     },
+//   ]
+
+  return (
+    <View style={styles.container}>
+        <NonCart
+          title={'Home'}
+          onPress={() => props.navigation.goBack()}
+        />
+
+        <Profiltoko/>
+
+        <View style={styles.Penjualan}>
+              <Pressable>
+                <View style={styles.BodySaldo}>
+                    <Text style={styles.txtSkor}>Skor Toko</Text>
+                    <Image source={allLogo.iclineright} style={styles.iclineright} />
+                </View>
+              </Pressable>
+              <Pressable>
+                <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
+                    <Text style={{bottom:toDp(10)}}>Saldo</Text>
+                    <Text style={{bottom:toDp(10)}}>Rp 5.000.000</Text>
+                </View>
+              </Pressable>
+              <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
+
+              <Pressable style={{flexDirection:'row', justifyContent:'space-between'}}>
+                  <Text style={styles.txtPenjualan}>Penjualan</Text>
+                  <Image source={allLogo. iclineright} style={styles.iclineright1} />
+              </Pressable>
+              <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
+              
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                        <Image source={allLogo.icorders} style={{bottom:toDp(10)}}/>
+                        <Text style={{padding:toDp(5), bottom:toDp(10)}}>Pesanan Baru</Text>
+                    </View>
+                  </Pressable>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                          <Image source={allLogo.iconly} style={{bottom:toDp(10)}} />
+                          <Text style={{padding:toDp(5), bottom:toDp(10)}}>Siap dikirim</Text>
+                    </View>
+                  </Pressable>        
+              </View>
+              <Text style={{margin:toDp(10), bottom:toDp(20)}}>Kata Pembeli</Text> 
+              <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(20)}} />
+
+              <View style={styles.bodyJual}>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.iculasan} style={{bottom:toDp(20)}} />
+                      <Text style={{padding:toDp(5), bottom:toDp(20)}}>ulasan</Text>
+                    </View>
+                  </Pressable>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.icchatbox} style={{bottom:toDp(30)}} />
+                      <Text style={{padding:toDp(5), bottom:toDp(30)}}>Diskusi</Text>
+                    </View>
+                  </Pressable>
+                  <Pressable>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.icdiscussion} style={{bottom:toDp(40)}} />
+                      <Text style={{padding:toDp(5), bottom:toDp(40)}}>Pesanan Komplain</Text>
+                    </View>
+                  </Pressable>
+              </View>
+          </View>
+        
+        <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
+            <Pressable style={styles.btnHome}>
+                <Image source={allLogo.ichome} style={styles.ichome} />
+            </Pressable>
+            <Pressable style={styles.btnPlus}>
+                <Image source={allLogo.icplusround} style={styles.icplus}/>
+            </Pressable> 
+            <Pressable style={styles.btnChat}>
+                <Image source={allLogo.icchat} style={styles.icchat}/>
+            </Pressable> 
+        </View>
+
+
+    
+        
+    </View>
+  )
+};
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    top:toDp(50)
+  },
+  iclineright: {
+    width:toDp(10),
+    height:toDp(15)
+},
+Body: {
+  backgroundColor:'#C4C4C4',
+  width:toDp(335),
+  height:toDp(80),
+  borderRadius:toDp(8),
+  top:toDp(30),
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
+},
+BodySaldo: {
+    flexDirection:'row',
+    justifyContent:'space-between',
+    margin:toDp(10)
+},
+Penjualan: {
+  backgroundColor:'#E7E7E7',
+  width:toDp(335),
+  height:toDp(320),
+  top:toDp(30),
+  borderRadius:toDp(8),
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
+},
+txtPenjualan: {
+  margin:toDp(10),
+  bottom:toDp(10)
+},
+iclineright1: {
+  margin:toDp(10),
+  width:toDp(10),
+  height:toDp(15),
+  bottom:toDp(10)
+},
+  bodyMenu: {
+      flexDirection:'row',
+      alignItems:'baseline',
+      backgroundColor:'#2A334B',
+      top:toDp(40),
+      width:toDp(335),
+      height:toDp(45),
+      borderRadius:toDp(8),
+  },
+  btnHome: {
+    marginHorizontal:toDp(20)
+  },
+  icchat: {
+    width:toDp(26),
+    height:toDp(26),
+    tintColor:'white'
+  },
+  icplus: {
+    // tintColor:'black'
+  },
+  ichome: {
+    tintColor:'white'
+  },
+  btnChat: {
+    marginHorizontal:toDp(20),
+  }
+});
+
+export default Homeseller;

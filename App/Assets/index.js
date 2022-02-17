@@ -64,6 +64,7 @@ const allLogo = {
   icdiscussion: require('./img/ic_discussion.png'),
   icgroup: require('./img/ic_group.png'),
   icbuilding: require('./img/ic_building.png'),
+  icplusround: require('./img/ic_plusround.png'),
 
 }
 

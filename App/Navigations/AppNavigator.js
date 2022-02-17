@@ -43,6 +43,7 @@ import Tambahcatatan from '../Containers/Seller/Tambahcatatan'
 import Pengiriman from '../Containers/Seller/Pengiriman'
 import Profiltoko from '../Containers/Seller/Profiltoko'
 import Tambahproduk from '../Containers/Seller/Tambahproduk'
+import Homeseller from '../Containers/Seller/Homeseller'
 
 
 const AppNavigator = createStackNavigator(
@@ -89,11 +90,12 @@ const AppNavigator = createStackNavigator(
     Pengiriman: { screen: Pengiriman },
     Profiltoko: { screen: Profiltoko },
     Tambahproduk: { screen: Tambahproduk },
+    Homeseller: { screen: Homeseller },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Tambahproduk',
+    initialRouteName: 'Homeseller',
   
   }
 );

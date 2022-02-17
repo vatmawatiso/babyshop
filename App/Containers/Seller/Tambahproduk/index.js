@@ -6,7 +6,8 @@ import {
   Image,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -33,10 +34,6 @@ const Tambahproduk = (props) => {
     })
 
     const Katagori = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu","Plastik", "Semen"]
-    
-    const Variasi = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu","Plastik", "Semen"]
-
-    const Ongkir = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu","Plastik", "Semen"]
 
     const Kondisi = ["Baru", "Bekas"]
 
@@ -47,6 +44,7 @@ const Tambahproduk = (props) => {
           title={'Tambah Produk'}
           onPress={() => props.navigation.goBack()}
         />
+        <ScrollView vertical={true}>
 
         <View style={styles.bodyInputProduk}>
             <Pressable style={styles.btnFoto}>
@@ -113,10 +111,46 @@ const Tambahproduk = (props) => {
                             );
                           }}
                     />
-            <Text>Variasi</Text>
-            <Text>Ongkos Kirim</Text>
-            <Text>Kondisi</Text>
+            <Pressable style={styles.btnVariasi}>
+                <Text style={styles.txtVariasi}>Variasi</Text>
+                <Image source={allLogo.iclineright} style={styles.iclineright} />
+            </Pressable>
+
+            <Pressable style={styles.btnOngkir}>
+                <Text style={styles.txtOngkir}>Ongkos Kirim</Text>
+            </Pressable>
+
+            <Text style={styles.txtKondisi}>Kondisi</Text>
+            <SelectDropdown
+                          buttonStyle={styles.dropdown1}
+                          buttonTextStyle={{fontSize:12, color:'grey'}}
+                          rowTextStyle={{fontSize:12}}
+                          dropdownStyle={{borderRadius:7}}
+                          rowStyle={{height:35,padding:5}}
+                          defaultButtonText={'Pilih Kategori'}
+                          data={Kondisi}
+                          onSelect={(selectedItem, index) => {
+                            console.log(selectedItem, index)
+                          }}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            return item
+                          }}
+                          renderDropdownIcon={(isOpened) => {
+                            return (
+                              <FontAwesome
+                                name={isOpened ? "chevron-up" : "chevron-down"}
+                                color={"#444"}
+                                size={12}
+                              />
+                            );
+                          }}
+                    />
         </View>
+
+        </ScrollView>
 
         <View style={styles.bodySimpan}>
             <Pressable style={styles.btnSimpan}>
@@ -133,10 +167,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top:toDp(50)
   },
+  contentContainer: {
+    paddingVertical: 20
+  },
   bodyInputProduk: {
       backgroundColor:'cyan',
       width:toDp(335),
-      height:toDp(465),
+      height:toDp(490),
       borderRadius:toDp(8),
       top:toDp(20)
   },
@@ -151,6 +188,7 @@ const styles = StyleSheet.create({
     height:toDp(42),
     justifyContent:'center',
     borderRadius:toDp(8),
+    bottom:toDp(23)
   },
   txtSimpan: {
       textAlign:'center'
@@ -182,6 +220,46 @@ const styles = StyleSheet.create({
   txtKategori: {
     bottom:toDp(90),
     margin:toDp(8)
+  },
+  dropdown:{
+    height:toDp(38),
+    borderRadius:toDp(8),
+    width:toDp(319),
+    left:toDp(8),
+    backgroundColor:'white',
+    bottom:toDp(93)
+  },
+  txtVariasi: {
+    margin:toDp(3),
+    bottom:toDp(30)
+  },
+  btnVariasi: {
+    backgroundColor:'#FFFFFF',
+    width: toDp(320),
+    height: toDp(39),
+    justifyContent:'center',
+    borderRadius:toDp(8),
+    bottom:toDp(65),
+    left:toDp(8)
+  },
+  iclineright: {
+    width:toDp(10),
+    height:toDp(10),
+    left:toDp(300),
+    bottom:toDp(13)
+  },
+  txtOngkir: {
+    margin:toDp(3),
+    bottom:toDp(30)
+  },
+  btnOngkir: {
+    backgroundColor:'#FFFFFF',
+    width: toDp(320),
+    height: toDp(39),
+    justifyContent:'center',
+    borderRadius:toDp(8),
+    bottom:toDp(65),
+    left:toDp(8)
   },
   dropdown:{
     height:toDp(38),

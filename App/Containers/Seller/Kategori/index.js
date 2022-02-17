@@ -14,7 +14,7 @@ import  HeaderToko  from '@HeaderToko'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
-const Profiltoko = (props) => {
+const Kategori = (props) => {
   const [src, setSrc]=useState(null);
 
   const DATA = [
@@ -41,7 +41,7 @@ const Profiltoko = (props) => {
     <View style={styles.container}>
 
         <HeaderToko
-          title={'Profil Toko'}
+          title={'Kategori'}
           onPress={() => props.navigation.goBack()}
         />
 
@@ -318,4 +318,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Profiltoko;
+export default Kategori;
