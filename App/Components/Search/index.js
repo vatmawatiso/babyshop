@@ -1,5 +1,17 @@
 import React, { Component } from 'react'
-import {BackHandler, Dimensions, StyleSheet, Text, View, Image, Alert, TextInput,Platform, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
+import {BackHandler, 
+        Dimensions, 
+        StyleSheet, 
+        Text, 
+        View, 
+        Image, 
+        Alert, 
+        TextInput, 
+        Platform, 
+        TouchableOpacity, 
+        AsyncStorage, 
+        ScrollView
+      } from 'react-native'
 
 // import LinearGradient from 'react-native-linear-gradient'
 import { allLogo } from '@Assets'

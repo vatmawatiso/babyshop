@@ -11,6 +11,7 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Profiltoko  from '@Profiltoko'
+import  MenuToko  from '@MenuToko'
 import  NonCart  from '@NonCart'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
@@ -38,6 +39,7 @@ const Homeseller = (props) => {
         />
 
         <Profiltoko/>
+        <MenuToko/>
 
         <View style={styles.Penjualan}>
               <Pressable>
@@ -123,9 +125,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top:toDp(50)
   },
-  iclineright: {
-    width:toDp(10),
-    height:toDp(15)
+iclineright: {
+  width:toDp(10),
+  height:toDp(15)
 },
 Body: {
   backgroundColor:'#C4C4C4',

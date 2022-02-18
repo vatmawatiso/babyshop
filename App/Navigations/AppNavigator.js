@@ -32,7 +32,6 @@ import Buatpassword from '../Containers/Buatpassword'
 import Produk from '../Containers/Produk'
 import Successorder from '../Containers/Successorder'
 import Nilaiorder from '../Containers/Nilaiorder'
-import Toko from '../Containers/Seller/Toko'
 import Settingtoko from '../Containers/Seller/Settingtoko'
 import Alamattoko from '../Containers/Seller/Alamattoko'
 import Layananjasa from '../Containers/Seller/Layananjasa'
@@ -41,9 +40,11 @@ import Ubahtoko from '../Containers/Seller/Ubahtoko'
 import Catatantoko from '../Containers/Seller/Catatantoko'
 import Tambahcatatan from '../Containers/Seller/Tambahcatatan'
 import Pengiriman from '../Containers/Seller/Pengiriman'
-import Profiltoko from '../Containers/Seller/Profiltoko'
 import Tambahproduk from '../Containers/Seller/Tambahproduk'
 import Homeseller from '../Containers/Seller/Homeseller'
+import Kategori from '../Containers/Seller/Kategori'
+import Detailkategori from '../Containers/Seller/Detailkategori'
+import Produksaya from '../Containers/Seller/Produksaya'
 
 
 const AppNavigator = createStackNavigator(
@@ -79,7 +80,6 @@ const AppNavigator = createStackNavigator(
     Produk: { screen: Produk },
     Successorder: { screen: Successorder },
     Nilaiorder: { screen: Nilaiorder },
-    Toko: { screen: Toko },
     Settingtoko: { screen: Settingtoko },
     Alamattoko: { screen: Alamattoko },
     Layananjasa: { screen: Layananjasa },
@@ -88,14 +88,16 @@ const AppNavigator = createStackNavigator(
     Catatantoko: { screen: Catatantoko },
     Tambahcatatan: { screen: Tambahcatatan },
     Pengiriman: { screen: Pengiriman },
-    Profiltoko: { screen: Profiltoko },
     Tambahproduk: { screen: Tambahproduk },
     Homeseller: { screen: Homeseller },
+    Kategori: { screen: Kategori },
+    Produksaya: { screen: Produksaya },
+    Detailkategori: { screen: Detailkategori },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Homeseller',
+    initialRouteName: 'Produksaya',
   
   }
 );

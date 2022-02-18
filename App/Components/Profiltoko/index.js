@@ -73,18 +73,6 @@ class Profiltoko extends Component {
               </Pressable>
             </View>
         </View>
-
-        <View style={styles.bodyMenu}>
-          <Pressable>
-            <Text style={styles.txtToko}>Toko Saya</Text>
-          </Pressable>
-          <Pressable>
-            <Text style={styles.txtProduk}>Produk Saya</Text>
-          </Pressable>
-          <Pressable>
-            <Text style={styles.txtKategori}>Kategori</Text>
-          </Pressable>
-        </View>
       </View>
     )
   }
@@ -171,34 +159,6 @@ const styles = StyleSheet.create({
     bottom:toDp(20),
     left:toDp(30),
     color:'white'
-  },
-  bodyMenu: {
-    backgroundColor:'#E7E7E7',
-    width:toDp(335),
-    height:toDp(36),
-    borderRadius:toDp(8),
-    bottom:toDp(28),
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      
-      elevation: 2,
-  }, 
-  txtToko: {
-    marginLeft:toDp(5)
-  },
-  txtProduk: {
-  
-  },
-  txtKategori: {
-    marginRight:toDp(5)
   },
 })
 
