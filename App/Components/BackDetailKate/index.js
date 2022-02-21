@@ -6,66 +6,53 @@ import {BackHandler,
         View, 
         Image, 
         Alert, 
+        TextInput, 
         Platform, 
-        TextInput,
         TouchableOpacity, 
-        ScrollView,
-        Pressable
+        AsyncStorage, 
+        ScrollView
       } from 'react-native'
 
-import LinearGradient from 'react-native-linear-gradient'
+// import LinearGradient from 'react-native-linear-gradient'
 import { allLogo } from '@Assets'
 import { toDp } from '@percentageToDP'
 import NavigatorService from '@NavigatorService'
+import LinearGradient from 'react-native-linear-gradient'
 
 let { width, height } = Dimensions.get('window')
 
-
-
-const title = (text) => {
-  let newText = text.substr(0,13);
-
-  return(
-    <Text>{newText}</Text>
-  )
-}
-
 class BackDetailKate extends Component {
+//serach input with icon seacrh react native
+
 
   render() {
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <LinearGradient
+        <LinearGradient
             colors={['white', 'white']}
             //colors={['white', 'white']}
             style={[styles.linearHeader, {justifyContent: 'space-between'}]}
           >
-            
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                <Image source={allLogo.icarrow} style={styles.icBack} />
-              </TouchableOpacity>
 
-              <Image source={allLogo.icsearch} style={styles.icsearch} />
-              <TextInput
-                  style={styles.input}
-                  placeholder="Pencarian......."
-                  underlineColorAndroid="transparent"
-                  placeholderTextColor="#FFF"
-                  onChangeText={(text)=>this.props.onFilter}
-              />
-
-
-              <View style={styles.icheader}>
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                  <Image source={allLogo.icnav} style={styles.nav} />
-                </TouchableOpacity>
-              </View>
-
-            </View>
-
-            {
+        <View style={styles.searchSection}>
+          <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
+              <Image source={allLogo.icarrow} style={styles.icBack} />
+          </TouchableOpacity>
+          <Image style={styles.searchIcon} source={allLogo.icsearch} />
+          <TextInput
+              style={styles.input}
+              placeholder="Pencarian......."
+              underlineColorAndroid="transparent"
+              placeholderTextColor="#FFF"
+              onChangeText={(text)=>this.props.onFilter}
+          />
+          <TouchableOpacity>
+            <Image source={allLogo.icnav} style={styles.nav} />
+          </TouchableOpacity>
+        </View>
+        {
               this.props.onFilter &&
               <TouchableOpacity
                 style={[styles.touchHeader, {marginRight: toDp(8)}]}
@@ -75,6 +62,7 @@ class BackDetailKate extends Component {
             }
 
           </LinearGradient>
+
         </View>
       </View>
     )
@@ -83,57 +71,95 @@ class BackDetailKate extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    bottom: toDp(50)
   },
-  icheader: {
-    flexDirection: 'row'
-  },
-  header: {
-    width,
-    //height: 'auto',
-    backgroundColor: 'white',
-    shadowColor: "#000",
-    shadowOffset: {
-    	width: 0,
-    	height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.0,
-    elevation: 4,
-  },
-  linearHeader: {
+    linearHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: toDp(8),
     height: (height / 12) + (Platform.OS === 'android' ? toDp(0) : toDp(20)) ,
     paddingTop: Platform.OS === 'android' ? toDp(0) : toDp(20)
   },
-  touchHeader: {
-    padding: toDp(4),
+  header: {
+    width:360,
+    height: 20,
+    backgroundColor: '#52B788',
+    bottom:toDp(50),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    
+    elevation: 2,
   },
-  nav: {
-    left: toDp(110),
-    width: toDp(28),
-    height: toDp(28),
+
+  touchHeader: {
+    padding: toDp(10),
+    marginHorizontal:toDp(30),
   },
   icBack: {
-    marginHorizontal: toDp(8),
     width: toDp(24),
     height: toDp(24),
     resizeMode: 'contain',
     tintColor: 'black',
-    rotation: toDp(180)
+    rotation:180,
+    right:toDp(45)
   },
   title: {
-    color: 'black',
-    fontSize: toDp(18),
+    color: 'white',
+    fontSize: toDp(20),
     marginLeft: toDp(8),
+
   },
-  icsearch: {
-    width:toDp(25),
-    height:toDp(25)
-  },
+  searchSection: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    width:'100%',
+    paddingHorizontal:toDp(10)
+},
+cart: {
+  padding: toDp(0),
+  marginLeft: toDp(12),
+  width: toDp(28),
+  height: toDp(28),
+  resizeMode: 'contain',
+},
+nav: {
+  padding: toDp(0),
+  marginLeft: toDp(12),
+  width: toDp(28),
+  height: toDp(28),
+  resizeMode: 'contain',
+},
+searchIcon: {
+    resizeMode: 'contain',
+    tintColor: 'white',
+    width: toDp(25),
+    height: toDp(25),
+    zIndex:3,
+    padding: toDp(8),
+    position: 'absolute',
+    left: toDp(55),
+    top: Platform.OS === 'ios' ? toDp(10) : toDp(10)
+
+},
+input: {
+    flex: 1,
+    paddingTop: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    paddingLeft: 0,
+    backgroundColor: '#2A334B',
+    borderRadius: toDp(25),
+    paddingLeft: toDp(45),
+    color:'#FFF',
+    right:toDp(70)
+},
 })
 
 

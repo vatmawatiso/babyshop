@@ -39,119 +39,138 @@ const Tambahproduk = (props) => {
 
   return (
     <View style={styles.container}>
-
+      <View style={{flex:1}}>
         <HeaderToko
           title={'Tambah Produk'}
           onPress={() => props.navigation.goBack()}
         />
-        <ScrollView vertical={true}>
+      </View>
 
-        <View style={styles.bodyInputProduk}>
-            <Pressable style={styles.btnFoto}>
-                <Text style={styles.txtFoto}>Tambah Foto</Text>
-            </Pressable>
+      <View style={styles.bodyInputProduk}>
+          <ScrollView>
+              <View>
+                  <View>
+                    <Pressable style={styles.btnFoto}>
+                        <Text style={styles.txtFoto}>Tambah Foto</Text>
+                    </Pressable>
+                  </View>
 
-            <Text style={styles.txtFormInput}>Nama Barang</Text>
-            <TextInput  autoCapitalize={'none'}
-                style={styles.textInput}                        
-                placeholderTextColor={'grey'}
-                value={state.produk}
-                onChangeText={(text) => setState(state => ({...state, produk: text })) }
-            />
+                  <View>
+                  <Text style={styles.txtFormInput}>Nama Barang</Text>
+                  <TextInput  autoCapitalize={'none'}
+                      style={styles.textInput}
+                      placeholderTextColor={'grey'}
+                      value={state.produk}
+                      onChangeText={(text) => setState(state => ({...state, produk: text })) }
+                  />
+                  </View>
 
-            <Text style={[styles.txtFormInput, {bottom:30} ]}>Deskrispi Barang</Text>
-            <TextInput  autoCapitalize={'none'}
-                style={[styles.textInput, {bottom:40} ]}                        
-                placeholderTextColor={'grey'}
-                value={state.deskripsi}
-                onChangeText={(text) => setState(state => ({...state, deskripsi: text })) }
-            />
+                  <View>
+                  <Text style={[styles.txtFormInput, {bottom:30} ]}>Deskrispi Barang</Text>
+                  <TextInput  autoCapitalize={'none'}
+                      style={[styles.textInput, {bottom:40} ]}
+                      placeholderTextColor={'grey'}
+                      value={state.deskripsi}
+                      onChangeText={(text) => setState(state => ({...state, deskripsi: text })) }
+                  />
+                  </View>
 
-            <Text style={[styles.txtFormInput, {bottom:50} ]}>Harga Barang</Text>
-            <TextInput  autoCapitalize={'none'}
-                style={[styles.textInput, {bottom:60} ]}                         
-                placeholderTextColor={'grey'}
-                value={state.harga}
-                onChangeText={(text) => setState(state => ({...state, harga: text })) }
-            />
+                  <View>
+                  <Text style={[styles.txtFormInput, {bottom:50} ]}>Harga Barang</Text>
+                  <TextInput  autoCapitalize={'none'}
+                      style={[styles.textInput, {bottom:60} ]}
+                      placeholderTextColor={'grey'}
+                      value={state.harga}
+                      onChangeText={(text) => setState(state => ({...state, harga: text })) }
+                  />
+                  </View>
 
-            <Text style={[styles.txtFormInput, {bottom:70} ]}>Stok Barang</Text>
-            <TextInput  autoCapitalize={'none'}
-                style={[styles.textInput, {bottom:80} ]}                        
-                placeholderTextColor={'grey'}
-                value={state.stok}
-                onChangeText={(text) => setState(state => ({...state, stok: text })) }
-            />
+                  <View>
+                  <Text style={[styles.txtFormInput, {bottom:70} ]}>Stok Barang</Text>
+                  <TextInput  autoCapitalize={'none'}
+                      style={[styles.textInput, {bottom:80} ]}
+                      placeholderTextColor={'grey'}
+                      value={state.stok}
+                      onChangeText={(text) => setState(state => ({...state, stok: text })) }
+                  />
+                  </View>
 
-            <Text style={styles.txtKategori}>Kategori</Text>
-            <SelectDropdown
-                          buttonStyle={styles.dropdown}
-                          buttonTextStyle={{fontSize:12, color:'grey'}}
-                          rowTextStyle={{fontSize:12}}
-                          dropdownStyle={{borderRadius:7}}
-                          rowStyle={{height:35,padding:5}}
-                          defaultButtonText={'Pilih Kategori'}
-                          data={Katagori}
-                          onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index)
-                          }}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item
-                          }}
-                          renderDropdownIcon={(isOpened) => {
-                            return (
-                              <FontAwesome
-                                name={isOpened ? "chevron-up" : "chevron-down"}
-                                color={"#444"}
-                                size={12}
-                              />
-                            );
-                          }}
-                    />
-            <Pressable style={styles.btnVariasi}>
-                <Text style={styles.txtVariasi}>Variasi</Text>
-                <Image source={allLogo.iclineright} style={styles.iclineright} />
-            </Pressable>
+                  <View>
+                  <Text style={styles.txtKategori}>Kategori</Text>
+                  <SelectDropdown
+                                buttonStyle={styles.dropdown}
+                                buttonTextStyle={{fontSize:12, color:'grey'}}
+                                rowTextStyle={{fontSize:12}}
+                                dropdownStyle={{borderRadius:7}}
+                                rowStyle={{height:35,padding:5}}
+                                defaultButtonText={'Pilih Kategori'}
+                                data={Katagori}
+                                onSelect={(selectedItem, index) => {
+                                  console.log(selectedItem, index)
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                  return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                  return item
+                                }}
+                                renderDropdownIcon={(isOpened) => {
+                                  return (
+                                    <FontAwesome
+                                      name={isOpened ? "chevron-up" : "chevron-down"}
+                                      color={"#444"}
+                                      size={12}
+                                    />
+                                  );
+                                }}
+                          />
+                  <Pressable style={styles.btnVariasi}>
+                      <Text style={styles.txtVariasi}>Variasi</Text>
+                      <Image source={allLogo.iclineright} style={styles.iclineright} />
+                  </Pressable>
+                  </View>
 
-            <Pressable style={styles.btnOngkir}>
-                <Text style={styles.txtOngkir}>Ongkos Kirim</Text>
-            </Pressable>
+                  <View>
+                  <Pressable style={styles.btnOngkir}>
+                      <Text style={styles.txtOngkir}>Ongkos Kirim</Text>
+                  </Pressable>
+                  </View>
 
-            <Text style={styles.txtKondisi}>Kondisi</Text>
-            <SelectDropdown
-                          buttonStyle={styles.dropdown1}
-                          buttonTextStyle={{fontSize:12, color:'grey'}}
-                          rowTextStyle={{fontSize:12}}
-                          dropdownStyle={{borderRadius:7}}
-                          rowStyle={{height:35,padding:5}}
-                          defaultButtonText={'Pilih Kategori'}
-                          data={Kondisi}
-                          onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index)
-                          }}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item
-                          }}
-                          renderDropdownIcon={(isOpened) => {
-                            return (
-                              <FontAwesome
-                                name={isOpened ? "chevron-up" : "chevron-down"}
-                                color={"#444"}
-                                size={12}
-                              />
-                            );
-                          }}
-                    />
+                  <View>
+                  <Text style={styles.txtKondisi}>Kondisi</Text>
+                  <SelectDropdown
+                                buttonStyle={styles.dropdown1}
+                                buttonTextStyle={{fontSize:12, color:'grey'}}
+                                rowTextStyle={{fontSize:12}}
+                                dropdownStyle={{borderRadius:7}}
+                                rowStyle={{height:35,padding:5}}
+                                defaultButtonText={'Pilih Kategori'}
+                                data={Kondisi}
+                                onSelect={(selectedItem, index) => {
+                                  console.log(selectedItem, index)
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                  return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                  return item
+                                }}
+                                renderDropdownIcon={(isOpened) => {
+                                  return (
+                                    <FontAwesome
+                                      name={isOpened ? "chevron-up" : "chevron-down"}
+                                      color={"#444"}
+                                      size={12}
+                                    />
+                                  );
+                                }}
+                          />
+                  </View>
+
+              </View>
+
+          </ScrollView>
         </View>
-
-        </ScrollView>
-
         <View style={styles.bodySimpan}>
             <Pressable style={styles.btnSimpan}>
                 <Text style={styles.txtSimpan}>Simpan</Text>
@@ -175,12 +194,13 @@ const styles = StyleSheet.create({
       width:toDp(335),
       height:toDp(490),
       borderRadius:toDp(8),
-      top:toDp(20)
+      top:toDp(20),
+
   },
   bodySimpan: {
       width:toDp(335),
       height:toDp(42),
-      top:toDp(50), 
+      top:toDp(50),
   },
   btnSimpan:{
     backgroundColor:'#E7E7E7',

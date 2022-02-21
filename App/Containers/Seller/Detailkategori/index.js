@@ -15,6 +15,7 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  HeaderToko  from '@HeaderToko'
+import  BackDetailKate  from '@BackDetailKate'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 import NavigatorService from '@NavigatorService'
@@ -126,10 +127,7 @@ const Kategori = (props) => {
   return (
     <View style={styles.container}>
 
-        <HeaderToko
-          title={'Detail Kategori'}
-          onPress={() => props.navigation.goBack()}
-        />
+        <BackDetailKate/>
 
         <View style={styles.bodyMenu}>
             <TouchableOpacity style={styles.button}>
@@ -214,7 +212,6 @@ const styles = StyleSheet.create({
     height:toDp(36),
     borderRadius:toDp(8),
     flexDirection:'row',
-    top:toDp(15),
     justifyContent:'space-between',
     alignItems:'center',
       shadowColor: "#000",

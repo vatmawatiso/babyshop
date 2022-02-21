@@ -97,7 +97,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Produksaya',
+    initialRouteName: 'Tambahproduk',
   
   }
 );
