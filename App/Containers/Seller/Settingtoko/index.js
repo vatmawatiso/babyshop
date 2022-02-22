@@ -31,10 +31,10 @@ const Settingtoko = (props) => {
                 <Text style={{padding:toDp(5), bottom:toDp(2), left:toDp(5), fontWeight:'bold'}}>Profil Toko</Text>
             </View>
             <View style={{marginLeft:toDp(40), bottom:toDp(10)}}>
-                <Pressable>
+                <Pressable style={{ height:toDp(20), width:toDp(90) }} onPress={() => NavigatorService.navigate('Informasitoko')} >
                     <Text style={styles.txtInfo}>Informasi Toko</Text>
                 </Pressable>
-                <Pressable>
+                <Pressable style={{ top:toDp(5), height:toDp(20), width:toDp(80) }} onPress={() => NavigatorService.navigate('Catatantoko')} >
                     <Text style={styles.txtCatatan}>Catatan Toko</Text>
                 </Pressable>
             </View>
@@ -45,10 +45,10 @@ const Settingtoko = (props) => {
                 <Text style={{padding:toDp(5), bottom:toDp(2), left:toDp(5), fontWeight:'bold'}}>Alamat dan Pengiriman</Text>
             </View>
             <View style={{marginLeft:toDp(40), bottom:toDp(10)}}>
-                <Pressable>
+                <Pressable style={{ height:toDp(20), width:toDp(70)}} onPress={() => NavigatorService.navigate('Alamattoko')} >
                     <Text style={styles.txtAlamat}>Alamat Toko</Text>
                 </Pressable>
-                <Pressable>
+                <Pressable style={{ top:toDp(5), height:toDp(20), width:toDp(140)}} onPress={() => NavigatorService.navigate('Layananjasa')} >
                     <Text style={styles.txtLayanan}>Layanan Pengiriman Toko</Text>
                 </Pressable>
             </View>
@@ -74,14 +74,14 @@ const styles = StyleSheet.create({
   },
   txtInfo: {
       fontSize:toDp(12),
-      marginBottom:toDp(8)
+      marginBottom:toDp(5)
   },
   txtCatatan: {
       fontSize:toDp(12)
   },
   txtAlamat: {
     fontSize:toDp(12),
-    marginBottom:toDp(8)
+    marginBottom:toDp(5),
 },
 txtLayanan: {
     fontSize:toDp(12)

@@ -17,8 +17,6 @@ import LinearGradient from 'react-native-linear-gradient'
 import { allLogo } from '@Assets'
 import { toDp } from '@percentageToDP'
 import NavigatorService from '@NavigatorService'
-import { color } from 'react-native-reanimated'
-import { parseZone } from 'moment'
 
 let { width, height } = Dimensions.get('window')
 const title = (text) => {

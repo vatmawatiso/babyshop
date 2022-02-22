@@ -28,7 +28,7 @@ const Catatantoko = (props) => {
         <View style={{top:toDp(200)}}>
             <Text style={styles.txt1}>Toko anda belum memiliki Catatan</Text>
             <Text style={styles.txt2}>Tambah Catatan untuk menuliskan informasi{"\n"}syarat ketentuan toko</Text>
-            <Pressable style={styles.btnTambah}>
+            <Pressable style={styles.btnTambah} onPress={() => NavigatorService.navigate('Tambahcatatan')} >
                 <Text style={styles.txtTambah}>Tambah Catatan Toko</Text>
             </Pressable>
         </View>

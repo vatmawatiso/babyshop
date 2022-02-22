@@ -46,7 +46,7 @@ const Alamattoko = (props) => {
             <Image source={allLogo.iclineblack} style={styles.icaddress} />
         </View>
 
-        <Pressable style={{bottom:toDp(20)}} onPress={ () => NavigatorService.navigate('Editalamat')}>
+        <Pressable style={{bottom:toDp(20)}} onPress={ () => NavigatorService.navigate('Tambahalamat')}>
             <View style={styles.btnAddress}>
                 <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
                 <Image source={allLogo.icplus} style={styles.icplus} />

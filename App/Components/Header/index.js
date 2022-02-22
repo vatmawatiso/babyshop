@@ -44,11 +44,6 @@ class Header extends Component {
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
-                  {/* <Pressable 
-                      onPress={() => NavigatorService.navigate('Keranjang')}
-                      style={styles.touchHeader}>
-                      <Image source={allLogo.iccart} style={styles.cart} />
-                  </Pressable>  */}
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.iccart} style={styles.cart} />
                 </TouchableOpacity>

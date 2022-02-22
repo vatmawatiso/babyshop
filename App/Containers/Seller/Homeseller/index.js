@@ -63,21 +63,21 @@ const Homeseller = (props) => {
               <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
               
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <Pressable>
+                  <Pressable style={{ height:30}} onPress={() => NavigatorService.navigate('Pengiriman', {content:'Belumbayar'})} >
                     <View style={{flexDirection:'row', margin:toDp(10)}}>
                         <Image source={allLogo.icorders} style={{bottom:toDp(10)}}/>
                         <Text style={{padding:toDp(5), bottom:toDp(10)}}>Pesanan Baru</Text>
                     </View>
                   </Pressable>
-                  <Pressable>
+                  <Pressable style={{ height:30}} onPress={() => NavigatorService.navigate('Pengiriman', {content:'Perludikirim'})}>
                     <View style={{flexDirection:'row', margin:toDp(10)}}>
                           <Image source={allLogo.iconly} style={{bottom:toDp(10)}} />
                           <Text style={{padding:toDp(5), bottom:toDp(10)}}>Siap dikirim</Text>
                     </View>
                   </Pressable>        
               </View>
-              <Text style={{margin:toDp(10), bottom:toDp(20)}}>Kata Pembeli</Text> 
-              <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(20)}} />
+              <Text style={{margin:toDp(10)}}>Kata Pembeli</Text> 
+              <View style={{borderWidth:0.5, borderColor:'grey'}} />
 
               <View style={styles.bodyJual}>
                   <Pressable>
@@ -102,13 +102,13 @@ const Homeseller = (props) => {
           </View>
         
         <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
-            <Pressable style={styles.btnHome}>
+            <Pressable style={styles.btnHome} onPress={() => NavigatorService.navigate('Homeseller')} >
                 <Image source={allLogo.ichome} style={styles.ichome} />
             </Pressable>
-            <Pressable style={styles.btnPlus}>
+            <Pressable style={styles.btnPlus} onPress={() => NavigatorService.navigate('Tambahproduk')} >
                 <Image source={allLogo.icplusround} style={styles.icplus}/>
             </Pressable> 
-            <Pressable style={styles.btnChat}>
+            <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')} >
                 <Image source={allLogo.icchat} style={styles.icchat}/>
             </Pressable> 
         </View>
@@ -184,7 +184,8 @@ iclineright1: {
       borderRadius:toDp(8),
   },
   btnHome: {
-    marginHorizontal:toDp(20)
+    marginHorizontal:toDp(20),
+
   },
   icchat: {
     width:toDp(26),
@@ -199,6 +200,13 @@ iclineright1: {
   },
   btnChat: {
     marginHorizontal:toDp(20),
+
+  },
+  btnPlus: {
+
+  },
+  bodyJual: {
+    marginTop:toDp(15)
   }
 });
 

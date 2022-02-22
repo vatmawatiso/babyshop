@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     height: toDp(58),
     margin: toDp(1),
     marginLeft: toDp(22),
-    borderRadius: toDp(15)
+    borderRadius: toDp(8)
   },
   title: {
     fontSize: toDp(12),

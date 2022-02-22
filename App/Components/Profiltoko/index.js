@@ -67,10 +67,11 @@ class Profiltoko extends Component {
                 <Text style={styles.txtPembayaran}>Pembayaran</Text>
               </Pressable>
 
-              <Pressable style={styles.btnPengiriman}>
+              <Pressable style={styles.btnPengiriman} onPress={() =>NavigatorService.navigate('Pengiriman')} >
                 <Image source={allLogo.icstore} style={styles.icstore}/>
                 <Text style={styles.txtPengiriman}>Pengiriman</Text>
               </Pressable>
+              
             </View>
         </View>
       </View>
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   btnPengiriman: {
     bottom:toDp(40),
     width:toDp(120),
-    height:toDp(25)
+    height:toDp(25),
   },
   txtPembayaran: {
     bottom:toDp(20),

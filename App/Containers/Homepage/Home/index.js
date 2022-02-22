@@ -197,19 +197,19 @@ const Home = (props) => {
         </View>
 
         <View style={styles.content}>
-            <Pressable style={styles.presable}>
+            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
                 <Image source={allLogo.ichouse} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Toko{'\n'}Bangunan</Text>
             </Pressable>
-            <Pressable style={styles.presable}>
+            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
                 <Image source={allLogo.icworkers} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Jasa{'\n'}Tukang</Text>
             </Pressable>
-            <Pressable style={styles.presable}>
+            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
                 <Image source={allLogo.icbuilder} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Konsultan{'\n'}Arsitek</Text>
             </Pressable>
-            <Pressable style={styles.presable}>
+            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
                 <Image source={allLogo.ichomerenovation} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Alat dan{'\n'}Bahan</Text>
             </Pressable>
@@ -378,7 +378,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: toDp(25),
+    borderRadius: toDp(8),
+    marginHorizontal:5,
   },
   icon: {
     width: toDp(48),

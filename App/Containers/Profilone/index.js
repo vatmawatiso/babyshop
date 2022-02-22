@@ -36,6 +36,16 @@ const Profilone = (props) => {
     },
   ]
 
+  
+  const Address = [
+    {
+      id: '1',
+      nama: 'Vatmawati',
+      telepon: '083141520987',
+      alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
+    },
+  ]
+
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("Edit Profil");
   const klik = () => {
@@ -55,7 +65,7 @@ const Profilone = (props) => {
         />
 
         <View style={{marginTop:toDp(-45)}}>
-            <View style={{backgroundColor: '#2A334B', flexDirection:'row', justifyContent:'space-around', height: toDp(116), width: toDp(316), marginTop:toDp(25), top: toDp(-10), borderRadius: toDp(25)}}>
+            <View style={{backgroundColor: '#2A334B', flexDirection:'row', justifyContent:'space-around', height: toDp(116), width: toDp(335), marginTop:toDp(25), top: toDp(-10), borderRadius: toDp(8)}}>
                 <View >
                     <Image source={{uri: DATA[0].image}} style={styles.imgProfil} />
                     <Text style={styles.typeUser}>{DATA[0].type}</Text>
@@ -75,18 +85,18 @@ const Profilone = (props) => {
                     <Pressable style={styles.presable}>
                         <View style={{flexDirection:'row', alignItems:'center'}}>
                             <Image source={allLogo.icwallet} style={styles.icwallet} />
-                            <Text style={{marginLeft:toDp(10),color: 'white', fontSize:toDp(10)}}>Pembayaran</Text>
+                            <Text style={{marginLeft:toDp(10),color: 'white', fontSize:toDp(12)}}>Pembayaran</Text>
                         </View>
                     </Pressable>
                     <Pressable style={styles.presable}>
                         <View style={{flexDirection:'row', alignItems:'center'}}>
                             <Image source={allLogo.icstore} style={styles.icstore} />
-                            <Text style={{marginLeft:toDp(10),color: 'white', fontSize:toDp(10)}}>Pengiriman</Text>
+                            <Text style={{marginLeft:toDp(10),color: 'white', fontSize:toDp(12)}}>Pengiriman</Text>
                         </View>
                     </Pressable>
                     <Pressable style={[styles.presable,{right:toDp(-29),width:toDp(60), height:toDp(20), justifyContent:'center'}]} onPress={() => NavigatorService.navigate('Editprofil')}>
                         <View style={{flexDirection:'row', alignItems:'center'}}>
-                            <Text style={{marginRight:toDp(5),color: 'white', fontSize:toDp(10)}}>{text}</Text>
+                            <Text style={{marginRight:toDp(5),color: 'white', fontSize:toDp(12)}}>{text}</Text>
                             <Image source={allLogo.icline} style={styles.icline} />
                         </View>
                     </Pressable>
@@ -96,72 +106,72 @@ const Profilone = (props) => {
             <View style={{zIndex:0}}>
                 <View style={{
                       backgroundColor: '#C4C4C4',
-                      width: toDp(316),
+                      width: toDp(335),
                       height: toDp(35),
-                      borderRadius: toDp(15),
+                      borderRadius: toDp(8),
 
                       }}>
-                    <Text style={{marginVertical: toDp(6), left: toDp(130),}}>Mulai Jual</Text>
+                    <Pressable onPress={() => NavigatorService.navigate('Homeseller') }>
+                      <Text style={{marginVertical: toDp(6), left: toDp(130),}}>Mulai Jual</Text>
+                    </Pressable>
                 </View>
 
-              <View style={{zIndex:5, justifyContent:'center', marginTop: toDp(10),backgroundColor: '#C4C4C4', width: toDp(316), height: toDp(218), borderRadius: toDp(15)}}>
-                  <View style={{bottom:10}}>
-                      <View style={{flexDirection:'row', alignItems:'center'}}>
+                <View style={styles.bodyProfil}>  
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                      <Pressable style={{height:toDp(40), top:toDp(5), left:toDp(5)}} >
+                        <View style={{flexDirection:'row', margin:toDp(10)}}>
                           <Image source={allLogo.icorders} style={styles.icorders} />
-                          <Text style={{marginTop:toDp(1), marginLeft:toDp(10),fontSize: toDp(11)}}>Pesanan Saya</Text>
-                      </View>
-
-                      <Pressable style={styles.presable}>
-                          <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
-                              <Image source={allLogo.iclineright} style={{bottom: toDp(17), left:toDp(120), width: toDp(5), height: toDp(12)}} />
-                              <Text style={{bottom:toDp(20), marginRight:toDp(25), fontSize: toDp(11)}}>Lihat Riwayat Pesanan</Text>
-                          </View>
+                          <Text style={styles.txtPesanan}>Pesanan Saya</Text>
+                        </View>
                       </Pressable>
 
-                      <Text style={{color: 'grey', bottom: toDp(35), left:toDp(2)}}>
-                          ________________________________________________
-                      </Text>
-                  </View>
+                      <Pressable style={{height:toDp(40), width:toDp(170) , top:toDp(5) }}>
+                        <View style={{flexDirection:'row', margin:toDp(10)}}>
+                          <Text style={styles.txtRiwayat}>Lihat Riwayat Pesanan</Text>
+                          <Image source={allLogo.iclineright} style={styles.iclineright1} />
+                        </View>
+                      </Pressable>
+                    </View>
+                    <View style={{borderWidth:0.5, borderColor:'grey', top:toDp(5) }} />
 
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', bottom:toDp(15)}}> 
-                    <Pressable style={{bottom:toDp(33), width:toDp(60), height:toDp(70)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Belumbayar'})}>
-                      <Image source={allLogo.icbuyer} style={{left: toDp(25), top: toDp(2), width: toDp(23), height: toDp(31)}} />
-                      <Text style={{top: toDp(5), left: toDp(18), fontSize: toDp(11)}}>Belum Bayar</Text>
-                    </Pressable>
-                    <Pressable style={{bottom:toDp(33), marginLeft:toDp(15), width:toDp(60), height:toDp(70)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Dikemas'})}>
-                      <Image source={allLogo.icpacking} style={{left: toDp(15), top: toDp(8), width: toDp(28), height: toDp(30)}} />
-                      <Text style={{top: toDp(8), left: toDp(10), fontSize: toDp(11)}}>Dikemas</Text>
-                    </Pressable>
-                    <Pressable style={{bottom:toDp(33), marginLeft: toDp(30), width:toDp(60), height:toDp(70)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Dikirim'})}>
-                      <Image source={allLogo.ictruck} style={{left: toDp(15), top: toDp(8), width: toDp(30), height: toDp(24)}} />
-                      <Text style={{top: toDp(15), left: toDp(15), fontSize: toDp(11)}}>Dikirim</Text>
-                    </Pressable>
-                    <Pressable style={{bottom:toDp(33), marginLeft: toDp(20), width:toDp(60), height:toDp(70)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Selesai'})}>
-                      <Image source={allLogo.icstars} style={{left: toDp(18), top: toDp(5), width: toDp(26), height: toDp(33)}} />
-                      <Text style={{top: toDp(7), left: toDp(11), fontSize: toDp(11)}}>Beri Nilai</Text>
+                    <View style={{flexDirection:'row', margin:toDp(10), justifyContent:'center'}}>
+                      <Pressable style={{ right:toDp(20)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Belumbayar'})}> 
+                        <Image source={allLogo.icbuyer} style={{left:toDp(13)}} />
+                        <Text style={{ fontSize: toDp(13)}}>Belum{"\n"} Bayar</Text>
+                      </Pressable>
+
+                      <Pressable style={{ marginHorizontal:10}}  onPress={()=> NavigatorService.navigate('Orderpage', {content:'Dikemas'})}>
+                        <Image source={allLogo.icpacking} style={{left:toDp(13)}} />
+                        <Text  style={{ fontSize: toDp(13)}}>Dikemas</Text>
+                      </Pressable>
+
+                      <Pressable style={{ marginHorizontal:toDp(10), left:toDp(10)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Dikirim'})}>
+                        <Image source={allLogo.ictruck} style={{left:toDp(5)}} />
+                        <Text  style={{ fontSize: toDp(13)}}>Dikirim</Text>
+                      </Pressable>
+
+                      <Pressable style={{ marginHorizontal:toDp(10), left:toDp(25)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Selesai'})}>
+                        <Image source={allLogo.icstars} style={{left:toDp(15)}} />
+                        <Text  style={{ fontSize: toDp(13)}}>Beri Nilai</Text>
+                        </Pressable>
+                    </View>
+                    <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(5)}} />
+                    
+                    <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Editalamat')}>
+                        <View style={styles.bodyAlamat}>
+                            <Image source={allLogo.icaddress1} style={styles.icaddress1}/>
+                            <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
+                        </View>
+                
+                        <View style={{flexDirection:'row', left:toDp(49), bottom:toDp(10)}}>
+                          <Text style={{ fontSize: toDp(13)}}>{Address[0].nama} {Address[0].telepon}{"\n"}{Address[0].alamat}</Text>
+                          <Image source={allLogo.iclineright} style={styles.iclineright} />
+                        </View>
                     </Pressable>
                     
-                    <Text style={{color: 'grey', top: toDp(20), right: toDp(303)}}>
-                    ________________________________________________
-                    </Text>
 
-                  <View style={{backgroundColor: 'white'}}>
-                      <Pressable style={{flexDirection:'column', marginLeft: toDp(50)}}>
-                          <View style={{alignItems:'flex-start', zIndex:5}}>
-                              <Image source={allLogo.icaddress1} style={{right: toDp(640), top: toDp(45)}} />
-                              <Text style={{top: toDp(25), right:toDp(610), fontSize: toDp(11)}}>Alamat Pengiriman</Text>
-                              <Text style={{right: toDp(610),top: toDp(25), fontSize: toDp(11)}}>
-                                Vatmawati (+62) 83120141302 {'\n'}
-                                blok pengadangan RT 02 Rw 02 Desa Megu Cilik {'\n'}
-                                Kec. Weru Kab. Cirebon {'\n'}
-                                KAB. CIREBON - WERU, JAWA BARAT, ID 45154
-                              </Text>
-                              <Image source={allLogo.iclineright} style={{right: toDp(364), top: toDp(5), width: toDp(5), height: toDp(12)}} />
-                          </View>
-                      </Pressable>
-                  </View>
                 </View>
-              </View>
+
             </View>
         </View>
 
@@ -194,7 +204,7 @@ const styles = StyleSheet.create({
     color: 'white',
     top: toDp(32),
     left: toDp(19),
-    fontSize:toDp(10)
+    fontSize:toDp(12)
   },
   imgProfil: {
     height: toDp(50),
@@ -206,11 +216,11 @@ const styles = StyleSheet.create({
   nmProfil: {
     top:toDp(-20),
     fontWeight: 'bold',
-    fontSize: toDp(12),
+    fontSize: toDp(13),
     color: 'white'
   },
   member: {
-    fontSize: toDp(10),
+    fontSize: toDp(11),
     color: 'white',
 
   },
@@ -245,13 +255,63 @@ const styles = StyleSheet.create({
   icorders: {
     width: toDp(23),
     height: toDp(28),
-    bottom: toDp(1),
-    marginLeft:toDp(20)
+    bottom: toDp(5),
+    right:toDp(5)
   },
   presable:{
     zIndex:3,
     marginBottom:toDp(15),
+  },
+  bodyProfil: {
+    backgroundColor:'#C4C4C4',
+    width:toDp(335),
+    height:toDp(210),
+    borderRadius:toDp(10),
+    top:toDp(10),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+
+      elevation: 2,
+  },
+  bodyAlamat: {
+    flexDirection:'row',
+    margin:toDp(10),
+    left:toDp(10),
+    bottom:toDp(8)
+  },
+  iclineright1: {
+    margin:toDp(10),
+    width:toDp(10),
+    height:toDp(14.8),
+    right:toDp(5)
+  },
+  iclineright: {
+    margin:toDp(10),
+    width:toDp(10),
+    height:toDp(14.8),
+    bottom:toDp(10)
+  },
+  txtPengiriman: {
+    left:toDp(10),
+    top:toDp(5),
+    fontSize: toDp(13),
+  },
+  btnAlamat: {
+    height:toDp(94)
+  },
+  txtRiwayat: {
+    top:toDp(5),
+  },
+  txtPesanan: {
+    top:toDp(3),
+    left:toDp(5)
   }
+
 });
 
 export default Profilone;

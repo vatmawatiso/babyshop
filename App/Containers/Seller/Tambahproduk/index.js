@@ -133,6 +133,7 @@ const Tambahproduk = (props) => {
                   <View>
                   <Pressable style={styles.btnOngkir}>
                       <Text style={styles.txtOngkir}>Ongkos Kirim</Text>
+                      <Image source={allLogo.iclineright} style={styles.iclineright} />
                   </Pressable>
                   </View>
 
@@ -144,7 +145,7 @@ const Tambahproduk = (props) => {
                                 rowTextStyle={{fontSize:12}}
                                 dropdownStyle={{borderRadius:7}}
                                 rowStyle={{height:35,padding:5}}
-                                defaultButtonText={'Pilih Kategori'}
+                                defaultButtonText={'Pilih Kondisi'}
                                 data={Kondisi}
                                 onSelect={(selectedItem, index) => {
                                   console.log(selectedItem, index)
@@ -190,12 +191,20 @@ const styles = StyleSheet.create({
     paddingVertical: 20
   },
   bodyInputProduk: {
-      backgroundColor:'cyan',
+      backgroundColor:'#E7E7E7',
       width:toDp(335),
       height:toDp(490),
       borderRadius:toDp(8),
       top:toDp(20),
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
 
+        elevation: 2,
   },
   bodySimpan: {
       width:toDp(335),
@@ -203,15 +212,25 @@ const styles = StyleSheet.create({
       top:toDp(50),
   },
   btnSimpan:{
-    backgroundColor:'#E7E7E7',
+    backgroundColor:'#2A334B',
     width:toDp(335),
     height:toDp(42),
     justifyContent:'center',
     borderRadius:toDp(8),
-    bottom:toDp(23)
+    bottom:toDp(23),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+
+      elevation: 2,
   },
   txtSimpan: {
-      textAlign:'center'
+      textAlign:'center',
+      color:'white'
   },
   textInput: {
     width: toDp(320),
@@ -220,18 +239,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: toDp(8),
     borderRadius: toDp(5),
     bottom:toDp(20),
-    margin:toDp(7)
+    margin:toDp(7),
+    borderWidth:0.5
   },
   btnFoto: {
-    backgroundColor:'red',
+    backgroundColor:'white',
     marginTop:toDp(20),
     margin:toDp(8),
     height:toDp(53),
     borderRadius:toDp(5),
-    justifyContent:'center'
+    justifyContent:'center',
+    borderWidth:0.5,
   },
   txtFoto: {
-    textAlign:'center'
+    textAlign:'center',
+    color:'grey'
   },
   txtFormInput: {
     margin:toDp(8),
@@ -239,7 +261,7 @@ const styles = StyleSheet.create({
   },
   txtKategori: {
     bottom:toDp(90),
-    margin:toDp(8)
+    margin:toDp(8),
   },
   dropdown:{
     height:toDp(38),
@@ -247,7 +269,8 @@ const styles = StyleSheet.create({
     width:toDp(319),
     left:toDp(8),
     backgroundColor:'white',
-    bottom:toDp(93)
+    bottom:toDp(93),
+    borderWidth:0.5,
   },
   txtVariasi: {
     margin:toDp(3),
@@ -260,11 +283,12 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius:toDp(8),
     bottom:toDp(65),
-    left:toDp(8)
+    left:toDp(8),
+    borderWidth:0.5,
   },
   iclineright: {
-    width:toDp(10),
-    height:toDp(10),
+    width:toDp(8),
+    height:toDp(12.8),
     left:toDp(300),
     bottom:toDp(13)
   },
@@ -278,8 +302,9 @@ const styles = StyleSheet.create({
     height: toDp(39),
     justifyContent:'center',
     borderRadius:toDp(8),
-    bottom:toDp(65),
-    left:toDp(8)
+    bottom:toDp(40),
+    left:toDp(8),
+    borderWidth:0.5,
   },
   dropdown:{
     height:toDp(38),
@@ -287,7 +312,21 @@ const styles = StyleSheet.create({
     width:toDp(319),
     left:toDp(8),
     backgroundColor:'white',
-    bottom:toDp(93)
+    bottom:toDp(93),
+    borderWidth:0.5,
+  },
+  txtKondisi: {
+    bottom:toDp(45),
+    margin:toDp(8)
+  },
+  dropdown1:{
+    height:toDp(38),
+    borderRadius:toDp(8),
+    width:toDp(319),
+    left:toDp(8),
+    backgroundColor:'white',
+    bottom:toDp(50),
+    borderWidth:0.5,
   },
 });
 

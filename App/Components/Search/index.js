@@ -131,7 +131,7 @@ input: {
     paddingBottom: 10,
     paddingLeft: 0,
     backgroundColor: '#2A334B',
-    borderRadius: toDp(25),
+    borderRadius: toDp(10),
     paddingLeft: toDp(45),
     color:'#FFF'
 },

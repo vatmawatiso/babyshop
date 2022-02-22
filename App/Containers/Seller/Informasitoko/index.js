@@ -49,10 +49,13 @@ const Informasitoko = (props) => {
                 <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
                 <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
             </View>
+            <Pressable style={{right:130, height:20, top:toDp(10)}} onPress={() => NavigatorService.navigate('Settingtoko')} >
+              <Image source={allLogo.icsettings} style={{tintColor:'white', bottom:toDp(1)}} />
+            </Pressable>
         </View>
         
         <View style={styles.Ubah}>
-            <Pressable style={styles.btnUbah}>
+            <Pressable style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
                 <Text style={styles.txtUbah}>Ubah</Text>
             </Pressable>
         </View>

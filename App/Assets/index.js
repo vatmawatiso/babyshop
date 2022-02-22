@@ -65,6 +65,7 @@ const allLogo = {
   icgroup: require('./img/ic_group.png'),
   icbuilding: require('./img/ic_building.png'),
   icplusround: require('./img/ic_plusround.png'),
+  icsettings: require('./img/ic_settings.png'),
 
 }
 

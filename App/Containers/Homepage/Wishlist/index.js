@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(15),
+    borderRadius: toDp(8),
     textAlign: 'center'
   },
   textButton3: {
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(15),
+    borderRadius: toDp(8),
     textAlign: 'center'
   },
   textButton4: {
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(15),
+    borderRadius: toDp(8),
     textAlign: 'center'
   },
   textButton5: {
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(50),
-    borderRadius: toDp(15),
+    borderRadius: toDp(8),
     textAlign: 'center'
   },
   textButton6: {
@@ -326,12 +326,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(15),
+    borderRadius: toDp(8),
     textAlign: 'center'
   },
   product: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },  
   text: {
     backgroundColor: '#C4C4C4',
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
   text2: {
     backgroundColor: 'red',
     textAlign: 'center',
-    borderRadius: toDp(15),
+    borderRadius: toDp(8),
     width: toDp(64),
     height: toDp(64),
     margin: toDp(5),
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
     margin: toDp(5),
     paddingRight: toDp(20),
     left: toDp(65),
-    borderRadius: toDp(15)
+    borderRadius: toDp(8)
   },
   titleVocher: {
     textAlign: 'center',
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
-    borderRadius:toDp(10),
+    borderRadius:toDp(8),
     height: toDp(221),
     right: toDp(2),
     shadowColor: "#000",

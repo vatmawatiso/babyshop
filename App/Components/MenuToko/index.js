@@ -49,13 +49,13 @@ class MenuToko extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.bodyMenu}>
-          <Pressable>
+          <Pressable onPress={() => NavigatorService.navigate('Informasitoko')}>
             <Text style={styles.txtToko}>Toko Saya</Text>
           </Pressable>
-          <Pressable>
+          <Pressable onPress={() => NavigatorService.navigate('Produksaya')}>
             <Text style={styles.txtProduk}>Produk Saya</Text>
           </Pressable>
-          <Pressable>
+          <Pressable onPress={() => NavigatorService.navigate('Kategori')}>
             <Text style={styles.txtKategori}>Kategori</Text>
           </Pressable>
         </View>
