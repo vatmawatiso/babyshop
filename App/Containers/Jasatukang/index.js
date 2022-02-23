@@ -122,7 +122,7 @@ const Jasatukang = (props) => {
 
       const renderswitch = ({item, index}) => {
         return (
-          <View style={{width:toDp(316), borderRadius:toDp(15)}}>
+          <View style={{width:toDp(335), borderRadius:toDp(8)}}>
       
             <View style={styles.body}>
                 <Image source={{uri: DATA[0].image}} style={styles.imgKontak} />
@@ -188,9 +188,9 @@ const styles = StyleSheet.create({
   body: {
     flexDirection:'row', 
     backgroundColor:'#C4C4C4', 
-    width:toDp(316), 
+    width:toDp(335), 
     height:toDp(80), 
-    borderRadius:toDp(15), 
+    borderRadius:toDp(8), 
     top:toDp(20),
     justifyContent:'space-between',
     marginBottom:toDp(2)

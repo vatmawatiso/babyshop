@@ -165,7 +165,7 @@ const Tokobangunan = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View style={{marginBottom:toDp(30)}}>
+        <View style={{marginBottom:toDp(30), width:toDp(335)}}>
         <FlatList
           data={DATA}
           renderItem={renderswitch}
@@ -189,12 +189,13 @@ const styles = StyleSheet.create({
   body: {
     flexDirection:'row', 
     backgroundColor:'#C4C4C4', 
-    width:toDp(316), 
+    width:toDp(335), 
     height:toDp(80), 
-    borderRadius:toDp(15), 
+    borderRadius:toDp(8), 
     top:toDp(20),
     justifyContent:'space-between',
-    marginBottom:toDp(2)
+    marginBottom:toDp(2),
+    // right:toDp(10)
   },
   content: {
       right:toDp(10),

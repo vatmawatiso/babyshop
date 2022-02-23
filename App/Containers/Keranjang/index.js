@@ -207,9 +207,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#C4C4C4',
-    width: toDp(316),
+    width: toDp(335),
     height: toDp(41),
-    borderRadius: toDp(9)
+    borderRadius: toDp(8)
   },
   notProcessed: {
     marginBottom: toDp(5),
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#C4C4C4',
-    width: toDp(316),
+    width: toDp(335),
     height: toDp(41),
     borderRadius: toDp(8)
   },

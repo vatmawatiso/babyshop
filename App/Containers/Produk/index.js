@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   },
   Ulasan: {
     backgroundColor:'#C4C4C4',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(47),
     bottom:toDp(45),
     borderRadius:toDp(15),
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     flexDirection:'row', 
     bottom:toDp(38), 
     backgroundColor:'#2A334B', 
-    width:toDp(320), 
+    width:toDp(335), 
     height:toDp(52), 
     borderRadius:toDp(15), 
     justifyContent:'space-between', 

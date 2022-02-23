@@ -40,13 +40,15 @@ const Alamat = (props) => {
             <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
 
-        <View style={styles.isiAddress}>
-            <Text>{Address[0].nama} {Address[0].telepon}</Text>
-            <Text>{Address[0].alamat}</Text>
-            <Image source={allLogo.iclineblack} style={styles.icaddress} />
-        </View>
+        <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Editalamat')}>
+            <View style={styles.isiAddress}>
+                <Text>{Address[0].nama} {Address[0].telepon}</Text>
+                <Text>{Address[0].alamat}</Text>
+                <Image source={allLogo.iclineblack} style={styles.icaddress} />
+            </View>
+        </Pressable>
 
-        <Pressable style={{bottom:toDp(20)}} onPress={ () => NavigatorService.navigate('Editalamat')}>
+        <Pressable style={{bottom:toDp(40), backgroundColor:'#C4C4C4', borderRadius:toDp(8)}} onPress={ () => NavigatorService.navigate('TambahAlamat')}>
             <View style={styles.btnAddress}>
                 <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
                 <Image source={allLogo.icplus} style={styles.icplus} />
@@ -65,9 +67,9 @@ const styles = StyleSheet.create({
   },
   Address: {
       backgroundColor:'#C4C4C4',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(105),
-      borderRadius:toDp(15),
+      borderRadius:toDp(8),
       top:toDp(15),
       flexDirection:'row',
   },
@@ -79,9 +81,12 @@ const styles = StyleSheet.create({
       marginLeft:toDp(20),
       top:toDp(10)
   },
-  isiAddress: {
-      bottom:toDp(55),
-      left:toDp(13)
+  btnAlamat: {
+    // backgroundColor:'cyan',
+    bottom:toDp(55),
+    left:toDp(24),
+    width:toDp(286),
+    height:toDp(70)
   },
   icaddress: {
       width:toDp(15),
@@ -90,12 +95,12 @@ const styles = StyleSheet.create({
       bottom:toDp(25)
   },
   btnAddress: {
-      backgroundColor:'#C4C4C4',
+    //   backgroundColor:'#C4C4C4',
       flexDirection:'row',
       justifyContent:'space-between',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(32),
-      borderRadius:toDp(15),
+      borderRadius:toDp(8),
   },
   icplus: {
       width:toDp(12),

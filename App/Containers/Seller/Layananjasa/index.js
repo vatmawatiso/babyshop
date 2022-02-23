@@ -67,11 +67,12 @@ const Layananjasa = (props) => {
                         justifyContent:'space-between',
                         alignItems:'center',
                         width:'100%',
-                        borderRadius:toDp(15),
-                        width:toDp(316),
+                        borderRadius:toDp(8),
+                        width:toDp(335),
                         height:toDp(340),
                         padding:12, 
                         height:50, 
+                        right:8,
                         backgroundColor:'#C4C4C4'}}>
 
                 <Text>{item.name}</Text>
@@ -139,11 +140,12 @@ const styles = StyleSheet.create({
   },
   address: {
       backgroundColor:'#C4C4C4',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(105),
       marginLeft:toDp(20),
-      borderRadius:toDp(15),
-      position:'relative'
+      borderRadius:toDp(8),
+      position:'relative',
+      right:toDp(8)
   },
   icAddress: {
       left:toDp(10),
@@ -164,10 +166,10 @@ const styles = StyleSheet.create({
   },
   courier: {
     backgroundColor:'#C4C4C4',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(330),
     left:toDp(20),
-    borderRadius:toDp(15),
+    borderRadius:toDp(8),
     alignItems:'flex-start',
     justifyContent:'space-between',
   },

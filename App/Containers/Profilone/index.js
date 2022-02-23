@@ -288,7 +288,8 @@ const styles = StyleSheet.create({
     margin:toDp(10),
     width:toDp(10),
     height:toDp(14.8),
-    right:toDp(5)
+    right:toDp(5),
+    bottom:toDp(2)
   },
   iclineright: {
     margin:toDp(10),

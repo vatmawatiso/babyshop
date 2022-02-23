@@ -92,10 +92,10 @@ txtInformation1:{
 },
 OrderDetail: {
   backgroundColor:'#C4C4C4',
-  borderRadius:toDp(15),
-  width:toDp(314),
+  borderRadius:toDp(8),
+  width:toDp(335),
   height:toDp(190),
-  left: toDp(23),
+  left: toDp(12),
   bottom:toDp(30)
 },
 buttonPay: {

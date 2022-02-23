@@ -98,17 +98,19 @@ const Editprofil = (props) => {
                          <View style={styles.card}>
                               <TextInput
                                     autoCapitalize={'none'}
+                                    style={styles.textInput1}
                                     style={{
                                       marginTop: toDp(-15),
-                                      width: toDp(316),
+                                      width: toDp(335),
                                       height: toDp(40),
                                       backgroundColor: 'white',
-                                      borderWidth: toDp(1),
-                                      borderRadius: toDp(15),
-                                      borderColor: state.valName == false ?
-                                        '#F2F3F3'
-                                      :
-                                        'red'
+                                      borderRadius: toDp(8),
+                                      right:toDp(8),
+                                      borderWidth:0.5,
+                                      // borderColor: state.valName == false ?
+                                      //   '#F2F3F3'
+                                      // :
+                                      //   'red',
                                     }}
                                     placeholder={'Password'}
                                     placeholderTextColor={'grey'}
@@ -145,10 +147,10 @@ const styles = StyleSheet.create({
   },
   content: {
       backgroundColor: '#2A334B',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(116),
-      borderRadius:toDp(15),
-      left:toDp(20),
+      borderRadius:toDp(8),
+      left:toDp(12),
       bottom:toDp(35)
   },
   imgProfil: {
@@ -175,7 +177,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
-    marginTop: toDp(-10)
+    marginTop: toDp(-10),
+    borderWidth:0.5,
   },
   formInput: {
     bottom:toDp(15),
@@ -187,10 +190,11 @@ const styles = StyleSheet.create({
   },
   buttonSave: {
       backgroundColor: '#2A334B',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(40),
-      borderRadius:toDp(15),
-      top:toDp(15)
+      borderRadius:toDp(8),
+      top:toDp(15),
+      right:toDp(6)
   },
   save: {
       color:'white',
@@ -199,11 +203,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: 'white',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(40),
-    borderRadius:toDp(15),
+    borderRadius:toDp(8),
     bottom:toDp(15),
-    marginBottom:toDp(-8)
+    marginBottom:toDp(-8),
+    right:toDp(8),
+    borderWidth:0.5,
   },
   icVisibility: {
     width: toDp(24),

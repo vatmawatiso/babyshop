@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: toDp(8), 
+    borderRadius: toDp(20), 
   },
   icon: {
     width: toDp(28),

@@ -126,12 +126,12 @@ const Checkout = (props) => {
         </View>
         
         <View style={styles.btnCheckout}>
-                <View style={{backgroundColor:'#2A334B', right:toDp(30), borderRadius:toDp(15), width:toDp(140), height:toDp(40),}}>                                             
+                <View style={{backgroundColor:'#2A334B', right:toDp(38), borderRadius:toDp(10), width:toDp(140), height:toDp(40),}}>                                             
                     <Text style={{textAlign:'center',top:toDp(2), color:'white'}}>Total Pembayaran{"\n"}{DATA[0].total}</Text>                            
                 </View>
 
             <Pressable onPress={ () => alert('Coba Ajalah')}>
-                <View style={{backgroundColor:'#2A334B', left:toDp(30), borderRadius:toDp(15), width:toDp(120), height:toDp(40)}}>            
+                <View style={{backgroundColor:'#2A334B', left:toDp(38), borderRadius:toDp(10), width:toDp(120), height:toDp(40)}}>            
                     <Text style={{textAlign:'center', top:toDp(10), color:'white'}}>Buat Pesanan</Text>
                 </View>
             </Pressable>
@@ -150,14 +150,14 @@ const styles = StyleSheet.create({
   },
   Address: {
     backgroundColor:'#C4C4C4',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(105),
-    borderRadius:toDp(15),
+    borderRadius:toDp(8),
     top:toDp(15),
     flexDirection:'row',
 },
 isiAddress: {
-    right:toDp(38),
+    right:toDp(47),
     top:toDp(10)
 },
 icaddress1: {
@@ -177,22 +177,40 @@ icaddress: {
 },
 txtTB: {
     fontWeight:'bold',
-    right:toDp(90),
+    right:toDp(102),
     bottom:toDp(20)
 },
 OrderDetail: {
     backgroundColor:'#C4C4C4',
-    borderRadius:toDp(15),
-    width:toDp(314),
+    borderRadius:toDp(8),
+    width:toDp(335),
     height:toDp(110),
-    bottom:toDp(15)
+    bottom:toDp(15),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
   },
 Shipping: {
     backgroundColor:'#C4C4C4',
-    borderRadius:toDp(15),
-    width:toDp(314),
+    borderRadius:toDp(8),
+    width:toDp(335),
     height:toDp(95),
-    bottom:toDp(5)
+    bottom:toDp(5),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
 },
 txtOption: {
     color:'#6495ED',
@@ -230,11 +248,11 @@ iclineblack1: {
     height:toDp(10),
     margin:toDp(4),
     bottom:toDp(45),
-    left:toDp(296)
+    left:toDp(317)
 },
 price: {
     margin:toDp(4),
-    right:toDp(20),
+    right:toDp(53),
     fontSize:toDp(12),
 },
 payment: {
@@ -247,9 +265,18 @@ payment: {
 bodyPayment: {
     backgroundColor:'#C4C4C4',
     top:toDp(5),
-    borderRadius:toDp(15),
-    width:toDp(316),
-    height:toDp(130)
+    borderRadius:toDp(8),
+    width:toDp(335),
+    height:toDp(130),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
 },
 payment: {
     flexDirection:'row',

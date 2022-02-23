@@ -41,66 +41,13 @@ const Jasakirim = (props) => {
     jasper:[
       {
         'id':1,
-        'name':'JNE',
+        'name':'Antar',
         'status' : true
       },
       {
         'id':2,
-        'name':'TIKI',
+        'name':'Jemput',
         'status' : false
-      },
-      {
-        'id':3,
-        'name':'Anteraja',
-        'status' : false
-      },
-      {
-        'id':4,
-        'name':'Kargo',
-        'status' : false
-      },
-      {'id':5,
-      'name':'Lion Parcel',
-      'status' : false
-      },
-      {'id':6,
-      'name':'J&T Express',
-      'status' : false
-      },
-      {
-        'id':7,
-      'name':'Si Cepat',
-      'status' : false
-      },
-      {
-        'id':8,
-      'name':'Pos Kilat',
-      'status' : false
-      },
-      {
-        'id':9,
-      'name':'J&T Express',
-      'status' : false
-      },
-      {
-        'id':10,
-      'name':'Si Cepat',
-      'status' : false
-      },
-      {
-        'id':11,
-      'name':'Pos Kilat',
-      'status' : false
-      },
-      {
-        'id':12,
-      'name':'J&T Express',
-      'status' : false
-      },
-      {
-        'id':13,
-      'name':'Si Cepat',
-      'status' : false
       },
     ] 
   })
@@ -120,8 +67,9 @@ const Jasakirim = (props) => {
                         justifyContent:'space-between',
                         alignItems:'center',
                         width:'100%',
-                        borderRadius:toDp(15),
-                        width:toDp(316),
+                        borderRadius:toDp(8),
+                        width:toDp(335),
+                        right:toDp(10),
                         height:toDp(340),
                         padding:12, 
                         height:50, 
@@ -157,14 +105,15 @@ const Jasakirim = (props) => {
             <View style={styles.address}>
                 <Image source={allLogo.icaddress1} style={styles.icAddress} />
                 <Text style={styles.titleAddress}>Alamat Pengiriman</Text>
-                    <Pressable style={styles.buttonAddress}>
+                    <Pressable style={styles.buttonAddress} onPress={() => NavigatorService.navigate('Alamat')} >
                         <Text style={styles.txtAddress}>{DATA[0].nama} {DATA[0].kontak}</Text>
                         <Text style={styles.txtAddress}>{DATA[0].alamat}</Text>
                         <Text style={styles.txtAddress}>{DATA[0].kecamatan} {DATA[0].kotakab} {DATA[0].provinsi}</Text>
+                        <Image source={allLogo.iclineright} style={styles.iclineright} />
                     </Pressable>
             </View>
         </View>
-      <View style={{bottom:toDp(35)}}>
+      <View style={{bottom:toDp(50)}}>
         <FlatList
           data={state.jasper}
           renderItem={renderswitch}
@@ -180,7 +129,6 @@ const Jasakirim = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     top:toDp(50),
     // backgroundColor:'red'
   },
@@ -192,14 +140,13 @@ const styles = StyleSheet.create({
       // backgroundColor:'cyan'
   },
   address: {
-      backgroundColor:'#C4C4C4',
-      width:toDp(316),
-      height:toDp(105),
-      top:toDp(-5),
-      marginLeft:toDp(20),
-      borderRadius:toDp(15),
-      position:'relative'
-  },
+    backgroundColor:'#C4C4C4',
+    width:toDp(335),
+    height:toDp(105),
+    marginLeft:toDp(10),
+    borderRadius:toDp(8),
+    position:'relative'
+},
   icAddress: {
       left:toDp(10),
       top:toDp(10)
@@ -230,7 +177,18 @@ const styles = StyleSheet.create({
   txtCourier: {
     marginTop:toDp(10),
     left:toDp(10)
-  }
+  },
+  buttonAddress: {
+    // backgroundColor:'cyan',
+    height:toDp(60)
+  },
+  iclineright: {
+    margin:toDp(10),
+    width:toDp(10),
+    height:toDp(14.8),
+    bottom:toDp(42),
+    left:toDp(290)
+  },
 });
 
 export default Jasakirim;

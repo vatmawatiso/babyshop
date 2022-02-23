@@ -20,7 +20,7 @@ import Search from '@Search'
 
 const { width, height } = Dimensions.get('window')
 
-const Wishlist = () => {
+const Kategoriproduk = () => {
   const [src, setSrc]=useState(null);
   const [sChip, setChip]= useState(['Dapur','Kamar Mandi', 'Atap Rumah', 'Jendela', 'Cat Tembok', 'Peralatan Bangunan', 'Ruang Tamu'])
   const DATA = [
@@ -454,4 +454,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Wishlist;
+export default Kategoriproduk;

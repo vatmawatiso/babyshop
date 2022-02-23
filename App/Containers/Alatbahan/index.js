@@ -190,10 +190,19 @@ const styles = StyleSheet.create({
   bodyTools: {
       backgroundColor:'#C4C4C4',
       top:toDp(20),
-      borderRadius:toDp(15),
-      width:toDp(316),
+      borderRadius:toDp(8),
+      width:toDp(335),
       height:toDp(240),
-  },
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.20,
+          shadowRadius: 1.41,
+
+          elevation: 2,
+    },
   imgProduk: {
     height: toDp(50),
     width: toDp(50),
@@ -260,9 +269,18 @@ btnProduk3: {
 bodyMaterials: {
     backgroundColor:'#C4C4C4',
     top:toDp(40),
-    borderRadius:toDp(15),
-    width:toDp(316),
+    borderRadius:toDp(8),
+    width:toDp(335),
     height:toDp(240),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+
+      elevation: 2,
 },
 txtMaterials: {
     fontWeight:'bold',

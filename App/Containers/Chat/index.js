@@ -32,15 +32,8 @@ const Chat = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View style={styles.content}>
-            <Text>Chat</Text>
-        </View>
-
-        <View style={styles.chat}>
-            <TextInput style={styles.txtChat}>Masukkan Pesan</TextInput>
-                <Pressable style={styles.buttonChat}>
-                    {/* <Image source={allLogo.icvector} style={styles.icvector} /> */}
-                </Pressable>
+        <View>
+          <Text>ashajshakj</Text>
         </View>
 
     </View>
@@ -49,20 +42,9 @@ const Chat = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    justifyContent:'center',
     top:toDp(50)
   },
-  chat: {
-      top:toDp(430)
-  },
-  txtChat: {
-      justifyContent:'space-between',
-      backgroundColor:'cyan',
-      borderRadius:toDp(15),
-      width:toDp(260),
-      height:toDp(34)
-  }
 });
 
 export default Chat;

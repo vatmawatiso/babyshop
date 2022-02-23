@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
       borderWidth:toDp(1),
       width:toDp(126),
       height:toDp(40),
-      borderRadius:toDp(15),
+      borderRadius:toDp(8),
       justifyContent:'flex-end',
       alignItems:'center'
   },

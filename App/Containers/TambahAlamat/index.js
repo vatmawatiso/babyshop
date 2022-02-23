@@ -18,14 +18,14 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 
-const Editalamat = (props) => {
+const TambahAlamat = (props) => {
 
   const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
 
      return (
       <View style={styles.container}>
          <NonCart
-          title={'Edit Alamat'}
+          title={'Tambah Alamat'}
           onPress={() => props.navigation.goBack()}
         />
 
@@ -35,9 +35,9 @@ const Editalamat = (props) => {
                   <TextInput 
                       left={3}
                       top={4}
-                      width={335}
+                      width={310}
                       height={40}
-                      borderRadius={8}
+                      borderRadius={15}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -49,9 +49,9 @@ const Editalamat = (props) => {
                   <TextInput 
                       left={3}
                       top={6}
-                      width={335}
+                      width={310}
                       height={40}
-                      borderRadius={8}
+                      borderRadius={15}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -96,9 +96,9 @@ const Editalamat = (props) => {
                     <TextInput 
                         left={3}
                         top={6}
-                        width={335}
+                        width={310}
                         height={40}
-                        borderRadius={8}
+                        borderRadius={15}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -110,9 +110,9 @@ const Editalamat = (props) => {
                     <TextInput 
                         left={3}
                         top={8}
-                        width={335}
+                        width={310}
                         height={40}
-                        borderRadius={8}
+                        borderRadius={15}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -170,9 +170,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2A334B',
-    width:toDp(335),
+    width:toDp(316),
     height:toDp(40),
-    borderRadius:toDp(8),
+    borderRadius:toDp(15),
     marginBottom:toDp(10)
 },
 searchIcon: {
@@ -192,7 +192,7 @@ input: {
   paddingRight: 10,
   paddingBottom: 10,
   paddingLeft: 0,
-  borderRadius: toDp(8),
+  borderRadius: toDp(25),
   paddingLeft: toDp(45),
   color:'#FFF'
 },
@@ -205,9 +205,9 @@ input: {
   content: {
       top:toDp(15),
       // backgroundColor:'#C4C4C4',
-      width:toDp(335),
+      width:toDp(316),
       height:toDp(90),
-      borderRadius:toDp(8),
+      borderRadius:toDp(15)
   },
   txtContact: {
     fontWeight: 'bold',
@@ -222,29 +222,25 @@ input: {
   inputAlamat: {
     top:toDp(30),
     // backgroundColor:'#C4C4C4',
-    width:toDp(335),
+    width:toDp(316),
     height:toDp(130),
-    borderRadius:toDp(8)
+    borderRadius:toDp(15)
 },
 dropdown:{
   height:toDp(38),
-  borderRadius:toDp(8),
-  width:toDp(335),
+  borderRadius:toDp(13),
+  width:toDp(310),
   top:toDp(4),
   left:toDp(3),
-  backgroundColor:'white',
-  borderWidth:0.5
+  backgroundColor:'white'
 },
 contentMap: {
   backgroundColor:'white',
-  width:toDp(335),
+  width:toDp(316),
   height:toDp(200),
-  borderRadius:toDp(8),
+  borderRadius:toDp(15),
   bottom:toDp(5)
-},
-textInput: {
-  borderWidth:0.5
 }
 });
 
-export default Editalamat;
+export default TambahAlamat;

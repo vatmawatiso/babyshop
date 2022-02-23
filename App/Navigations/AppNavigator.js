@@ -9,6 +9,8 @@ import Profilone from '../Containers/Profilone'
 import Keranjang from '../Containers/Keranjang'
 import Editprofil from '../Containers/Editprofil'
 import Chat from '../Containers/Chat'
+import Wishlist from '../Containers/Wishlist'
+// import Kategoriproduk from '../Containers/Kategoriproduk'
 import Notification from '../Containers/Homepage/Notification'
 import Jasakirim from '../Containers/Jasakirim'
 import Orderpage from '../Containers/Orderpage'
@@ -20,6 +22,7 @@ import Dibatalkan from '../Containers/Orderpage/Dibatalkan'
 import Orderdetail from '../Containers/Orderpage/Orderdetail'
 import Alamat from '../Containers/Alamat'
 import Editalamat from '../Containers/Editalamat'
+import TambahAlamat from '../Containers/TambahAlamat'
 import Checkout from '../Containers/Checkout'
 import Pembayaran from '../Containers/Pembayaran'
 import Jasatukang from '../Containers/Jasatukang'
@@ -58,6 +61,8 @@ const AppNavigator = createStackNavigator(
     Keranjang: { screen: Keranjang },
     Editprofil: { screen: Editprofil },
     Chat: { screen: Chat },
+    Wishlist: { screen: Wishlist },
+    // Kategoriproduk: { screen: Kategoriproduk },
     Notification: { screen: Notification },
     Jasakirim: { screen: Jasakirim },
     Orderpage: { screen: Orderpage },
@@ -69,6 +74,7 @@ const AppNavigator = createStackNavigator(
     Orderdetail: { screen: Orderdetail },
     Alamat: { screen: Alamat },
     Editalamat: { screen: Editalamat },
+    TambahAlamat: { screen: TambahAlamat },
     Checkout: { screen: Checkout },
     Pembayaran: { screen: Pembayaran },
     Jasatukang: { screen: Jasatukang },
@@ -99,7 +105,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Profilone',
+    initialRouteName: 'Chat',
   
   }
 );
