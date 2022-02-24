@@ -15,7 +15,7 @@ import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 
 import Home from './Home'
-import Wishlist from './Wishlist'
+import Kategoriproduk from './Kategoriproduk'
 import Notification from './Notification'
 import Profilone from '../Profilone'
 import Search from '@Search'
@@ -51,7 +51,7 @@ const Homepage = () => {
           state.content == 'home' ?
             <Home />
           : 
-            <Wishlist />
+            <Kategoriproduk />
         }
       </View>
 
@@ -59,7 +59,7 @@ const Homepage = () => {
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'home' }))}>
           <Image source={allLogo.ichome} style={styles.icon} />
         </Pressable>
-        <Pressable style={[styles.presable, {backgroundColor: state.content === 'wishlist' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'wishlist' }))}>
+        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Kategoriproduk' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'Kategoriproduk' }))}>
           <Image source={allLogo.iccategory} style={styles.icon} />
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Notification')}>

@@ -24,6 +24,14 @@ const Chat = (props) => {
       namaTB: 'Jaya Abadi',
     },
   ]
+
+  const [state, setState] = useState({
+    loading: false,
+    secureTextEntry: true,
+    username: '',
+    password: ''
+})
+
   return (
     <View style={styles.container}>
 
@@ -31,9 +39,24 @@ const Chat = (props) => {
           title={data[0].namaTB}
           onPress={() => props.navigation.goBack()}
         />
-
-        <View>
-          <Text>ashajshakj</Text>
+  
+        <View style={styles.BodyChat}>
+            <View style={styles.content}>
+                 <TextInput autoCapitalize={'none'}
+                            style={[styles.textInput, {marginTop: toDp(-11)}]}
+                            placeholder={'Password'}
+                            placeholderTextColor={'whitesjdhsjdhjsd'}
+                            secureTextEntry={state.secureTextEntry}
+                            value={state.password}
+                            onChangeText={(text) => setState(state => ({...state, password: text})) }
+                 />
+                 <Pressable style={styles.presableShow}>
+                     <Image source={allLogo.icfolder} style={styles.icfolder} />
+                 </Pressable>
+            </View>
+            <Pressable style={styles.btnKirim}>
+              <Image source={allLogo.icvector} />
+            </Pressable>
         </View>
 
     </View>
@@ -43,8 +66,46 @@ const Chat = (props) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
-    top:toDp(50)
+    top:toDp(50),
   },
+  BodyChat: {
+    top:toDp(485),
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  icfolder: {
+    marginRight:toDp(10),
+    width:toDp(28),
+    height:toDp(22),
+    tintColor:'white'
+  },
+  content: {
+    top:toDp(35),
+  },
+  textInput: {
+    width:toDp(270),
+    height:toDp(40),
+    backgroundColor: '#2A334B',
+    paddingHorizontal: toDp(8),
+    borderRadius: toDp(15),
+    marginHorizontal:toDp(10)
+  },
+  presableShow: {
+    padding: toDp(4),
+    position: 'absolute',
+    // backgroundColor:'cyan',
+    bottom: Platform.OS === 'ios' ? toDp(5) : toDp(5),
+    left: Platform.OS === 'ios' ? toDp(235) : toDp(235),
+  },
+  btnKirim: {
+    backgroundColor:'#2A334B',
+    top:toDp(30),
+    width:toDp(58),
+    height:toDp(40),
+    borderRadius: toDp(15),
+    justifyContent:'center',
+    alignItems:'center'
+  }
 });
 
 export default Chat;

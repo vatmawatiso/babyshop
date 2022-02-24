@@ -10,7 +10,7 @@ import Keranjang from '../Containers/Keranjang'
 import Editprofil from '../Containers/Editprofil'
 import Chat from '../Containers/Chat'
 import Wishlist from '../Containers/Wishlist'
-// import Kategoriproduk from '../Containers/Kategoriproduk'
+import Kategoriproduk from '../Containers/Homepage/Kategoriproduk'
 import Notification from '../Containers/Homepage/Notification'
 import Jasakirim from '../Containers/Jasakirim'
 import Orderpage from '../Containers/Orderpage'
@@ -62,7 +62,7 @@ const AppNavigator = createStackNavigator(
     Editprofil: { screen: Editprofil },
     Chat: { screen: Chat },
     Wishlist: { screen: Wishlist },
-    // Kategoriproduk: { screen: Kategoriproduk },
+    Kategoriproduk: { screen: Kategoriproduk },
     Notification: { screen: Notification },
     Jasakirim: { screen: Jasakirim },
     Orderpage: { screen: Orderpage },
@@ -105,7 +105,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Chat',
+    initialRouteName: 'Wishlist',
   
   }
 );

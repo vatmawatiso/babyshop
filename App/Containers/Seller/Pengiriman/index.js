@@ -28,7 +28,7 @@ const Pengiriman = (props) => {
     <View style={styles.container}>
       <Order 
             title={'Pesanan Saya'}
-            onPress={() => props.navigation.goBack()}
+            onPress={() => props.navigation.goBack(props.navigation.state.params.content)}
         />
       <View style={styles.content}>
       {
