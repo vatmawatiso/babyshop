@@ -42,16 +42,16 @@ const Homeseller = (props) => {
         <MenuToko/>
 
         <View style={styles.Penjualan}>
-              <Pressable>
+              <Pressable style={{marginVertical:5, bottom:toDp(5), height:toDp(30), justifyContent:'center'}}>
                 <View style={styles.BodySaldo}>
                     <Text style={styles.txtSkor}>Skor Toko</Text>
                     <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </Pressable>
-              <Pressable>
-                <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
-                    <Text style={{bottom:toDp(10)}}>Saldo</Text>
-                    <Text style={{bottom:toDp(10)}}>Rp 5.000.000</Text>
+              <Pressable style={{bottom:toDp(10), height:toDp(30), justifyContent:'center', marginVertical:5}} onPress={() => NavigatorService.navigate('Saldopenjual')} >
+                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                    <Text style={{marginLeft:toDp(10)}}>Saldo</Text>
+                    <Text style={{marginRight:toDp(10)}}>Rp 5.000.000</Text>
                 </View>
               </Pressable>
               <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
@@ -80,14 +80,14 @@ const Homeseller = (props) => {
               <View style={{borderWidth:0.5, borderColor:'grey'}} />
 
               <View style={styles.bodyJual}>
-                  <Pressable>
-                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                  <Pressable style={{backgroundColor:'cyan', width:toDp(335), height:toDp(30), bottom:toDp(13)}}>
+                    <View style={{flexDirection:'row', margin:toDp(10), top:toDp(10)}}>
                       <Image source={allLogo.iculasan} style={{bottom:toDp(20)}} />
                       <Text style={{padding:toDp(5), bottom:toDp(20)}}>ulasan</Text>
                     </View>
                   </Pressable>
-                  <Pressable>
-                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                  <Pressable  style={{backgroundColor:'cyan', width:toDp(335), height:toDp(30),}}>
+                    <View style={{flexDirection:'row', margin:toDp(10), top:toDp(10)}}>
                       <Image source={allLogo.icchatbox} style={{bottom:toDp(30)}} />
                       <Text style={{padding:toDp(5), bottom:toDp(30)}}>Diskusi</Text>
                     </View>
@@ -147,7 +147,8 @@ Body: {
 BodySaldo: {
     flexDirection:'row',
     justifyContent:'space-between',
-    margin:toDp(10)
+    marginLeft:toDp(10),
+    marginRight:toDp(10)
 },
 Penjualan: {
   backgroundColor:'#E7E7E7',

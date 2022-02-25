@@ -68,6 +68,9 @@ const allLogo = {
   icsettings: require('./img/ic_settings.png'),
   icvector: require('./img/ic_vector.png'),
   icfolder: require('./img/ic_folder.png'),
+  icatm: require('./img/ic_atm.png'),
+  ictransaksi: require('./img/ic_transaksi.png'),
+
 
 }
 
