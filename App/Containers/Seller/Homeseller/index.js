@@ -80,22 +80,22 @@ const Homeseller = (props) => {
               <View style={{borderWidth:0.5, borderColor:'grey'}} />
 
               <View style={styles.bodyJual}>
-                  <Pressable style={{backgroundColor:'cyan', width:toDp(335), height:toDp(30), bottom:toDp(13)}}>
+                  <Pressable style={{width:toDp(335), height:toDp(30), bottom:toDp(5)}} onPress={() => NavigatorService.navigate('Ulasan')} >
                     <View style={{flexDirection:'row', margin:toDp(10), top:toDp(10)}}>
                       <Image source={allLogo.iculasan} style={{bottom:toDp(20)}} />
                       <Text style={{padding:toDp(5), bottom:toDp(20)}}>ulasan</Text>
                     </View>
                   </Pressable>
-                  <Pressable  style={{backgroundColor:'cyan', width:toDp(335), height:toDp(30),}}>
-                    <View style={{flexDirection:'row', margin:toDp(10), top:toDp(10)}}>
-                      <Image source={allLogo.icchatbox} style={{bottom:toDp(30)}} />
-                      <Text style={{padding:toDp(5), bottom:toDp(30)}}>Diskusi</Text>
+                  <Pressable  style={{width:toDp(335), height:toDp(30), top:toDp(10)}} onPress={() => alert('Coming Soon')}>
+                    <View style={{flexDirection:'row', margin:toDp(10)}}>
+                      <Image source={allLogo.icchatbox} style={{bottom:toDp(10)}} />
+                      <Text style={{padding:toDp(5), bottom:toDp(10)}}>Diskusi</Text>
                     </View>
                   </Pressable>
-                  <Pressable>
+                  <Pressable style={{width:toDp(335), height:toDp(35), top:toDp(20)}} onPress={() => alert('Coming Soon')}>
                     <View style={{flexDirection:'row', margin:toDp(10)}}>
-                      <Image source={allLogo.icdiscussion} style={{bottom:toDp(40)}} />
-                      <Text style={{padding:toDp(5), bottom:toDp(40)}}>Pesanan Komplain</Text>
+                      <Image source={allLogo.icdiscussion} style={{bottom:toDp(10)}} />
+                      <Text style={{padding:toDp(5), bottom:toDp(6)}}>Pesanan Komplain</Text>
                     </View>
                   </Pressable>
               </View>

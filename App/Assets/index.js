@@ -70,6 +70,7 @@ const allLogo = {
   icfolder: require('./img/ic_folder.png'),
   icatm: require('./img/ic_atm.png'),
   ictransaksi: require('./img/ic_transaksi.png'),
+  icuser: require('./img/ic_user.png'),
 
 
 }

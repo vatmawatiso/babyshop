@@ -51,6 +51,7 @@ import Produksaya from '../Containers/Seller/Produksaya'
 import Tambahalamat from '../Containers/Seller/Tambahalamat'
 import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
+// import Bintanglima from '../Containers/Seller/Ulasan/Bintanglima'
 
 
 const AppNavigator = createStackNavigator(
@@ -105,6 +106,7 @@ const AppNavigator = createStackNavigator(
     Tambahalamat: { screen: Tambahalamat },
     Saldopenjual: { screen: Saldopenjual },
     Ulasan: { screen: Ulasan },
+    // Bintanglima: { screen: Bintanglima },
     
   },
   {
