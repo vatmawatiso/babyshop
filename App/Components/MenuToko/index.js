@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(36),
     borderRadius:toDp(8),
-    bottom:toDp(28),
+    bottom:toDp(80),
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',

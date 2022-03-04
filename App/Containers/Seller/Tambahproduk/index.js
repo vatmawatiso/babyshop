@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  HeaderToko  from '@HeaderToko'
+import  BackHeader  from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import SelectDropdown from 'react-native-select-dropdown'
@@ -39,12 +39,13 @@ const Tambahproduk = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={{flex:1}}>
-        <HeaderToko
-          title={'Tambah Produk'}
+       <BackHeader
+          title={'Home'}
           onPress={() => props.navigation.goBack()}
         />
-      </View>
+      {/* <View style={{flex:1}}>
+     
+      </View> */}
 
       <View style={styles.bodyInputProduk}>
           <ScrollView>
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
       width:toDp(335),
       height:toDp(490),
       borderRadius:toDp(8),
-      top:toDp(20),
+      bottom:toDp(40),
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -209,7 +210,6 @@ const styles = StyleSheet.create({
   bodySimpan: {
       width:toDp(335),
       height:toDp(42),
-      top:toDp(50),
   },
   btnSimpan:{
     backgroundColor:'#2A334B',

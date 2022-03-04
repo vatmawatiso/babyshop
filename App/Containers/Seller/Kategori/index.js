@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  HeaderToko  from '@HeaderToko'
+import  BackHeader  from '@BackHeader'
 import  Profiltoko  from '@Profiltoko'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
@@ -61,7 +61,7 @@ const Kategori = (props) => {
   return (
     <View style={styles.container}>
 
-        <HeaderToko
+        <BackHeader
           title={'Kategori'}
           onPress={() => props.navigation.goBack()}
         />
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(360),
     borderRadius:toDp(8),
-    top:toDp(30),
+    bottom:toDp(25),
     flexDirection:'column',
     justifyContent:'space-between',
   },

@@ -71,10 +71,10 @@ const Bintangempat = (props) => {
   return (
     <View style={styles.container}>
 
-        <BackHeader
+        {/* <BackHeader
           title={'Bintang empat'}
           onPress={() => props.navigation.goBack()}
-        />
+        /> */}
 
         <View style={styles.bodyUlasan}>
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
@@ -107,13 +107,13 @@ const Bintangempat = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
+    bottom:toDp(50)
   },
 bodyUlasan: {
   backgroundColor:'#E7E7E7',
   width:toDp(335),
   height:toDp(180),
-  bottom:toDp(45),
+  top:toDp(210),
   borderRadius:toDp(8),
     shadowColor: "#000",
     shadowOffset: {

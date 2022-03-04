@@ -12,7 +12,7 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Profiltoko  from '@Profiltoko'
 import  MenuToko  from '@MenuToko'
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
@@ -33,7 +33,7 @@ const Homeseller = (props) => {
 
   return (
     <View style={styles.container}>
-        <NonCart
+        <BackHeader
           title={'Home'}
           onPress={() => props.navigation.goBack()}
         />
@@ -42,7 +42,7 @@ const Homeseller = (props) => {
         <MenuToko/>
 
         <View style={styles.Penjualan}>
-              <Pressable style={{marginVertical:5, bottom:toDp(5), height:toDp(30), justifyContent:'center'}}>
+              <Pressable style={{marginVertical:5, bottom:toDp(5), height:toDp(30), justifyContent:'center'}} onPress={() => NavigatorService.navigate('Ulasan')}>
                 <View style={styles.BodySaldo}>
                     <Text style={styles.txtSkor}>Skor Toko</Text>
                     <Image source={allLogo.iclineright} style={styles.iclineright} />
@@ -56,7 +56,7 @@ const Homeseller = (props) => {
               </Pressable>
               <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
 
-              <Pressable style={{flexDirection:'row', justifyContent:'space-between'}}>
+              <Pressable style={{flexDirection:'row', justifyContent:'space-between', bottom:toDp(10)}} onPress={() => alert('Coming Soon')}>
                   <Text style={styles.txtPenjualan}>Penjualan</Text>
                   <Image source={allLogo. iclineright} style={styles.iclineright1} />
               </Pressable>
@@ -123,7 +123,7 @@ const Homeseller = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
+    top:toDp(50),
   },
 iclineright: {
   width:toDp(10),
@@ -154,7 +154,7 @@ Penjualan: {
   backgroundColor:'#E7E7E7',
   width:toDp(335),
   height:toDp(320),
-  top:toDp(30),
+  bottom:toDp(20),
   borderRadius:toDp(8),
     shadowColor: "#000",
     shadowOffset: {
@@ -167,19 +167,17 @@ Penjualan: {
 },
 txtPenjualan: {
   margin:toDp(10),
-  bottom:toDp(10)
 },
 iclineright1: {
   margin:toDp(10),
   width:toDp(10),
   height:toDp(15),
-  bottom:toDp(10)
 },
   bodyMenu: {
       flexDirection:'row',
       alignItems:'baseline',
       backgroundColor:'#2A334B',
-      top:toDp(40),
+      bottom:toDp(10),
       width:toDp(335),
       height:toDp(45),
       borderRadius:toDp(8),

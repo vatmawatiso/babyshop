@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(116),
     borderRadius:toDp(8),
-    bottom:toDp(35),
+    bottom:toDp(90),
       shadowColor: "#000",
       shadowOffset: {
         width: 0,

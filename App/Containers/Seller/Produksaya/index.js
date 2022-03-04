@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  HeaderToko  from '@HeaderToko'
+import  BackHeader  from '@BackHeader'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 import NavigatorService from '@NavigatorService'
@@ -125,7 +125,7 @@ const Kategori = (props) => {
   return (
     <View style={styles.container}>
 
-        <HeaderToko
+        <BackHeader
           title={'Produk Saya'}
           onPress={() => props.navigation.goBack()}
         />
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'baseline',
     backgroundColor:'#2A334B',
-    bottom:145,
+    bottom:200,
     width:toDp(335),
     height:toDp(45),
     borderRadius:toDp(8),

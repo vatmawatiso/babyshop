@@ -27,6 +27,8 @@ const { width, height } = Dimensions.get('window')
 
 const Ulasan = (props) => {
   const [src, setSrc]=useState(null);
+  
+    const [con, setCon] = useState();
 
   const Ratingtoko = [
     {
