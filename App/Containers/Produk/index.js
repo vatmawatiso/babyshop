@@ -130,20 +130,12 @@ const Produk = (props) => {
             
               <View style={styles.Ulasan}>
                   <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
-                    <CollapsibleView 
-                      title={<Text style={styles.txtLihat}>Lihat Lainnya</Text>}
-                      arrowStyling={{ rounded: true, thickness: 1, color: "black" }}
-                      collapsibleContainerStyle={{position: "absolute", top: "100%", right:toDp(70)}}
-                      style={{ borderWidth: 0,
-                              left:toDp(60),
-
-                      }}>
-                        <Text>hey there!</Text>
-                        <Text>hey there!</Text>
-                        <Text>hey there!</Text>
-                        <Text>hey there!</Text>
-                    </CollapsibleView>
-                 
+                  <Pressable style={{right:toDp(15)}} onPress={() => NavigatorService.navigate('Ulasanpembeli')}>
+                    <View style={{flexDirection:'row'}}>
+                      <Text>Lihat Ulasan</Text>
+                      <Image source={allLogo.iclineright} style={styles.iclineright} />
+                    </View>
+                  </Pressable>
               </View>
               <View style={styles.btnMenu}>
                   <Pressable style={{ left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
@@ -336,7 +328,13 @@ const styles = StyleSheet.create({
   },
   txtBeli: {
     color:'white',
-  }
+  },
+  iclineright: {
+    width:toDp(10),
+    height:toDp(12),
+    marginTop:toDp(5),
+    marginLeft:toDp(8)
+},
 });
 
 export default Produk;

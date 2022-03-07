@@ -35,6 +35,7 @@ import Buatpassword from '../Containers/Buatpassword'
 import Produk from '../Containers/Produk'
 import Successorder from '../Containers/Successorder'
 import Nilaiorder from '../Containers/Nilaiorder'
+import Ulasanpembeli from '../Containers/Ulasanpembeli'
 import Settingtoko from '../Containers/Seller/Settingtoko'
 import Alamattoko from '../Containers/Seller/Alamattoko'
 import Layananjasa from '../Containers/Seller/Layananjasa'
@@ -90,6 +91,7 @@ const AppNavigator = createStackNavigator(
     Produk: { screen: Produk },
     Successorder: { screen: Successorder },
     Nilaiorder: { screen: Nilaiorder },
+    Ulasanpembeli: { screen: Ulasanpembeli },
     Settingtoko: { screen: Settingtoko },
     Alamattoko: { screen: Alamattoko },
     Layananjasa: { screen: Layananjasa },
@@ -111,7 +113,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Profilone',
+    initialRouteName: 'Ulasanpembeli',
   
   }
 );

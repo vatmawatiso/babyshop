@@ -14,6 +14,7 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
+import  BackHeader  from '@BackHeader'
 import { Card } from "react-native-paper";
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -175,7 +176,7 @@ const Keranjang = (props) => {
 
 return (
   <View style={styles.container}>
-    <Header
+    <BackHeader
       title={'Keranjang'}
       onPress={() => props.navigation.goBack()}
     />

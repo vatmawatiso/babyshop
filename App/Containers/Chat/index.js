@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
@@ -35,7 +35,7 @@ const Chat = (props) => {
   return (
     <View style={styles.container}>
 
-        <NonCart
+        <BackHeader
           title={data[0].namaTB}
           onPress={() => props.navigation.goBack()}
         />
