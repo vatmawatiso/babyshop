@@ -80,7 +80,7 @@ const Register = (props) => {
               </View>
               
 
-                  <Pressable style={styles.pressableForgot}>
+                  <Pressable style={{left:toDp(85)}} onPress={() => NavigatorService.navigate('Lupapassword')}>
                       <Text style={styles.textForgot}>Forgot Password</Text>
                   </Pressable>
 
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: toDp(10),
     paddingTop: toDp(5),
-    left: toDp(83)
+    left: toDp(1)
   }, 
   pressableSignup: {
     width: toDp(75),

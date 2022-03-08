@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
+import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -141,7 +142,8 @@ const Home = (props) => {
   }
 
   const RenderItem = (item, index) => (
-    <Pressable onPress={()=> alert('Produk : '+index)}>
+    // <Pressable onPress={()=> alert('Produk : '+index)}>
+    <Pressable onPress={()=> NavigatorService.navigate('produk')}>
       <View style={styles.card}>
           <View style={styles.txtProduct}>
              <Image source={{uri: item.image}} style={styles.imgProduct} />

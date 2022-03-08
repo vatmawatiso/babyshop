@@ -69,7 +69,7 @@ const Kategori = (props) => {
         <Profiltoko/>
 
         <View style={styles.BodyKategori}>
-            <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
+            <Pressable style={styles.btnKategori} onPress={() => NavigatorService.navigate('Detailkategori')} >
               <View style={styles.button}> 
                 <Text style={styles.txtKategori}>{DATA[0].produk}</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
@@ -139,16 +139,24 @@ const Kategori = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   BodyKategori: {
     backgroundColor:'#E7E7E7',
     width:toDp(335),
     height:toDp(360),
     borderRadius:toDp(8),
-    bottom:toDp(25),
+    top:toDp(20),
     flexDirection:'column',
     justifyContent:'space-between',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+
+      elevation: 2,
   },
   btnKategori: {
     margin:toDp(10),

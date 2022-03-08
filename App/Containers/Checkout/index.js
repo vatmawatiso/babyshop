@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
@@ -47,7 +47,7 @@ const Checkout = (props) => {
 
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Checkout'}
           onPress={() => props.navigation.goBack()}
         />
@@ -130,7 +130,7 @@ const Checkout = (props) => {
                     <Text style={{textAlign:'center',top:toDp(2), color:'white'}}>Total Pembayaran{"\n"}{DATA[0].total}</Text>                            
                 </View>
 
-            <Pressable onPress={ () => alert('Coba Ajalah')}>
+            <Pressable onPress={ () => NavigatorService.navigate('Successorder')}>
                 <View style={{backgroundColor:'#2A334B', left:toDp(38), borderRadius:toDp(10), width:toDp(120), height:toDp(40)}}>            
                     <Text style={{textAlign:'center', top:toDp(10), color:'white'}}>Buat Pesanan</Text>
                 </View>
@@ -144,7 +144,6 @@ const Checkout = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },

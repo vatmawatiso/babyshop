@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  HeaderToko  from '@HeaderToko'
+import  BackHeader  from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
@@ -33,8 +33,8 @@ const Ubahtoko = (props) => {
   return (
     <View style={styles.container}>
 
-        <HeaderToko
-          title={'Informasi Toko'}
+        <BackHeader
+          title={'Ubah Toko'}
           onPress={() => props.navigation.goBack()}
         />
 
@@ -78,7 +78,6 @@ const Ubahtoko = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   imgProfil: {
     height: toDp(50),

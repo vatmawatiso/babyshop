@@ -66,7 +66,6 @@ const Chat = (props) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
-    top:toDp(50),
   },
   BodyChat: {
     top:toDp(485),

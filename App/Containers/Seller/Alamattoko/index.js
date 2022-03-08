@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 
 const Alamattoko = (props) => {
@@ -30,7 +30,7 @@ const Alamattoko = (props) => {
 
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Alamat'}
           onPress={() => props.navigation.goBack()}
         />
@@ -46,7 +46,7 @@ const Alamattoko = (props) => {
             <Image source={allLogo.iclineblack} style={styles.icaddress} />
         </View>
 
-        <Pressable style={{bottom:toDp(20)}} onPress={ () => NavigatorService.navigate('Tambahalamat')}>
+        <Pressable style={{bottom:toDp(30)}} onPress={ () => NavigatorService.navigate('Tambahalamat')}>
             <View style={styles.btnAddress}>
                 <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
                 <Image source={allLogo.icplus} style={styles.icplus} />
@@ -59,7 +59,6 @@ const Alamattoko = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },
@@ -68,8 +67,8 @@ const styles = StyleSheet.create({
       width:toDp(316),
       height:toDp(105),
       borderRadius:toDp(10),
-      top:toDp(15),
       flexDirection:'row',
+      top:toDp(10)
   },
   icaddress1: {
     marginLeft:toDp(10),
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
       top:toDp(10)
   },
   isiAddress: {
-      bottom:toDp(55),
+      bottom:toDp(60),
       left:toDp(13)
   },
   icaddress: {

@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
@@ -96,10 +96,11 @@ const Layananjasa = (props) => {
     
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Jasa Kirim'}
           onPress={() => props.navigation.goBack()}
         />
+
         <ScrollView>
          <View style={styles.content}>
             <View style={styles.address}>
@@ -112,7 +113,7 @@ const Layananjasa = (props) => {
                     </Pressable>
             </View>
         </View>
-      <View style={{bottom:toDp(45)}}>
+      <View style={{bottom:toDp(65)}}>
         <FlatList
           data={state.jasper}
           renderItem={renderswitch}
@@ -128,12 +129,14 @@ const Layananjasa = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
+    flex:1,
+    justifyContent:'center',
+    alignItems: 'center',
     // backgroundColor:'red'
   },
   content: {
       marginTop:toDp(70),
-      bottom:toDp(50),
+      bottom:toDp(60),
       width:toDp(360),
       height:toDp(120),
       // backgroundColor:'cyan'

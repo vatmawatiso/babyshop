@@ -123,7 +123,6 @@ const Homeseller = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50),
   },
 iclineright: {
   width:toDp(10),
@@ -154,7 +153,7 @@ Penjualan: {
   backgroundColor:'#E7E7E7',
   width:toDp(335),
   height:toDp(320),
-  bottom:toDp(20),
+  top:toDp(30),
   borderRadius:toDp(8),
     shadowColor: "#000",
     shadowOffset: {
@@ -177,7 +176,7 @@ iclineright1: {
       flexDirection:'row',
       alignItems:'baseline',
       backgroundColor:'#2A334B',
-      bottom:toDp(10),
+      top:toDp(40),
       width:toDp(335),
       height:toDp(45),
       borderRadius:toDp(8),

@@ -113,7 +113,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Ulasanpembeli',
+    initialRouteName: 'Login',
   
   }
 );

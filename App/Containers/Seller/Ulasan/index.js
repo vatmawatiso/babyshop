@@ -97,7 +97,7 @@ const Ulasan = (props) => {
             <Text style={styles.txtRating}>{Ratingtoko[0].rating}</Text>
         </View>
 
-        <View style={{flexDirection:'row', marginVertical:toDp(10), bottom:toDp(10)}}>
+        <View style={{flexDirection:'row', marginVertical:toDp(10), top:toDp(40)}}>
             <Pressable style={styles.btnSemua}  onPress={() => setCon('Semua')}>
                 <Text style={{bottom:toDp(5), color:'#2A334B', fontSize:toDp(12)}}>Semua</Text>
                 <Text style={{ bottom:toDp(5),color:'#2A334B', fontSize:toDp(12), color: con === 'Semua' ? '#6495ED' : 'black'}}>({Ratingsemua[0].rating})</Text>
@@ -112,7 +112,7 @@ const Ulasan = (props) => {
             </Pressable>
         </View>
 
-        <View style={{flexDirection:'row', marginVertical:toDp(10), bottom:toDp(20)}}>
+        <View style={{flexDirection:'row', marginVertical:toDp(10), top:toDp(30)}}>
             <Pressable style={styles.btnSemua}  onPress={() => setCon('Bintangtiga')}>
                 <Text style={{bottom:toDp(5), color:'#2A334B', fontSize:toDp(12)}}>3 Bintang</Text>
                 <Text style={{ bottom:toDp(5),color:'#2A334B', fontSize:toDp(12), color: con === 'Bintangtiga' ? '#6495ED' : 'black'}}>({Ratingsemua[3].rating})</Text>
@@ -135,7 +135,6 @@ const Ulasan = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   content: {
     flex: 1,
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#2A334B',
     width:toDp(335),
     height:toDp(100),
-    bottom:toDp(40),
+    top:toDp(10),
     borderRadius:toDp(8),
     justifyContent:'center',
     alignItems:'center',

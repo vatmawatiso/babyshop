@@ -73,6 +73,9 @@ const allLogo = {
   icuser: require('./img/ic_user.png'),
   iclike: require('./img/ic_like.png'),
   icmore: require('./img/ic_more.png'),
+  iccross: require('./img/ic_cross.png'),
+  icbina: require('./img/ic_bina.png'),
+
 
 
 }

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  HeaderToko  from '@HeaderToko'
+import  BackHeader  from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
@@ -26,7 +26,7 @@ const Tambahcatatan = (props) => {
   return (
     <View style={styles.container}>
 
-        <HeaderToko
+        <BackHeader
           title={'Tambah Catatan'}
           onPress={() => props.navigation.goBack()}
         />

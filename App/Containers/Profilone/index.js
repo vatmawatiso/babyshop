@@ -157,7 +157,7 @@ const Profilone = (props) => {
                     </View>
                     <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(5)}} />
                     
-                    <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Editalamat')}>
+                    <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat')}>
                         <View style={styles.bodyAlamat}>
                             <Image source={allLogo.icaddress1} style={styles.icaddress1}/>
                             <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>

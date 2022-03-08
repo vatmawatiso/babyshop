@@ -27,7 +27,7 @@ const Login = (props) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'}/>
-            <Image source={allLogo.logo1} style={styles.logo}/>
+            <Image source={allLogo.icbina} style={styles.icbina}/>
             <Text style={styles.title}>Login</Text>
             <Text style={styles.desc}>silahkan masuk untuk melanjutkan</Text>
             <Text style={styles.textName}>Username atau Email</Text>
@@ -88,12 +88,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     paddingTop: toDp(174),
   },
-  logo: {
+  icbina: {
     width: toDp(200),
-    height: toDp(148),
+    height: toDp(80),
     position: 'absolute',
     margin: toDp(80), //X
-    padding: toDp(27) //Y
+    padding: toDp(27), //Y
+    top:toDp(30)
   },
   title: {
       color: 'white',

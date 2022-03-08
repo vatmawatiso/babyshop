@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
@@ -159,7 +159,7 @@ const Jasatukang = (props) => {
 
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Jasa Tukang'}
           onPress={() => props.navigation.goBack()}
         />
@@ -181,7 +181,6 @@ const Jasatukang = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },
@@ -191,7 +190,7 @@ const styles = StyleSheet.create({
     width:toDp(335), 
     height:toDp(80), 
     borderRadius:toDp(8), 
-    top:toDp(20),
+    top:toDp(60),
     justifyContent:'space-between',
     marginBottom:toDp(2)
   },

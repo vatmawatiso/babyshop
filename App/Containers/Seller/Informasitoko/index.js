@@ -66,7 +66,6 @@ const Informasitoko = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   imgProfil: {
     height: toDp(50),
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(90),
     borderRadius:toDp(10),
-    bottom:toDp(40)
+    top:toDp(10)
   },
   txtToko: {
       left:toDp(50),
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
       color:'black'
   },
   Ubah: {
-    bottom:toDp(30)
+    top:toDp(20)
   }
 });
 

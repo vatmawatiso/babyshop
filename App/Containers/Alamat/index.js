@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 
 const Alamat = (props) => {
@@ -30,7 +30,7 @@ const Alamat = (props) => {
 
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Alamat'}
           onPress={() => props.navigation.goBack()}
         />
@@ -61,7 +61,6 @@ const Alamat = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },

@@ -186,7 +186,6 @@ const Tambahproduk = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   contentContainer: {
     paddingVertical: 20
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
       width:toDp(335),
       height:toDp(490),
       borderRadius:toDp(8),
-      bottom:toDp(40),
+      top:toDp(10),
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
     height:toDp(42),
     justifyContent:'center',
     borderRadius:toDp(8),
-    bottom:toDp(23),
+    top:toDp(20),
       shadowColor: "#000",
       shadowOffset: {
         width: 0,

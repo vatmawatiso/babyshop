@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
@@ -24,7 +24,7 @@ const TambahAlamat = (props) => {
 
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Tambah Alamat'}
           onPress={() => props.navigation.goBack()}
         />
@@ -160,7 +160,6 @@ const TambahAlamat = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },

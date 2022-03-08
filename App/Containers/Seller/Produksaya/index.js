@@ -101,7 +101,7 @@ const Kategori = (props) => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:400, width:width, marginTop:10, marginBottom:toDp(45)}}
+      <FlatList style={{ minHeight:400, width:width, marginTop:60, marginBottom:toDp(45)}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -155,13 +155,12 @@ const Kategori = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   bodyMenu: {
     flexDirection:'row',
     alignItems:'baseline',
     backgroundColor:'#2A334B',
-    bottom:200,
+    bottom:150,
     width:toDp(335),
     height:toDp(45),
     borderRadius:toDp(8),

@@ -113,7 +113,7 @@ bodyUlasan: {
   backgroundColor:'#E7E7E7',
   width:toDp(335),
   height:toDp(180),
-  top:toDp(210),
+  top:toDp(260),
   borderRadius:toDp(8),
     shadowColor: "#000",
     shadowOffset: {

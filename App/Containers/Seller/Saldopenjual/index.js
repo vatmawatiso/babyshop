@@ -48,13 +48,12 @@ const Saldopenjual = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   bodySaldo: {
     backgroundColor:'#2A334B',
     width:toDp(335),
     height:toDp(100),
-    bottom:toDp(40),
+    top:toDp(10),
     borderRadius:toDp(8),
     justifyContent:'center',
     alignItems:'center',
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
       marginHorizontal:toDp(5),
       width:toDp(160),
       right:toDp(5),
-      bottom:toDp(30),
+      top:toDp(20),
       borderRadius:toDp(8),
       height:toDp(55),
       justifyContent:'flex-end',
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
   btnHarga: {
     backgroundColor:'#E7E7E7',
     width:toDp(160),
-    bottom:toDp(30),
+    top:toDp(20),
     borderRadius:toDp(8),
     height:toDp(55),
     justifyContent:'flex-end',

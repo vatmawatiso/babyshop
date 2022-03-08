@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  BackHeader  from '@BackHeader'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
@@ -96,7 +96,7 @@ const Jasakirim = (props) => {
     
      return (
       <View style={styles.container}>
-         <NonCart
+         <BackHeader
           title={'Jasa Kirim'}
           onPress={() => props.navigation.goBack()}
         />
@@ -129,7 +129,8 @@ const Jasakirim = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
+    justifyContent:'center',
+    alignItems:'center'
     // backgroundColor:'red'
   },
   content: {

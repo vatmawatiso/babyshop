@@ -10,116 +10,137 @@ import {
   SafeAreaView,
   Dimensions,
   FlatList,
-  Modal,
   TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart  from '@NonCart'
+import  NonCart from '@NonCart'
+import Modal from "react-native-modal";
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
-
+ 
 const { width, height } = Dimensions.get('window')
-
+ 
 const Ulasanpembeli = (props) => {
   const [src, setSrc]=useState(null);
-
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const DATA = [
-    {
-      id: '1',
-      nama: 'Vatmawati',
-      bintang: 'bintang5',
-      like: '5',
-      komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '2',
-      nama: 'Tiefani Permata',
-      bintang: 'bintang5',
-      like: '15',
-      komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '3',
-      nama: 'Aay Humairoh',
-      bintang: 'bintang5',
-      like: '20',
-      komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-        id: '4',
-        nama: 'Hayya Athiyah',
-        bintang: 'bintang5',
-        like: '5',
-        komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
-        image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-      },
-      {
-        id: '5',
-        nama: 'Budi Setiawan',
-        bintang: 'bintang5',
-        like: '15',
-        komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
-        image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-      },
-      {
-        id: '6',
-        nama: 'Lili Rahayu',
-        bintang: 'bintang5',
-        like: '20',
-        komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
-        image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-      },
-  ];
-
+ 
+  // const [modalVisible, setModalVisible] = useState(false);
+ 
+   /*modal*/
+   const [isModalVisible, setModalVisible] = useState(false);
+   const [modalData, setModaldata] = useState({});
+   const [shouldShow, setShouldShow] = useState(false);
+   /**/
+   const [state, setState] = useState({
+     loading: false,
+     uid:'',
+     DATA: [],
+   })
+   const DATA = [
+     {
+       id: '1',
+       nama: 'Vatmawati',
+       bintang: 'bintang5',
+       like: '5',
+       komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
+       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+     },
+     {
+       id: '2',
+       nama: 'Tiefani Permata',
+       bintang: 'bintang5',
+       like: '15',
+       komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
+       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+     },
+     {
+       id: '3',
+       nama: 'Aay Humairoh',
+       bintang: 'bintang5',
+       like: '20',
+       komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
+       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+     },
+     {
+         id: '4',
+         nama: 'Hayya Athiyah',
+         bintang: 'bintang5',
+         like: '5',
+         komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
+         image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+       },
+       {
+         id: '5',
+         nama: 'Budi Setiawan',
+         bintang: 'bintang5',
+         like: '15',
+         komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
+         image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+       },
+       {
+         id: '6',
+         nama: 'Lili Rahayu',
+         bintang: 'bintang5',
+         like: '20',
+         komentar: 'Pengiriman sangat cepat, produk masih aman, pembukusan sangat rapih',
+         image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+       },
+   ];
+   const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+   };
+ 
+   const selectMateri = (array) => {
+       //if(level == 'Level 2' || level == 'Level 3') {
+         let val  = JSON.stringify(array)
+         let data = JSON.parse(val)
+         setModalVisible(!isModalVisible);
+         setModaldata(data)
+     //  } else {
+     //   alert(val)
+     //  }
+   }
+ 
+   const openLink = (id, excerpt, title) => {
+       NavigatorService.navigate('FinalExam', {lid:id, excerpt:excerpt, uid:state.uid, title:title})
+       setModalVisible(!isModalVisible);
+       setModaldata('')
+ 
+   }
+ 
+   const modalAlert = (data) => {
+    Alert.alert(
+      "Pilih Jenis Test",
+      "Anda harus menyelesaikan semua test setelah masuk",
+      [
+        {
+          text: "Gramar Test",
+          onPress: () => {
+            NavigatorService.navigate('FinalExam', {link:data.final_exam_grammar})
+          }
+        },
+        { text: "Final Test", onPress: () => {
+          NavigatorService.navigate('FinalExam', {link:data.final_exam_quran})
+        }}
+      ]
+    )
+  }
+ 
   const title = (text) => {
     let newText = text.substr(0,11);
-  
+ 
     return(
       <Text>{newText}</Text>
     )
   }
-
-  const RenderItem = (item, index) => (
-    <Pressable onPress={()=> alert('Produk : '+index)}>
+ 
+  const RenderItem = (item, index, onPress) => (
+    <Pressable onPress={() => onPress()}>
       <View style={styles.card}>
           <View style={styles.Ulasan}>
              <Image source={{uri: item.image}} style={styles.image} />
              <Text style={styles.nama}>{title(item.nama)}</Text>
-                <View style={styles.centeredView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                        setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Hello World!</Text>
-                            <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}
-                            >
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                            </Pressable>
-                        </View>
-                        </View>
-                    </Modal>
-                    <Pressable
-                        style={[styles.button, styles.buttonOpen]}
-                        onPress={() => setModalVisible(true)}>
-                        <Image source={allLogo.icmore} style={styles.icmore1} />
-                    </Pressable>
-                </View>
           </ View>
           <View style={{flexDirection:'row', margin:toDp(5), bottom:toDp(8), marginLeft:toDp(39)}}>
              <Image source={allLogo.icstar} style={styles.icstar} />
@@ -132,7 +153,7 @@ const Ulasanpembeli = (props) => {
       </ View>
     </Pressable>
   );
-
+ 
   const CardProduct = () =>{
     return(
       <FlatList style={{ minHeight:400, width:width, marginTop:10, marginBottom:toDp(45)}}
@@ -140,44 +161,68 @@ const Ulasanpembeli = (props) => {
           contentContainerStyle={{
             marginTop: toDp(3),
             paddingBottom: toDp(3),
-
+ 
           }}
-
+ 
           numColumns={1}
           data={DATA}
             renderItem={({item, index}) => {
               return (
-                RenderItem(item, index)
+                RenderItem(item, index, () => selectMateri(item))
               )
             }}
           ListFooterComponent={() => <View style={{height: toDp(100)}} />}
         />
     )
   }
-
-   
+ 
+ 
   return (
     <View style={styles.container}>
-
+ 
         <NonCart
           title={'Ulasan'}
           onPress={() => props.navigation.goBack()}
         />
-
+ 
+          {/*modal*/}
+          <Modal style={styles.modal} isVisible={isModalVisible}>
+          <View style={styles.ViewModal}>
+              <Pressable style={styles.modalClose} onPress={()=> toggleModal()}>
+                <Image source={allLogo.iccross} style={{height:toDp(20),width:toDp(20)}}/>
+              </Pressable>
+              <View style={{padding:toDp(20)}}>
+                <Text style={{fontSize:toDp(20), fontWeight:'bold'}}>LAPORKAN</Text>
+                <View style={{marginTop: toDp(16)}}>
+                  <Text style={{fontSize:toDp(16)}}>Laporkan Penyalahgunaan atas nama {modalData.nama}</Text>
+                </View>
+              </View>
+              <View style={styles.modalFooter}>
+                <Pressable style={[styles.pressMbtn, {borderRightWidth:1, borderRightColor:'#ccc'}]} onPress={()=> openLink(modalData.id, 'Grammer Test', modalData.value.name) }>
+                    <Text style={{fontWeight:'bold'}}>LAPOR</Text>
+                </Pressable>
+                {/* <Pressable style={styles.pressMbtn} onPress={()=> openLink(modalData.id, 'Final Test', modalData.value.name) }>
+                    <Text style={{fontWeight:'bold'}}>KEMBALI</Text>
+                </Pressable> */}
+              </View>
+          </View>
+        </Modal>
+        {/*end modal*/}
+ 
+ 
         <View style={{bottom:0}}>
             <CardProduct/>
         </View>
-
-       
-  
-
+ 
+ 
+ 
     </View>
   )
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
-    justifyContent:'center',
+   justifyContent:'center',
     top:toDp(50),
   },
   card: {
@@ -195,7 +240,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  
+ 
     elevation: 5,
   },
   Ulasan: {
@@ -272,8 +317,93 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
-
+  },
+    content: {
+    width: '100%',
+    alignItems: 'center'
+  },
+  modal:{
+    marginVertical:'50%',
+    maxHeight: toDp(200),
+  },
+  ViewModal:{
+    flex: 1,
+    width:'100%',
+    backgroundColor:'#FFF',
+    height:toDp(200),
+    borderRadius:toDp(10),
+  },
+  modalClose:{
+    height:toDp(20),
+    width:toDp(20),
+    position:'absolute',
+    right:toDp(20), marginTop:toDp(20),
+    zIndex:2,
+  },
+  modalFooter:{
+    flexDirection:'row',
+    backgroundColor:'#f3f3f3',
+    maxHeight:toDp(60),
+    bottom:0,
+    position:'absolute',
+    width:'100%',
+    right:toDp(0),
+    borderBottomEndRadius:toDp(10),
+    borderBottomStartRadius:toDp(10)
+  },
+  pressMbtn:{
+    height:toDp(60), alignItems:'center',
+    justifyContent:'center', flex:1
+  },
+  viewCenterAbsolute: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+  },
+  logo: {
+    width: toDp(256),
+    height: toDp(270),
+    resizeMode: 'contain'
+  },
+  icMateri: {
+    width: toDp(39),
+    height: toDp(52),
+    resizeMode: 'contain',
+    marginLeft: toDp(24),
+    marginTop: toDp(6)
+  },
+  presableMenu: {
+    width: '90%',
+    marginLeft: toDp(16),
+    height: toDp(66),
+    borderRadius: toDp(25),
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+    flexDirection: 'row',
+    marginTop: toDp(16)
+  },
+  viewText: {
+    width: '60%',
+    marginLeft: toDp(18),
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: toDp(20),
+    height: toDp(30),
+    fontWeight: '500',
+    color: 'white',
+    width: '100%',
+    textAlign: 'center',
+    marginTop: toDp(4)
+  },
+ 
 });
-
+ 
 export default Ulasanpembeli;

@@ -83,6 +83,9 @@ const styles = StyleSheet.create({
   },
   txtEmail: {
       bottom:toDp(8)
+  },
+  textInput: {
+    borderWidth:0.5
   }
 });
 

@@ -19,7 +19,7 @@ import NavigatorService from '@NavigatorService'
 
 let { width, height } = Dimensions.get('window')
 const title = (text) => {
-  let newText = text.substr(0,13);
+  let newText = text.substr(0,16);
 
   return(
     <Text>{newText}</Text>
@@ -41,7 +41,7 @@ class BackHeader extends Component {
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.icarrow} style={styles.icBack} />
               </TouchableOpacity>
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(145) }]}>{title(this.props.title)}</Text>
+              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(145) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
                 {/* <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
@@ -73,7 +73,6 @@ class BackHeader extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: -1,
-    bottom: toDp(50)
   },
   icheader: {
     flexDirection: 'row'
