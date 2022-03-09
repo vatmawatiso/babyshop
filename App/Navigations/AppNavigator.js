@@ -36,6 +36,7 @@ import Produk from '../Containers/Produk'
 import Successorder from '../Containers/Successorder'
 import Nilaiorder from '../Containers/Nilaiorder'
 import Ulasanpembeli from '../Containers/Ulasanpembeli'
+import Infopembayaran from '../Containers/Infopembayaran'
 import Settingtoko from '../Containers/Seller/Settingtoko'
 import Alamattoko from '../Containers/Seller/Alamattoko'
 import Layananjasa from '../Containers/Seller/Layananjasa'
@@ -92,6 +93,7 @@ const AppNavigator = createStackNavigator(
     Successorder: { screen: Successorder },
     Nilaiorder: { screen: Nilaiorder },
     Ulasanpembeli: { screen: Ulasanpembeli },
+    Infopembayaran: { screen: Infopembayaran },
     Settingtoko: { screen: Settingtoko },
     Alamattoko: { screen: Alamattoko },
     Layananjasa: { screen: Layananjasa },
@@ -113,7 +115,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Login',
+    initialRouteName: 'Checkout',
   
   }
 );

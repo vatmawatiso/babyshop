@@ -75,6 +75,7 @@ const allLogo = {
   icmore: require('./img/ic_more.png'),
   iccross: require('./img/ic_cross.png'),
   icbina: require('./img/ic_bina.png'),
+  icpassword: require('./img/ic_password.png'),
 
 
 

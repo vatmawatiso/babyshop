@@ -61,7 +61,7 @@ return (
             <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(15)}} />
 
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5), bottom:toDp(5)}}>
-                <Text style={{fontSize:toDp(12), bottom:toDp(8)}}>Bayar sebelum {DATA[0].bataswaktu}{"\n"}dengan {DATA[0].metodePembayaran}</Text>
+                <Text style={{fontSize:toDp(12), bottom:toDp(8)}}>Bayar sebelum {DATA[0].bataswaktu}{"\n"}dengan {DATA[0].metodePembayaran} (Dicek Otomatis)</Text>
                 <Pressable style={styles.buttonPay}>
                     <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
                 </Pressable>

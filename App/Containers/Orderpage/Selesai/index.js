@@ -60,7 +60,7 @@ return (
 
         <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5), bottom:toDp(5)}}>
             <Text style={{fontSize:toDp(12), bottom:toDp(8)}}>Nilai produk sebelum{"\n"}{DATA[0].bataswaktu}</Text>
-            <Pressable style={styles.buttonPay}>
+            <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Nilaiorder')}>
                 <Text style={styles.txtButtonPay}>Nilai</Text>
             </Pressable>
         </View>

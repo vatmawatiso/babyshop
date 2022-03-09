@@ -44,9 +44,14 @@ const Editprofil = (props) => {
             />
                 <View style={styles.content}>
                     <View style={styles.profil}>
+                        <Pressable style={{alignItems:'flex-end', left:toDp(300), top:toDp(5),  width:toDp(30)}} onPress={() => NavigatorService.navigate('Buatpassword')}>
+                            <Image source={allLogo.icpassword} style={{width:toDp(30), height:toDp(30)}} />
+                        </Pressable>
                         <Image style={styles.imgProfil} source={{uri: DATA[0].image}} />
                         <Text style={styles.nama}>{DATA[0].nama}</Text>
-                        <Text style={styles.edit}>Ubah Profil</Text>
+                        <Pressable style={{bottom:toDp(6)}} onPress={() => alert('Coba')}>
+                            <Text style={styles.edit}>Ubah Profil</Text>
+                        </Pressable>
                     </View>
                 </View>
                 <View style={styles.formInput}>
@@ -156,20 +161,19 @@ const styles = StyleSheet.create({
   imgProfil: {
     height: toDp(50),
     width: toDp(50),
-    top: toDp(10),
     left: toDp(135),
+    bottom:toDp(15),
     borderRadius: toDp(25)
   },
   nama: {
       color: 'white',
       left:toDp(115),
-      top:toDp(16)
+      bottom:toDp(10)
   },
   edit: {
       color:'white',
       fontSize:toDp(10),
       left:toDp(133),
-      top:toDp(20)
   },
   textInput: {
     width: toDp(250),
@@ -225,6 +229,7 @@ const styles = StyleSheet.create({
     left: toDp(275),
     top: Platform.OS === 'ios' ? toDp(-11) : toDp(-11)
   },
+
 });
 
 export default Editprofil;

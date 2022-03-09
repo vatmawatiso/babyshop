@@ -15,6 +15,7 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
 import  BackHeader  from '@BackHeader'
+import NavigatorService from '@NavigatorService'
 import { Card } from "react-native-paper";
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -164,7 +165,7 @@ const Keranjang = (props) => {
                 <Text style={styles.txtTotal}>Total Harga</Text>
             </Pressable>
 
-            <Pressable style={styles.buttonPay}>
+            <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Checkout')}>
                 <Text style={styles.txtPay}>Beli Sekarang</Text>
             </Pressable>
         </View>
@@ -192,7 +193,6 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: 'white',
     alignItems: 'center',
-    top: toDp(50)
   },
   dropdown:{
     height:25,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     width:100,
   },
   content: {
-    bottom: toDp(40)
+    top: toDp(10)
   },
   chooseAll: {
     marginBottom: toDp(5),

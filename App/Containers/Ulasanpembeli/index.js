@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  NonCart from '@NonCart'
+import  BackHeader from '@BackHeader'
 import Modal from "react-native-modal";
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
@@ -180,7 +180,7 @@ const Ulasanpembeli = (props) => {
   return (
     <View style={styles.container}>
  
-        <NonCart
+        <BackHeader
           title={'Ulasan'}
           onPress={() => props.navigation.goBack()}
         />
@@ -191,26 +191,23 @@ const Ulasanpembeli = (props) => {
               <Pressable style={styles.modalClose} onPress={()=> toggleModal()}>
                 <Image source={allLogo.iccross} style={{height:toDp(20),width:toDp(20)}}/>
               </Pressable>
-              <View style={{padding:toDp(20)}}>
+              <View style={{padding:toDp(16)}}>
                 <Text style={{fontSize:toDp(20), fontWeight:'bold'}}>LAPORKAN</Text>
                 <View style={{marginTop: toDp(16)}}>
-                  <Text style={{fontSize:toDp(16)}}>Laporkan Penyalahgunaan atas nama {modalData.nama}</Text>
+                  <Text style={{fontSize:toDp(14)}}>Laporkan Penyalahgunaan atas nama {modalData.nama}</Text>
                 </View>
               </View>
               <View style={styles.modalFooter}>
                 <Pressable style={[styles.pressMbtn, {borderRightWidth:1, borderRightColor:'#ccc'}]} onPress={()=> openLink(modalData.id, 'Grammer Test', modalData.value.name) }>
                     <Text style={{fontWeight:'bold'}}>LAPOR</Text>
                 </Pressable>
-                {/* <Pressable style={styles.pressMbtn} onPress={()=> openLink(modalData.id, 'Final Test', modalData.value.name) }>
-                    <Text style={{fontWeight:'bold'}}>KEMBALI</Text>
-                </Pressable> */}
               </View>
           </View>
         </Modal>
         {/*end modal*/}
  
  
-        <View style={{bottom:0}}>
+        <View style={{bottom:-18}}>
             <CardProduct/>
         </View>
  
@@ -223,11 +220,11 @@ const Ulasanpembeli = (props) => {
 const styles = StyleSheet.create({
   container: {
    justifyContent:'center',
-    top:toDp(50),
   },
   card: {
     backgroundColor: 'white',
     padding: toDp(15),
+    top:30,
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius:toDp(10),
@@ -269,7 +266,7 @@ const styles = StyleSheet.create({
     right:10
   },
   nama: {
-      marginRight:toDp(160)
+      marginRight:toDp(195)
   },
   txtKomen: {
     marginLeft:toDp(39),
@@ -324,7 +321,7 @@ const styles = StyleSheet.create({
   },
   modal:{
     marginVertical:'50%',
-    maxHeight: toDp(200),
+    maxHeight: toDp(160),
   },
   ViewModal:{
     flex: 1,

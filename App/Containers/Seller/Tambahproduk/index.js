@@ -40,7 +40,7 @@ const Tambahproduk = (props) => {
   return (
     <View style={styles.container}>
        <BackHeader
-          title={'Home'}
+          title={'Tambah Produk'}
           onPress={() => props.navigation.goBack()}
         />
       {/* <View style={{flex:1}}>

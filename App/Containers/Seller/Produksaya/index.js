@@ -138,10 +138,10 @@ const Kategori = (props) => {
             <Pressable style={styles.btnHome}>
                 <Image source={allLogo.ichome} style={styles.ichome} />
             </Pressable>
-            <Pressable style={styles.btnPlus}>
+            <Pressable style={styles.btnPlus} onPress={() => NavigatorService.navigate('Tambahproduk')}>
                 <Image source={allLogo.icplusround} style={styles.icplus}/>
             </Pressable> 
-            <Pressable style={styles.btnChat}>
+            <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')}>
                 <Image source={allLogo.icchat} style={styles.icchat}/>
             </Pressable> 
         </View>

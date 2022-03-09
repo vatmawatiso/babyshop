@@ -60,7 +60,7 @@ return (
 
         <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5), bottom:toDp(5)}}>
             <Text style={{fontSize:toDp(12)}}>{DATA[0].konfirmasi}</Text>
-            <Pressable style={styles.buttonPay}>
+            <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Keranjang')}>
                 <Text style={styles.txtButtonPay}>Beli Lagi</Text>
             </Pressable>
         </View>

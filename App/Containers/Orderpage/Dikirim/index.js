@@ -60,8 +60,8 @@ return (
 
         <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5), bottom:toDp(5)}}>
             <Text style={{fontSize:toDp(12), bottom:toDp(8)}}>Konfirmasi terima produk sebelum{"\n"}{DATA[0].bataswaktu}</Text>
-            <Pressable style={styles.buttonPay}>
-                <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
+            <Pressable style={styles.buttonPay} onPress={() => alert('Konfirmasi pesanan')}>
+                <Text style={styles.txtButtonPay}>Pesanan Diterima</Text>
             </Pressable>
         </View>
 
@@ -101,7 +101,7 @@ OrderDetail: {
 buttonPay: {
   backgroundColor:'#2A334B',
   borderRadius:toDp(15),
-  width:toDp(97),
+  width:toDp(100),
   height:toDp(34),
   fontSize:toDp(11),
   justifyContent:'center',

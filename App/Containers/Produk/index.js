@@ -112,7 +112,7 @@ const Produk = (props) => {
             title={'Produk'}
             onPress={() => props.navigation.goBack()}
           />
-
+          
               <View style={{width:'100%', height: toDp(230), bottom:toDp(55), backgroundColor: 'white'}}>
                 <Carousel
                   layout={"default"}
@@ -127,8 +127,87 @@ const Produk = (props) => {
               <View style={styles.content}>
                   {RenderItem(DATA,0)}
               </View>
+                
+        </View>
+      )};
+
+      const RenderItem = (item, index) => {
+        return (
+          
+          <View style={styles.detailProduk}>
             
-              <View style={styles.Ulasan}>
+              <View style={{marginLeft:toDp(100), height:toDp(235), width:toDp(330)}}>
+                  <Text style={{marginBottom:10}}>{item[index].name}</Text>
+                  <Text style={{marginBottom:5}}>{item[index].harga}</Text>
+                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                      <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
+                      <Image source={allLogo.icwishlist} style={{left:toDp(100), bottom:toDp(5)}}/>
+                  </View>
+              
+              
+                <Text style={{fontWeight:'bold', top:toDp(2)}}>Rincian Produk</Text>
+                <ScrollView style={{paddingVertical:55}}>
+                <View>
+                    <View style={{top:toDp(10)}}>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Stok</Text>
+                            <Text style={{right:toDp(150)}}>{item[index].stok}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Beban Kapasitas</Text>
+                            <Text style={{right:toDp(118)}}>{item[index].beban}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Warna</Text>
+                            <Text>{item[index].warna}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Kapasitas</Text>
+                            <Text style={{right:toDp(125)}}>{item[index].kapasitas}</Text>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Dikirim Dari </Text>
+                            <Text style={{right:toDp(7)}}>{item[index].dikirimdari}</Text>
+                        </View>
+                    </View>
+
+              
+                  <Collapse style={{top:toDp(15), left:toDp(50)}}>
+                    <CollapseHeader>
+                      <View style={{alignItems:'center', right:toDp(55)}}>
+                        <Text style={{color:'grey'}}>Lihat Selengkapnya</Text>
+                      </View>
+                    </CollapseHeader>
+                    <CollapseBody>
+                    <View style={{top:toDp(5), right:50}}>
+                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                              <Text>Stok</Text>
+                              <Text style={{right:toDp(150)}}>{item[index].stok}</Text>
+                          </View>
+                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                              <Text>Beban Kapasitas</Text>
+                              <Text style={{right:toDp(118)}}>{item[index].beban}</Text>
+                          </View>
+                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                              <Text>Warna</Text>
+                              <Text>{item[index].warna}</Text>
+                          </View>
+                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                              <Text>Kapasitas</Text>
+                              <Text style={{right:toDp(125)}}>{item[index].kapasitas}</Text>
+                          </View>
+                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                              <Text>Dikirim Dari </Text>
+                              <Text style={{right:toDp(7)}}>{item[index].dikirimdari}</Text>
+                          </View>
+                      </View>
+                    </CollapseBody>
+                  </Collapse>
+                </View>
+                </ScrollView>
+              
+
+                <View style={styles.Ulasan}>
                   <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
                   <Pressable style={{right:toDp(15)}} onPress={() => NavigatorService.navigate('Ulasanpembeli')}>
                     <View style={{flexDirection:'row'}}>
@@ -136,8 +215,9 @@ const Produk = (props) => {
                       <Image source={allLogo.iclineright} style={styles.iclineright} />
                     </View>
                   </Pressable>
-              </View>
-              <View style={styles.btnMenu}>
+                </View>
+
+                <View style={styles.btnMenu}>
                   <Pressable style={{ left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
                       <Image source={allLogo.icchatWhite} style={styles.icchatWhite}/>
                   </Pressable>
@@ -149,80 +229,7 @@ const Produk = (props) => {
                   <Pressable style={{ right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
                       <Text style={styles.txtBeli}>Beli Sekarang</Text>
                   </Pressable>
-              </View>
-                
-        </View>
-      )};
-
-      const RenderItem = (item, index) => {
-        return (
-
-          <View style={styles.detailProduk}>
-              <View>
-                  <Text style={{marginBottom:10}}>{item[index].name}</Text>
-                  <Text style={{marginBottom:5}}>{item[index].harga}</Text>
-                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                      <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
-                      <Image source={allLogo.icwishlist} style={{left:toDp(100), bottom:toDp(5)}}/>
-                  </View>
-              </View>
-
-                <Text style={{fontWeight:'bold', top:toDp(2)}}>Rincian Produk</Text>
-                <View style={{top:toDp(10)}}>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Stok</Text>
-                        <Text style={{right:toDp(80)}}>{item[index].stok}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Beban Kapasitas</Text>
-                        <Text style={{right:toDp(50)}}>{item[index].beban}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Warna</Text>
-                        <Text style={{left:toDp(69)}}>{item[index].warna}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Kapasitas</Text>
-                        <Text style={{right:toDp(55)}}>{item[index].kapasitas}</Text>
-                    </View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text>Dikirim Dari </Text>
-                        <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
-                    </View>
                 </View>
-
-                <View>
-                <Collapse style={{top:toDp(15), left:toDp(50)}}>
-                  <CollapseHeader>
-                    <View style={{alignItems:'center'}}>
-                      <Text style={{color:'grey'}}>Lihat Selengkapnya</Text>
-                    </View>
-                  </CollapseHeader>
-                  <CollapseBody>
-                  <View style={{top:toDp(5), right:50}}>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text>Stok</Text>
-                            <Text style={{right:toDp(80)}}>{item[index].stok}</Text>
-                        </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text>Beban Kapasitas</Text>
-                            <Text style={{right:toDp(50)}}>{item[index].beban}</Text>
-                        </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text>Warna</Text>
-                            <Text style={{left:toDp(69)}}>{item[index].warna}</Text>
-                        </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text>Kapasitas</Text>
-                            <Text style={{right:toDp(55)}}>{item[index].kapasitas}</Text>
-                        </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text>Dikirim Dari </Text>
-                            <Text style={{left:toDp(63)}}>{item[index].dikirimdari}</Text>
-                        </View>
-                    </View>
-                  </CollapseBody>
-                </Collapse>
 
                 </View>
                 
@@ -304,7 +311,9 @@ const styles = StyleSheet.create({
     backgroundColor:'#C4C4C4',
     width:toDp(335),
     height:toDp(47),
-    bottom:toDp(45),
+    top:toDp(20),
+    right:toDp(3),
+    // left:toDp(50),
     borderRadius:toDp(15),
     flexDirection:'row',
     justifyContent:'space-between',
@@ -317,14 +326,16 @@ const styles = StyleSheet.create({
     marginRight:toDp(60)
   },
   btnMenu: {
-    flexDirection:'row', 
-    bottom:toDp(38), 
+    flexDirection:'row',  
     backgroundColor:'#2A334B', 
     width:toDp(335), 
     height:toDp(52), 
     borderRadius:toDp(15), 
     justifyContent:'space-between', 
-    alignItems:'center'
+    alignItems:'center',
+    top:toDp(25),
+    right:toDp(3),
+    // left:toDp(50)
   },
   txtBeli: {
     color:'white',
@@ -334,7 +345,11 @@ const styles = StyleSheet.create({
     height:toDp(12),
     marginTop:toDp(5),
     marginLeft:toDp(8)
-},
+  },
+  // contentContainer: {
+  //   paddingVertical: 20
+  // }
+
 });
 
 export default Produk;

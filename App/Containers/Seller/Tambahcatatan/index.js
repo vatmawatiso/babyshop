@@ -60,7 +60,6 @@ const Tambahcatatan = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   content: {
       backgroundColor:'#E7E7E7',
