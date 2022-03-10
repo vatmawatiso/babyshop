@@ -68,10 +68,10 @@ const Editalamat = (props) => {
                 <SafeAreaView>
                     <SelectDropdown
                           buttonStyle={styles.dropdown}
-                          buttonTextStyle={{fontSize:12, color:'grey'}}
-                          rowTextStyle={{fontSize:12}}
-                          dropdownStyle={{borderRadius:7}}
-                          rowStyle={{height:35,padding:5}}
+                          buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
+                          rowTextStyle={{fontSize:toDp(12)}}
+                          dropdownStyle={{borderRadius:toDp(7)}}
+                          rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
                           data={countries}
                           onSelect={(selectedItem, index) => {
@@ -186,11 +186,11 @@ searchIcon: {
   top: Platform.OS === 'ios' ? toDp(11) : toDp(11)
 },
 input: {
-  flex: 1,
-  paddingTop: 10,
-  paddingRight: 10,
-  paddingBottom: 10,
-  paddingLeft: 0,
+  flex: toDp(1),
+  paddingTop: toDp(10),
+  paddingRight: toDp(10),
+  paddingBottom: toDp(10),
+  paddingLeft: toDp(0),
   borderRadius: toDp(8),
   paddingLeft: toDp(45),
   color:'#FFF'
@@ -232,7 +232,7 @@ dropdown:{
   top:toDp(4),
   left:toDp(3),
   backgroundColor:'white',
-  borderWidth:0.5
+  borderWidth:toDp(0.5)
 },
 contentMap: {
   backgroundColor:'white',
@@ -242,7 +242,7 @@ contentMap: {
   bottom:toDp(5)
 },
 textInput: {
-  borderWidth:0.5
+  borderWidth:toDp(0.5)
 }
 });
 

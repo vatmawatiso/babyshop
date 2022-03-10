@@ -101,11 +101,11 @@ const Keranjang = (props) => {
                       <Text style={{fontSize:toDp(20), fontWeight:'bold', marginBottom:toDp(5)}}>{item[index].produk}</Text>
                       <SelectDropdown
                           buttonStyle={styles.dropdown}
-                          buttonTextStyle={{fontSize:10}}
-                          rowTextStyle={{fontSize:12}}
+                          buttonTextStyle={{fontSize:toDp(10)}}
+                          rowTextStyle={{fontSize:toDp(12)}}
                           dropdownStyle={{borderRadius:7}}
                           defaultButtonText={'Varian'}
-                          rowStyle={{height:35,padding:5}}
+                          rowStyle={{height:toDp(35),padding:toDp(5)}}
                           data={countries}
                           onSelect={(selectedItem, index) => {
                             console.log(selectedItem, index)
@@ -131,13 +131,13 @@ const Keranjang = (props) => {
                       <View style={{flexDirection:'row', marginTop:toDp(25), justifyContent:'center', alignItems:'center'}}>
                         <Image source={allLogo.ictrash} style={{width:toDp(20), height:toDp(25), resizeMode:'cover', marginRight:toDp(12)}}/>
                         <NumericInput  
-                            minValue={1}
-                            maxValue={10}
+                            minValue={toDp(1)}
+                            maxValue={toDp(10)}
                             onLimitReached={(isMax,msg) => console.log(isMax,msg)}
-                            totalWidth={90} 
-                            totalHeight={20} 
-                            iconSize={25}
-                            step={1}
+                            totalWidth={toDp(90)} 
+                            totalHeight={toDp(20)} 
+                            iconSize={toDp(25)}
+                            step={toDp(1)}
                             valueType='real'
                             rounded 
                             textColor='black'
@@ -195,9 +195,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dropdown:{
-    height:25,
-    borderRadius:40,
-    width:100,
+    height:toDp(25),
+    borderRadius:toDp(40),
+    width:toDp(100),
   },
   content: {
     top: toDp(10)

@@ -101,7 +101,7 @@ const Kategori = (props) => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:400, width:width, marginTop:60, marginBottom:toDp(45)}}
+      <FlatList style={{ minHeight:toDp(400), width:width, marginTop:toDp(60), marginBottom:toDp(45)}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -130,7 +130,7 @@ const Kategori = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View style={{bottom:20}}>
+        <View style={{bottom:toDp(20)}}>
             <CardProduct/>
         </View>
        
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'baseline',
     backgroundColor:'#2A334B',
-    bottom:150,
+    bottom:toDp(150),
     width:toDp(335),
     height:toDp(45),
     borderRadius:toDp(8),

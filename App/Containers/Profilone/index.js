@@ -132,7 +132,7 @@ const Profilone = (props) => {
                         </View>
                       </Pressable>
                     </View>
-                    <View style={{borderWidth:0.5, borderColor:'grey', top:toDp(5) }} />
+                    <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(5) }} />
 
                     <View style={{flexDirection:'row', margin:toDp(10), justifyContent:'center'}}>
                       <Pressable style={{ right:toDp(20)}} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Belumbayar'})}> 
@@ -140,7 +140,7 @@ const Profilone = (props) => {
                         <Text style={{ fontSize: toDp(13)}}>Belum{"\n"} Bayar</Text>
                       </Pressable>
 
-                      <Pressable style={{ marginHorizontal:10}}  onPress={()=> NavigatorService.navigate('Orderpage', {content:'Dikemas'})}>
+                      <Pressable style={{ marginHorizontal:toDp(10)}}  onPress={()=> NavigatorService.navigate('Orderpage', {content:'Dikemas'})}>
                         <Image source={allLogo.icpacking} style={{left:toDp(13)}} />
                         <Text  style={{ fontSize: toDp(13)}}>Dikemas</Text>
                       </Pressable>
@@ -155,7 +155,7 @@ const Profilone = (props) => {
                         <Text  style={{ fontSize: toDp(13)}}>Beri Nilai</Text>
                         </Pressable>
                     </View>
-                    <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(5)}} />
+                    <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(5)}} />
                     
                     <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat')}>
                         <View style={styles.bodyAlamat}>

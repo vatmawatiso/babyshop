@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: toDp(8),
     margin:toDp(8),
     bottom:toDp(10),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
   textInput1: {
     width: toDp(320),

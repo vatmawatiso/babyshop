@@ -156,7 +156,7 @@ const Ulasanpembeli = (props) => {
  
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:400, width:width, marginTop:10, marginBottom:toDp(45)}}
+      <FlatList style={{ minHeight:toDp(400), width:width, marginTop:toDp(10), marginBottom:toDp(45)}}
           showsVerticalScrollIndicator={true}
           contentContainerStyle={{
             marginTop: toDp(3),
@@ -207,7 +207,7 @@ const Ulasanpembeli = (props) => {
         {/*end modal*/}
  
  
-        <View style={{bottom:-18}}>
+        <View style={{bottom:toDp(-18)}}>
             <CardProduct/>
         </View>
  
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
     padding: toDp(15),
-    top:30,
+    top:toDp(30),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius:toDp(10),
@@ -278,10 +278,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    margin: 20,
+    margin: toDp(20),
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: toDp(20),
+    padding: toDp(35),
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -293,9 +293,9 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    borderRadius: toDp(20),
+    padding: toDp(10),
+    elevation: toDp(2),
     top:toDp(5)
   },
   buttonOpen: {
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: toDp(15),
     textAlign: "center"
   },
     content: {

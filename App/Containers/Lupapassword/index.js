@@ -33,10 +33,10 @@ const Lupapassword = (props) => {
             <Text style={styles.txtEmail}>Masukkan Email</Text>
             <TextInput 
                      
-                      top={4}
-                      width={316}
-                      height={40}
-                      borderRadius={15}
+                      top={toDp(4)}
+                      width={toDp(316)}
+                      height={toDp(40)}
+                      borderRadius={toDp(15)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
       bottom:toDp(8)
   },
   textInput: {
-    borderWidth:0.5
+    borderWidth:toDp(0.5)
   }
 });
 

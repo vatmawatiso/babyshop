@@ -80,16 +80,16 @@ const Bintangempat = (props) => {
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
                 <Image style={styles.icuser} source={allLogo.icuser} />
                 <Text style={styles.txtNama}>Tiefani Permata Sari</Text>
-                <Pressable style={{borderColor:'#303565', borderWidth:1, width:toDp(85), height:toDp(35), justifyContent:'center', borderRadius:toDp(10) }} onPress={() => NavigatorService.navigate('Chat')}>
+                <Pressable style={{borderColor:'#303565', borderWidth:toDp(1), width:toDp(85), height:toDp(35), justifyContent:'center', borderRadius:toDp(10) }} onPress={() => NavigatorService.navigate('Chat')}>
                     <Text style={styles.txtBalas}>Balas</Text>
                 </Pressable>
             </View>
             <View>
                 <StarRating
                     style={{left:toDp(55), bottom:toDp(15)}}
-                    starStyle={{marginLeft:-5}}
+                    starStyle={{marginLeft:toDp(-5)}}
                     rating={rating}
-                    starSize={15}
+                    starSize={toDp(15)}
                     enableHalfStar={false}
                     onChange={setRating}
                 />  

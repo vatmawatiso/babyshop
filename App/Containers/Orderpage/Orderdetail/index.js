@@ -65,7 +65,7 @@ return (
             <Text style={{top:toDp(80), right:toDp(10)}}>{DATA[0].jumlah}x</Text>
         </View>
         <Text style={{bottom:toDp(50), left:toDp(128)}}>{DATA[0].harga}</Text>
-        <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />    
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(10)}} />    
 
         <View style={{flexDirection:'row', justifyContent:'space-between', bottom:toDp(10), margin:toDp(5)}}>
             <Text style={styles.txtCard}>{DATA[0].jumlah} Produk</Text>
@@ -80,13 +80,13 @@ return (
             <Text>Kurir</Text>
             <Text style={{right:toDp(130)}}>{Pengiriman[0].kurir}</Text>
         </View>
-        <View style={{borderWidth:0.5, borderColor:'grey', right:toDp(10), width:toDp(314)}} />
+        <View style={{borderWidth:toDP(0.5), borderColor:'grey', right:toDp(10), width:toDp(314)}} />
 
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
             <Text style={{bottom:toDp(10)}}>No Resi</Text>
             <Text style={{right:toDp(107), bottom:toDp(10)}}>{Pengiriman[0].NoResi}</Text>
         </View>
-        <View style={{borderWidth:0.5, borderColor:'grey', right:toDp(10), width:toDp(314), bottom:toDp(18)}} />
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', right:toDp(10), width:toDp(314), bottom:toDp(18)}} />
 
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
             <Text style={{bottom:toDp(25)}}>Alamat</Text>
@@ -117,7 +117,7 @@ return (
             <Text>Rp 50.000</Text>
         </View>
 
-        <View style={{borderWidth:0.5, borderColor:'grey', right:toDp(10), width:toDp(314), bottom:toDp(0)}} />
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', right:toDp(10), width:toDp(314), bottom:toDp(0)}} />
 
         <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10),}}>
             <Text style={{right:toDp(10), fontWeight:'bold'}}>Total Pembayaran</Text>
@@ -135,7 +135,7 @@ flex: 1,
 top:toDp(50),
 },
 contentContainer: {
-  paddingVertical: 60
+  paddingVertical: toDp(60)
 },
 content: {
   flexDirection:'row',

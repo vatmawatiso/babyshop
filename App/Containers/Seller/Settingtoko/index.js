@@ -38,7 +38,7 @@ const Settingtoko = (props) => {
                     <Text style={styles.txtCatatan}>Catatan Toko</Text>
                 </Pressable>
             </View>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <View style={{flexDirection:'row', margin:toDp(10)}}>
                 <Image source={allLogo.icaddress1} />

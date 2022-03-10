@@ -53,6 +53,7 @@ import Produksaya from '../Containers/Seller/Produksaya'
 import Tambahalamat from '../Containers/Seller/Tambahalamat'
 import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
+import Tambahkategori from '../Containers/Seller/Tambahkategori'
 // import Bintanglima from '../Containers/Seller/Ulasan/Bintanglima'
 
 
@@ -110,12 +111,13 @@ const AppNavigator = createStackNavigator(
     Tambahalamat: { screen: Tambahalamat },
     Saldopenjual: { screen: Saldopenjual },
     Ulasan: { screen: Ulasan },
+    Tambahkategori: { screen: Tambahkategori },
     // Bintanglima: { screen: Bintanglima },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Checkout',
+    initialRouteName: 'Produk',
   
   }
 );

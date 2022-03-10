@@ -71,8 +71,8 @@ const Jasakirim = (props) => {
                         width:toDp(335),
                         right:toDp(10),
                         height:toDp(340),
-                        padding:12, 
-                        height:50, 
+                        padding:toDp(12), 
+                        height:toDp(50), 
                         backgroundColor:'#C4C4C4'}}>
 
                 <Text>{item.name}</Text>
@@ -88,7 +88,7 @@ const Jasakirim = (props) => {
                 />  
         
         </View>
-        <View style={{borderWidth:1, borderColor:'white'}} />
+        <View style={{borderWidth:toDp(1), borderColor:'white'}} />
     </View>
     )
   } 

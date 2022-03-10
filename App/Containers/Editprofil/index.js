@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
     marginTop: toDp(-10),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
   formInput: {
     bottom:toDp(15),
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     bottom:toDp(15),
     marginBottom:toDp(-8),
     right:toDp(8),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
   icVisibility: {
     width: toDp(24),

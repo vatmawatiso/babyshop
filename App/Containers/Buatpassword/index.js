@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     tintColor: 'grey'
   },
   textInput: {
-      borderWidth:0.5
+      borderWidth:toDp(0.5)
   }
 });
 

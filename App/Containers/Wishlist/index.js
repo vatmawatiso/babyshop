@@ -97,7 +97,7 @@ const Wishlist = () => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:400, width:width, bottom:toDp(40)}}
+      <FlatList style={{ minHeight:toDp(400), width:width, bottom:toDp(40)}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{

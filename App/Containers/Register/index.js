@@ -98,10 +98,10 @@ const Register = (props) => {
 
               <Text style={styles.textDont}>Or Login With</Text>
               <View style={styles.rowFooter}>
-                  <Pressable style={styles.pressableClick, {padding: 2}}>
+                  <Pressable style={styles.pressableClick, {padding: toDp(2)}}>
                       <Image source={allLogo.icGoogle} style={styles.icon} />
                   </Pressable>
-                  <Pressable style={styles.pressableClick, {padding: 2}}>
+                  <Pressable style={styles.pressableClick, {padding: toDp(2)}}>
                       <Image source={allLogo.icFacebook} style={styles.icon} />
                   </Pressable>
               </View>

@@ -116,7 +116,7 @@ elevation: 2,
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
 
-elevation: 2,
+        elevation: 2,
   },
   txtBank: {
       left:toDp(10),

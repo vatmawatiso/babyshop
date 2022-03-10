@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   logo1: {
     width: toDp(231),
     height: toDp(345),
-    marginBottom: 70
+    marginBottom: toDp(70)
   },
   buttonGet: {
     width: toDp(108),

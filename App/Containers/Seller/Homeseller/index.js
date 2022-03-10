@@ -42,34 +42,34 @@ const Homeseller = (props) => {
         <MenuToko/>
 
         <View style={styles.Penjualan}>
-              <Pressable style={{marginVertical:5, bottom:toDp(5), height:toDp(30), justifyContent:'center'}} onPress={() => NavigatorService.navigate('Ulasan')}>
+              <Pressable style={{marginVertical:toDp(5), bottom:toDp(5), height:toDp(30), justifyContent:'center'}} onPress={() => NavigatorService.navigate('Ulasan')}>
                 <View style={styles.BodySaldo}>
                     <Text style={styles.txtSkor}>Skor Toko</Text>
                     <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </Pressable>
-              <Pressable style={{bottom:toDp(10), height:toDp(30), justifyContent:'center', marginVertical:5}} onPress={() => NavigatorService.navigate('Saldopenjual')} >
+              <Pressable style={{bottom:toDp(10), height:toDp(30), justifyContent:'center', marginVertical:toDp(5)}} onPress={() => NavigatorService.navigate('Saldopenjual')} >
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Text style={{marginLeft:toDp(10)}}>Saldo</Text>
                     <Text style={{marginRight:toDp(10)}}>Rp 5.000.000</Text>
                 </View>
               </Pressable>
-              <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(10)}} />
 
               <Pressable style={{flexDirection:'row', justifyContent:'space-between', bottom:toDp(10)}} onPress={() => alert('Coming Soon')}>
                   <Text style={styles.txtPenjualan}>Penjualan</Text>
                   <Image source={allLogo. iclineright} style={styles.iclineright1} />
               </Pressable>
-              <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(10)}} />
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(10)}} />
               
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <Pressable style={{ height:30}} onPress={() => NavigatorService.navigate('Pengiriman', {content:'Belumbayar'})} >
+                  <Pressable style={{ height:toDp(30)}} onPress={() => NavigatorService.navigate('Pengiriman', {content:'Belumbayar'})} >
                     <View style={{flexDirection:'row', margin:toDp(10)}}>
                         <Image source={allLogo.icorders} style={{bottom:toDp(10)}}/>
                         <Text style={{padding:toDp(5), bottom:toDp(10)}}>Pesanan Baru</Text>
                     </View>
                   </Pressable>
-                  <Pressable style={{ height:30}} onPress={() => NavigatorService.navigate('Pengiriman', {content:'Perludikirim'})}>
+                  <Pressable style={{ height:toDp(30)}} onPress={() => NavigatorService.navigate('Pengiriman', {content:'Perludikirim'})}>
                     <View style={{flexDirection:'row', margin:toDp(10)}}>
                           <Image source={allLogo.iconly} style={{bottom:toDp(10)}} />
                           <Text style={{padding:toDp(5), bottom:toDp(10)}}>Siap dikirim</Text>
@@ -77,7 +77,7 @@ const Homeseller = (props) => {
                   </Pressable>        
               </View>
               <Text style={{margin:toDp(10)}}>Kata Pembeli</Text> 
-              <View style={{borderWidth:0.5, borderColor:'grey'}} />
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
               <View style={styles.bodyJual}>
                   <Pressable style={{width:toDp(335), height:toDp(30), bottom:toDp(5)}} onPress={() => NavigatorService.navigate('Ulasan')} >

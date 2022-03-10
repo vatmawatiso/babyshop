@@ -136,19 +136,20 @@ const Produk = (props) => {
           
           <View style={styles.detailProduk}>
             
-              <View style={{marginLeft:toDp(100), height:toDp(235), width:toDp(330)}}>
-                  <Text style={{marginBottom:10}}>{item[index].name}</Text>
-                  <Text style={{marginBottom:5}}>{item[index].harga}</Text>
+              <View style={{marginLeft:toDp(100), height:toDp(214), width:toDp(330)}}>
+                  <Text style={{marginBottom:toDp(10)}}>{item[index].name}</Text>
+                  <Text style={{marginBottom:toDp(5)}}>{item[index].harga}</Text>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                       <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
                       <Image source={allLogo.icwishlist} style={{left:toDp(100), bottom:toDp(5)}}/>
                   </View>
               
               
-                <Text style={{fontWeight:'bold', top:toDp(2)}}>Rincian Produk</Text>
-                <ScrollView style={{paddingVertical:55}}>
-                <View>
+                
+                <ScrollView vertical={true} style={{paddingVertical:toDp(55)}}>
+                <View style={{height:toDp(285)}}>
                     <View style={{top:toDp(10)}}>
+                    <Text style={{fontWeight:'bold', top:toDp(0)}}>Rincian Produk</Text>
                         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                             <Text>Stok</Text>
                             <Text style={{right:toDp(150)}}>{item[index].stok}</Text>
@@ -225,7 +226,7 @@ const Produk = (props) => {
                       <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
                   </Pressable>
             
-                  <View style={{borderWidth:0.5, borderColor:'white', width:50, rotation:90 }} />
+                  <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(50), rotation:toDp(90) }} />
                   <Pressable style={{ right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
                       <Text style={styles.txtBeli}>Beli Sekarang</Text>
                   </Pressable>
@@ -247,12 +248,12 @@ const styles = StyleSheet.create({
     top: toDp(50),
   },
   contentContainer: {
-    paddingVertical: 20
+    paddingVertical: toDp(20)
   },
   dropdown:{
-    height:25,
-    borderRadius:40,
-    width:100,
+    height:toDp(25),
+    borderRadius:toDp(40),
+    width:toDp(100),
   },
   viewRenderExplore: {
     backgroundColor:'white',
@@ -311,7 +312,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#C4C4C4',
     width:toDp(335),
     height:toDp(47),
-    top:toDp(20),
+    top:toDp(15),
     right:toDp(3),
     // left:toDp(50),
     borderRadius:toDp(15),

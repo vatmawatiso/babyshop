@@ -105,7 +105,7 @@ const Profilone = (props) => {
                 </View>
 
               <View style={{zIndex:5, justifyContent:'center', marginTop: toDp(10),backgroundColor: '#C4C4C4', width: toDp(316), height: toDp(218), borderRadius: toDp(15)}}>
-                  <View style={{bottom:10}}>
+                  <View style={{bottom:toDp(10)}}>
                       <View style={{flexDirection:'row', alignItems:'center'}}>
                           <Image source={allLogo.icorders} style={styles.icorders} />
                           <Text style={{marginTop:toDp(1), marginLeft:toDp(10),fontSize: toDp(11)}}>Pesanan Saya</Text>

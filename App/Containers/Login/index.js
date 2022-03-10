@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   icon: {
     width: toDp(30),
     height: toDp(30),
-    marginHorizontal: 20
+    marginHorizontal: toDp(20)
   },
   textCreate: {
     textAlign: 'right'

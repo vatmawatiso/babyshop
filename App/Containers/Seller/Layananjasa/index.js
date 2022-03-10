@@ -70,9 +70,9 @@ const Layananjasa = (props) => {
                         borderRadius:toDp(8),
                         width:toDp(335),
                         height:toDp(340),
-                        padding:12, 
-                        height:50, 
-                        right:8,
+                        padding:toDp(12), 
+                        height:toDp(50), 
+                        right:toDp(8),
                         backgroundColor:'#C4C4C4'}}>
 
                 <Text>{item.name}</Text>
@@ -88,7 +88,7 @@ const Layananjasa = (props) => {
                 />  
         
         </View>
-        <View style={{borderWidth:1, borderColor:'white'}} />
+        <View style={{borderWidth:toDp(1), borderColor:'white'}} />
     </View>
     )
   } 

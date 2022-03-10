@@ -33,14 +33,14 @@ const Belumbayar = (props) => {
 
 return (
     <View style={styles.container}>
-        <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(62)}} />
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(62)}} />
 
         <View style={styles.information}>
             <Text style={styles.txtInformation1}>{DATA[0].tb}</Text>
             <Text style={{color:'#6495ED'}}>{DATA[0].diproses}</Text>
         </View>
 
-        <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(45)}} />
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(45)}} />
 
         <View style={styles.OrderDetail}>
             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
@@ -49,7 +49,7 @@ return (
                 <Text style={{top:toDp(80), right:toDp(10)}}>{DATA[0].jumlah}x</Text>
             </View>
             <Text style={{bottom:toDp(50), left:toDp(128)}}>{DATA[0].harga}</Text>
-            <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(20)}} />    
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(20)}} />    
 
             <Pressable style={{bottom:toDp(18)}} onPress={()=> NavigatorService.navigate('Orderdetail')}>
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5)}}>
@@ -58,7 +58,7 @@ return (
                 <Image source={allLogo.iclineblack} style={{width:toDp(10), height:toDp(12), top:toDp(5), right:toDp(5)}} />
             </View>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey', bottom:toDp(15)}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(15)}} />
 
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5), bottom:toDp(5)}}>
                 <Text style={{fontSize:toDp(12), bottom:toDp(8)}}>Bayar sebelum {DATA[0].bataswaktu}{"\n"}dengan {DATA[0].metodePembayaran} (Dicek Otomatis)</Text>

@@ -76,7 +76,7 @@ const Kategori = (props) => {
               </View>
               <Text style={styles.jmlProduk}>{DATA[0].jumlah} Produk</Text>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
               <View style={styles.button}>
@@ -85,7 +85,7 @@ const Kategori = (props) => {
               </View>
               <Text style={styles.jmlProduk}>{DATA[1].jumlah} Produk</Text>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
               <View style={styles.button}>
@@ -94,7 +94,7 @@ const Kategori = (props) => {
               </View>
               <Text style={styles.jmlProduk}>{DATA[2].jumlah} Produk</Text>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
               <View style={styles.button}>
@@ -103,7 +103,7 @@ const Kategori = (props) => {
               </View>
               <Text style={styles.jmlProduk}>{DATA[3].jumlah} Produk</Text>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
               <View style={styles.button}>
@@ -112,7 +112,7 @@ const Kategori = (props) => {
               </View>
               <Text style={styles.jmlProduk}>{DATA[4].jumlah} Produk</Text>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
               <View style={styles.button}>
@@ -121,7 +121,7 @@ const Kategori = (props) => {
               </View>
               <Text style={styles.jmlProduk}>{DATA[5].jumlah} Produk</Text>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <Pressable style={styles.btnKategori} onPress={() => alert('Coba berhasil gak')} >
               <View style={styles.button}>

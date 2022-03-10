@@ -120,7 +120,7 @@ const Nilaiorder = (props) => {
             <View style={{flexDirection:'row', bottom:toDp(10), justifyContent:'center'}}>
                 <StarRating
                     rating={rating}
-                    starSize={50}
+                    starSize={toDp(50)}
                     enableHalfStar={false}
                     onChange={setRating}
                 />
@@ -146,7 +146,7 @@ const Nilaiorder = (props) => {
                     value={state.nama}
                     onChangeText={(text) => setState(state => ({...state, nama: text })) }
                 />
-                <View style={{borderWidth:0.5, borderColor:'grey' }} />
+                <View style={{borderWidth:toDp(0.5), borderColor:'grey' }} />
 
                 <TextInput  autoCapitalize={'none'}
                     style={styles.textInput}
@@ -155,7 +155,7 @@ const Nilaiorder = (props) => {
                     value={state.nama}
                     onChangeText={(text) => setState(state => ({...state, nama: text })) }
                 />
-                <View style={{borderWidth:0.5, borderColor:'grey' }} />
+                <View style={{borderWidth:toDp(0.5), borderColor:'grey' }} />
 
                 <TextInput  autoCapitalize={'none'}
                     style={styles.textInput}
@@ -164,7 +164,7 @@ const Nilaiorder = (props) => {
                     value={state.nama}
                     onChangeText={(text) => setState(state => ({...state, nama: text })) }
                 />
-                <View style={{borderWidth:0.5, borderColor:'grey' }} />
+                <View style={{borderWidth:toDp(0.5), borderColor:'grey' }} />
 
                 <TextInput  autoCapitalize={'none'}
                     style={styles.textInput1}

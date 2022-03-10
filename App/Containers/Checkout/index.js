@@ -78,7 +78,7 @@ const Checkout = (props) => {
 
         <View style={styles.Shipping}>
             <Text style={styles.txtOption}>Opsi Pengiriman</Text>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
                 <Pressable onPress={ () => alert('Coba Ajalah')}>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                         <Image source={allLogo.icvoucher} style={styles.icvoucher} />
@@ -86,7 +86,7 @@ const Checkout = (props) => {
                         <Image source={allLogo.iclineblack} style={styles.iclineblack} />
                     </View>
                 </Pressable>
-                <View style={{borderWidth:0.5, borderColor:'grey'}} />
+                <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
             <Pressable onPress={ () => NavigatorService.navigate('Jasakirim')}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Text style={styles.delivery}>Reguler</Text>
@@ -105,7 +105,7 @@ const Checkout = (props) => {
                 <Image source={allLogo.iclineblack} style={styles.iclineblack2} />
             </View>
             </Pressable>
-            <View style={{borderWidth:0.5, borderColor:'grey'}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
 
             <View style={{flexDirection:'row', margin:toDp(4), justifyContent:'space-between'}}>
                 <Text style={styles.txtSubTot}>Subtotal Untuk Produk</Text>

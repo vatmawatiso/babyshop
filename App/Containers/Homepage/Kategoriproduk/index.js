@@ -98,7 +98,7 @@ const Kategoriproduk = () => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{backgroundColor:'white', minHeight:400, width:width, marginTop:-10,}}
+      <FlatList style={{backgroundColor:'white', minHeight:toDp(400), width:width, marginTop:toDp(-10),}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{

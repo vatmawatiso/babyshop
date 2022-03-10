@@ -33,11 +33,11 @@ const TambahAlamat = (props) => {
           <View style={styles.content}>
               <SafeAreaView>
                   <TextInput 
-                      left={3}
-                      top={4}
-                      width={310}
-                      height={40}
-                      borderRadius={15}
+                      left={toDp(3)}
+                      top={toDp(4)}
+                      width={toDp(310)}
+                      height={toDp(40)}
+                      borderRadius={toDp(15)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -47,11 +47,11 @@ const TambahAlamat = (props) => {
                       // onChangeText={(text) => setState(state => ({...state, username: text })) }
                   />
                   <TextInput 
-                      left={3}
-                      top={6}
-                      width={310}
-                      height={40}
-                      borderRadius={15}
+                      left={todp(3)}
+                      top={toDp(6)}
+                      width={toDp(310)}
+                      height={toDp(40)}
+                      borderRadius={toDp(15)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -68,10 +68,10 @@ const TambahAlamat = (props) => {
                 <SafeAreaView>
                     <SelectDropdown
                           buttonStyle={styles.dropdown}
-                          buttonTextStyle={{fontSize:12, color:'grey'}}
-                          rowTextStyle={{fontSize:12}}
-                          dropdownStyle={{borderRadius:7}}
-                          rowStyle={{height:35,padding:5}}
+                          buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
+                          rowTextStyle={{fontSize:toDp(12)}}
+                          dropdownStyle={{borderRadius:toDp(7)}}
+                          rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
                           data={countries}
                           onSelect={(selectedItem, index) => {
@@ -88,17 +88,17 @@ const TambahAlamat = (props) => {
                               <FontAwesome
                                 name={isOpened ? "chevron-up" : "chevron-down"}
                                 color={"#444"}
-                                size={12}
+                                size={toDp(12)}
                               />
                             );
                           }}
                     />
                     <TextInput 
-                        left={3}
-                        top={6}
-                        width={310}
-                        height={40}
-                        borderRadius={15}
+                        left={toDp(3)}
+                        top={toDp(6)}
+                        width={toDp(310)}
+                        height={toDp(40)}
+                        borderRadius={toDp(15)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -108,11 +108,11 @@ const TambahAlamat = (props) => {
                         // onChangeText={(text) => setState(state => ({...state, username: text })) }
                     />
                     <TextInput 
-                        left={3}
-                        top={8}
-                        width={310}
-                        height={40}
-                        borderRadius={15}
+                        left={toDp(3)}
+                        top={toDp(8)}
+                        width={toDp(310)}
+                        height={todp(40)}
+                        borderRadius={toDp(15)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -187,10 +187,10 @@ searchIcon: {
 },
 input: {
   flex: 1,
-  paddingTop: 10,
-  paddingRight: 10,
-  paddingBottom: 10,
-  paddingLeft: 0,
+  paddingTop: toDp(10),
+  paddingRight: toDp(10),
+  paddingBottom: toDp(10),
+  paddingLeft: toDp(0),
   borderRadius: toDp(25),
   paddingLeft: toDp(45),
   color:'#FFF'

@@ -161,7 +161,7 @@ const Home = (props) => {
 
   const CardProduct = () =>{
       return(
-        <FlatList style={{backgroundColor:'white', minHeight:400, width:width, marginTop:-10,}}
+        <FlatList style={{backgroundColor:'white', minHeight:toDp(400), width:width, marginTop:toDp(-10),}}
             columnWrapperStyle={{justifyContent: 'space-between'}}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: toDp(8),
-    marginHorizontal:5,
+    marginHorizontal:toDp(5),
   },
   icon: {
     width: toDp(48),

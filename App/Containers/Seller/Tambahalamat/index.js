@@ -33,11 +33,11 @@ const Tambahalamat = (props) => {
           <View style={styles.content}>
               <SafeAreaView>
                   <TextInput 
-                      left={3}
-                      top={4}
-                      width={310}
-                      height={40}
-                      borderRadius={15}
+                      left={toDp(3)}
+                      top={toDp(4)}
+                      width={toDp(310)}
+                      height={toDp(40)}
+                      borderRadius={toDp(15)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -47,11 +47,11 @@ const Tambahalamat = (props) => {
                       // onChangeText={(text) => setState(state => ({...state, username: text })) }
                   />
                   <TextInput 
-                      left={3}
-                      top={6}
-                      width={310}
-                      height={40}
-                      borderRadius={15}
+                      left={toDp(3)}
+                      top={toDp(6)}
+                      width={toDp(310)}
+                      height={toDp(40)}
+                      borderRadius={toDp(15)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -68,10 +68,10 @@ const Tambahalamat = (props) => {
                 <SafeAreaView>
                     <SelectDropdown
                           buttonStyle={styles.dropdown}
-                          buttonTextStyle={{fontSize:12, color:'grey'}}
-                          rowTextStyle={{fontSize:12}}
-                          dropdownStyle={{borderRadius:7}}
-                          rowStyle={{height:35,padding:5}}
+                          buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
+                          rowTextStyle={{fontSize:toDp(12)}}
+                          dropdownStyle={{borderRadius:toDp(7)}}
+                          rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
                           data={countries}
                           onSelect={(selectedItem, index) => {
@@ -94,11 +94,11 @@ const Tambahalamat = (props) => {
                           }}
                     />
                     <TextInput 
-                        left={3}
-                        top={6}
-                        width={310}
-                        height={40}
-                        borderRadius={15}
+                        left={toDp(3)}
+                        top={toDp(6)}
+                        width={toDp(310)}
+                        height={toDp(40)}
+                        borderRadius={toDp(15)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -108,11 +108,11 @@ const Tambahalamat = (props) => {
                         // onChangeText={(text) => setState(state => ({...state, username: text })) }
                     />
                     <TextInput 
-                        left={3}
-                        top={8}
-                        width={310}
-                        height={40}
-                        borderRadius={15}
+                        left={toDp(3)}
+                        top={toDp(8)}
+                        width={toDp(310)}
+                        height={toDp(40)}
+                        borderRadius={toDp(15)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}

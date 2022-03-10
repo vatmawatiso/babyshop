@@ -87,9 +87,9 @@ const Semua = (props) => {
             <View>
                 <StarRating
                     style={{left:toDp(55), bottom:toDp(15)}}
-                    starStyle={{marginLeft:-5}}
+                    starStyle={{marginLeft:toDp(-5)}}
                     rating={rating}
-                    starSize={15}
+                    starSize={toDp(15)}
                     enableHalfStar={false}
                     onChange={setRating}
                 />  

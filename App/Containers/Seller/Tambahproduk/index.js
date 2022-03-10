@@ -67,9 +67,9 @@ const Tambahproduk = (props) => {
                   </View>
 
                   <View>
-                  <Text style={[styles.txtFormInput, {bottom:30} ]}>Deskrispi Barang</Text>
+                  <Text style={[styles.txtFormInput, {bottom:toDp(30)} ]}>Deskrispi Barang</Text>
                   <TextInput  autoCapitalize={'none'}
-                      style={[styles.textInput, {bottom:40} ]}
+                      style={[styles.textInput, {bottom:toDp(40)} ]}
                       placeholderTextColor={'grey'}
                       value={state.deskripsi}
                       onChangeText={(text) => setState(state => ({...state, deskripsi: text })) }
@@ -77,9 +77,9 @@ const Tambahproduk = (props) => {
                   </View>
 
                   <View>
-                  <Text style={[styles.txtFormInput, {bottom:50} ]}>Harga Barang</Text>
+                  <Text style={[styles.txtFormInput, {bottom:toDp(50)} ]}>Harga Barang</Text>
                   <TextInput  autoCapitalize={'none'}
-                      style={[styles.textInput, {bottom:60} ]}
+                      style={[styles.textInput, {bottom:toDp(60)} ]}
                       placeholderTextColor={'grey'}
                       value={state.harga}
                       onChangeText={(text) => setState(state => ({...state, harga: text })) }
@@ -87,9 +87,9 @@ const Tambahproduk = (props) => {
                   </View>
 
                   <View>
-                  <Text style={[styles.txtFormInput, {bottom:70} ]}>Stok Barang</Text>
+                  <Text style={[styles.txtFormInput, {bottom:toDp(70)} ]}>Stok Barang</Text>
                   <TextInput  autoCapitalize={'none'}
-                      style={[styles.textInput, {bottom:80} ]}
+                      style={[styles.textInput, {bottom:toDp(80)} ]}
                       placeholderTextColor={'grey'}
                       value={state.stok}
                       onChangeText={(text) => setState(state => ({...state, stok: text })) }
@@ -100,10 +100,10 @@ const Tambahproduk = (props) => {
                   <Text style={styles.txtKategori}>Kategori</Text>
                   <SelectDropdown
                                 buttonStyle={styles.dropdown}
-                                buttonTextStyle={{fontSize:12, color:'grey'}}
-                                rowTextStyle={{fontSize:12}}
-                                dropdownStyle={{borderRadius:7}}
-                                rowStyle={{height:35,padding:5}}
+                                buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
+                                rowTextStyle={{fontSize:toDp(12)}}
+                                dropdownStyle={{borderRadius:toDp(7)}}
+                                rowStyle={{height:toDp(35),padding:toDp(5)}}
                                 defaultButtonText={'Pilih Kategori'}
                                 data={Katagori}
                                 onSelect={(selectedItem, index) => {
@@ -120,7 +120,7 @@ const Tambahproduk = (props) => {
                                     <FontAwesome
                                       name={isOpened ? "chevron-up" : "chevron-down"}
                                       color={"#444"}
-                                      size={12}
+                                      size={toDp(12)}
                                     />
                                   );
                                 }}
@@ -142,10 +142,10 @@ const Tambahproduk = (props) => {
                   <Text style={styles.txtKondisi}>Kondisi</Text>
                   <SelectDropdown
                                 buttonStyle={styles.dropdown1}
-                                buttonTextStyle={{fontSize:12, color:'grey'}}
-                                rowTextStyle={{fontSize:12}}
-                                dropdownStyle={{borderRadius:7}}
-                                rowStyle={{height:35,padding:5}}
+                                buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
+                                rowTextStyle={{fontSize:todp(12)}}
+                                dropdownStyle={{borderRadius:toDp(7)}}
+                                rowStyle={{height:toDp(35),padding:toDp(5)}}
                                 defaultButtonText={'Pilih Kondisi'}
                                 data={Kondisi}
                                 onSelect={(selectedItem, index) => {
@@ -162,7 +162,7 @@ const Tambahproduk = (props) => {
                                     <FontAwesome
                                       name={isOpened ? "chevron-up" : "chevron-down"}
                                       color={"#444"}
-                                      size={12}
+                                      size={toDp(12)}
                                     />
                                   );
                                 }}
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentContainer: {
-    paddingVertical: 20
+    paddingVertical: toDp(20)
   },
   bodyInputProduk: {
       backgroundColor:'#E7E7E7',
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     borderRadius:toDp(8),
     bottom:toDp(65),
     left:toDp(8),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
   iclineright: {
     width:toDp(8),
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     borderRadius:toDp(8),
     bottom:toDp(40),
     left:toDp(8),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
   dropdown:{
     height:toDp(38),
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     left:toDp(8),
     backgroundColor:'white',
     bottom:toDp(93),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
   txtKondisi: {
     bottom:toDp(45),
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     left:toDp(8),
     backgroundColor:'white',
     bottom:toDp(50),
-    borderWidth:0.5,
+    borderWidth:toDp(0.5),
   },
 });
 
