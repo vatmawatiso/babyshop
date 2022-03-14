@@ -47,7 +47,7 @@ const TambahAlamat = (props) => {
                       // onChangeText={(text) => setState(state => ({...state, username: text })) }
                   />
                   <TextInput 
-                      left={todp(3)}
+                      left={toDp(3)}
                       top={toDp(6)}
                       width={toDp(310)}
                       height={toDp(40)}
@@ -111,7 +111,7 @@ const TambahAlamat = (props) => {
                         left={toDp(3)}
                         top={toDp(8)}
                         width={toDp(310)}
-                        height={todp(40)}
+                        height={toDp(40)}
                         borderRadius={toDp(15)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}

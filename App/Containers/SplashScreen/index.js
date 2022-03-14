@@ -15,7 +15,7 @@ import NavigatorService from '@NavigatorService'
 
 const SplashScreen = () => (
     <View style={styles.container}>
-        <Image source = {allLogo.logo1} style = {styles.logo1}/>
+        <Image source = {allLogo.icbina} style = {styles.logo1}/>
             <Pressable 
             onPress={() => NavigatorService.reset('Login')}
             style={styles.buttonGet}>
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo1: {
-    width: toDp(231),
-    height: toDp(345),
+    width: toDp(250),
+    height: toDp(150),
     marginBottom: toDp(70)
   },
   buttonGet: {

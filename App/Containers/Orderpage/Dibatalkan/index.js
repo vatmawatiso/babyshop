@@ -56,7 +56,7 @@ return (
             <Image source={allLogo.iclineblack} style={{width:toDp(10), height:toDp(12), top:toDp(5), right:toDp(5)}} />
         </View>
         </Pressable>
-        <View style={{borderWidth:toDP(0.5), borderColor:'grey', bottom:toDp(15)}} />
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(15)}} />
 
         <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(5), bottom:toDp(5)}}>
             <Text style={{fontSize:toDp(12)}}>{DATA[0].konfirmasi}</Text>

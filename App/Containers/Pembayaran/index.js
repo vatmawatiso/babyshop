@@ -73,7 +73,7 @@ const Pembayaran = (props) => {
                 <Image source={allLogo.icBNI} style={styles.icBNI} />
                 <Text style={styles.txtBNI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank BNI{"\n"}Metode pembayaran lebih mudah</Text>
             </View>
-            <View style={{borderWidth:toDP(0.5), borderColor:'grey', top:toDp(5), left:toDp(15), width:toDp(330)}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(5), left:toDp(15), width:toDp(330)}} />
 
             <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
                 <CheckBox style={{right:5, top:toDp(20)}}

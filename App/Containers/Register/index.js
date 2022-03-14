@@ -13,20 +13,55 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
+import SelectDropdown from 'react-native-select-dropdown'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Loader from '@Loader'
 import axios from 'axios';
 
 const Register = (props) => {
 
+  const tipeUser = ["Client", "Seller"]
+
     const [state, setState] = useState({
         loading: false,
         secureTextEntry: true,
-        name: '',
+        nama: '',
         email: '',
-        phone: '',
+        hp: '',
         username: '',
         password: '',
+        type: '',
+        valName:false,
+        valMail:false,
+        valPass:false,
     })
+
+    const RegisterMember = async (value) => {
+      const body = {
+       nama: state.nama,
+       email: state.email,
+       hp: state.hp,
+       username: state.username,
+       password: state.password,
+       type: state.type
+     }
+
+     setState(state => ({...state, loading: true }))
+     axios.post(svr.url+'registrasi-member/'+svr.api+'/',body)
+     .then(result =>{
+         if(result.data.status==201){
+           console.log('Register : '+ JSON.stringify(result))
+           setState(state => ({...state, loading: false }))
+           NavigatorService.reset('Login');
+         }else{
+           alert('Registrasi Gagal, Nama Pengguna / Email telah digunakan!')
+           setState(state => ({...state, loading: false }))
+         }
+     }).catch(err =>{
+       alert('Registrasi Gagal, coba lagi nanti')
+       setState(state => ({...state, loading: false }))
+     })
+    }
 
     return (
         <View style={styles.container}>
@@ -39,28 +74,56 @@ const Register = (props) => {
                             style={styles.textInput}
                             placeholder={'Name'}
                             placeholderTextColor={'grey'}
-                            value={state.username}
-                            onChangeText={(text) => setState(state => ({...state, username: text })) }
+                            value={state.nama}
+                            onChangeText={(text) => setState(state => ({...state, nama: text })) }
                 />
-            <Text style={styles.textName}>Email</Text>
+            <Text style={[styles.textName, {bottom:toDp(5)} ]}>Email</Text>
                 <TextInput  autoCapitalize={'none'}
-                            style={styles.textInput}
+                            style={[styles.textInput, {bottom:toDp(15)}]}
                             placeholder={'Email'}
                             placeholderTextColor={'grey'}
-                            value={state.username}
-                            onChangeText={(text) => setState(state => ({...state, username: text })) }
+                            value={state.email}
+                            onChangeText={(text) => setState(state => ({...state, email: text })) }
                 />
-            <Text style={styles.textName}>Phone</Text>
+            <Text style={[styles.textName, {bottom:toDp(8)} ]}>Phone</Text>
                 <TextInput  autoCapitalize={'none'}
-                            style={styles.textInput}
+                            style={[styles.textInput, {bottom:toDp(18)} ]}
                             placeholder={'Phone'}
                             placeholderTextColor={'grey'}
-                            value={state.username}
-                            onChangeText={(text) => setState(state => ({...state, username: text })) }
+                            value={state.hp}
+                            onChangeText={(text) => setState(state => ({...state, hp: text })) }
                 />
-            <Text style={styles.textName}>Username</Text>
+            <Text style={[styles.textName, {bottom:toDp(13)} ]}>Tipe</Text>
+                 <SelectDropdown
+                          buttonStyle={styles.dropdown}
+                          buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
+                          rowTextStyle={{fontSize:toDp(12)}}
+                          dropdownStyle={{borderRadius:toDp(7)}}
+                          rowStyle={{height:toDp(35),padding:toDp(5)}}
+                          defaultButtonText={'Pilih User Sebagai'}
+                          data={tipeUser}
+                          onSelect={(selectedItem, index) => {
+                            console.log(selectedItem, index)
+                          }}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            return item
+                          }}
+                          renderDropdownIcon={(isOpened) => {
+                            return (
+                              <FontAwesome
+                                name={isOpened ? "chevron-up" : "chevron-down"}
+                                color={"#444"}
+                                size={toDp(12)}
+                              />
+                            );
+                          }}
+                    />
+            <Text style={[styles.textName, {bottom:toDp(38)} ]}>Username</Text>
                 <TextInput  autoCapitalize={'none'}
-                            style={styles.textInput}
+                            style={[styles.textInput, {bottom:toDp(48)} ]}
                             placeholder={'Username'}
                             placeholderTextColor={'grey'}
                             value={state.username}
@@ -68,9 +131,9 @@ const Register = (props) => {
                 />
 
                 <View style={{marginTop: toDp(-4)}}>
-                 <Text style={styles.textName}>Password</Text>
+                 <Text style={[styles.textName, {bottom:toDp(40)} ]}>Password</Text>
                  <TextInput autoCapitalize={'none'}
-                            style={[styles.textInput, {marginTop: toDp(-11)}]}
+                            style={[styles.textInput, {bottom:toDp(50)}]}
                             placeholder={'Password'}
                             placeholderTextColor={'grey'}
                             secureTextEntry={state.secureTextEntry}
@@ -84,13 +147,13 @@ const Register = (props) => {
               </View>
               
 
-                  <Pressable style={{left:toDp(85)}} onPress={() => NavigatorService.navigate('Lupapassword')}>
+                  <Pressable style={{left:toDp(85), bottom:toDp(30)}} onPress={() => NavigatorService.navigate('Lupapassword')}>
                       <Text style={styles.textForgot}>Forgot Password</Text>
                   </Pressable>
 
               <View style={styles.viewRow}>       
                   <Pressable 
-                      style={styles.pressableSignup}>
+                      style={styles.pressableSignup} onPress={() => RegisterMember()}>
                       <Text style={styles.textSignup}>Sign Up</Text>
                   </Pressable>
                   <Pressable 
@@ -169,7 +232,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
-    marginTop: toDp(-10)
+    marginBottom: toDp(-20),
+    bottom:toDp(10)
   },
   positionRight: {
     width: '100%',
@@ -177,7 +241,7 @@ const styles = StyleSheet.create({
     marginTop: toDp(8)
   },
   textDont: {
-    marginTop: toDp(-35),
+    marginTop: toDp(-65),
     fontSize: toDp(12),
     color: 'white',
   },
@@ -190,10 +254,11 @@ const styles = StyleSheet.create({
     padding: toDp(4),
     position: 'absolute',
     right: toDp(8),
-    top: Platform.OS === 'ios' ? toDp(30) : toDp(48)
+    top: Platform.OS === 'ios' ? toDp(10) : toDp(10)
   },
   viewRow: {
     paddingLeft: toDp(168),
+    bottom:toDp(30)
   },
   textForgot: {
     color: 'white',
@@ -260,7 +325,21 @@ const styles = StyleSheet.create({
     color: '#000000',
     textAlign: 'center',
     marginTop: toDp(14)
-  }
+  },
+  dropdown:{
+    // height:toDp(38),
+    // borderRadius:toDp(13),
+    // width:toDp(310),
+    // top:toDp(4),
+    // left:toDp(3),
+    // backgroundColor:'white'
+    width: toDp(250),
+    height: toDp(39),
+    backgroundColor: '#F2F3F3',
+    paddingHorizontal: toDp(8),
+    borderRadius: toDp(10),
+    bottom:toDp(23)
+  },
 });
 
 export default Register;

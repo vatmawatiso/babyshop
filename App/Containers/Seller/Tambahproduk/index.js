@@ -143,7 +143,7 @@ const Tambahproduk = (props) => {
                   <SelectDropdown
                                 buttonStyle={styles.dropdown1}
                                 buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
-                                rowTextStyle={{fontSize:todp(12)}}
+                                rowTextStyle={{fontSize:toDp(12)}}
                                 dropdownStyle={{borderRadius:toDp(7)}}
                                 rowStyle={{height:toDp(35),padding:toDp(5)}}
                                 defaultButtonText={'Pilih Kondisi'}
