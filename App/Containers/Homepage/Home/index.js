@@ -143,8 +143,8 @@ const Home = (props) => {
 
   const RenderItem = (item, index) => (
     // <Pressable onPress={()=> alert('Produk : '+index)}>
-    <Pressable onPress={()=> NavigatorService.navigate('produk')}>
       <View style={styles.card}>
+      <Pressable style={{backgroundColor:'red'}} onPress={() => NavigatorService.navigate('Produk')}>
           <View style={styles.txtProduct}>
              <Image source={{uri: item.image}} style={styles.imgProduct} />
              <Text style={styles.textproduct}>{item.title}</Text>
@@ -155,8 +155,8 @@ const Home = (props) => {
              <Text style={styles.bintang}>{item.bintang}</Text>
              <Text style={styles.terjual}>{item.terjual}</Text>
           </ View>
+          </Pressable>
       </ View>
-    </Pressable>
   );
 
   const CardProduct = () =>{

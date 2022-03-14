@@ -219,15 +219,15 @@ const Produk = (props) => {
                 </View>
 
                 <View style={styles.btnMenu}>
-                  <Pressable style={{ left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
-                      <Image source={allLogo.icchatWhite} style={styles.icchatWhite}/>
+                  <Pressable style={{backgroundColor:'cyan',  left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
+                      <Image source={allLogo.icchat} style={styles.icchat}/>
                   </Pressable>
-                  <Pressable style={{ left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
+                  <Pressable style={{backgroundColor:'cyan',  left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
                       <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
                   </Pressable>
             
                   <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(50), rotation:toDp(90) }} />
-                  <Pressable style={{ right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
+                  <Pressable style={{backgroundColor:'cyan', right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
                       <Text style={styles.txtBeli}>Beli Sekarang</Text>
                   </Pressable>
                 </View>
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#C4C4C4',
     width:toDp(335),
     height:toDp(47),
-    top:toDp(15),
+    top:toDp(35),
     right:toDp(3),
     // left:toDp(50),
     borderRadius:toDp(15),
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     borderRadius:toDp(15), 
     justifyContent:'space-between', 
     alignItems:'center',
-    top:toDp(25),
+    top:toDp(45),
     right:toDp(3),
     // left:toDp(50)
   },
@@ -347,6 +347,9 @@ const styles = StyleSheet.create({
     marginTop:toDp(5),
     marginLeft:toDp(8)
   },
+  icchat: {
+    tintColor:'white'
+  }
   // contentContainer: {
   //   paddingVertical: 20
   // }

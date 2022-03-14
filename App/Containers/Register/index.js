@@ -14,14 +14,18 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 import Loader from '@Loader'
+import axios from 'axios';
 
 const Register = (props) => {
 
     const [state, setState] = useState({
         loading: false,
         secureTextEntry: true,
+        name: '',
+        email: '',
+        phone: '',
         username: '',
-        password: ''
+        password: '',
     })
 
     return (
