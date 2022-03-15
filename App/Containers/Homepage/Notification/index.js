@@ -32,6 +32,51 @@ const Notification = (props) => {
       jenis: 'Kamu dapat cashback 50%',
       pesan: 'Ayo belanja dan pakai vocher cashback hinggal 50%',
     },
+    // {
+    //   id: '27361',
+    //   jenis: 'Promo mingguan di TB Abadi Jaya',
+    //   pesan: 'Kamu dapat cashback 50%',
+    // },
+    // {
+    //   id: '27362',
+    //   jenis: 'Vochermu akan hangus',
+    //   pesan: 'Hallo Dandi segera gunakan vocher gratis ongkirmu!',
+    // },
+    // {
+    //   id: '27363',
+    //   jenis: 'Kamu dapat cashback 50%',
+    //   pesan: 'Ayo belanja dan pakai vocher cashback hinggal 50%',
+    // },
+    // {
+    //   id: '27361',
+    //   jenis: 'Promo mingguan di TB Abadi Jaya',
+    //   pesan: 'Kamu dapat cashback 50%',
+    // },
+    // {
+    //   id: '27362',
+    //   jenis: 'Vochermu akan hangus',
+    //   pesan: 'Hallo Dandi segera gunakan vocher gratis ongkirmu!',
+    // },
+    // {
+    //   id: '27363',
+    //   jenis: 'Kamu dapat cashback 50%',
+    //   pesan: 'Ayo belanja dan pakai vocher cashback hinggal 50%',
+    // },
+    // {
+    //   id: '27361',
+    //   jenis: 'Promo mingguan di TB Abadi Jaya',
+    //   pesan: 'Kamu dapat cashback 50%',
+    // },
+    // {
+    //   id: '27362',
+    //   jenis: 'Vochermu akan hangus',
+    //   pesan: 'Hallo Dandi segera gunakan vocher gratis ongkirmu!',
+    // },
+    // {
+    //   id: '27363',
+    //   jenis: 'Kamu dapat cashback 50%',
+    //   pesan: 'Ayo belanja dan pakai vocher cashback hinggal 50%',
+    // },
   ]
 
    {
@@ -53,7 +98,9 @@ const Notification = (props) => {
           title={'Notification'}
           onPress={() => props.navigation.goBack()}
         />
-      {render()}
+        {/* <ScrollView style={{paddingVertical:0, bottom:8}}> */}
+          {render()}
+        {/* </ScrollView> */}
     </View>
   
   )

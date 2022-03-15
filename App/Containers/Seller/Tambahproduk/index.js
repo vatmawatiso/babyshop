@@ -16,6 +16,8 @@ import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import ImagePicker from 'react-native-image-crop-picker'
+import { Linking } from "react-native";
 
 const Tambahproduk = (props) => {
   const [src, setSrc]=useState(null);
@@ -37,6 +39,28 @@ const Tambahproduk = (props) => {
 
     const Kondisi = ["Baru", "Bekas"]
 
+    const camera = () => {
+      ImagePicker.openCamera(state.options).then(response => {
+      //   upImageToServer(response)
+      console.log(response)
+      }).catch(err => {
+        console.log(err)
+        if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+          Alert.alert(
+            'Pengaturan',
+            'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+            [
+              {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
+              {text: 'Aktifkan', onPress: () => {
+                Linking.openSettings();
+              }},
+            ],
+            {cancelable: false},
+          );
+        }
+      })
+    }
+
   return (
     <View style={styles.container}>
        <BackHeader
@@ -51,7 +75,7 @@ const Tambahproduk = (props) => {
           <ScrollView>
               <View>
                   <View>
-                    <Pressable style={styles.btnFoto}>
+                    <Pressable style={styles.btnFoto} onPress={() => camera()}>
                         <Text style={styles.txtFoto}>Tambah Foto</Text>
                     </Pressable>
                   </View>

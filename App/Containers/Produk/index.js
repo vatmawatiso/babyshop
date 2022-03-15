@@ -141,7 +141,7 @@ const Produk = (props) => {
                   <Text style={{marginBottom:toDp(5)}}>{item[index].harga}</Text>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                       <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
-                      <Image source={allLogo.icwishlist} style={{left:toDp(100), bottom:toDp(5)}}/>
+                      <Image source={allLogo.icwishlist} style={{bottom:toDp(5), right:toDp(10), width:toDp(30), height:toDp(30)}}/>
                   </View>
               
               

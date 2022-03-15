@@ -147,7 +147,10 @@ const Home = (props) => {
       <Pressable style={{backgroundColor:'red'}} onPress={() => NavigatorService.navigate('Produk')}>
           <View style={styles.txtProduct}>
              <Image source={{uri: item.image}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.title}</Text>
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text style={styles.textproduct}>{item.title}</Text>
+                <Image source={allLogo.icwishlist} style={{width:toDp(25), height:toDp(25)}} />
+              </View>
              <Text style={styles.harga}>{item.harga}</Text>
              <Image source={allLogo.icaddress} style={styles.address} />
              <Text style={styles.dariKota}>{item.dariKota}</Text>

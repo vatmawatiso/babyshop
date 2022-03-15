@@ -80,11 +80,14 @@ const Kategoriproduk = () => {
   ]
 
   const RenderItem = (item, index) => (
-    <Pressable onPress={()=> alert('Produk : '+index)}>
+    <Pressable>
       <View style={styles.card}>
-          <View style={styles.txtProduct}>
+          <View style={[styles.txtProduct, {height:toDp(30)} ]}>
              <Image source={{uri: item.image}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.title}</Text>
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <Text style={styles.textproduct}>{item.title}</Text>
+                <Image source={allLogo.icwishlist} style={{width:toDp(25), height:toDp(25)}} />
+              </View>
              <Text style={styles.harga}>{item.harga}</Text>
              <Image source={allLogo.icaddress} style={styles.address} />
              <Text style={styles.dariKota}>{item.dariKota}</Text>
@@ -102,7 +105,7 @@ const Kategoriproduk = () => {
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            marginTop: toDp(3),
+            bottom: toDp(13),
             paddingBottom: toDp(3),
 
           }}
@@ -128,7 +131,7 @@ const Kategoriproduk = () => {
       {/* <Search onChangeText={(text)=> setSrc(text)} /> */}
       <View style={{width: '100%', marginTop: toDp(1), flexDirection: 'column', height: toDp(100)}}>
         <View style={{width: '100%'}}>
-          <Text style={{fontSize: toDp(10), fontSize: toDp(13), marginLeft: toDp(14)}}>Kategori</Text>
+          <Text style={{fontSize: toDp(10), fontWeight:'bold', fontSize: toDp(13), marginLeft: toDp(14)}}>Kategori</Text>
         </View>
             <View style={{width: '100%'}}>
               <SelectableChips
@@ -137,7 +140,7 @@ const Kategoriproduk = () => {
                   alertRequired={false}
                   chipStyle={{
                     fontSize: toDp(10),
-                    backgroundColor: '#698498',
+                    backgroundColor: '#2A334B',
                     left: toDp(10),
                     top: toDp(6),  
                   }}
@@ -156,84 +159,112 @@ const Kategoriproduk = () => {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                <View style={styles.product}>
-                  <Image source={allLogo.palu} style={styles.imgProduk}/>
-                  <Text style={styles.text}>Palu</Text>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Batu Bata</Text>
-                  <Image source={allLogo.palu} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Semen</Text>
-                  <Image source={allLogo.palu} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                  <Text style={styles.text}>Cat Tembok</Text>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Peralatan Dapur</Text>
-                  <Image source={allLogo.palu} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Atap Rumah</Text>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Batu Bata</Text>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Semen</Text>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Cat Tembok</Text>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Batu Bata</Text>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                </View>
-
-                <View style={styles.product}>
-                  <Text style={styles.text}>Semen</Text>
-                  <Image source={allLogo.cat} style={styles.imgProduk}/>
-                </View>
+                <Pressable onPress={() => alert('coba')}>
+                  <View style={styles.product}>
+                    <Image source={allLogo.palu} style={styles.imgProduk}/>
+                    <Text style={styles.text}>Palu</Text>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')}>
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Batu Bata</Text>
+                    <Image source={allLogo.palu} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Semen</Text>
+                    <Image source={allLogo.palu} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                  
+                 <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                    <Text style={styles.text}>Cat Tembok</Text>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Peralatan Dapur</Text>
+                    <Image source={allLogo.palu} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Atap Rumah</Text>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Batu Bata</Text>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Semen</Text>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Cat Tembok</Text>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Batu Bata</Text>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
+                
+                <Pressable onPress={() => alert('coba')} >
+                  <View style={styles.product}>
+                    <Text style={styles.text}>Semen</Text>
+                    <Image source={allLogo.cat} style={styles.imgProduk}/>
+                  </View>
+                </Pressable>
 
               </ScrollView>   
       </View>
 
       <View style={styles.textVocher}>
           <View style={styles.judul1}>
-              <Text style={styles.textVocher}>Promo dan Vocher T.B Global Energy</Text>
+              <Text style={[styles.textVocher, {fontWeight:'bold'}]}>Promo dan Vocher T.B Global Energy</Text>
           </View>
       </View>
          <View style={styles.contentVocher}>
-              <View style={styles.vocher}>
+            <Pressable style={{ left:toDp(65), top:toDp(15)}} onPress={() => alert('coba')}>
+              <View style={[styles.vocher, {height:toDp(103)}]}>
                   <Image source={allLogo.diskon} style={styles.imgVocher}/>
                   <Text style={styles.titleVocher}>Diskon</Text>
               </View>
-
+            </Pressable>
+            
+            <Pressable style={{ left:toDp(65), top:toDp(15)}} onPress={() => alert('coba')}>
               <View style={styles.vocher}>
                   <Image source={allLogo.cashback} style={styles.imgVocher}/>
                   <Text style={styles.titleVocher}>Casback</Text>        
               </View>
-
+            </Pressable>
+            
+            <Pressable style={{ left:toDp(65), top:toDp(15)}} onPress={() => alert('coba')}>
               <View style={styles.vocher}>
                   <Image source={allLogo.gratisongkir} style={styles.imgVocher}/>
                   <Text style={styles.titleVocher}>Gratis Ongkir</Text>
               </View>
+            </Pressable>
          </View>
          <View style={styles.titleContent}>
               <Text style={styles.textContent}>Bahan Bangunan Berkualitas</Text>
@@ -362,7 +393,7 @@ const styles = StyleSheet.create({
   textVocher: {
     right: toDp(32),
     top: toDp(3),
-    fontSize: toDp(12)
+    fontSize: toDp(13)
   },
   judul: {
     left: toDp(89)
@@ -373,14 +404,15 @@ const styles = StyleSheet.create({
   contentVocher: {
     flexDirection: 'row',
     right: toDp(59),
+    bottom:toDp(5)
   },
   vocher: {
-    top: toDp(10),
+    // top: toDp(10),
     backgroundColor: '#C4C4C4',
     margin: toDp(5),
     paddingRight: toDp(20),
-    left: toDp(65),
-    borderRadius: toDp(8)
+    // left: toDp(65),
+    borderRadius: toDp(15)
   },
   titleVocher: {
     textAlign: 'center',
@@ -391,9 +423,10 @@ const styles = StyleSheet.create({
     left: toDp(10)
   },
   textContent: {
-    top: toDp(-4),
+    bottom:toDp(12),
     right: toDp(83),
-    fontSize: toDp(12)
+    fontSize: toDp(13),
+    fontWeight:'bold',
   },
   titleContent: {
     left: toDp(97),
