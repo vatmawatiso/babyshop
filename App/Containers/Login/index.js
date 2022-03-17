@@ -30,7 +30,7 @@ const Login = (props) => {
             <Image source={allLogo.icbina} style={styles.icbina}/>
             <Text style={styles.title}>Login</Text>
             <Text style={styles.desc}>silahkan masuk untuk melanjutkan</Text>
-            <Text style={styles.textName}>Username atau Email</Text>
+            <Text style={[styles.textName, {right:toDp(40)}]}>Username atau Email</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={styles.textInput}
                             placeholder={'Username'}
@@ -52,7 +52,7 @@ const Login = (props) => {
                      <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
                  </Pressable>
               </View>
-              <Pressable style={{left:toDp(80)}} onPress={()=> NavigatorService.navigate('Lupapassword')}>
+              <Pressable style={{left:toDp(120)}} onPress={()=> NavigatorService.navigate('Lupapassword')}>
                       <Text style={styles.textForgot}>Forgot Password</Text>
                   </Pressable>
 
@@ -68,13 +68,20 @@ const Login = (props) => {
                   </Pressable>
               </View>
 
-              <Text style={styles.textDont}>Or Login With</Text>
+              {/* <Text style={styles.textDont}>Or Login With</Text> */}
               <View style={styles.rowFooter}>
-                  <Pressable style={styles.pressableClick, {padding: 2}}>
+                  <Pressable style={[styles.pressableClick, {padding: toDp(2),width:toDp(180), height:toDp(40), backgroundColor:'white', width:toDp(170), borderRadius:toDp(10), marginBottom:toDp(5)}]}>
+                    <View style={{flexDirection:'row'}}>
                       <Image source={allLogo.icGoogle} style={styles.icon} />
+                      <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold'}}>Login With Google</Text>
+                    </View>
                   </Pressable>
-                  <Pressable style={styles.pressableClick, {padding: 2}}>
-                      <Image source={allLogo.icFacebook} style={styles.icon} />
+
+                  <Pressable style={[styles.pressableClick, {padding: toDp(2),width:toDp(170), height:toDp(40), backgroundColor:'#3B5998', borderRadius:toDp(10)}]}>
+                    <View style={{flexDirection:'row'}}>
+                        <Image source={allLogo.icFacebook} style={styles.icon} />
+                        <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold', color:'white'}}>Login With Facebook</Text>
+                     </View>
                   </Pressable>
               </View>
         </View>
@@ -94,12 +101,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     margin: toDp(80), //X
     padding: toDp(27), //Y
-    top:toDp(30)
   },
   title: {
       color: 'white',
       fontWeight: 'bold',
-      paddingTop: toDp(46),
+      paddingTop: toDp(15),
       paddingBottom: toDp(13),
       fontSize: toDp(18)
   },
@@ -133,7 +139,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textInput: {
-    width: toDp(250),
+    width: toDp(335),
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
@@ -166,7 +172,7 @@ const styles = StyleSheet.create({
   },
   textForgot: {
     color: 'white',
-    fontSize: toDp(10),
+    fontSize: toDp(12),
     paddingTop: toDp(5),
     bottom:toDp(2)
   }, 
@@ -174,7 +180,7 @@ const styles = StyleSheet.create({
     width: toDp(75),
     height: toDp(70),
     paddingTop: toDp(20),
-    alignItems: 'center'
+    left:toDp(40)
   },
   textLogin: {
     color: 'white',
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10)
   },
   pressableSignup: {
-    left: toDp(-170),
+    right: toDp(210),
     bottom: toDp(50)
   },
   textSignup: {
@@ -206,13 +212,14 @@ const styles = StyleSheet.create({
     tintColor: 'grey'
   },
   rowFooter: {
-    marginTop: toDp(8),
-    flexDirection: 'row'
+    flexDirection: 'column',
+    bottom:toDp(10)
   },
   icon: {
-    width: toDp(30),
-    height: toDp(30),
-    marginHorizontal: toDp(20)
+    width: toDp(25),
+    height: toDp(25),
+    marginHorizontal: toDp(5),
+    top:toDp(7)
   },
   textCreate: {
     textAlign: 'right'

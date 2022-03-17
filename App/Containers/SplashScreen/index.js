@@ -19,7 +19,7 @@ const SplashScreen = () => (
             <Pressable 
             onPress={() => NavigatorService.reset('Login')}
             style={styles.buttonGet}>
-                <Text style={styles.textGet}>Get Ready</Text>
+                <Text style={styles.textGet}>Mulai</Text>
             </Pressable>
     </View>
 );

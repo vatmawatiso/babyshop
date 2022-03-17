@@ -22,9 +22,10 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NumericInput from 'react-native-numeric-input'
 import CheckBox from '@react-native-community/checkbox';
 import { color } from "react-native-reanimated";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Keranjang = (props) => {
-  const countries = ["Besar", "Sedang", "Kecil", "Mini"]
+  // const countries = ["Besar", "Sedang", "Kecil", "Mini"]
   
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
@@ -99,7 +100,7 @@ const Keranjang = (props) => {
 
                   <View style={{marginLeft:toDp(12)}}>
                       <Text style={{fontSize:toDp(20), fontWeight:'bold', marginBottom:toDp(5)}}>{item[index].produk}</Text>
-                      <SelectDropdown
+                      {/* <SelectDropdown
                           buttonStyle={styles.dropdown}
                           buttonTextStyle={{fontSize:toDp(10)}}
                           rowTextStyle={{fontSize:toDp(12)}}
@@ -125,7 +126,7 @@ const Keranjang = (props) => {
                               />
                             );
                           }}
-                        />
+                        /> */}
                       <Text style={{fontSize:toDp(14), marginTop:toDp(10)}}>{item[index].harga}</Text>
 
                       <View style={{flexDirection:'row', marginTop:toDp(25), justifyContent:'center', alignItems:'center'}}>
@@ -181,6 +182,7 @@ return (
       title={'Keranjang'}
       onPress={() => props.navigation.goBack()}
     />
+ 
     <View style={styles.content}>
       {RenderItem(DATA,0)}
     </View>

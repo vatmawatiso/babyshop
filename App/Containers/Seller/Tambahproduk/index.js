@@ -149,10 +149,6 @@ const Tambahproduk = (props) => {
                                   );
                                 }}
                           />
-                  <Pressable style={styles.btnVariasi}>
-                      <Text style={styles.txtVariasi}>Variasi</Text>
-                      <Image source={allLogo.iclineright} style={styles.iclineright} />
-                  </Pressable>
                   </View>
 
                   <View>
@@ -325,7 +321,7 @@ const styles = StyleSheet.create({
     height: toDp(39),
     justifyContent:'center',
     borderRadius:toDp(8),
-    bottom:toDp(40),
+    bottom:toDp(60),
     left:toDp(8),
     borderWidth:toDp(0.5),
   },
@@ -339,7 +335,7 @@ const styles = StyleSheet.create({
     borderWidth:toDp(0.5),
   },
   txtKondisi: {
-    bottom:toDp(45),
+    bottom:toDp(65),
     margin:toDp(8)
   },
   dropdown1:{
@@ -348,7 +344,7 @@ const styles = StyleSheet.create({
     width:toDp(319),
     left:toDp(8),
     backgroundColor:'white',
-    bottom:toDp(50),
+    bottom:toDp(70),
     borderWidth:toDp(0.5),
   },
 });

@@ -23,13 +23,13 @@ import LinearGradient from 'react-native-linear-gradient'
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
-
-
+ 
+ 
 const { width, height } = Dimensions.get('window')
-
+ 
 const Produk = (props) => {
-
-
+ 
+ 
     const [state, setState] = useState({
         arrayFriends: [
           {
@@ -73,8 +73,8 @@ const Produk = (props) => {
         arrayData:[],
         loading: false
       })
-
-
+ 
+ 
       const DATA = [
         {
           id: '1',
@@ -89,9 +89,7 @@ const Produk = (props) => {
           dikirimdari: 'Indonesia Kota bandung'
         },
       ]
-
-     
-    
+ 
       const renderItemExpore = (item, index) => {
         //console.log('item', item);
         return (
@@ -101,78 +99,50 @@ const Produk = (props) => {
               <Image source={{uri: item.item.value.picture}} style={styles.imageProfile} />
               <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
             </View>
-         
+ 
           </View>
         )
       }
-
-      return (
-        <View style={styles.container}>
-          <Header
-            title={'Produk'}
-            onPress={() => props.navigation.goBack()}
-          />
-          
-              <View style={{width:'100%', height: toDp(230), bottom:toDp(55), backgroundColor: 'white'}}>
-                <Carousel
-                  layout={"default"}
-                  data={state.arrayFriends}
-                  sliderWidth={width}
-                  itemWidth={toDp(350)}
-                  renderItem={(item, index) => renderItemExpore(item, index)}
-                  onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
-                />
-              </View> 
-
-              <View style={styles.content}>
-                  {RenderItem(DATA,0)}
-              </View>
-                
-        </View>
-      )};
-
+ 
       const RenderItem = (item, index) => {
         return (
-          
+ 
           <View style={styles.detailProduk}>
-            
-              <View style={{marginLeft:toDp(100), height:toDp(214), width:toDp(330)}}>
+ 
+              <View style={{width:toDp(310)}}>
                   <Text style={{marginBottom:toDp(10)}}>{item[index].name}</Text>
                   <Text style={{marginBottom:toDp(5)}}>{item[index].harga}</Text>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                       <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
                       <Image source={allLogo.icwishlist} style={{bottom:toDp(5), right:toDp(10), width:toDp(30), height:toDp(30)}}/>
                   </View>
-              
-              
-                
-                <ScrollView vertical={true} style={{paddingVertical:toDp(55)}}>
-                <View style={{height:toDp(285)}}>
+ 
+                <View>
                     <View style={{top:toDp(10)}}>
                     <Text style={{fontWeight:'bold', top:toDp(0)}}>Rincian Produk</Text>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Stok</Text>
-                            <Text style={{right:toDp(150)}}>{item[index].stok}</Text>
+                            <Text >{item[index].stok}</Text>
                         </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Beban Kapasitas</Text>
-                            <Text style={{right:toDp(118)}}>{item[index].beban}</Text>
+                            <Text>{item[index].beban}</Text>
                         </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Warna</Text>
                             <Text>{item[index].warna}</Text>
                         </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Kapasitas</Text>
-                            <Text style={{right:toDp(125)}}>{item[index].kapasitas}</Text>
+                            <Text >{item[index].kapasitas}</Text>
                         </View>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Dikirim Dari </Text>
-                            <Text style={{right:toDp(7)}}>{item[index].dikirimdari}</Text>
+                            <Text>{item[index].dikirimdari}</Text>
                         </View>
                     </View>
-
-              
+ 
+ 
                   <Collapse style={{top:toDp(15), left:toDp(50)}}>
                     <CollapseHeader>
                       <View style={{alignItems:'center', right:toDp(55)}}>
@@ -205,9 +175,7 @@ const Produk = (props) => {
                     </CollapseBody>
                   </Collapse>
                 </View>
-                </ScrollView>
-              
-
+ 
                 <View style={styles.Ulasan}>
                   <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
                   <Pressable style={{right:toDp(15)}} onPress={() => NavigatorService.navigate('Ulasanpembeli')}>
@@ -217,38 +185,74 @@ const Produk = (props) => {
                     </View>
                   </Pressable>
                 </View>
-
+ 
+ 
+ 
+                </View>
+ 
+ 
+          </View>
+ 
+        )
+ 
+      };
+ 
+      return (
+        <View style={styles.container}>
+            <Header
+              title={'Profil'}
+              onPress={() => props.navigation.goBack()}
+            />
+ 
+            <ScrollView style={{backgroundColor:'white', paddingVertical:toDp(20), bottom:toDp(70)}}>
+                <View style={{width:'100%', height: toDp(230), backgroundColor: 'white'}}>
+                  <Carousel
+                    layout={"default"}
+                    data={state.arrayFriends}
+                    sliderWidth={width}
+                    itemWidth={toDp(350)}
+                    renderItem={(item, index) => renderItemExpore(item, index)}
+                    onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
+                  />
+                </View>
+ 
+                <View style={styles.content}>
+                    {RenderItem(DATA,0)}
+                </View>
+ 
+ 
+            </ScrollView>
+            <View style={styles.footer}>
                 <View style={styles.btnMenu}>
-                  <Pressable style={{backgroundColor:'cyan',  left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
+                  <Pressable style={{left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
                       <Image source={allLogo.icchat} style={styles.icchat}/>
                   </Pressable>
-                  <Pressable style={{backgroundColor:'cyan',  left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
+                  <Pressable style={{left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
                       <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
                   </Pressable>
-            
+ 
                   <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(50), rotation:toDp(90) }} />
-                  <Pressable style={{backgroundColor:'cyan', right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
+                  <Pressable style={{right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
                       <Text style={styles.txtBeli}>Beli Sekarang</Text>
                   </Pressable>
                 </View>
-
-                </View>
-                
-                
-          </View>
-
-        )
-
-      };
-
+            </View>
+        </View>
+      )};
+ 
+ 
+ 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    flex: 1,
     alignItems: 'center',
-    top: toDp(50),
+    top:toDp(50)
   },
-  contentContainer: {
-    paddingVertical: toDp(20)
+  footer:{
+    backgroundColor:'transparent',
+    position: 'absolute',
+    bottom: toDp(55),
+    width: toDp(310)
   },
   dropdown:{
     height:toDp(25),
@@ -262,9 +266,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: toDp(16),
-    marginTop: toDp(0),
     padding: toDp(10),
-    top: toDp(10)
+    top:toDp(10)
   },
   viewImage: {
     width: '100%',
@@ -304,21 +307,20 @@ const styles = StyleSheet.create({
     top: toDp(16),
   },
   detailProduk: {
-    bottom:toDp(65),
-    right:toDp(50),
-    
+    padding: 20,
+    alignItems:'center'
   },
   Ulasan: {
     backgroundColor:'#C4C4C4',
-    width:toDp(335),
+    width:toDp(310),
     height:toDp(47),
-    top:toDp(35),
-    right:toDp(3),
     // left:toDp(50),
     borderRadius:toDp(15),
     flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center'
+    alignItems:'center',
+    marginTop:toDp(30),
+    marginBottom:toDp(70),
   },
   txtUlasan: {
     marginLeft:toDp(15)
@@ -327,15 +329,14 @@ const styles = StyleSheet.create({
     marginRight:toDp(60)
   },
   btnMenu: {
-    flexDirection:'row',  
-    backgroundColor:'#2A334B', 
-    width:toDp(335), 
-    height:toDp(52), 
-    borderRadius:toDp(15), 
-    justifyContent:'space-between', 
+    flexDirection:'row',
+    backgroundColor:'#2A334B',
+    width:toDp(310),
+    height:toDp(52),
+    borderRadius:toDp(15),
+    justifyContent:'space-between',
     alignItems:'center',
-    top:toDp(45),
-    right:toDp(3),
+ 
     // left:toDp(50)
   },
   txtBeli: {
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
   // contentContainer: {
   //   paddingVertical: 20
   // }
-
+ 
 });
-
+ 
 export default Produk;

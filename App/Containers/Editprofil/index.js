@@ -13,6 +13,8 @@ import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
 import NavigatorService from '@NavigatorService'
 import { Card } from "react-native-paper";
+import ImagePicker from 'react-native-image-crop-picker'
+import { Linking } from "react-native";
 
 const Editprofil = (props) => {
     const DATA = [
@@ -34,6 +36,28 @@ const Editprofil = (props) => {
         nomer: '',
         password: ''
     })
+
+    const camera = () => {
+      ImagePicker.openCamera(state.options).then(response => {
+      //   upImageToServer(response)
+      console.log(response)
+      }).catch(err => {
+        console.log(err)
+        if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+          Alert.alert(
+            'Pengaturan',
+            'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+            [
+              {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
+              {text: 'Aktifkan', onPress: () => {
+                Linking.openSettings();
+              }},
+            ],
+            {cancelable: false},
+          );
+        }
+      })
+    }
     
     // const RenderItem = (item, index) => {
     return (

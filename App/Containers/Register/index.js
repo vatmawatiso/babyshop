@@ -8,7 +8,7 @@ import {
     TextInput,
     Pressable,
     Platform,
-    AsynStorage
+    AsynStorage,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -17,6 +17,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Loader from '@Loader'
 import axios from 'axios';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Register = (props) => {
 
@@ -65,11 +66,12 @@ const Register = (props) => {
 
     return (
         <View style={styles.container}>
+          <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
             <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'}/>
-            <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.title}>Buat Akun</Text>
 
             <View style={{marginTop: toDp(-18)}}>
-            <Text style={styles.textName}>Name</Text>
+            <Text style={styles.textName}>Nama</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={styles.textInput}
                             placeholder={'Name'}
@@ -77,7 +79,7 @@ const Register = (props) => {
                             value={state.nama}
                             onChangeText={(text) => setState(state => ({...state, nama: text })) }
                 />
-            <Text style={[styles.textName, {bottom:toDp(5)} ]}>Email</Text>
+            <Text style={[styles.textName, {bottom:toDp(5)} ]}>Alamat Email</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={[styles.textInput, {bottom:toDp(15)}]}
                             placeholder={'Email'}
@@ -85,7 +87,7 @@ const Register = (props) => {
                             value={state.email}
                             onChangeText={(text) => setState(state => ({...state, email: text })) }
                 />
-            <Text style={[styles.textName, {bottom:toDp(8)} ]}>Phone</Text>
+            <Text style={[styles.textName, {bottom:toDp(8)} ]}>Nomer Telepon</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={[styles.textInput, {bottom:toDp(18)} ]}
                             placeholder={'Phone'}
@@ -93,14 +95,14 @@ const Register = (props) => {
                             value={state.hp}
                             onChangeText={(text) => setState(state => ({...state, hp: text })) }
                 />
-            <Text style={[styles.textName, {bottom:toDp(13)} ]}>Tipe</Text>
+            <Text style={[styles.textName, {bottom:toDp(13)} ]}>Pilih User</Text>
                  <SelectDropdown
                           buttonStyle={styles.dropdown}
                           buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
                           rowTextStyle={{fontSize:toDp(12)}}
                           dropdownStyle={{borderRadius:toDp(7)}}
                           rowStyle={{height:toDp(35),padding:toDp(5)}}
-                          defaultButtonText={'Pilih User Sebagai'}
+                          defaultButtonText={'Type User'}
                           data={tipeUser}
                           onSelect={(selectedItem, index) => {
                             console.log(selectedItem, index)
@@ -121,7 +123,7 @@ const Register = (props) => {
                             );
                           }}
                     />
-            <Text style={[styles.textName, {bottom:toDp(38)} ]}>Username</Text>
+            <Text style={[styles.textName, {bottom:toDp(38)} ]}>Nama Pengguna</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={[styles.textInput, {bottom:toDp(48)} ]}
                             placeholder={'Username'}
@@ -131,7 +133,7 @@ const Register = (props) => {
                 />
 
                 <View style={{marginTop: toDp(-4)}}>
-                 <Text style={[styles.textName, {bottom:toDp(40)} ]}>Password</Text>
+                 <Text style={[styles.textName, {bottom:toDp(40)} ]}>Kata Sandi</Text>
                  <TextInput autoCapitalize={'none'}
                             style={[styles.textInput, {bottom:toDp(50)}]}
                             placeholder={'Password'}
@@ -147,31 +149,39 @@ const Register = (props) => {
               </View>
               
 
-                  <Pressable style={{left:toDp(85), bottom:toDp(30)}} onPress={() => NavigatorService.navigate('Lupapassword')}>
-                      <Text style={styles.textForgot}>Forgot Password</Text>
+                  <Pressable style={{left:toDp(260), bottom:toDp(30)}} onPress={() => NavigatorService.navigate('Lupapassword')}>
+                      <Text style={styles.textForgot}>Lupa Kata Sandi</Text>
                   </Pressable>
 
-              <View style={styles.viewRow}>       
-                  <Pressable 
-                      style={styles.pressableSignup} onPress={() => RegisterMember()}>
-                      <Text style={styles.textSignup}>Sign Up</Text>
-                  </Pressable>
+              <View style={styles.viewRow}> 
                   <Pressable 
                       onPress={() => NavigatorService.navigate('Login')}
                       style={styles.pressableLogin}>
-                      <Text style={styles.textLogin}>Login</Text>
+                      <Text style={styles.textLogin}>Masuk</Text>
+                  </Pressable>      
+                  <Pressable 
+                      style={styles.pressableSignup} onPress={() => RegisterMember()}>
+                      <Text style={styles.textSignup}>Daftar</Text>
                   </Pressable>
               </View>
 
-              <Text style={styles.textDont}>Or Login With</Text>
+              <Text style={styles.textDont}>Atau Masuk Dengan</Text>
               <View style={styles.rowFooter}>
-                  <Pressable style={styles.pressableClick, {padding: toDp(2)}}>
+                  <Pressable style={[styles.pressableClick, {padding: toDp(2), backgroundColor:'white', width:toDp(180), height:toDp(40), borderRadius:toDp(10), marginBottom:toDp(5)}]}>
+                    <View style={{flexDirection:'row'}}>
                       <Image source={allLogo.icGoogle} style={styles.icon} />
+                      <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold'}}>Masuk Dengan Google</Text>
+                    </View>
                   </Pressable>
-                  <Pressable style={styles.pressableClick, {padding: toDp(2)}}>
-                      <Image source={allLogo.icFacebook} style={styles.icon} />
+
+                  <Pressable style={[styles.pressableClick, {padding: toDp(2), width:toDp(180), height:toDp(40), backgroundColor:'#3B5998', borderRadius:toDp(10)}]}>
+                    <View style={{flexDirection:'row'}}>
+                        <Image source={allLogo.icFacebook} style={styles.icon} />
+                        <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold', color:'white'}}>Masuk Dengan Facebook</Text>
+                     </View>
                   </Pressable>
               </View>
+              </ScrollView>
         </View>
     )
 };
@@ -183,6 +193,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     paddingTop: toDp(32),
   },
+  contentContainer: {
+    paddingVertical: toDp(50),
+  },
   logo: {
     width: toDp(200),
     height: toDp(148),
@@ -193,9 +206,10 @@ const styles = StyleSheet.create({
   title: {
       color: 'white',
       fontWeight: 'bold',
-      paddingTop: toDp(-10),
+      bottom:toDp(30),
       paddingBottom: toDp(13),
-      fontSize: toDp(18)
+      fontSize: toDp(18),
+      textAlign:'center'
   },
   desc: {
     fontSize: toDp(13),
@@ -227,7 +241,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textInput: {
-    width: toDp(250),
+    width: toDp(335),
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
@@ -241,9 +255,10 @@ const styles = StyleSheet.create({
     marginTop: toDp(8)
   },
   textDont: {
-    marginTop: toDp(-65),
-    fontSize: toDp(12),
+    fontSize: toDp(13),
     color: 'white',
+    textAlign:'center',
+    top:toDp(20)
   },
   textClick: {
     fontSize: toDp(14),
@@ -258,33 +273,30 @@ const styles = StyleSheet.create({
   },
   viewRow: {
     paddingLeft: toDp(168),
-    bottom:toDp(30)
+    flexDirection:'row',
   },
   textForgot: {
     color: 'white',
-    fontSize: toDp(10),
+    fontSize: toDp(12),
     paddingTop: toDp(5),
-    left: toDp(1)
+    right: toDp(12)
   }, 
   pressableSignup: {
     width: toDp(75),
     height: toDp(70),
-    paddingTop: toDp(20),
-    alignItems: 'center'
+  },
+  pressableLogin: {
+    right: toDp(167),
   },
   textSignup: {
     color: 'white',
     fontSize: toDp(14),
     textAlignVertical: 'center',
     width: toDp(80),
-    height: toDp(35),
-    paddingLeft: toDp(18),
+    height: toDp(40),
+    paddingLeft: toDp(20),
     backgroundColor: '#698498',
     borderRadius: toDp(10)
-  },
-  pressableLogin: {
-    left: toDp(-170),
-    bottom: toDp(50)
   },
   textLogin: {
     color: 'white',
@@ -292,9 +304,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#698498',
     borderRadius: toDp(10),
     width: toDp(80),
-    height: toDp(35),
-    paddingLeft: toDp(23),
-    textAlignVertical: 'center'
+    height: toDp(40),
+    paddingLeft: toDp(19),
+    textAlignVertical: 'center',
   },
   icVisibility: {
     width: toDp(24),
@@ -302,13 +314,15 @@ const styles = StyleSheet.create({
     tintColor: 'grey'
   },
   rowFooter: {
-    marginTop: toDp(8),
-    flexDirection: 'row'
+    flexDirection: 'column',
+    top:toDp(30),
+    alignItems:'center'
   },
   icon: {
-    width: toDp(30),
-    height: toDp(31),
-    marginHorizontal: toDp(15)
+    width: toDp(25),
+    height: toDp(25),
+    marginHorizontal: toDp(5),
+    top:toDp(7)
   },
   textCreate: {
     textAlign: 'right'
@@ -333,7 +347,7 @@ const styles = StyleSheet.create({
     // top:toDp(4),
     // left:toDp(3),
     // backgroundColor:'white'
-    width: toDp(250),
+    width: toDp(335),
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
