@@ -72,8 +72,8 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: -1,
-    bottom: toDp(50)
+    // flex: -1,
+    // bottom: toDp(55)
   },
   icheader: {
     flexDirection: 'row'
