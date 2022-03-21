@@ -78,8 +78,8 @@ class Order extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    bottom: toDp(50),
+    // flex: 1,
+    // bottom: toDp(50),
   },
   icheader: {
     flexDirection: 'row'

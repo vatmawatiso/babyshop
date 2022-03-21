@@ -108,7 +108,7 @@ const Pembayaran = (props) => {
             </View>    
             <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(34), left:toDp(15), width:toDp(330)}} /> 
 
-            <Pressable style={{left:toDp(10)}}>
+            <Pressable style={{left:toDp(10), top:toDp(95), width:toDp(335)}}>
                 <View style={styles.btnKonfirm}>
                     <Text style={styles.txtKonfirm}>Konfirmasi</Text>
                 </View>
@@ -185,8 +185,7 @@ const styles = StyleSheet.create({
   btnKonfirm: {
       backgroundColor:'#2A334B',
       borderRadius:toDp(15),
-      top:toDp(60),
-      width:toDp(340),
+      width:toDp(335),
       height:toDp(40),
       justifyContent:'center'
   },

@@ -12,7 +12,7 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 
 import NavigatorService from '@NavigatorService'
-import  Order  from '@Order'
+import Order from '@Order'
 
 import Belumbayar from './Belumbayar'
 import Dikemas from './Dikemas'
@@ -20,47 +20,56 @@ import Dikirim from './Dikirim'
 import Dibatalkan from "./Dibatalkan";
 import Selesai from './Selesai'
 
-const Orderpage = (props) => {  
+const Orderpage = (props) => {
 
   const [con, setCon] = useState(props.navigation.state.params.content);
 
   return (
     <View style={styles.container}>
-      <Order 
-            title={'Pesanan Saya'}
-            onPress={() => props.navigation.goBack()}
-        />
-      <View style={styles.content}>
-      {
-          con == 'Belumbayar' ?
-            <Belumbayar />
-          :con == 'Dikemas' ?
-            <Dikemas />
-          :con == 'Dikirim' ?
-            <Dikirim />
-          :con == 'Selesai' ?
-          <Selesai />
-          :
-          <Dibatalkan />
-        }
-      </View>
+      <Order
+        title={'Pesanan Saya'}
+        onPress={() => props.navigation.goBack()}
+      />
 
-      <View style={styles.body}> 
+      <View style={{alignItems:'center'}}>
+        <View style={styles.content}>
+          {
+            con == 'Belumbayar' ?
+              <Belumbayar />
+              : con == 'Dikemas' ?
+                <Dikemas />
+                : con == 'Dikirim' ?
+                  <Dikirim />
+                  : con == 'Selesai' ?
+                    <Selesai />
+                    :
+                    <Dibatalkan />
+          }
+        </View>
+        
+        <View style={{flex:85}}>
+          <View style={styles.body}>
             <Pressable style={[styles.presable]} onPress={() => setCon('Belumbayar')}>
-                <Text style={[styles.txtOrder, {color: con === 'Belumbayar' ? '#6495ED' : 'black'}]}>Belum Bayar</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Belumbayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>
             </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
-            <Text style={[styles.txtOrder, {color: con === 'Dikemas' ? '#6495ED' : 'black'}]}>Dikemas</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Dikemas</Text>
             </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
-                <Text style={[styles.txtOrder, {color: con === 'Dikirim' ? '#6495ED' : 'black'}]}>Dikirim</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black' }]}>Dikirim</Text>
             </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
-                <Text style={[styles.txtOrder, {color: con === 'Selesai' ? '#6495ED' : 'black'}]}>Selesai</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black' }]}>Selesai</Text>
             </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
-                <Text style={[styles.txtOrder, {color: con === 'Dibatalkan' ? '#6495ED' : 'black'}]}>Dibatalkan</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black' }]}>Dibatalkan</Text>
             </Pressable>
+          </View>
+          <View style={{alignItems:'center'}}>
+            <View style={{borderWidth:toDp(0.5), width:toDp(335), borderColor:'grey', bottom:toDp(8), alignItems:'center', justifyContent:'center'}} />
+          </View>
+        </View>
+      
       </View>
 
     </View>
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    top:toDp(50)
+    // top:toDp(50)
   },
   header: {
     width: '100%',
@@ -82,8 +91,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: toDp(26),
     shadowColor: "#000",
     shadowOffset: {
-    	width: 0,
-    	height: 5,
+      width: 0,
+      height: 5,
     },
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
@@ -94,15 +103,14 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   body: {
-    bottom:toDp(575),
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flexDirection: 'row',
   },
   presable: {
     flex: 0,
     justifyContent: 'space-between',
-    margin:toDp(7)
-    
+    margin: toDp(7),
+    height:toDp(19)
   },
   icon: {
     width: toDp(31),
@@ -116,6 +124,9 @@ const styles = StyleSheet.create({
     marginTop: toDp(80),
     marginLeft: toDp(16)
   },
+  txtOrder:{
+    bottom:5
+  }
 });
 
 export default Orderpage;

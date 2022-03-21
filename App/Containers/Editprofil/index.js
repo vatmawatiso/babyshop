@@ -171,8 +171,8 @@ const Editprofil = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    top:toDp(50)
+    // flex: 1,
+    // top:toDp(50)
   },
   content: {
       backgroundColor: '#2A334B',
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
       height:toDp(116),
       borderRadius:toDp(8),
       left:toDp(12),
-      bottom:toDp(35)
+      top:toDp(10)
   },
   imgProfil: {
     height: toDp(50),
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     borderWidth:toDp(0.5),
   },
   formInput: {
-    bottom:toDp(15),
+    top:toDp(25),
     left:toDp(18)
   },
   card: {

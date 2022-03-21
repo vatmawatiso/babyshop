@@ -231,7 +231,8 @@ dropdown:{
   width:toDp(310),
   top:toDp(4),
   left:toDp(3),
-  backgroundColor:'white'
+  backgroundColor:'white',
+  borderWidth:toDp(0.5)
 },
 contentMap: {
   backgroundColor:'white',
@@ -239,6 +240,9 @@ contentMap: {
   height:toDp(200),
   borderRadius:toDp(15),
   bottom:toDp(5)
+}, 
+textInput: {
+  borderWidth:toDp(0.5)
 }
 });
 

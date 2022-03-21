@@ -32,16 +32,6 @@ const Homepage = () => {
   return (
     <View style={styles.container}>
       <Search onChangeText={(text)=> setSrc(text)} />
-      {/* <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} /> */}
-      {/* <Image source={allLogo.icsearch} style={styles.search} /> */}
-        {/* <TextInput
-        style={styles.cari, {top: toDp(-20), left: toDp(40), fontSize: toDp(12)}}
-        placeholder="Pencarian. . ."
-        placeholderTextColor= 'white'
-        onChangeText={text => setText(text)}
-        defaultValue={text}
-      /> */}
-        {/* <Text style={styles.title}>Pencarian . . .</Text> */}
         <Image source={allLogo.iccart} style={styles.cart} />
         <Image source={allLogo.icnav} style={styles.nav} />
       
@@ -58,15 +48,19 @@ const Homepage = () => {
       <View style={styles.footer}>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'home' }))}>
           <Image source={allLogo.ichome} style={styles.icon} />
+          <Text style={{color:'white', fontSize:toDp(11)}}>Beranda</Text>
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Kategoriproduk' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'Kategoriproduk' }))}>
           <Image source={allLogo.iccategory} style={styles.icon} />
+          <Text style={{color:'white', fontSize:toDp(11)}}>Kategori</Text>
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Notification')}>
           <Image source={allLogo.icnotification} style={styles.icon} />
+          <Text style={{color:'white', fontSize:toDp(11)}}>Notifikasi</Text>
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Profilone' ? '#234D6C' : '#2A334B'}]}  onPress={()=> NavigatorService.navigate('Profilone')}>
           <Image source={allLogo.icprofil} style={styles.icon} />
+          <Text style={{color:'white', fontSize:toDp(11)}}>Profil</Text>
         </Pressable>
       </View>
 

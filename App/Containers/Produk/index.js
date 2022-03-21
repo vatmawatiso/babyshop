@@ -109,7 +109,7 @@ const Produk = (props) => {
  
           <View style={styles.detailProduk}>
  
-              <View style={{width:toDp(310)}}>
+              <View style={{width:toDp(335)}}>
                   <Text style={{marginBottom:toDp(10)}}>{item[index].name}</Text>
                   <Text style={{marginBottom:toDp(5)}}>{item[index].harga}</Text>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
@@ -122,23 +122,23 @@ const Produk = (props) => {
                     <Text style={{fontWeight:'bold', top:toDp(0)}}>Rincian Produk</Text>
                         <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Stok</Text>
-                            <Text >{item[index].stok}</Text>
+                            <Text style={{right:toDp(162)}}>{item[index].stok}</Text>
                         </View>
                         <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Beban Kapasitas</Text>
-                            <Text>{item[index].beban}</Text>
+                            <Text style={{right:toDp(131)}}>{item[index].beban}</Text>
                         </View>
                         <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Warna</Text>
-                            <Text>{item[index].warna}</Text>
+                            <Text style={{right:toDp(13)}}>{item[index].warna}</Text>
                         </View>
                         <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Kapasitas</Text>
-                            <Text >{item[index].kapasitas}</Text>
+                            <Text style={{right:toDp(135)}}>{item[index].kapasitas}</Text>
                         </View>
                         <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
                             <Text>Dikirim Dari </Text>
-                            <Text>{item[index].dikirimdari}</Text>
+                            <Text style={{right:toDp(17)}}>{item[index].dikirimdari}</Text>
                         </View>
                     </View>
  
@@ -153,23 +153,23 @@ const Produk = (props) => {
                     <View style={{top:toDp(5), right:50}}>
                           <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                               <Text>Stok</Text>
-                              <Text style={{right:toDp(150)}}>{item[index].stok}</Text>
+                              <Text style={{right:toDp(162)}}>{item[index].stok}</Text>
                           </View>
                           <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                               <Text>Beban Kapasitas</Text>
-                              <Text style={{right:toDp(118)}}>{item[index].beban}</Text>
+                              <Text style={{right:toDp(131)}}>{item[index].beban}</Text>
                           </View>
                           <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                               <Text>Warna</Text>
-                              <Text>{item[index].warna}</Text>
+                              <Text style={{right:toDp(13)}}>{item[index].warna}</Text>
                           </View>
                           <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                               <Text>Kapasitas</Text>
-                              <Text style={{right:toDp(125)}}>{item[index].kapasitas}</Text>
+                              <Text style={{right:toDp(135)}}>{item[index].kapasitas}</Text>
                           </View>
                           <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                               <Text>Dikirim Dari </Text>
-                              <Text style={{right:toDp(7)}}>{item[index].dikirimdari}</Text>
+                              <Text style={{right:toDp(17)}}>{item[index].dikirimdari}</Text>
                           </View>
                       </View>
                     </CollapseBody>
@@ -186,8 +186,6 @@ const Produk = (props) => {
                   </Pressable>
                 </View>
  
- 
- 
                 </View>
  
  
@@ -200,12 +198,12 @@ const Produk = (props) => {
       return (
         <View style={styles.container}>
             <Header
-              title={'Profil'}
+              title={'Produk'}
               onPress={() => props.navigation.goBack()}
             />
  
             <ScrollView style={{backgroundColor:'white', paddingVertical:toDp(20), bottom:toDp(70)}}>
-                <View style={{width:'100%', height: toDp(230), backgroundColor: 'white'}}>
+                <View style={{width:'100%', height: toDp(230), backgroundColor: 'white', top:toDp(50)}}>
                   <Carousel
                     layout={"default"}
                     data={state.arrayFriends}
@@ -219,24 +217,24 @@ const Produk = (props) => {
                 <View style={styles.content}>
                     {RenderItem(DATA,0)}
                 </View>
- 
- 
             </ScrollView>
+
             <View style={styles.footer}>
-                <View style={styles.btnMenu}>
-                  <Pressable style={{left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
-                      <Image source={allLogo.icchat} style={styles.icchat}/>
-                  </Pressable>
-                  <Pressable style={{left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
-                      <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
-                  </Pressable>
- 
-                  <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(50), rotation:toDp(90) }} />
-                  <Pressable style={{right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
-                      <Text style={styles.txtBeli}>Beli Sekarang</Text>
-                  </Pressable>
-                </View>
-            </View>
+                  <View style={styles.btnMenu}>
+                    <Pressable style={{left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
+                        <Image source={allLogo.icchat} style={styles.icchat}/>
+                    </Pressable>
+                    <Pressable style={{left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
+                        <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
+                    </Pressable>
+  
+                    <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(50), rotation:toDp(90) }} />
+                    <Pressable style={{right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
+                        <Text style={styles.txtBeli}>Beli Sekarang</Text>
+                    </Pressable>
+                  </View>
+              </View>
+             
         </View>
       )};
  
@@ -244,15 +242,17 @@ const Produk = (props) => {
  
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
-    top:toDp(50)
+    justifyContent:'flex-end',
+    bottom:toDp(5),
+    backgroundColor:'cyan',
+    // top:toDp(50)
   },
   footer:{
     backgroundColor:'transparent',
     position: 'absolute',
-    bottom: toDp(55),
-    width: toDp(310)
+    alignItems:'center',
   },
   dropdown:{
     height:toDp(25),
@@ -308,11 +308,12 @@ const styles = StyleSheet.create({
   },
   detailProduk: {
     padding: 20,
-    alignItems:'center'
+    alignItems:'center',
+    top:toDp(15)
   },
   Ulasan: {
     backgroundColor:'#C4C4C4',
-    width:toDp(310),
+    width:toDp(335),
     height:toDp(47),
     // left:toDp(50),
     borderRadius:toDp(15),
@@ -321,6 +322,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginTop:toDp(30),
     marginBottom:toDp(70),
+    right:toDp(8)
   },
   txtUlasan: {
     marginLeft:toDp(15)
@@ -331,7 +333,7 @@ const styles = StyleSheet.create({
   btnMenu: {
     flexDirection:'row',
     backgroundColor:'#2A334B',
-    width:toDp(310),
+    width:toDp(335),
     height:toDp(52),
     borderRadius:toDp(15),
     justifyContent:'space-between',

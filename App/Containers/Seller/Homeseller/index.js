@@ -92,7 +92,7 @@ const Homeseller = (props) => {
                       <Text style={{padding:toDp(5), bottom:toDp(10)}}>Diskusi</Text>
                     </View>
                   </Pressable>
-                  <Pressable style={{width:toDp(335), height:toDp(35), top:toDp(20)}} onPress={() => alert('Coming Soon')}>
+                  <Pressable style={{width:toDp(335), height:toDp(35), top:toDp(15)}} onPress={() => alert('Coming Soon')}>
                     <View style={{flexDirection:'row', margin:toDp(10)}}>
                       <Image source={allLogo.icdiscussion} style={{bottom:toDp(10)}} />
                       <Text style={{padding:toDp(5), bottom:toDp(6)}}>Pesanan Komplain</Text>
@@ -104,12 +104,15 @@ const Homeseller = (props) => {
         <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
             <Pressable style={styles.btnHome} onPress={() => NavigatorService.navigate('Homeseller')} >
                 <Image source={allLogo.ichome} style={styles.ichome} />
+                <Text style={{color:'white', fontSize:toDp(11), right:toDp(3)}}>Beranda</Text>
             </Pressable>
             <Pressable style={styles.btnPlus} onPress={() => NavigatorService.navigate('Tambahproduk')} >
                 <Image source={allLogo.icplusround} style={styles.icplus}/>
+                <Text style={{color:'white', fontSize:toDp(11), right:toDp(4)}}>Tambah</Text>
             </Pressable> 
             <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')} >
                 <Image source={allLogo.icchat} style={styles.icchat}/>
+                <Text style={{color:'white', fontSize:toDp(11), right:toDp(6)}}>Chat</Text>
             </Pressable> 
         </View>
 
@@ -176,9 +179,9 @@ iclineright1: {
       flexDirection:'row',
       alignItems:'baseline',
       backgroundColor:'#2A334B',
-      top:toDp(40),
-      width:toDp(335),
-      height:toDp(45),
+      top:toDp(35),
+      width: toDp(335),
+      height: toDp(52),
       borderRadius:toDp(8),
   },
   btnHome: {
@@ -188,7 +191,8 @@ iclineright1: {
   icchat: {
     width:toDp(26),
     height:toDp(26),
-    tintColor:'white'
+    tintColor:'white',
+    right:toDp(8)
   },
   icplus: {
     // tintColor:'black'

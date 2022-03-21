@@ -60,7 +60,7 @@ const Keranjang = (props) => {
 
   const RenderItem = (item, index) => {
     return (
-      <View style={{marginTop:10, justifyContent:'center', alignItems:'center'}}>
+      <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.orderCart}>
 
           {/*produk dari setiap toko*/}
@@ -139,7 +139,7 @@ const Keranjang = (props) => {
   const CardProduct = () => {
     return (
       <View style={styles.content}>
-        <FlatList style={{ width: '100%', top:100 }}
+        <FlatList style={{ width: '100%', top:toDp(110) }}
           data={DATA}
           renderItem={({ item, index }) => {
             return (
@@ -159,6 +159,8 @@ const Keranjang = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
+      <View style={{justifyContent:'flex-end', bottom:toDp(5)}}>
+
       <View style={styles.chooseAll}>
         <CheckBox style={{ right: -2 }}
           disabled={false}
@@ -173,21 +175,21 @@ const Keranjang = (props) => {
       </View>
 
       {/*Button Checkout*/}
-      <View style={styles.checkout}>
-        <Pressable style={styles.buttonTotal}>
-          <Text style={styles.txtTotal}>Total Harga</Text>
-          <Text style={{color:'white', fontSize:toDp(18), textAlign:'center'}}>{DATA[0].total}</Text>
-        </Pressable>
+        <View style={styles.checkout}>
+          <Pressable style={styles.buttonTotal}>
+            <Text style={styles.txtTotal}>Total Harga</Text>
+            <Text style={{ color: 'white', fontSize: toDp(18), textAlign: 'center' }}>{DATA[0].total}</Text>
+          </Pressable>
 
-        <View style={{borderWidth:toDp(0.5), borderColor:'white'}} /> 
+          <View style={{ borderWidth: toDp(0.5), borderColor: 'white' }} />
 
-        <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Checkout')}>
-          <Text style={styles.txtPay}>Beli Sekarang</Text>
-        </Pressable>
-      </View>
-
+          <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Checkout')}>
+            <Text style={styles.txtPay}>Beli Sekarang</Text>
+          </Pressable>
+        </View>
 
       <CardProduct />
+      </View>
     </View>
 
   )
@@ -196,7 +198,7 @@ const Keranjang = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: 'white',
     alignItems: 'center',
   },
@@ -207,9 +209,9 @@ const styles = StyleSheet.create({
   },
   content: {
     bottom: toDp(30),
-    width:toDp(335),
-    height:'100%',
-    paddingVertical:25,
+    width: toDp(335),
+    height: '100%',
+    paddingVertical: 25,
   },
   chooseAll: {
     // marginBottom: toDp(5),
@@ -218,12 +220,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#C4C4C4',
     width: toDp(335),
-    height: toDp(41),
+    height: toDp(40),
     borderRadius: toDp(8),
-    top: toDp(57),
-    position:'absolute',
-    zIndex:1
-   
+    top: toDp(71),
+    position: 'absolute',
+    zIndex: 1
+
   },
   notProcessed: {
     marginBottom: toDp(5),
@@ -281,13 +283,13 @@ const styles = StyleSheet.create({
   },
   checkout: {
     backgroundColor: '#2A334B',
-    borderRadius:toDp(15),
+    borderRadius: toDp(15),
     flexDirection: 'row',
     justifyContent: 'space-between',
-    top: toDp(560),
-    width:toDp(335),
-    position:'absolute',
-    zIndex:1
+    // top: toDp(20),
+    width: toDp(335),
+    position: 'absolute',
+    zIndex: 1
   },
   buttonTotal: {
     // backgroundColor: 'red',
