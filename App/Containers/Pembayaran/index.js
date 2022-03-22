@@ -36,84 +36,85 @@ const Pembayaran = (props) => {
             title={'Metode Pembayaran'}
             onPress={() => props.navigation.goBack()}
             />   
+            <View style={{top:toDp(50)}}>
+              <View style={styles.Transfer}>
+                  <Image source={allLogo.ictransfer} style={styles.ictransfer} />
+                  <Text style={styles.txtTransfer}>Transaksi Pembayaran</Text>
+              </View>  
 
-            <View style={styles.Transfer}>
-                <Image source={allLogo.ictransfer} style={styles.ictransfer} />
-                <Text style={styles.txtTransfer}>Transaksi Pembayaran</Text>
-            </View>  
+              <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
+                  <CheckBox style={{right:5, bottom:toDp(13)}}
+                      disabled={false}
+                      value={toggleCheckBox}
+                      onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Image source={allLogo.icBCA} style={styles.icBCA} />
+                  <Text style={styles.txtBCA}>Transaksi Pembayaran{"\n"}Hanya menerima dari Bank BCA{"\n"}Metode pembayaran lebih mudah</Text>
+              </View>  
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(20), left:toDp(15), width:toDp(330)}} />
 
-            <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
-                <CheckBox style={{right:5, bottom:toDp(13)}}
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                />
-                <Image source={allLogo.icBCA} style={styles.icBCA} />
-                <Text style={styles.txtBCA}>Transaksi Pembayaran{"\n"}Hanya menerima dari Bank BCA{"\n"}Metode pembayaran lebih mudah</Text>
-            </View>  
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(20), left:toDp(15), width:toDp(330)}} />
+              <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
+                  <CheckBox style={{right:toDp(5)}}
+                      disabled={false}
+                      value={toggleCheckBox}
+                      onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Image source={allLogo.icMANDIRI} style={styles.icMANDIRI} />
+                  <Text style={styles.txtMANDIRI}>Transaksi Pembayaran{"\n"}Menerima dari semua Bank termasuk{"\n"}Bank Syariah Metode pembayaran{"\n"}lebih mudah</Text>
+              </View> 
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(5), left:toDp(15), width:toDp(330)}} />
 
-            <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
-                <CheckBox style={{right:toDp(5)}}
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                />
-                <Image source={allLogo.icMANDIRI} style={styles.icMANDIRI} />
-                <Text style={styles.txtMANDIRI}>Transaksi Pembayaran{"\n"}Menerima dari semua Bank termasuk{"\n"}Bank Syariah Metode pembayaran{"\n"}lebih mudah</Text>
-            </View> 
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(5), left:toDp(15), width:toDp(330)}} />
+              <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
+                  <CheckBox style={{right:toDp(5), top:toDp(7)}}
+                      disabled={false}
+                      value={toggleCheckBox}
+                      onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Image source={allLogo.icBNI} style={styles.icBNI} />
+                  <Text style={styles.txtBNI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank BNI{"\n"}Metode pembayaran lebih mudah</Text>
+              </View>
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(5), left:toDp(15), width:toDp(330)}} />
 
-            <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
-                <CheckBox style={{right:toDp(5), top:toDp(7)}}
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                />
-                <Image source={allLogo.icBNI} style={styles.icBNI} />
-                <Text style={styles.txtBNI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank BNI{"\n"}Metode pembayaran lebih mudah</Text>
-            </View>
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(5), left:toDp(15), width:toDp(330)}} />
+              <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
+                  <CheckBox style={{right:5, top:toDp(20)}}
+                      disabled={false}
+                      value={toggleCheckBox}
+                      onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Image source={allLogo.icBRI} style={styles.icBRI} />
+                  <Text style={styles.txtBRI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank BRI{"\n"}Metode pembayaran lebih mudah</Text>
+              </View> 
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(18), left:toDp(15), width:toDp(330)}} />
 
-            <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
-                <CheckBox style={{right:5, top:toDp(20)}}
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                />
-                <Image source={allLogo.icBRI} style={styles.icBRI} />
-                <Text style={styles.txtBRI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank BRI{"\n"}Metode pembayaran lebih mudah</Text>
-            </View> 
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(18), left:toDp(15), width:toDp(330)}} />
+              <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
+                  <CheckBox style={{right:5, top:toDp(33)}}
+                      disabled={false}
+                      value={toggleCheckBox}
+                      onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Image source={allLogo.icBSI} style={styles.icBSI} />
+                  <Text style={styles.txtBSI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank Syariah{"\n"}Indonesia Metode pembayaran{"\n"}lebih mudah</Text>
+              </View> 
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(27), left:toDp(15), width:toDp(330)}} />
 
-            <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
-                <CheckBox style={{right:5, top:toDp(33)}}
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                />
-                <Image source={allLogo.icBSI} style={styles.icBSI} />
-                <Text style={styles.txtBSI}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank Syariah{"\n"}Indonesia Metode pembayaran{"\n"}lebih mudah</Text>
-            </View> 
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(27), left:toDp(15), width:toDp(330)}} />
+              <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
+                  <CheckBox style={{right:toDp(5), top:toDp(40)}}
+                      disabled={false}
+                      value={toggleCheckBox}
+                      onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Image source={allLogo.icPERMATA} style={styles.icPERMATA} />
+                  <Text style={styles.txtPERMATA}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank Permata{"\n"}Metode pembayaran lebih mudah</Text>
+              </View>    
+              <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(34), left:toDp(15), width:toDp(330)}} /> 
+              
+              <View> 
+                <Pressable style={[styles.btnKonfirm,{left:toDp(10), width:toDp(335)}]}>
+                        <Text style={styles.txtKonfirm}>Konfirmasi</Text>
+                </Pressable>       
+              </View>  
+          </View> 
 
-            <View style={{flexDirection:'row', marginHorizontal:toDp(14)}}>
-                <CheckBox style={{right:toDp(5), top:toDp(40)}}
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
-                />
-                <Image source={allLogo.icPERMATA} style={styles.icPERMATA} />
-                <Text style={styles.txtPERMATA}>Transaksi Pembayaran{"\n"}Hanya Menerima dari Bank Permata{"\n"}Metode pembayaran lebih mudah</Text>
-            </View>    
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(34), left:toDp(15), width:toDp(330)}} /> 
-
-            <Pressable style={{left:toDp(10), top:toDp(95), width:toDp(335)}}>
-                <View style={styles.btnKonfirm}>
-                    <Text style={styles.txtKonfirm}>Konfirmasi</Text>
-                </View>
-            </Pressable>       
-                
         </View>
     );
   
@@ -121,15 +122,15 @@ const Pembayaran = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
-    // justifyContent:'center',
+    // top:toDp(50),
+    justifyContent:'center',
     // alignItems: 'center',
   },
   Transfer: {
     flexDirection:'row',
     justifyContent:'flex-start',
     marginHorizontal:toDp(15),
-    bottom:toDp(35),
+    bottom:toDp(35)
   },
   txtTransfer: {
       fontWeight:'bold',

@@ -85,7 +85,6 @@ const Successorder = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
       width:toDp(335),
       height:toDp(139),
       borderRadius:toDp(8),
-      bottom:toDp(40),
+      marginTop:toDp(10),
       justifyContent:'center',
       alignItems:'center'
   },

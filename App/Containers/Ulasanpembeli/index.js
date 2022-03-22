@@ -185,7 +185,7 @@ const Ulasanpembeli = (props) => {
           onPress={() => props.navigation.goBack()}
         />
  
-          {/*modal*/}
+        {/*modal*/}
           <Modal style={styles.modal} isVisible={isModalVisible}>
           <View style={styles.ViewModal}>
               <Pressable style={styles.modalClose} onPress={()=> toggleModal()}>

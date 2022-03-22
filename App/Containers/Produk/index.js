@@ -245,8 +245,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     alignItems: 'center',
     justifyContent:'flex-end',
-    bottom:toDp(5),
-    backgroundColor:'cyan',
+    // backgroundColor:'cyan',
     // top:toDp(50)
   },
   footer:{
@@ -334,10 +333,11 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     backgroundColor:'#2A334B',
     width:toDp(335),
-    height:toDp(52),
+    height:toDp(60),
     borderRadius:toDp(15),
     justifyContent:'space-between',
     alignItems:'center',
+    bottom:toDp(10)
  
     // left:toDp(50)
   },
