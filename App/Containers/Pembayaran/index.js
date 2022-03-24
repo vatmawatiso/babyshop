@@ -108,8 +108,9 @@ const Pembayaran = (props) => {
               </View>    
               <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(34), left:toDp(15), width:toDp(330)}} /> 
               
-              <View> 
-                <Pressable style={[styles.btnKonfirm,{left:toDp(10), width:toDp(335)}]}>
+              {/* TOMBOL KONFIRMASI BELUM RAPIH */}
+              <View style={{marginTop:toDp(100)}}> 
+                <Pressable style={[styles.btnKonfirm,{left:toDp(10), width:toDp(335)}]} onPress={() => NavigatorService.navigate('Infopembayaran')}>
                         <Text style={styles.txtKonfirm}>Konfirmasi</Text>
                 </Pressable>       
               </View>  

@@ -87,7 +87,7 @@ const Bintangdua = (props) => {
             <View>
                 <StarRating
                     style={{left:toDp(55), bottom:toDp(15)}}
-                    starStyle={{marginLeft:-5}}
+                    starStyle={{marginRight:5}}
                     rating={rating}
                     starSize={toDp(15)}
                     enableHalfStar={false}
@@ -126,7 +126,7 @@ bodyUlasan: {
 elevation: 2,
 },
 txtNama: {
-  right:toDp(25),
+  right:toDp(28),
   top:toDp(5)
 },
 txtBalas: {
@@ -137,7 +137,7 @@ txtBalas: {
 imgProduk: {
   height: toDp(80),
   width: toDp(80),
-  left:toDp(53),
+  right:toDp(153),
   bottom:toDp(10)
 },
 txtDeskripsi: {

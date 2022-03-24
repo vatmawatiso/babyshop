@@ -182,7 +182,7 @@ iclineright1: {
       top:toDp(35),
       width: toDp(335),
       height: toDp(52),
-      borderRadius:toDp(8),
+      borderRadius:toDp(25),
   },
   btnHome: {
     marginHorizontal:toDp(20),

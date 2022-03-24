@@ -123,7 +123,7 @@ const Tokobangunan = (props) => {
 
       const renderswitch = ({item, index}) => {
         return (
-          <View style={{width:toDp(316), borderRadius:toDp(15)}}>
+          <View style={{width:toDp(335), borderRadius:toDp(15)}}>
       
             <View style={styles.body}>
                 <Image source={{uri: DATA[0].image}} style={styles.imgKontak} />
@@ -165,12 +165,12 @@ const Tokobangunan = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View style={{marginBottom:toDp(30), width:toDp(335)}}>
+        <View style={{marginBottom:toDp(0), width:toDp(335)}}>
         <FlatList
           data={DATA}
           renderItem={renderswitch}
           keyExtractor={item => item.id}
-          ListFooterComponent={() => <View style={{height: toDp(50)}} />}
+          ListFooterComponent={() => <View style={{height: '100%'}} />}
         />
       </View>
      
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
     alignItems: 'center',
+    top:toDp(30)
   },
   body: {
     flexDirection:'row', 

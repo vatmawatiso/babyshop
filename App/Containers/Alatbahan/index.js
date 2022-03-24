@@ -72,7 +72,7 @@ const Alatbahan = (props) => {
           title={'Alat Bahan'}
           onPress={() => props.navigation.goBack()}
         />
-
+          <View style={{marginTop:toDp(10)}}>
             <Text style={styles.txtTools}>Alat Bangunan</Text>
             
             <View style={styles.bodyTools}>
@@ -166,7 +166,7 @@ const Alatbahan = (props) => {
 
                 </ScrollView>
             </View>
-     
+            </View>
       </View>
       
     );

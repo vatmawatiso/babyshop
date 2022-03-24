@@ -184,7 +184,6 @@ btnChat: {
 },
 card: {
   backgroundColor: 'white',
-  bottom:toDp(-15),
   padding: toDp(25),
   marginVertical: toDp(5),
   marginHorizontal: toDp(16),

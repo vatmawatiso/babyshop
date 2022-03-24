@@ -103,21 +103,21 @@ const Nilaiorder = (props) => {
      return (
       <View style={styles.container}>
          <Back
-            title={'Sukses Produk'}
+            title={'Nilai Produk'}
             onPress={() => props.navigation.goBack()}
          />  
 
-        <View style={{flexDirection:'row', right:toDp(100), bottom:toDp(40)}}>
+        <View style={{flexDirection:'row', right:toDp(100), marginTop:toDp(10)}}>
             <Image source={{uri: DATA[0].image}} style={styles.imgProduk} />
             <View style={{flexDirection:'column'}}>
                 <Text style={styles.txtProduk}>{DATA[0].produk}</Text>
                 <Text style={styles.txtVarian}>Varian {DATA[0].varian}</Text>
             </View>
         </View>  
-        <View style={{borderWidth:0.5, borderColor:'grey', width:toDp(360), bottom:toDp(30) }} />
+        <View style={{borderWidth:0.5, borderColor:'grey', width:toDp(360) }} />
 
         <View>
-            <View style={{flexDirection:'row', bottom:toDp(10), justifyContent:'center'}}>
+            <View style={{flexDirection:'row', justifyContent:'center'}}>
                 <StarRating
                     rating={rating}
                     starSize={toDp(50)}
@@ -188,7 +188,6 @@ const Nilaiorder = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    top:toDp(50),
     justifyContent:'center',
     alignItems: 'center',
   },

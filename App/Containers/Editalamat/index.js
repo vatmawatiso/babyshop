@@ -33,11 +33,11 @@ const Editalamat = (props) => {
           <View style={styles.content}>
               <SafeAreaView>
                   <TextInput 
-                      left={3}
-                      top={4}
-                      width={335}
-                      height={40}
-                      borderRadius={8}
+                      left={toDp(3)}
+                      top={toDp(4)}
+                      width={toDp(335)}
+                      height={toDp(40)}
+                      borderRadius={toDp(8)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -47,11 +47,11 @@ const Editalamat = (props) => {
                       // onChangeText={(text) => setState(state => ({...state, username: text })) }
                   />
                   <TextInput 
-                      left={3}
-                      top={6}
-                      width={335}
-                      height={40}
-                      borderRadius={8}
+                      left={toDp(3)}
+                      top={toDp(6)}
+                      width={toDp(335)}
+                      height={toDp(40)}
+                      borderRadius={toDp(8)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -88,17 +88,17 @@ const Editalamat = (props) => {
                               <FontAwesome
                                 name={isOpened ? "chevron-up" : "chevron-down"}
                                 color={"#444"}
-                                size={12}
+                                size={toDp(12)}
                               />
                             );
                           }}
                     />
                     <TextInput 
-                        left={3}
-                        top={6}
-                        width={335}
-                        height={40}
-                        borderRadius={8}
+                        left={toDp(3)}
+                        top={toDp(6)}
+                        width={toDp(335)}
+                        height={toDp(40)}
+                        borderRadius={toDp(8)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -108,11 +108,11 @@ const Editalamat = (props) => {
                         // onChangeText={(text) => setState(state => ({...state, username: text })) }
                     />
                     <TextInput 
-                        left={3}
-                        top={8}
-                        width={335}
-                        height={40}
-                        borderRadius={8}
+                        left={toDp(3)}
+                        top={toDp(8)}
+                        width={toDp(335)}
+                        height={toDp(40)}
+                        borderRadius={toDp(8)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -179,7 +179,7 @@ searchIcon: {
   tintColor: 'white',
   width: toDp(20),
   height: toDp(20),
-  zIndex:3,
+  zIndex:toDp(3),
   padding: toDp(8),
   position: 'absolute',
   left: toDp(15),

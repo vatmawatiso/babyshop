@@ -202,19 +202,19 @@ const Home = (props) => {
         </View>
 
         <View style={styles.content}>
-            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Tokobangunan')}>
                 <Image source={allLogo.ichouse} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Toko{'\n'}Bangunan</Text>
             </Pressable>
-            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Jasatukang')}>
                 <Image source={allLogo.icworkers} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Jasa{'\n'}Tukang</Text>
             </Pressable>
-            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Konsultan')}>
                 <Image source={allLogo.icbuilder} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Konsultan{'\n'}Arsitek</Text>
             </Pressable>
-            <Pressable style={styles.presable} onPress={() => alert('Coming Soon')}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Alatbahan')}>
                 <Image source={allLogo.ichomerenovation} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center'}}>Alat dan{'\n'}Bahan</Text>
             </Pressable>

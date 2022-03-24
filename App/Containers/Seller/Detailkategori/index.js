@@ -102,12 +102,12 @@ const Kategori = (props) => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:toDp(400), width:width, marginTop:toDp(10),}}
+      <FlatList style={{ minHeight:toDp(400), width:width}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             marginTop: toDp(3),
-            paddingBottom: toDp(3),
+            paddingBottom: toDp(30),
 
           }}
 

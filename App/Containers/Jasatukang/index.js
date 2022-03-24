@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
     alignItems: 'center',
+    top:toDp(30)
   },
   body: {
     flexDirection:'row', 

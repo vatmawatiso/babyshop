@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? toDp(0) : toDp(20)
   },
   header: {
-    width:360,
-    height: 20,
+    width:toDp(360),
+    height: toDp(20),
     backgroundColor: '#52B788',
     bottom:toDp(50),
     shadowColor: "#000",
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     height: toDp(24),
     resizeMode: 'contain',
     tintColor: 'black',
-    rotation:180,
+    rotation:toDp(180),
     right:toDp(45)
   },
   title: {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
   },
   searchSection: {
-    flex: 1,
+    flex: toDp(1),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -141,7 +141,7 @@ searchIcon: {
     tintColor: 'white',
     width: toDp(25),
     height: toDp(25),
-    zIndex:3,
+    zIndex:toDp(3),
     padding: toDp(8),
     position: 'absolute',
     left: toDp(55),
@@ -149,11 +149,10 @@ searchIcon: {
 
 },
 input: {
-    flex: 1,
-    paddingTop: 5,
-    paddingRight: 5,
-    paddingBottom: 5,
-    paddingLeft: 0,
+    flex: toDp(1),
+    paddingTop: toDp(5),
+    paddingRight: toDp(5),
+    paddingBottom: toDp(5),
     backgroundColor: '#2A334B',
     borderRadius: toDp(25),
     paddingLeft: toDp(45),

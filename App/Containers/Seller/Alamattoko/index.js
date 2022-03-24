@@ -39,12 +39,13 @@ const Alamattoko = (props) => {
             <Image source={allLogo.icaddress1} style={styles.icaddress1} />
             <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
-
-        <View style={styles.isiAddress}>
-            <Text>{Address[0].nama} {Address[0].telepon}</Text>
-            <Text>{Address[0].alamat}</Text>
-            <Image source={allLogo.iclineblack} style={styles.icaddress} />
-        </View>
+        <Pressable style={styles.isiAddress} onPress={() => alert('coba')}>
+            <View>
+                <Text>{Address[0].nama} {Address[0].telepon}</Text>
+                <Text>{Address[0].alamat}</Text>
+                <Image source={allLogo.iclineblack} style={styles.icaddress} />
+            </View>
+        </Pressable>
 
         <Pressable style={{bottom:toDp(30)}} onPress={ () => NavigatorService.navigate('Tambahalamat')}>
             <View style={styles.btnAddress}>
@@ -80,7 +81,8 @@ const styles = StyleSheet.create({
   },
   isiAddress: {
       bottom:toDp(60),
-      left:toDp(13)
+    //   backgroundColor:'cyan',
+      width:toDp(270),marginLeft:toDp(45)
   },
   icaddress: {
       width:toDp(15),

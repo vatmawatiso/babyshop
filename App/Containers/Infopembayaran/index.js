@@ -37,7 +37,7 @@ const Infopembayaran = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View>
+        <View style={{marginTop:toDp(10)}}>
             <View style={styles.bodyBayar}>
                 <Text style={styles.txtTotal}>Total Pembayaran</Text>
                 <Text style={styles.txtHarga}>Rp {DATA[0].total}</Text>
@@ -68,13 +68,11 @@ const Infopembayaran = (props) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
-    top:toDp(50)
   },
   bodyBayar: {
     backgroundColor:'#E7E7E7',
     width:toDp(335),
     height:toDp(92),
-    bottom:toDp(40),
     left:toDp(12),
     borderRadius:toDp(10),
         shadowColor: "#000",
@@ -105,8 +103,8 @@ elevation: 2,
       backgroundColor:'#E7E7E7',
       width:toDp(335),
       height:toDp(132),
-      bottom:toDp(30),
       left:toDp(12),
+      top:toDp(10),
       borderRadius:toDp(10),
         shadowColor: "#000",
         shadowOffset: {

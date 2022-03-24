@@ -33,9 +33,9 @@ const TambahAlamat = (props) => {
           <View style={styles.content}>
               <SafeAreaView>
                   <TextInput 
-                      left={toDp(3)}
+                      right={toDp(9)}
                       top={toDp(4)}
-                      width={toDp(310)}
+                      width={toDp(335)}
                       height={toDp(40)}
                       borderRadius={toDp(15)}
                       backgroundColor={'white'}
@@ -47,9 +47,9 @@ const TambahAlamat = (props) => {
                       // onChangeText={(text) => setState(state => ({...state, username: text })) }
                   />
                   <TextInput 
-                      left={toDp(3)}
+                      right={toDp(9)}
                       top={toDp(6)}
-                      width={toDp(310)}
+                      width={toDp(335)}
                       height={toDp(40)}
                       borderRadius={toDp(15)}
                       backgroundColor={'white'}
@@ -94,9 +94,9 @@ const TambahAlamat = (props) => {
                           }}
                     />
                     <TextInput 
-                        left={toDp(3)}
+                        right={toDp(9)}
                         top={toDp(6)}
-                        width={toDp(310)}
+                        width={toDp(335)}
                         height={toDp(40)}
                         borderRadius={toDp(15)}
                         backgroundColor={'white'}
@@ -108,9 +108,9 @@ const TambahAlamat = (props) => {
                         // onChangeText={(text) => setState(state => ({...state, username: text })) }
                     />
                     <TextInput 
-                        left={toDp(3)}
+                        right={toDp(9)}
                         top={toDp(8)}
-                        width={toDp(310)}
+                        width={toDp(335)}
                         height={toDp(40)}
                         borderRadius={toDp(15)}
                         backgroundColor={'white'}
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2A334B',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(40),
     borderRadius:toDp(15),
     marginBottom:toDp(10)
@@ -210,12 +210,12 @@ input: {
   },
   txtContact: {
     fontWeight: 'bold',
-    right:toDp(135),
+    right:toDp(145),
     top:toDp(10)
   },
   txtAlamat: {
     fontWeight:'bold',
-    right:toDp(135),
+    right:toDp(145),
     top:toDp(20)
   },
   inputAlamat: {
@@ -228,21 +228,22 @@ input: {
 dropdown:{
   height:toDp(38),
   borderRadius:toDp(13),
-  width:toDp(310),
+  width:toDp(335),
   top:toDp(4),
-  left:toDp(3),
+  right:toDp(9),
   backgroundColor:'white',
   borderWidth:toDp(0.5)
 },
 contentMap: {
   backgroundColor:'white',
-  width:toDp(316),
+  width:toDp(335),
   height:toDp(200),
   borderRadius:toDp(15),
   bottom:toDp(5)
 }, 
 textInput: {
-  borderWidth:toDp(0.5)
+  borderWidth:toDp(0.5),
+  right:toDp(9)
 }
 });
 

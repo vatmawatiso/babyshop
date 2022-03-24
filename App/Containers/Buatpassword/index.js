@@ -41,10 +41,10 @@ const Buatpassword = (props) => {
                     <Text style={styles.txtPassword}>Masukkan Password</Text>
                     <TextInput
 
-                        top={4}
-                        width={335}
-                        height={40}
-                        borderRadius={10}
+                        top={toDp(4)}
+                        width={toDp(335)}
+                        height={toDp(40)}
+                        borderRadius={toDp(10)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -57,10 +57,10 @@ const Buatpassword = (props) => {
                     <Text style={styles.txtKonfirPass}>Konfirmasi Password</Text>
                     <TextInput
 
-                        top={4}
-                        width={335}
-                        height={40}
-                        borderRadius={10}
+                        top={toDp(4)}
+                        width={toDp(335)}
+                        height={toDp(40)}
+                        borderRadius={toDp(10)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput1}
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         padding: toDp(4),
         position: 'absolute',
         right: toDp(8),
-        top: Platform.OS === 'ios' ? toDp(35) : toDp(98)
+        top: Platform.OS === 'ios' ? toDp(35) : toDp(95)
     },
     icVisibility: {
         width: toDp(24),

@@ -220,6 +220,7 @@ const Ulasanpembeli = (props) => {
 const styles = StyleSheet.create({
   container: {
    justifyContent:'center',
+   top:toDp(30)
   },
   card: {
     backgroundColor: 'white',

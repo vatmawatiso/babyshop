@@ -97,7 +97,7 @@ const Wishlist = () => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:toDp(400), width:width, bottom:toDp(40)}}
+      <FlatList style={{ minHeight:toDp(400), width:width}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -136,7 +136,6 @@ const Wishlist = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top:toDp(50)
   },
   card: {
     backgroundColor: 'white',
