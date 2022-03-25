@@ -24,12 +24,12 @@ import NumericInput from 'react-native-numeric-input'
 import CheckBox from '@react-native-community/checkbox';
 import { color } from "react-native-reanimated";
 import { ScrollView } from "react-native-gesture-handler";
-
+ 
 const Keranjang = (props) => {
   // const countries = ["Besar", "Sedang", "Kecil", "Mini"]
-
+ 
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
-
+ 
   const DATA = [
     {
       id: '2938492',
@@ -57,47 +57,47 @@ const Keranjang = (props) => {
       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
     },
   ]
-
+ 
   const RenderItem = (item, index) => {
     return (
       <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.orderCart}>
-
+ 
           {/*produk dari setiap toko*/}
           <View style={styles.orderCartone}>
             {/*Identitas produk*/}
             <View style={{ width: '100%', height: toDp(40) }}>
               <View style={{ flexDirection: 'row' }}>
-
+ 
                 <CheckBox style={{ right: 7 }}
                   disabled={false}
                   value={toggleCheckBox}
                   onValueChange={(newValue) => setToggleCheckBox(newValue)}
                 />
-
+ 
                 <Text style={{ fontWeight: 'bold', marginLeft: toDp(1), top: toDp(6) }}>{item.tb}</Text>
               </View>
               <Text style={{ bottom: toDp(10), marginLeft: toDp(33) }}>{item.kota}</Text>
             </View>
             {/*Identitas produk*/}
-
+ 
             {/*Per produk*/}
             <View style={{ flexDirection: 'row', marginTop: toDp(20), marginBottom: toDp(20) }}>
-
+ 
               <CheckBox style={{ right: 7 }}
                 disabled={false}
                 value={toggleCheckBox}
                 onValueChange={(newValue) => setToggleCheckBox(newValue)}
               />
-
+ 
               <View style={{ marginLeft: toDp(12) }}>
                 <Image source={allLogo.icgerobak} />
               </View>
-
+ 
               <View style={{ marginLeft: toDp(12) }}>
                 <Text style={{ fontSize: toDp(20), fontWeight: 'bold', marginBottom: toDp(5) }}>{item.produk}</Text>
                 <Text style={{ fontSize: toDp(14), marginTop: toDp(10) }}>{item.harga}</Text>
-
+ 
                 <View style={{ flexDirection: 'row', marginTop: toDp(25), justifyContent: 'center', alignItems: 'center' }}>
                   <Image source={allLogo.ictrash} style={{ width: toDp(20), height: toDp(25), resizeMode: 'cover', marginRight: toDp(12) }} />
                   <NumericInput
@@ -117,88 +117,93 @@ const Keranjang = (props) => {
                     leftButtonBackgroundColor='#698498'
                   />
                 </View>
-
+ 
               </View>
             </View>
-
-
+ 
+ 
             {/*Per produk*/}
-
+ 
           </View>
           {/*produk dari setiap toko*/}
-
+ 
         </View>
-
-
+ 
+ 
       </View>
-
+ 
     )
-
+ 
   };
-
+ 
   const CardProduct = () => {
     return (
       <View style={styles.content}>
-        <FlatList style={{ width: '100%', top:toDp(110) }}
+        <FlatList style={{ width: toDp(335), top:toDp(10),marginBottom: toDp(70)  }}
           data={DATA}
           renderItem={({ item, index }) => {
             return (
               RenderItem(item, index)
             )
           }}
-          ListFooterComponent={() => <View style={{ height: toDp(110) }} />}
+          ListFooterComponent={() => <View style={{ height: toDp(0) }} />}
         />
       </View>
     )
   }
-
+ 
   return (
     <View style={styles.container}>
       <BackHeader
         title={'Keranjang'}
         onPress={() => props.navigation.goBack()}
       />
-
-      <View style={{justifyContent:'flex-end', bottom:toDp(5)}}>
-
-      <View style={styles.chooseAll}>
-        <CheckBox style={{ right: -2 }}
-          disabled={false}
-          value={toggleCheckBox}
-          onValueChange={(newValue) => setToggleCheckBox(newValue)}
-        />
-        <Text style={{ right: toDp(85), fontSize: toDp(12) }}>Pilih Semua</Text>
-
-        <Pressable style={styles.delete} onPress={() => alert('Yakin ingin dihapus ?')}>
-          <Text style={{ right: toDp(15), fontWeight: 'bold' }}>Hapus</Text>
-        </Pressable>
-      </View>
-
-      {/*Button Checkout*/}
-        <View style={styles.checkout}>
-          <Pressable style={styles.buttonTotal}>
-            <Text style={styles.txtTotal}>Total Harga</Text>
-            <Text style={{ color: 'white', fontSize: toDp(18), textAlign: 'center' }}>{DATA[0].total}</Text>
-          </Pressable>
-
-          <View style={{ borderWidth: toDp(0.5), borderColor: 'white' }} />
-
-          <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Checkout')}>
-            <Text style={styles.txtPay}>Beli Sekarang</Text>
+ 
+      <View style={{bottom:toDp(5)}}>
+ 
+        <View style={styles.chooseAll}>
+          <CheckBox style={{ right: -2 }}
+            disabled={false}
+            value={toggleCheckBox}
+            onValueChange={(newValue) => setToggleCheckBox(newValue)}
+          />
+          <Text style={{ right: toDp(100), fontSize: toDp(12) }}>Pilih Semua</Text>
+ 
+          <Pressable style={styles.delete} onPress={() => alert('Yakin ingin dihapus ?')}>
+            <Text style={{ right: toDp(15), fontWeight: 'bold' }}>Hapus</Text>
           </Pressable>
         </View>
-
-      <CardProduct />
+ 
+        <View style={{marginTop:toDp(10), marginBottom: toDp(90)}}>
+            <CardProduct />
+        </View>
+ 
+      {/*Button Checkout*/}
+        <View style={{ zIndex: 9,  position:'absolute', bottom:90}}>
+          <View style={styles.checkout}>
+            <Pressable style={styles.buttonTotal}>
+              <Text style={styles.txtTotal}>Total Harga</Text>
+              <Text style={{ color: 'white', fontSize: toDp(18), textAlign: 'center' }}>{DATA[0].total}</Text>
+            </Pressable>
+ 
+            <View style={{ borderWidth: toDp(0.5), borderColor: 'white' }} />
+ 
+            <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Checkout')}>
+              <Text style={styles.txtPay}>Beli Sekarang</Text>
+            </Pressable>
+          </View>
+        </View>
+ 
       </View>
     </View>
-
+ 
   )
 };
-
-
+ 
+ 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
   },
@@ -208,7 +213,7 @@ const styles = StyleSheet.create({
     width: toDp(100),
   },
   content: {
-    bottom: toDp(30),
+    marginBottom: toDp(30),
     width: toDp(335),
     height: '100%',
     paddingVertical: 25,
@@ -222,10 +227,11 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(40),
     borderRadius: toDp(8),
-    top: toDp(71),
+    top: toDp(10),
     position: 'absolute',
-    zIndex: 1
-
+    zIndex: 1,
+ 
+ 
   },
   notProcessed: {
     marginBottom: toDp(5),
@@ -242,7 +248,7 @@ const styles = StyleSheet.create({
   //   backgroundColor: 'cyan',
   //   width: '100%',
   //   borderRadius: toDp(8),
-
+ 
   // },
   ickotak: {
     marginTop: toDp(11),
@@ -255,7 +261,7 @@ const styles = StyleSheet.create({
   orderCartone: {
     padding: toDp(8),
     borderRadius: toDp(10),
-    width: 335,
+    width: toDp(335),
     paddingBottom: toDp(10),
     backgroundColor: '#C4C4C4'
   },
@@ -288,8 +294,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // top: toDp(20),
     width: toDp(335),
-    position: 'absolute',
-    zIndex: 1
   },
   buttonTotal: {
     // backgroundColor: 'red',
@@ -317,5 +321,5 @@ const styles = StyleSheet.create({
     top: toDp(13)
   }
 });
-
+ 
 export default Keranjang;

@@ -16,9 +16,9 @@ import BackHeader from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
-
+ 
 const Checkout = (props) => {
-
+ 
     const DATA = [
         {
             id: '2938492',
@@ -35,7 +35,7 @@ const Checkout = (props) => {
             image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
         },
     ]
-
+ 
     const Address = [
         {
             id: '1',
@@ -44,7 +44,7 @@ const Checkout = (props) => {
             alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
         },
     ]
-
+ 
     return (
         <View style={styles.container}>
             <BackHeader
@@ -52,13 +52,13 @@ const Checkout = (props) => {
                 onPress={() => props.navigation.goBack()}
             />
             <View style={{flex:1}}>
-                <View style={{ flexGrow: 0.7 }}>
+                <View>
                     <View>
                         <View style={styles.Address}>
                             <Image source={allLogo.icaddress1} style={styles.icaddress1} />
                             <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
                         </View>
-
+ 
                         <Pressable style={{ bottom: toDp(60), }} onPress={() => NavigatorService.navigate('Alamat')}>
                             <View style={styles.isiAddress}>
                                 <Text style={{ fontSize: toDp(12), }}>{Address[0].nama} {Address[0].telepon}</Text>
@@ -67,10 +67,10 @@ const Checkout = (props) => {
                             </View>
                         </Pressable>
                     </View>
-
+ 
                     <View>
                         <Text style={styles.txtTB}>Jaya Abadi Bandung</Text>
-
+ 
                         <View style={styles.OrderDetail}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Image source={allLogo.icgerobak} style={styles.icgerobak} />
@@ -80,7 +80,7 @@ const Checkout = (props) => {
                             <Text style={{ bottom: toDp(60), left: toDp(135), fontSize: toDp(12) }}>{DATA[0].harga}</Text>
                         </View>
                     </View>
-
+ 
                     <View>
                         <View style={styles.Shipping}>
                             <Text style={styles.txtOption}>Opsi Pengiriman</Text>
@@ -103,7 +103,7 @@ const Checkout = (props) => {
                             <Image source={allLogo.iclineblack} style={styles.iclineblack1} />
                         </View>
                     </View>
-
+ 
                     <View>
                         <View style={styles.bodyPayment}>
                             <Pressable onPress={() => NavigatorService.navigate('Pembayaran')}>
@@ -114,7 +114,7 @@ const Checkout = (props) => {
                                 </View>
                             </Pressable>
                             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
-
+ 
                             <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                 <Text style={styles.txtSubTot}>Subtotal Untuk Produk</Text>
                                 <Text style={styles.txtSubTot}>Rp 700.000</Text>
@@ -134,22 +134,24 @@ const Checkout = (props) => {
                         </View>
                     </View>
                 </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40) }}>
-                    <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(10) }}>
-                        <Text style={{ textAlign: 'center', color: 'white', backgroundColor: '#2A334B', borderRadius: toDp(10), }}>Total Pembayaran</Text>
-                        <Text style={{ textAlign: 'center', color: 'white', }}>{DATA[0].total}</Text>
-                    </View>
-                    <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(10), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
-                        <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
-                    </Pressable>
+ 
+                <View style={{marginTop:toDp(10), bottom:10, position:'absolute'}}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40),}}>
+                      <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(10) }}>
+                          <Text style={{ textAlign: 'center', color: 'white', backgroundColor: '#2A334B', borderRadius: toDp(10), }}>Total Pembayaran</Text>
+                          <Text style={{ textAlign: 'center', color: 'white', }}>{DATA[0].total}</Text>
+                      </View>
+                      <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(10), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
+                          <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
+                      </Pressable>
+                  </View>
                 </View>
             </View>
         </View>
     );
-
+ 
 }
-
+ 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-
+ 
         elevation: 2,
     },
     Shipping: {
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-
+ 
         elevation: 2,
     },
     txtOption: {
@@ -282,7 +284,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-
+ 
         elevation: 2,
     },
     payment: {
@@ -326,8 +328,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-
+ 
     },
 });
-
+ 
 export default Checkout;

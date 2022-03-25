@@ -81,7 +81,7 @@ const Notification = (props) => {
     {
       id: '27313',
       jenis: 'Kamu dapat cashback 50%',
-      pesan: 'Ayo belanja dan pakai vocher cashback hinggal 50%',
+      pesan: 'Ayo belanja dan pakai vocher cashback hinggal 80%',
     },
   ]
  
