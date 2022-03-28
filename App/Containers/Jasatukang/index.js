@@ -115,14 +115,13 @@ const Jasatukang = (props) => {
           id: '14',
           nama: 'Vatmawati',
           telepon: '083141520987',
-          harga: 'Rp 500.000',
+          harga: 'Rp 100.000',
           image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
         },
       ]
 
-      const renderswitch = ({item, index}) => {
-        return (
-          <View style={{width:toDp(335), borderRadius:toDp(8)}}>
+      const renderswitch = (item, index) => (
+          <View style={{width:toDp(335), borderRadius:toDp(8), marginTop: toDp(5), justifyContent: 'center', alignItems: 'center', marginHorizontal: 12}}>
       
             <View style={styles.body}>
                 <Image source={{uri: DATA[0].image}} style={styles.imgKontak} />
@@ -130,21 +129,21 @@ const Jasatukang = (props) => {
                 <View style={styles.content}>
                     <View style={{flexDirection:'row'}}> 
                         <Text>Nama</Text>  
-                        <Text style={styles.txtNama}>{DATA[0].nama}</Text>
+                        <Text style={styles.txtNama}>{item.nama}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text>Telepon</Text>
-                        <Text style={styles.txtHP}>{DATA[0].telepon}</Text>
+                        <Text style={styles.txtHP}>{item.telepon}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text>Harga</Text>
-                        <Text style={styles.txtHarga}>{DATA[0].harga}</Text>
+                        <Text style={styles.txtHarga}>{item.harga}</Text>
                     </View>
                 </View>
 
-                <Pressable style={styles.btnKontak}>
+                <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('Chat')}>
                     <Text style={styles.txtKontak}>Kontak</Text>
                 </Pressable>
             </View>
@@ -153,9 +152,6 @@ const Jasatukang = (props) => {
           </View>
     
           )
-        } 
-      
-    
 
      return (
       <View style={styles.container}>
@@ -164,12 +160,15 @@ const Jasatukang = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View style={{marginBottom:toDp(30)}}>
-        <FlatList
+      <View style={styles.flatcontent}>
+        <FlatList style={{ width: '100%' }}
           data={DATA}
-          renderItem={renderswitch}
-          keyExtractor={item => item.id}
-          ListFooterComponent={() => <View style={{height: toDp(50)}} />}
+          renderItem={({ item, index }) => {
+            return (
+              renderswitch(item, index)
+            )
+          }}
+          ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
         />
       </View>
      
@@ -191,13 +190,19 @@ const styles = StyleSheet.create({
     width:toDp(335), 
     height:toDp(80), 
     borderRadius:toDp(8), 
-    top:toDp(60),
+    top:toDp(10),
     justifyContent:'space-between',
     marginBottom:toDp(2)
   },
   content: {
       right:toDp(10),
       top:toDp(10)
+  },
+    flatcontent: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: toDp(45)
   },
   imgKontak: {
     height: toDp(50),

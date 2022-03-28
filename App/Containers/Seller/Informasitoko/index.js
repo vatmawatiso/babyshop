@@ -10,12 +10,12 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  BackHeader  from '@BackHeader'
+import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
 const Informasitoko = (props) => {
-  const [src, setSrc]=useState(null);
+  const [src, setSrc] = useState(null);
 
   const DATA = [
     {
@@ -23,7 +23,7 @@ const Informasitoko = (props) => {
       nama: 'TB Jaya Abadi Bandung',
       memberUser: 'Member Classic',
       pengikutUser: 'Pengikut (100)',
-      mengikutiUser : 'Mengikuti (4)',
+      mengikutiUser: 'Mengikuti (4)',
       type: 'Pembeli',
       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
     },
@@ -32,33 +32,33 @@ const Informasitoko = (props) => {
   return (
     <View style={styles.container}>
 
-        <BackHeader
-          title={'Informasi Toko'}
-          onPress={() => props.navigation.goBack()}
-        />
+      <BackHeader
+        title={'Informasi Toko'}
+        onPress={() => props.navigation.goBack()}
+      />
 
-        <View style={styles.Tokosaya}>
-            <View style={{flexDirection:'row'}}>
-                <Image source={{uri: DATA[0].image}} style={styles.imgProfil} />
-                <Text style={styles.txtToko}>{DATA[0].nama}</Text>
-            </View>
-
+      <View>
+        <View style={[styles.Tokosaya, {flexDirection:'row'}]}>
+          <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
+          <Text style={styles.txtToko}>{DATA[0].nama}</Text>
+          <View style={{left:toDp(120)}}>
+            <Pressable style={{justifyContent:'flex-end', height: toDp(20), top: toDp(10), right:toDp(10) }} onPress={() => NavigatorService.navigate('Settingtoko')} >
+              <Image source={allLogo.icsettings} style={{ tintColor: 'white', bottom: toDp(1) }} />
+            </Pressable>
+          </View>
+        </View>
+        <View style={{bottom:toDp(20), left:toDp(20)}}>
+          <View style={{flexDirection:'column'}}>
             <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
-
-            <View style={{flexDirection:'row', top:toDp(50), marginTop:toDp(5), right:toDp(182)}}>
-                <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
-                <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
-            </View>
-            <Pressable style={{right:toDp(130), height:toDp(20), top:toDp(10)}} onPress={() => NavigatorService.navigate('Settingtoko')} >
-              <Image source={allLogo.icsettings} style={{tintColor:'white', bottom:toDp(1)}} />
-            </Pressable>
+            <Text style={styles.txtPengikut}>{DATA[0].pengikutUser} {DATA[0].mengikutiUser}</Text>
+          </View>
         </View>
-        
-        <View style={styles.Ubah}>
+          <View style={styles.Ubah}>
             <Pressable style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
-                <Text style={styles.txtUbah}>Ubah</Text>
+              <Text style={styles.txtUbah}>Ubah</Text>
             </Pressable>
-        </View>
+          </View>
+      </View>
     </View>
   )
 };
@@ -75,47 +75,46 @@ const styles = StyleSheet.create({
     borderRadius: toDp(25)
   },
   Tokosaya: {
-    flexDirection:'row',
-    backgroundColor:'#2A334B',
-    width:toDp(335),
-    height:toDp(90),
-    borderRadius:toDp(10),
-    top:toDp(10)
+    flexDirection: 'row',
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(90),
+    borderRadius: toDp(10),
+    top: toDp(10)
   },
   txtToko: {
-      left:toDp(50),
-      top:toDp(15),
-      color:'white'
+    left: toDp(50),
+    top: toDp(15),
+    color: 'white'
   },
   txtMember: {
-      top:toDp(35),
-      right:toDp(96),
-      fontSize:toDp(12),
-      marginTop:toDp(3),
-      color:'white'
+    left:toDp(105),
+    fontSize: toDp(12),
+    color: 'white',
+    bottom:toDp(20)
   },
   txtPengikut: {
-    fontSize:toDp(12),
-    color:'white'
+    fontSize: toDp(12),
+    color: 'white', 
+    left:toDp(80),
+    bottom:toDp(15)
   },
   txtMengikuti: {
-    fontSize:toDp(12),
-    color:'white'
+    fontSize: toDp(12),
+    color: 'white'
   },
   btnUbah: {
-      backgroundColor:'#C4C4C4',
-      width:toDp(335),
-      height:toDp(40),
-      borderRadius:toDp(10),
+    backgroundColor: '#C4C4C4',
+    width: toDp(335),
+    height: toDp(40),
+    borderRadius: toDp(10),
+    bottom:toDp(10)
   },
   txtUbah: {
-      textAlign:'center',
-      top:toDp(8),
-      color:'black'
+    textAlign: 'center',
+    top: toDp(8),
+    color: 'black'
   },
-  Ubah: {
-    top:toDp(20)
-  }
 });
 
 export default Informasitoko;

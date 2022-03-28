@@ -109,16 +109,18 @@ const Pembayaran = (props) => {
               <View style={{borderWidth:toDp(0.5), borderColor:'grey', top:toDp(34), left:toDp(15), width:toDp(330)}} /> 
               
               {/* TOMBOL KONFIRMASI BELUM RAPIH */}
-              <View style={{marginTop:toDp(100)}}> 
-                <Pressable style={[styles.btnKonfirm,{left:toDp(10), width:toDp(335)}]} onPress={() => NavigatorService.navigate('Infopembayaran')}>
-                        <Text style={styles.txtKonfirm}>Konfirmasi</Text>
-                </Pressable>       
-              </View>  
+              <View style={{justifyContent:'flex-end'}}>
+                <View style={{ position:'absolute', bottom:toDp(0)}}> 
+                  <Pressable style={[styles.btnKonfirm,{left:toDp(10), width:toDp(335)}]} onPress={() => NavigatorService.navigate('Infopembayaran')}>
+                          <Text style={styles.txtKonfirm}>Konfirmasi</Text>
+                  </Pressable>       
+                </View> 
+              </View> 
           </View> 
 
         </View>
     );
-  
+   sty
 }
 
 const styles = StyleSheet.create({

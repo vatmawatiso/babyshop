@@ -134,7 +134,7 @@ const Tokobangunan = (props) => {
         </View>
       </View>
 
-      <Pressable style={styles.btnLihat}>
+      <Pressable style={styles.btnLihat} onPress={() => NavigatorService.navigate('Profilseller')}>
         <Text style={styles.txtLihat}>Lihat</Text>
       </Pressable>
     </View>
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(80),
     borderRadius: toDp(8),
-    top: toDp(60),
+    top: toDp(10),
     justifyContent: 'space-between',
     marginBottom: toDp(2),
     // right:toDp(10)

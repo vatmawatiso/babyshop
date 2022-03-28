@@ -100,25 +100,23 @@ const Homeseller = (props) => {
                   </Pressable>
               </View>
           </View>
-        
-        <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
-            <Pressable style={styles.btnHome} onPress={() => NavigatorService.navigate('Homeseller')} >
-                <Image source={allLogo.ichome} style={styles.ichome} />
-                <Text style={{color:'white', fontSize:toDp(11), right:toDp(3)}}>Beranda</Text>
-            </Pressable>
-            <Pressable style={styles.btnPlus} onPress={() => NavigatorService.navigate('Tambahproduk')} >
-                <Image source={allLogo.icplusround} style={styles.icplus}/>
-                <Text style={{color:'white', fontSize:toDp(11), right:toDp(4)}}>Tambah</Text>
-            </Pressable> 
-            <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')} >
-                <Image source={allLogo.icchat} style={styles.icchat}/>
-                <Text style={{color:'white', fontSize:toDp(11), right:toDp(6)}}>Chat</Text>
-            </Pressable> 
-        </View>
 
-
-    
-        
+              <View style={{justifyContent:'flex-end'}}>
+                <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
+                    <Pressable style={styles.btnHome} onPress={() => NavigatorService.navigate('Homeseller')} >
+                        <Image source={allLogo.ichome} style={styles.ichome} />
+                        <Text style={{color:'white', fontSize:toDp(11), right:toDp(3)}}>Beranda</Text>
+                    </Pressable>
+                    <Pressable style={styles.btnPlus} onPress={() => NavigatorService.navigate('Tambahproduk')} >
+                        <Image source={allLogo.icplusround} style={styles.icplus}/>
+                        <Text style={{color:'white', fontSize:toDp(11), right:toDp(4)}}>Tambah</Text>
+                    </Pressable> 
+                    <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')} >
+                        <Image source={allLogo.icchat} style={styles.icchat}/>
+                        <Text style={{color:'white', fontSize:toDp(11), right:toDp(6)}}>Chat</Text>
+                    </Pressable> 
+                </View>
+              </View>
     </View>
   )
 };
