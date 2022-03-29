@@ -228,7 +228,7 @@ const Produk = (props) => {
                         <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
                     </Pressable>
   
-                    <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(50), rotation:toDp(90) }} />
+                    <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(55), rotation:toDp(90) }} />
                     <Pressable style={{right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
                         <Text style={styles.txtBeli}>Beli Sekarang</Text>
                     </Pressable>
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#2A334B',
     width:toDp(335),
     height:toDp(60),
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     justifyContent:'space-between',
     alignItems:'center',
     bottom:toDp(10)

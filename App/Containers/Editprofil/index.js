@@ -133,7 +133,7 @@ const Editprofil = (props) => {
                                       width: toDp(335),
                                       height: toDp(40),
                                       backgroundColor: 'white',
-                                      borderRadius: toDp(8),
+                                      borderRadius: toDp(20),
                                       right:toDp(8),
                                       borderWidth:0.5,
                                       // borderColor: state.valName == false ?
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#2A334B',
       width:toDp(335),
       height:toDp(116),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
       left:toDp(12),
       top:toDp(10)
   },
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     width: toDp(50),
     left: toDp(135),
     bottom:toDp(15),
-    borderRadius: toDp(25)
+    borderRadius: toDp(20)
   },
   nama: {
       color: 'white',
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
-    borderRadius: toDp(10),
+    borderRadius: toDp(20),
     marginTop: toDp(-10),
     borderWidth:toDp(0.5),
   },
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#2A334B',
       width:toDp(335),
       height:toDp(40),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
       top:toDp(15),
       right:toDp(6)
   },
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width:toDp(335),
     height:toDp(40),
-    borderRadius:toDp(8),
+    borderRadius:toDp(20),
     bottom:toDp(15),
     marginBottom:toDp(-8),
     right:toDp(8),

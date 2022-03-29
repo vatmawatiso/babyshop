@@ -137,11 +137,11 @@ const Checkout = (props) => {
  
                 <View style={{marginTop:toDp(10), bottom:10, position:'absolute'}}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40),}}>
-                      <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(10) }}>
-                          <Text style={{ textAlign: 'center', color: 'white', backgroundColor: '#2A334B', borderRadius: toDp(10), }}>Total Pembayaran</Text>
+                      <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(20) }}>
+                          <Text style={{ textAlign: 'center', color: 'white', }}>Total Pembayaran</Text>
                           <Text style={{ textAlign: 'center', color: 'white', }}>{DATA[0].total}</Text>
                       </View>
-                      <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(10), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
+                      <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(20), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
                           <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
                       </Pressable>
                   </View>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#C4C4C4',
         width: toDp(335),
         height: toDp(105),
-        borderRadius: toDp(8),
+        borderRadius: toDp(20),
         top: toDp(15),
         flexDirection: 'row',
     },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     },
     OrderDetail: {
         backgroundColor: '#C4C4C4',
-        borderRadius: toDp(8),
+        borderRadius: toDp(20),
         width: toDp(335),
         height: toDp(110),
         bottom: toDp(15),
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     },
     Shipping: {
         backgroundColor: '#C4C4C4',
-        borderRadius: toDp(8),
+        borderRadius: toDp(20),
         width: toDp(335),
         height: toDp(95),
         bottom: toDp(5),
@@ -268,13 +268,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#C4C4C4',
         width: toDp(316),
         height: toDp(105),
-        borderRadius: toDp(15),
+        borderRadius: toDp(20),
         top: toDp(10)
     },
     bodyPayment: {
         backgroundColor: '#C4C4C4',
         top: toDp(5),
-        borderRadius: toDp(8),
+        borderRadius: toDp(20),
         width: toDp(335),
         height: toDp(130),
         shadowColor: "#000",

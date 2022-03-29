@@ -99,24 +99,25 @@ const Homeseller = (props) => {
                     </View>
                   </Pressable>
               </View>
-          </View>
+          </View> 
 
-              <View style={{justifyContent:'flex-end'}}>
-                <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
-                    <Pressable style={styles.btnHome} onPress={() => NavigatorService.navigate('Homeseller')} >
+              <View>
+                <View style={styles.footer}>
+                    <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Homeseller')} >
                         <Image source={allLogo.ichome} style={styles.ichome} />
                         <Text style={{color:'white', fontSize:toDp(11), right:toDp(3)}}>Beranda</Text>
                     </Pressable>
-                    <Pressable style={styles.btnPlus} onPress={() => NavigatorService.navigate('Tambahproduk')} >
+                    <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Tambahproduk')} >
                         <Image source={allLogo.icplusround} style={styles.icplus}/>
                         <Text style={{color:'white', fontSize:toDp(11), right:toDp(4)}}>Tambah</Text>
                     </Pressable> 
-                    <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')} >
+                    <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Chat')} >
                         <Image source={allLogo.icchat} style={styles.icchat}/>
                         <Text style={{color:'white', fontSize:toDp(11), right:toDp(6)}}>Chat</Text>
                     </Pressable> 
                 </View>
-              </View>
+              </View>   
+
     </View>
   )
 };
@@ -155,7 +156,7 @@ Penjualan: {
   width:toDp(335),
   height:toDp(320),
   top:toDp(30),
-  borderRadius:toDp(8),
+  borderRadius:toDp(20),
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
@@ -173,41 +174,59 @@ iclineright1: {
   width:toDp(10),
   height:toDp(15),
 },
-  bodyMenu: {
-      flexDirection:'row',
-      alignItems:'baseline',
-      backgroundColor:'#2A334B',
-      top:toDp(35),
-      width: toDp(335),
-      height: toDp(52),
-      borderRadius:toDp(25),
-  },
-  btnHome: {
-    marginHorizontal:toDp(20),
-
-  },
+  // bodyMenu: {
+  //     flexDirection:'row',
+  //     // alignItems:'baseline',
+  //     backgroundColor:'#2A334B',
+  //     width: toDp(335),
+  //     height: toDp(52),
+  //     borderRadius:toDp(25),
+  // },
+  // btnHome: {
+  //   marginHorizontal:toDp(20),
+  //   flex:1,
+  //   justifyContent:'center',
+  //   alignItems:'center'
+  // },
   icchat: {
     width:toDp(26),
     height:toDp(26),
     tintColor:'white',
-    right:toDp(8)
+    right:toDp(8),
+    resizeMode: 'contain',
   },
   icplus: {
     // tintColor:'black'
+    resizeMode: 'contain',
   },
   ichome: {
-    tintColor:'white'
+    tintColor:'white',
+    resizeMode: 'contain',
   },
-  btnChat: {
-    marginHorizontal:toDp(20),
+  // btnChat: {
+  //   marginHorizontal:toDp(20),
 
-  },
-  btnPlus: {
+  // },
+  // btnPlus: {
 
-  },
+  // },
   bodyJual: {
     marginTop:toDp(15)
-  }
+  },
+  footer: {
+    width: toDp(340),
+    height: toDp(52),
+    top:toDp(100),
+    flexDirection: 'row',
+    backgroundColor: '#2A334B',
+    borderRadius: toDp(25)
+  },
+  presable: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: toDp(20), 
+  },
 });
 
 export default Homeseller;

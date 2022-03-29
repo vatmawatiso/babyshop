@@ -62,12 +62,12 @@ const Jasakirim = (props) => {
 
   const renderswitch = ({item, index}) => {
   return (
-    <View style={{width:toDp(316), left:toDp(20), borderRadius:toDp(15)}}>
+    <View style={{width:toDp(316), left:toDp(20), borderRadius:toDp(20)}}>
         <View style={{flexDirection:'row', 
                         justifyContent:'space-between',
                         alignItems:'center',
                         width:'100%',
-                        borderRadius:toDp(8),
+                        borderRadius:toDp(20),
                         width:toDp(335),
                         right:toDp(10),
                         height:toDp(340),
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(105),
     marginLeft:toDp(10),
-    borderRadius:toDp(8),
+    borderRadius:toDp(20),
     position:'relative'
 },
   icAddress: {
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     width:toDp(316),
     height:toDp(330),
     left:toDp(20),
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     alignItems:'flex-start',
     justifyContent:'space-between',
   },

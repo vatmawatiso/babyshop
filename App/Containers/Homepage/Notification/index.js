@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     width: toDp(316),
     height: toDp(58),
     margin: toDp(1),
-    borderRadius: toDp(8)
+    borderRadius: toDp(20)
   },
   title: {
     fontSize: toDp(12),

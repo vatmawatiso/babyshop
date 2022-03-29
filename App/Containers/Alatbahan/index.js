@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   bodyTools: {
       backgroundColor:'#C4C4C4',
       top:toDp(20),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
       width:toDp(335),
       height:toDp(240),
           shadowColor: "#000",
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   imgProduk: {
     height: toDp(50),
     width: toDp(50),
-    borderRadius: toDp(25),
+    borderRadius: toDp(20),
     top:toDp(10),
     left:toDp(5)
   },
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   btnProduk: {
       top:toDp(25),
       backgroundColor:'#2A334B',
-      borderRadius:toDp(15),
+      borderRadius:toDp(20),
       right:toDp(10),
       width:toDp(50),
       height:toDp(20),
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
 btnProduk1: {
     top:toDp(25),
     backgroundColor:'#2A334B',
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     right:toDp(10),
     width:toDp(50),
     height:toDp(20),
@@ -244,7 +244,7 @@ produk2: {
 btnProduk2: {
     top:toDp(25),
     backgroundColor:'#2A334B',
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     right:toDp(10),
     width:toDp(50),
     height:toDp(20),
@@ -258,7 +258,7 @@ produk3: {
 btnProduk3: {
     top:toDp(25),
     backgroundColor:'#2A334B',
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     right:toDp(10),
     width:toDp(50),
     height:toDp(20),
@@ -268,7 +268,7 @@ btnProduk3: {
 bodyMaterials: {
     backgroundColor:'#C4C4C4',
     top:toDp(40),
-    borderRadius:toDp(8),
+    borderRadius:toDp(20),
     width:toDp(335),
     height:toDp(240),
       shadowColor: "#000",
@@ -293,7 +293,7 @@ material: {
 btnMaterial: {
     top:toDp(25),
     backgroundColor:'#2A334B',
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     right:toDp(10),
     width:toDp(50),
     height:toDp(20),
@@ -307,7 +307,7 @@ material1: {
 btnMaterial1: {
   top:toDp(25),
   backgroundColor:'#2A334B',
-  borderRadius:toDp(15),
+  borderRadius:toDp(20),
   right:toDp(10),
   width:toDp(50),
   height:toDp(20),
@@ -321,7 +321,7 @@ material2: {
 btnMaterial2: {
   top:toDp(25),
   backgroundColor:'#2A334B',
-  borderRadius:toDp(15),
+  borderRadius:toDp(20),
   right:toDp(10),
   width:toDp(50),
   height:toDp(20),
@@ -335,7 +335,7 @@ material3: {
 btnMaterial3: {
   top:toDp(25),
   backgroundColor:'#2A334B',
-  borderRadius:toDp(15),
+  borderRadius:toDp(20),
   right:toDp(10),
   width:toDp(50),
   height:toDp(20),

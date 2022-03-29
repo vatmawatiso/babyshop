@@ -48,7 +48,7 @@ const Alamat = (props) => {
             </View>
         </Pressable>
 
-        <Pressable style={{bottom:toDp(40), backgroundColor:'#C4C4C4', borderRadius:toDp(8)}} onPress={ () => NavigatorService.navigate('TambahAlamat')}>
+        <Pressable style={{bottom:toDp(40), backgroundColor:'#C4C4C4', borderRadius:toDp(20)}} onPress={ () => NavigatorService.navigate('TambahAlamat')}>
             <View style={styles.btnAddress}>
                 <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
                 <Image source={allLogo.icplus} style={styles.icplus} />
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#C4C4C4',
       width:toDp(335),
       height:toDp(105),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
       top:toDp(15),
       flexDirection:'row',
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
       justifyContent:'space-between',
       width:toDp(335),
       height:toDp(32),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
   },
   icplus: {
       width:toDp(12),

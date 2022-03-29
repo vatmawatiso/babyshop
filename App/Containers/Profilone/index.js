@@ -65,7 +65,7 @@ const Profilone = (props) => {
       />
 
       <View>
-        <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(8) }}>
+        <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
           <View >
             <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
             <Text style={styles.typeUser}>{DATA[0].type}</Text>
@@ -108,7 +108,7 @@ const Profilone = (props) => {
             backgroundColor: '#C4C4C4',
             width: toDp(335),
             height: toDp(35),
-            borderRadius: toDp(8),
+            borderRadius: toDp(20),
 
           }}>
             <Pressable onPress={() => NavigatorService.navigate('Homeseller')}>
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     width: toDp(50),
     top: toDp(25),
     left: toDp(15),
-    borderRadius: toDp(25)
+    borderRadius: toDp(20)
   },
   nmProfil: {
     top: toDp(-20),
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     width: toDp(335),
     height: toDp(210),
-    borderRadius: toDp(10),
+    borderRadius: toDp(20),
     top: toDp(10),
     shadowColor: "#000",
     shadowOffset: {

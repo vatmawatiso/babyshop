@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     width: toDp(335),
     height: toDp(80),
-    borderRadius: toDp(8),
+    borderRadius: toDp(20),
     top: toDp(10),
     justifyContent: 'space-between',
     marginBottom: toDp(2),
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   imgKontak: {
     height: toDp(50),
     width: toDp(50),
-    borderRadius: toDp(25),
+    borderRadius: toDp(20),
   },
   txtLihat: {
     textAlign: 'center',
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(52),
     height: toDp(20),
-    borderRadius: toDp(15),
+    borderRadius: toDp(20),
     left:toDp(35)
   }
 });

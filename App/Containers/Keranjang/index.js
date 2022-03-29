@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     width: toDp(335),
     height: toDp(40),
-    borderRadius: toDp(8),
+    borderRadius: toDp(20),
     top: toDp(10),
     position: 'absolute',
     zIndex: 1,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C4C4C4',
     width: toDp(335),
     height: toDp(41),
-    borderRadius: toDp(8)
+    borderRadius: toDp(20)
   },
   // orderCart: {
   //   paddingBottom:toDp(30),
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   },
   orderCartone: {
     padding: toDp(8),
-    borderRadius: toDp(10),
+    borderRadius: toDp(20),
     width: toDp(335),
     paddingBottom: toDp(10),
     backgroundColor: '#C4C4C4'
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   },
   checkout: {
     backgroundColor: '#2A334B',
-    borderRadius: toDp(15),
+    borderRadius: toDp(20),
     flexDirection: 'row',
     justifyContent: 'space-between',
     // top: toDp(20),
@@ -297,14 +297,14 @@ const styles = StyleSheet.create({
   },
   buttonTotal: {
     // backgroundColor: 'red',
-    borderRadius: toDp(15),
+    borderRadius: toDp(20),
     width: toDp(160),
     height: toDp(50),
     // right:toDp(12)
   },
   buttonPay: {
     // backgroundColor: 'red',
-    borderRadius: toDp(15),
+    borderRadius: toDp(20),
     width: toDp(150),
     height: toDp(50),
     // left:toDp(8)

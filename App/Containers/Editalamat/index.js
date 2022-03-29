@@ -37,7 +37,7 @@ const Editalamat = (props) => {
                       top={toDp(4)}
                       width={toDp(335)}
                       height={toDp(40)}
-                      borderRadius={toDp(8)}
+                      borderRadius={toDp(20)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -51,7 +51,7 @@ const Editalamat = (props) => {
                       top={toDp(6)}
                       width={toDp(335)}
                       height={toDp(40)}
-                      borderRadius={toDp(8)}
+                      borderRadius={toDp(20)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -70,7 +70,7 @@ const Editalamat = (props) => {
                           buttonStyle={styles.dropdown}
                           buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
                           rowTextStyle={{fontSize:toDp(12)}}
-                          dropdownStyle={{borderRadius:toDp(7)}}
+                          dropdownStyle={{borderRadius:toDp(20)}}
                           rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
                           data={countries}
@@ -98,7 +98,7 @@ const Editalamat = (props) => {
                         top={toDp(6)}
                         width={toDp(335)}
                         height={toDp(40)}
-                        borderRadius={toDp(8)}
+                        borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -112,7 +112,7 @@ const Editalamat = (props) => {
                         top={toDp(8)}
                         width={toDp(335)}
                         height={toDp(40)}
-                        borderRadius={toDp(8)}
+                        borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width:toDp(335),
     height:toDp(40),
-    borderRadius:toDp(8),
+    borderRadius:toDp(20),
     marginBottom:toDp(10)
 },
 searchIcon: {
@@ -191,7 +191,7 @@ input: {
   paddingRight: toDp(10),
   paddingBottom: toDp(10),
   paddingLeft: toDp(0),
-  borderRadius: toDp(8),
+  borderRadius: toDp(20),
   paddingLeft: toDp(45),
   color:'#FFF'
 },
@@ -199,7 +199,7 @@ input: {
     ...StyleSheet.absoluteFillObject
   },
   map: {
-    ...StyleSheet.absoluteFillObject
+    ...StyleSheet.absoluteFillObject,
   },
   content: {
       top:toDp(15),
@@ -227,7 +227,7 @@ input: {
 },
 dropdown:{
   height:toDp(38),
-  borderRadius:toDp(8),
+  borderRadius:toDp(20),
   width:toDp(335),
   top:toDp(4),
   left:toDp(3),
@@ -238,7 +238,7 @@ contentMap: {
   backgroundColor:'white',
   width:toDp(335),
   height:toDp(200),
-  borderRadius:toDp(8),
+  borderRadius:toDp(20),
   bottom:toDp(5)
 },
 textInput: {

@@ -37,7 +37,7 @@ const TambahAlamat = (props) => {
                       top={toDp(4)}
                       width={toDp(335)}
                       height={toDp(40)}
-                      borderRadius={toDp(15)}
+                      borderRadius={toDp(20)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -51,7 +51,7 @@ const TambahAlamat = (props) => {
                       top={toDp(6)}
                       width={toDp(335)}
                       height={toDp(40)}
-                      borderRadius={toDp(15)}
+                      borderRadius={toDp(20)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
@@ -70,7 +70,7 @@ const TambahAlamat = (props) => {
                           buttonStyle={styles.dropdown}
                           buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
                           rowTextStyle={{fontSize:toDp(12)}}
-                          dropdownStyle={{borderRadius:toDp(7)}}
+                          dropdownStyle={{borderRadius:toDp(20)}}
                           rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
                           data={countries}
@@ -98,7 +98,7 @@ const TambahAlamat = (props) => {
                         top={toDp(6)}
                         width={toDp(335)}
                         height={toDp(40)}
-                        borderRadius={toDp(15)}
+                        borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -112,7 +112,7 @@ const TambahAlamat = (props) => {
                         top={toDp(8)}
                         width={toDp(335)}
                         height={toDp(40)}
-                        borderRadius={toDp(15)}
+                        borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width:toDp(335),
     height:toDp(40),
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     marginBottom:toDp(10)
 },
 searchIcon: {
@@ -206,7 +206,7 @@ input: {
       // backgroundColor:'#C4C4C4',
       width:toDp(316),
       height:toDp(90),
-      borderRadius:toDp(15)
+      borderRadius:toDp(20)
   },
   txtContact: {
     fontWeight: 'bold',
@@ -223,11 +223,11 @@ input: {
     // backgroundColor:'#C4C4C4',
     width:toDp(316),
     height:toDp(130),
-    borderRadius:toDp(15)
+    borderRadius:toDp(20)
 },
 dropdown:{
   height:toDp(38),
-  borderRadius:toDp(13),
+  borderRadius:toDp(20),
   width:toDp(335),
   top:toDp(4),
   right:toDp(9),
@@ -238,7 +238,7 @@ contentMap: {
   backgroundColor:'white',
   width:toDp(335),
   height:toDp(200),
-  borderRadius:toDp(15),
+  borderRadius:toDp(20),
   bottom:toDp(5)
 }, 
 textInput: {

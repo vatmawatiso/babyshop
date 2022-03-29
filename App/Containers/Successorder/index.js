@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#C4C4C4',
       width:toDp(335),
       height:toDp(139),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
       marginTop:toDp(10),
       justifyContent:'center',
       alignItems:'center'
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
       top:toDp(20),
       width:toDp(126),
       height:toDp(40),
-      borderRadius:toDp(15),
+      borderRadius:toDp(20),
       justifyContent:'center'
   },
   txtBtn: {

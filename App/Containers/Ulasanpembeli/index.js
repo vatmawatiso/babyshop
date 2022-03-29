@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     top:toDp(30),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
-    borderRadius:toDp(10),
+    borderRadius:toDp(20),
     height: toDp(150),
     right: toDp(2),
     shadowColor: "#000",
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     width:'100%',
     backgroundColor:'#FFF',
     height:toDp(200),
-    borderRadius:toDp(10),
+    borderRadius:toDp(20),
   },
   modalClose:{
     height:toDp(20),

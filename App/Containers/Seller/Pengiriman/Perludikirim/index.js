@@ -32,14 +32,13 @@ const Perludikirim = () => {
 
 return (
 <View style={styles.container}>
-    <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(62)}} />
 
     <View style={styles.information}>
         <Text style={styles.txtInformation1}>{DATA[0].tb}</Text>
-        <Text style={{color:'#6495ED'}}>{DATA[0].diproses}</Text>
+        <Text style={{color:'#6495ED', right:toDp(5)}}>{DATA[0].diproses}</Text>
     </View>
 
-    <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(45)}} />
+    <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(9)}} />
 
     <View style={styles.OrderDetail}>
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
@@ -69,8 +68,8 @@ return (
 
 const styles = StyleSheet.create({
 container: {
-flex: 1,
-bottom:toDp(185)
+  flex: 1,
+  top:toDp(50)
 },
 content: {
   flexDirection:'row',
@@ -80,35 +79,35 @@ txtOrder: {
   bottom:toDp(40),
 },
 information: {
-  flexDirection:'row',
-  justifyContent:'space-between',
-  marginHorizontal:toDp(10),
-  bottom:toDp(50),
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  bottom:toDp(12),
+  height:toDp(19)
 },
 txtInformation1:{
-  fontWeight:'bold'
+  fontWeight:'bold',
+  marginHorizontal:toDp(5)
 },
 OrderDetail: {
-  backgroundColor:'#C4C4C4',
-  borderRadius:toDp(8),
-  width:toDp(335),
-  height:toDp(175),
-  left: toDp(12),
-  bottom:toDp(30)
+  backgroundColor: '#C4C4C4',
+  borderRadius: toDp(10),
+  width: toDp(335),
+  height: toDp(190),
+  left:toDp(12)
 },
 buttonPay: {
-  backgroundColor:'#2A334B',
-  borderRadius:toDp(15),
-  width:toDp(97),
-  height:toDp(34),
-  fontSize:toDp(11),
-  justifyContent:'center',
-  bottom:toDp(8),
+  backgroundColor: '#2A334B',
+  borderRadius: toDp(15),
+  width: toDp(97),
+  height: toDp(34),
+  fontSize: toDp(11),
+  justifyContent: 'center',
+  bottom: toDp(8),
 },
 txtButtonPay: {
-  color:'white',
-  fontSize:toDp(12),
-  textAlign:'center'
+  color: 'white',
+  fontSize: toDp(12),
+  textAlign: 'center'
 }
 });
 
