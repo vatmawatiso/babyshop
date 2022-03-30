@@ -54,12 +54,12 @@ const Infopembayaran = (props) => {
                     <Text style={styles.txtKetNoker}>Salin No. Rekening diatas untuk melakukan pembayaran</Text>
                 </View>
             </View>
-            <View style={styles.bayarSekarang}>
+        </View>
+            <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%'}}>
                 <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Successorder')}>
                     <Text style={styles.txtBayar}>Bayar Sekarang</Text>
                 </Pressable>
             </View>
-        </View>
 
     </View>
   )
@@ -67,7 +67,8 @@ const Infopembayaran = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent:'center',
+    // justifyContent:'center',
+    flex:1
   },
   bodyBayar: {
     backgroundColor:'#E7E7E7',
@@ -134,18 +135,13 @@ elevation: 2,
     fontSize:toDp(12),
     color:'#44474E'
   },
-  bayarSekarang: {
-    justifyContent:'center'
-  },
   btnBayar: {
     backgroundColor:'#2A334B',
-    width:toDp(335),
-    height:toDp(45),
     borderRadius:toDp(15),
+    width:toDp(335),
+    height:toDp(40),
     justifyContent:'center',
-    alignItems:'center',
-    left:toDp(12),
-    top:toDp(235),
+    bottom:toDp(5),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -157,7 +153,8 @@ elevation: 2,
         elevation: 2,
   },
   txtBayar:{
-    color:'white'
+    color:'white', 
+    textAlign:'center'
   }
  
 });

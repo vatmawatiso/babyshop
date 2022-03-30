@@ -64,7 +64,7 @@ const Pembayaran = (props) => {
                 <Image source={{uri:item.img}} style={{width:70,height:40,left:-5}} />
                 <Text style={{fontSize:toDp(12),left:toDp(0)}}>{item.pesan}</Text>
             </View>
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(0), width:toDp(300)}} />
+            <View style={{borderWidth:toDp(0.5), borderColor:'grey', bottom:toDp(0), width:toDp(335)}} />
         </View>
       )
     }
@@ -83,7 +83,7 @@ const Pembayaran = (props) => {
                     paddingHorizontal:toDp(30),
                     flexDirection:'row',
                     justifyContent:'flex-start',
-                    marginTop:toDp(50)
+                    marginTop:toDp(40)
                   }}>
                       <Image source={allLogo.ictransfer} style={styles.ictransfer} />
                       <Text style={styles.txtTransfer}>Transaksi Pembayaran</Text>
@@ -166,7 +166,7 @@ const Pembayaran = (props) => {
                                 ListBank(item, index)
                               )
                             }}
-                          ListFooterComponent={() => <View style={{height: toDp(100)}} />}
+                          ListFooterComponent={() => <View style={{height: toDp(100), width:toDp(335)}} />}
                       />
                   </View>
             </View>
@@ -188,9 +188,7 @@ const styles = StyleSheet.create({
     flex:1,
  
   },
-  Transfer: {
- 
-  },
+
   txtTransfer: {
       fontWeight:'bold',
       left:toDp(10),

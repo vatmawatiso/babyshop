@@ -179,7 +179,7 @@ const Keranjang = (props) => {
         </View>
  
       {/*Button Checkout*/}
-        <View style={{ zIndex: 9,  position:'absolute', bottom:90}}>
+        <View style={{ zIndex: 9,  position:'absolute', bottom:95}}>
           <View style={styles.checkout}>
             <Pressable style={styles.buttonTotal}>
               <Text style={styles.txtTotal}>Total Harga</Text>

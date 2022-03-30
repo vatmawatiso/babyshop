@@ -80,7 +80,7 @@ const Semua = (props) => {
             <View style={{flexDirection:'row', justifyContent:'space-between', margin:toDp(10)}}>
                 <Image style={styles.icuser} source={allLogo.icuser} />
                 <Text style={styles.txtNama}>Tiefani Permata Sari</Text>
-                <Pressable style={{borderColor:'#303565', borderWidth:1, width:toDp(85), height:toDp(35), justifyContent:'center', borderRadius:toDp(10) }} onPress={() => NavigatorService.navigate('Chat')}>
+                <Pressable style={{borderColor:'#303565', borderWidth:1, width:toDp(85), height:toDp(35), justifyContent:'center', borderRadius:toDp(20) }} onPress={() => NavigatorService.navigate('Chat')}>
                     <Text style={styles.txtBalas}>Balas</Text>
                 </Pressable>
             </View>
@@ -114,7 +114,7 @@ bodyUlasan: {
   width:toDp(335),
   height:toDp(180),
   top:toDp(260),
-  borderRadius:toDp(8),
+  borderRadius:toDp(20),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

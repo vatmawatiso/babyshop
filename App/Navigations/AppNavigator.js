@@ -117,7 +117,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Pembayaran'
+    initialRouteName: 'Homepage'
   
   }
 );

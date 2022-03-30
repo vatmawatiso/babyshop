@@ -10,194 +10,198 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  Header  from '@Header'
+import Header from '@Header'
 import NavigatorService from '@NavigatorService'
 import { Card } from "react-native-paper";
 import ImagePicker from 'react-native-image-crop-picker'
 import { Linking } from "react-native";
 
 const Editprofil = (props) => {
-    const DATA = [
-        {
-          id: '1',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp',
-          nama: 'Dandi Alvayed'
-        },
-      ]
+  const DATA = [
+    {
+      id: '1',
+      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp',
+      nama: 'Dandi Alvayed'
+    },
+  ]
 
-      const [state, setState] = useState({
-        loading: false,
-        valName: false,
-        secureTextEntry: true,
-        nama: '',
-        username: '',
-        email: '',
-        jenkel: '',
-        nomer: '',
-        password: ''
-    })
+  const [state, setState] = useState({
+    loading: false,
+    valName: false,
+    secureTextEntry: true,
+    nama: '',
+    username: '',
+    email: '',
+    jenkel: '',
+    nomer: '',
+    password: ''
+  })
 
-    const camera = () => {
-      ImagePicker.openCamera(state.options).then(response => {
+  const camera = () => {
+    ImagePicker.openCamera(state.options).then(response => {
       //   upImageToServer(response)
       console.log(response)
-      }).catch(err => {
-        console.log(err)
-        if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
-          Alert.alert(
-            'Pengaturan',
-            'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
-            [
-              {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
-              {text: 'Aktifkan', onPress: () => {
+    }).catch(err => {
+      console.log(err)
+      if (err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+        Alert.alert(
+          'Pengaturan',
+          'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+          [
+            { text: 'Nanti Saja', onPress: () => console.log('Cancel') },
+            {
+              text: 'Aktifkan', onPress: () => {
                 Linking.openSettings();
-              }},
-            ],
-            {cancelable: false},
-          );
-        }
-      })
-    }
-    
-    // const RenderItem = (item, index) => {
-    return (
-        <View style={styles.container}>
-            <Header 
-                title={'Edit Profil'}
-                onPress={() => props.navigation.goBack()}
-            />
-                <View style={styles.content}>
-                    <View style={styles.profil}>
-                        <Pressable style={{alignItems:'flex-end', left:toDp(300), top:toDp(5),  width:toDp(30)}} onPress={() => NavigatorService.navigate('Buatpassword')}>
-                            <Image source={allLogo.icpassword} style={{width:toDp(30), height:toDp(30)}} />
-                        </Pressable>
-                        <Image style={styles.imgProfil} source={{uri: DATA[0].image}} />
-                        <Text style={styles.nama}>{DATA[0].nama}</Text>
-                        <Pressable style={{bottom:toDp(6)}} onPress={() => alert('Coba')}>
-                            <Text style={styles.edit}>Ubah Profil</Text>
-                        </Pressable>
-                    </View>
-                </View>
-                <View style={styles.formInput}>
-                        <View style={styles.card}>
-                            <TextInput  autoCapitalize={'none'}
-                                    style={styles.textInput}
-                                    placeholder={'Nama'}                                 
-                                    placeholderTextColor={'grey'}
-                                    value={state.nama}
-                                    onChangeText={(text) => setState(state => ({...state, nama: text })) }
-                            />
-                         </View>
-                         <View style={styles.card}>
-                            <TextInput  autoCapitalize={'none'}
-                                    style={styles.textInput}
-                                    placeholder={'Username'}                           
-                                    placeholderTextColor={'grey'}
-                                    value={state.username}
-                                    onChangeText={(text) => setState(state => ({...state, username: text })) }
-                            />
-                         </View>
-                         <View style={styles.card}>
-                            <TextInput  autoCapitalize={'none'}
-                                    style={styles.textInput}
-                                    placeholder={'Email'}
-                                    placeholderTextColor={'grey'}
-                                    value={state.email}
-                                    onChangeText={(text) => setState(state => ({...state, email: text })) }
-                            />
-                         </View>
-                         <View style={styles.card}>
-                            <TextInput  autoCapitalize={'none'}
-                                    style={styles.textInput}
-                                    placeholder={'Jenis Kelamin'}
-                                    placeholderTextColor={'grey'}
-                                    value={state.jenkel}
-                                    onChangeText={(text) => setState(state => ({...state, jenkel: text })) }
-                            />
-                         </View>
-                         <View style={styles.card}>
-                            <TextInput  autoCapitalize={'none'}
-                                    style={styles.textInput}
-                                    placeholder={'Nomer Telepon'}
-                                    placeholderTextColor={'grey'}
-                                    value={state.nomer}
-                                    onChangeText={(text) => setState(state => ({...state, nomer: text })) }
-                            />
-                         </View>
-                         <View style={styles.card}>
-                              <TextInput
-                                    autoCapitalize={'none'}
-                                    style={styles.textInput1}
-                                    style={{
-                                      marginTop: toDp(-15),
-                                      width: toDp(335),
-                                      height: toDp(40),
-                                      backgroundColor: 'white',
-                                      borderRadius: toDp(20),
-                                      right:toDp(8),
-                                      borderWidth:0.5,
-                                      // borderColor: state.valName == false ?
-                                      //   '#F2F3F3'
-                                      // :
-                                      //   'red',
-                                    }}
-                                    placeholder={'Password'}
-                                    placeholderTextColor={'grey'}
-                                    secureTextEntry={state.secureTextEntry}
-                                    onChangeText={(text) => setState(state => ({...state, password: text})) }
-                              />
-                              <Pressable style={styles.presableShow} onPress={() => setState(state => ({...state, secureTextEntry: !state.secureTextEntry }))}>
-                                  <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
-                              </Pressable>
-                         </View>
-                         <View style={styles.buttonSave}>
-                            <Pressable 
-                                    onPress={() => NavigatorService.navigate('Login')}
-                                    style={styles.pressableLogin}>
-                                    <Text style={styles.save}>Simpan</Text>
-                            </Pressable>
-                         </View>
-                    </View>
-        </View>
-    )};
+              }
+            },
+          ],
+          { cancelable: false },
+        );
+      }
+    })
+  }
 
-    // return (
-    //     <View style={styles.header}>
-    //       <Card>
-    //         {RenderItem(DATA,0)}
-    //       </Card>
-    //     </View>
-    //   )};
+  // const RenderItem = (item, index) => {
+  return (
+    <View style={styles.container}>
+      <Header
+        title={'Edit Profil'}
+        onPress={() => props.navigation.goBack()}
+      />
+      <View style={styles.content}>
+        <View style={styles.profil}>
+          <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Buatpassword')}>
+            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30) }} />
+          </Pressable>
+          <Image style={styles.imgProfil} source={{ uri: DATA[0].image }} />
+          <Text style={styles.nama}>{DATA[0].nama}</Text>
+          <Pressable style={{ bottom: toDp(6) }} onPress={() => alert('Coba')}>
+            <Text style={styles.edit}>Ubah Profil</Text>
+          </Pressable>
+        </View>
+      </View>
+      <View style={styles.formInput}>
+        <View style={styles.card}>
+          <TextInput autoCapitalize={'none'}
+            style={styles.textInput}
+            placeholder={'Nama'}
+            placeholderTextColor={'grey'}
+            value={state.nama}
+            onChangeText={(text) => setState(state => ({ ...state, nama: text }))}
+          />
+        </View>
+        <View style={styles.card}>
+          <TextInput autoCapitalize={'none'}
+            style={styles.textInput}
+            placeholder={'Username'}
+            placeholderTextColor={'grey'}
+            value={state.username}
+            onChangeText={(text) => setState(state => ({ ...state, username: text }))}
+          />
+        </View>
+        <View style={styles.card}>
+          <TextInput autoCapitalize={'none'}
+            style={styles.textInput}
+            placeholder={'Email'}
+            placeholderTextColor={'grey'}
+            value={state.email}
+            onChangeText={(text) => setState(state => ({ ...state, email: text }))}
+          />
+        </View>
+        <View style={styles.card}>
+          <TextInput autoCapitalize={'none'}
+            style={styles.textInput}
+            placeholder={'Jenis Kelamin'}
+            placeholderTextColor={'grey'}
+            value={state.jenkel}
+            onChangeText={(text) => setState(state => ({ ...state, jenkel: text }))}
+          />
+        </View>
+        <View style={styles.card}>
+          <TextInput autoCapitalize={'none'}
+            style={styles.textInput}
+            placeholder={'Nomer Telepon'}
+            placeholderTextColor={'grey'}
+            value={state.nomer}
+            onChangeText={(text) => setState(state => ({ ...state, nomer: text }))}
+          />
+        </View>
+        <View style={styles.card}>
+          <TextInput
+            autoCapitalize={'none'}
+            style={styles.textInput1}
+            style={{
+              marginTop: toDp(-15),
+              width: toDp(335),
+              height: toDp(40),
+              backgroundColor: 'white',
+              borderRadius: toDp(20),
+              right: toDp(8),
+              borderWidth: 0.5,
+              // borderColor: state.valName == false ?
+              //   '#F2F3F3'
+              // :
+              //   'red',
+            }}
+            placeholder={'Password'}
+            placeholderTextColor={'grey'}
+            secureTextEntry={state.secureTextEntry}
+            onChangeText={(text) => setState(state => ({ ...state, password: text }))}
+          />
+          <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+            <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%'}}>
+        <View style={styles.buttonSave}>
+          <Pressable onPress={() => NavigatorService.navigate('Login')} style={styles.pressableLogin}>
+            <Text style={styles.save}>Simpan</Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  )
+};
+
+// return (
+//     <View style={styles.header}>
+//       <Card>
+//         {RenderItem(DATA,0)}
+//       </Card>
+//     </View>
+//   )};
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     // top:toDp(50)
   },
   content: {
-      backgroundColor: '#2A334B',
-      width:toDp(335),
-      height:toDp(116),
-      borderRadius:toDp(20),
-      left:toDp(12),
-      top:toDp(10)
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(116),
+    borderRadius: toDp(20),
+    left: toDp(12),
+    top: toDp(10)
   },
   imgProfil: {
     height: toDp(50),
     width: toDp(50),
     left: toDp(135),
-    bottom:toDp(15),
+    bottom: toDp(15),
     borderRadius: toDp(20)
   },
   nama: {
-      color: 'white',
-      left:toDp(115),
-      bottom:toDp(10)
+    color: 'white',
+    left: toDp(115),
+    bottom: toDp(10)
   },
   edit: {
-      color:'white',
-      fontSize:toDp(10),
-      left:toDp(133),
+    color: 'white',
+    fontSize: toDp(10),
+    left: toDp(133),
   },
   textInput: {
     width: toDp(250),
@@ -206,45 +210,44 @@ const styles = StyleSheet.create({
     paddingHorizontal: toDp(8),
     borderRadius: toDp(20),
     marginTop: toDp(-10),
-    borderWidth:toDp(0.5),
+    borderWidth: toDp(0.5),
   },
   formInput: {
-    top:toDp(25),
-    left:toDp(18)
+    top: toDp(25),
+    left: toDp(18)
   },
   card: {
-      margin:toDp(10),
-      right:toDp(8)
+    margin: toDp(10),
+    right: toDp(8)
   },
   buttonSave: {
-      backgroundColor: '#2A334B',
-      width:toDp(335),
-      height:toDp(40),
-      borderRadius:toDp(20),
-      top:toDp(15),
-      right:toDp(6)
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(40),
+    borderRadius: toDp(20),
+    bottom:toDp(5),
+    justifyContent:'center'
   },
   save: {
-      color:'white',
-      left:toDp(130),
-      top:toDp(9)
+    color: 'white',
+    textAlign:'center',
   },
   textInput: {
     backgroundColor: 'white',
-    width:toDp(335),
-    height:toDp(40),
-    borderRadius:toDp(20),
-    bottom:toDp(15),
-    marginBottom:toDp(-8),
-    right:toDp(8),
-    borderWidth:toDp(0.5),
+    width: toDp(335),
+    height: toDp(40),
+    borderRadius: toDp(20),
+    bottom: toDp(15),
+    marginBottom: toDp(-8),
+    right: toDp(8),
+    borderWidth: toDp(0.5),
   },
   icVisibility: {
     width: toDp(24),
     height: toDp(24),
     tintColor: 'grey',
-    bottom:toDp(-2),
-    left:toDp(0)
+    bottom: toDp(-2),
+    left: toDp(0)
   },
   presableShow: {
     padding: toDp(4),

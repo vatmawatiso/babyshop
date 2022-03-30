@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
   },
   Address: {
       backgroundColor:'#C4C4C4',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(105),
-      borderRadius:toDp(10),
+      borderRadius:toDp(20),
       flexDirection:'row',
       top:toDp(10)
   },
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
       backgroundColor:'#C4C4C4',
       flexDirection:'row',
       justifyContent:'space-between',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(32),
-      borderRadius:toDp(10),
+      borderRadius:toDp(20),
   },
   icplus: {
       width:toDp(12),

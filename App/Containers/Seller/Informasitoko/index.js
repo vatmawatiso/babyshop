@@ -38,26 +38,27 @@ const Informasitoko = (props) => {
       />
 
       <View>
-        <View style={[styles.Tokosaya, {flexDirection:'row'}]}>
+        <View style={[styles.Tokosaya, { flexDirection: 'row' }]}>
           <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
           <Text style={styles.txtToko}>{DATA[0].nama}</Text>
-          <View style={{left:toDp(120)}}>
-            <Pressable style={{justifyContent:'flex-end', height: toDp(20), top: toDp(10), right:toDp(10) }} onPress={() => NavigatorService.navigate('Settingtoko')} >
-              <Image source={allLogo.icsettings} style={{ tintColor: 'white', bottom: toDp(1) }} />
-            </Pressable>
-          </View>
         </View>
-        <View style={{bottom:toDp(20), left:toDp(20)}}>
-          <View style={{flexDirection:'column'}}>
+        <View style={{ bottom: toDp(50), left: toDp(20) }}>
+          <View style={{ flexDirection: 'column' }}>
             <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
             <Text style={styles.txtPengikut}>{DATA[0].pengikutUser} {DATA[0].mengikutiUser}</Text>
           </View>
-        </View>
-          <View style={styles.Ubah}>
-            <Pressable style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
-              <Text style={styles.txtUbah}>Ubah</Text>
+          <View style={{right:toDp(20)}}>
+            <Pressable style={{ backgroundColor: '#698498', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Settingtoko')}>
+              <Text style={{ textAlign: 'center', color: 'white' }}>Pengaturan</Text>
             </Pressable>
           </View>
+        </View>
+      </View>
+
+      <View style={{ bottom:toDp(20) }}>
+        <Pressable style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
+          <Text style={styles.txtUbah}>Ubah</Text>
+        </Pressable>
       </View>
     </View>
   )
@@ -66,6 +67,7 @@ const Informasitoko = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    // flex: 1
   },
   imgProfil: {
     height: toDp(50),
@@ -78,9 +80,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(90),
-    borderRadius: toDp(10),
-    top: toDp(10)
+    height: toDp(130),
+    borderRadius: toDp(20),
+    top: toDp(20)
   },
   txtToko: {
     left: toDp(50),
@@ -88,16 +90,16 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   txtMember: {
-    left:toDp(105),
+    left: toDp(105),
     fontSize: toDp(12),
     color: 'white',
-    bottom:toDp(20)
+    bottom: toDp(20)
   },
   txtPengikut: {
     fontSize: toDp(12),
-    color: 'white', 
-    left:toDp(80),
-    bottom:toDp(15)
+    color: 'white',
+    left: toDp(80),
+    bottom: toDp(15)
   },
   txtMengikuti: {
     fontSize: toDp(12),
@@ -106,13 +108,13 @@ const styles = StyleSheet.create({
   btnUbah: {
     backgroundColor: '#C4C4C4',
     width: toDp(335),
-    height: toDp(40),
-    borderRadius: toDp(10),
-    bottom:toDp(10)
+    height: toDp(45),
+    borderRadius: toDp(20),
+    bottom: toDp(10),
+    justifyContent: 'center'
   },
   txtUbah: {
     textAlign: 'center',
-    top: toDp(8),
     color: 'black'
   },
 });

@@ -194,14 +194,14 @@ const Tambahproduk = (props) => {
           </View>
 
         </ScrollView>
-        <View style={{position:'absolute', bottom:toDp(0), }}>
+      </View>
+        <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%' }}>
           <View style={styles.bodySimpan}>
             <Pressable style={styles.btnSimpan}>
               <Text style={styles.txtSimpan}>Simpan</Text>
             </Pressable>
           </View>
         </View>
-      </View>
 
 
 
@@ -211,7 +211,8 @@ const Tambahproduk = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    // alignItems: 'center',
+    flex:1
   },
   contentContainer: {
     paddingVertical: toDp(20)
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
     height: toDp(490),
     borderRadius: toDp(8),
     top: toDp(10),
+    left:toDp(12),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
     height: toDp(42),
     justifyContent: 'center',
     borderRadius: toDp(8),
-    top: toDp(20),
+    bottom:toDp(5),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

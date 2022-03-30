@@ -35,7 +35,7 @@ const Tambahalamat = (props) => {
                   <TextInput 
                       left={toDp(3)}
                       top={toDp(4)}
-                      width={toDp(310)}
+                      width={toDp(335)}
                       height={toDp(40)}
                       borderRadius={toDp(15)}
                       backgroundColor={'white'}
@@ -49,7 +49,7 @@ const Tambahalamat = (props) => {
                   <TextInput 
                       left={toDp(3)}
                       top={toDp(6)}
-                      width={toDp(310)}
+                      width={toDp(335)}
                       height={toDp(40)}
                       borderRadius={toDp(15)}
                       backgroundColor={'white'}
@@ -96,7 +96,7 @@ const Tambahalamat = (props) => {
                     <TextInput 
                         left={toDp(3)}
                         top={toDp(6)}
-                        width={toDp(310)}
+                        width={toDp(335)}
                         height={toDp(40)}
                         borderRadius={toDp(15)}
                         backgroundColor={'white'}
@@ -110,7 +110,7 @@ const Tambahalamat = (props) => {
                     <TextInput 
                         left={toDp(3)}
                         top={toDp(8)}
-                        width={toDp(310)}
+                        width={toDp(335)}
                         height={toDp(40)}
                         borderRadius={toDp(15)}
                         backgroundColor={'white'}
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2A334B',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(40),
-    borderRadius:toDp(15),
+    borderRadius:toDp(20),
     marginBottom:toDp(10)
 },
 searchIcon: {
@@ -191,7 +191,7 @@ input: {
   paddingRight: 10,
   paddingBottom: 10,
   paddingLeft: 0,
-  borderRadius: toDp(25),
+  borderRadius: toDp(20),
   paddingLeft: toDp(45),
   color:'#FFF'
 },
@@ -204,9 +204,9 @@ input: {
   content: {
       top:toDp(15),
       // backgroundColor:'#C4C4C4',
-      width:toDp(316),
+      width:toDp(335),
       height:toDp(90),
-      borderRadius:toDp(15)
+      borderRadius:toDp(20)
   },
   txtContact: {
     fontWeight: 'bold',
@@ -221,24 +221,28 @@ input: {
   inputAlamat: {
     top:toDp(30),
     // backgroundColor:'#C4C4C4',
-    width:toDp(316),
+    width:toDp(335),
     height:toDp(130),
-    borderRadius:toDp(15)
+    borderRadius:toDp(20)
 },
 dropdown:{
   height:toDp(38),
-  borderRadius:toDp(13),
-  width:toDp(310),
+  borderRadius:toDp(20),
+  width:toDp(335),
   top:toDp(4),
   left:toDp(3),
-  backgroundColor:'white'
+  backgroundColor:'white',
+  borderWidth:toDp(0.5)
 },
 contentMap: {
   backgroundColor:'white',
-  width:toDp(316),
+  width:toDp(335),
   height:toDp(200),
-  borderRadius:toDp(15),
+  borderRadius:toDp(20),
   bottom:toDp(5)
+},
+textInput: {
+  borderWidth:toDp(0.5)
 }
 });
 

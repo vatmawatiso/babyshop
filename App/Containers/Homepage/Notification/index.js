@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   Notification: {
     backgroundColor: '#C4C4C4',
-    width: toDp(316),
+    width: toDp(335),
     height: toDp(58),
     margin: toDp(1),
     borderRadius: toDp(20)

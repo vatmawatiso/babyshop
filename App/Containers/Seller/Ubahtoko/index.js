@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
   },
   profilToko: {
       backgroundColor:'#C4C4C4',
-      borderRadius:toDp(10),
+      borderRadius:toDp(20),
       top:toDp(10),
       width:toDp(335),
-      height:250,
+      height:toDp(250),
   },
   btnGanti: {
      width:toDp(90),
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
-    borderRadius: toDp(8),
+    borderRadius: toDp(20),
     top:toDp(3)
   },
   textInput1: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
-    borderRadius: toDp(8),
+    borderRadius: toDp(20),
     top:toDp(10)
   },
   txtDeskripsi: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#2A334B',
       width:toDp(335),
       height:toDp(40),
-      borderRadius:toDp(8),
+      borderRadius:toDp(20),
       top:toDp(30),
       justifyContent:'center'
   },

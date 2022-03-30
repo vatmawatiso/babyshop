@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#E7E7E7',
     width:toDp(335),
     height:toDp(360),
-    borderRadius:toDp(8),
+    borderRadius:toDp(20),
     top:toDp(20),
     flexDirection:'column',
     justifyContent:'space-between',

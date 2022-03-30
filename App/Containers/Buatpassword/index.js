@@ -44,7 +44,7 @@ const Buatpassword = (props) => {
                         top={toDp(4)}
                         width={toDp(335)}
                         height={toDp(40)}
-                        borderRadius={toDp(10)}
+                        borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
@@ -60,7 +60,7 @@ const Buatpassword = (props) => {
                         top={toDp(4)}
                         width={toDp(335)}
                         height={toDp(40)}
-                        borderRadius={toDp(10)}
+                        borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput1}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         top: toDp(40),
         width: toDp(335),
         height: toDp(40),
-        borderRadius: toDp(10)
+        borderRadius: toDp(20)
     },
     txtPassword: {
         bottom: toDp(5)
