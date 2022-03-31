@@ -26,12 +26,12 @@ const Register = (props) => {
     const [state, setState] = useState({
         loading: false,
         secureTextEntry: true,
-        nama: '',
-        email: '',
-        hp: '',
-        username: '',
-        password: '',
-        type: '',
+        mb_name: '',
+        mb_email: '',
+        mb_phone: '',
+        mb_username: '',
+        mb_password: '',
+        mb_type: '',
         valName:false,
         valMail:false,
         valPass:false,
@@ -39,19 +39,19 @@ const Register = (props) => {
 
     const RegisterMember = async (value) => {
       const body = {
-       nama: state.nama,
-       email: state.email,
-       hp: state.hp,
-       username: state.username,
-       password: state.password,
-       type: state.type
+       mb_nama: state.mb_nama,
+       mb_email: state.mb_email,
+       mb_phone: state.mb_phone,
+       mb_username: state.mb_username,
+       mb_password: state.mb_password,
+       mb_type: state.mb_type
      }
 
      setState(state => ({...state, loading: true }))
-     axios.post(svr.url+'registrasi-member/'+svr.api+'/',body)
+     axios.post('https://market.pondok-huda.com/dev/react/registrasi-member',body)
      .then(result =>{
          if(result.data.status==201){
-           console.log('Register : '+ JSON.stringify(result))
+           console.log('hasil : '+ JSON.stringify(result.data))
            setState(state => ({...state, loading: false }))
            NavigatorService.reset('Login');
          }else{
