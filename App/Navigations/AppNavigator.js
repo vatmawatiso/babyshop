@@ -30,7 +30,7 @@ import Tokobangunan from '../Containers/Tokobangunan'
 import Konsultan from '../Containers/Konsultan'
 import Alatbahan from '../Containers/Alatbahan'
 import Lupapassword from '../Containers/Lupapassword'
-// import Konfiremail from '../Containers/Konfiremail'
+import Cari from '../Containers/Cari'
 import Buatpassword from '../Containers/Buatpassword'
 import Produk from '../Containers/Produk'
 import Successorder from '../Containers/Successorder'
@@ -88,7 +88,7 @@ const AppNavigator = createStackNavigator(
     Konsultan: { screen: Konsultan },
     Alatbahan: { screen: Alatbahan },
     Lupapassword: { screen: Lupapassword },
-    // Konfiremail: { screen: Konfiremail },
+    Cari: { screen: Cari },
     Buatpassword: { screen: Buatpassword },
     Produk: { screen: Produk },
     Successorder: { screen: Successorder },
@@ -117,7 +117,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'SplashScreen'
+    initialRouteName: 'Cari'
   
   }
 );
