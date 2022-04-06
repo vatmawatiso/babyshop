@@ -21,7 +21,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const Register = (props) => {
 
-  const tipeUser = ["Client", "Seller"]
+  const mb_type = ["Client", "Seller"]
 
     const [state, setState] = useState({
         loading: false,
@@ -32,14 +32,31 @@ const Register = (props) => {
         mb_username: '',
         mb_password: '',
         mb_type: '',
+        encpass:'',
         valName:false,
         valMail:false,
         valPass:false,
     })
 
+    const validateMail = (text) => {
+
+      let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+      if (reg.test(text) === false) {
+        setState(state => ({...state, valMail: true }))
+        setState(state => ({...state, mb_email: text }))
+  
+        return false;
+      }
+      else {
+        setState(state => ({...state, mb_email: text }))
+        setState(state => ({...state, valMail: false }))
+  
+      }
+    }
+
     const RegisterMember = async (value) => {
       const body = {
-       mb_nama: state.mb_nama,
+       mb_name: state.mb_name,
        mb_email: state.mb_email,
        mb_phone: state.mb_phone,
        mb_username: state.mb_username,
@@ -64,6 +81,64 @@ const Register = (props) => {
      })
     }
 
+    const passlength = (pass) =>{
+      const psw = pass;
+  
+      if(psw.length >= 6 ){
+        setState(state => ({...state, valPass: false }));
+        Shaone(pass);
+  
+      }else{
+        setState(state => ({...state, valPass: true }))
+  
+      }
+    }
+  
+    const Shaone = (pass) =>{
+      sha1(pass).then( hash => {
+        setState(state => ({...state, password: hash }));
+      })
+    }
+  
+    const toggleAgree = (val) => {
+      setSelection(val)
+      if(isSelected==true){
+        setDisable(true)
+      }else{
+        setDisable(false)
+      }
+    }
+  
+    const validateInput = () =>{
+        if(state.mb_name.trim()==''){
+          alert('Nama tidak boleh kosong!')
+          return;
+        }
+        if(state.mb_email.trim()==''){
+          alert('Email tidak boleh kosong!')
+          return;
+        }
+        if(state.mb_phone.trim()==''){
+          alert('Nomor Hp tidak boleh kosong!')
+          return;
+        }
+        if(state.mb_username.trim()==''){
+          alert('Username tidak boleh kosong!')
+          return;
+        }
+        if(state.mb_password.trim()==''){
+          alert('Password tidak boleh kosong!')
+          return;
+        }
+        if(state.mb_type.trim()==''){
+          alert('Password tidak boleh kosong!')
+          return;
+        }
+  
+        RegisterMember()
+    }
+  
+
     return (
         <View style={styles.container}>
           <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
@@ -76,24 +151,25 @@ const Register = (props) => {
                             style={styles.textInput}
                             placeholder={'Name'}
                             placeholderTextColor={'grey'}
-                            value={state.nama}
-                            onChangeText={(text) => setState(state => ({...state, nama: text })) }
+                            value={state.mb_name}
+                            onChangeText={(text) => setState(state => ({...state, mb_name: text })) }
                 />
             <Text style={[styles.textName, {bottom:toDp(5)} ]}>Alamat Email</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={[styles.textInput, {bottom:toDp(15)}]}
                             placeholder={'Email'}
                             placeholderTextColor={'grey'}
-                            value={state.email}
-                            onChangeText={(text) => setState(state => ({...state, email: text })) }
+                            value={state.mb_email}
+                            onChangeText={(mb_email) =>  validateMail(mb_email)}
+                            // onChangeText={(text) => setState(state => ({...state, mb_email: text })) }
                 />
             <Text style={[styles.textName, {bottom:toDp(8)} ]}>Nomer Telepon</Text>
                 <TextInput  autoCapitalize={'none'}
                             style={[styles.textInput, {bottom:toDp(18)} ]}
                             placeholder={'Phone'}
                             placeholderTextColor={'grey'}
-                            value={state.hp}
-                            onChangeText={(text) => setState(state => ({...state, hp: text })) }
+                            value={state.mb_phone}
+                            onChangeText={(text) => setState(state => ({...state, mb_phone: text })) }
                 />
             <Text style={[styles.textName, {bottom:toDp(13)} ]}>Pilih User</Text>
                  <SelectDropdown
@@ -103,7 +179,7 @@ const Register = (props) => {
                           dropdownStyle={{borderRadius:toDp(7)}}
                           rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Type User'}
-                          data={tipeUser}
+                          data={mb_type}
                           onSelect={(selectedItem, index) => {
                             console.log(selectedItem, index)
                           }}
@@ -128,8 +204,8 @@ const Register = (props) => {
                             style={[styles.textInput, {bottom:toDp(48)} ]}
                             placeholder={'Username'}
                             placeholderTextColor={'grey'}
-                            value={state.username}
-                            onChangeText={(text) => setState(state => ({...state, username: text })) }
+                            value={state.mb_username}
+                            onChangeText={(text) => setState(state => ({...state, mb_username: text })) }
                 />
 
                 <View style={{marginTop: toDp(-4)}}>
@@ -139,8 +215,8 @@ const Register = (props) => {
                             placeholder={'Password'}
                             placeholderTextColor={'grey'}
                             secureTextEntry={state.secureTextEntry}
-                            value={state.password}
-                            onChangeText={(text) => setState(state => ({...state, password: text})) }
+                            // value={state.mb_password}
+                            onChangeText={(password) => passlength(password)}
                  />
                  <Pressable style={styles.presableShow} onPress={() => setState(state => ({...state, secureTextEntry: !state.secureTextEntry }))}>
                      <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
@@ -160,7 +236,7 @@ const Register = (props) => {
                       <Text style={styles.textLogin}>Masuk</Text>
                   </Pressable>      
                   <Pressable 
-                      style={styles.pressableSignup} onPress={() => RegisterMember()}>
+                      style={styles.pressableSignup} onPress={() => validateInput()}>
                       <Text style={styles.textSignup}>Daftar</Text>
                   </Pressable>
               </View>

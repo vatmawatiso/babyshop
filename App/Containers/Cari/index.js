@@ -1,127 +1,179 @@
-import React, { useState, useEffect } from 'react';
-
-// import all the components we are going to use
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-
-//import SearchableDropdown component
-import SearchableDropdown from 'react-native-searchable-dropdown';
-import { allLogo } from '@Assets'
-import { toDp } from '@percentageToDP'
+import React, { useEffect, useState } from 'react' 
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    StatusBar,
+    TextInput,
+    Pressable,
+    FlatList,
+    TouchableOpacity,
+    SafeAreaView,
+} from "react-native";
+import { allLogo } from '@Assets';
+import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
+import SelectDropdown from 'react-native-select-dropdown'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Loader from '@Loader'
+import axios from 'axios';
+import { ScrollView } from 'react-native-gesture-handler';
 
-//Item array for the dropdown
-const items = [
-  //name key is must.It is to show the text in front
-  { id: 1, name: 'angellist' },
-  { id: 2, name: 'codepen' },
-  { id: 3, name: 'envelope' },
-  { id: 4, name: 'etsy' },
-  { id: 5, name: 'facebook' },
-  { id: 6, name: 'foursquare' },
-  { id: 7, name: 'github-alt' },
-  { id: 8, name: 'github' },
-  { id: 9, name: 'gitlab' },
-  { id: 10, name: 'instagram' },
-];
+const Cari = (props) => {
 
-const Cari = () => {
-  //Data Source for the SearchableDropdown
-  const [serverData, setServerData] = useState([]);
+    const [filterdData, setfilterdData] = useState([]);
+    const [masterData, setmasterData] = useState([]);
+    const [search, setsearch] = useState('');
 
-  useEffect(() => {
-    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Successful response from the API Call
-        setServerData(responseJson.results);
-      })
-      .catch((error) => {
+    useEffect(() => {
+        fetcPosts();
+        return () => {
+
+    }
+    }, [])
+
+    const fetcPosts =() => {
+    const apiURL = 'https://jsonplaceholder.typicode.com/posts';
+    fetch(apiURL)
+    .then((response) => response.json())
+    .then((responseJson) => {
+        setfilterdData(responseJson);
+        setmasterData(responseJson);
+    }).catch((error) => {
         console.error(error);
-      });
-  }, []);
+    })
+    }
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={{backgroundColor:'green', width:'100%', height:toDp(50)}}>
-        <SearchableDropdown
-          onTextChange={(text) => console.log(text)}
-          //On text change listner on the searchable input
-          onItemSelect={(item) => alert(JSON.stringify(item))}
-          //onItemSelect called after the selection from the dropdown
-          containerStyle={{ padding: 5,
-                            width:toDp(280),
-                            maxHeight:'100%',
-                            backgroundColor:'yellow'
-            
-                         }}
-          //suggestion container style
-          textInputStyle={{
-            //inserted text style
-            padding: 12,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            backgroundColor: '#FAF7F6',
-            borderRadius:15,
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: 2,
-            },
-            shadowOpacity: 0.1,
-            shadowRadius: 1.0,
-            elevation: 4,
-          }}
-          itemStyle={{
-            //single dropdown item style
-            padding: 10,
-            marginTop: 2,
-            backgroundColor: '#FAF9F8',
-            borderColor: '#bbb',
-            borderWidth: 1,
-            borderRadius:15,
-          }}
-          itemTextStyle={{
-            //text style of a single dropdown item
-            color: '#222',
-          }}
-          itemsContainerStyle={{
-            //items container style you can pass maxHeight
-            //to restrict the items dropdown hieght
-            maxHeight: '60%',
-          }}
-          items={items}
-          //mapping of item array
-          defaultIndex={2}
-          //default selected item index
-          placeholder="placeholder"
-          //place holder for the search input
-          resetValue={false}
-          //reset textInput Value with true and false state
-          underlineColorAndroid="transparent"
-          //To remove the underline from the android input
+    const searchFilter = (text) => {
+        if (text) {
+            const newData = masterData.filter((item) => {
+                const itemData = item.title ? item.title.toUpperCase()
+                        : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setfilterdData(newData);
+            setsearch(text);
+        } else {
+            setfilterdData(masterData);
+            setsearch(text);
+        }
+    }
+
+    const ItemView = ({item}) => {
+    return (
+        <Text style={styles.itemStyle}>
+        {item.id}{'. '}{item.title.toUpperCase()}
+        </Text>
+    )
+    }
+
+    const ItemSeparatorView = () => {
+    return (
+        <View
+        style={{height:0.5, width:'100%', backgroundColor:'black'}}
         />
+    )
+    }
 
-      </View>
-    </SafeAreaView>
-  );
+    return (
+        <View style={styles.container}>
+            <View style={styles.header}>
+            <View style={{flexDirection:'row'}}>
+              <TouchableOpacity style={styles.touchHeader} onPress={() => props.navigation.goBack()} >
+                  <Image source={allLogo.icarrow} style={styles.icBack} />
+              </TouchableOpacity>
+                <TextInput 
+                    style={styles.textInputStyle}
+                    value={search}
+                    placeholder="Cari Bahan Bangunan Sekarang"
+                    placeholderTextColor="white"
+                    underlineColorAndroid="transparent"
+                    onChangeText={(text) => searchFilter(text)}
+                />
+            </View>
+            <FlatList
+                data={filterdData}
+                keyExtractor={(item, index) => index.toString()}
+                ItemSeparatorComponent={ItemSeparatorView}
+                renderItem={ItemView}
+            />
+            </View>
+        </View>
+    )
 };
-
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: 'white',
-    padding: 10,
   },
-  titleText: {
-    padding: 8,
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
+  itemStyle: {
+    padding:toDp(15),
+    // backgroundColor: 'red',
   },
-  headingText: {
-    padding: 8,
+  textInputStyle: {
+    height:toDp(50),
+    width:toDp(300),
+    borderWidth:toDp(1),
+    margin:toDp(5),
+    right:toDp(5),
+    borderColor: 'black',
+    backgroundColor:'#2A334B',
+    paddingTop: toDp(10),
+    paddingRight: toDp(10),
+    paddingBottom: toDp(10),
+    paddingLeft: toDp(0),
+    borderRadius: toDp(20),
+    paddingLeft: toDp(20),
+    color:'white',
   },
+  header: {
+    width:'100%',
+    height: '100%',
+    backgroundColor: 'white',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    
+    elevation: 10,
+  },
+
+  touchHeader: {
+    padding: toDp(4),
+    // width:'100%',
+    // backgroundColor: 'green',
+  },
+  icBack: {
+    marginHorizontal: toDp(8),
+    marginTop:toDp(13),
+    width: toDp(30),
+    height: toDp(30),
+    resizeMode: 'contain',
+    tintColor: 'black',
+    rotation: toDp(180)
+  },
+searchIcon: {
+    resizeMode: 'contain',
+    tintColor: 'white',
+    width: toDp(25),
+    height: toDp(25),
+    zIndex:3,
+    padding: toDp(8),
+    position: 'absolute',
+    left: toDp(17),
+    top: Platform.OS === 'ios' ? toDp(14) : toDp(14),
+
+},
+btnIcon: {
+  marginTop:toDp(13),
+  right:toDp(15)
+}
+
 });
 
 export default Cari;

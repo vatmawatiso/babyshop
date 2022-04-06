@@ -37,6 +37,7 @@ class Search extends Component {
               placeholder="Pencarian......."
               underlineColorAndroid="transparent"
               placeholderTextColor="#FFF"
+              onFocus={()=> NavigatorService.navigate('Cari')}
               onChangeText={(text)=>this.props.onFilter}
           />
           <TouchableOpacity onPress={() => NavigatorService.navigate('Keranjang')}>

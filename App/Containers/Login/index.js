@@ -1,113 +1,179 @@
-import React, { useEffect, useState } from 'react' 
+import React, { useEffect, useState } from 'react'
 import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    StatusBar,
-    TextInput,
-    Pressable,
-    Platform,
-    AsynStorage
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  TextInput,
+  Pressable,
+  Platform,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
-
+import Loader from '@Loader'
+import { sha1 } from 'react-native-sha1';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import { svr } from '../../Configs/apikey';
+import axios from 'axios';
+import {
+  LoginButton,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager
+} from 'react-native-fbsdk';
 
 const Login = (props) => {
 
-    const [state, setState] = useState({
-        loading: false,
-        secureTextEntry: true,
-        username: '',
-        password: ''
+  const [state, setState] = useState({
+    loading: false,
+    secureTextEntry: true,
+    mb_username: '',
+    mb_password: '',
+    encpass: '',
+    updatePass: false,
+    linkLogin: ''
+  })
+
+  const [llogin, setLogin] = useState('');
+
+  {/*Normal Login*/ }
+  const getlogin = async () => {
+    setState(state => ({ ...state, linkLogin: 'normal' }))
+    const body = {
+      mb_password: state.mb_password,
+      mb_username: state.mb_username
+    }
+    setState(state => ({ ...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/login-member/', body)
+      .then(result => {
+        if (result.data.status == 200) {
+          const datas = {
+            id: result.data.value[0].id,
+            value: result.data.value
+          }
+          if (datas.value.length === 0) {
+            alert('Nama Pengguna atau Kata Sandi Salah!')
+          } else {
+            //save Async Storage
+            AsyncStorage.setItem('member', JSON.stringify(datas.value))
+
+            AsyncStorage.setItem('uid', datas.id)
+
+            NavigatorService.reset('Home')
+
+          }
+          setState(state => ({ ...state, loading: false }))
+        } else if (result.data.status == 404) {
+          alert('Pengguna tidak ditemukan!')
+          setState(state => ({ ...state, loading: false }))
+        }
+      })
+
+      .catch(err => {
+        console.log(err)
+        alert('Gagal menerima data dari server!')
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+  const Shaone = (pass) => {
+    sha1(pass).then(hash => {
+      setState(state => ({ ...state, mb_password: hash }));
     })
+  }
 
-    return (
-        <View style={styles.container}>
-            <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'}/>
-            <Image source={allLogo.icbina} style={styles.icbina}/>
-            <Text style={styles.title}>Login</Text>
-            <Text style={styles.desc}>silahkan masuk untuk melanjutkan</Text>
-            <Text style={[styles.textName, {right:toDp(40)}]}>Username atau Email</Text>
-                <TextInput  autoCapitalize={'none'}
-                            style={styles.textInput}
-                            placeholder={'Username'}
-                            placeholderTextColor={'grey'}
-                            value={state.username}
-                            onChangeText={(text) => setState(state => ({...state, username: text })) }
-                />
-              <View style={{marginTop: toDp(-10)}}>
-                 <Text style={styles.textName}>Password</Text>
-                 <TextInput autoCapitalize={'none'}
-                            style={[styles.textInput, {marginTop: toDp(-11)}]}
-                            placeholder={'Password'}
-                            placeholderTextColor={'grey'}
-                            secureTextEntry={state.secureTextEntry}
-                            value={state.password}
-                            onChangeText={(text) => setState(state => ({...state, password: text})) }
-                 />
-                 <Pressable style={styles.presableShow} onPress={() => setState(state => ({...state, secureTextEntry: !state.secureTextEntry }))}>
-                     <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
-                 </Pressable>
-              </View>
-              <Pressable style={{left:toDp(120)}} onPress={()=> NavigatorService.navigate('Lupapassword')}>
-                      <Text style={styles.textForgot}>Forgot Password</Text>
-                  </Pressable>
 
-              <View style={styles.viewRow}>
-                  <Pressable 
-                      style={styles.pressableLogin} onPress={() => Login()}>
-                      <Text style={styles.textLogin}>Login</Text>
-                  </Pressable>
-                  <Pressable 
-                      onPress={() => NavigatorService.navigate('Register')}
-                      style={styles.pressableSignup}>
-                      <Text style={styles.textSignup}>Sign Up</Text>
-                  </Pressable>
-              </View>
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
+      <Image source={allLogo.icbina} style={styles.icbina} />
+      <Text style={styles.title}>Masuk</Text>
+      <Text style={styles.desc}>silahkan masuk untuk melanjutkan</Text>
+      <Text style={[styles.textName, { right: toDp(40) }]}>Nama Pengguna</Text>
+      <TextInput autoCapitalize={'none'}
+        style={styles.textInput}
+        placeholder={'Username or Email'}
+        placeholderTextColor={'grey'}
+        value={state.mb_username}
+        onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
+      />
+      <View style={{ marginTop: toDp(-10) }}>
+        <Text style={styles.textName}>Kata Sandi</Text>
+        <TextInput autoCapitalize={'none'}
+          style={[styles.textInput, { marginTop: toDp(-11) }]}
+          placeholder={'Password'}
+          placeholderTextColor={'grey'}
+          secureTextEntry={state.secureTextEntry}
+          // value={state.mb_password}
+          onChangeText={(text) => Shaone(text)}
+        />
+        <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+          <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+        </Pressable>
+      </View>
+      <Pressable style={{ left: toDp(120) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+        <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
+      </Pressable>
 
-              {/* <Text style={styles.textDont}>Or Login With</Text> */}
-              <View style={styles.rowFooter}>
-                  <Pressable style={[styles.pressableClick, {padding: toDp(2),width:toDp(180), height:toDp(40), backgroundColor:'white', width:toDp(170), borderRadius:toDp(10), marginBottom:toDp(5)}]}>
-                    <View style={{flexDirection:'row'}}>
-                      <Image source={allLogo.icGoogle} style={styles.icon} />
-                      <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold'}}>Login With Google</Text>
-                    </View>
-                  </Pressable>
+      <View style={styles.viewRow}>
+        <Pressable
+          style={styles.pressableLogin} onPress={() => getlogin()}>
+          <Text style={styles.textLogin}>Masuk</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => NavigatorService.navigate('Register')}
+          style={styles.pressableSignup}>
+          <Text style={styles.textSignup}>Daftar</Text>
+        </Pressable>
+      </View>
 
-                  <Pressable style={[styles.pressableClick, {padding: toDp(2),width:toDp(170), height:toDp(40), backgroundColor:'#3B5998', borderRadius:toDp(10)}]}>
-                    <View style={{flexDirection:'row'}}>
-                        <Image source={allLogo.icFacebook} style={styles.icon} />
-                        <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold', color:'white'}}>Login With Facebook</Text>
-                     </View>
-                  </Pressable>
-              </View>
-        </View>
-    )
+
+      <View style={[styles.rowFooter, { position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }]}>
+        <Text style={styles.textDont}>Atau Masuk Dengan</Text>
+        <Pressable style={[styles.pressableClick, { padding: toDp(2), height: toDp(40), backgroundColor: 'white', width: toDp(180), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
+          <View style={{ flexDirection: 'row' }}>
+            <Image source={allLogo.icGoogle} style={styles.icon} />
+            <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
+          </View>
+        </Pressable>
+
+        <Pressable style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(40), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
+          <View style={{ flexDirection: 'row' }}>
+            <Image source={allLogo.icFacebook} style={styles.icon} />
+            <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
+          </View>
+        </Pressable>
+      </View>
+    </View>
+  )
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#2A334B',
-    paddingTop: toDp(174),
+    // paddingTop: toDp(174),
   },
   icbina: {
     width: toDp(200),
     height: toDp(80),
-    position: 'absolute',
-    margin: toDp(80), //X
-    padding: toDp(27), //Y
   },
   title: {
-      color: 'white',
-      fontWeight: 'bold',
-      paddingTop: toDp(15),
-      paddingBottom: toDp(13),
-      fontSize: toDp(18)
+    color: 'white',
+    fontWeight: 'bold',
+    paddingTop: toDp(15),
+    paddingBottom: toDp(13),
+    fontSize: toDp(18)
   },
   desc: {
     fontSize: toDp(13),
@@ -131,8 +197,8 @@ const styles = StyleSheet.create({
     padding: toDp(16),
     shadowColor: "#000",
     shadowOffset: {
-    	width: 0,
-    	height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -152,9 +218,9 @@ const styles = StyleSheet.create({
     marginTop: toDp(8)
   },
   textDont: {
-    marginTop: toDp(-10),
     fontSize: toDp(12),
     color: 'white',
+    marginBottom: toDp(10)
   },
   textClick: {
     fontSize: toDp(14),
@@ -174,13 +240,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: toDp(12),
     paddingTop: toDp(5),
-    bottom:toDp(2)
-  }, 
+    bottom: toDp(2)
+  },
   pressableLogin: {
     width: toDp(75),
     height: toDp(70),
     paddingTop: toDp(20),
-    left:toDp(40)
+    left: toDp(40)
   },
   textLogin: {
     color: 'white',
@@ -188,7 +254,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     width: toDp(80),
     height: toDp(35),
-    paddingLeft: toDp(23),
+    paddingLeft: toDp(20),
     backgroundColor: '#698498',
     borderRadius: toDp(10)
   },
@@ -203,7 +269,7 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10),
     width: toDp(80),
     height: toDp(35),
-    paddingLeft: toDp(18),
+    paddingLeft: toDp(20),
     textAlignVertical: 'center'
   },
   icVisibility: {
@@ -213,13 +279,13 @@ const styles = StyleSheet.create({
   },
   rowFooter: {
     flexDirection: 'column',
-    bottom:toDp(10)
+    marginBottom: toDp(10)
   },
   icon: {
     width: toDp(25),
     height: toDp(25),
     marginHorizontal: toDp(5),
-    top:toDp(7)
+    top: toDp(7)
   },
   textCreate: {
     textAlign: 'right'
