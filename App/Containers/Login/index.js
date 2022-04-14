@@ -29,9 +29,9 @@ import {
   GraphRequestManager,
   LoginManager
 } from 'react-native-fbsdk';
-
+ 
 const Login = (props) => {
-
+ 
   const [state, setState] = useState({
     loading: false,
     secureTextEntry: true,
@@ -41,9 +41,9 @@ const Login = (props) => {
     updatePass: false,
     linkLogin: ''
   })
-
+ 
   const [llogin, setLogin] = useState('');
-
+ 
   {/*Normal Login*/ }
   const getlogin = async () => {
     setState(state => ({ ...state, linkLogin: 'normal' }))
@@ -51,46 +51,59 @@ const Login = (props) => {
       mb_password: state.mb_password,
       mb_username: state.mb_username
     }
+    console.log(JSON.stringify(body));
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/login-member/', body)
+    axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
       .then(result => {
-        if (result.data.status == 200) {
-          const datas = {
-            id: result.data.value[0].id,
-            value: result.data.value
+        console.log('----------->'+JSON.stringify(result));   //untuk cek ke json viewer 
+        if (result.data.status == 200) {                      // untuk memfilter dan variable utamanya ada result, 
+                                                              //didalam result itu ada nilai data dan didata ada status yang nilanya 200, jika status = 200 maka eksekusinya :
+          const datas = {                                     // value akan dimasukkan ke dalam API datas
+            id: result.data.data[0].mb_id,                    // untuk mengambil data id kita masuk ke result.data.data[0].mb_id
+            value: result.data.data[0],
+            tipe: result.data.data[0].mb_type                        // untuk mengambil data value kita masuk ke result.data.data.[0]
+            
           }
           if (datas.value.length === 0) {
             alert('Nama Pengguna atau Kata Sandi Salah!')
           } else {
             //save Async Storage
-            AsyncStorage.setItem('member', JSON.stringify(datas.value))
+            console.log('Login===>'+JSON.stringify(datas));
 
+            AsyncStorage.setItem('member', JSON.stringify(datas)) // jika ingin masuk ke asyneStorage harus di stringify kemudian harus di parse
+ 
             AsyncStorage.setItem('uid', datas.id)
-
-            NavigatorService.reset('Home')
-
+ 
+            // NavigatorService.reset('Homepage')
+          
+ 
+          } if (datas.tipe === 'seller') {
+            NavigatorService.reset('Homeseller')
+          } else if (datas.tipe === 'client') {
+            NavigatorService.reset('Homepage')
           }
+          
           setState(state => ({ ...state, loading: false }))
         } else if (result.data.status == 404) {
           alert('Pengguna tidak ditemukan!')
           setState(state => ({ ...state, loading: false }))
         }
       })
-
+ 
       .catch(err => {
         console.log(err)
         alert('Gagal menerima data dari server!')
         setState(state => ({ ...state, loading: false }))
       })
   }
-
+ 
   const Shaone = (pass) => {
     sha1(pass).then(hash => {
       setState(state => ({ ...state, mb_password: hash }));
     })
   }
-
-
+ 
+ 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
@@ -122,7 +135,7 @@ const Login = (props) => {
       <Pressable style={{ left: toDp(120) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
         <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
       </Pressable>
-
+ 
       <View style={styles.viewRow}>
         <Pressable
           style={styles.pressableLogin} onPress={() => getlogin()}>
@@ -134,8 +147,8 @@ const Login = (props) => {
           <Text style={styles.textSignup}>Daftar</Text>
         </Pressable>
       </View>
-
-
+ 
+ 
       <View style={[styles.rowFooter, { position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }]}>
         <Text style={styles.textDont}>Atau Masuk Dengan</Text>
         <Pressable style={[styles.pressableClick, { padding: toDp(2), height: toDp(40), backgroundColor: 'white', width: toDp(180), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
@@ -144,7 +157,7 @@ const Login = (props) => {
             <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
           </View>
         </Pressable>
-
+ 
         <Pressable style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(40), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
           <View style={{ flexDirection: 'row' }}>
             <Image source={allLogo.icFacebook} style={styles.icon} />
@@ -155,7 +168,7 @@ const Login = (props) => {
     </View>
   )
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -304,5 +317,5 @@ const styles = StyleSheet.create({
     marginTop: toDp(14)
   }
 });
-
+ 
 export default Login;

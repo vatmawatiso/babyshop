@@ -306,9 +306,9 @@ const styles = StyleSheet.create({
     top: toDp(16),
   },
   detailProduk: {
-    padding: 20,
+    padding: toDp(20),
     alignItems:'center',
-    top:toDp(15)
+    top:toDp(15),
   },
   Ulasan: {
     backgroundColor:'#C4C4C4',

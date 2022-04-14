@@ -53,7 +53,7 @@ class Header extends Component {
               </View>
 
             </View>
-
+{/* 
             {
               this.props.onFilter &&
               <TouchableOpacity
@@ -61,7 +61,7 @@ class Header extends Component {
                 onPress={this.props.onFilter}>
                 <Image source={allLogo.icFilter} style={styles.icBack} />
               </TouchableOpacity>
-            }
+            } */}
 
           </LinearGradient>
         </View>

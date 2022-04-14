@@ -6,7 +6,8 @@ import {
   Image,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  AsyncStorage,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -15,21 +16,101 @@ import MenuToko from '@MenuToko'
 import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
+import { createIconSetFromFontello } from "react-native-vector-icons";
+import Axios from "axios";
+import { getActiveChildNavigationOptions } from "react-navigation";
 
 const Homeseller = (props) => {
   const [src, setSrc] = useState(null);
 
-  //   const DATA = [
-  //     {
-  //       id: '2938492',
-  //       nama: 'TB Jaya Abadi Bandung',
-  //       memberUser: 'Member Classic',
-  //       pengikutUser: 'Pengikut (100)',
-  //       mengikutiUser : 'Mengikuti (4)',
-  //       type: 'Pembeli',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //   ]
+  const [state, setState] = useState({
+    mb_id:'',
+    picture: '../../../Assets/img/tzuyu.jpg',
+    mb_name: '',
+    mb_type:'',
+    mb_phone: '',
+    mb_email: '',
+    modalVisible: false,
+    option: {
+      width:750,
+      height: 750,
+      cropping: true,
+    }
+  })
+
+  useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+
+      let data = JSON.parse(response);
+      //const val = JSON.stringify(data);
+
+      //console.log('Profilseller ------->'+ JSON.stringify(response));
+
+      setState(state => ({
+        ...state,
+        id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture
+      }))
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+  }, [])
+
+  const refresh = () => {
+    setState(state => ({ ...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
+      .then(result => {
+        if (result.data.status == 200) {
+          const datas = {
+            id: result.data.value[0].mb_id,
+            value: result.data.data[0]
+          }
+          if (datas.value.length === 0) {
+            alert('Tidak ada data!')
+          } else {
+            //save Asyn Storage
+            try {
+              AsyncStorage.setItem('member', JSON.stringify(datas))
+            } catch (e) {
+              alert('Error' + e)
+            }
+            getData()
+            console.log('===>>' + JSON.stringify(datas.value));
+          }
+          setState(state => ({ ...state, loading: false }))
+        } else if (result.data.status == 400) {
+          alert('Data tidak ditemukan!')
+          setState(state => ({ ...state, loading: false }))
+        }
+      })
+
+      .catch(err => {
+        console.log(err)
+        alert('Gagal menerima data dari server!')
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+    const DATA = [
+      {
+        id: '2938492',
+        nama: 'TB Jaya Abadi Bandung',
+        memberUser: 'Member Classic',
+        pengikutUser: 'Pengikut (100)',
+        mengikutiUser : 'Mengikuti (4)',
+        type: 'Pembeli',
+        image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+      },
+    ]
+
+ 
 
   return (
     <View style={styles.container}>
@@ -38,7 +119,37 @@ const Homeseller = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <Profiltoko />
+      <View style={styles.bodyProfil}>
+        <View style={styles.profil1}>
+          <Image source={ state.picture ? { uri: state.picture } :
+                          require('../../../Assets/img/tzuyu.jpg')} 
+                 style={styles.imgProfil} />
+            <View style={{marginLeft:toDp(80)}}>
+              <Text style={styles.txtProfil1}>{state.mb_name}</Text>
+            </View>
+        </View>
+
+        <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
+
+        <View style={styles.profil2}>
+          <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
+          <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
+        </View>
+
+        <View style={styles.profil3}>
+          <Pressable style={styles.btnPembayaran}>
+            <Image source={allLogo.icwallet} style={styles.icwallet} />
+            <Text style={styles.txtPembayaran}>Pembayaran</Text>
+          </Pressable>
+
+          <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
+            <Image source={allLogo.icstore} style={styles.icstore} />
+            <Text style={styles.txtPengiriman}>Pengiriman</Text>
+          </Pressable>
+
+        </View>
+      </View>
+
       <MenuToko />
 
       <View style={styles.Penjualan}>
@@ -101,19 +212,19 @@ const Homeseller = (props) => {
         </View>
       </View>
 
-      <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%'}}>
+      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <View style={styles.footer}>
           <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Homeseller')} >
             <Image source={allLogo.ichome} style={styles.ichome} />
-            <Text style={{ color: 'white', fontSize: toDp(11), right:toDp(3), marginHorizontal:toDp(15)}}>Beranda</Text>
+            <Text style={{ color: 'white', fontSize: toDp(11), right: toDp(3), marginHorizontal: toDp(15) }}>Beranda</Text>
           </Pressable>
           <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Tambahproduk')} >
             <Image source={allLogo.icplusround} style={styles.icplus} />
-            <Text style={{ color: 'white', fontSize: toDp(11), right:toDp(3), marginHorizontal:toDp(15) }}>Tambah</Text>
+            <Text style={{ color: 'white', fontSize: toDp(11), right: toDp(3), marginHorizontal: toDp(15) }}>Tambah</Text>
           </Pressable>
           <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Chat')} >
             <Image source={allLogo.icchat} style={styles.icchat} />
-            <Text style={{ color: 'white', fontSize: toDp(11), right:toDp(3), marginHorizontal:toDp(15), left:toDp(3) }}>Chat</Text>
+            <Text style={{ color: 'white', fontSize: toDp(11), right: toDp(3), marginHorizontal: toDp(15), left: toDp(3) }}>Chat</Text>
           </Pressable>
         </View>
       </View>
@@ -125,11 +236,89 @@ const Homeseller = (props) => {
 const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
-    flex:1
+    flex: 1
   },
   iclineright: {
     width: toDp(10),
     height: toDp(15)
+  },
+  bodyProfil: {
+    backgroundColor:'#2A334B',
+    width:toDp(335),
+    height:toDp(116),
+    borderRadius:toDp(20),
+    left:toDp(12),
+    top:toDp(10),
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      
+      elevation: 2,
+  },
+  imgProfil: {
+    height: toDp(50),
+    width: toDp(50),
+    top: toDp(25),
+    left: toDp(25),
+    borderRadius: toDp(25)
+  },
+  profil1: {
+    flexDirection:'row',
+    right:20
+    
+  },
+  profil2: {
+    flexDirection:'row',
+    justifyContent:'center',
+    right:toDp(40),
+  },
+  txtProfil1: {
+    // marginLeft:toDp(25),
+    marginTop:toDp(20),
+    fontSize:toDp(13),
+    color:'white'
+  }, 
+  txtMember: {
+    textAlign:'center',
+    right:toDp(45),
+    fontSize:toDp(12),
+    color:'white'
+  },
+  txtMengikuti: {
+    left:toDp(10),
+    fontSize:toDp(12),
+    color:'white'
+  },
+  txtPengikut: {
+    fontSize:toDp(12),
+    color:'white'
+  },
+  profil3: {
+    alignItems:'flex-end',
+  },
+  btnPembayaran: {
+    bottom:toDp(60),
+    width:toDp(120),
+    height:toDp(25)
+  },
+  btnPengiriman: {
+    bottom:toDp(40),
+    width:toDp(120),
+    height:toDp(25),
+  },
+  txtPembayaran: {
+    bottom:toDp(20),
+    left:toDp(30),
+    color:'white'
+  },
+  txtPengiriman: {
+    bottom:toDp(20),
+    left:toDp(30),
+    color:'white'
   },
   Body: {
     backgroundColor: '#C4C4C4',
@@ -157,7 +346,7 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(320),
     top: toDp(30),
-    left:toDp(12),
+    left: toDp(12),
     borderRadius: toDp(20),
     shadowColor: "#000",
     shadowOffset: {
@@ -195,17 +384,17 @@ const styles = StyleSheet.create({
     height: toDp(26),
     tintColor: 'white',
     resizeMode: 'contain',
-    marginHorizontal:toDp(15),
+    marginHorizontal: toDp(15),
   },
   icplus: {
     // tintColor:'black'
     resizeMode: 'contain',
-    marginHorizontal:toDp(15),
+    marginHorizontal: toDp(15),
   },
   ichome: {
     tintColor: 'white',
     resizeMode: 'contain',
-    marginHorizontal:toDp(15),
+    marginHorizontal: toDp(15),
   },
   // btnChat: {
   //   marginHorizontal:toDp(20),
@@ -220,20 +409,20 @@ const styles = StyleSheet.create({
   footer: {
     width: toDp(340),
     height: toDp(52),
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     // top: toDp(100),
     flexDirection: 'row',
-    bottom:toDp(5),
+    bottom: toDp(5),
     backgroundColor: '#2A334B',
     borderRadius: toDp(25)
   },
   presable: {
     // backgroundColor:'red',
-    borderRadius:toDp(20),
-    marginHorizontal:toDp(25),
-    width:toDp(70),
-    height:toDp(50),
-    justifyContent:'center',
+    borderRadius: toDp(20),
+    marginHorizontal: toDp(25),
+    width: toDp(70),
+    height: toDp(50),
+    justifyContent: 'center',
   },
 });
 

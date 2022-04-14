@@ -73,6 +73,7 @@ class BackHeader extends Component {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
+    bottom:toDp(2)
   },
   icheader: {
     flexDirection: 'row'

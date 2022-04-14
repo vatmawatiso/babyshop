@@ -8,7 +8,8 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -17,10 +18,87 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
+import axios from 'axios';
 
 const Tambahalamat = (props) => {
 
-  const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+
+
+
+  // useEffect(() => {
+
+  //   getItem('https://market.pondok-huda.com/dev/react/city/').then(response => {
+  //     // console.log('Profil----------->'+ JSON.stringify(response));
+
+  //     let data    =  JSON.parse(response); 
+  //     // const val = JSON.stringify(data);
+
+  //     // console.log('Profilefiks----------->'+ JSON.stringify(data));
+
+  //     setState(state => ({...state,
+  //       id: data.cty_id,
+  //       cty_name:data.value.cty_name,
+  //     }))
+  
+
+  //   }).catch(err => {
+  //     console.log('err', err)
+  //   })
+
+  // }, [])
+
+  // const refresh = () =>{
+  //   setState(state => ({...state, loading: true }))
+  //     axios.get('https://market.pondok-huda.com/dev/react/city/'+state.cty_id)
+  //     .then(result =>{
+  //         if(result.data.status==200){
+  //             const datas = {
+  //               id: result.data.value[0].cty_id,
+  //               value: result.data.data[0]
+  //             }
+  //             if(datas.value.length === 0) {
+  //               alert('Tidak ada data!')
+  //             } else {
+  //             //save Async Storage
+  //             try {
+  //                setItem('https://market.pondok-huda.com/dev/react/city/', JSON.stringify(datas))
+  //             } catch (e) {
+  //                alert('Error ' + e)
+  //             }
+  //             getData()
+  //             console.log('===>> ' +JSON.stringify(datas.value));
+  //           }
+  //           setState(state => ({...state, loading: false }))
+  //         }else if(result.data.status==404){
+  //           alert('Data tidak ditemukan!')
+  //           setState(state => ({...state, loading: false }))
+  //         }
+  //     })
+
+  //     .catch(err =>{
+  //       console.log(err)
+  //       alert('Gagal menerima data dari server!')
+  //       setState(state => ({...state, loading: false }))
+  //     })
+  // }
+  const [state, setState] = useState({
+    cty_id:'',
+    cty_name:''
+  })
+
+ const city = () => {
+  setState(state => ({...state, loading: true }))
+    axios
+      .get('https://market.pondok-huda.com/dev/react/city/'+state.cty_id)
+      .then(function (response) {
+        // handle success
+        getData()
+        console.log('kotaaa=====>'+ JSON.stringify(response.data));
+        // alert(JSON.stringify(response.data));
+      })
+  }; 
+
 
      return (
       <View style={styles.container}>
@@ -73,7 +151,7 @@ const Tambahalamat = (props) => {
                           dropdownStyle={{borderRadius:toDp(7)}}
                           rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
-                          data={countries}
+                          data={state.cty_name}
                           onSelect={(selectedItem, index) => {
                             console.log(selectedItem, index)
                           }}

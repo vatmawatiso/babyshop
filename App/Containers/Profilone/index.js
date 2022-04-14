@@ -7,35 +7,112 @@ import {
   ActivityIndicator,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  TouchableOpacity,
+  AsyncStorage,
+  Dimensions,
+  ScrollView,
+  RefreshControl
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import Header from '@Header'
+import ImagePicker from 'react-native-image-crop-picker'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
+import axios from 'axios';
 
-// import Belumbayar from './Belumbayar'
-// import Dikemas from './Dikemas'
-// import Dikirim from './Dikirim'
-// import Selesai from './Selesai'
-// import Dibatalkan from './Dibatalkan'
+const { width, height } = Dimensions.get('window')
 
 const Profilone = (props) => {
   const [src, setSrc] = useState(null);
 
+  const [refreshing, setRefreshing] = useState(false);
+  const [state, setState] = useState({
+    mb_id:'',
+    picture: '../../Assets/img/tzuyu.jpg',
+    mb_name: '',
+    mb_type:'',
+    mb_phone: '',
+    mb_email: '',
+    modalVisible: false,
+    option: {
+      width:750,
+      height: 750,
+      cropping: true,
+    }
+  })
+
+  
+  useEffect(() => {
+
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+
+      let data    =  JSON.parse(response); 
+      // const val = JSON.stringify(data);
+
+      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+
+      setState(state => ({...state,
+        id: data.mb_id,
+        mb_name:data.value.mb_name,
+        mb_email:data.value.mb_email,
+        mb_phone:data.value.mb_phone,
+        mb_type:data.value.mb_type,
+        picture:data.value.picture
+      }))
+  
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+  }, [])
+
+  const refresh = () =>{
+    setState(state => ({...state, loading: true }))
+      axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/'+state.mb_id)
+      .then(result =>{
+          if(result.data.status==200){
+              const datas = {
+                id: result.data.value[0].mb_id,
+                value: result.data.data[0]
+              }
+              if(datas.value.length === 0) {
+                alert('Tidak ada data!')
+              } else {
+              //save Async Storage
+              try {
+                 AsyncStorage.setItem('member', JSON.stringify(datas))
+              } catch (e) {
+                 alert('Error ' + e)
+              }
+              getData()
+              console.log('===>> ' +JSON.stringify(datas.value));
+            }
+            setState(state => ({...state, loading: false }))
+          }else if(result.data.status==404){
+            alert('Data tidak ditemukan!')
+            setState(state => ({...state, loading: false }))
+          }
+      })
+
+      .catch(err =>{
+        console.log(err)
+        alert('Gagal menerima data dari server!')
+        setState(state => ({...state, loading: false }))
+      })
+  }
+
   const DATA = [
     {
-      id: '2938492',
-      nama: 'Cinthya Dewi CP',
-      memberUser: 'Member',
-      pengikutUser: 'Pengikut (100)',
-      mengikutiUser: 'Mengikuti (4)',
-      type: 'Pembeli',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+      id: '1',
+      memberUser: 'Member classic',
+      pengikutUser: 'Pengikut 1',
+      mengikutiUser: 'Mengikuti'
     },
   ]
-
 
   const Address = [
     {
@@ -56,6 +133,24 @@ const Profilone = (props) => {
     }
   }
 
+  const logout = () => {
+    Alert.alert(
+      "Konfirmasi",
+      "Apakah anda ingin keluar ?",
+      [
+        {
+          text: "Batal",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Keluar", onPress: () => {
+          AsyncStorage.clear()
+          NavigatorService.reset('Login')
+        }}
+      ]
+    )
+  }
+
   // render() {
   return (
     <View style={styles.container}>
@@ -63,16 +158,25 @@ const Profilone = (props) => {
         title={'Profil'}
         onPress={() => props.navigation.goBack()}
       />
+       {/* <ScrollView vertical={true} style={{width:'100%'}}
+          refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={reload}
+          />}
+        > */}
 
       <View>
         <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
           <View >
-            <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
-            <Text style={styles.typeUser}>{DATA[0].type}</Text>
+            <Image source={ state.picture ? { uri: state.picture } :
+                            require('../../Assets/img/tzuyu.jpg')} 
+                   style={styles.imgProfil} />
+            <Text style={styles.typeUser}>{state.mb_type}</Text>
           </View>
 
           <View style={{ alignItems: 'center', marginTop: toDp(10), justifyContent: 'center', }}>
-            <Text style={styles.nmProfil}>{DATA[0].nama}</Text>
+            <Text style={styles.nmProfil}>{state.mb_name}</Text>
             <Text style={styles.member}>{DATA[0].memberUser}</Text>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -169,10 +273,10 @@ const Profilone = (props) => {
               </View>
             </Pressable>
 
-
           </View>
 
         </View>
+
       </View>
 
       <View style={{ top: toDp(250), position: 'absolute' }}>
@@ -183,6 +287,12 @@ const Profilone = (props) => {
         />
       </View>
 
+      <View style={{position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%'}}>
+        <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', marginBottom:toDp(10)}} onPress={() => logout()}>
+          <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
+        </TouchableOpacity>
+      </View>
+      {/* </ScrollView> */}
     </View>
   )
 
@@ -190,7 +300,7 @@ const Profilone = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     alignItems: 'center',
     // top:toDp(50)
   },

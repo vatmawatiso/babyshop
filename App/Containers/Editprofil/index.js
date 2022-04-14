@@ -6,7 +6,8 @@ import {
   Image,
   TextInput,
   Alert,
-  Pressable
+  Pressable,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -15,27 +16,87 @@ import NavigatorService from '@NavigatorService'
 import { Card } from "react-native-paper";
 import ImagePicker from 'react-native-image-crop-picker'
 import { Linking } from "react-native";
+import axios from 'axios';
 
 const Editprofil = (props) => {
-  const DATA = [
-    {
-      id: '1',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp',
-      nama: 'Dandi Alvayed'
-    },
-  ]
 
   const [state, setState] = useState({
-    loading: false,
-    valName: false,
-    secureTextEntry: true,
-    nama: '',
-    username: '',
-    email: '',
-    jenkel: '',
-    nomer: '',
-    password: ''
+    mb_id: '',
+    picture: '../../Assets/img/tzuyu.jpg',
+    mb_name: '',
+    mb_email: '',
+    mb_phone: '',
+    mb_type: '',
+    modalvisible: false,
+    option: {
+      width:750,
+      height:750,
+      cropping: true,
+    }
   })
+
+  
+
+  useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      //console.log('Editprofil ------->' + JSON.stringify(response));
+
+      let data = JSON.parse(response);
+      //const val = JSON.stringify(data);
+
+      //console.log('Editprofil ====>' + JSON.stringify(data));
+
+      setState(state => ({...state,
+        id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture
+    }))
+
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+  }, [])
+
+  const refresh = () =>{
+    setState(state => ({...state, loading: true }))
+      axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/'+state.mb_id)
+      .then(result =>{
+          if(result.data.status==200){
+              const datas = {
+                id: result.data.value[0].mb_id,
+                value: result.data.data[0]
+              }
+              if(datas.value.length === 0) {
+                alert('Tidak ada data!')
+              } else {
+              //save Async Storage
+              try {
+                 AsyncStorage.setItem('member', JSON.stringify(datas))
+              } catch (e) {
+                 alert('Error ' + e)
+              }
+              getData()
+              console.log('===>> ' +JSON.stringify(datas.value));
+            }
+            setState(state => ({...state, loading: false }))
+          }else if(result.data.status==404){
+            alert('Data tidak ditemukan!')
+            setState(state => ({...state, loading: false }))
+          }
+      })
+
+      .catch(err =>{
+        console.log(err)
+        alert('Gagal menerima data dari server!')
+        setState(state => ({...state, loading: false }))
+      })
+  }
+
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
@@ -60,6 +121,7 @@ const Editprofil = (props) => {
       }
     })
   }
+  
 
   // const RenderItem = (item, index) => {
   return (
@@ -73,8 +135,9 @@ const Editprofil = (props) => {
           <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Buatpassword')}>
             <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30) }} />
           </Pressable>
-          <Image style={styles.imgProfil} source={{ uri: DATA[0].image }} />
-          <Text style={styles.nama}>{DATA[0].nama}</Text>
+          <Image style={styles.imgProfil} source={ state.picture ? {uri: state.picture} : 
+                                                    require('../../Assets/img/tzuyu.jpg')} />
+          <Text style={styles.nama}>{state.mb_name}</Text>
           <Pressable style={{ bottom: toDp(6) }} onPress={() => alert('Coba')}>
             <Text style={styles.edit}>Ubah Profil</Text>
           </Pressable>
@@ -195,8 +258,9 @@ const styles = StyleSheet.create({
   },
   nama: {
     color: 'white',
-    left: toDp(115),
-    bottom: toDp(10)
+    bottom: toDp(10),
+    textAlign:'center',
+    right:toDp(10)
   },
   edit: {
     color: 'white',
