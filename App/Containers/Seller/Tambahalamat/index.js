@@ -8,8 +8,7 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
-  ScrollView,
-  AsyncStorage
+  ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -19,98 +18,50 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
-
+ 
+ 
 const Tambahalamat = (props) => {
-
-  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
-
-
-
-  // useEffect(() => {
-
-  //   getItem('https://market.pondok-huda.com/dev/react/city/').then(response => {
-  //     // console.log('Profil----------->'+ JSON.stringify(response));
-
-  //     let data    =  JSON.parse(response); 
-  //     // const val = JSON.stringify(data);
-
-  //     // console.log('Profilefiks----------->'+ JSON.stringify(data));
-
-  //     setState(state => ({...state,
-  //       id: data.cty_id,
-  //       cty_name:data.value.cty_name,
-  //     }))
-  
-
-  //   }).catch(err => {
-  //     console.log('err', err)
-  //   })
-
-  // }, [])
-
-  // const refresh = () =>{
-  //   setState(state => ({...state, loading: true }))
-  //     axios.get('https://market.pondok-huda.com/dev/react/city/'+state.cty_id)
-  //     .then(result =>{
-  //         if(result.data.status==200){
-  //             const datas = {
-  //               id: result.data.value[0].cty_id,
-  //               value: result.data.data[0]
-  //             }
-  //             if(datas.value.length === 0) {
-  //               alert('Tidak ada data!')
-  //             } else {
-  //             //save Async Storage
-  //             try {
-  //                setItem('https://market.pondok-huda.com/dev/react/city/', JSON.stringify(datas))
-  //             } catch (e) {
-  //                alert('Error ' + e)
-  //             }
-  //             getData()
-  //             console.log('===>> ' +JSON.stringify(datas.value));
-  //           }
-  //           setState(state => ({...state, loading: false }))
-  //         }else if(result.data.status==404){
-  //           alert('Data tidak ditemukan!')
-  //           setState(state => ({...state, loading: false }))
-  //         }
-  //     })
-
-  //     .catch(err =>{
-  //       console.log(err)
-  //       alert('Gagal menerima data dari server!')
-  //       setState(state => ({...state, loading: false }))
-  //     })
-  // }
   const [state, setState] = useState({
-    cty_id:'',
-    cty_name:''
+    cityname:[]
   })
-
- const city = () => {
-  setState(state => ({...state, loading: true }))
-    axios
-      .get('https://market.pondok-huda.com/dev/react/city/'+state.cty_id)
-      .then(function (response) {
-        // handle success
-        getData()
-        console.log('kotaaa=====>'+ JSON.stringify(response.data));
-        // alert(JSON.stringify(response.data));
-      })
-  }; 
-
-
+ 
+  useEffect(() => {
+    city()
+ 
+  },[])
+ 
+  const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+ 
+  const city = () => {
+    // setState(state => ({...state, loading: true }))
+      axios.get('https://market.pondok-huda.com/dev/react/city/')
+        .then(result =>{
+          // handle success
+          //alert(JSON.stringify(result))
+          setState(state => ({...state, cityname: result.data.data }))
+          console.log('-----kotaaa=====>'+ JSON.stringify(result.data.data));
+          // alert(JSON.stringify(response.data));
+ 
+        }).catch(err =>{
+          //console.log(err)
+          alert('Gagal menerima data dari server!'+err)
+          setState(state => ({...state, loading: false }))
+        })
+  }
+ 
+ 
+ 
      return (
       <View style={styles.container}>
          <BackHeader
           title={'Tambah Alamat'}
           onPress={() => props.navigation.goBack()}
         />
-
+ 
         <Text style={styles.txtContact}>Kontak</Text>
           <View style={styles.content}>
               <SafeAreaView>
-                  <TextInput 
+                  <TextInput
                       left={toDp(3)}
                       top={toDp(4)}
                       width={toDp(335)}
@@ -124,7 +75,7 @@ const Tambahalamat = (props) => {
                       // value={state.username}
                       // onChangeText={(text) => setState(state => ({...state, username: text })) }
                   />
-                  <TextInput 
+                  <TextInput
                       left={toDp(3)}
                       top={toDp(6)}
                       width={toDp(335)}
@@ -140,7 +91,7 @@ const Tambahalamat = (props) => {
                   />
               </SafeAreaView>
           </View>
-
+ 
         <Text style={styles.txtAlamat}>Alamat</Text>
           <View style={styles.inputAlamat}>
                 <SafeAreaView>
@@ -151,15 +102,15 @@ const Tambahalamat = (props) => {
                           dropdownStyle={{borderRadius:toDp(7)}}
                           rowStyle={{height:toDp(35),padding:toDp(5)}}
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
-                          data={state.cty_name}
+                          data={state.cityname}
                           onSelect={(selectedItem, index) => {
                             console.log(selectedItem, index)
                           }}
                           buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
+                            return selectedItem.cty_name;
                           }}
                           rowTextForSelection={(item, index) => {
-                            return item
+                            return item.cty_name;
                           }}
                           renderDropdownIcon={(isOpened) => {
                             return (
@@ -171,7 +122,7 @@ const Tambahalamat = (props) => {
                             );
                           }}
                     />
-                    <TextInput 
+                    <TextInput
                         left={toDp(3)}
                         top={toDp(6)}
                         width={toDp(335)}
@@ -185,7 +136,7 @@ const Tambahalamat = (props) => {
                         // value={state.username}
                         // onChangeText={(text) => setState(state => ({...state, username: text })) }
                     />
-                    <TextInput 
+                    <TextInput
                         left={toDp(3)}
                         top={toDp(8)}
                         width={toDp(335)}
@@ -201,7 +152,7 @@ const Tambahalamat = (props) => {
                     />
                 </SafeAreaView>
             </View>
-
+ 
             <Pressable>
                 <View style={styles.searchSection}>
                     <Image style={styles.searchIcon} source={allLogo.icsearch} />
@@ -214,7 +165,7 @@ const Tambahalamat = (props) => {
                     />
                 </View>
             </Pressable>
-            
+ 
             <View style={[styles.contentMap, {marginTop:toDp(40)}]}>
               <View style={[styles.wrapper, {margin:toDp(10)}]}>
                   <MapView style={styles.map} initialRegion={{
@@ -230,12 +181,12 @@ const Tambahalamat = (props) => {
                   </MapView>
               </View>
             </View>
-            
+ 
     </View>
     );
-  
+ 
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
@@ -323,5 +274,5 @@ textInput: {
   borderWidth:toDp(0.5)
 }
 });
-
+ 
 export default Tambahalamat;
