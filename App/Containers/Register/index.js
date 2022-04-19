@@ -50,7 +50,7 @@ const Register = (props) => {
      setState(state => ({...state, loading: true }))
      axios.post('https://market.pondok-huda.com/dev/react/registrasi-member',body)
      .then(result =>{
-         //console.log('hasil --------------> : '+ JSON.stringify(result.data))
+         console.log('hasil --------------> : '+ JSON.stringify(result.data))
          if(result.data.status==201){
            console.log('hasil : '+ JSON.stringify(result.data))
            setState(state => ({...state, loading: false }))

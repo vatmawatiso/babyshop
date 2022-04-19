@@ -27,6 +27,7 @@ const Editprofil = (props) => {
     mb_email: '',
     mb_phone: '',
     mb_type: '',
+    mb_username: '',
     modalvisible: false,
     option: {
       width:750,
@@ -38,17 +39,19 @@ const Editprofil = (props) => {
   
 
   useEffect(() => {
+    // get data pengguna
     AsyncStorage.getItem('member').then(response => {
       //console.log('Editprofil ------->' + JSON.stringify(response));
 
       let data = JSON.parse(response);
       //const val = JSON.stringify(data);
 
-      //console.log('Editprofil ====>' + JSON.stringify(data));
+      console.log('Editprofil ====>' + (response));
 
       setState(state => ({...state,
-        id: data.mb_id,
+        id: data.value.mb_id,
         mb_name: data.value.mb_name,
+        mb_username: data.value.mb_username,
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
@@ -59,43 +62,73 @@ const Editprofil = (props) => {
     }).catch(err => {
       console.log('err', err)
     })
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      // console.log('ids', uids)
+      let ids = uids;
+      setState(state => ({...state, 
+      mb_id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
 
   }, [])
 
-  const refresh = () =>{
-    setState(state => ({...state, loading: true }))
-      axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/'+state.mb_id)
-      .then(result =>{
-          if(result.data.status==200){
-              const datas = {
-                id: result.data.value[0].mb_id,
-                value: result.data.data[0]
-              }
-              if(datas.value.length === 0) {
-                alert('Tidak ada data!')
-              } else {
-              //save Async Storage
-              try {
-                 AsyncStorage.setItem('member', JSON.stringify(datas))
-              } catch (e) {
-                 alert('Error ' + e)
-              }
-              getData()
-              console.log('===>> ' +JSON.stringify(datas.value));
-            }
-            setState(state => ({...state, loading: false }))
-          }else if(result.data.status==404){
-            alert('Data tidak ditemukan!')
-            setState(state => ({...state, loading: false }))
-          }
-      })
-
-      .catch(err =>{
-        console.log(err)
-        alert('Gagal menerima data dari server!')
-        setState(state => ({...state, loading: false }))
-      })
+  const update = () => {
+    let body = {
+      mb_name: state.mb_name,
+      mb_email: state.mb_email,
+      mb_phone: state.mb_phone,
+      mb_username: state.mb_username,
+      mb_type: state.mb_type,
+    }
+    axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/'+state.mb_id+'/', body)
+    .then(result => {
+      if(result.data.status == 200){
+        console.log('result update', result);
+      }else if(result.data.status == 500){
+        console.log('gagal update', result)
+      }
+    }).catch(error => {
+      console.log('error update:', error)
+    })
   }
+
+  // const refresh = () =>{
+  //   setState(state => ({...state, loading: true }))
+  //     axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/'+state.mb_id)
+  //     .then(result =>{
+  //         if(result.data.status==200){
+  //             const datas = {
+  //               id: result.data.value[0].mb_id,
+  //               value: result.data.data[0]
+  //             }
+  //             if(datas.value.length === 0) {
+  //               alert('Tidak ada data!')
+  //             } else {
+  //             //save Async Storage
+  //             try {
+  //                AsyncStorage.setItem('member', JSON.stringify(datas))
+  //             } catch (e) {
+  //                alert('Error ' + e)
+  //             }
+  //             getData()
+  //             console.log('===>> ' +JSON.stringify(datas.value));
+  //           }
+  //           setState(state => ({...state, loading: false }))
+  //         }else if(result.data.status==404){
+  //           alert('Data tidak ditemukan!')
+  //           setState(state => ({...state, loading: false }))
+  //         }
+  //     })
+
+  //     .catch(err =>{
+  //       console.log(err)
+  //       alert('Gagal menerima data dari server!')
+  //       setState(state => ({...state, loading: false }))
+  //     })
+  // }
 
 
   const camera = () => {
@@ -149,8 +182,8 @@ const Editprofil = (props) => {
             style={styles.textInput}
             placeholder={'Nama'}
             placeholderTextColor={'grey'}
-            value={state.nama}
-            onChangeText={(text) => setState(state => ({ ...state, nama: text }))}
+            value={state.mb_name}
+            onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
           />
         </View>
         <View style={styles.card}>
@@ -158,8 +191,8 @@ const Editprofil = (props) => {
             style={styles.textInput}
             placeholder={'Username'}
             placeholderTextColor={'grey'}
-            value={state.username}
-            onChangeText={(text) => setState(state => ({ ...state, username: text }))}
+            value={state.mb_username}
+            onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
           />
         </View>
         <View style={styles.card}>
@@ -167,17 +200,17 @@ const Editprofil = (props) => {
             style={styles.textInput}
             placeholder={'Email'}
             placeholderTextColor={'grey'}
-            value={state.email}
-            onChangeText={(text) => setState(state => ({ ...state, email: text }))}
+            value={state.mb_email}
+            onChangeText={(text) => setState(state => ({ ...state, mb_email: text }))}
           />
         </View>
         <View style={styles.card}>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
-            placeholder={'Jenis Kelamin'}
+            placeholder={'Tipe User'}
             placeholderTextColor={'grey'}
-            value={state.jenkel}
-            onChangeText={(text) => setState(state => ({ ...state, jenkel: text }))}
+            value={state.mb_type}
+            onChangeText={(text) => setState(state => ({ ...state, mb_type: text }))}
           />
         </View>
         <View style={styles.card}>
@@ -185,27 +218,14 @@ const Editprofil = (props) => {
             style={styles.textInput}
             placeholder={'Nomer Telepon'}
             placeholderTextColor={'grey'}
-            value={state.nomer}
-            onChangeText={(text) => setState(state => ({ ...state, nomer: text }))}
+            value={state.mb_phone}
+            onChangeText={(text) => setState(state => ({ ...state, mb_phone: text }))}
           />
         </View>
-        <View style={styles.card}>
+        {/* <View style={styles.card}>
           <TextInput
             autoCapitalize={'none'}
-            style={styles.textInput1}
-            style={{
-              marginTop: toDp(-15),
-              width: toDp(335),
-              height: toDp(40),
-              backgroundColor: 'white',
-              borderRadius: toDp(20),
-              right: toDp(8),
-              borderWidth: 0.5,
-              // borderColor: state.valName == false ?
-              //   '#F2F3F3'
-              // :
-              //   'red',
-            }}
+            style={styles.textInput}
             placeholder={'Password'}
             placeholderTextColor={'grey'}
             secureTextEntry={state.secureTextEntry}
@@ -214,12 +234,12 @@ const Editprofil = (props) => {
           <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
             <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
           </Pressable>
-        </View>
+        </View> */}
       </View>
 
       <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%'}}>
         <View style={styles.buttonSave}>
-          <Pressable onPress={() => NavigatorService.navigate('Login')} style={styles.pressableLogin}>
+          <Pressable onPress={()=> update()}>
             <Text style={styles.save}>Simpan</Text>
           </Pressable>
         </View>
@@ -295,6 +315,8 @@ const styles = StyleSheet.create({
   save: {
     color: 'white',
     textAlign:'center',
+    justifyContent:'center',
+    alignItems: 'center'
   },
   textInput: {
     backgroundColor: 'white',

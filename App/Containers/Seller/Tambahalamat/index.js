@@ -8,7 +8,8 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -18,11 +19,13 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
+import { validatePathConfig } from "@react-navigation/native";
  
  
 const Tambahalamat = (props) => {
+
   const [state, setState] = useState({
-    cityname:[]
+    cityname:[],
   })
  
   useEffect(() => {
@@ -30,7 +33,7 @@ const Tambahalamat = (props) => {
  
   },[])
  
-  const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
  
   const city = () => {
     // setState(state => ({...state, loading: true }))
@@ -39,7 +42,7 @@ const Tambahalamat = (props) => {
           // handle success
           //alert(JSON.stringify(result))
           setState(state => ({...state, cityname: result.data.data }))
-          console.log('-----kotaaa=====>'+ JSON.stringify(result.data.data));
+          // console.log('-----kotaaa=====>'+ JSON.stringify(result.data.data));
           // alert(JSON.stringify(response.data));
  
         }).catch(err =>{
@@ -48,6 +51,112 @@ const Tambahalamat = (props) => {
           setState(state => ({...state, loading: false }))
         })
   }
+
+    //=======> POST Form Data Tambah Alamat 1 <=======//
+
+    const [kontak, setKontak] = useState({
+      // cityname:[],
+      mb_id: '',
+      mb_name: '',
+      mb_phone: '',
+    })
+   
+    useEffect(() => {
+
+      AsyncStorage.getItem('member').then(response => {
+        // console.log('Profil----------->'+ JSON.stringify(response));
+  
+        let data    =  JSON.parse(response); 
+        // const val = JSON.stringify(data);
+  
+        console.log('Profilefiks----------->'+ JSON.stringify(data));
+  
+        setKontak(kontak => ({...kontak,
+          // id: data.mb_id,
+          mb_name:data.value.mb_name,
+          mb_phone:data.value.mb_phone,
+        }))
+    
+  
+      }).catch(err => {
+        console.log('err', err)
+      })
+  
+    }, [])
+
+    const refresh = () =>{
+      setState(state => ({...state, loading: true }))
+        axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/'+state.mb_id)
+        .then(result =>{
+            if(result.data.status==200){
+                const datas = {
+                  id: result.data.value[0].mb_id,
+                  value: result.data.data[0]
+                }
+                if(datas.value.length === 0) {
+                  alert('Tidak ada data!')
+                } else {
+                //save Async Storage
+                try {
+                   AsyncStorage.setItem('member', JSON.stringify(datas))
+                } catch (e) {
+                   alert('Error ' + e)
+                }
+                getData()
+                console.log('===>> ' +JSON.stringify(datas.value));
+              }
+              setKontak(kontak => ({...kontak, loading: false }))
+            }else if(result.data.status==404){
+              alert('Data tidak ditemukan!')
+              setKontak(kontak => ({...kontak, loading: false }))
+            }
+        })
+  
+        .catch(err =>{
+          console.log(err)
+          alert('Gagal menerima data dari server!')
+          setState(state => ({...state, loading: false }))
+        })
+    }
+
+  //=======> POST Form Data Tambah Alamat 2 <=======//
+
+  const [input, setInput] = useState({
+    loading: false,
+    adr_mb_id: '',
+    adr_address: '',
+    adr_cty_id: '',
+  })
+
+  const InputAlamat = async () => {
+    const body = {
+      adr_mb_id: input.adr_mb_id,
+      adr_address: input.adr_address,
+      adr_cty_id: input.adr_cty_id,
+    }
+    console.log('Body Alamat====> '+ JSON.stringify(body));
+
+    setInput(input => ({...input, loading: true }))
+    axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
+    .then(response =>{
+      // handle success
+      // console.log('-----ALAMAT=====>'+ JSON.stringify(response.data));
+      if(response.data.status==200){
+        console.log('HASIL ALAMAT ==> : '+ JSON.stringify(response.data))
+        setInput(input => ({...input, loading: false }))
+        // NavigatorService.navigation('Alamattoko');
+      }else{
+        alert('Tambah Alamat Gagal!')
+        setState(state => ({...state, loading: false }))
+        console.log('-----COBA=====>'+ JSON.stringify(response.data));
+      }
+
+    }).catch(err =>{
+      //console.log(err)
+      alert('Gagal menerima data dari server!'+err)
+      setInput(input => ({...input, loading: false }))
+    })
+    }
  
  
  
@@ -72,8 +181,8 @@ const Tambahalamat = (props) => {
                       style={styles.textInput}
                       placeholder={'Nama'}
                       placeholderTextColor={'grey'}
-                      // value={state.username}
-                      // onChangeText={(text) => setState(state => ({...state, username: text })) }
+                      value={kontak.mb_name}
+                      onChangeText={(text) => setKontak(kontak => ({...kontak, mb_name: text })) }
                   />
                   <TextInput
                       left={toDp(3)}
@@ -86,8 +195,8 @@ const Tambahalamat = (props) => {
                       style={styles.textInput}
                       placeholder={'Nomer HP'}
                       placeholderTextColor={'grey'}
-                      // value={state.username}
-                      // onChangeText={(text) => setState(state => ({...state, username: text })) }
+                      value={kontak.mb_phone}
+                      onChangeText={(text) => setKontak(kontak => ({...kontak, mb_phone: text })) }
                   />
               </SafeAreaView>
           </View>
@@ -133,8 +242,8 @@ const Tambahalamat = (props) => {
                         style={styles.textInput}
                         placeholder={'Tuliskan Detail Jalan'}
                         placeholderTextColor={'grey'}
-                        // value={state.username}
-                        // onChangeText={(text) => setState(state => ({...state, username: text })) }
+                        value={input.adr_address}
+                        onChangeText={(text) => setInput(input => ({...input, adr_address: text })) }
                     />
                     <TextInput
                         left={toDp(3)}
@@ -153,16 +262,17 @@ const Tambahalamat = (props) => {
                 </SafeAreaView>
             </View>
  
-            <Pressable>
+            <Pressable style={{backgroundColor:'yellow', top:toDp(30), borderRadius:toDp(20), height:toDp(40), width:toDp(335)}} onPress={() => InputAlamat()}>
                 <View style={styles.searchSection}>
-                    <Image style={styles.searchIcon} source={allLogo.icsearch} />
-                    <TextInput
+                  <Text style={{color:'white'}}>Simpan</Text>
+                    {/* <Image style={styles.searchIcon} source={allLogo.icsearch} /> */}
+                    {/* <TextInput
                         style={styles.input}
                         placeholder="Cari Lokasi"
                         underlineColorAndroid="transparent"
                         placeholderTextColor="white"
                         onChangeText={(text)=>this.props.onFilter}
-                    />
+                    /> */}
                 </View>
             </Pressable>
  
@@ -193,7 +303,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchSection: {
-    top:toDp(40),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
