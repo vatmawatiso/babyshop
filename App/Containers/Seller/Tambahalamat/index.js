@@ -26,6 +26,13 @@ const Tambahalamat = (props) => {
 
   const [state, setState] = useState({
     cityname:[],
+    mb_id: '',
+    mb_name: '',
+    mb_phone: '',
+    loading: false,
+    adr_mb_id: '',
+    adr_address: '',
+    adr_cty_id: '',
   })
  
   useEffect(() => {
@@ -52,14 +59,7 @@ const Tambahalamat = (props) => {
         })
   }
 
-    //=======> POST Form Data Tambah Alamat 1 <=======//
-
-    const [kontak, setKontak] = useState({
-      // cityname:[],
-      mb_id: '',
-      mb_name: '',
-      mb_phone: '',
-    })
+    //=======> POST Form Data Tambah Alamat Nama dan Nomer <=======//
    
     useEffect(() => {
 
@@ -71,7 +71,7 @@ const Tambahalamat = (props) => {
   
         console.log('Profilefiks----------->'+ JSON.stringify(data));
   
-        setKontak(kontak => ({...kontak,
+        setState(state => ({...state,
           // id: data.mb_id,
           mb_name:data.value.mb_name,
           mb_phone:data.value.mb_phone,
@@ -119,42 +119,38 @@ const Tambahalamat = (props) => {
         })
     }
 
-  //=======> POST Form Data Tambah Alamat 2 <=======//
-
-  const [input, setInput] = useState({
-    loading: false,
-    adr_mb_id: '',
-    adr_address: '',
-    adr_cty_id: '',
-  })
+  //=======> POST Form Data Tambah Alamat Jalan <=======//
 
   const InputAlamat = async () => {
     const body = {
-      adr_mb_id: input.adr_mb_id,
-      adr_address: input.adr_address,
-      adr_cty_id: input.adr_cty_id,
+      adr_mb_id: state.adr_mb_id,
+      adr_address: state.adr_address,
+      adr_cty_id: state.adr_cty_id
     }
-    console.log('Body Alamat====> '+ JSON.stringify(body));
+    // console.log('Body Alamat====> '+ JSON.stringify(body));
 
-    setInput(input => ({...input, loading: true }))
+    setState(state => ({...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
     .then(response =>{
-      // handle success
-      // console.log('-----ALAMAT=====>'+ JSON.stringify(response.data));
-      if(response.data.status==200){
-        console.log('HASIL ALAMAT ==> : '+ JSON.stringify(response.data))
-        setInput(input => ({...input, loading: false }))
-        // NavigatorService.navigation('Alamattoko');
-      }else{
-        alert('Tambah Alamat Gagal!')
-        setState(state => ({...state, loading: false }))
-        console.log('-----COBA=====>'+ JSON.stringify(response.data));
-      }
+
+      console.log('-----ALAMAT=====>'+ JSON.stringify(response.data));
+
+      // if(response.data.status==201){
+
+      //   console.log('HASIL ALAMAT ==> : '+ JSON.stringify(response.data))
+      //   setState(state => ({...state, loading: false }))
+      //   NavigatorService.navigation('Alamattoko');
+        
+      // }else{
+      //   alert('Tambah Alamat Gagal!')
+      //   setState(state => ({...state, loading: false }))
+      //   console.log('-----COBA=====>'+ JSON.stringify(response.data));
+      // }
 
     }).catch(err =>{
       //console.log(err)
       alert('Gagal menerima data dari server!'+err)
-      setInput(input => ({...input, loading: false }))
+      setState(state => ({...state, loading: false }))
     })
     }
  
@@ -171,7 +167,6 @@ const Tambahalamat = (props) => {
           <View style={styles.content}>
               <SafeAreaView>
                   <TextInput
-                      left={toDp(3)}
                       top={toDp(4)}
                       width={toDp(335)}
                       height={toDp(40)}
@@ -181,11 +176,10 @@ const Tambahalamat = (props) => {
                       style={styles.textInput}
                       placeholder={'Nama'}
                       placeholderTextColor={'grey'}
-                      value={kontak.mb_name}
-                      onChangeText={(text) => setKontak(kontak => ({...kontak, mb_name: text })) }
+                      value={state.mb_name}
+                      onChangeText={(text) => setState(state => ({...state, mb_name: text })) }
                   />
                   <TextInput
-                      left={toDp(3)}
                       top={toDp(6)}
                       width={toDp(335)}
                       height={toDp(40)}
@@ -195,8 +189,8 @@ const Tambahalamat = (props) => {
                       style={styles.textInput}
                       placeholder={'Nomer HP'}
                       placeholderTextColor={'grey'}
-                      value={kontak.mb_phone}
-                      onChangeText={(text) => setKontak(kontak => ({...kontak, mb_phone: text })) }
+                      value={state.mb_phone}
+                      onChangeText={(text) => setState(state => ({...state, mb_phone: text })) }
                   />
               </SafeAreaView>
           </View>
@@ -232,7 +226,6 @@ const Tambahalamat = (props) => {
                           }}
                     />
                     <TextInput
-                        left={toDp(3)}
                         top={toDp(6)}
                         width={toDp(335)}
                         height={toDp(40)}
@@ -242,10 +235,10 @@ const Tambahalamat = (props) => {
                         style={styles.textInput}
                         placeholder={'Tuliskan Detail Jalan'}
                         placeholderTextColor={'grey'}
-                        value={input.adr_address}
-                        onChangeText={(text) => setInput(input => ({...input, adr_address: text })) }
+                        value={state.adr_address}
+                        onChangeText={(text) => setState(state => ({...state, adr_address: text })) }
                     />
-                    <TextInput
+                    {/* <TextInput
                         left={toDp(3)}
                         top={toDp(8)}
                         width={toDp(335)}
@@ -258,11 +251,11 @@ const Tambahalamat = (props) => {
                         placeholderTextColor={'grey'}
                         // value={state.username}
                         // onChangeText={(text) => setState(state => ({...state, username: text })) }
-                    />
+                    /> */}
                 </SafeAreaView>
             </View>
  
-            <Pressable style={{backgroundColor:'yellow', top:toDp(30), borderRadius:toDp(20), height:toDp(40), width:toDp(335)}} onPress={() => InputAlamat()}>
+            <Pressable style={{backgroundColor:'yellow', borderRadius:toDp(20), height:toDp(40), width:toDp(335)}} onPress={() => InputAlamat()}>
                 <View style={styles.searchSection}>
                   <Text style={{color:'white'}}>Simpan</Text>
                     {/* <Image style={styles.searchIcon} source={allLogo.icsearch} /> */}
@@ -348,12 +341,12 @@ input: {
   },
   txtContact: {
     fontWeight: 'bold',
-    right:toDp(135),
+    right:toDp(145),
     top:toDp(10)
   },
   txtAlamat: {
     fontWeight:'bold',
-    right:toDp(135),
+    right:toDp(145),
     top:toDp(20)
   },
   inputAlamat: {
@@ -368,7 +361,6 @@ dropdown:{
   borderRadius:toDp(20),
   width:toDp(335),
   top:toDp(4),
-  left:toDp(3),
   backgroundColor:'white',
   borderWidth:toDp(0.5)
 },
@@ -380,7 +372,7 @@ contentMap: {
   bottom:toDp(5)
 },
 textInput: {
-  borderWidth:toDp(0.5)
+  borderWidth:toDp(0.5),
 }
 });
  
