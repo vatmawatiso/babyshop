@@ -135,17 +135,17 @@ const Tambahalamat = (props) => {
 
       console.log('-----ALAMAT=====>'+ JSON.stringify(response.data));
 
-      // if(response.data.status==201){
+      if(response.data.status==201){
 
-      //   console.log('HASIL ALAMAT ==> : '+ JSON.stringify(response.data))
-      //   setState(state => ({...state, loading: false }))
-      //   NavigatorService.navigation('Alamattoko');
+        console.log('HASIL ALAMAT ==> : '+ JSON.stringify(response.data))
+        setState(state => ({...state, loading: false }))
+        NavigatorService.navigation('Alamattoko');
         
-      // }else{
-      //   alert('Tambah Alamat Gagal!')
-      //   setState(state => ({...state, loading: false }))
-      //   console.log('-----COBA=====>'+ JSON.stringify(response.data));
-      // }
+      }else{
+        alert('Tambah Alamat Gagal!')
+        setState(state => ({...state, loading: false }))
+        console.log('-----COBA=====>'+ JSON.stringify(response.data));
+      }
 
     }).catch(err =>{
       //console.log(err)

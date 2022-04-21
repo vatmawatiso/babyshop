@@ -55,7 +55,6 @@ import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
 import Tambahkategori from '../Containers/Seller/Tambahkategori'
 import Profilseller from '../Containers/Seller/Profilseller'
-import Coba from '../Containers/Coba'
 
 
 const AppNavigator = createStackNavigator(
@@ -114,12 +113,11 @@ const AppNavigator = createStackNavigator(
     Ulasan: { screen: Ulasan },
     Tambahkategori: { screen: Tambahkategori },
     Profilseller: { screen: Profilseller },
-    Coba: { screen: Coba },
     
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Alamattoko'
+    initialRouteName: 'Tambahalamat'
   
   }
 );

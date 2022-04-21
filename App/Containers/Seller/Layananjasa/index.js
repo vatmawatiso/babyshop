@@ -18,9 +18,12 @@ import  BackHeader  from '@BackHeader'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
+import axios from "axios";
 
 const Layananjasa = (props) => {
   const [src, setSrc]=useState(null);
+
+
 
   const DATA = [
     {
@@ -58,6 +61,28 @@ const Layananjasa = (props) => {
     setState({ jasper: tempData });
     //langsung push data terbaru ke server
     //tulis kode disini
+
+    const [state, setState] = useState({
+      shp_jenis: '',
+    })
+  
+    useEffect(() => {
+      getJasa()
+    }, [])
+  
+    const getJasa = () => {
+    axios.get('')
+    .then(result => {
+      //sukses
+      //alert(JSON.stringify(result))
+      setState(state => ({...state, shp_jenis: result.data }))
+      console.log('Cek==Jasa===>'+ JSON.stringify(result.data))
+  
+    }).catch(err => {
+      alert('Gagal Menerima Data Dari Server!'+err)
+      setState(state, ({...state, loading:false }))
+    })
+    }
 }
 
   const renderswitch = ({item, index}) => {
