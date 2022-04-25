@@ -18,26 +18,88 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import ImagePicker from 'react-native-image-crop-picker'
 import { Linking } from "react-native";
+import axios from 'axios';
 
 const Tambahproduk = (props) => {
   const [src, setSrc] = useState(null);
 
-  const [state, setState] = useState({
-    loading: false,
-    produk: '',
-    deskripsi: '',
-    kategori: '',
-    variasi: '',
-    harga: '',
-    kategori: '',
-    stok: '',
-    ongkir: '',
-    kondisi: ''
-  })
-
-  const Katagori = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu", "Plastik", "Semen"]
+  // const Katagori = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu", "Plastik", "Semen"]
 
   const Kondisi = ["Baru", "Bekas"]
+
+  const [state, setState] = useState({
+    kategori:[],
+    prd_name:[],
+    prd_stock:[],
+    prd_price:[],
+    prd_thumbnail:[],
+    prd_ctg_id:[],
+    prd_rtl_id:[],
+    prd_berat:[],
+    loading: false,
+  })
+
+  useEffect(() => {
+    category()
+ 
+  },[])
+
+    // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+ 
+    const category = () => {
+      // setState(state => ({...state, loading: true }))
+        axios.get('https://market.pondok-huda.com/dev/react/category/')
+          .then(result =>{
+            // handle success
+            setState(state => ({...state, kategori: result.data.data }))
+            console.log('----Katagori=====>'+ JSON.stringify(result.data.data));
+            // alert(JSON.stringify(result.data));
+   
+          }).catch(err =>{
+            //console.log(err)
+            alert('Gagal menerima data dari server!'+err)
+            setState(state => ({...state, loading: false }))
+          })
+    }
+
+    // ====> POST Tambah Produk Seller <====//
+
+    const InputProduk = async () => {
+      const body = {
+        prd_name:state.prd_name,
+        prd_stock:state.prd_stock,
+        prd_price:state.prd_price,
+        prd_thumbnail:state.prd_thumbnail,
+        prd_ctg_id:state.prd_ctg_id,
+        prd_rtl_id:state.prd_rtl_id,
+        prd_berat:state.prd_berat,
+      }
+      // console.log('Produk===>'+ JSON.stringify(body));
+
+      setState(state => ({...state, loading: true }))
+      axios.post('https://market.pondok-huda.com/dev/react/product/', body)
+      .then(response =>{
+  
+        console.log('-----PRODUK=====>'+ JSON.stringify(response.data));
+  
+        if(response.data.status==201){
+  
+          console.log('HASIL PRODUK ==> : '+ JSON.stringify(response.data))
+          setState(state => ({...state, loading: false }))
+          // NavigatorService.navigation('Homeseller');
+          
+        }else{
+          alert('Tambah Alamat Gagal!')
+          setState(state => ({...state, loading: false }))
+          // console.log('-----COBA=produk=====>'+ JSON.stringify(response.data));
+        }
+  
+      }).catch(err =>{
+        //console.log(err)
+        alert('Gagal menerima data dari server!'+err)
+        setState(state => ({...state, loading: false }))
+      })
+    }
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
@@ -87,18 +149,18 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
                 placeholderTextColor={'grey'}
-                value={state.produk}
-                onChangeText={(text) => setState(state => ({ ...state, produk: text }))}
+                value={state.prd_name}
+                onChangeText={(text) => setState(state => ({ ...state, prd_name: text }))}
               />
             </View>
 
             <View>
-              <Text style={[styles.txtFormInput, { bottom: toDp(30) }]}>Deskrispi Barang</Text>
+              <Text style={[styles.txtFormInput, { bottom: toDp(30) }]}>Berat Barang</Text>
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(40) }]}
                 placeholderTextColor={'grey'}
-                value={state.deskripsi}
-                onChangeText={(text) => setState(state => ({ ...state, deskripsi: text }))}
+                value={state.prd_berat}
+                onChangeText={(text) => setState(state => ({ ...state, prd_berat: text }))}
               />
             </View>
 
@@ -107,8 +169,8 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(60) }]}
                 placeholderTextColor={'grey'}
-                value={state.harga}
-                onChangeText={(text) => setState(state => ({ ...state, harga: text }))}
+                value={state.prd_price}
+                onChangeText={(text) => setState(state => ({ ...state, prd_price: text }))}
               />
             </View>
 
@@ -117,8 +179,8 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(80) }]}
                 placeholderTextColor={'grey'}
-                value={state.stok}
-                onChangeText={(text) => setState(state => ({ ...state, stok: text }))}
+                value={state.prd_stock}
+                onChangeText={(text) => setState(state => ({ ...state, prd_stock: text }))}
               />
             </View>
 
@@ -131,15 +193,15 @@ const Tambahproduk = (props) => {
                 dropdownStyle={{ borderRadius: toDp(7) }}
                 rowStyle={{ height: toDp(35), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kategori'}
-                data={Katagori}
+                data={state.kategori}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem
+                  return selectedItem.ctg_name
                 }}
                 rowTextForSelection={(item, index) => {
-                  return item
+                  return item.ctg_name
                 }}
                 renderDropdownIcon={(isOpened) => {
                   return (
@@ -197,7 +259,7 @@ const Tambahproduk = (props) => {
       </View>
         <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%' }}>
           <View style={styles.bodySimpan}>
-            <Pressable style={styles.btnSimpan}>
+            <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
               <Text style={styles.txtSimpan}>Simpan</Text>
             </Pressable>
           </View>

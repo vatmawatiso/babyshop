@@ -74,12 +74,12 @@ const Home = (props) => {
     },
     {
       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-      title: 'Batu Bata',
-      harga: 'Rp. 50.000',
+      title: 'Gerobak',
+      harga: 'Rp. 500.000',
       dariKota: 'Kab. Cirebon',
       bintang : '4',
       terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
+      image: 'https://sc04.alicdn.com/kf/Hecf7550c5eda410e83757893019d57a7Z.jpg'
     },
     {
       id: '58694a0f-3da1-471f-bd96-145571e29d723',
