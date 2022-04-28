@@ -17,8 +17,30 @@ import BackHeader from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
+import axios from "axios";
 
 const Tokobangunan = (props) => {
+
+  const [state, setState] = useState({
+    datas:[],
+  })
+
+  useEffect(() => {
+    Tokobangunan()
+  }, [])
+
+  const Tokobangunan = () => {
+    axios.get('https://market.pondok-huda.com/dev/react/store-building/')
+    .then(result => {
+      //hendle success
+      setState(state => ({...state, datas: result.data.data }))
+      console.log('Toko Bangunan ===> '+ JSON.stringify(result.data.data));
+
+    }).catch(err => {
+      alert('Gagal menerima data dari server!' + err)
+      setState(state => ({...state, loading: false }))
+    })
+  }
 
   const DATA = [
     {
@@ -112,31 +134,31 @@ const Tokobangunan = (props) => {
     },
   ]
 
-  const renderswitch = (item, index) => (
+  const ListToko = (item, index) => (
     <View style={[styles.body, { marginTop: toDp(5), justifyContent: 'center', alignItems: 'center', marginHorizontal: 12 }]}>
       <View style={{right:toDp(40)}}>
-        <Image source={{ uri: item.image }} style={styles.imgKontak} />
+        <Image source={{ uri: DATA[0].image }} style={styles.imgKontak} />
       </View>
       <View style={styles.content}>
         <View style={{ flexDirection: 'row' }}>
           <Text>Nama</Text>
-          <Text style={styles.txtNama}>{item.nama}</Text>
+          <Text style={styles.txtNama}>{item.sb_name}</Text>
         </View>
 
         <View style={{ flexDirection: 'row' }}>
           <Text>Telepon</Text>
-          <Text style={styles.txtHP}>{item.telepon}</Text>
+          <Text style={styles.txtHP}>{item.sb_phone}</Text>
         </View>
 
         <View style={{ flexDirection: 'row' }}>
           <Text>Alamat</Text>
-          <Text style={styles.txtHarga}>{item.alamat}</Text>
+          <Text style={styles.txtHarga}>{item.sb_address}</Text>
         </View>
       </View>
 
-      <Pressable style={styles.btnLihat} onPress={() => NavigatorService.navigate('Profilseller')}>
+      {/* <Pressable style={styles.btnLihat} onPress={() => NavigatorService.navigate('Profilseller')}>
         <Text style={styles.txtLihat}>Lihat</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   )
 
@@ -148,10 +170,10 @@ const Tokobangunan = (props) => {
       />
       <View style={styles.flatcontent}>
         <FlatList style={{ width: '100%' }}
-          data={DATA}
+          data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              renderswitch(item, index)
+              ListToko(item, index)
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
@@ -168,7 +190,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    top: toDp(30),
     // backgroundColor: 'red'
   },
   body: {

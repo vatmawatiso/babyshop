@@ -8,6 +8,8 @@ import {
   ImageBackground,
   Pressable,
   AsyncStorage,
+  ScrollView,
+  RefreshControl
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -22,17 +24,17 @@ import { getActiveChildNavigationOptions } from "react-navigation";
 
 const Homeseller = (props) => {
   const [src, setSrc] = useState(null);
-
+  const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
-    mb_id:'',
+    mb_id: '',
     picture: '../../../Assets/img/tzuyu.jpg',
     mb_name: '',
-    mb_type:'',
+    mb_type: '',
     mb_phone: '',
     mb_email: '',
     modalVisible: false,
     option: {
-      width:750,
+      width: 750,
       height: 750,
       cropping: true,
     }
@@ -63,54 +65,47 @@ const Homeseller = (props) => {
 
   }, [])
 
-  const refresh = () => {
-    setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
-      .then(result => {
-        if (result.data.status == 200) {
-          const datas = {
-            id: result.data.value[0].mb_id,
-            value: result.data.data[0]
-          }
-          if (datas.value.length === 0) {
-            alert('Tidak ada data!')
-          } else {
-            //save Asyn Storage
-            try {
-              AsyncStorage.setItem('member', JSON.stringify(datas))
-            } catch (e) {
-              alert('Error' + e)
-            }
-            getData()
-            console.log('===>>' + JSON.stringify(datas.value));
-          }
-          setState(state => ({ ...state, loading: false }))
-        } else if (result.data.status == 400) {
-          alert('Data tidak ditemukan!')
-          setState(state => ({ ...state, loading: false }))
-        }
-      })
+  const refresh = async () => {
+    try {
+      AsyncStorage.getItem('member').then(response => {
+        //console.log('Profilseller=======>'+ JSON.stringify(responponse));
 
-      .catch(err => {
-        console.log(err)
-        alert('Gagal menerima data dari server!')
-        setState(state => ({ ...state, loading: false }))
+        let data = JSON.parse(response);
+        //const val = JSON.stringify(data);
+
+        //console.log('Profilseller ------->'+ JSON.stringify(response));
+
+        setState(state => ({
+          ...state,
+          id: data.mb_id,
+          mb_name: data.value.mb_name,
+          mb_email: data.value.mb_email,
+          mb_phone: data.value.mb_phone,
+          mb_type: data.value.mb_type,
+          picture: data.value.picture
+        }))
+
+      }).catch(err => {
+        console.log('err', err)
       })
+    } catch (e) {
+      console.log('e', e)
+    }
   }
 
-    const DATA = [
-      {
-        id: '2938492',
-        nama: 'TB Jaya Abadi Bandung',
-        memberUser: 'Member Classic',
-        pengikutUser: 'Pengikut (100)',
-        mengikutiUser : 'Mengikuti (4)',
-        type: 'Pembeli',
-        image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-      },
-    ]
+  const DATA = [
+    {
+      id: '2938492',
+      nama: 'TB Jaya Abadi Bandung',
+      memberUser: 'Member Classic',
+      pengikutUser: 'Pengikut (100)',
+      mengikutiUser: 'Mengikuti (4)',
+      type: 'Pembeli',
+      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    },
+  ]
 
- 
+
 
   return (
     <View style={styles.container}>
@@ -118,99 +113,117 @@ const Homeseller = (props) => {
         title={'Home'}
         onPress={() => props.navigation.goBack()}
       />
-
-      <View style={styles.bodyProfil}>
-        <View style={styles.profil1}>
-          <Image source={ state.picture ? { uri: state.picture } :
-                          require('../../../Assets/img/tzuyu.jpg')} 
-                 style={styles.imgProfil} />
-            <View style={{marginLeft:toDp(80)}}>
+      <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refresh}
+          />}
+      >
+        <View style={styles.bodyProfil}>
+          <View style={styles.profil1}>
+            <Image source={state.picture ? { uri: state.picture } :
+              require('../../../Assets/img/tzuyu.jpg')}
+              style={styles.imgProfil} />
+            <View style={{ marginLeft: toDp(80) }}>
               <Text style={styles.txtProfil1}>{state.mb_name}</Text>
             </View>
-        </View>
-
-        <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
-
-        <View style={styles.profil2}>
-          <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
-          <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
-        </View>
-
-        <View style={styles.profil3}>
-          <Pressable style={styles.btnPembayaran}>
-            <Image source={allLogo.icwallet} style={styles.icwallet} />
-            <Text style={styles.txtPembayaran}>Pembayaran</Text>
-          </Pressable>
-
-          <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
-            <Image source={allLogo.icstore} style={styles.icstore} />
-            <Text style={styles.txtPengiriman}>Pengiriman</Text>
-          </Pressable>
-
-        </View>
-      </View>
-
-      <MenuToko />
-
-      <View style={styles.Penjualan}>
-        <Pressable style={{ marginVertical: toDp(5), bottom: toDp(5), height: toDp(30), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Ulasan')}>
-          <View style={styles.BodySaldo}>
-            <Text style={styles.txtSkor}>Skor Toko</Text>
-            <Image source={allLogo.iclineright} style={styles.iclineright} />
           </View>
-        </Pressable>
-        <Pressable style={{ bottom: toDp(10), height: toDp(30), justifyContent: 'center', marginVertical: toDp(5) }} onPress={() => NavigatorService.navigate('Saldopenjual')} >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ marginLeft: toDp(10) }}>Saldo</Text>
-            <Text style={{ marginRight: toDp(10) }}>Rp 5.000.000</Text>
+
+          <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
+
+          <View style={styles.profil2}>
+            <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
+            <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
           </View>
-        </Pressable>
-        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
 
-        <Pressable style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(10) }} onPress={() => alert('Coming Soon')}>
-          <Text style={styles.txtPenjualan}>Penjualan</Text>
-          <Image source={allLogo.iclineright} style={styles.iclineright1} />
-        </Pressable>
-        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+          <View style={styles.viewBtnEdit}>
+            <Pressable style={styles.btnProfile} onPress={() => NavigatorService.navigate('Editprofil')}>
+              <View style={{ flexDirection: 'row', top: toDp(2) }}>
+                <Text style={{ bottom: toDp(2), color: 'white' }}>Edit Profil</Text>
+                <Image source={allLogo.iclineright} style={[styles.iclineright, { left: toDp(5), tintColor: 'white' }]} />
+              </View>
+            </Pressable>
+          </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Pressable style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Belumbayar' })} >
-            <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-              <Image source={allLogo.icorders} style={{ bottom: toDp(10) }} />
-              <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Pesanan Baru</Text>
-            </View>
-          </Pressable>
-          <Pressable style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Perludikirim' })}>
-            <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-              <Image source={allLogo.iconly} style={{ bottom: toDp(10) }} />
-              <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Siap dikirim</Text>
-            </View>
-          </Pressable>
+          <View style={styles.profil3}>
+            <Pressable style={styles.btnPembayaran}>
+              <Image source={allLogo.icwallet} style={styles.icwallet} />
+              <Text style={styles.txtPembayaran}>Pembayaran</Text>
+            </Pressable>
+
+            <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
+              <Image source={allLogo.icstore} style={styles.icstore} />
+              <Text style={styles.txtPengiriman}>Pengiriman</Text>
+            </Pressable>
+          </View>
+
         </View>
-        <Text style={{ margin: toDp(10) }}>Kata Pembeli</Text>
-        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
 
-        <View style={styles.bodyJual}>
-          <Pressable style={{ width: toDp(335), height: toDp(30), bottom: toDp(5) }} onPress={() => NavigatorService.navigate('Ulasan')} >
-            <View style={{ flexDirection: 'row', margin: toDp(10), top: toDp(10) }}>
-              <Image source={allLogo.iculasan} style={{ bottom: toDp(20) }} />
-              <Text style={{ padding: toDp(5), bottom: toDp(20) }}>ulasan</Text>
+        <MenuToko />
+
+        <View style={{ height: toDp(400) }}>
+          <View style={styles.Penjualan}>
+            <Pressable style={{ marginVertical: toDp(5), bottom: toDp(5), height: toDp(30), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Ulasan')}>
+              <View style={styles.BodySaldo}>
+                <Text style={styles.txtSkor}>Skor Toko</Text>
+                <Image source={allLogo.iclineright} style={styles.iclineright} />
+              </View>
+            </Pressable>
+            <Pressable style={{ bottom: toDp(10), height: toDp(30), justifyContent: 'center', marginVertical: toDp(5) }} onPress={() => NavigatorService.navigate('Saldopenjual')} >
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ marginLeft: toDp(10) }}>Saldo</Text>
+                <Text style={{ marginRight: toDp(10) }}>Rp 5.000.000</Text>
+              </View>
+            </Pressable>
+            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+
+            <Pressable style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(10) }} onPress={() => alert('Coming Soon')}>
+              <Text style={styles.txtPenjualan}>Penjualan</Text>
+              <Image source={allLogo.iclineright} style={styles.iclineright1} />
+            </Pressable>
+            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Pressable style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Belumbayar' })} >
+                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+                  <Image source={allLogo.icorders} style={{ bottom: toDp(10) }} />
+                  <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Pesanan Baru</Text>
+                </View>
+              </Pressable>
+              <Pressable style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Perludikirim' })}>
+                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+                  <Image source={allLogo.iconly} style={{ bottom: toDp(10) }} />
+                  <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Siap dikirim</Text>
+                </View>
+              </Pressable>
             </View>
-          </Pressable>
-          <Pressable style={{ width: toDp(335), height: toDp(30), top: toDp(10) }} onPress={() => alert('Coming Soon')}>
-            <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-              <Image source={allLogo.icchatbox} style={{ bottom: toDp(10) }} />
-              <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Diskusi</Text>
+            <Text style={{ margin: toDp(10) }}>Kata Pembeli</Text>
+            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
+
+            <View style={styles.bodyJual}>
+              <Pressable style={{ width: toDp(335), height: toDp(30), bottom: toDp(5) }} onPress={() => NavigatorService.navigate('Ulasan')} >
+                <View style={{ flexDirection: 'row', margin: toDp(10), top: toDp(10) }}>
+                  <Image source={allLogo.iculasan} style={{ bottom: toDp(20) }} />
+                  <Text style={{ padding: toDp(5), bottom: toDp(20) }}>ulasan</Text>
+                </View>
+              </Pressable>
+              <Pressable style={{ width: toDp(335), height: toDp(30), top: toDp(10) }} onPress={() => alert('Coming Soon')}>
+                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+                  <Image source={allLogo.icchatbox} style={{ bottom: toDp(10) }} />
+                  <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Diskusi</Text>
+                </View>
+              </Pressable>
+              <Pressable style={{ width: toDp(335), height: toDp(35), top: toDp(15) }} onPress={() => alert('Coming Soon')}>
+                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+                  <Image source={allLogo.icdiscussion} style={{ bottom: toDp(10) }} />
+                  <Text style={{ padding: toDp(5), bottom: toDp(6) }}>Pesanan Komplain</Text>
+                </View>
+              </Pressable>
             </View>
-          </Pressable>
-          <Pressable style={{ width: toDp(335), height: toDp(35), top: toDp(15) }} onPress={() => alert('Coming Soon')}>
-            <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-              <Image source={allLogo.icdiscussion} style={{ bottom: toDp(10) }} />
-              <Text style={{ padding: toDp(5), bottom: toDp(6) }}>Pesanan Komplain</Text>
-            </View>
-          </Pressable>
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <View style={styles.footer}>
@@ -229,6 +242,7 @@ const Homeseller = (props) => {
         </View>
       </View>
 
+
     </View>
   )
 };
@@ -236,28 +250,29 @@ const Homeseller = (props) => {
 const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
-    flex: 1
+    flex: 1,
+    // backgroundColor: 'yellow'
   },
   iclineright: {
     width: toDp(10),
     height: toDp(15)
   },
   bodyProfil: {
-    backgroundColor:'#2A334B',
-    width:toDp(335),
-    height:toDp(116),
-    borderRadius:toDp(20),
-    left:toDp(12),
-    top:toDp(10),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      
-      elevation: 2,
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(116),
+    borderRadius: toDp(20),
+    left: toDp(12),
+    top: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   imgProfil: {
     height: toDp(50),
@@ -267,58 +282,64 @@ const styles = StyleSheet.create({
     borderRadius: toDp(25)
   },
   profil1: {
-    flexDirection:'row',
-    right:20
-    
+    flexDirection: 'row',
+    right: 20
+
   },
   profil2: {
-    flexDirection:'row',
-    justifyContent:'center',
-    right:toDp(40),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    right: toDp(40),
   },
   txtProfil1: {
     // marginLeft:toDp(25),
-    marginTop:toDp(20),
-    fontSize:toDp(13),
-    color:'white'
-  }, 
+    marginTop: toDp(20),
+    fontSize: toDp(13),
+    color: 'white'
+  },
   txtMember: {
-    textAlign:'center',
-    right:toDp(45),
-    fontSize:toDp(12),
-    color:'white'
+    textAlign: 'center',
+    right: toDp(45),
+    fontSize: toDp(12),
+    color: 'white'
   },
   txtMengikuti: {
-    left:toDp(10),
-    fontSize:toDp(12),
-    color:'white'
+    left: toDp(10),
+    fontSize: toDp(12),
+    color: 'white'
   },
   txtPengikut: {
-    fontSize:toDp(12),
-    color:'white'
+    fontSize: toDp(12),
+    color: 'white'
   },
   profil3: {
-    alignItems:'flex-end',
+    alignItems: 'flex-end',
   },
   btnPembayaran: {
-    bottom:toDp(60),
-    width:toDp(120),
-    height:toDp(25)
+    bottom: toDp(110),
+    width: toDp(120),
+    height: toDp(25)
   },
   btnPengiriman: {
-    bottom:toDp(40),
-    width:toDp(120),
-    height:toDp(25),
+    bottom: toDp(100),
+    width: toDp(120),
+    height: toDp(25),
   },
   txtPembayaran: {
-    bottom:toDp(20),
-    left:toDp(30),
-    color:'white'
+    bottom: toDp(20),
+    left: toDp(30),
+    color: 'white'
   },
   txtPengiriman: {
-    bottom:toDp(20),
-    left:toDp(30),
-    color:'white'
+    bottom: toDp(20),
+    left: toDp(30),
+    color: 'white'
+  },
+  btnProfile: {
+    // backgroundColor:'yellow',
+    left: toDp(170),
+    bottom: toDp(10),
+    width: toDp(75)
   },
   Body: {
     backgroundColor: '#C4C4C4',
@@ -344,8 +365,8 @@ const styles = StyleSheet.create({
   Penjualan: {
     backgroundColor: '#E7E7E7',
     width: toDp(335),
-    height: toDp(320),
-    top: toDp(30),
+    height: toDp(330),
+    top: toDp(25),
     left: toDp(12),
     borderRadius: toDp(20),
     shadowColor: "#000",
@@ -424,6 +445,13 @@ const styles = StyleSheet.create({
     height: toDp(50),
     justifyContent: 'center',
   },
+  viewBtnEdit: {
+    // backgroundColor: 'cyan',
+    width: toDp(150),
+    height: toDp(48),
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  }
 });
 
 export default Homeseller;

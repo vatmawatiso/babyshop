@@ -17,8 +17,32 @@ import  BackHeader  from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
+import axios from "axios";
 
 const Konsultan = (props) => {
+
+  const [state, setState] = useState({
+    datas:[],
+    loading: false,
+    loading: true,
+  })
+
+  useEffect(() => {
+    arsitek()
+  }, [])
+
+  const arsitek = () => {
+    setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/architect/')
+    .then(result => {
+      //hendle success
+      setState(state => ({...state, datas: result.data.data }))
+      console.log('Konsultan=Arsitek ===>'+ JSON.stringify(result.data.data));
+    }).catch(err => {
+      alert('Gagal menerima data dari server!' + err)
+      setState(state => ({...state, loading: false }))
+    })
+  }
 
     const DATA = [
         {
@@ -148,7 +172,7 @@ const Konsultan = (props) => {
       ]
 
 
-      const renderswitch = (item, index) => (
+      const KonsultanArsitek = (item, index) => (
         <View style={[styles.body, { marginTop: toDp(10), justifyContent: 'center', alignItems: 'center', marginHorizontal: 12 }]}>
       
             <View style={styles.body}>
@@ -157,27 +181,27 @@ const Konsultan = (props) => {
                 <View style={styles.content}>
                     <View style={{flexDirection:'row'}}> 
                         <Text style={{fontSize:toDp(12)}}>Nama</Text>  
-                        <Text style={styles.txtNama}>{item.nama}</Text>
+                        <Text style={styles.txtNama}>{item.ac_name}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}> 
                         <Text style={{fontSize:toDp(12)}}>Email</Text>  
-                        <Text style={styles.txtEmail}>{item.email}</Text>
+                        <Text style={styles.txtEmail}>{item.ac_email}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text style={{fontSize:toDp(12)}}>Telepon</Text>
-                        <Text style={styles.txtHP}>{item.telepon}</Text>
+                        <Text style={styles.txtHP}>{item.ac_phone}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text  style={{fontSize:toDp(12)}}>PT</Text>
-                        <Text style={styles.txtPT}>{item.perusahaan}</Text>
+                        <Text style={styles.txtPT}>{item.name_pt}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text  style={{fontSize:toDp(12)}}>Harga</Text>
-                        <Text style={styles.txtHarga}>{item.harga}</Text>
+                        <Text style={styles.txtHarga}>{item.ac_payment}</Text>
                     </View>
                 </View>
 
@@ -201,10 +225,10 @@ const Konsultan = (props) => {
 
         <View style={styles.flatcontent}>
           <FlatList style={{ width: '100%' }}
-            data={DATA}
+            data={state.datas}
             renderItem={({ item, index }) => {
               return (
-                renderswitch(item, index)
+                KonsultanArsitek(item, index)
               )
             }}
             ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
@@ -221,7 +245,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent:'center',
     alignItems: 'center',
-    top:toDp(30)
   },
   body: {
     flexDirection:'row', 

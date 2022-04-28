@@ -37,55 +37,65 @@ const Layananjasa = (props) => {
     },
   ]
 
-  const [isSwitchOn,setSwitch] = useState(false)
-  const [val,setval] = useState(false)
-  const [state,setState] = useState({
+
+  // const [state,setState] = useState({
     
-    jasper:[
-      {
-        'id':1,
-        'name':'Antar',
-        'status' : true
-      },
-      {
-        'id':2,
-        'name':'Jemput',
-        'status' : false
-      },
-    ] 
+  //   jasper:[
+  //     {
+  //       'id':1,
+  //       'name':'Antar',
+  //       'status' : true
+  //     },
+  //     {
+  //       'id':2,
+  //       'name':'Jemput',
+  //       'status' : false
+  //     },
+  //   ] 
+  // })
+  // const [isSwitchOn,setSwitch] = useState(false)
+  // const [val,setval] = useState(false)
+  
+  const [state, setState] = useState({
+    datas: [],
+    isLoading: true,
+    isError: false,
   })
+  
+  useEffect(() => {
+    getJasa()
+
+  }, [])
+
+  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+
+  const getJasa = () => {
+    // setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/shipping/')
+      .then(result => {
+        // handle success
+        setState(state => ({ ...state, datas: result.data.data }))
+        console.log('----JASA=====>' + JSON.stringify(result.data.data));
+        // alert(JSON.stringify(result.data));
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
 
   const setSwitchValue = (val, ind, id) => {
-    const tempData = JSON.parse(JSON.stringify(state.jasper));
+    const tempData = JSON.parse(JSON.stringify(state.datas));
     tempData[ind].status = val;
-    setState({ jasper: tempData });
+    setState({ datas: tempData });
     //langsung push data terbaru ke server
     //tulis kode disini
 
-    const [state, setState] = useState({
-      shp_jenis: '',
-    })
-  
-    useEffect(() => {
-      getJasa()
-    }, [])
-  
-    const getJasa = () => {
-    axios.get('')
-    .then(result => {
-      //sukses
-      //alert(JSON.stringify(result))
-      setState(state => ({...state, shp_jenis: result.data }))
-      console.log('Cek==Jasa===>'+ JSON.stringify(result.data))
-  
-    }).catch(err => {
-      alert('Gagal Menerima Data Dari Server!'+err)
-      setState(state, ({...state, loading:false }))
-    })
-    }
-}
+  }
 
-  const renderswitch = ({item, index}) => {
+
+  const ListJasa = ({item, index}) => {
   return (
     <View style={{width:toDp(316), left:toDp(20), borderRadius:toDp(15)}}>
         <View style={{flexDirection:'row', 
@@ -100,14 +110,14 @@ const Layananjasa = (props) => {
                         right:toDp(8),
                         backgroundColor:'#C4C4C4'}}>
 
-                <Text>{item.name}</Text>
+                <Text>{item.shp_name}</Text>
                 
                 <Switch  
                   thumbColor={'#f4f3f4'}
                   trackColor={{false:'grey', true:'#6495ED'}}
                   ios_backgroundColor='grey'
                  
-                  onValueChange={(value) => setSwitchValue(value, index,item.id)} 
+                  onValueChange={(value) => setSwitchValue(value, index,item.datas)} 
                   value={item.status}
                   
                 />  
@@ -125,8 +135,8 @@ const Layananjasa = (props) => {
           title={'Jasa Kirim'}
           onPress={() => props.navigation.goBack()}
         />
-
-        <ScrollView>
+{/* 
+        <ScrollView> */}
          <View style={styles.content}>
             <View style={styles.address}>
                 <Image source={allLogo.icaddress1} style={styles.icAddress} />
@@ -140,13 +150,13 @@ const Layananjasa = (props) => {
         </View>
       <View style={{bottom:toDp(65)}}>
         <FlatList
-          data={state.jasper}
-          renderItem={renderswitch}
+          data={state.datas}
+          renderItem={ListJasa}
           keyExtractor={item => item.id}
           ListFooterComponent={() => <View style={{height: toDp(50)}} />}
         />
       </View>
-      </ScrollView>
+      {/* </ScrollView> */}
       </View>
     );
   
@@ -155,8 +165,8 @@ const Layananjasa = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent:'center',
-    alignItems: 'center',
+    // justifyContent:'center',
+    // alignItems: 'center',
     // backgroundColor:'red'
   },
   content: {
