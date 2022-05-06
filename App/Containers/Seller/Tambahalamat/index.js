@@ -23,7 +23,7 @@ import { validatePathConfig } from "@react-navigation/native";
  
  
 const Tambahalamat = (props) => {
-
+ 
   const [state, setState] = useState({
     cityname:[],
     mb_id: '',
@@ -58,32 +58,32 @@ const Tambahalamat = (props) => {
           setState(state => ({...state, loading: false }))
         })
   }
-
+ 
     //=======> POST Form Data Tambah Alamat Nama dan Nomer <=======//
-   
+ 
     useEffect(() => {
-
+ 
       AsyncStorage.getItem('member').then(response => {
         // console.log('Profil----------->'+ JSON.stringify(response));
-  
-        let data    =  JSON.parse(response); 
+ 
+        let data    =  JSON.parse(response);
         // const val = JSON.stringify(data);
-  
+ 
         console.log('Profilefiks----------->'+ JSON.stringify(data));
-  
+ 
         setState(state => ({...state,
-          // id: data.mb_id,
+          adr_mb_id: data.id,
           mb_name:data.value.mb_name,
           mb_phone:data.value.mb_phone,
         }))
-    
-  
+ 
+ 
       }).catch(err => {
         console.log('err', err)
       })
-  
+ 
     }, [])
-
+ 
     const refresh = () =>{
       setState(state => ({...state, loading: true }))
         axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/'+state.mb_id)
@@ -111,16 +111,16 @@ const Tambahalamat = (props) => {
               setKontak(kontak => ({...kontak, loading: false }))
             }
         })
-  
+ 
         .catch(err =>{
           console.log(err)
           alert('Gagal menerima data dari server!')
           setState(state => ({...state, loading: false }))
         })
     }
-
+ 
   //=======> POST Form Data Tambah Alamat Jalan <=======//
-
+ 
   const InputAlamat = async () => {
     const body = {
       adr_mb_id: state.adr_mb_id,
@@ -128,25 +128,25 @@ const Tambahalamat = (props) => {
       adr_cty_id: state.adr_cty_id
     }
     // console.log('Body Alamat====> '+ JSON.stringify(body));
-
+ 
     setState(state => ({...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
     .then(response =>{
-
-      console.log('-----ALAMAT=====>'+ JSON.stringify(response.data));
-
+ 
+      console.log('-----ALAMAT=====>'+ JSON.stringify(response.data.status));
+ 
       if(response.data.status==201){
-
+        alert('Sukses tambah alamat!')
         console.log('HASIL ALAMAT ==> : '+ JSON.stringify(response.data))
         setState(state => ({...state, loading: false }))
-        NavigatorService.navigation('Alamattoko');
-        
+        //NavigatorService.navigation('Alamattoko');
+ 
       }else{
-        alert('Tambah Alamat Gagal!')
+        //alert('Tambah Alamat Gagal!')
         setState(state => ({...state, loading: false }))
-        console.log('-----COBA=====>'+ JSON.stringify(response.data));
+        //console.log('-----COBA=====>'+ JSON.stringify(body));
       }
-
+ 
     }).catch(err =>{
       //console.log(err)
       alert('Gagal menerima data dari server!'+err)
@@ -207,9 +207,11 @@ const Tambahalamat = (props) => {
                           defaultButtonText={'Pilih Kota atau Kabupaten'}
                           data={state.cityname}
                           onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index)
+                            console.log(selectedItem.cty_id, index)
+                            setState(state => ({...state, adr_cty_id: selectedItem.cty_id }))
                           }}
                           buttonTextAfterSelection={(selectedItem, index) => {
+ 
                             return selectedItem.cty_name;
                           }}
                           rowTextForSelection={(item, index) => {

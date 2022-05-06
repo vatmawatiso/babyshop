@@ -214,7 +214,7 @@ const Home = (props) => {
                 <Image source={allLogo.icbuilder} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center', fontSize:toDp(12)}}>Konsultan{'\n'}Arsitek</Text>
             </Pressable>
-            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Konsultan')}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Donasi')}>
                 <Image source={allLogo.icdonation} style={styles.icon} />
                 <Text style={styles.textIcon, {textAlign: 'center', fontSize:toDp(12)}}>Donasi{'\n'}Bangunan</Text>
             </Pressable>

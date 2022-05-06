@@ -20,11 +20,33 @@ import LinearGradient from 'react-native-linear-gradient'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import { BottomNavigation } from "react-native-paper";
+import axios from "axios";
 
 const { width, height } = Dimensions.get('window')
 
 const Kategori = (props) => {
   const [src, setSrc]=useState(null);
+
+  const [state, setState] = useState({
+    datas: [],
+  })
+
+  useEffect(() => {
+    Produkbangunan()
+  }, [])
+
+  const Produkbangunan = () => {
+    axios.get('https://market.pondok-huda.com/dev/react/product/')
+      .then(result => {
+        //hendle success
+        setState(state => ({ ...state, datas: result.data.data }))
+        console.log('Produk Bangunan ===> ' + JSON.stringify(result.data.data));
+
+      }).catch(err => {
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
 
   const DATA = [
     {
@@ -82,18 +104,19 @@ const Kategori = (props) => {
     },
   ]
 
-  const RenderItem = (item, index) => (
+  const renderItem = (item, index) => (
     <Pressable onPress={()=> alert('Produk : '+index)}>
       <View style={styles.card}>
           <View style={styles.txtProduct}>
-             <Image source={{uri: item.image}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.title}</Text>
-             <Text style={styles.harga}>{item.harga}</Text>
+             <Image source={{uri: ' http://market.pondok-huda.com/dev/react/foto/product/ '+item.thumbnail}} style={styles.imgProduct} />
+             <Text style={styles.textproduct}>{item.product_name}</Text>
+             <Text style={styles.harga}>{item.price}</Text>
+
              <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.dariKota}</Text>
+             <Text style={styles.dariKota}>{DATA[0].dariKota}</Text>
              <Image source={allLogo.icstar} style={styles.star}/>
-             <Text style={styles.bintang}>{item.bintang}</Text>
-             <Text style={styles.terjual}>{item.terjual}</Text>
+             <Text style={styles.bintang}>{DATA[0].bintang}</Text>
+             <Text style={styles.terjual}>{DATA[0].terjual}</Text>
           </ View>
       </ View>
     </Pressable>
@@ -111,10 +134,10 @@ const Kategori = (props) => {
           }}
 
           numColumns={2}
-          data={DATA}
+          data={state.datas}
             renderItem={({item, index}) => {
               return (
-                RenderItem(item, index)
+                renderItem(item, index)
               )
             }}
           ListFooterComponent={() => <View style={{height: toDp(100)}} />}

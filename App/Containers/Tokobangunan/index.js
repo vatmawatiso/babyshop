@@ -9,7 +9,8 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -22,7 +23,7 @@ import axios from "axios";
 const Tokobangunan = (props) => {
 
   const [state, setState] = useState({
-    datas:[],
+    datas: [],
   })
 
   useEffect(() => {
@@ -31,15 +32,15 @@ const Tokobangunan = (props) => {
 
   const Tokobangunan = () => {
     axios.get('https://market.pondok-huda.com/dev/react/store-building/')
-    .then(result => {
-      //hendle success
-      setState(state => ({...state, datas: result.data.data }))
-      console.log('Toko Bangunan ===> '+ JSON.stringify(result.data.data));
+      .then(result => {
+        //hendle success
+        setState(state => ({ ...state, datas: result.data.data }))
+        console.log('Toko Bangunan ===> ' + JSON.stringify(result.data.data));
 
-    }).catch(err => {
-      alert('Gagal menerima data dari server!' + err)
-      setState(state => ({...state, loading: false }))
-    })
+      }).catch(err => {
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
   }
 
   const DATA = [
@@ -135,30 +136,24 @@ const Tokobangunan = (props) => {
   ]
 
   const ListToko = (item, index) => (
-    <View style={[styles.body, { marginTop: toDp(5), justifyContent: 'center', alignItems: 'center', marginHorizontal: 12 }]}>
-      <View style={{right:toDp(40)}}>
-        <Image source={{ uri: DATA[0].image }} style={styles.imgKontak} />
-      </View>
-      <View style={styles.content}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Nama</Text>
-          <Text style={styles.txtNama}>{item.sb_name}</Text>
+    <View style={[styles.body, { marginTop: toDp(5), alignItems: 'center', marginHorizontal: toDp(12) }]}>
+      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => NavigatorService.navigate('Profilseller')}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
+          <Image source={{ uri: DATA[0].image }} style={styles.imgKontak} />
+          <View style={{ flexDirection: 'row', marginLeft: toDp(10) }}>
+            <View>
+              <Text>Nama</Text>
+              <Text>Telepon</Text>
+              <Text>Alamat</Text>
+            </View>
+            <View>
+              <Text> : {item.sb_name}</Text>
+              <Text> : {item.sb_phone}</Text>
+              <Text> : {item.sb_address}</Text>
+            </View>
+          </View>
         </View>
-
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Telepon</Text>
-          <Text style={styles.txtHP}>{item.sb_phone}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Alamat</Text>
-          <Text style={styles.txtHarga}>{item.sb_address}</Text>
-        </View>
-      </View>
-
-      {/* <Pressable style={styles.btnLihat} onPress={() => NavigatorService.navigate('Profilseller')}>
-        <Text style={styles.txtLihat}>Lihat</Text>
-      </Pressable> */}
+      </TouchableOpacity> 
     </View>
   )
 
@@ -217,27 +212,6 @@ const styles = StyleSheet.create({
     width: toDp(50),
     borderRadius: toDp(20),
   },
-  txtLihat: {
-    textAlign: 'center',
-    fontSize: toDp(12),
-    color: 'white'
-  },
-  txtNama: {
-    left: toDp(22)
-  },
-  txtHP: {
-    left: toDp(10)
-  },
-  txtHarga: {
-    left: toDp(22)
-  },
-  btnLihat: {
-    backgroundColor: '#2A334B',
-    width: toDp(52),
-    height: toDp(20),
-    borderRadius: toDp(20),
-    left:toDp(35)
-  }
 });
 
 export default Tokobangunan;
