@@ -59,7 +59,7 @@ const Tambahalamat = (props) => {
         })
   }
  
-    //=======> POST Form Data Tambah Alamat Nama dan Nomer <=======//
+    //=======> GET Form Data Tambah Alamat Nama dan Nomer <=======//
  
     useEffect(() => {
  

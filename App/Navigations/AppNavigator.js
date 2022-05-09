@@ -119,7 +119,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Alamattoko'
+    initialRouteName: 'Settingtoko'
   
   }
 );
