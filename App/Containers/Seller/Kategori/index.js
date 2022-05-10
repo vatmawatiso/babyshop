@@ -134,6 +134,18 @@ const Kategori = (props) => {
       })
   }
 
+  // const openLinks = (type, link, value, uid, val, title) => {
+  //   if(type === 'watch') {
+  //     NavigatorService.navigate('Watch', {link, value, uid, val})
+  //   } else if(type === 'test'){
+  //     NavigatorService.navigate('Exam', {link, value, uid, val, title, lid:props.navigation.state.params.lid, sublid:props.navigation.state.params.value.id})
+  //   } else if(type === 'unduh'){
+  //     NavigatorService.navigate('Download', {link, value})
+  //   } else {
+  //     NavigatorService.navigate('Read', {link, value})
+  //   }
+  // }
+
   const ListKategori = (item, index) => {
     return (
       <View style={{ marginTop: toDp(0), width: '100%' }}>

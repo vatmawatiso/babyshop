@@ -6,7 +6,8 @@ import {
   Image,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -16,6 +17,39 @@ import { TextInput } from "react-native-gesture-handler";
 
 const Settingtoko = (props) => {
   const [src, setSrc]=useState(null);
+
+  const [state, setState] = useState({
+    cityname: [],
+    mb_id: '',
+    mb_name: '',
+    mb_phone: '',
+    loading: false,
+    adr_mb_id: '',
+  })
+
+  useEffect(() => {
+
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+
+      let data = JSON.parse(response);
+      // const val = JSON.stringify(data);
+
+      console.log('Profilefiks----------->' + JSON.stringify(data));
+
+      setState(state => ({
+        ...state,
+        adr_mb_id: data.id,
+        mb_name: data.value.mb_name,
+        mb_phone: data.value.mb_phone,
+      }))
+
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -45,7 +79,7 @@ const Settingtoko = (props) => {
                 <Text style={{padding:toDp(5), bottom:toDp(2), left:toDp(5), fontWeight:'bold'}}>Alamat dan Pengiriman</Text>
             </View>
             <View style={{marginLeft:toDp(40), bottom:toDp(10)}}>
-                <Pressable style={{ height:toDp(20), width:toDp(70)}} onPress={() => NavigatorService.navigate('Alamattoko')} >
+                <Pressable style={{ height:toDp(20), width:toDp(70)}} onPress={() => NavigatorService.navigate('Alamattoko', {adr_mb_id : state.adr_mb_id})} >
                     <Text style={styles.txtAlamat}>Alamat Toko</Text>
                 </Pressable>
                 <Pressable style={{ top:toDp(5), height:toDp(20), width:toDp(140)}} onPress={() => NavigatorService.navigate('Layananjasa')} >

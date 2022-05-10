@@ -10,7 +10,8 @@ import {
   Alert,
   ImageBackground,
   Pressable,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -22,22 +23,25 @@ const Alamattoko = (props) => {
 
   const [state, setState] = useState({
     datas: [],
-    adr_id: [],
-    adr_mb_id:[],
+    adr_mb_id: '',
     mb_id: ''
   })
+
 
   useEffect(() => {
     getAlamat()
   }, [])
 
   const getAlamat = () => {
-    axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id='+state.mb_id)
+   let mb_id = props.navigation.state.params.adr_mb_id;
+    axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id='+ mb_id)
       .then(result => {
         //hendle success
-        setState(state => ({ ...state, datas: result.data.data }))
-        console.log('Toko Bangunan ===> ' + JSON.stringify(result.data.data));
-
+        if(result.data.status==200){
+          setState(state => ({ ...state, datas: result.data.data}))
+          console.log('Toko Bangunan FIKS ===> ', result)
+        }
+      
       }).catch(err => {
         alert('Gagal menerima data dari server!' + err)
         setState(state => ({ ...state, loading: false }))
@@ -55,12 +59,12 @@ const Alamattoko = (props) => {
 
   const ListAlamat = (item, index) => (
     <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
-      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => NavigatorService.navigate('Profilseller')}>
+      <TouchableOpacity style={{ width: toDp(330) }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={allLogo.icaddress1} style={styles.icaddress1} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
-        <View style={{ flexDirection: 'row', left:toDp(60), top:toDp(15) }}>
+        <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
           <View>
             <Text>{item.mb_name} {item.mb_phone}</Text>
             <Text>{item.adr_address} {item.cty_name}</Text>

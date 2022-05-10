@@ -109,7 +109,7 @@ const Kategori = (props) => {
       <View style={styles.card}>
           <View style={styles.txtProduct}>
              <Image source={{uri: ' http://market.pondok-huda.com/dev/react/foto/product/ '+item.thumbnail}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.product_name.substr(0,13)}</Text>
+             <Text style={styles.textproduct}>{item.product_name.substr(0,12)}</Text>
              <Text style={styles.harga}>{item.price}</Text>
 
              <Image source={allLogo.icaddress} style={styles.address} />

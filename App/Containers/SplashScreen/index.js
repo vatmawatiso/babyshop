@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,23 +6,44 @@ import {
   Image,
   StatusBar,
   ImageBackground,
-  Pressable
+  Pressable,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 
 import NavigatorService from '@NavigatorService'
 
-const SplashScreen = () => (
+const SplashScreen = () => {
+
+  useEffect(() => {
+    setTimeout(function(){
+      AsyncStorage.getItem('registrasi/member').then(response => {
+        console.log('response', response);
+        //cek data null / tidak
+        if(response == null) {
+          NavigatorService.reset('Login')
+        } else {
+          NavigatorService.reset('Home')
+        }
+      }).catch(err => {
+        console.log('err', err)
+      })
+    }, 3000);
+  }, []);
+
+  return (
     <View style={styles.container}>
-        <Image source = {allLogo.icbina} style = {styles.logo1}/>
-            <Pressable 
-            onPress={() => NavigatorService.reset('Login')}
-            style={styles.buttonGet}>
-                <Text style={styles.textGet}>Mulai</Text>
-            </Pressable>
+      <Image source={allLogo.icbina} style={styles.logo1} />
+      <Pressable
+        onPress={() => NavigatorService.reset('Login')}
+        style={styles.buttonGet}>
+        <Text style={styles.textGet}>Mulai</Text>
+      </Pressable>
     </View>
-);
+  )
+};
+
 
 const styles = StyleSheet.create({
   container: {
