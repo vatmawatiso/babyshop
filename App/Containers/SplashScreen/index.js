@@ -18,7 +18,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     setTimeout(function(){
-      AsyncStorage.getItem('registrasi/member').then(response => {
+      AsyncStorage.getItem('member').then(response => {
         console.log('response', response);
         //cek data null / tidak
         if(response == null) {

@@ -48,8 +48,8 @@ import Pengiriman from '../Containers/Seller/Pengiriman'
 import Tambahproduk from '../Containers/Seller/Tambahproduk'
 import Homeseller from '../Containers/Seller/Homeseller'
 import Kategori from '../Containers/Seller/Kategori'
-import Detailkategori from '../Containers/Seller/Detailkategori'
 import Produksaya from '../Containers/Seller/Produksaya'
+import Detailkategori from '../Containers/Seller/Detailkategori'
 import Tambahalamat from '../Containers/Seller/Tambahalamat'
 import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
@@ -107,8 +107,8 @@ const AppNavigator = createStackNavigator(
     Tambahproduk: { screen: Tambahproduk },
     Homeseller: { screen: Homeseller },
     Kategori: { screen: Kategori },
-    Detailkategori: { screen: Detailkategori },
     Produksaya: { screen: Produksaya },
+    Detailkategori: { screen: Detailkategori },
     Tambahalamat: { screen: Tambahalamat },
     Saldopenjual: { screen: Saldopenjual },
     Ulasan: { screen: Ulasan },
