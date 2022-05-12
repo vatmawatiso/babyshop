@@ -25,10 +25,13 @@ const Tambahproduk = (props) => {
 
   // const Katagori = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu", "Plastik", "Semen"]
 
-  const Kondisi = ["Baru", "Bekas"]
+  // const Kondisi = ["Baru", "Bekas"]
 
   const [state, setState] = useState({
     kategori:[],
+    kondisi:[],
+    pdd_prd_id:[],
+    prd_kd_id:[],
     prd_name:[],
     prd_stock:[],
     prd_price:[],
@@ -36,8 +39,11 @@ const Tambahproduk = (props) => {
     prd_ctg_id:[],
     prd_rtl_id:[],
     prd_berat:[],
+    nama_kondisi: [],
     loading: false,
   })
+
+   //====> GET Kategori Barang pada Tambah Produk Seller <====//
 
   useEffect(() => {
     category()
@@ -62,36 +68,63 @@ const Tambahproduk = (props) => {
           })
     }
 
+    //====> GET Kondisi Barang pada Tambah Produk Seller <====//
+
+    useEffect(() => {
+      getKondisi()
+   
+    },[])
+   
+      const getKondisi = () => {
+        // setState(state => ({...state, loading: true }))
+          axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
+            .then(result =>{
+              // handle success
+              setState(state => ({...state, kondisi: result.data.data }))
+              console.log('----Kondisi=====>'+ JSON.stringify(result.data.data));
+              // alert(JSON.stringify(result.data));
+     
+            }).catch(err =>{
+              //console.log(err)
+              alert('Gagal menerima data dari server!'+err)
+              setState(state => ({...state, loading: false }))
+            })
+      }
+
     // ====> POST Tambah Produk Seller <====//
 
     const InputProduk = async () => {
       const body = {
         prd_name:state.prd_name,
+        pdd_prd_id:state.pdd_prd_id,
         prd_stock:state.prd_stock,
         prd_price:state.prd_price,
         prd_thumbnail:state.prd_thumbnail,
         prd_ctg_id:state.prd_ctg_id,
         prd_rtl_id:state.prd_rtl_id,
         prd_berat:state.prd_berat,
+        prd_kd_id:state.prd_kd_id,
+        nama_kondisi:state.nama_kondisi,
       }
       // console.log('Produk===>'+ JSON.stringify(body));
 
       setState(state => ({...state, loading: true }))
       axios.post('https://market.pondok-huda.com/dev/react/product/', body)
-      .then(response =>{
+      .then(result =>{
   
-        console.log('-----PRODUK=====>'+ JSON.stringify(response.data));
+        console.log('-----PRODUK=====>'+ JSON.stringify(result.data));
   
-        if(response.data.status==201){
-  
-          console.log('HASIL PRODUK ==> : '+ JSON.stringify(response.data))
+        if(result.data.status==201){
+          alert('Sukses tambah Produk!')
+          NavigatorService.navigate('Homeseller')
+          console.log('HASIL PRODUK ==> : '+ JSON.stringify(result.data))
           setState(state => ({...state, loading: false }))
           // NavigatorService.navigation('Homeseller');
           
         }else{
           alert('Tambah Alamat Gagal!')
           setState(state => ({...state, loading: false }))
-          // console.log('-----COBA=produk=====>'+ JSON.stringify(response.data));
+          // console.log('-----COBA=produk=====>'+ JSON.stringify(result.data));
         }
   
       }).catch(err =>{
@@ -231,15 +264,15 @@ const Tambahproduk = (props) => {
                 dropdownStyle={{ borderRadius: toDp(7) }}
                 rowStyle={{ height: toDp(35), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kondisi'}
-                data={Kondisi}
+                data={state.kondisi}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem
+                  return selectedItem.nama_kondisi
                 }}
                 rowTextForSelection={(item, index) => {
-                  return item
+                  return item.nama_kondisi
                 }}
                 renderDropdownIcon={(isOpened) => {
                   return (

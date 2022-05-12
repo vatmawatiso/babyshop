@@ -84,7 +84,8 @@ const Produksaya = (props) => {
       bintang : '4',
       terjual: '| Terjual 50',
       image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    },{
+    },
+    {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
       title: 'Semen',
       harga: 'Rp. 80.000',
@@ -108,9 +109,9 @@ const Produksaya = (props) => {
     <Pressable onPress={()=> alert('Produk : '+index)}>
       <View style={styles.card}>
           <View style={styles.txtProduct}>
-             <Image source={{uri: ' http://market.pondok-huda.com/dev/react/foto/product/ '+item.thumbnail}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.product_name}</Text>
-             <Text style={styles.harga}>{item.price}</Text>
+             <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
+             <Text style={styles.textproduct}>{item.product_name.substr(0,15)}</Text>
+             <Text style={styles.harga}>Rp {item.price}</Text>
 
              <Image source={allLogo.icaddress} style={styles.address} />
              <Text style={styles.dariKota}>{DATA[0].dariKota}</Text>
@@ -224,37 +225,40 @@ card: {
   elevation: 5,
 },
 bintang: {
-  bottom: toDp(17),
+  bottom: toDp(5),
   left: toDp(15)
 },
 terjual: {
-  bottom: toDp(37),
+  bottom: toDp(25),
   left: toDp(28)
 },
 address: {
-  bottom: toDp(-4)
+  top:toDp(23)
 },
 star: {
-  bottom: toDp(3),
+  top: toDp(10),
   right: toDp(0)
 },
 dariKota: {
-  bottom: toDp(6),
+  top:toDp(8),
   left: toDp(15)
 },
 textproduct: {
   fontWeight: 'bold',
-  fontSize: toDp(12)
+  fontSize: toDp(12),
+  top:toDp(20)
 },
 txtProduct:{
   width:'100%',
-  backgroundColor:'white',
-  marginTop:toDp(-16),
-  marginBottom:toDp(50)
+  // backgroundColor:'red',
+  bottom:toDp(20)
 },
 imgProduct:{
   width: toDp(100),
   height:toDp(100)
+},
+harga: {
+  top:toDp(20)
 }
 });
 

@@ -24,11 +24,16 @@ const Alamattoko = (props) => {
   const [state, setState] = useState({
     datas: [],
     adr_mb_id: '',
-    mb_id: ''
+    mb_id: '',
   })
 
 
   useEffect(() => {
+
+    // setState(state => ({...state,
+    //   id: props.navigation.state.params.uid
+    // }))
+
     getAlamat()
   }, [])
 

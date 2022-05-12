@@ -144,7 +144,7 @@ const Tambahalamat = (props) => {
           //NavigatorService.navigation('Alamattoko');
 
         } else {
-          //alert('Tambah Alamat Gagal!')
+          alert('Tambah Alamat Gagal!')
           setState(state => ({ ...state, loading: false }))
           //console.log('-----COBA=====>'+ JSON.stringify(body));
         }
