@@ -150,7 +150,7 @@ const Kategori = (props) => {
     return (
       <View style={{ marginTop: toDp(0), width: '100%' }}>
         <View style={{ flexDirection: 'row', marginHorizontal: toDp(0), height: toDp(50), alignItems: 'center', justifyContent: 'space-between' }}>
-          <TouchableOpacity style={styles.btnKategori} onPress={() => NavigatorService.navigate('Homeseller')}>
+          <TouchableOpacity style={styles.btnKategori} onPress={() => NavigatorService.navigate('Detailkategori')}>
             <View style={{ right: toDp(0) }}>
               <Text style={{ fontSize: toDp(13), left: toDp(0) }}>{item.ctg_name}</Text>
             </View>

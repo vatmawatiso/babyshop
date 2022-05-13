@@ -35,6 +35,7 @@ const Profilone = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
+    adr_mb_id: '',
     loading: false,
     modalVisible: false,
     option: {
@@ -58,6 +59,7 @@ const Profilone = (props) => {
       setState(state => ({
         ...state,
         id: data.mb_id,
+        adr_mb_id: data.id,
         mb_name: data.value.mb_name,
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
@@ -261,7 +263,7 @@ const Profilone = (props) => {
               </View>
               <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(5) }} />
 
-              <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat')}>
+              <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', {adr_mb_id : state.adr_mb_id})}>
                 <View style={styles.bodyAlamat}>
                   <Image source={allLogo.icaddress1} style={styles.icaddress1} />
                   <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
