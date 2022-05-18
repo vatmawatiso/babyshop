@@ -122,7 +122,7 @@ const Tambahproduk = (props) => {
           // NavigatorService.navigation('Homeseller');
           
         }else{
-          alert('Tambah Alamat Gagal!')
+          alert('Tambah Produk Gagal!')
           setState(state => ({...state, loading: false }))
           // console.log('-----COBA=produk=====>'+ JSON.stringify(result.data));
         }

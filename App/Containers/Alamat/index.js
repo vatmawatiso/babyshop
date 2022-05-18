@@ -69,23 +69,24 @@ const Alamat = (props) => {
 
    const alamatUtama = async () => {
     const body = {
-      adr_id:state.adr_id,
+      // adr_id:state.adr_id,
       adr_mb_id: state.adr_mb_id,
       // adr_address: state.adr_address,
       // adr_cty_id: state.adr_cty_id
     }
-    // console.log('Body Alamat====> '+ JSON.stringify(body));
+    console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({...state, loading: true }))
-    let adr_id = props.navigation.state.params.adr_id;
-    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=AD00058'+ adr_id)
+    let ids = props.navigation.state.params.adr_id;
+    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=', body)
     .then(response =>{
 
       console.log('-----ALAMAT UTAMA=====>', response.data);
 
       if(response.data.status==200){
         alert('Berhasil Menambahkan Alamat Utama')
-        NavigatorService.navigate('Profilone', { adr_id: state.adr_id });
+        NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id });
+        
         console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
         setState(state => ({...state, loading: false }))    
         
@@ -101,25 +102,6 @@ const Alamat = (props) => {
       setState(state => ({...state, loading: false }))
     })
     }
-
-  // const alamatUtama = () => {
-  //   Alert.alert(
-  //     "Alamat Utama",
-  //     "Yakin Jadikan Alamat Utama ?",
-  //     [
-  //       {
-  //         text: "Kembali",
-  //         onPress: () => console.log('Kembali'),
-  //         style: "cancel"
-  //       },
-  //       {
-  //         text: "Yakin",
-  //         onPress: () => NavigatorService.navigate('Profilone', { adr_id: state.adr_id }),
-  //         style: "Yakin"
-  //       }
-  //     ]
-  //   )
-  // }
 
 
   const Address = [
@@ -137,7 +119,7 @@ const Alamat = (props) => {
 
   const ListAlamatClient = (item, value, index) => (
     <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
-      <TouchableOpacity style={{ width: toDp(330) }}>
+      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => NavigatorService.navigate('Editalamat')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={allLogo.icaddress1} style={styles.icaddress1} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
