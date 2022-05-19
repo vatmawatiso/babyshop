@@ -52,7 +52,7 @@ const Profilone = (props) => {
       // console.log('Profil----------->'+ JSON.stringify(response));
 
       let data = JSON.parse(response);
-      // const val = JSON.stringify(data);
+      // const val = JSON.stringify(data);s
 
       // console.log('Profilefiks----------->'+ JSON.stringify(data));
 
@@ -110,6 +110,45 @@ const Profilone = (props) => {
       console.log('e', e)
     }
   }
+
+  //===> GET JADIKAN ALAMAT UTAMA <====//
+
+  useEffect(() => {
+
+    AsyncStorage.getItem('setAlamat').then(response => {
+      console.log('Alamat Utama----------->'+ JSON.stringify(response));
+
+      let data = JSON.parse(response);
+      // const val = JSON.stringify(data);s
+
+      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+
+      // setState(state => ({
+      //   ...state,
+      //   id: data.mb_id,
+      //   adr_mb_id: data.id,
+      //   mb_name: data.value.mb_name,
+      //   mb_email: data.value.mb_email,
+      //   mb_phone: data.value.mb_phone,
+      //   mb_type: data.value.mb_type,
+      //   picture: data.value.picture
+      // }))
+
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('aid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
+  }, [])
 
 
   const DATA = [

@@ -40,6 +40,7 @@ const Tambahproduk = (props) => {
     prd_rtl_id:[],
     prd_berat:[],
     nama_kondisi: [],
+    ctg_name:[],
     loading: false,
   })
 
@@ -105,10 +106,12 @@ const Tambahproduk = (props) => {
         prd_berat:state.prd_berat,
         prd_kd_id:state.prd_kd_id,
         nama_kondisi:state.nama_kondisi,
+        ctg_name:state.ctg_name,
       }
-      // console.log('Produk===>'+ JSON.stringify(body));
+      console.log('BODY == Produk===>'+ JSON.stringify(body));
 
       setState(state => ({...state, loading: true }))
+
       axios.post('https://market.pondok-huda.com/dev/react/product/', body)
       .then(result =>{
   
@@ -228,13 +231,14 @@ const Tambahproduk = (props) => {
                 defaultButtonText={'Pilih Kategori'}
                 data={state.kategori}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  console.log(selectedItem.ctg_id, index)
+                  setState(state => ({ ...state, prd_ctg_id: selectedItem.ctg_id }))
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem.ctg_name
+                  return selectedItem.ctg_name;
                 }}
                 rowTextForSelection={(item, index) => {
-                  return item.ctg_name
+                  return item.ctg_name;
                 }}
                 renderDropdownIcon={(isOpened) => {
                   return (
@@ -248,12 +252,12 @@ const Tambahproduk = (props) => {
               />
             </View>
 
-            <View>
+            {/* <View>
               <Pressable style={styles.btnOngkir}>
                 <Text style={styles.txtOngkir}>Ongkos Kirim</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
               </Pressable>
-            </View>
+            </View> */}
 
             <View>
               <Text style={styles.txtKondisi}>Kondisi</Text>
@@ -266,13 +270,14 @@ const Tambahproduk = (props) => {
                 defaultButtonText={'Pilih Kondisi'}
                 data={state.kondisi}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  console.log(selectedItem.kd_id, index)
+                  setState(state => ({ ...state, prd_kd_id: selectedItem.kd_id }))
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem.nama_kondisi
-                }}
+                  return selectedItem.nama_kondisi;
+                }}s
                 rowTextForSelection={(item, index) => {
-                  return item.nama_kondisi
+                  return item.nama_kondisi;
                 }}
                 renderDropdownIcon={(isOpened) => {
                   return (

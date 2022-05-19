@@ -8,21 +8,205 @@ import {
     TextInput,
     SafeAreaView,
     Pressable,
-    ScrollView
+    ScrollView,
+    AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import Back from '@Back'
-import NavigatorService from '@NavigatorService'
+import NavigatorService from '@NavigatorService';
+import Loader from '@Loader'
+import axios from "axios";
+import { sha1 } from "react-native-sha1";
 
 const Buatpassword = (props) => {
 
     const [state, setState] = useState({
+        mb_id: '',
+        mb_password: '',
+        mb_username: '',
+        mb_email: 'xxxxx@gmail.com',
+        confirmEmail: '',
         loading: false,
         secureTextEntry: true,
-        password: '',
-        password1: ''
+        // confirmEmail: false,
+        getUsername: true,
+        showEmail: false,
+        resetPassword: false,
+        valInput: false,
+        valPass: '',
+        btnReset: false
     })
+
+    useEffect(() => {
+        AsyncStorage.getItem('member').then(response => {
+            let data = JSON.parse(response);
+            console.log('response1 => ', data);
+
+            setState(state => ({
+                ...state,
+                mb_id: data.value.mb_id,
+                password: data.value.password
+            }))
+
+        }).catch(error => {
+            console.log('error1 =>', error)
+        })
+
+        AsyncStorage.getItem('uid').then(uids => {
+            // console.log('response2 =>', ids)
+            let ids = uids;
+            setState(state => ({
+                ...state,
+                mb_id: ids,
+            }))
+            console.log('response2 =>', ids)
+        }).catch(error => {
+            console.log('error2 =>', error)
+        })
+    }, [])
+
+    // masukan username untuk mengambil email yg bersangkutan
+    const fetchUser = () => {
+        const mb_username = state.mb_username;
+        setState(state => ({ ...state, loading: true }))
+        const data = {
+            mb_username: mb_username
+        }
+        axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', data)
+            .then(result => {
+                console.log('result1 =>', result)
+                if (result.data.status == 200) {
+                    console.log('result2 =>', result)
+                    const datas = {
+                        id: result.data.data[0].mb_id,
+                        value: result.data.data[0],
+                        email: result.data.data[0].mb_email
+                    }
+                    if (datas.value.length === 0) {
+                        alert('Nama Pengguna Tidak Ditemukan')
+                    } else {
+                        console.log('result3 =>', datas);
+                        AsyncStorage.setItem('member', JSON.stringify(datas))
+                        AsyncStorage.setItem('uid', datas.id)
+                        getData()
+                    }
+                    setState(state => ({ ...state, loading: false }))
+                } else if (result.data.status == 404) {
+                    alert('Pengguna Tidak Ditemukan')
+                    console.log('result3 =>', result)
+                    setState(state => ({ ...state, loading: false }))
+                }
+            }).catch(error => {
+                console.log('error1 =>', error)
+                alert('Gagal Menerima Data dari Server')
+                setState(state => ({...state, loading: false}))
+            })
+    }
+
+    // mengambil data
+    const getData = () => {
+        try {
+            AsyncStorage.getItem('member').then(response => {
+                let data = JSON.parse(response);
+                console.log('response1 => ', data);
+    
+                setState(state => ({
+                    ...state,
+                    mb_id: data.value.mb_id,
+                    password: data.value.password,
+                    mb_email: data.value.mb_email
+                }))
+
+                setState(state => ({...state, getUsername: false}))
+                setState(state => ({...state, showEmail: true}))
+    
+            }).catch(error => {
+                console.log('error1 =>', error)
+            })
+    
+            AsyncStorage.getItem('uid').then(uids => {
+                // console.log('response2 =>', ids)
+                let ids = uids;
+                setState(state => ({
+                    ...state,
+                    mb_id: ids,
+                }))
+                console.log('response2 =>', ids)
+            }).catch(error => {
+                console.log('error2 =>', error)
+            })
+        } catch(error) {
+            alert('Eror', error)
+        }
+    }
+
+    // sensor email
+    const hideEmail= (text)=> {
+        let mb_email = text
+        let hiddenEmail = "";
+        for (let i = 0; i < mb_email.length; i++) {
+          if (i > 2 && i< mb_email.indexOf("@") ) {
+            hiddenEmail += "*";
+          } else {
+            hiddenEmail += mb_email[i];
+          }
+        }
+        return hiddenEmail;
+     }
+
+    // menyesuaikan email yg dimasukan dengan yang ditampilkan
+
+    const verifyEmail = () => {
+        if(state.mb_email === state.confirmEmail) {
+            setState(state => ({...state, showEmail: false}))
+            setState(state => ({...state, resetPassword: true}))
+        } else {
+            alert('Email yang Dimasukkan tidak Sesuai')
+        }
+    }
+
+    const updatePass = () => {
+        let body = {
+            id: state.mb_id,
+            mb_password: state.mb_password,
+        }
+        axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', body)
+            .then(result => {
+                console.log('result ----------->', result);
+                if (result.data.status == 200) {
+                    console.log('result update', result);
+                    alert('Berhasil mengubah password');
+                    NavigatorService.reset('Profilone')
+                } else if (result.data.status == 500) {
+                    console.log('gagal update', result)
+                }
+            }).catch(error => {
+                console.log('error update:', error)
+            })
+    }
+
+    const Enc = (pass) => {
+        sha1(pass).then(hash => {
+            setState(state => ({ ...state, mb_password: hash }))
+        })
+    }
+
+    const passlength = (pass) =>{
+        const psw = pass;
+    
+        if(psw.length >= 6 ){
+          setState(state => ({...state, valPass: false }));
+        //   setState(state => ({...state, btnReset: true }));
+    
+          Enc(pass);
+    
+        }else{
+          setState(state => ({...state, valPass: true }))
+        //   setState(state => ({...state, btnReset: false }));
+    
+        }
+      }
 
     return (
         <View style={styles.container}>
@@ -31,52 +215,93 @@ const Buatpassword = (props) => {
                 onPress={() => props.navigation.goBack()}
             />
 
-            <View style={{justifyContent:'center', marginTop:toDp(30)}}>
+            <View style={{ justifyContent: 'center', marginTop: toDp(30) }}>
                 <View>
                     <Text style={styles.txtForget}>Buat Password Baru</Text>
                     <Text style={styles.titleForget}>kata sandi baru anda harus berbeda dari kata sandi{"\n"}yang digunakan sebelumnya</Text>
                 </View>
+                   
+                {state.getUsername == true ? 
+                    (
+                    <View>
+                         <Text style={styles.txtPassword}>Masukkan Username</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={'Nama Pengguna'}
+                                placeholderTextColor={'grey'}
+                                onChangeText={(text) => setState(state => ({...state, mb_username: text}))}
+                            />
+                    </View>
+                ) : null
+            }
 
-                <View>
-                    <Text style={styles.txtPassword}>Masukkan Password</Text>
-                    <TextInput
+{/* input email yg sesuai dengan yg ditampilkan */}
 
-                        top={toDp(4)}
-                        width={toDp(335)}
-                        height={toDp(40)}
-                        borderRadius={toDp(20)}
-                        backgroundColor={'white'}
-                        autoCapitalize={'none'}
-                        style={styles.textInput}
-                        placeholder={'Password'}
-                        placeholderTextColor={'grey'}
-                        value={state.password}
-                        onChangeText={(text) => setState(state => ({ ...state, password: text }))}
-                    />
+                        {state.showEmail == true ? 
+                            (
+                            <View>
+                                <Text style={styles.hideEmail}>{hideEmail(state.mb_email)}</Text>
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholder={'Email'}
+                                        placeholderTextColor={'grey'}
+                                        value={state.confirmEmail}
+                                        onChangeText={(text) => setState(state => ({...state, confirmEmail: text}))}
+                                    />
+                            </View>
+                        ) : null
+                    }
 
-                    <Text style={styles.txtKonfirPass}>Konfirmasi Password</Text>
-                    <TextInput
+         {/* Masukan password baru */}
 
-                        top={toDp(4)}
-                        width={toDp(335)}
-                        height={toDp(40)}
-                        borderRadius={toDp(20)}
-                        backgroundColor={'white'}
-                        autoCapitalize={'none'}
-                        style={styles.textInput1}
-                        secureTextEntry={state.secureTextEntry}
-                        placeholder={'Konfirmasi Password'}
-                        placeholderTextColor={'grey'}
-                        value={state.password1}
-                        onChangeText={(text) => setState(state => ({ ...state, password1: text }))}
-                    />
-                    <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-                        <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+        
+                {state.resetPassword == true ? 
+                    (
+                    <View>
+                         <Text style={styles.txtPassword}>Masukkan Password</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={'Password Baru'}
+                                placeholderTextColor={'grey'}
+                                secureTextEntry={state.secureTextEntry}
+                                onChangeText={(text) => passlength(text)}
+                            />
+
+                            <Pressable style={styles.presableShow1} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+                                <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+                            </Pressable>
+
+                            {state.valPass === true ? (
+                                <Text style={styles.msgError}>
+                                    *Masukan kata sandi minimal 6 karakter
+                                </Text>
+                            ) : null}
+                    </View>
+                ) : null
+            }
+                { state.getUsername == true ? (
+                    <Pressable style={styles.btnKirim} onPress={() => fetchUser()}>
+                        <Text style={styles.txtKirim}>Kirim</Text>
                     </Pressable>
-                    <Pressable style={styles.btnKirim}>
-                        <Text style={styles.txtKirim}>Ubah Password</Text>
+                )
+                : state.showEmail == true ? (
+                    <Pressable style={styles.btnKirim} onPress={() => verifyEmail()}>
+                        <Text style={styles.txtKirim}>Verifikasi</Text>
                     </Pressable>
-                </View>
+                )
+                : state.resetPassword == true ? (
+                    // <>
+                    //     {state.btnReset == true ? (
+                            <Pressable style={styles.btnKirim} onPress={() => updatePass()}>
+                                <Text style={styles.txtKirim}>Ubah Password</Text>
+                            </Pressable>
+                    //     ) : null
+                    // }
+                    // </>
+                ) :null
+            }
+                    
+                
             </View>
         </View>
     );
@@ -126,14 +351,37 @@ const styles = StyleSheet.create({
         right: toDp(8),
         top: Platform.OS === 'ios' ? toDp(35) : toDp(95)
     },
+    presableShow1: {
+        position: 'absolute',
+        top: toDp(35),
+        left: '90%'
+    },
     icVisibility: {
         width: toDp(24),
         height: toDp(24),
         tintColor: 'grey'
     },
     textInput: {
-        borderWidth: toDp(0.5)
-    }
+        width: '100%',
+        borderWidth: 1,
+        height: toDp(48),
+        backgroundColor: '#F2F3F3',
+        paddingHorizontal: toDp(8),
+        borderRadius: toDp(8),
+        marginTop: toDp(8)
+    },
+    msgError: {
+        color: 'red',
+        fontSize: 12,
+        left: 0,
+        position: 'relative',
+    },
+    hideEmail:{
+        color:'#000000',
+        fontWeight: 'bold',
+        fontSize:toDp(17),
+        textAlign:'center'
+      },
 });
 
 export default Buatpassword;

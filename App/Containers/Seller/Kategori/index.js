@@ -55,7 +55,7 @@ const Kategori = (props) => {
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
-        picture: data.value.picture
+        picture: data.value.pictures
       }))
 
     }).catch(err => {
@@ -64,40 +64,40 @@ const Kategori = (props) => {
 
   }, [])
 
-  const refresh = () => {
-    setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
-      .then(result => {
-        if (result.data.status == 200) {
-          const datas = {
-            id: result.data.value[0].mb_id,
-            value: result.data.data[0]
-          }
-          if (datas.value.length === 0) {
-            alert('Tidak ada data!')
-          } else {
-            //save Asyn Storage
-            try {
-              AsyncStorage.setItem('member', JSON.stringify(datas))
-            } catch (e) {
-              alert('Error' + e)
-            }
-            getData()
-            console.log('===>>' + JSON.stringify(datas.value));
-          }
-          setState(state => ({ ...state, loading: false }))
-        } else if (result.data.status == 400) {
-          alert('Data tidak ditemukan!')
-          setState(state => ({ ...state, loading: false }))
-        }
-      })
+  // const refresh = () => {
+  //   setState(state => ({ ...state, loading: true }))
+  //   axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
+  //     .then(result => {
+  //       if (result.data.status == 200) {
+  //         const datas = {
+  //           id: result.data.value[0].mb_id,
+  //           value: result.data.data[0]
+  //         }
+  //         if (datas.value.length === 0) {
+  //           alert('Tidak ada data!')
+  //         } else {
+  //           //save Asyn Storage
+  //           try {
+  //             AsyncStorage.setItem('member', JSON.stringify(datas))
+  //           } catch (e) {
+  //             alert('Error' + e)
+  //           }
+  //           getData()
+  //           console.log('===>>' + JSON.stringify(datas.value));
+  //         }
+  //         setState(state => ({ ...state, loading: false }))
+  //       } else if (result.data.status == 400) {
+  //         alert('Data tidak ditemukan!')
+  //         setState(state => ({ ...state, loading: false }))
+  //       }
+  //     })
 
-      .catch(err => {
-        console.log(err)
-        alert('Gagal menerima data dari server!')
-        setState(state => ({ ...state, loading: false }))
-      })
-  }
+  //     .catch(err => {
+  //       console.log(err)
+  //       alert('Gagal menerima data dari server!')
+  //       setState(state => ({ ...state, loading: false }))
+  //     })
+  // }
 
   const DATA = [
     {
@@ -134,23 +134,16 @@ const Kategori = (props) => {
       })
   }
 
-  // const openLinks = (type, link, value, uid, val, title) => {
-  //   if(type === 'watch') {
-  //     NavigatorService.navigate('Watch', {link, value, uid, val})
-  //   } else if(type === 'test'){
-  //     NavigatorService.navigate('Exam', {link, value, uid, val, title, lid:props.navigation.state.params.lid, sublid:props.navigation.state.params.value.id})
-  //   } else if(type === 'unduh'){
-  //     NavigatorService.navigate('Download', {link, value})
-  //   } else {
-  //     NavigatorService.navigate('Read', {link, value})
-  //   }
-  // }
+  const getKategori = (value, ctg_id, ctg_name) => {
+    NavigatorService.navigate('Detailkategori', {value, ctg_id: ctg_id, ctg_name: ctg_name})
+}
 
-  const ListKategori = (item, index) => {
+
+  const ListKategori = (item, index, onPress) => {
     return (
       <View style={{ marginTop: toDp(0), width: '100%' }}>
         <View style={{ flexDirection: 'row', marginHorizontal: toDp(0), height: toDp(50), alignItems: 'center', justifyContent: 'space-between' }}>
-          <TouchableOpacity style={styles.btnKategori} onPress={() => NavigatorService.navigate('Detailkategori')}>
+          <TouchableOpacity style={styles.btnKategori} onPress={() => onPress()}>
             <View style={{ right: toDp(0) }}>
               <Text style={{ fontSize: toDp(13), left: toDp(0) }}>{item.ctg_name}</Text>
             </View>
@@ -209,9 +202,9 @@ const Kategori = (props) => {
             <FlatList
               numColumns={1}
               data={state.datas}
-              renderItem={({ item, index }) => {
+              renderItem={({ item, index, value }) => {
                 return (
-                  ListKategori(item, index)
+                  ListKategori(item, index, () => getKategori(value, item.ctg_id, item.ctg_name))
                 )
               }}
               ListFooterComponent={() => <View style={{ height: toDp(60), width: toDp(335) }} />}

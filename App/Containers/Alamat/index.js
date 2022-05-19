@@ -18,10 +18,10 @@ import { toDp } from '@percentageToDP';
 import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
-
-
+ 
+ 
 const Alamat = (props) => {
-
+ 
   const [state, setState] = useState({
     datas: [],
     adr_mb_id: '',
@@ -31,9 +31,9 @@ const Alamat = (props) => {
     cty_name: '',
     adr_address: ''
   })
-
+ 
   useEffect(() => {
-
+ 
     AsyncStorage.getItem('uid').then(uids => {
       // console.log('ids', uids)
       let ids = uids;
@@ -45,10 +45,10 @@ const Alamat = (props) => {
     }).catch(err => {
       console.log('err', err)
     })
-
+ 
     getAlamatClient()
   }, [])
-
+ 
   const getAlamatClient = () => {
     let mb_id = props.navigation.state.params.adr_mb_id;
     axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
@@ -58,52 +58,93 @@ const Alamat = (props) => {
           setState(state => ({ ...state, datas: result.data.data }))
           console.log('Toko Bangunan FIKS ===> ', result)
         }
-
+ 
       }).catch(err => {
         alert('Gagal menerima data dari server!' + err)
         setState(state => ({ ...state, loading: false }))
       })
   }
-
+ 
    //=======> POST Alamat Utama <=======//
-
+ 
+   useEffect(() => {
+ 
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+ 
+      let data    =  JSON.parse(response);
+      // const val = JSON.stringify(data);
+ 
+      console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
+ 
+      setState(state => ({...state,
+        adr_mb_id: data.adr_mb_id,
+        adr_id: data.adr_id,
+      }))
+ 
+ 
+    }).catch(err => {
+      console.log('err', err)
+    })
+ 
+  }, [])
+ 
    const alamatUtama = async () => {
     const body = {
-      // adr_id:state.adr_id,
-      adr_mb_id: state.adr_mb_id,
-      // adr_address: state.adr_address,
-      // adr_cty_id: state.adr_cty_id
+      adr_mb_id: state.mb_id,
     }
     console.log('Body Alamat====> '+ JSON.stringify(body));
-
+ 
     setState(state => ({...state, loading: true }))
-    let ids = props.navigation.state.params.adr_id;
     axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=', body)
     .then(response =>{
-
-      console.log('-----ALAMAT UTAMA=====>', response.data);
-
+ 
+      console.log('-----ALAMAT UTAMA=====>'+JSON.stringify(response.data));
+ 
       if(response.data.status==200){
+
+        const datass = { 
+          // id: response.data.data[0].alamat_utama,                                                                   
+          value: response.data.data[0],   
+          
+        }
+        console.log('CEK ALAMAT UTAMA=====>', datass);
+
+        if (datass.value.length === 0) {
+          alert('Tidak ditemukan alamat!')
+        }else {
+          //save Async Storage
+          console.log('Set Alamat Utama CLient===>'+JSON.stringify(datass));
+
+          AsyncStorage.setItem('setAlamat', JSON.stringify(datass)) 
+
+          AsyncStorage.setItem('aid', datass.id)
+
+          // NavigatorService.reset('Homepage')
+        
+
+        }
+
         alert('Berhasil Menambahkan Alamat Utama')
         NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id });
-        
+ 
         console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
-        setState(state => ({...state, loading: false }))    
-        
+        setState(state => ({...state, loading: false }))
+ 
       }else{
         alert('Gagal Tambah Alamat Utama!')
         setState(state => ({...state, loading: false }))
         console.log('-----COBA=====>'+ JSON.stringify(response.data));
       }
-
+ 
     }).catch(err =>{
       //console.log(err)
       alert('Gagal menerima data dari server!'+err)
       setState(state => ({...state, loading: false }))
     })
     }
-
-
+ 
+ 
   const Address = [
     {
       id: '1',
@@ -112,14 +153,14 @@ const Alamat = (props) => {
       alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
     },
   ]
-
-  const selectAlamat = (value, adr_id,) => {
-    NavigatorService.navigate('Editalamat', {value, adr_id: adr_id})
-  }
-
-  const ListAlamatClient = (item, value, index) => (
+ 
+  // const selectAlamat = (adr_id) => {
+  //   NavigatorService.navigate('Editalamat', {adr_id: adr_id})
+  // }
+ 
+  const ListAlamatClient = (item, index, onPress, onSetutama) => (
     <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
-      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => NavigatorService.navigate('Editalamat')}>
+      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => onPress()}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={allLogo.icaddress1} style={styles.icaddress1} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
@@ -128,7 +169,7 @@ const Alamat = (props) => {
           <View>
             <Text>{item.mb_name} {item.mb_phone}</Text>
             <Text>{item.adr_address} {item.cty_name}</Text>
-            <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => alamatUtama()}>
+            <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => onSetutama()}>
               <Text style={styles.txtAlamatUtama}>Jadikan Alamat Utama</Text>
             </TouchableOpacity>
           </View>
@@ -136,26 +177,26 @@ const Alamat = (props) => {
       </TouchableOpacity>
     </View>
   )
-
+ 
   return (
     <View style={styles.container}>
       <BackHeader
         title={'Alamat'}
         onPress={() => props.navigation.goBack()}
       />
-
+ 
       <View style={styles.flatcontent}>
         <FlatList style={{ width: '100%', marginTop: toDp(30) }}
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
         />
       </View>
-
+ 
       <Pressable style={{ bottom: toDp(610), backgroundColor: '#C4C4C4', borderRadius: toDp(20), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
         <View style={styles.btnAddress}>
           <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
@@ -164,9 +205,9 @@ const Alamat = (props) => {
       </Pressable>
     </View>
   );
-
+ 
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -232,5 +273,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
+ 
 export default Alamat;
