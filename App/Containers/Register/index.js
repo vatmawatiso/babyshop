@@ -83,7 +83,7 @@ const Register = (props) => {
                             style={styles.textInput}
                             placeholder={'Name'}
                             placeholderTextColor={'grey'}
-                            value={state.mb_name}
+                            value={state.nama}
                             onChangeText={(text) => setState(state => ({...state, mb_name: text })) }
                 />
             <Text style={[styles.textName, {bottom:toDp(5)} ]}>Alamat Email</Text>
@@ -91,7 +91,7 @@ const Register = (props) => {
                             style={[styles.textInput, {bottom:toDp(15)}]}
                             placeholder={'Email'}
                             placeholderTextColor={'grey'}
-                            value={state.mb_email}
+                            value={state.email}
                             onChangeText={(text) => setState(state => ({...state, mb_email: text })) }
                 />
             <Text style={[styles.textName, {bottom:toDp(8)} ]}>Nomer Telepon</Text>
@@ -99,7 +99,7 @@ const Register = (props) => {
                             style={[styles.textInput, {bottom:toDp(18)} ]}
                             placeholder={'Phone'}
                             placeholderTextColor={'grey'}
-                            value={state.mb_phone}
+                            value={state.hp}
                             onChangeText={(text) => setState(state => ({...state, mb_phone: text })) }
                 />
             <Text style={[styles.textName, {bottom:toDp(13)} ]}>Pilih User</Text>
@@ -136,7 +136,7 @@ const Register = (props) => {
                             style={[styles.textInput, {bottom:toDp(48)} ]}
                             placeholder={'Username'}
                             placeholderTextColor={'grey'}
-                            value={state.mb_sername}
+                            value={state.mb_username}
                             onChangeText={(text) => setState(state => ({...state, mb_username: text })) }
                 />
  
@@ -151,7 +151,7 @@ const Register = (props) => {
                             onChangeText={(text) => Shaone(text) }
                  />
                  <Pressable style={styles.presableShow} onPress={() => setState(state => ({...state, secureTextEntry: !state.secureTextEntry }))}>
-                     <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+                     <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
                  </Pressable>
                 </View>
               </View>

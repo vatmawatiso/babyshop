@@ -129,7 +129,7 @@ const Login = (props) => {
           onChangeText={(text) => Shaone(text)}
         />
         <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-          <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+          <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
         </Pressable>
       </View>
       <Pressable style={{ left: toDp(120) }} onPress={() => NavigatorService.navigate('Lupapassword')}>

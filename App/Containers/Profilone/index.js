@@ -21,6 +21,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
+import { Item } from "react-native-paper/lib/typescript/components/List/List";
 
 const { width, height } = Dimensions.get('window')
 
@@ -83,56 +84,24 @@ const Profilone = (props) => {
     })
   }, [])
 
-  const refresh = async () => {
-    try {
-      AsyncStorage.getItem('member').then(response => {
-        //console.log('Profilseller=======>'+ JSON.stringify(responponse));
-
-        let data = JSON.parse(response);
-        //const val = JSON.stringify(data);
-
-        //console.log('Profilseller ------->'+ JSON.stringify(response));
-
-        setState(state => ({
-          ...state,
-          id: data.mb_id,
-          mb_name: data.value.mb_name,
-          mb_email: data.value.mb_email,
-          mb_phone: data.value.mb_phone,
-          mb_type: data.value.mb_type,
-          picture: data.value.picture
-        }))
-
-      }).catch(err => {
-        console.log('err', err)
-      })
-    } catch (e) {
-      console.log('e', e)
-    }
-  }
-
   //===> GET JADIKAN ALAMAT UTAMA <====//
 
   useEffect(() => {
 
     AsyncStorage.getItem('setAlamat').then(response => {
-      console.log('Alamat Utama----------->'+ JSON.stringify(response));
+      console.log('Berhasil jadi Alamat Utama----------->'+ JSON.stringify(response));
 
       let data = JSON.parse(response);
-      // const val = JSON.stringify(data);s
+      // const val = JSON.stringify(data);
 
-      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+      console.log('SUKSES----------->'+ JSON.stringify(data));
 
-      // setState(state => ({
-      //   ...state,
-      //   id: data.mb_id,
-      //   adr_mb_id: data.id,
-      //   mb_name: data.value.mb_name,
-      //   mb_email: data.value.mb_email,
-      //   mb_phone: data.value.mb_phone,
-      //   mb_type: data.value.mb_type,
-      //   picture: data.value.picture
-      // }))
+      setState(state => ({
+        ...state,
+        id: data.adr_id,
+        address: data.address,
+        city: data.city,
+      }))
 
 
     }).catch(err => {
@@ -149,6 +118,54 @@ const Profilone = (props) => {
       console.log('err', err)
     })
   }, [])
+
+  const refresh = async () => {
+    try {
+     AsyncStorage.getItem('member').then(response => {
+       //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+ 
+       let data = JSON.parse(response);
+       //const val = JSON.stringify(data);
+ 
+       //console.log('Profilseller ------->'+ JSON.stringify(response));
+ 
+       setState(state => ({
+         ...state,
+         id: data.mb_id,
+         mb_name: data.value.mb_name,
+         mb_email: data.value.mb_email,
+         mb_phone: data.value.mb_phone,
+         mb_type: data.value.mb_type,
+         picture: data.value.picture
+       }))
+ 
+     }).catch(err => {
+       console.log('err', err)
+     })
+
+     AsyncStorage.getItem('setAlamat').then(response => {
+      console.log('berhail jadikan alamat utama----------->'+ JSON.stringify(response));
+
+      let data    =  JSON.parse(response); 
+      // const val = JSON.stringify(data);
+
+      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+
+      setState(state => ({...state,
+        id: data.adr_id,
+        address: data.address,
+        city: data.city
+        
+      }))
+  
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+    } catch(e) {
+      console.log('e', e)
+    }
+   }
 
 
   const DATA = [
@@ -309,7 +326,7 @@ const Profilone = (props) => {
                 </View>
 
                 <View style={{ flexDirection: 'row', left: toDp(49), bottom: toDp(10) }}>
-                  <Text style={{ fontSize: toDp(13) }}>{Address[0].nama} {Address[0].telepon}{"\n"}{Address[0].alamat}</Text>
+                  <Text style={{ fontSize: toDp(13) }}>{state.mb_name} {state.mb_phone}{"\n"}{state.address} {state.city}</Text>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </Pressable>

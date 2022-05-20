@@ -16,6 +16,7 @@ import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
+import Axios from "axios";
 
 
 const { width, height } = Dimensions.get('window')
@@ -23,44 +24,90 @@ const { width, height } = Dimensions.get('window')
 const Home = (props) => {
   const [src, setSrc]=useState(null);
 
+  useEffect(() => {
+    produk()
+
+    listRetail()
+  }, [])
+
   const [state, setState] = useState({
-    arrayFriends: [
-      {
-        value:{
-        picture: 'https://grahadalungresidence.com/wp-content/uploads/2021/03/Ilustrasi-Jenis-Bahan-Bangunan.jpg',
-        name: 'TB Abadi jaya',
-        message: 'Kab. Cirebon Plered',
-        distance: 'Buka dari jam 09:40 AM'}
-      }, {
-        value:{
-        picture: 'https://padiumkm.id/public/products/24890/218087/bahan-bangunan-.1621300654.jpg',
-        name: 'TB Tembang Pantura',
-        message: 'Kab. Cirebon Plered',
-        distance: 'Buka dari jam 09:40 AM'}
-      }, {
-        value:{
-        picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0s5-Ql6tMckd0pFrjpFpKjucwTfrzQIHu9-J0sA23JjhHhTFrRQnSWuXEWWZJRaJfAFI&usqp=CAU',
-        name: 'TB Maju Jaya',
-        message: 'Kab. Cirebon Plered',
-        distance: 'Buka dari jam 09:40 AM'}
-      }, {
-        value:{
-        picture: 'https://i2.wp.com/dekoruma.blog/wp-content/uploads/2018/06/arsitag-d.jpg?resize=750%2C459&ssl=1',
-        name: 'TB Sumber Jaya',
-        message: 'Kab. Cirebon Plered',
-        distance: 'Buka dari jam 09:40 AM'}
-      }, {
-        value:{
-        picture: 'https://padiumkm.id/public/products/24890/218087/bahan-bangunan-.1621300654.jpg',
-        name: 'TB Sumber Kasih FM',
-        message: 'Kab. Cirebon Plered',
-        distance: 'Buka dari jam 09:40 AM'}
-      }
-    ],
     arrayUsers: [],
     arrayData:[],
+    arrayRetail: [],
     loading: false
   })
+
+  const displayName = (product_name) =>{
+    let count = '';
+    let nama  = '';
+    count = product_name.split(' ' || '-');
+    nama  = count.slice(0, 2).join(' ');
+    return nama
+}
+
+  // get produk yg kotak2 besar
+  const produk = () => {
+    Axios.get('https://market.pondok-huda.com/dev/react/product/')
+      .then(result => {
+        console.log('result', result);
+        setState(state => ({...state, arrayData: result.data.data}))
+        console.log('result2 =>', result.data.data)
+      }).catch(error => {
+        console.log(error)
+      })
+  }
+
+    // get nama toko
+    const listRetail = () => {
+      Axios.get('https://market.pondok-huda.com/dev/react/retail/')
+        .then(result => {
+          console.log('result', result);
+          setState(state => ({...state, arrayRetail: result.data.data}))
+          console.log('result2 =>', result.data.data)
+        }).catch(error => {
+          console.log(error)
+        })
+    }
+
+
+  // const [state, setState] = useState({
+  //   arrayFriends: [
+  //     {
+  //       value:{
+  //       picture: 'https://grahadalungresidence.com/wp-content/uploads/2021/03/Ilustrasi-Jenis-Bahan-Bangunan.jpg',
+  //       name: 'TB Abadi jaya',
+  //       message: 'Kab. Cirebon Plered',
+  //       distance: 'Buka dari jam 09:40 AM'}
+  //     }, {
+  //       value:{
+  //       picture: 'https://padiumkm.id/public/products/24890/218087/bahan-bangunan-.1621300654.jpg',
+  //       name: 'TB Tembang Pantura',
+  //       message: 'Kab. Cirebon Plered',
+  //       distance: 'Buka dari jam 09:40 AM'}
+  //     }, {
+  //       value:{
+  //       picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0s5-Ql6tMckd0pFrjpFpKjucwTfrzQIHu9-J0sA23JjhHhTFrRQnSWuXEWWZJRaJfAFI&usqp=CAU',
+  //       name: 'TB Maju Jaya',
+  //       message: 'Kab. Cirebon Plered',
+  //       distance: 'Buka dari jam 09:40 AM'}
+  //     }, {
+  //       value:{
+  //       picture: 'https://i2.wp.com/dekoruma.blog/wp-content/uploads/2018/06/arsitag-d.jpg?resize=750%2C459&ssl=1',
+  //       name: 'TB Sumber Jaya',
+  //       message: 'Kab. Cirebon Plered',
+  //       distance: 'Buka dari jam 09:40 AM'}
+  //     }, {
+  //       value:{
+  //       picture: 'https://padiumkm.id/public/products/24890/218087/bahan-bangunan-.1621300654.jpg',
+  //       name: 'TB Sumber Kasih FM',
+  //       message: 'Kab. Cirebon Plered',
+  //       distance: 'Buka dari jam 09:40 AM'}
+  //     }
+  //   ],
+  //   arrayUsers: [],
+  //   arrayData:[],
+  //   loading: false
+  // })
 
   const DATA = [
     {
@@ -124,7 +171,7 @@ const Home = (props) => {
       <View style={styles.viewRenderExplore}>
         <View style={styles.viewImage}>
           <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
-          <Image source={{uri: item.item.value.picture}} style={styles.imageProfile} />
+          <Image source={require('../../../Assets/img/tzuyu.jpg')} style={styles.imageProfile} />
           <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
         </View>
         <View style={styles.viewImageContent}>
@@ -132,9 +179,9 @@ const Home = (props) => {
             <Image source={allLogo.icResidentSilang} style={styles.icResidentSilang} />
           </TouchableOpacity>
           <View style={styles.viewDetail}>
-            <Text style={styles.textNameExplore}>{item.item.value.name}</Text>
-            <Text style={styles.textWork}>{item.item.value.message}</Text>
-            <Text style={styles.textDistance}>{item.item.value.distance}</Text>
+            <Text style={styles.textNameExplore}>{item.item.rtl_name}</Text>
+            <Text style={styles.textWork}>{item.item.rtl_addres}</Text>
+            <Text style={styles.textDistance}>Buka dari Jam 10.00 AM</Text>
           </View>
         </View>
       </View>
@@ -146,12 +193,12 @@ const Home = (props) => {
       <View style={styles.card}>
       <Pressable style={{backgroundColor:'red'}} onPress={() => NavigatorService.navigate('Produk')}>
           <View style={styles.txtProduct}>
-             <Image source={{uri: item.image}} style={styles.imgProduct} />
+             <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text style={styles.textproduct}>{item.title}</Text>
+                <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
                 <Image source={allLogo.icwishlist} style={{width:toDp(25), height:toDp(25)}} />
               </View>
-             <Text style={styles.harga}>{item.harga}</Text>
+             <Text style={styles.harga}>{item.price}</Text>
              <Image source={allLogo.icaddress} style={styles.address} />
              <Text style={styles.dariKota}>{item.dariKota}</Text>
              <Image source={allLogo.icstar} style={styles.star} />
@@ -174,7 +221,7 @@ const Home = (props) => {
             }}
 
             numColumns={2}
-            data={DATA}
+            data={state.arrayData}
               renderItem={({item, index}) => {
                 return (
                   RenderItem(item, index)
@@ -193,7 +240,7 @@ const Home = (props) => {
         <View style={{width:'100%', height: toDp(230),marginTop: toDp(-5), backgroundColor: 'white'}}>
           <Carousel
             layout={"default"}
-            data={state.arrayFriends}
+            data={state.arrayRetail}
             sliderWidth={width}
             itemWidth={toDp(350)}
             renderItem={(item, index) => renderItemExpore(item, index)}

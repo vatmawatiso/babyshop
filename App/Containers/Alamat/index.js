@@ -89,38 +89,34 @@ const Alamat = (props) => {
  
   }, [])
  
-   const alamatUtama = async () => {
+   const alamatUtama = async (idm,adr_address,adr_cty_id) => {
     const body = {
       adr_mb_id: state.mb_id,
     }
     console.log('Body Alamat====> '+ JSON.stringify(body));
  
     setState(state => ({...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=', body)
+    let id = idm;
+    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id='+ idm, body)
     .then(response =>{
  
       console.log('-----ALAMAT UTAMA=====>'+JSON.stringify(response.data));
  
       if(response.data.status==200){
 
-        const datass = { 
-          // id: response.data.data[0].alamat_utama,                                                                   
-          value: response.data.data[0],   
-          
+        const ALAMAT = {     
+          id: idm,  
+          address: adr_address,
+          city: adr_cty_id                                         
         }
-        console.log('CEK ALAMAT UTAMA=====>', datass);
 
-        if (datass.value.length === 0) {
-          alert('Tidak ditemukan alamat!')
-        }else {
+        if (ALAMAT.address.length === 0) {
+          alert('Nama Pengguna atau Kata Sandi Salah!')
+        } else {
           //save Async Storage
-          console.log('Set Alamat Utama CLient===>'+JSON.stringify(datass));
+          console.log('Jadikan Alamat Utama===>'+JSON.stringify(ALAMAT));
 
-          AsyncStorage.setItem('setAlamat', JSON.stringify(datass)) 
-
-          AsyncStorage.setItem('aid', datass.id)
-
-          // NavigatorService.reset('Homepage')
+          AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT)) 
         
 
         }
@@ -190,7 +186,7 @@ const Alamat = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id,item.adr_address,item.cty_name))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}

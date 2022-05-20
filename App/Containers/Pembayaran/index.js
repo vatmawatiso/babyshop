@@ -15,9 +15,31 @@ import { toDp } from '@percentageToDP';
 import Back from '@Back'
 import CheckBox from '@react-native-community/checkbox';
 import NavigatorService from '@NavigatorService'
+import axios from "axios";
 import { typeParameterDeclaration } from "@babel/types";
 
 const Pembayaran = (props) => {
+
+  const [state, setState] = useState({
+    datas: [],
+  })
+
+  useEffect(() => {
+    getPayment()
+  }, [])
+
+  const getPayment = () => {
+    axios.get('https://market.pondok-huda.com/dev/react/payment/')
+      .then(result => {
+        //hendle success
+        setState(state => ({ ...state, datas: result.data.data }))
+        console.log('Toko Bangunan ===> ' + JSON.stringify(result.data.data));
+
+      }).catch(err => {
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
@@ -55,15 +77,16 @@ const Pembayaran = (props) => {
   const ListBank = (item, index) => {
     return (
       <View style={{ marginTop: toDp(0), width: '100%' }}>
-        <View style={{ flexDirection: 'row', marginHorizontal: toDp(5), height: 80, alignItems: 'center', justifyContent: 'space-around' }}>
+        <View style={{ flexDirection: 'row', marginHorizontal: toDp(15), height: toDp(80), alignItems: 'center',  }}>
           <CheckBox style={{ marginLeft: -20 }}
             disabled={false}
             value={toggleCheckBox}
             onValueChange={(newValue) => setToggleCheckBox(newValue)}
           />
-          <Image source={{ uri: item.img }} style={{ width: 70, height: 40, left: -5 }} />
-          <Text style={{ fontSize: toDp(12), left: toDp(0) }}>{item.pesan}</Text>
+          <Image source={{ uri: DATA[0].img }} style={{ width: toDp(70), height: toDp(40), left: toDp(0) }} />
+          <Text style={{ fontSize: toDp(12), left: toDp(20) }}>{item.pay_name}</Text>
         </View>
+        {/* <Text style={{ fontSize: toDp(12), left: toDp(0) }}>{DATA[0].pesan}</Text> */}
         <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0), width: toDp(335) }} />
       </View>
     )
@@ -92,7 +115,7 @@ const Pembayaran = (props) => {
         <View style={{ marginTop: toDp(5) }}>
           <FlatList
             numColumns={1}
-            data={DATA}
+            data={state.datas}
             renderItem={({ item, index }) => {
               return (
                 ListBank(item, index)

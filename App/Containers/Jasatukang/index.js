@@ -17,129 +17,157 @@ import  BackHeader  from '@BackHeader'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
+import Axios from "axios";
 
 const Jasatukang = (props) => {
 
-    const DATA = [
-        {
-          id: '1',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '2',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '3',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '4',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '5',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '6',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '7',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '8',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '9',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '10',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },  {
-          id: '11',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '12',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '13',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 500.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-        {
-          id: '14',
-          nama: 'Vatmawati',
-          telepon: '083141520987',
-          harga: 'Rp 100.000',
-          image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-      ]
+  const [state, setState] = useState({
+    datas: [],
+    loading: false
+  })
+  useEffect (() => {
+    tukang()
+  }, [])
 
-      const renderswitch = (item, index) => (
+
+  const tukang = () => {
+    setState(state => ({...state, loading: true}))
+    Axios.get('https://market.pondok-huda.com/dev/react/handyman/')
+    .then(result => {
+      if(result.data.status == 200) {
+        console.log('result tukang =>', result)
+        setState(state => ({...state, datas: result.data.data}))
+        setState(state => ({...state, loading: false}))
+      } else if (result.data.status == 500){
+        console.log('error')
+        setState(state => ({...state, loading: false}))
+      }
+    }).catch(error => {
+      console.log('error tukang => ', error)
+      setState(state => ({...state, loading: false}))
+    })
+  }
+
+    // const DATA = [
+    //     {
+    //       id: '1',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '2',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '3',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '4',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '5',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '6',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '7',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '8',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '9',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '10',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },  {
+    //       id: '11',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '12',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '13',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 500.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //     {
+    //       id: '14',
+    //       nama: 'Vatmawati',
+    //       telepon: '083141520987',
+    //       harga: 'Rp 100.000',
+    //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    //   ]
+
+      const renderTukang = (item, index) => (
           <View style={{width:toDp(335), borderRadius:toDp(8), marginTop: toDp(5), justifyContent: 'center', alignItems: 'center', marginHorizontal: 12}}>
       
             <View style={styles.body}>
-                <Image source={{uri: DATA[0].image}} style={styles.imgKontak} />
+                <Image source={require('../../Assets/img/tzuyu.jpg')} style={styles.imgKontak} />
                       
                 <View style={styles.content}>
                     <View style={{flexDirection:'row'}}> 
                         <Text>Nama</Text>  
-                        <Text style={styles.txtNama}>{item.nama}</Text>
+                        <Text style={styles.txtNama}>{item.hs_name}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text>Telepon</Text>
-                        <Text style={styles.txtHP}>{item.telepon}</Text>
+                        <Text style={styles.txtHP}>{item.hs_phone}</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
                         <Text>Harga</Text>
-                        <Text style={styles.txtHarga}>{item.harga}</Text>
+                        <Text style={styles.txtHarga}>{item.hs_harga}</Text>
                     </View>
                 </View>
 
@@ -162,10 +190,10 @@ const Jasatukang = (props) => {
 
       <View style={styles.flatcontent}>
         <FlatList style={{ width: '100%' }}
-          data={DATA}
+          data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              renderswitch(item, index)
+              renderTukang(item, index)
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
@@ -180,9 +208,10 @@ const Jasatukang = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent:'center',
-    alignItems: 'center',
-    top:toDp(30)
+    flex:1,
+    // justifyContent:'center',
+    // alignItems: 'center',
+    // top:toDp(30)
   },
   body: {
     flexDirection:'row', 
