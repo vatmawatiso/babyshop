@@ -11,12 +11,12 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  BackHeader  from '@BackHeader'
+import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
 const Settingtoko = (props) => {
-  const [src, setSrc]=useState(null);
+  const [src, setSrc] = useState(null);
 
   const [state, setState] = useState({
     cityname: [],
@@ -51,44 +51,128 @@ const Settingtoko = (props) => {
 
   }, [])
 
+   //===> GET JADIKAN ALAMAT UTAMA <====//
+
+   useEffect(() => {
+
+    AsyncStorage.getItem('setAlamat').then(ALAMAT => {
+      console.log('Berhasil jadi Alamat Utama----------->'+ JSON.stringify(ALAMAT));
+
+      let data = JSON.parse(ALAMAT);
+      // const val = JSON.stringify(data);
+
+      console.log('SUKSES----------->'+ JSON.stringify(ALAMAT));
+
+      setState(state => ({
+        ...state,
+        id: data.adr_id,
+        address: data.address,
+        city: data.city,
+      }))
+
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('aid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
+  }, [])
+
+  const refresh = async () => {
+    try {
+     AsyncStorage.getItem('member').then(response => {
+       //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+ 
+       let data = JSON.parse(response);
+       //const val = JSON.stringify(data);
+ 
+       //console.log('Profilseller ------->'+ JSON.stringify(response));
+ 
+       setState(state => ({
+         ...state,
+         id: data.mb_id,
+         mb_name: data.value.mb_name,
+         mb_email: data.value.mb_email,
+         mb_phone: data.value.mb_phone,
+         mb_type: data.value.mb_type,
+         picture: data.value.picture
+       }))
+ 
+     }).catch(err => {
+       console.log('err', err)
+     })
+
+     AsyncStorage.getItem('setAlamat').then(response => {
+      console.log('berhail jadikan alamat utama----------->'+ JSON.stringify(response));
+
+      let data    =  JSON.parse(response); 
+      // const val = JSON.stringify(data);
+
+      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+
+      setState(state => ({...state,
+        id: data.adr_id,
+        address: data.address,
+        city: data.city
+        
+      }))
+  
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+    } catch(e) {
+      console.log('e', e)
+    }
+   }
+
   return (
     <View style={styles.container}>
 
-        <BackHeader
-          title={'Pengaturan Toko'}
-          onPress={() => props.navigation.goBack()}
-        />
+      <BackHeader
+        title={'Pengaturan Toko'}
+        onPress={() => props.navigation.goBack()}
+      />
 
-        <View style={styles.content}>
-            <View style={{flexDirection:'row', margin:toDp(10)}}>
-                <Image source={allLogo.icgroup} />
-                <Text style={{padding:toDp(5), bottom:toDp(2), left:toDp(5), fontWeight:'bold'}}>Profil Toko</Text>
-            </View>
-            <View style={{marginLeft:toDp(40), bottom:toDp(10)}}>
-                <Pressable style={{ height:toDp(20), width:toDp(90) }} onPress={() => NavigatorService.navigate('Informasitoko')} >
-                    <Text style={styles.txtInfo}>Informasi Toko</Text>
-                </Pressable>
-                <Pressable style={{ top:toDp(5), height:toDp(20), width:toDp(80) }} onPress={() => NavigatorService.navigate('Catatantoko')} >
-                    <Text style={styles.txtCatatan}>Catatan Toko</Text>
-                </Pressable>
-            </View>
-            <View style={{borderWidth:toDp(0.5), borderColor:'grey'}} />
-
-            <View style={{flexDirection:'row', margin:toDp(10)}}>
-                <Image source={allLogo.icaddress1} />
-                <Text style={{padding:toDp(5), bottom:toDp(2), left:toDp(5), fontWeight:'bold'}}>Alamat dan Pengiriman</Text>
-            </View>
-            <View style={{marginLeft:toDp(40), bottom:toDp(10)}}>
-                <Pressable style={{ height:toDp(20), width:toDp(70)}} onPress={() => NavigatorService.navigate('Alamattoko', {adr_mb_id : state.adr_mb_id})} >
-                    <Text style={styles.txtAlamat}>Alamat Toko</Text>
-                </Pressable>
-                <Pressable style={{ top:toDp(5), height:toDp(20), width:toDp(140)}} onPress={() => NavigatorService.navigate('Layananjasa')} >
-                    <Text style={styles.txtLayanan}>Layanan Pengiriman Toko</Text>
-                </Pressable>
-            </View>
-         
+      <View style={styles.content}>
+        <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+          <Image source={allLogo.icgroup} />
+          <Text style={{ padding: toDp(5), bottom: toDp(2), left: toDp(5), fontWeight: 'bold' }}>Profil Toko</Text>
         </View>
-        
+        <View style={{ marginLeft: toDp(40), bottom: toDp(10) }}>
+          <Pressable style={{ height: toDp(20), width: toDp(90) }} onPress={() => NavigatorService.navigate('Informasitoko')} >
+            <Text style={styles.txtInfo}>Informasi Toko</Text>
+          </Pressable>
+          <Pressable style={{ top: toDp(5), height: toDp(20), width: toDp(80) }} onPress={() => NavigatorService.navigate('Catatantoko')} >
+            <Text style={styles.txtCatatan}>Catatan Toko</Text>
+          </Pressable>
+        </View>
+        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
+
+        <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+          <Image source={allLogo.icaddress1} />
+          <Text style={{ padding: toDp(5), bottom: toDp(2), left: toDp(5), fontWeight: 'bold' }}>Alamat dan Pengiriman</Text>
+        </View>
+        <View style={{ marginLeft: toDp(40), bottom: toDp(10) }}>
+          <Pressable style={{ height: toDp(100), width: toDp(280), backgroundColor:'#698498', borderRadius:toDp(10), right:toDp(5) }} onPress={() => NavigatorService.navigate('Alamattoko', { adr_mb_id: state.adr_mb_id })} >
+            <Text style={styles.txtAlamat}>Alamat Toko</Text>
+            <Text style={styles.txtAlamat}>{state.mb_name}, {state.mb_phone}{"\n"}{state.address} {state.city}</Text>
+          </Pressable>
+          <Pressable style={{ top: toDp(5), height: toDp(20), width: toDp(140) }} onPress={() => NavigatorService.navigate('Layananjasa')} >
+            <Text style={styles.txtLayanan}>Layanan Pengiriman Toko</Text>
+          </Pressable>
+        </View>
+
+      </View>
+
     </View>
   )
 };
@@ -98,27 +182,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   content: {
-    backgroundColor:'#C4C4C4',
-    top:toDp(20),
-    width:toDp(335),
-    height:toDp(185),
-    borderRadius:toDp(10),
+    backgroundColor: '#C4C4C4',
+    top: toDp(20),
+    width: toDp(335),
+    height: toDp(260),
+    borderRadius: toDp(10),
 
   },
   txtInfo: {
-      fontSize:toDp(12),
-      marginBottom:toDp(5)
+    fontSize: toDp(12),
+    marginBottom: toDp(5)
   },
   txtCatatan: {
-      fontSize:toDp(12)
+    fontSize: toDp(12)
   },
   txtAlamat: {
-    fontSize:toDp(12),
-    marginBottom:toDp(5),
-},
-txtLayanan: {
-    fontSize:toDp(12)
-},
+    fontSize: toDp(12),
+    marginBottom: toDp(5),
+    color:'white',
+    left:toDp(10),
+    top:toDp(10)
+  },
+  txtLayanan: {
+    fontSize: toDp(12)
+  },
 });
 
 export default Settingtoko;

@@ -150,9 +150,9 @@ const Alamat = (props) => {
     },
   ]
  
-  // const selectAlamat = (adr_id) => {
-  //   NavigatorService.navigate('Editalamat', {adr_id: adr_id})
-  // }
+  const selectAlamat = (adr_id) => {
+    NavigatorService.navigate('Editalamat', {adr_id: adr_id})
+  }
  
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
     <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>

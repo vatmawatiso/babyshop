@@ -36,7 +36,9 @@ const Profilone = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
+    adr_id: '',
     adr_mb_id: '',
+    adr_address: '',
     loading: false,
     modalVisible: false,
     option: {
@@ -53,7 +55,7 @@ const Profilone = (props) => {
       // console.log('Profil----------->'+ JSON.stringify(response));
 
       let data = JSON.parse(response);
-      // const val = JSON.stringify(data);s
+      // const val = JSON.stringify(data);
 
       // console.log('Profilefiks----------->'+ JSON.stringify(data));
 
@@ -88,20 +90,20 @@ const Profilone = (props) => {
 
   useEffect(() => {
 
-    AsyncStorage.getItem('setAlamat').then(response => {
-      console.log('Berhasil jadi Alamat Utama----------->'+ JSON.stringify(response));
+    AsyncStorage.getItem('setAlamat').then(ALAMAT => {
+      console.log('Berhasil jadi Alamat Utama----------->'+ JSON.stringify(ALAMAT));
 
-      let data = JSON.parse(response);
+      let data = JSON.parse(ALAMAT);
       // const val = JSON.stringify(data);
 
-      console.log('SUKSES----------->'+ JSON.stringify(data));
+      console.log('SUKSES----------->'+ JSON.stringify(ALAMAT));
 
-      setState(state => ({
-        ...state,
-        id: data.adr_id,
-        address: data.address,
-        city: data.city,
-      }))
+      // setState(state => ({
+      //   ...state,
+      //   id: data.adr_id,
+      //   address: data.address,
+      //   city: data.city,
+      // }))
 
 
     }).catch(err => {
