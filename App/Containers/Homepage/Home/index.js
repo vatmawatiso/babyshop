@@ -69,46 +69,6 @@ const Home = (props) => {
         })
     }
 
-
-  // const [state, setState] = useState({
-  //   arrayFriends: [
-  //     {
-  //       value:{
-  //       picture: 'https://grahadalungresidence.com/wp-content/uploads/2021/03/Ilustrasi-Jenis-Bahan-Bangunan.jpg',
-  //       name: 'TB Abadi jaya',
-  //       message: 'Kab. Cirebon Plered',
-  //       distance: 'Buka dari jam 09:40 AM'}
-  //     }, {
-  //       value:{
-  //       picture: 'https://padiumkm.id/public/products/24890/218087/bahan-bangunan-.1621300654.jpg',
-  //       name: 'TB Tembang Pantura',
-  //       message: 'Kab. Cirebon Plered',
-  //       distance: 'Buka dari jam 09:40 AM'}
-  //     }, {
-  //       value:{
-  //       picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0s5-Ql6tMckd0pFrjpFpKjucwTfrzQIHu9-J0sA23JjhHhTFrRQnSWuXEWWZJRaJfAFI&usqp=CAU',
-  //       name: 'TB Maju Jaya',
-  //       message: 'Kab. Cirebon Plered',
-  //       distance: 'Buka dari jam 09:40 AM'}
-  //     }, {
-  //       value:{
-  //       picture: 'https://i2.wp.com/dekoruma.blog/wp-content/uploads/2018/06/arsitag-d.jpg?resize=750%2C459&ssl=1',
-  //       name: 'TB Sumber Jaya',
-  //       message: 'Kab. Cirebon Plered',
-  //       distance: 'Buka dari jam 09:40 AM'}
-  //     }, {
-  //       value:{
-  //       picture: 'https://padiumkm.id/public/products/24890/218087/bahan-bangunan-.1621300654.jpg',
-  //       name: 'TB Sumber Kasih FM',
-  //       message: 'Kab. Cirebon Plered',
-  //       distance: 'Buka dari jam 09:40 AM'}
-  //     }
-  //   ],
-  //   arrayUsers: [],
-  //   arrayData:[],
-  //   loading: false
-  // })
-
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
@@ -198,12 +158,12 @@ const Home = (props) => {
                 <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
                 <Image source={allLogo.icwishlist} style={{width:toDp(25), height:toDp(25)}} />
               </View>
-             <Text style={styles.harga}>{item.price}</Text>
+             <Text style={styles.harga}>Rp {item.price}</Text>
              <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.dariKota}</Text>
+             <Text style={styles.dariKota}>{item.retailaddres.substr(0, 12)}</Text>
              <Image source={allLogo.icstar} style={styles.star} />
-             <Text style={styles.bintang}>{item.bintang}</Text>
-             <Text style={styles.terjual}>{item.terjual}</Text>
+             <Text style={styles.bintang}>{DATA[0].bintang}</Text>
+             <Text style={styles.terjual}>{DATA[0].terjual}</Text>
           </ View>
           </Pressable>
       </ View>

@@ -16,263 +16,270 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  Header  from '@Header'
+import Header from '@Header'
 import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
- 
- 
-const { width, height } = Dimensions.get('window')
- 
-const Produk = (props) => {
- 
- 
-    const [state, setState] = useState({
-        arrayFriends: [
-          {
-            value:{
-            picture: 'https://sc04.alicdn.com/kf/Hecf7550c5eda410e83757893019d57a7Z.jpg',
-            name: 'TB Abadi jaya',
-            harga: 'Rp 500.000',
-            rating: '5.8',
-            terjual: '27'}
-          }, {
-            value:{
-            picture: 'https://sc04.alicdn.com/kf/Hfa2817ad10804b7dbb847a43def8a3ce9.jpg',
-            name: 'TB Tembang Pantura',
-            harga: 'Rp 500.000',
-            rating: '5.8',
-            terjual: '27'}
-          }, {
-            value:{
-            picture: 'https://sc04.alicdn.com/kf/H6d5cf1f618734ee9a04dbd57383ad546l.jpg',
-            name: 'TB Maju Jaya',
-            harga: 'Rp 500.000',
-            rating: '5.8',
-            terjual: '27'}
-          }, {
-            value:{
-            picture: 'https://sc04.alicdn.com/kf/H054ec1fc8ba04bc9add21665e8f5ab92a.jpg',
-            name: 'TB Sumber Jaya',
-            harga: 'Rp 500.000',
-            rating: '5.8',
-            terjual: '27'}
-          }, {
-            value:{
-            picture: 'https://sc04.alicdn.com/kf/Hf4bf3ce3f6c244c7822a5f633ba080feB.jpg',
-            name: 'TB Sumber Kasih FM',
-            harga: 'Rp 500.000',
-            rating: '5.8',
-            terjual: '27'}
-          }
-        ],
-        arrayUsers: [],
-        arrayData:[],
-        loading: false
-      })
- 
- 
-      const DATA = [
-        {
-          id: '1',
-          name: 'TB Sumber Kasih FM',
-          harga: 'Rp 500.000 - 700.000',
-          rating: '5.8',
-          terjual: '27',
-          stok: '5',
-          warna: 'Hijau, Merah, Kuning, Biru',
-          beban: '100kg',
-          kapasitas: '4CBF',
-          dikirimdari: 'Indonesia Kota bandung'
-        },
-      ]
- 
-      const renderItemExpore = (item, index) => {
-        //console.log('item', item);
-        return (
-          <View style={styles.viewRenderExplore}>
-            <View style={styles.viewImage}>
-              <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
-              <Image source={{uri: item.item.value.picture}} style={styles.imageProfile} />
-              <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
-            </View>
- 
-          </View>
-        )
-      }
- 
-      const RenderItem = (item, index) => {
-        return (
- 
-          <View style={styles.detailProduk}>
- 
-              <View style={{width:toDp(335)}}>
-                  <Text style={{marginBottom:toDp(10)}}>{item[index].name}</Text>
-                  <Text style={{marginBottom:toDp(5)}}>{item[index].harga}</Text>
-                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                      <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
-                      <Image source={allLogo.icwishlist} style={{bottom:toDp(5), right:toDp(10), width:toDp(30), height:toDp(30)}}/>
-                  </View>
- 
-                <View>
-                    <View style={{top:toDp(10)}}>
-                    <Text style={{fontWeight:'bold', top:toDp(0)}}>Rincian Produk</Text>
-                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
-                            <Text>Stok</Text>
-                            <Text style={{right:toDp(162)}}>{item[index].stok}</Text>
-                        </View>
-                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
-                            <Text>Beban Kapasitas</Text>
-                            <Text style={{right:toDp(131)}}>{item[index].beban}</Text>
-                        </View>
-                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
-                            <Text>Warna</Text>
-                            <Text style={{right:toDp(13)}}>{item[index].warna}</Text>
-                        </View>
-                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
-                            <Text>Kapasitas</Text>
-                            <Text style={{right:toDp(135)}}>{item[index].kapasitas}</Text>
-                        </View>
-                        <View style={{flexDirection:'row',marginTop:7, justifyContent:'space-between'}}>
-                            <Text>Dikirim Dari </Text>
-                            <Text style={{right:toDp(17)}}>{item[index].dikirimdari}</Text>
-                        </View>
-                    </View>
- 
- 
-                  <Collapse style={{top:toDp(15), left:toDp(50)}}>
-                    <CollapseHeader>
-                      <View style={{alignItems:'center', right:toDp(55)}}>
-                        <Text style={{color:'grey'}}>Lihat Selengkapnya</Text>
-                      </View>
-                    </CollapseHeader>
-                    <CollapseBody>
-                    <View style={{top:toDp(5), right:50}}>
-                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                              <Text>Stok</Text>
-                              <Text style={{right:toDp(162)}}>{item[index].stok}</Text>
-                          </View>
-                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                              <Text>Beban Kapasitas</Text>
-                              <Text style={{right:toDp(131)}}>{item[index].beban}</Text>
-                          </View>
-                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                              <Text>Warna</Text>
-                              <Text style={{right:toDp(13)}}>{item[index].warna}</Text>
-                          </View>
-                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                              <Text>Kapasitas</Text>
-                              <Text style={{right:toDp(135)}}>{item[index].kapasitas}</Text>
-                          </View>
-                          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                              <Text>Dikirim Dari </Text>
-                              <Text style={{right:toDp(17)}}>{item[index].dikirimdari}</Text>
-                          </View>
-                      </View>
-                    </CollapseBody>
-                  </Collapse>
-                </View>
- 
-                <View style={styles.Ulasan}>
-                  <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
-                  <Pressable style={{right:toDp(15)}} onPress={() => NavigatorService.navigate('Ulasanpembeli')}>
-                    <View style={{flexDirection:'row'}}>
-                      <Text>Lihat Ulasan</Text>
-                      <Image source={allLogo.iclineright} style={styles.iclineright} />
-                    </View>
-                  </Pressable>
-                </View>
- 
-                </View>
- 
- 
-          </View>
- 
-        )
- 
-      };
- 
-      return (
-        <View style={styles.container}>
-            <Header
-              title={'Produk'}
-              onPress={() => props.navigation.goBack()}
-            />
- 
-            <ScrollView style={{backgroundColor:'white', paddingVertical:toDp(20), bottom:toDp(70)}}>
-                <View style={{width:'100%', height: toDp(230), backgroundColor: 'white', top:toDp(50)}}>
-                  <Carousel
-                    layout={"default"}
-                    data={state.arrayFriends}
-                    sliderWidth={width}
-                    itemWidth={toDp(350)}
-                    renderItem={(item, index) => renderItemExpore(item, index)}
-                    onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
-                  />
-                </View>
- 
-                <View style={styles.content}>
-                    {RenderItem(DATA,0)}
-                </View>
-            </ScrollView>
 
-            <View style={styles.footer}>
-                  <View style={styles.btnMenu}>
-                    <Pressable style={{left:toDp(25)}} onPress={() => NavigatorService.navigate('Chat')}>
-                        <Image source={allLogo.icchat} style={styles.icchat}/>
-                    </Pressable>
-                    <Pressable style={{left:toDp(30)}} onPress={() => NavigatorService.navigate('Keranjang')}>
-                        <Image source={allLogo.iccartWhite} style={styles.iccartWhite}/>
-                    </Pressable>
-  
-                    <View style={{borderWidth:toDp(0.5), borderColor:'white', width:toDp(55), rotation:toDp(90) }} />
-                    <Pressable style={{right:toDp(30)}} onPress= {() => NavigatorService.navigate('Checkout')} >
-                        <Text style={styles.txtBeli}>Beli Sekarang</Text>
-                    </Pressable>
-                  </View>
-              </View>
-             
+
+const { width, height } = Dimensions.get('window')
+
+const Produk = (props) => {
+
+
+  const [state, setState] = useState({
+    arrayFriends: [
+      {
+        value: {
+          picture: 'https://sc04.alicdn.com/kf/Hecf7550c5eda410e83757893019d57a7Z.jpg',
+          name: 'TB Abadi jaya',
+          harga: 'Rp 500.000',
+          rating: '5.8',
+          terjual: '27'
+        }
+      }, {
+        value: {
+          picture: 'https://sc04.alicdn.com/kf/Hfa2817ad10804b7dbb847a43def8a3ce9.jpg',
+          name: 'TB Tembang Pantura',
+          harga: 'Rp 500.000',
+          rating: '5.8',
+          terjual: '27'
+        }
+      }, {
+        value: {
+          picture: 'https://sc04.alicdn.com/kf/H6d5cf1f618734ee9a04dbd57383ad546l.jpg',
+          name: 'TB Maju Jaya',
+          harga: 'Rp 500.000',
+          rating: '5.8',
+          terjual: '27'
+        }
+      }, {
+        value: {
+          picture: 'https://sc04.alicdn.com/kf/H054ec1fc8ba04bc9add21665e8f5ab92a.jpg',
+          name: 'TB Sumber Jaya',
+          harga: 'Rp 500.000',
+          rating: '5.8',
+          terjual: '27'
+        }
+      }, {
+        value: {
+          picture: 'https://sc04.alicdn.com/kf/Hf4bf3ce3f6c244c7822a5f633ba080feB.jpg',
+          name: 'TB Sumber Kasih FM',
+          harga: 'Rp 500.000',
+          rating: '5.8',
+          terjual: '27'
+        }
+      }
+    ],
+    arrayUsers: [],
+    arrayData: [],
+    loading: false
+  })
+
+
+  const DATA = [
+    {
+      id: '1',
+      name: 'TB Sumber Kasih FM',
+      harga: 'Rp 500.000 - 700.000',
+      rating: '5.8',
+      terjual: '27',
+      stok: '5',
+      warna: 'Hijau, Merah, Kuning, Biru',
+      beban: '100kg',
+      kapasitas: '4CBF',
+      dikirimdari: 'Indonesia Kota bandung'
+    },
+  ]
+
+  const renderItemExpore = (item, index) => {
+    //console.log('item', item);
+    return (
+      <View style={styles.viewRenderExplore}>
+        <View style={styles.viewImage}>
+          <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
+          <Image source={{ uri: item.item.value.picture }} style={styles.imageProfile} />
+          <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
         </View>
-      )};
- 
- 
- 
+
+      </View>
+    )
+  }
+
+  const RenderItem = (item, index) => {
+    return (
+
+      <View style={styles.detailProduk}>
+
+        <View style={{ width: toDp(335) }}>
+          <Text style={{ marginBottom: toDp(5) }}>{item[index].name}</Text>
+          <Text style={{ marginBottom: toDp(5) }}>{item[index].name}</Text>
+          <Text style={{ marginBottom: toDp(5) }}>{item[index].harga}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
+            <Image source={allLogo.icwishlist} style={{ bottom: toDp(5), right: toDp(10), width: toDp(30), height: toDp(30) }} />
+          </View>
+
+          <View>
+            <View style={{ top: toDp(0) }}>
+              <Text style={{ fontWeight: 'bold', top: toDp(0) }}>Rincian Produk</Text>
+              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
+                <Text>Stok</Text>
+                <Text style={{ right: toDp(162) }}>{item[index].stok}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
+                <Text>Beban Kapasitas</Text>
+                <Text style={{ right: toDp(131) }}>{item[index].beban}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
+                <Text>Warna</Text>
+                <Text style={{ right: toDp(13) }}>{item[index].warna}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
+                <Text>Kapasitas</Text>
+                <Text style={{ right: toDp(135) }}>{item[index].kapasitas}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
+                <Text>Dikirim Dari </Text>
+                <Text style={{ right: toDp(17) }}>{item[index].dikirimdari}</Text>
+              </View>
+            </View>
+
+
+            <Collapse style={{ top: toDp(15), left: toDp(50) }}>
+              <CollapseHeader>
+                <View style={{ alignItems: 'center', right: toDp(55) }}>
+                  <Text style={{ color: 'grey' }}>Lihat Selengkapnya</Text>
+                </View>
+              </CollapseHeader>
+              <CollapseBody>
+                <View style={{ top: toDp(5), right: 50 }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text>Stok</Text>
+                    <Text style={{ right: toDp(162) }}>{item[index].stok}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text>Beban Kapasitas</Text>
+                    <Text style={{ right: toDp(131) }}>{item[index].beban}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text>Warna</Text>
+                    <Text style={{ right: toDp(13) }}>{item[index].warna}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text>Kapasitas</Text>
+                    <Text style={{ right: toDp(135) }}>{item[index].kapasitas}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text>Dikirim Dari </Text>
+                    <Text style={{ right: toDp(17) }}>{item[index].dikirimdari}</Text>
+                  </View>
+                </View>
+              </CollapseBody>
+            </Collapse>
+          </View>
+
+          <View style={styles.Ulasan}>
+            <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
+            <Pressable style={{ right: toDp(15) }} onPress={() => NavigatorService.navigate('Ulasanpembeli')}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text>Lihat Ulasan</Text>
+                <Image source={allLogo.iclineright} style={styles.iclineright} />
+              </View>
+            </Pressable>
+          </View>
+
+        </View>
+
+
+      </View>
+
+    )
+
+  };
+
+  return (
+    <View style={styles.container}>
+      <Header
+        title={'Produk'}
+        onPress={() => props.navigation.goBack()}
+      />
+
+      <ScrollView style={{ backgroundColor: 'white', paddingVertical: toDp(20), bottom: toDp(70) }}>
+        <View style={{ width: '100%', height: toDp(230), backgroundColor: 'white', top: toDp(50) }}>
+          <Carousel
+            layout={"default"}
+            data={state.arrayFriends}
+            sliderWidth={width}
+            itemWidth={toDp(350)}
+            renderItem={(item, index) => renderItemExpore(item, index)}
+            onSnapToItem={index => setState(state => ({ ...state, activeIndex: index }))}
+          />
+        </View>
+
+        <View style={styles.content}>
+          {RenderItem(DATA, 0)}
+        </View>
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <View style={styles.btnMenu}>
+          <Pressable style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
+            <Image source={allLogo.icchat} style={styles.icchat} />
+          </Pressable>
+          <Pressable style={{ left: toDp(30) }} onPress={() => NavigatorService.navigate('Keranjang')}>
+            <Image source={allLogo.iccartWhite} style={styles.iccartWhite} />
+          </Pressable>
+
+          <View style={{ borderWidth: toDp(0.5), borderColor: 'white', width: toDp(55), rotation: toDp(90) }} />
+          <Pressable style={{ right: toDp(30) }} onPress={() => NavigatorService.navigate('Checkout')} >
+            <Text style={styles.txtBeli}>Beli Sekarang</Text>
+          </Pressable>
+        </View>
+      </View>
+
+    </View>
+  )
+};
+
+
+
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
     alignItems: 'center',
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
     // backgroundColor:'cyan',
     // top:toDp(50)
   },
-  footer:{
-    backgroundColor:'transparent',
+  footer: {
+    backgroundColor: 'transparent',
     position: 'absolute',
-    alignItems:'center',
+    alignItems: 'center',
   },
-  dropdown:{
-    height:toDp(25),
-    borderRadius:toDp(40),
-    width:toDp(100),
+  dropdown: {
+    height: toDp(25),
+    borderRadius: toDp(40),
+    width: toDp(100),
   },
   viewRenderExplore: {
-    backgroundColor:'white',
+    backgroundColor: 'white',
     width: '100%',
     height: toDp(200),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: toDp(16),
     padding: toDp(10),
-    top:toDp(10)
+    top: toDp(10)
   },
   viewImage: {
     width: '100%',
     height: toDp(200),
     resizeMode: 'contain',
-    position:'absolute',
+    position: 'absolute',
   },
   imageProfile: {
     width: '100%',
@@ -280,8 +287,8 @@ const styles = StyleSheet.create({
     borderRadius: toDp(16),
     position: 'absolute',
     resizeMode: 'contain',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gradientTop: {
     width: '100%',
@@ -307,56 +314,56 @@ const styles = StyleSheet.create({
   },
   detailProduk: {
     padding: toDp(20),
-    alignItems:'center',
-    top:toDp(15),
+    alignItems: 'center',
+    top: toDp(15),
   },
   Ulasan: {
-    backgroundColor:'#C4C4C4',
-    width:toDp(335),
-    height:toDp(47),
+    backgroundColor: '#C4C4C4',
+    width: toDp(335),
+    height: toDp(47),
     // left:toDp(50),
-    borderRadius:toDp(15),
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    marginTop:toDp(30),
-    marginBottom:toDp(70),
-    right:toDp(8)
+    borderRadius: toDp(15),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: toDp(30),
+    marginBottom: toDp(70),
+    right: toDp(8)
   },
   txtUlasan: {
-    marginLeft:toDp(15)
+    marginLeft: toDp(15)
   },
   txtLihat: {
-    marginRight:toDp(60)
+    marginRight: toDp(60)
   },
   btnMenu: {
-    flexDirection:'row',
-    backgroundColor:'#2A334B',
-    width:toDp(335),
-    height:toDp(60),
-    borderRadius:toDp(20),
-    justifyContent:'space-between',
-    alignItems:'center',
-    bottom:toDp(10)
- 
+    flexDirection: 'row',
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(60),
+    borderRadius: toDp(20),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    bottom: toDp(10)
+
     // left:toDp(50)
   },
   txtBeli: {
-    color:'white',
+    color: 'white',
   },
   iclineright: {
-    width:toDp(10),
-    height:toDp(12),
-    marginTop:toDp(5),
-    marginLeft:toDp(8)
+    width: toDp(10),
+    height: toDp(12),
+    marginTop: toDp(5),
+    marginLeft: toDp(8)
   },
   icchat: {
-    tintColor:'white'
+    tintColor: 'white'
   }
   // contentContainer: {
   //   paddingVertical: 20
   // }
- 
+
 });
- 
+
 export default Produk;

@@ -80,7 +80,7 @@ return (
             <Text>Kurir</Text>
             <Text style={{right:toDp(130)}}>{Pengiriman[0].kurir}</Text>
         </View>
-        <View style={{borderWidth:toDP(0.5), borderColor:'grey', right:toDp(10), width:toDp(314)}} />
+        <View style={{borderWidth:toDp(0.5), borderColor:'grey', right:toDp(10), width:toDp(314)}} />
 
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
             <Text style={{bottom:toDp(10)}}>No Resi</Text>

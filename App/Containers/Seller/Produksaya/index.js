@@ -114,7 +114,7 @@ const Produksaya = (props) => {
              <Text style={styles.harga}>Rp {item.price}</Text>
 
              <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{DATA[0].dariKota}</Text>
+             <Text style={styles.dariKota}>{item.retailaddres.substr(0,12)}</Text>
              <Image source={allLogo.icstar} style={styles.star}/>
              <Text style={styles.bintang}>{DATA[0].bintang}</Text>
              <Text style={styles.terjual}>{DATA[0].terjual}</Text>

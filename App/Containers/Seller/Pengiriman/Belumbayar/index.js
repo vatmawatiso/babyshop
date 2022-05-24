@@ -15,6 +15,27 @@ import { Card } from "react-native-paper";
 
 const Belumbayar = (props) => {
 
+    const [state, setState] = useState({
+        datas: [],
+      })
+    
+      useEffect(() => {
+        getOrder()
+      }, [])
+    
+      const getOrder = () => {
+        axios.get('https://market.pondok-huda.com/dev/react/product/')
+          .then(result => {
+            //hendle success
+            setState(state => ({ ...state, datas: result.data.data }))
+            console.log('Produk Bangunan ===> ' + JSON.stringify(result.data.data));
+    
+          }).catch(err => {
+            alert('Gagal menerima data dari server!' + err)
+            setState(state => ({ ...state, loading: false }))
+          })
+      }
+
     const DATA = [
         {
             id: '2',
@@ -43,7 +64,7 @@ const Belumbayar = (props) => {
 
                 <View style={styles.OrderDetail}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Image source={allLogo.icgerobak} style={styles.icAddress} />
+                        <Image source={{uri: item.thumbnail}} style={styles.icAddress} />
                         <Text style={{ top: toDp(20), right: toDp(40) }}>{DATA[0].produk}</Text>
                         <Text style={{ top: toDp(80), right: toDp(10) }}>{DATA[0].jumlah}x</Text>
                     </View>

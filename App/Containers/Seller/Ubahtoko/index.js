@@ -31,14 +31,15 @@ const Ubahtoko = (props) => {
     nama: '',
     deskripsi: '',
     datas:[],
-    rtl_name: [],
-    rtl_mb_id:[],
-    rtl_phone:[],
-    rtl_addres:[],
-    rtl_city:[],
-    rtl_status:[],
-    rtl_long:[],
-    rtl_lat:[],
+    rtl_name: '',
+    rtl_mb_id:'',
+    rtl_phone:'',
+    rtl_addres:'',
+    rtl_city:'',
+    rtl_status:'',
+    rtl_long:'',
+    rtl_lat:'',
+    rtl_id:'',
   })
 
   // ===> GET nama member di profil seller <== //
@@ -68,17 +69,23 @@ const Ubahtoko = (props) => {
 // ===> GET Profil Seller <== //
 
 useEffect (() => {
+
   getProfilseller()
 }, [])
 
 const getProfilseller = () => {
   setState(state => ({...state, loading: true}))
-  axios.get('https://market.pondok-huda.com/dev/react/retail/')
+  axios.get('https://market.pondok-huda.com/dev/react/retail/RTL00000002')
   .then(result => {
+    console.log('HASIL Retail ===>'+ JSON.stringify(result));
     if(result.data.status == 200) {
-      console.log('CEK Profil Seller =>', result)
+
+      console.log('CEK Profil Seller =>'+ JSON.stringify(result))
       setState(state => ({...state, datas: result.data.data}))
+
+      console.log('CEK DATAS =>'+ JSON.stringify(state.datas))
       setState(state => ({...state, loading: false}))
+
     } else if (result.data.status == 500){
       console.log('error')
       setState(state => ({...state, loading: false}))
@@ -173,28 +180,28 @@ const InputProfil = async (rtl_mb_id) => {
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.rtl_phone}
+            value={state.datas.rtl_phone}
             onChangeText={(text) => setState(state => ({ ...state, rtl_phone: text }))}
           />
           <Text style={styles.txtDeskripsi}>Alamat</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.rtl_addres}
+            value={state.datas.rtl_addres}
             onChangeText={(text) => setState(state => ({ ...state, rtl_addres: text }))}
           />
           <Text style={styles.txtDeskripsi}>Latitude</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.rtl_lat}
+            value={state.datas.rtl_lat}
             onChangeText={(text) => setState(state => ({ ...state, rtl_lat: text }))}
           />
           <Text style={styles.txtDeskripsi}>Longtitude</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.rtl_long}
+            value={state.datas.rtl_long}
             onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
           />
         </View>
