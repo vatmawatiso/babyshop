@@ -23,7 +23,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 const Cari = (props) => {
 
     const [filterdData, setfilterdData] = useState([]);
-    const [masterData, setmasterData] = useState([]);
+    // const [masterData, setmasterData] = useState([]);
+    const [masterData, setmasterData] = useState({
+      loading: false,
+      product_name:[]
+    })
     const [search, setsearch] = useState('');
 
     useEffect(() => {
@@ -34,10 +38,14 @@ const Cari = (props) => {
     }, [])
 
     const fetcPosts =() => {
-    const apiURL = 'https://jsonplaceholder.typicode.com/posts';
+    // const apiURL = 'https://jsonplaceholder.typicode.com/posts';
+    const apiURL = 'https://market.pondok-huda.com/dev/react/product/';
     fetch(apiURL)
     .then((response) => response.json())
     .then((responseJson) => {
+      
+      console.log('CEK DATAS =>'+ JSON.stringify(responseJson));
+      
         setfilterdData(responseJson);
         setmasterData(responseJson);
     }).catch((error) => {
@@ -48,7 +56,7 @@ const Cari = (props) => {
     const searchFilter = (text) => {
         if (text) {
             const newData = masterData.filter((item) => {
-                const itemData = item.title ? item.title.toUpperCase()
+                const itemData = item.product_name ? item.product_name.toUpperCase()
                         : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
@@ -64,7 +72,7 @@ const Cari = (props) => {
     const ItemView = ({item}) => {
     return (
         <Text style={styles.itemStyle}>
-        {item.id}{'. '}{item.title.toUpperCase()}
+        {item.id}{'. '}{item.product_name.toUpperCase()}
         </Text>
     )
     }

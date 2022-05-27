@@ -31,6 +31,7 @@ const Ubahtoko = (props) => {
     nama: '',
     deskripsi: '',
     datas:[],
+    mb_id:'',
     rtl_name: '',
     rtl_mb_id:'',
     rtl_phone:'',
@@ -51,14 +52,15 @@ const Ubahtoko = (props) => {
 
     let data = JSON.parse(response);
 
-    console.log('HASIL Nama ===>'+ JSON.stringify(data));
+    // console.log('HASIL Nama ===>'+ JSON.stringify(data));
 
     setState(state => ({
       ...state,
       rtl_mb_id: data.rtl_mb_id,
+      id_retail:data.rtl_id,
       mb_name: data.value.mb_name,
     }))
-
+  // console.log('ID RETAIL ====> '+ JSON.stringify(rtl_id));
 
   }).catch(err => {
     console.log('err', err)
@@ -68,31 +70,58 @@ const Ubahtoko = (props) => {
 
 // ===> GET Profil Seller <== //
 
-useEffect (() => {
-
+useEffect(() => {
   getProfilseller()
+
 }, [])
 
 const getProfilseller = () => {
+
   setState(state => ({...state, loading: true}))
-  axios.get('https://market.pondok-huda.com/dev/react/retail/RTL00000002')
+  // let id = rtl_id;
+  axios.get('https://market.pondok-huda.com/dev/react/retail/?rtl_id='+ state.id_retail)
   .then(result => {
-    console.log('HASIL Retail ===>'+ JSON.stringify(result));
-    if(result.data.status == 200) {
 
-      console.log('CEK Profil Seller =>'+ JSON.stringify(result))
-      setState(state => ({...state, datas: result.data.data}))
+    console.log('CEK RETAIL UBAH TOKO====> '+ JSON.stringify(result));
+    
+   if(result.data.status == 200) {
+     const the_data = result.data.data.map(doc => {
+         return{
+            rtl_id: doc.rtl_id,
+            rtl_name:doc.rtl_name, 
+            mb_name: doc.mb_name,
+            rtl_phone: doc.rtl_phone,
+            rtl_addres: doc.rtl_addres,
+            cty_name: doc.cty_name,
+            rtl_long: doc.rtl_long,
+            rtl_lat:doc.rtl_lat,
+            rtl_status: doc.rtl_status,
+          }
+      })
+            // console.log('CEK Profil Seller =>'+ JSON.stringify(the_data))
 
-      console.log('CEK DATAS =>'+ JSON.stringify(state.datas))
-      setState(state => ({...state, loading: false}))
+      setState(state => ({
+        ...state,
+        // mb_name: the_data[0].mb_name,
+        rtl_name:  the_data[0].rtl_name,
+        rtl_phone: the_data[0]?.rtl_phone,
+        rtl_addres: the_data[0]?.rtl_addres,
+        rtl_city: the_data[0]?.cty_name,
+        rtl_status:the_data[0]?.rtl_status,
+        rtl_long: the_data[0]?.rtl_long,
+        rtl_lat: the_data[0]?.rtl_lat,
+        rtl_id: the_data[0]?.rtl_id
+      }))
+      // alert('CEK Profil Seller =>'+ JSON.stringify(the_data))
+     
 
     } else if (result.data.status == 500){
       console.log('error')
-      setState(state => ({...state, loading: false}))
+     
     }
   }).catch(error => {
-    console.log('error Profil Seller => ', error)
-    setState(state => ({...state, loading: false}))
+    alert('error Profil Seller => ', error)
+    
   })
 }
 
@@ -172,7 +201,7 @@ const InputProfil = async (rtl_mb_id) => {
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
             placeholderTextColor={'grey'}
-            value={state.datas.rtl_name}
+            value={state.rtl_name}
             onChangeText={(text) => setState(state => ({ ...state, rtl_name: text }))}
           />
 
@@ -180,28 +209,28 @@ const InputProfil = async (rtl_mb_id) => {
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.datas.rtl_phone}
+            value={state.rtl_phone}
             onChangeText={(text) => setState(state => ({ ...state, rtl_phone: text }))}
           />
           <Text style={styles.txtDeskripsi}>Alamat</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.datas.rtl_addres}
+            value={state.rtl_addres}
             onChangeText={(text) => setState(state => ({ ...state, rtl_addres: text }))}
           />
           <Text style={styles.txtDeskripsi}>Latitude</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.datas.rtl_lat}
+            value={state.rtl_lat}
             onChangeText={(text) => setState(state => ({ ...state, rtl_lat: text }))}
           />
           <Text style={styles.txtDeskripsi}>Longtitude</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput1}
             placeholderTextColor={'grey'}
-            value={state.datas.rtl_long}
+            value={state.rtl_long}
             onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
           />
         </View>
@@ -281,3 +310,19 @@ const styles = StyleSheet.create({
 });
 
 export default Ubahtoko;
+
+
+  // const body = {
+  //   rtl_mb_id: state.rtl_mb_id,
+  //   mb_name: state.mb_name,
+  //   rtl_id: state.rtl_id,
+  //   rtl_name: state.rtl_name,
+  //   rtl_mb_id:state.rtl_mb_id,
+  //   rtl_phone:state.rtl_phone,
+  //   rtl_addres:state.rtl_addres,
+  //   rtl_city:state.rtl_city,
+  //   rtl_status:state.rtl_status,
+  //   rtl_long:state.rtl_long,
+  //   rtl_lat:state.rtl_lat,
+  // }
+  // console.log('BODY RETAIL UBAH TOKO====> '+ JSON.stringify(body));

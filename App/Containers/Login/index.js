@@ -37,47 +37,50 @@ const Login = (props) => {
     secureTextEntry: true,
     mb_username: '',
     mb_password: '',
+    rtl_id:'RTL00000002',
     encpass: '',
     updatePass: false,
     linkLogin: ''
   })
- 
-  const [llogin, setLogin] = useState('');
  
   {/*Normal Login*/ }
   const getlogin = async () => {
     setState(state => ({ ...state, linkLogin: 'normal' }))
     const body = {
       mb_password: state.mb_password,
-      mb_username: state.mb_username
+      mb_username: state.mb_username,
+      rtl_id: state.rtl_id
     }
-    console.log(JSON.stringify(body));
+    console.log('CEK BODY'+JSON.stringify(body));
     setState(state => ({ ...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
       .then(result => {
-        console.log('----------->'+JSON.stringify(result));   //untuk cek ke json viewer 
-        if (result.data.status == 200) {                      // untuk memfilter dan variable utamanya ada result, 
-                                                              //didalam result itu ada nilai data dan didata ada status yang nilanya 200, jika status = 200 maka eksekusinya :
-          const datas = {                                     // value akan dimasukkan ke dalam API datas
-            id: result.data.data[0].mb_id,                    // untuk mengambil data id kita masuk ke result.data.data[0].mb_id
-            value: result.data.data[0],
-            tipe: result.data.data[0].mb_type                        // untuk mengambil data value kita masuk ke result.data.data.[0]
+        console.log('LOGIN----------->'+JSON.stringify(result.data.data)); 
+
+        if (result.data.status == 200) {                      
+                                                           
+          const datas = {                                  
+            id: result.data.data[0].mb_id,                   
+            tipe: result.data.data[0].mb_type,
+            id_retail: result.data.data[0].rtl_id,                     
             
           }
+          console.log(JSON.stringify(datas));
           if (datas.value.length === 0) {
             alert('Nama Pengguna atau Kata Sandi Salah!')
           } else {
             //save Async Storage
-            console.log('Login===>'+JSON.stringify(datas));
+            console.log(JSON.stringify(datas));
 
-            AsyncStorage.setItem('member', JSON.stringify(datas)) // jika ingin masuk ke asyneStorage harus di stringify kemudian harus di parse
+            AsyncStorage.setItem('member', JSON.stringify(datas))
  
             AsyncStorage.setItem('uid', datas.id)
  
             // NavigatorService.reset('Homepage')
           
  
-          } if (datas.tipe === 'seller') {
+          } 
+          if (datas.tipe === 'seller') {
             NavigatorService.reset('Homeseller')
           } else if (datas.tipe === 'client') {
             NavigatorService.reset('Homepage')

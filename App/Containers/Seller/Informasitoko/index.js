@@ -62,41 +62,6 @@ const Informasitoko = (props) => {
 
   }, [])
 
-  const refresh = () =>{
-    setState(state => ({...state, loading: true }))
-      axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/'+state.mb_id)
-      .then(result =>{
-          if(result.data.status==200){
-              const datas = {
-                id: result.data.value[0].mb_id,
-                value: result.data.data[0]
-              }
-              if(datas.value.length === 0) {
-                alert('Tidak ada data!')
-              } else {
-              //save Async Storage
-              try {
-                 AsyncStorage.setItem('member', JSON.stringify(datas))
-              } catch (e) {
-                 alert('Error ' + e)
-              }
-              getData()
-              console.log('===>> ' +JSON.stringify(datas.value));
-            }
-            setState(state => ({...state, loading: false }))
-          }else if(result.data.status==404){
-            alert('Data tidak ditemukan!')
-            setState(state => ({...state, loading: false }))
-          }
-      })
-
-      .catch(err =>{
-        console.log(err)
-        alert('Gagal menerima data dari server!')
-        setState(state => ({...state, loading: false }))
-      })
-  }
-
   const DATA = [
     {
       id: '2938492',
