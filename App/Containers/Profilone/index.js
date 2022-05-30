@@ -21,13 +21,12 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
-import { Item } from "react-native-paper/lib/typescript/components/List/List";
-
+ 
 const { width, height } = Dimensions.get('window')
-
+ 
 const Profilone = (props) => {
   const [src, setSrc] = useState(null);
-
+ 
   const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
     mb_id: '',
@@ -36,9 +35,12 @@ const Profilone = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
-    adr_id: '',
-    adr_mb_id: '',
-    adr_address: '',
+    alu_name:'',
+    alu_id:'',
+    alu_city:'',
+    alu_adress:'',
+    alu_phone:'',
+    alu_desk:'',
     loading: false,
     modalVisible: false,
     option: {
@@ -47,129 +49,118 @@ const Profilone = (props) => {
       cropping: true,
     }
   })
-
-
+ 
+ 
   useEffect(() => {
-
+ 
     AsyncStorage.getItem('member').then(response => {
       // console.log('Profil----------->'+ JSON.stringify(response));
-
+ 
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
-
+ 
       // console.log('Profilefiks----------->'+ JSON.stringify(data));
-
+ 
       setState(state => ({
         ...state,
-        id: data.mb_id,
-        adr_mb_id: data.id,
+        mb_id: data.mb_id,
         mb_name: data.value.mb_name,
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
         picture: data.value.picture
       }))
-
-
+ 
+ 
     }).catch(err => {
       console.log('err', err)
     })
-
+ 
     AsyncStorage.getItem('uid').then(uids => {
       let ids = uids;
       setState(state => ({
         ...state,
-        id: ids
+        mb_id: ids
       }))
     }).catch(err => {
       console.log('err', err)
     })
+ 
+ 
+      AsyncStorage.getItem('setAlamat').then(alus => {
+        let datas = Object.keys(alus).length;
+        console.log('-alu------>'+alus);
+        if(datas!=0){
+          setInterval(function(){
+            if(alus.id!=state.alu_id){
+              loatAlamatU()
+            }
+        },3000)
+ 
+ 
+        }else{
+          setState(state => ({
+            ...state,
+            alu_desk: 'Atur alamat dulu'
+          }))
+        }
+      }).catch(err => {
+        console.log('err', err)
+      })
+ 
+ 
   }, [])
-
-  //===> GET JADIKAN ALAMAT UTAMA <====//
-
-  useEffect(() => {
-
-    AsyncStorage.getItem('setAlamat').then(ALAMAT => {
-      console.log('Berhasil jadi Alamat Utama----------->'+ JSON.stringify(ALAMAT));
-
-      let data = JSON.parse(ALAMAT);
-      // const val = JSON.stringify(data);
-
-      console.log('SUKSES----------->'+ JSON.stringify(ALAMAT));
-
-      // setState(state => ({
-      //   ...state,
-      //   id: data.adr_id,
-      //   address: data.address,
-      //   city: data.city,
-      // }))
-
-
-    }).catch(err => {
-      console.log('err', err)
-    })
-
-    AsyncStorage.getItem('aid').then(uids => {
-      let ids = uids;
-      setState(state => ({
-        ...state,
-        id: ids
-      }))
-    }).catch(err => {
-      console.log('err', err)
-    })
-  }, [])
-
-  const refresh = async () => {
+ 
+ 
+  const loatAlamatU = async () => {
     try {
-     AsyncStorage.getItem('member').then(response => {
-       //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+      AsyncStorage.getItem('setAlamat').then(response => {
+        let data = JSON.parse(response);
+        setState(state => ({
+          ...state,
+          alu_id: data.id,
+          alu_city: data.city,
+          alu_phone: data.phone,
+          alu_name: data.name,
+          alu_adress: data.address,
+        }))
  
-       let data = JSON.parse(response);
-       //const val = JSON.stringify(data);
- 
-       //console.log('Profilseller ------->'+ JSON.stringify(response));
- 
-       setState(state => ({
-         ...state,
-         id: data.mb_id,
-         mb_name: data.value.mb_name,
-         mb_email: data.value.mb_email,
-         mb_phone: data.value.mb_phone,
-         mb_type: data.value.mb_type,
-         picture: data.value.picture
-       }))
- 
-     }).catch(err => {
-       console.log('err', err)
-     })
-
-     AsyncStorage.getItem('setAlamat').then(response => {
-      console.log('berhail jadikan alamat utama----------->'+ JSON.stringify(response));
-
-      let data    =  JSON.parse(response); 
-      // const val = JSON.stringify(data);
-
-      // console.log('Profilefiks----------->'+ JSON.stringify(data));
-
-      setState(state => ({...state,
-        id: data.adr_id,
-        address: data.address,
-        city: data.city
-        
-      }))
-  
-
-    }).catch(err => {
-      console.log('err', err)
-    })
-    } catch(e) {
+      }).catch(err => {
+        console.log('err', err)
+      })
+    } catch (e) {
       console.log('e', e)
     }
-   }
-
-
+  }
+  const refresh = async () => {
+    try {
+      AsyncStorage.getItem('member').then(response => {
+        //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+ 
+        let data = JSON.parse(response);
+        //const val = JSON.stringify(data);
+ 
+        //console.log('Profilseller ------->'+ JSON.stringify(response));
+ 
+        setState(state => ({
+          ...state,
+          mb_id: data.mb_id,
+          mb_name: data.value.mb_name,
+          mb_email: data.value.mb_email,
+          mb_phone: data.value.mb_phone,
+          mb_type: data.value.mb_type,
+          picture: data.value.picture
+        }))
+ 
+      }).catch(err => {
+        console.log('err', err)
+      })
+    } catch (e) {
+      console.log('e', e)
+    }
+  }
+ 
+ 
   const DATA = [
     {
       id: '1',
@@ -178,7 +169,7 @@ const Profilone = (props) => {
       mengikutiUser: 'Mengikuti'
     },
   ]
-
+ 
   const Address = [
     {
       id: '1',
@@ -187,10 +178,10 @@ const Profilone = (props) => {
       alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
     },
   ]
-
+ 
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("Edit Profil");
-
+ 
   const logout = () => {
     Alert.alert(
       "Konfirmasi",
@@ -210,7 +201,7 @@ const Profilone = (props) => {
       ]
     )
   }
-
+ 
   // render() {
   return (
     <View style={styles.container}>
@@ -225,7 +216,7 @@ const Profilone = (props) => {
             onRefresh={refresh}
           />}
       >
-
+ 
         <View style={{ width: '100%', height: 740, alignItems: 'center' }}>
           <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
             <View >
@@ -234,17 +225,17 @@ const Profilone = (props) => {
                 style={styles.imgProfil} />
               <Text style={styles.typeUser}>{state.mb_type}</Text>
             </View>
-
+ 
             <View style={{ alignItems: 'center', marginTop: toDp(10), justifyContent: 'center', }}>
               <Text style={styles.nmProfil}>{state.mb_name}</Text>
               <Text style={styles.member}>{DATA[0].memberUser}</Text>
-
+ 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.pengikut}>{DATA[0].pengikutUser}</Text>
                 <Text style={styles.mengikuti}>{DATA[0].mengikutiUser}</Text>
               </View>
             </View>
-
+ 
             <View style={{ zIndex: 5, justifyContent: 'center', marginTop: toDp(15), marginLeft: toDp(-10) }}>
               <Pressable style={styles.presable}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -265,7 +256,7 @@ const Profilone = (props) => {
                 </View>
               </Pressable>
             </View>
-
+ 
           </View>
           <View style={{ zIndex: 0, marginBottom: 50 }}>
             <View style={{
@@ -273,13 +264,13 @@ const Profilone = (props) => {
               width: toDp(335),
               height: toDp(35),
               borderRadius: toDp(20),
-
+ 
             }}>
               <Pressable onPress={() => NavigatorService.navigate('Homeseller')}>
                 <Text style={{ marginVertical: toDp(6), left: toDp(130), }}>Mulai Jual</Text>
               </Pressable>
             </View>
-
+ 
             <View style={styles.bodyProfil}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Pressable style={{ height: toDp(40), top: toDp(5), left: toDp(5) }} >
@@ -288,7 +279,7 @@ const Profilone = (props) => {
                     <Text style={styles.txtPesanan}>Pesanan Saya</Text>
                   </View>
                 </Pressable>
-
+ 
                 <Pressable style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
                   <View style={{ flexDirection: 'row', margin: toDp(10) }}>
                     <Text style={styles.txtRiwayat}>Lihat Riwayat Pesanan</Text>
@@ -297,48 +288,48 @@ const Profilone = (props) => {
                 </Pressable>
               </View>
               <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
-
+ 
               <View style={{ flexDirection: 'row', margin: toDp(10), justifyContent: 'center' }}>
                 <Pressable style={{ right: toDp(20) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
                   <Image source={allLogo.icbuyer} style={{ left: toDp(13) }} />
                   <Text style={{ fontSize: toDp(13) }}>Belum{"\n"} Bayar</Text>
                 </Pressable>
-
+ 
                 <Pressable style={{ marginHorizontal: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikemas' })}>
                   <Image source={allLogo.icpacking} style={{ left: toDp(13) }} />
                   <Text style={{ fontSize: toDp(13) }}>Dikemas</Text>
                 </Pressable>
-
+ 
                 <Pressable style={{ marginHorizontal: toDp(10), left: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikirim' })}>
                   <Image source={allLogo.ictruck} style={{ left: toDp(5) }} />
                   <Text style={{ fontSize: toDp(13) }}>Dikirim</Text>
                 </Pressable>
-
+ 
                 <Pressable style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai' })}>
                   <Image source={allLogo.icstars} style={{ left: toDp(15) }} />
                   <Text style={{ fontSize: toDp(13) }}>Beri Nilai</Text>
                 </Pressable>
               </View>
               <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(5) }} />
-
-              <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', {adr_mb_id : state.adr_mb_id})}>
+ 
+              <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', {adr_mb_id: state.mb_id})}>
                 <View style={styles.bodyAlamat}>
                   <Image source={allLogo.icaddress1} style={styles.icaddress1} />
                   <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
                 </View>
-
+ 
                 <View style={{ flexDirection: 'row', left: toDp(49), bottom: toDp(10) }}>
-                  <Text style={{ fontSize: toDp(13) }}>{state.mb_name} {state.mb_phone}{"\n"}{state.address} {state.city}</Text>
+                  <Text style={{ fontSize: toDp(13) }}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress}</Text>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </Pressable>
-
+ 
             </View>
-
+ 
           </View>
-
-
-
+ 
+ 
+ 
           <View style={{ top: toDp(250), position: 'absolute' }}>
             <ActivityIndicator
               animating={loading}
@@ -347,33 +338,33 @@ const Profilone = (props) => {
             />
           </View>
         </View>
-
+ 
       </ScrollView>
-
+ 
       <View style={{ position: 'absolute', bottom: toDp(0), top: toDp(200), alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <TouchableOpacity style={{ backgroundColor: '#2A334B', width: toDp(335), alignItems: 'center', height: toDp(40), borderRadius: toDp(20), justifyContent: 'center', top: toDp(180) }} onPress={() => logout()}>
           <Text style={{ textAlign: 'center', color: 'white', fontSize: toDp(16) }}>Keluar</Text>
         </TouchableOpacity>
       </View>
-
+ 
       {/* <View style={{alignItems: 'center', width: '100%'}}>
         <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(180)}} onPress={() => logout()}>
           <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
         </TouchableOpacity>
       </View> */}
       {/* </View> */}
-
-
+ 
+ 
     </View>
   )
-
+ 
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
+ 
   cart: {
     padding: toDp(1),
     top: toDp(-257),
@@ -401,7 +392,7 @@ const styles = StyleSheet.create({
   member: {
     fontSize: toDp(11),
     color: 'white',
-
+ 
   },
   pengikut: {
     fontSize: toDp(10),
@@ -414,22 +405,22 @@ const styles = StyleSheet.create({
     marginLeft: toDp(8)
   },
   icwallet: {
-
+ 
     height: toDp(22),
     width: toDp(25),
-
+ 
   },
   icstore: {
-
+ 
     height: toDp(22),
     width: toDp(25),
-
+ 
   },
   icline: {
-
+ 
     height: toDp(12),
     width: toDp(8),
-
+ 
   },
   icorders: {
     width: toDp(23),
@@ -454,7 +445,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
-
+ 
     elevation: 2,
   },
   bodyAlamat: {
@@ -492,7 +483,7 @@ const styles = StyleSheet.create({
     top: toDp(3),
     left: toDp(5)
   }
-
+ 
 });
-
+ 
 export default Profilone;

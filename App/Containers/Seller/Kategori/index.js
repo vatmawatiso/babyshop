@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(378),
     borderRadius: toDp(20),
+    backgroundColor:'#e7e7e7',
     top: toDp(20),
     flexDirection: 'column',
     justifyContent: 'space-between',

@@ -48,19 +48,19 @@ const Homepage = () => {
       <View style={styles.footer}>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'home' }))}>
           <Image source={allLogo.ichome} style={styles.icon} />
-          <Text style={{color:'white', fontSize:toDp(11)}}>Beranda</Text>
+          <Text style={{color:'white', fontSize:toDp(13)}}>Beranda</Text>
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Kategoriproduk' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'Kategoriproduk' }))}>
           <Image source={allLogo.iccategory} style={styles.icon} />
-          <Text style={{color:'white', fontSize:toDp(11)}}>Kategori</Text>
+          <Text style={{color:'white', fontSize:toDp(13)}}>Kategori</Text>
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Notification')}>
           <Image source={allLogo.icnotification} style={styles.icon} />
-          <Text style={{color:'white', fontSize:toDp(11)}}>Notifikasi</Text>
+          <Text style={{color:'white', fontSize:toDp(13)}}>Notifikasi</Text>
         </Pressable>
         <Pressable style={[styles.presable, {backgroundColor: state.content === 'Profilone' ? '#234D6C' : '#2A334B'}]}  onPress={()=> NavigatorService.navigate('Profilone')}>
           <Image source={allLogo.icprofil} style={styles.icon} />
-          <Text style={{color:'white', fontSize:toDp(11)}}>Profil</Text>
+          <Text style={{color:'white', fontSize:toDp(13)}}>Profil</Text>
         </Pressable>
       </View>
 
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: toDp(340),
-    height: toDp(52),
+    height: toDp(60),
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',

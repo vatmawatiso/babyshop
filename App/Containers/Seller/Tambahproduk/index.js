@@ -23,10 +23,6 @@ import axios from 'axios';
 const Tambahproduk = (props) => {
   const [src, setSrc] = useState(null);
 
-  // const Katagori = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu", "Plastik", "Semen"]
-
-  // const Kondisi = ["Baru", "Bekas"]
-
   const [state, setState] = useState({
     kategori:[],
     kondisi:[],

@@ -50,7 +50,7 @@ const Register = (props) => {
      setState(state => ({...state, loading: true }))
      axios.post('https://market.pondok-huda.com/dev/react/registrasi-member',body)
      .then(result =>{
-         console.log('hasil --------------> : '+ JSON.stringify(result.data))
+         //console.log('hasil --------------> : '+ JSON.stringify(result.data))
          if(result.data.status==201){
            console.log('hasil : '+ JSON.stringify(result.data))
            setState(state => ({...state, loading: false }))
@@ -136,7 +136,7 @@ const Register = (props) => {
                             style={[styles.textInput, {bottom:toDp(48)} ]}
                             placeholder={'Username'}
                             placeholderTextColor={'grey'}
-                            value={state.mb_username}
+                            value={state.username}
                             onChangeText={(text) => setState(state => ({...state, mb_username: text })) }
                 />
  
@@ -147,11 +147,11 @@ const Register = (props) => {
                             placeholder={'Password'}
                             placeholderTextColor={'grey'}
                             secureTextEntry={state.secureTextEntry}
-                            value={state.mb_password}
+                            value={state.password}
                             onChangeText={(text) => Shaone(text) }
                  />
                  <Pressable style={styles.presableShow} onPress={() => setState(state => ({...state, secureTextEntry: !state.secureTextEntry }))}>
-                     <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+                     <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
                  </Pressable>
                 </View>
               </View>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
     marginBottom: toDp(-20),
-    bottom:toDp(10),
+    bottom:toDp(10)
   },
   positionRight: {
     width: '100%',

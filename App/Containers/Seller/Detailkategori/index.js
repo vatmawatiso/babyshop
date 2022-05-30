@@ -118,11 +118,11 @@ const Detailkategori = (props) => {
           <View style={styles.txtProduct}>
              <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
              <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
-             <Text style={{width:toDp(200)}}>Harga: {item.price}</Text>
-             <Text style={{width:toDp(200)}}>Stock: {item.stock}</Text>
-             <Text style={{width:toDp(200)}}>Berat: {item.berat}</Text>
-             <Text style={{width:toDp(200)}}>Kategori: {item.category.substr(0, 5)}</Text>
-             <Text style={{width:toDp(200)}}>Kondisi: {item.kondisi}</Text>
+             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Harga: {item.price}</Text>
+             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Stock: {item.stock}</Text>
+             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Berat: {item.berat}</Text>
+             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Kategori: {item.category.substr(0, 5)}</Text>
+             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Kondisi: {item.kondisi}</Text>
              {/* <Image source={allLogo.icaddress} style={styles.address} />
              <Text style={styles.dariKota}>{item.dariKota}</Text>
              <Image source={allLogo.icstar} style={styles.star}/>
@@ -275,6 +275,8 @@ const styles = StyleSheet.create({
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius:toDp(10),
+    // backgroundColor:'cyan',
+    // width:toDp(200),
     height: toDp(235),
     right: toDp(2),
     shadowColor: "#000",

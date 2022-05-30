@@ -80,6 +80,8 @@ const Alamat = (props) => {
       setState(state => ({...state,
         adr_mb_id: data.adr_mb_id,
         adr_id: data.adr_id,
+        // mb_name:data.value.mb_name,
+        // mb_phone:data.value.mb_phone,
       }))
  
  
@@ -89,7 +91,7 @@ const Alamat = (props) => {
  
   }, [])
  
-   const alamatUtama = async (idm,adr_address,adr_cty_id) => {
+   const alamatUtama = async (idm,adr_address,adr_cty_id, adr_mb_name,adr_mb_phone) => {
     const body = {
       adr_mb_id: state.mb_id,
     }
@@ -100,29 +102,29 @@ const Alamat = (props) => {
     axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id='+ idm, body)
     .then(response =>{
  
-      console.log('-----ALAMAT UTAMA=====>'+JSON.stringify(response.data));
+      console.log('-----ALAMAT UTAMA=====>', response.data);
+      const ALAMAT = {
+          id: idm,
+          name:adr_mb_name,
+          phone:adr_mb_phone,
+          address: adr_address,
+          city: adr_cty_id
+      }
  
       if(response.data.status==200){
-
-        const ALAMAT = {     
-          id: idm,  
-          address: adr_address,
-          city: adr_cty_id                                         
-        }
-
-        if (ALAMAT.address.length === 0) {
+        alert('Berhasil Menambahkan Alamat Utama')
+ 
+        if (Object.keys(ALAMAT).length === 0) {
           alert('Nama Pengguna atau Kata Sandi Salah!')
         } else {
           //save Async Storage
           console.log('Jadikan Alamat Utama===>'+JSON.stringify(ALAMAT));
-
-          AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT)) 
-        
-
+ 
+          AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
+ 
+ 
         }
-
-        alert('Berhasil Menambahkan Alamat Utama')
-        NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id });
+        NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id});
  
         console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
         setState(state => ({...state, loading: false }))
@@ -186,7 +188,7 @@ const Alamat = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id,item.adr_address,item.cty_name))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id,item.adr_address,item.cty_name,item.mb_name,item.mb_phone))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}

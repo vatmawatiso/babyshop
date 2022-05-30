@@ -229,15 +229,15 @@ const Homeseller = (props) => {
         <View style={styles.footer}>
           <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Homeseller')} >
             <Image source={allLogo.ichome} style={styles.ichome} />
-            <Text style={{ color: 'white', fontSize: toDp(11), right: toDp(3), marginHorizontal: toDp(15) }}>Beranda</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10) }}>Beranda</Text>
           </Pressable>
           <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Tambahproduk')} >
             <Image source={allLogo.icplusround} style={styles.icplus} />
-            <Text style={{ color: 'white', fontSize: toDp(11), right: toDp(3), marginHorizontal: toDp(15) }}>Tambah</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10) }}>Tambah</Text>
           </Pressable>
           <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Chat')} >
             <Image source={allLogo.icchat} style={styles.icchat} />
-            <Text style={{ color: 'white', fontSize: toDp(11), right: toDp(3), marginHorizontal: toDp(15), left: toDp(3) }}>Chat</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(3) }}>Chat</Text>
           </Pressable>
         </View>
       </View>
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     width: toDp(75)
   },
   Body: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#e7e7e7',
     width: toDp(335),
     height: toDp(80),
     borderRadius: toDp(20),
@@ -401,49 +401,56 @@ const styles = StyleSheet.create({
   //   alignItems:'center'
   // },
   icchat: {
-    width: toDp(26),
+    width: toDp(28),
     height: toDp(26),
-    tintColor: 'white',
     resizeMode: 'contain',
-    marginHorizontal: toDp(15),
+    tintColor: 'white',
+    marginLeft:toDp(12),
+    marginBottom:toDp(5)
   },
   icplus: {
-    // tintColor:'black'
+    width: toDp(28),
+    height: toDp(26),
     resizeMode: 'contain',
-    marginHorizontal: toDp(15),
+    tintColor: 'white',
+    marginLeft:toDp(17),
+    marginBottom:toDp(5)
   },
   ichome: {
-    tintColor: 'white',
+    width: toDp(28),
+    height: toDp(26),
     resizeMode: 'contain',
-    marginHorizontal: toDp(15),
+    tintColor: 'white',
+    marginLeft:toDp(17),
+    marginBottom:toDp(5)
   },
-  // btnChat: {
-  //   marginHorizontal:toDp(20),
-
-  // },
-  // btnPlus: {
-
-  // },
   bodyJual: {
     marginTop: toDp(15)
   },
   footer: {
+    // width: toDp(340),
+    // height: toDp(52),
+    // justifyContent: 'space-between',
+    // // top: toDp(100),
+    // flexDirection: 'row',
+    // bottom: toDp(5),
+    // backgroundColor: '#2A334B',
+    // borderRadius: toDp(25)
     width: toDp(340),
-    height: toDp(52),
-    justifyContent: 'space-between',
-    // top: toDp(100),
+    height: toDp(60),
+    bottom: toDp(10),
     flexDirection: 'row',
-    bottom: toDp(5),
     backgroundColor: '#2A334B',
     borderRadius: toDp(25)
   },
   presable: {
     // backgroundColor:'red',
     borderRadius: toDp(20),
-    marginHorizontal: toDp(25),
+    marginHorizontal: toDp(23),
     width: toDp(70),
     height: toDp(50),
     justifyContent: 'center',
+    marginTop:toDp(6)
   },
   viewBtnEdit: {
     // backgroundColor: 'cyan',
