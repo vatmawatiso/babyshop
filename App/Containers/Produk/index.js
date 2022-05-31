@@ -16,7 +16,8 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import Header from '@Header'
+// import Header from '@Header'
+import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
@@ -203,7 +204,7 @@ const Produk = (props) => {
 
   return (
     <View style={styles.container}>
-      <Header
+      <BackHeader
         title={'Produk'}
         onPress={() => props.navigation.goBack()}
       />

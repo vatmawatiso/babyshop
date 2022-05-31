@@ -21,40 +21,41 @@ const Informasitoko = (props) => {
 
   const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
-    mb_id:'',
+    mb_id: '',
     picture: '../../../Assets/img/tzuyu.jpg',
     mb_name: '',
-    mb_type:'',
+    mb_type: '',
     mb_phone: '',
     mb_email: '',
     modalVisible: false,
     option: {
-      width:750,
+      width: 750,
       height: 750,
       cropping: true,
     }
   })
 
-  
+
   useEffect(() => {
 
     AsyncStorage.getItem('member').then(response => {
       // console.log('Profil----------->'+ JSON.stringify(response));
 
-      let data    =  JSON.parse(response); 
+      let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
       // console.log('Profilefiks----------->'+ JSON.stringify(data));
 
-      setState(state => ({...state,
+      setState(state => ({
+        ...state,
         id: data.mb_id,
-        mb_name:data.value.mb_name,
-        mb_email:data.value.mb_email,
-        mb_phone:data.value.mb_phone,
-        mb_type:data.value.mb_type,
-        picture:data.value.picture
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture
       }))
-  
+
 
     }).catch(err => {
       console.log('err', err)
@@ -104,9 +105,9 @@ const Informasitoko = (props) => {
 
       <View>
         <View style={[styles.Tokosaya, { flexDirection: 'row' }]}>
-          <Image source={ state.picture ? { uri: state.picture } :
-                          require('../../../Assets/img/tzuyu.jpg')}  style={styles.imgProfil} />
-          <View style={{alignItems:'center', flex:0.8}}>
+          <Image source={state.picture ? { uri: state.picture } :
+            require('../../../Assets/img/tzuyu.jpg')} style={styles.imgProfil} />
+          <View style={{ alignItems: 'center', flex: 0.8 }}>
             <Text style={styles.txtToko}>{state.mb_name}</Text>
           </View>
         </View>
@@ -115,23 +116,33 @@ const Informasitoko = (props) => {
             <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
             <Text style={styles.txtPengikut}>{DATA[0].pengikutUser} {DATA[0].mengikutiUser}</Text>
           </View>
-          <View style={{right:toDp(20)}}>
-            <Pressable style={{ backgroundColor: '#698498', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Settingtoko')}>
-              <Text style={{ textAlign: 'center', color: 'white' }}>Pengaturan</Text>
+          <View style={{ right: toDp(20) }}>
+            <Pressable style={{
+              backgroundColor: '#e7e7e7', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center', shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.20,
+              shadowRadius: 1.41,
+
+              elevation: 2,
+            }} onPress={() => NavigatorService.navigate('Settingtoko')}>
+              <Text style={{ textAlign: 'center', }}>Pengaturan</Text>
             </Pressable>
           </View>
         </View>
       </View>
 
-      <View style={{ bottom:toDp(20) }}>
+      <View style={{ bottom: toDp(20) }}>
         <Pressable style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
           <Text style={styles.txtUbah}>Ubah</Text>
         </Pressable>
       </View>
 
-      <View style={{position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%'}}>
-        <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', marginBottom:toDp(10)}} onPress={() => logout()}>
-          <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
+      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+        <TouchableOpacity style={{ backgroundColor: '#2A334B', width: toDp(335), alignItems: 'center', height: toDp(40), borderRadius: toDp(20), justifyContent: 'center', marginBottom: toDp(10) }} onPress={() => logout()}>
+          <Text style={{ textAlign: 'center', color: 'white', fontSize: toDp(16) }}>Keluar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -179,12 +190,21 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   btnUbah: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#e7e7e7',
     width: toDp(335),
     height: toDp(45),
     borderRadius: toDp(20),
     bottom: toDp(10),
-    justifyContent: 'center'
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   txtUbah: {
     textAlign: 'center',

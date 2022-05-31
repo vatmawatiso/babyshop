@@ -16,6 +16,7 @@ import Back from '@Back'
 import CheckBox from '@react-native-community/checkbox';
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
+import { RadioButton } from 'react-native-paper';
 import { typeParameterDeclaration } from "@babel/types";
 
 const Pembayaran = (props) => {
@@ -74,15 +75,25 @@ const Pembayaran = (props) => {
       pesan: 'Transaksi Pembayaran\nHanya menerima dari Bank BCA\nMetode pembayaran lebih mudah',
     },
   ]
+
+  const [checked, setChecked] = React.useState('first');
+
   const ListBank = (item, index) => {
     return (
       <View style={{ marginTop: toDp(0), width: '100%' }}>
-        <View style={{ flexDirection: 'row', marginHorizontal: toDp(15), height: toDp(80), alignItems: 'center',  }}>
-          <CheckBox style={{ marginLeft: -20 }}
+        <View style={{ flexDirection: 'row', marginHorizontal: toDp(15), height: toDp(80), alignItems: 'center', }}>
+          {/* <CheckBox style={{ marginLeft: -20 }}
             disabled={false}
             value={toggleCheckBox}
             onValueChange={(newValue) => setToggleCheckBox(newValue)}
-          />
+          /> */}
+    
+            <RadioButton
+              value="first"
+              status={checked === 'first' ? 'checked' : 'unchecked'}
+              onPress={() => BayarPake()}
+            />
+
           <Image source={{ uri: DATA[0].img }} style={{ width: toDp(70), height: toDp(40), left: toDp(0) }} />
           <Text style={{ fontSize: toDp(12), left: toDp(20) }}>{item.pay_name}</Text>
         </View>
