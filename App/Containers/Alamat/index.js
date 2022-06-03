@@ -25,7 +25,7 @@ const Alamat = (props) => {
   const [state, setState] = useState({
     datas: [],
     adr_mb_id: '',
-    adr_id:'',
+    adr_id: '',
     mb_id: '',
     mb_name: '',
     cty_name: '',
@@ -42,6 +42,7 @@ const Alamat = (props) => {
         mb_id: ids,
       }))
       // console.log(ids)
+      console.log('UseEffect MB ID----------->' + JSON.stringify(ids));
     }).catch(err => {
       console.log('err', err)
     })
@@ -51,37 +52,40 @@ const Alamat = (props) => {
 
   useEffect(() => {
 
-   AsyncStorage.getItem('member').then(response => {
-     // console.log('Profil----------->'+ JSON.stringify(response));
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
 
-     let data    =  JSON.parse(response);
-     // const val = JSON.stringify(data);
+      let data = JSON.parse(response);
+      // const val = JSON.stringify(data);
 
-     console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
+      console.log('Jadikan Alamat Utama----------->' + JSON.stringify(data));
 
-     setState(state => ({...state,
-       adr_mb_id: data.adr_mb_id,
-       adr_id: data.adr_id,
-       // mb_name:data.value.mb_name,
-       // mb_phone:data.value.mb_phone,
-     }))
+      setState(state => ({
+        ...state,
+        adr_mb_id: data.adr_mb_id,
+        adr_id: data.adr_id,
+        // mb_name:data.value.mb_name,
+        // mb_phone:data.value.mb_phone,
+      }))
+      console.log('UseEffect ADR_MB_ID----------->' + JSON.stringify(state.adr_mb_id));
+      console.log('UseEffect ADR_ID----------->' + JSON.stringify(state.adr_id));
 
 
-   }).catch(err => {
-     console.log('err', err)
-   })
+    }).catch(err => {
+      console.log('err', err)
+    })
 
- }, [])
+  }, [])
 
   const getAlamatClient = () => {
     let mb_id = props.navigation.state.params.adr_mb_id;
-    //console.log('Toko Bangunan FIKS ===> ', mb_id)
+    console.log('Let mb_id ===> ', mb_id)
     axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
       .then(result => {
         //hendle success
         if (result.data.status == 200) {
           setState(state => ({ ...state, datas: result.data.data }))
-          console.log('Toko Bangunan FIKS ===> ', result.data.data )
+          console.log('Toko Bangunan FIKS ===> ', result.data.data)
         }
 
       }).catch(err => {
@@ -90,60 +94,60 @@ const Alamat = (props) => {
       })
   }
 
-   //=======> POST Alamat Utama <=======//
+  //=======> POST Alamat Utama <=======//
 
 
 
-   const alamatUtama = async (idm,adr_address,adr_cty_id, adr_mb_name,adr_mb_phone) => {
+  const alamatUtama = async (idm, adr_address, adr_cty_id, adr_mb_name, adr_mb_phone) => {
     const body = {
       adr_mb_id: state.mb_id,
     }
-    console.log('Body Alamat====> '+ JSON.stringify(body));
+    console.log('Body Alamat====> ' + JSON.stringify(body));
 
-    setState(state => ({...state, loading: true }))
+    setState(state => ({ ...state, loading: true }))
     let id = idm;
-    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id='+ idm, body)
-    .then(response =>{
+    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=' + idm, body)
+      .then(response => {
 
-      console.log('-----ALAMAT UTAMA=====>', response.data);
-      const ALAMAT = {
+        console.log('-----ALAMAT UTAMA=====>', response.data);
+        const ALAMAT = {
           id: idm,
-          name:adr_mb_name,
-          phone:adr_mb_phone,
+          name: adr_mb_name,
+          phone: adr_mb_phone,
           address: adr_address,
           city: adr_cty_id
-      }
-
-      if(response.data.status==200){
-        alert('Berhasil Menambahkan Alamat Utama')
-
-        if (Object.keys(ALAMAT).length === 0) {
-          alert('Nama Pengguna atau Kata Sandi Salah!')
-        } else {
-          //save Async Storage
-          console.log('Jadikan Alamat Utama===>'+JSON.stringify(ALAMAT));
-
-          AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
-
-
         }
-        NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id});
 
-        console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
-        setState(state => ({...state, loading: false }))
+        if (response.data.status == 200) {
+          alert('Berhasil Menambahkan Alamat Utama')
 
-      }else{
-        alert('Gagal Tambah Alamat Utama!')
-        setState(state => ({...state, loading: false }))
-        console.log('-----COBA=====>'+ JSON.stringify(response.data));
-      }
+          if (Object.keys(ALAMAT).length === 0) {
+            alert('Nama Pengguna atau Kata Sandi Salah!')
+          } else {
+            //save Async Storage
+            console.log('Jadikan Alamat Utama===>' + JSON.stringify(ALAMAT));
 
-    }).catch(err =>{
-      //console.log(err)
-      alert('Gagal menerima data dari server!'+err)
-      setState(state => ({...state, loading: false }))
-    })
-    }
+            AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
+
+
+          }
+          NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id });
+
+          console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
+          setState(state => ({ ...state, loading: false }))
+
+        } else {
+          alert('Gagal Tambah Alamat Utama!')
+          setState(state => ({ ...state, loading: false }))
+          console.log('-----COBA=====>' + JSON.stringify(response.data));
+        }
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
 
 
   const Address = [
@@ -156,7 +160,7 @@ const Alamat = (props) => {
   ]
 
   const selectAlamat = (adr_id) => {
-    NavigatorService.navigate('Editalamat', {adr_id: adr_id})
+    NavigatorService.navigate('Editalamat', { adr_id: adr_id })
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
@@ -191,14 +195,14 @@ const Alamat = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id,item.adr_address,item.cty_name,item.mb_name,item.adr_hp))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
         />
       </View>
 
-      <Pressable style={{ backgroundColor: '#C4C4C4', borderRadius: toDp(20), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+      <Pressable style={{ backgroundColor: '#2A334B', bottom: toDp(610), borderRadius: toDp(20), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
         <View style={styles.btnAddress}>
           <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
           <Image source={allLogo.icplus} style={styles.icplus} />
@@ -216,12 +220,21 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   body: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#e7e7e7',
     width: toDp(335),
     height: toDp(105),
     borderRadius: toDp(20),
     flexDirection: 'row',
-    top: toDp(10)
+    top: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   icaddress1: {
     marginLeft: toDp(10),
@@ -243,7 +256,6 @@ const styles = StyleSheet.create({
     bottom: toDp(25)
   },
   btnAddress: {
-    backgroundColor: '#C4C4C4',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: toDp(335),
@@ -254,11 +266,13 @@ const styles = StyleSheet.create({
     width: toDp(12),
     height: toDp(12),
     top: toDp(10),
-    right: toDp(10)
+    right: toDp(10),
+    tintColor: '#fff'
   },
   txtBtnAddress: {
     top: toDp(5),
-    left: toDp(10)
+    left: toDp(10),
+    color: '#fff'
   },
   flatcontent: {
     width: '100%',

@@ -117,7 +117,7 @@ const Informasitoko = (props) => {
             <Text style={styles.txtPengikut}>{DATA[0].pengikutUser} {DATA[0].mengikutiUser}</Text>
           </View>
           <View style={{ right: toDp(20) }}>
-            <Pressable style={{
+            <TouchableOpacity style={{
               backgroundColor: '#e7e7e7', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center', shadowColor: "#000",
               shadowOffset: {
                 width: 0,
@@ -129,15 +129,15 @@ const Informasitoko = (props) => {
               elevation: 2,
             }} onPress={() => NavigatorService.navigate('Settingtoko')}>
               <Text style={{ textAlign: 'center', }}>Pengaturan</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
 
       <View style={{ bottom: toDp(20) }}>
-        <Pressable style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
+        <TouchableOpacity style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
           <Text style={styles.txtUbah}>Ubah</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>

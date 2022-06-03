@@ -51,6 +51,7 @@ import Kategori from '../Containers/Seller/Kategori'
 import Produksaya from '../Containers/Seller/Produksaya'
 import Detailkategori from '../Containers/Seller/Detailkategori'
 import Tambahalamat from '../Containers/Seller/Tambahalamat'
+import EditAlamattoko from '../Containers/Seller/EditAlamattoko'
 import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
 import Tambahkategori from '../Containers/Seller/Tambahkategori'
@@ -110,6 +111,7 @@ const AppNavigator = createStackNavigator(
     Produksaya: { screen: Produksaya },
     Detailkategori: { screen: Detailkategori },
     Tambahalamat: { screen: Tambahalamat },
+    EditAlamattoko: { screen: EditAlamattoko },
     Saldopenjual: { screen: Saldopenjual },
     Ulasan: { screen: Ulasan },
     Tambahkategori: { screen: Tambahkategori },

@@ -26,7 +26,7 @@ const { width, height } = Dimensions.get('window')
 
 const Profilone = (props) => {
   const [src, setSrc] = useState(null);
-
+  const [stAlu, setAllu] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
     mb_id: '',
@@ -60,7 +60,7 @@ const Profilone = (props) => {
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
-      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+      console.log('Profilefiks----------->'+ JSON.stringify(data));
 
     setState(state => ({
         ...state,
@@ -87,40 +87,15 @@ const Profilone = (props) => {
       console.log('err', err)
     })
 
-     setInterval(function(){
-          AsyncStorage.getItem('setAlamat').then(alus => {
-            //let datas = Object.keys(alus).length;
-            console.log('-alu------>'+alus);
-            if(JSON.stringify(alus) != '{}' || alus!=null){
-              console.log('not null'+alus);
-              //setInterval(function(){
-              //  if(state.alu_id === alus.id && state.alu_id==""){
-                  loatAlamatU()
-                  setState(state => ({
-                    ...state,
-                    alu_desk: ''
-                  }))
+     getAlumember()
 
-              //  }else{
-              //    console.log(' null');
-              //    getAlumember()
-
-            //    }
-            //},3000)
-
-
-            }else{
-              console.log('---------------------------- ---');
-              getAlumember()
-
-            }
-
-          }).catch(err => {
-            console.log('err', err)
-          })
-     },3000)
-
-  }, [])
+     props.navigation.addListener(
+          'didFocus',
+          payload => {
+              loatAlamatU()
+          }
+    );
+  }, [stAlu])
 
 
 
@@ -143,7 +118,8 @@ const Profilone = (props) => {
             }
             console.log('length--------> '+JSON.stringify(oid.data[0].adr_id));
             AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
-            loatAlamatU()
+            setAllu(1)
+            //loatAlamatU()
           }else{
             console.log('null--------> '+oid.data.length);
             setState(state => ({
@@ -160,52 +136,60 @@ const Profilone = (props) => {
     })
   }
 
-  const refresh = async () => {
-    loatAlamatU()
-    try {
-      AsyncStorage.getItem('member').then(response => {
-        //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+  // const refresh = async () => {
+  //   loatAlamatU()
+  //   try {
+  //     AsyncStorage.getItem('member').then(response => {
+  //       //console.log('Profilseller=======>'+ JSON.stringify(responponse));
 
-        let data = JSON.parse(response);
-        //const val = JSON.stringify(data);
+  //       let data = JSON.parse(response);
+  //       //const val = JSON.stringify(data);
 
-        //console.log('Profilseller ------->'+ JSON.stringify(response));
+  //       //console.log('Profilsellerddddd ------->'+ data);
 
-        setState(state => ({
-          ...state,
-          mb_id: data.mb_id,
-          mb_name: data.value.mb_name,
-          mb_email: data.value.mb_email,
-          mb_phone: data.value.mb_phone,
-          mb_type: data.value.mb_type,
-          picture: data.value.picture
-        }))
+  //       setState(state => ({
+  //         ...state,
+  //         mb_id: data.value.mb_id,
+  //         mb_name: data.value.mb_name,
+  //         mb_email: data.value.mb_email,
+  //         mb_phone: data.value.mb_phone,
+  //         mb_type: data.value.mb_type,
+  //         picture: data.value.picture
+  //       }))
 
-      }).catch(err => {
-        console.log('err', err)
-      })
-    } catch (e) {
-      console.log('e', e)
-    }
-  }
+  //     }).catch(err => {
+  //       console.log('err', err)
+  //     })
+  //   } catch (e) {
+  //     console.log('e', e)
+  //   }
+  // }
 
   const loatAlamatU = async () => {
     try {
-      setState(state => ({
-        ...state,
-        alu_desk: '', alu_stats:false
-      }))
+
       AsyncStorage.getItem('setAlamat').then(response => {
         let data = JSON.parse(response);
+        console.log('---data--->'+data);
         setState(state => ({
           ...state,
-          alu_id: data.id,
-          alu_city: data.city,
-          alu_phone: data.phone,
-          alu_name: data.name,
-          alu_adress: data.address,
+          alu_id: data?.id,
+          alu_city: data?.city,
+          alu_phone: data?.phone,
+          alu_name: data?.name,
+          alu_adress: data?.address,
         }))
-
+        if(data==null){
+          setState(state => ({
+            ...state,
+            alu_stats:true
+          }))
+        }else{
+          setState(state => ({
+            ...state,
+            alu_stats:false
+          }))
+        }
       }).catch(err => {
         console.log('err', err)
       })
@@ -262,13 +246,13 @@ const Profilone = (props) => {
         title={'Profil'}
         onPress={() => props.navigation.goBack()}
       />
-      <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+      {/* <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={refresh}
           />}
-      >
+      > */}
 
         <View style={{ width: '100%', height: 740, alignItems: 'center' }}>
           <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
@@ -374,7 +358,10 @@ const Profilone = (props) => {
 
                 <View style={{ flexDirection: 'row', left: toDp(49), bottom: toDp(10) }}>
                   {state.alu_stats==true &&
+                    <>
                       <Text style={{ fontSize: toDp(13) }}>{state.alu_desk}</Text>
+
+                    </>
                   }
                   <Text style={{ fontSize: toDp(13) }}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress}</Text>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
@@ -397,7 +384,7 @@ const Profilone = (props) => {
         </View>
 
 
-      </ScrollView>
+      {/* </ScrollView> */}
 
       <View style={{ position: 'absolute', bottom: toDp(0), top: toDp(200), alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <TouchableOpacity style={{ backgroundColor: '#2A334B', width: toDp(335), alignItems: 'center', height: toDp(40), borderRadius: toDp(20), justifyContent: 'center', top: toDp(180) }} onPress={() => logout()}>

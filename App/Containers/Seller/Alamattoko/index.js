@@ -24,143 +24,55 @@ const Alamattoko = (props) => {
   const [state, setState] = useState({
     datas: [],
     adr_mb_id: '',
-    adr_id:'',
-    mb_id: '',
-    mb_name: '',
-    cty_name: '',
-    adr_address: ''
+    mb_id: ''
   })
 
 
   useEffect(() => {
-
-    AsyncStorage.getItem('uid').then(uids => {
-      // console.log('ids', uids)
-      let ids = uids;
-      setState(state => ({
-        ...state,
-        mb_id: ids,
-      }))
-      // console.log(ids)
-    }).catch(err => {
-      console.log('err', err)
-    })
-
     getAlamat()
   }, [])
 
   const getAlamat = () => {
-   let mb_id = props.navigation.state.params.adr_mb_id;
-    axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id='+ mb_id)
+    let mb_id = props.navigation.state.params.adr_mb_id;
+    axios.get('https://market.pondok-huda.com/dev/react/addres/member/' + mb_id)
       .then(result => {
         //hendle success
-        if(result.data.status==200){
-          setState(state => ({ ...state, datas: result.data.data}))
+        if (result.data.status == 200) {
+          setState(state => ({ ...state, datas: result.data.data }))
           console.log('Toko Bangunan FIKS ===> ', result)
         }
-      
+        console.log(result);
       }).catch(err => {
-        alert('Gagal menerima data dari server!' + err)
+        //alert('Gagal menerima data dari server!' + err)
+        console.log(err);
         setState(state => ({ ...state, loading: false }))
       })
   }
 
-  
-   //=======> POST Alamat Utama <=======//
 
-   useEffect(() => {
- 
-    AsyncStorage.getItem('member').then(response => {
-      // console.log('Profil----------->'+ JSON.stringify(response));
- 
-      let data    =  JSON.parse(response);
-      // const val = JSON.stringify(data);
- 
-      console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
- 
-      setState(state => ({...state,
-        adr_mb_id: data.adr_mb_id,
-        adr_id: data.adr_id,
-      }))
- 
- 
-    }).catch(err => {
-      console.log('err', err)
-    })
- 
-  }, [])
+  const Address = [
+    {
+      id: '1',
+      nama: 'Vatmawati',
+      telepon: '083141520987',
+      alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
+    },
+  ]
 
-  const alamatUtama = async (idm,adr_address,adr_cty_id) => {
-    const body = {
-      adr_mb_id: state.mb_id,
-    }
-    console.log('Body Alamat====> '+ JSON.stringify(body));
- 
-    setState(state => ({...state, loading: true }))
-    let id = idm;
-    axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id='+ idm, body)
-    .then(response =>{
- 
-      console.log('-----ALAMAT UTAMA=====>'+JSON.stringify(response.data));
- 
-      if(response.data.status==200){
-
-        const ALAMAT = {     
-          id: idm,  
-          address: adr_address,
-          city: adr_cty_id                                         
-        }
-
-        if (ALAMAT.address.length === 0) {
-          alert('Nama Pengguna atau Kata Sandi Salah!')
-        } else {
-          //save Async Storage
-          console.log('Jadikan Alamat Utama===>'+JSON.stringify(ALAMAT));
-
-          AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT)) 
-        
-
-        }
-
-        alert('Berhasil Menambahkan Alamat Utama')
-        NavigatorService.navigate('Settingtoko', { adr_mb_id: state.adr_id });
- 
-        console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
-        setState(state => ({...state, loading: false }))
- 
-      }else{
-        alert('Gagal Tambah Alamat Utama!')
-        setState(state => ({...state, loading: false }))
-        console.log('-----COBA=====>'+ JSON.stringify(response.data));
-      }
- 
-    }).catch(err =>{
-      //console.log(err)
-      alert('Gagal menerima data dari server!'+err)
-      setState(state => ({...state, loading: false }))
-    })
-    }
-
-  const selectAlamat = (adr_id) => {
-    NavigatorService.navigate('Editalamat', {adr_id: adr_id})
-  }
-
-
-  const ListAlamat = (item, index, onPress, onSetutama) => (
-    <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12), top:toDp(50) }]}>
-      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => onPress()}>
+  const ListAlamat = (item, index, onPress) => (
+    <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
+      <TouchableOpacity style={{ width: toDp(330) }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={allLogo.icaddress1} style={styles.icaddress1} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
+          <TouchableOpacity  onPress={() => NavigatorService.navigate('EditAlamattoko')}>
           <View>
             <Text>{item.mb_name} {item.mb_phone}</Text>
             <Text>{item.adr_address} {item.cty_name}</Text>
-            <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => onSetutama()}>
-              <Text style={styles.txtAlamatUtama}>Jadikan Alamat Utama</Text>
-            </TouchableOpacity>
           </View>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </View>
@@ -171,27 +83,29 @@ const Alamattoko = (props) => {
       <BackHeader
         title={'Alamat'}
         onPress={() => props.navigation.goBack()}
+
       />
 
       <View style={styles.flatcontent}>
-        <FlatList style={{ width: '100%' }}
+        <FlatList style={{ width: '100%', top: toDp(40) }}
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamat(item, index, () => selectAlamat(item.adr_id), ()=> alamatUtama(item.adr_id,item.adr_address,item.cty_name))
+              ListAlamat(item, index, () => alamatUtama(item.adr_id))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
         />
       </View>
 
-
-      <Pressable style={{ bottom:toDp(600), top:toDp(0) }} onPress={() => NavigatorService.navigate('Tambahalamat')}>
-        <View style={styles.btnAddress}>
-          <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
-          <Image source={allLogo.icplus} style={styles.icplus} />
-        </View>
-      </Pressable>
+      <View style={{ position: 'absolute', bottom: toDp(0), top: toDp(65), alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
+        <Pressable onPress={() => NavigatorService.navigate('Tambahalamat')}>
+          <View style={styles.btnAddress}>
+            <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
+            <Image source={allLogo.icplus} style={styles.icplus} />
+          </View>
+        </Pressable>
+      </View>
     </View>
   );
 
@@ -204,12 +118,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   body: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#e7e7e7',
     width: toDp(335),
     height: toDp(105),
     borderRadius: toDp(20),
     flexDirection: 'row',
-    top: toDp(10)
+    top: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   icaddress1: {
     marginLeft: toDp(10),
@@ -231,32 +154,40 @@ const styles = StyleSheet.create({
     bottom: toDp(25)
   },
   btnAddress: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#2A334B',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: toDp(335),
     height: toDp(32),
     borderRadius: toDp(20),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   icplus: {
     width: toDp(12),
     height: toDp(12),
     top: toDp(10),
-    right: toDp(10)
+    right: toDp(10),
+    tintColor: '#fff'
   },
   txtBtnAddress: {
     top: toDp(5),
-    left: toDp(10)
+    left: toDp(10),
+    color: '#fff'
   },
   flatcontent: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: toDp(30)
+    marginBottom: toDp(45)
   },
-  txtAlamatUtama: {
-    fontWeight: 'bold'
-  }
 });
 
 export default Alamattoko;

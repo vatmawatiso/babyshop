@@ -59,7 +59,7 @@ const Pembayaran = (props) => {
       pesan: 'Transaksi Pembayaran\nHanya menerima dari Bank BCA\nMetode pembayaran lebih mudah',
     }, {
       id: '2',
-      img: 'https://www.freepnglogos.com/uploads/logo-bca-png/bank-central-asia-logo-bank-central-asia-bca-format-cdr-png-gudril-1.png',
+      img: 'https://logos-download.com/wp-content/uploads/2016/06/Bank_Mandiri_logo_fon.png',
       pesan: 'Transaksi Pembayaran\nHanya menerima dari Bank BCA\nMetode pembayaran lebih mudah',
     }, {
       id: '3',
@@ -89,10 +89,12 @@ const Pembayaran = (props) => {
           /> */}
     
             <RadioButton
-              value="first"
-              status={checked === 'first' ? 'checked' : 'unchecked'}
-              onPress={() => BayarPake()}
+              value="false"
+              status={checked === 'null' ? 'checked' : 'unchecked'}
+              data={state.datas}
+              // onSelect={(result) => setState(result)}
             />
+    
 
           <Image source={{ uri: DATA[0].img }} style={{ width: toDp(70), height: toDp(40), left: toDp(0) }} />
           <Text style={{ fontSize: toDp(12), left: toDp(20) }}>{item.pay_name}</Text>

@@ -19,16 +19,17 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
-import { validatePathConfig } from "@react-navigation/native";
 
 
-const Tambahalamat = (props) => {
+const EditAlamattoko = (props) => {
 
   const [state, setState] = useState({
     cityname: [],
     mb_id: '',
     mb_name: '',
     mb_phone: '',
+    adr_id: '',
+    cty_name: '',
     loading: false,
     adr_mb_id: '',
     adr_address: '',
@@ -37,8 +38,9 @@ const Tambahalamat = (props) => {
 
   useEffect(() => {
     city()
-
   }, [])
+
+  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
@@ -57,7 +59,7 @@ const Tambahalamat = (props) => {
       })
   }
 
-  //=======> GET Form Data Tambah Alamat Nama dan Nomer <=======//
+  //=======> POST Form Data Tambah Alamat Nama dan Nomer <=======//
 
   useEffect(() => {
 
@@ -73,9 +75,23 @@ const Tambahalamat = (props) => {
         ...state,
         adr_mb_id: data.id,
         mb_name: data.value.mb_name,
+        mb_phone: data.value.mb_phone,
       }))
 
 
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      // console.log('ids', uids)
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        id: ids,
+      }))
+      console.log(ids)
     }).catch(err => {
       console.log('err', err)
     })
@@ -101,7 +117,7 @@ const Tambahalamat = (props) => {
               alert('Error ' + e)
             }
             getData()
-            console.log('COBA===>> ' + JSON.stringify(datas.value));
+            console.log('===>> ' + JSON.stringify(datas.value));
           }
           setKontak(kontak => ({ ...kontak, loading: false }))
         } else if (result.data.status == 404) {
@@ -119,32 +135,31 @@ const Tambahalamat = (props) => {
 
   //=======> POST Form Data Tambah Alamat Jalan <=======//
 
-  const InputAlamat = async (adr_mb_id) => {
+  const editAlamat = async () => {
     const body = {
       adr_mb_id: state.adr_mb_id,
       adr_address: state.adr_address,
-      adr_cty_id: state.adr_cty_id,
-      adr_hp: state.mb_phone
+      adr_cty_id: state.adr_cty_id
     }
     // console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
+    const adr_id = props.navigation.state.params.adr_id
+    axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
       .then(response => {
 
-        console.log('-----ALAMAT=====>' + JSON.stringify(response.data.status));
+        console.log('-----ALAMAT=====>', response);
 
-        if (response.data.status == 201) {
-          alert('Sukses tambah alamat!')
-          NavigatorService.navigate('Alamattoko', {adr_mb_id : adr_mb_id})
-          console.log('HASIL ALAMAT ==> : ' + JSON.stringify(response.data))
+        if (response.data.status == 200) {
+          alert('Berhasil Mengubah Alamat')
+          console.log('HASIL ALAMAT ==> : ', response)
           setState(state => ({ ...state, loading: false }))
-          //NavigatorService.navigation('Alamattoko');
+          NavigatorService.navigate('Alamattoko');
 
         } else {
-          //alert('Tambah Alamat Gagal!')
+          alert('Ubah Alamat Gagal!')
           setState(state => ({ ...state, loading: false }))
-          //console.log('-----COBA=====>'+ JSON.stringify(body));
+          console.log('-----COBA=====>' + JSON.stringify(response.data));
         }
 
       }).catch(err => {
@@ -159,7 +174,7 @@ const Tambahalamat = (props) => {
   return (
     <View style={styles.container}>
       <BackHeader
-        title={'Tambah Alamat'}
+        title={'Edit Alamat'}
         onPress={() => props.navigation.goBack()}
       />
 
@@ -205,13 +220,13 @@ const Tambahalamat = (props) => {
             dropdownStyle={{ borderRadius: toDp(7) }}
             rowStyle={{ height: toDp(35), padding: toDp(5) }}
             defaultButtonText={'Pilih Kota atau Kabupaten'}
+            defaultValue={state.cty_name}
             data={state.cityname}
             onSelect={(selectedItem, index) => {
-              console.log(selectedItem.cty_id, index)
+              console.log(selectedItem, index)
               setState(state => ({ ...state, adr_cty_id: selectedItem.cty_id }))
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
-
               return selectedItem.cty_name;
             }}
             rowTextForSelection={(item, index) => {
@@ -240,13 +255,34 @@ const Tambahalamat = (props) => {
             value={state.adr_address}
             onChangeText={(text) => setState(state => ({ ...state, adr_address: text }))}
           />
-
+          {/* <TextInput
+                        left={toDp(3)}
+                        top={toDp(8)}
+                        width={toDp(335)}
+                        height={toDp(40)}
+                        borderRadius={toDp(15)}
+                        backgroundColor={'white'}
+                        autoCapitalize={'none'}
+                        style={styles.textInput}
+                        placeholder={'Patokan'}
+                        placeholderTextColor={'grey'}
+                        // value={state.username}
+                        // onChangeText={(text) => setState(state => ({...state, username: text })) }
+                    /> */}
         </SafeAreaView>
       </View>
 
-      <Pressable style={{ backgroundColor: 'yellow', borderRadius: toDp(20), height: toDp(40), width: toDp(335) }} onPress={() => InputAlamat()}>
+      <Pressable style={{ backgroundColor: 'yellow', borderRadius: toDp(20), height: toDp(40), width: toDp(335) }} onPress={() => editAlamat()}>
         <View style={styles.searchSection}>
           <Text style={{ color: 'white' }}>Simpan</Text>
+          {/* <Image style={styles.searchIcon} source={allLogo.icsearch} /> */}
+          {/* <TextInput
+                        style={styles.input}
+                        placeholder="Cari Lokasi"
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor="white"
+                        onChangeText={(text)=>this.props.onFilter}
+                    /> */}
         </View>
       </Pressable>
 
@@ -357,4 +393,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Tambahalamat;
+export default EditAlamattoko;

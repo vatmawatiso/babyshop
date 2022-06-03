@@ -53,7 +53,7 @@ const Login = (props) => {
       mb_username: state.mb_username,
       rtl_id: state.rtl_id
     }
-    console.log(JSON.stringify(body));
+    console.log('BODY'+JSON.stringify(body));
     setState(state => ({ ...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
       .then(result => {
