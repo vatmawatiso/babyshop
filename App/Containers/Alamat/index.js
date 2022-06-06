@@ -159,8 +159,8 @@ const Alamat = (props) => {
     },
   ]
 
-  const selectAlamat = (adr_id) => {
-    NavigatorService.navigate('Editalamat', { adr_id: adr_id })
+  const selectAlamat = (adr_id,hp, alamat, cty_name) => {
+    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_name: cty_name })
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
@@ -195,14 +195,14 @@ const Alamat = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
         />
       </View>
 
-      <Pressable style={{ backgroundColor: '#2A334B', bottom: toDp(610), borderRadius: toDp(20), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+      <Pressable style={{ bottom: toDp(610), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
         <View style={styles.btnAddress}>
           <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
           <Image source={allLogo.icplus} style={styles.icplus} />
@@ -216,14 +216,16 @@ const Alamat = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#fff'
     // justifyContent: 'center',
     // alignItems: 'center',
   },
   body: {
-    backgroundColor: '#e7e7e7',
+    backgroundColor: '#F9F8F8',
     width: toDp(335),
-    height: toDp(105),
-    borderRadius: toDp(20),
+    height: toDp(130),
+    borderRadius: toDp(10),
+    marginBottom: toDp(10),
     flexDirection: 'row',
     top: toDp(10),
     shadowColor: "#000",
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 2,
+    elevation: 5,
   },
   icaddress1: {
     marginLeft: toDp(10),
@@ -256,36 +258,46 @@ const styles = StyleSheet.create({
     bottom: toDp(25)
   },
   btnAddress: {
+    backgroundColor: '#F9F8F8',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: toDp(10),
     width: toDp(335),
     height: toDp(32),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    
+    elevation: 3,
   },
   icplus: {
     width: toDp(12),
     height: toDp(12),
     top: toDp(10),
-    right: toDp(10),
-    tintColor: '#fff'
+    right: toDp(10)
   },
   txtBtnAddress: {
     top: toDp(5),
     left: toDp(10),
-    color: '#fff'
+    fontWeight: 'bold'
   },
   flatcontent: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: toDp(45)
   },
   btnAlamatUtama: {
     top: toDp(8),
     height: toDp(30)
   },
   txtAlamatUtama: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#F83308'
   }
 });
 

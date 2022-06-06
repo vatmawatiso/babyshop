@@ -107,7 +107,8 @@ const Semua = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    bottom:toDp(50)
+    bottom:toDp(50),
+    backgroundColor:'yellow'
   },
 bodyUlasan: {
   backgroundColor:'#E7E7E7',

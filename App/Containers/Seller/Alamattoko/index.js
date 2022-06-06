@@ -67,7 +67,7 @@ const Alamattoko = (props) => {
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
-          <TouchableOpacity  onPress={() => NavigatorService.navigate('EditAlamattoko')}>
+          <TouchableOpacity  onPress={() => NavigatorService.navigate('EditAlamattoko', { adr_id: adr_id })}>
           <View>
             <Text>{item.mb_name} {item.mb_phone}</Text>
             <Text>{item.adr_address} {item.cty_name}</Text>

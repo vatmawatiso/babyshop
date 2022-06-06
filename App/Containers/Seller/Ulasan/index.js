@@ -135,6 +135,8 @@ const Ulasan = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    // backgroundColor:'yellow',
+    // height:400
   },
   content: {
     flex: 1,

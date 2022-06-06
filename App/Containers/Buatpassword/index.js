@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
         top: toDp(40),
         width: toDp(335),
         height: toDp(40),
-        borderRadius: toDp(25)
+        borderRadius: toDp(10)
     },
     txtPassword: {
         bottom: toDp(5)
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
         height: toDp(48),
         backgroundColor: '#F2F3F3',
         paddingHorizontal: toDp(8),
-        borderRadius: toDp(25),
+        borderRadius: toDp(8),
         marginTop: toDp(8)
     },
     msgError: {

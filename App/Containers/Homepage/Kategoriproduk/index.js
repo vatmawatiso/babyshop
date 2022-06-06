@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
   textButton1: {
     right: toDp(130),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(50),
     borderRadius: toDp(20),
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   textButton2: {
     top: toDp(-11),
     right: toDp(58),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
     borderRadius: toDp(20),
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   textButton3: {
     top: toDp(-22),
     right: toDp(-29),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
     borderRadius: toDp(20),
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   textButton4: {
     top: toDp(-33),
     right: toDp(-116),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
     borderRadius: toDp(20),
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   textButton5: {
     top: toDp(-28),
     right: toDp(130),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(50),
     borderRadius: toDp(20),
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   textButton6: {
     top: toDp(-39),
     right: toDp(49),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(13),
     width: toDp(100),
     borderRadius: toDp(20),
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   textButton7: {
     top: toDp(-51),
     right: toDp(-48),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
     borderRadius: toDp(8),
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     textAlign: 'center',
     borderRadius: toDp(20),
     width: toDp(70),
@@ -379,11 +379,20 @@ const styles = StyleSheet.create({
   },
   vocher: {
     // top: toDp(10),
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     margin: toDp(5),
     paddingRight: toDp(20),
     // left: toDp(65),
-    borderRadius: toDp(20)
+    borderRadius: toDp(20),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   titleVocher: {
     textAlign: 'center',
