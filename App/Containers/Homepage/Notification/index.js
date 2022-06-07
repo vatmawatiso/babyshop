@@ -166,11 +166,21 @@ const styles = StyleSheet.create({
     marginBottom: toDp(45)
   },
   Notification: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     width: toDp(335),
-    height: toDp(58),
+    height: toDp(70),
     margin: toDp(1),
-    borderRadius: toDp(20)
+    padding: toDp(5),
+    borderRadius: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   title: {
     fontSize: toDp(12),

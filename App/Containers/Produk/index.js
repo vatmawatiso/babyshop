@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    // backgroundColor:'cyan',
+    backgroundColor:'white',
     // top:toDp(50)
   },
   footer: {
@@ -319,17 +319,26 @@ const styles = StyleSheet.create({
     top: toDp(15),
   },
   Ulasan: {
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     width: toDp(335),
     height: toDp(47),
     // left:toDp(50),
-    borderRadius: toDp(15),
+    borderRadius: toDp(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: toDp(30),
     marginBottom: toDp(70),
-    right: toDp(8)
+    right: toDp(8),
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 1,
+},
+shadowOpacity: 0.20,
+shadowRadius: 1.41,
+
+elevation: 2,
   },
   txtUlasan: {
     marginLeft: toDp(15)
@@ -342,7 +351,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(60),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     justifyContent: 'space-between',
     alignItems: 'center',
     bottom: toDp(10)
@@ -364,6 +373,7 @@ const styles = StyleSheet.create({
   // contentContainer: {
   //   paddingVertical: 20
   // }
+
 
 });
 

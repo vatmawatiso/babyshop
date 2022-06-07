@@ -24,16 +24,62 @@ const Alamattoko = (props) => {
   const [state, setState] = useState({
     datas: [],
     adr_mb_id: '',
-    mb_id: ''
+    mb_id: '',
+    mb_name: '',
+    cty_name: '',
+    adr_address: ''
   })
 
 
   useEffect(() => {
+
+    AsyncStorage.getItem('uid').then(uids => {
+      // console.log('ids', uids)
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids,
+      }))
+      // console.log(ids)
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+ 
+      let data    =  JSON.parse(response);
+      // const val = JSON.stringify(data);
+ 
+      //console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
+ 
+      setState(state => ({...state,
+        adr_mb_id: data.adr_mb_id,
+        adr_id: data.adr_id,
+        // mb_name:data.value.mb_name,
+        // mb_phone:data.value.mb_phone,
+      }))
+ 
+ 
+    }).catch(err => {
+      console.log('err', err)
+    })
+ 
     getAlamat()
+ 
+    props.navigation.addListener(
+         'didFocus',
+         payload => {
+ 
+             getAlamat()
+         }
+   );
+
   }, [])
 
   const getAlamat = () => {
     let mb_id = props.navigation.state.params.adr_mb_id;
+    console.log('Let mb_id ===> ', mb_id)
     axios.get('https://market.pondok-huda.com/dev/react/addres/member/' + mb_id)
       .then(result => {
         //hendle success
@@ -59,20 +105,24 @@ const Alamattoko = (props) => {
     },
   ]
 
+  const selectAlamat = (adr_id,hp, alamat, cty_id, cty_name) => {
+    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name })
+  }
+
   const ListAlamat = (item, index, onPress) => (
     <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
-      <TouchableOpacity style={{ width: toDp(330) }}>
+      <TouchableOpacity style={{ width: toDp(330) }} onPress={() => onPress()}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={allLogo.icaddress1} style={styles.icaddress1} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
-          <TouchableOpacity  onPress={() => NavigatorService.navigate('EditAlamattoko', { adr_id: adr_id })}>
+        
           <View>
-            <Text>{item.mb_name} {item.mb_phone}</Text>
+            <Text>{item.mb_name} {item.tmp_hp}</Text>
             <Text>{item.adr_address} {item.cty_name}</Text>
           </View>
-          </TouchableOpacity>
+   
         </View>
       </TouchableOpacity>
     </View>
@@ -91,7 +141,7 @@ const Alamattoko = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamat(item, index, () => alamatUtama(item.adr_id))
+              ListAlamat(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_id, item.cty_name))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}

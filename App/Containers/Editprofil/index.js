@@ -365,9 +365,9 @@ const gallery = () => {
           />
         </View>
         <SelectDropdown
-          buttonStyle={[styles.textInput, {bottom:toDp(10)}]}
-          buttonTextStyle={{fontSize:toDp(12), color:'grey',}}
-          rowTextStyle={{fontSize:toDp(12)}}
+          buttonStyle={[styles.textInput, {bottom:toDp(10), right:toDp(6)}]}
+          buttonTextStyle={{fontSize:toDp(13), color:'grey', }}
+          rowTextStyle={{fontSize:toDp(13)}}
           dropdownStyle={{borderRadius:toDp(10)}}
           rowStyle={{height:toDp(50),padding:toDp(5)}}
           defaultButtonText={'Pilih Tipe User'}
@@ -433,19 +433,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // top:toDp(50)
+    alignItems: 'center'
   },
   content: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(320),
     height: toDp(116),
-    borderRadius: toDp(20),
-    left: toDp(12),
+    borderRadius: toDp(10),
     top: toDp(10)
   },
   imgProfil: {
     height: toDp(80),
     width: toDp(80),
-    borderRadius:toDp(25),
+    borderRadius:toDp(10),
     left: toDp(135),
     bottom: toDp(10),
   },
@@ -460,14 +460,15 @@ const styles = StyleSheet.create({
     fontSize: toDp(10),
     left: toDp(133),
   },
-  textInput: {
-    width: toDp(250),
-    height: toDp(39),
-    backgroundColor: '#F2F3F3',
-    paddingHorizontal: toDp(8),
-    borderRadius: toDp(20),
-    borderWidth: toDp(0.5),
-  },
+  // textInput: {
+  //   width: toDp(250),
+  //   height: toDp(39),
+  //   backgroundColor: '#F2F3F3',
+  //   paddingHorizontal: toDp(8),
+  //   borderRadius: toDp(20),
+  //   borderWidth: toDp(0.5),
+  //   padding: toDp(5)
+  // },
   formInput: {
     top: toDp(25),
     left: toDp(18)
@@ -478,10 +479,10 @@ const styles = StyleSheet.create({
   },
   buttonSave: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(320),
     height: toDp(50),
-    borderRadius: toDp(20),
-    bottom: toDp(5),
+    borderRadius: toDp(10),
+    bottom: toDp(15),
     justifyContent: 'center'
   },
   save: {
@@ -492,13 +493,14 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: 'white',
-    width: toDp(335),
+    width: toDp(320),
     height: toDp(40),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     bottom: toDp(15),
     marginBottom: toDp(-8),
     right: toDp(8),
     borderWidth: toDp(0.5),
+    paddingHorizontal: toDp(10)
   },
   icVisibility: {
     width: toDp(24),
@@ -559,7 +561,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       height: toDp(48),
       width: toDp(80),
-      borderRadius: toDp(20)
+      borderRadius: toDp(10)
   },
   txtButon: {
       fontSize: toDp(14),

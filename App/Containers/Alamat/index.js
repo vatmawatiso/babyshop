@@ -33,7 +33,7 @@ const Alamat = (props) => {
   })
 
   useEffect(() => {
-
+ 
     AsyncStorage.getItem('uid').then(uids => {
       // console.log('ids', uids)
       let ids = uids;
@@ -42,39 +42,40 @@ const Alamat = (props) => {
         mb_id: ids,
       }))
       // console.log(ids)
-      console.log('UseEffect MB ID----------->' + JSON.stringify(ids));
     }).catch(err => {
       console.log('err', err)
     })
 
-    getAlamatClient()
-  }, [])
-
-  useEffect(() => {
-
     AsyncStorage.getItem('member').then(response => {
       // console.log('Profil----------->'+ JSON.stringify(response));
-
-      let data = JSON.parse(response);
+ 
+      let data    =  JSON.parse(response);
       // const val = JSON.stringify(data);
-
-      console.log('Jadikan Alamat Utama----------->' + JSON.stringify(data));
-
-      setState(state => ({
-        ...state,
+ 
+      //console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
+ 
+      setState(state => ({...state,
         adr_mb_id: data.adr_mb_id,
         adr_id: data.adr_id,
         // mb_name:data.value.mb_name,
         // mb_phone:data.value.mb_phone,
       }))
-      console.log('UseEffect ADR_MB_ID----------->' + JSON.stringify(state.adr_mb_id));
-      console.log('UseEffect ADR_ID----------->' + JSON.stringify(state.adr_id));
-
-
+ 
+ 
     }).catch(err => {
       console.log('err', err)
     })
-
+ 
+    getAlamatClient()
+ 
+    props.navigation.addListener(
+         'didFocus',
+         payload => {
+ 
+             getAlamatClient()
+         }
+   );
+ 
   }, [])
 
   const getAlamatClient = () => {
@@ -159,8 +160,16 @@ const Alamat = (props) => {
     },
   ]
 
-  const selectAlamat = (adr_id,hp, alamat, cty_name) => {
-    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_name: cty_name })
+  const displayName = (cty_name) =>{
+    let count = '';
+    let nama  = '';
+    count = cty_name.split(' ' || '-');
+    nama  = count.slice(0, 2,).join(' ');
+    return nama
+}
+
+  const selectAlamat = (adr_id,hp, alamat, cty_id, cty_name) => {
+    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name })
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
@@ -173,7 +182,7 @@ const Alamat = (props) => {
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
           <View>
             <Text>{item.mb_name} {item.adr_hp}</Text>
-            <Text>{item.adr_address} {item.cty_name}</Text>
+            <Text>{item.adr_address} {displayName(item.cty_name)}</Text>
             <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => onSetutama()}>
               <Text style={styles.txtAlamatUtama}>Jadikan Alamat Utama</Text>
             </TouchableOpacity>
@@ -195,7 +204,7 @@ const Alamat = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_id, item.cty_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
