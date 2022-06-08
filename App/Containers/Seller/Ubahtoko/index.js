@@ -266,8 +266,8 @@ const styles = StyleSheet.create({
     borderRadius: toDp(25)
   },
   profilToko: {
-    backgroundColor: '#e7e7e7',
-    borderRadius: toDp(25),
+    backgroundColor: '#F9F8F8',
+    borderRadius: toDp(10),
     top: toDp(10),
     width: toDp(335),
     height: toDp(490),
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
 
-    elevation: 2,
+    elevation: 3,
   },
   btnGanti: {
     width: toDp(90),
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(15),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     top: toDp(3),
     shadowColor: "#000",
     shadowOffset: {
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(15),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     top: toDp(5),
     marginTop: toDp(5),
     shadowColor: "#000",
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(50),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     top: toDp(20),
     justifyContent: 'center'
   },

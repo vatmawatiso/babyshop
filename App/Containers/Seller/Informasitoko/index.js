@@ -118,7 +118,7 @@ const Informasitoko = (props) => {
           </View>
           <View style={{ right: toDp(20) }}>
             <TouchableOpacity style={{
-              backgroundColor: '#e7e7e7', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center', shadowColor: "#000",
+              backgroundColor: '#ea421e', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center', shadowColor: "#000",
               shadowOffset: {
                 width: 0,
                 height: 1,
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   btnUbah: {
-    backgroundColor: '#e7e7e7',
+    backgroundColor: '#f9f8f8',
     width: toDp(335),
     height: toDp(45),
     borderRadius: toDp(20),

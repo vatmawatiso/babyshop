@@ -21,6 +21,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { createIconSetFromFontello } from "react-native-vector-icons";
 import Axios from "axios";
 import { getActiveChildNavigationOptions } from "react-navigation";
+import NumberFormat from 'react-number-format';
 
 const Homeseller = (props) => {
   const [src, setSrc] = useState(null);
@@ -148,19 +149,40 @@ const Homeseller = (props) => {
 
           <View style={styles.profil3}>
             <Pressable style={styles.btnPembayaran}>
-              <Image source={allLogo.icwallet} style={styles.icwallet} />
+              <Image source={allLogo.wallet} style={styles.wallet} />
               <Text style={styles.txtPembayaran}>Pembayaran</Text>
             </Pressable>
 
             <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
-              <Image source={allLogo.icstore} style={styles.icstore} />
+              <Image source={allLogo.store} style={styles.store} />
               <Text style={styles.txtPengiriman}>Pengiriman</Text>
             </Pressable>
           </View>
 
         </View>
 
-        <MenuToko />
+       
+        <View style={{flexDirection: 'row', width: toDp(350),height: toDp(70), top: toDp(15)}}>
+            <Pressable style={styles.presable2} onPress={() => NavigatorService.navigate('Informasitoko')}>
+              <View style={{borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(8), borderColor: '#E6E6E6'}}>
+              <Image source={allLogo.store2} style={{height: toDp(28),width: toDp(28),resizeMode: 'contain'}} />
+              </View>
+                <Text style={[styles.textIcon, {textAlign: 'center', fontSize:toDp(12)}]}>Toko Saya</Text>
+            </Pressable>
+            <Pressable style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya')}>
+              <View style={{borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(8), borderColor: '#E6E6E6'}}>
+                <Image source={allLogo.product} style={{height: toDp(28),width: toDp(28), resizeMode: 'contain'}} />
+              </View>
+                <Text style={[styles.textIcon, {textAlign: 'center', fontSize:toDp(12)}]}>Produk Saya</Text>
+            </Pressable>
+            <Pressable style={styles.presable2} onPress={() => NavigatorService.navigate('Kategori')}>
+              <View style={{borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: '#E6E6E6'}}>
+                <Image source={allLogo.kategori} style={{height: toDp(38), width: toDp(38), resizeMode: 'contain'}} />
+              </View>
+                <Text style={[styles.textIcon, {textAlign: 'center', fontSize:toDp(12)}]}>Kategori</Text>
+            </Pressable>
+            
+        </View>
 
         <View style={{ height: toDp(400) }}>
           <View style={styles.Penjualan}>
@@ -173,7 +195,14 @@ const Homeseller = (props) => {
             <Pressable style={{ bottom: toDp(10), height: toDp(30), justifyContent: 'center', marginVertical: toDp(5) }} onPress={() => NavigatorService.navigate('Saldopenjual')} >
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={{ marginLeft: toDp(10) }}>Saldo</Text>
-                <Text style={{ marginRight: toDp(10) }}>Rp 5.000.000</Text>
+                <NumberFormat
+                  value={5000000}
+                  displayType={'text'}
+                  thousandSeparator={'.'}
+                  decimalSeparator={','}
+                  prefix={'Rp. '}
+                  renderText={formattedValue => <Text style={{color: '#F83308', fontWeight: '800', marginRight: toDp(5)}}>{formattedValue}</Text>} // <--- Don't forget this!
+                />
               </View>
             </Pressable>
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
@@ -187,13 +216,13 @@ const Homeseller = (props) => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Pressable style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Belumbayar' })} >
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.icorders} style={{ bottom: toDp(10) }} />
+                <Image source={allLogo.bag} style={{ bottom: toDp(10), width: toDp(28), height: toDp(28)}} />
                   <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Pesanan Baru</Text>
                 </View>
               </Pressable>
               <Pressable style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Perludikirim' })}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.iconly} style={{ bottom: toDp(10) }} />
+                <Image source={allLogo.siapkirim} style={{ bottom: toDp(10),width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
                   <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Siap dikirim</Text>
                 </View>
               </Pressable>
@@ -204,19 +233,19 @@ const Homeseller = (props) => {
             <View style={styles.bodyJual}>
               <Pressable style={{ width: toDp(335), height: toDp(30), bottom: toDp(5) }} onPress={() => NavigatorService.navigate('Ulasan')} >
                 <View style={{ flexDirection: 'row', margin: toDp(10), top: toDp(10) }}>
-                  <Image source={allLogo.iculasan} style={{ bottom: toDp(20) }} />
+                <Image source={allLogo.star} style={{ bottom: toDp(20),width: toDp(28), height: toDp(28) }} />
                   <Text style={{ padding: toDp(5), bottom: toDp(20) }}>ulasan</Text>
                 </View>
               </Pressable>
               <Pressable style={{ width: toDp(335), height: toDp(30), top: toDp(10) }} onPress={() => alert('Coming Soon')}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.icchatbox} style={{ bottom: toDp(10) }} />
+                <Image source={allLogo.chat} style={{ bottom: toDp(10),width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
                   <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Diskusi</Text>
                 </View>
               </Pressable>
               <Pressable style={{ width: toDp(335), height: toDp(35), top: toDp(15) }} onPress={() => alert('Coming Soon')}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.icdiscussion} style={{ bottom: toDp(10) }} />
+                <Image source={allLogo.support} style={{ bottom: toDp(5),width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
                   <Text style={{ padding: toDp(5), bottom: toDp(6) }}>Pesanan Komplain</Text>
                 </View>
               </Pressable>
@@ -227,15 +256,15 @@ const Homeseller = (props) => {
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <View style={styles.footer}>
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Homeseller')} >
+          <Pressable style={[styles.presable, {backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'Homeseller' }))}>
             <Image source={allLogo.ichome} style={styles.ichome} />
-            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10) }}>Beranda</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8) }}>Beranda</Text>
           </Pressable>
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Tambahproduk')} >
+          <Pressable style={[styles.presable, {backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Tambahproduk')} >
             <Image source={allLogo.icplusround} style={styles.icplus} />
-            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10) }}>Tambah</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(7) }}>Tambah</Text>
           </Pressable>
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Chat')} >
+          <Pressable style={[styles.presable, {backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('DaftarChat')} >
             <Image source={allLogo.icchat} style={styles.icchat} />
             <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(3) }}>Chat</Text>
           </Pressable>
@@ -251,7 +280,7 @@ const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
     flex: 1,
-    // backgroundColor: 'yellow'
+    backgroundColor: 'white'
   },
   iclineright: {
     width: toDp(10),
@@ -261,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(116),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     left: toDp(12),
     top: toDp(10),
     shadowColor: "#000",
@@ -342,10 +371,10 @@ const styles = StyleSheet.create({
     width: toDp(75)
   },
   Body: {
-    backgroundColor: '#e7e7e7',
+    backgroundColor: '#F9F8F8',
     width: toDp(335),
     height: toDp(80),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     top: toDp(30),
     shadowColor: "#000",
     shadowOffset: {
@@ -363,20 +392,21 @@ const styles = StyleSheet.create({
     marginRight: toDp(10)
   },
   Penjualan: {
-    backgroundColor: '#E7E7E7',
+    backgroundColor: '#F9F8F8',
     width: toDp(335),
     height: toDp(330),
     top: toDp(25),
     left: toDp(12),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 2,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   txtPenjualan: {
     margin: toDp(10),
@@ -386,20 +416,6 @@ const styles = StyleSheet.create({
     width: toDp(10),
     height: toDp(15),
   },
-  // bodyMenu: {
-  //     flexDirection:'row',
-  //     // alignItems:'baseline',
-  //     backgroundColor:'#2A334B',
-  //     width: toDp(335),
-  //     height: toDp(52),
-  //     borderRadius:toDp(25),
-  // },
-  // btnHome: {
-  //   marginHorizontal:toDp(20),
-  //   flex:1,
-  //   justifyContent:'center',
-  //   alignItems:'center'
-  // },
   icchat: {
     width: toDp(28),
     height: toDp(26),
@@ -441,16 +457,22 @@ const styles = StyleSheet.create({
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',
-    borderRadius: toDp(25)
+    borderRadius: toDp(15)
   },
   presable: {
     // backgroundColor:'red',
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     marginHorizontal: toDp(23),
     width: toDp(70),
-    height: toDp(50),
+    height: toDp(60),
     justifyContent: 'center',
-    marginTop:toDp(6)
+  },
+  presable2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: toDp(8),
+    marginHorizontal:toDp(5),
   },
   viewBtnEdit: {
     // backgroundColor: 'cyan',
@@ -458,6 +480,18 @@ const styles = StyleSheet.create({
     height: toDp(48),
     alignItems: 'flex-end',
     justifyContent: 'center',
+  },
+  store: {
+    width: toDp(24), 
+    height: toDp(24), 
+    resizeMode: 'contain',
+    tintColor:'#ea421e'
+  },
+  wallet: {
+    width: toDp(24), 
+    height: toDp(24), 
+    resizeMode: 'contain',
+    tintColor:'#ea421e'
   }
 });
 

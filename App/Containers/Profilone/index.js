@@ -112,7 +112,7 @@ const Profilone = (props) => {
           if (oid.data.length > 0) {
             const ALAMAT = {            //belum select data database
               id: oid.data[0]?.adr_id,
-              name: oid.data[0]?.mb_name,
+              name: oid.data[0]?.adr_name,
               phone: oid.data[0]?.adr_hp,
               address: oid.data[0]?.adr_address,
               city: oid.data[0]?.cty_name
@@ -211,13 +211,13 @@ const Profilone = (props) => {
     )
   }
 
-  const displayName = (alu_city) =>{
-    let count = '';
-    let nama  = '';
-    count = alu_city.split(' ' || '-');
-    nama  = count.slice(0, 3).join(' ');
-    return nama
-}
+//   const displayName = (alu_city) =>{
+//     let count = '';
+//     let nama  = '';
+//     count = alu_city.split(' ' || '-');
+//     nama  = count.slice(0, 3).join(' ');
+//     return nama
+// }
 
   // render() {
   return (
@@ -336,7 +336,7 @@ const Profilone = (props) => {
 
                   </>
                 }
-                <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {displayName(state.alu_city)}</Text>
+                <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
                 <View style={{left:toDp(125)}}>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
@@ -366,14 +366,6 @@ const Profilone = (props) => {
           <Text style={{ textAlign: 'center', color: 'white', fontSize: toDp(16) }}>Keluar</Text>
         </TouchableOpacity>
       </View>
-
-      {/* <View style={{alignItems: 'center', width: '100%'}}>
-        <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(180)}} onPress={() => logout()}>
-          <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
-        </TouchableOpacity>
-      </View> */}
-      {/* </View> */}
-
 
     </View>
   )

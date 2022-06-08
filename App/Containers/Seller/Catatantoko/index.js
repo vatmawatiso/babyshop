@@ -10,28 +10,28 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  BackHeader  from '@BackHeader'
+import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 
 const Catatantoko = (props) => {
-  const [src, setSrc]=useState(null);
+  const [src, setSrc] = useState(null);
 
   return (
     <View style={styles.container}>
 
-        <BackHeader
-          title={'Catatan Toko'}
-          onPress={() => props.navigation.goBack()}
-        />
+      <BackHeader
+        title={'Catatan Toko'}
+        onPress={() => props.navigation.goBack()}
+      />
 
-        <View style={{top:toDp(200)}}>
-            <Text style={styles.txt1}>Toko anda belum memiliki Catatan</Text>
-            <Text style={styles.txt2}>Tambah Catatan untuk menuliskan informasi{"\n"}syarat ketentuan toko</Text>
-            <Pressable style={styles.btnTambah} onPress={() => NavigatorService.navigate('Tambahcatatan')} >
-                <Text style={styles.txtTambah}>Tambah Catatan Toko</Text>
-            </Pressable>
-        </View>
+      <View style={{ top: toDp(200) }}>
+        <Text style={styles.txt1}>Toko anda belum memiliki Catatan</Text>
+        <Text style={styles.txt2}>Tambah Catatan untuk menuliskan informasi{"\n"}syarat ketentuan toko</Text>
+        <Pressable style={styles.btnTambah} onPress={() => NavigatorService.navigate('Tambahcatatan')} >
+          <Text style={styles.txtTambah}>Tambah Catatan Toko</Text>
+        </Pressable>
+      </View>
 
     </View>
   )
@@ -42,24 +42,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   txt1: {
-      textAlign:'center',
-      fontWeight:'bold'
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   txt2: {
-      textAlign:'center',
-      color:'grey'
+    textAlign: 'center',
+    color: 'grey'
   },
   txtTambah: {
-      textAlign:'center',
-      color:'white'
+    textAlign: 'center',
+    color: 'white'
   },
   btnTambah: {
-      backgroundColor:'#2A334B',
-      width:toDp(243),
-      height:toDp(42),
-      justifyContent:'center',
-      borderRadius:toDp(20),
-      margin:toDp(20)
+    backgroundColor: '#2A334B',
+    width: toDp(243),
+    height: toDp(42),
+    justifyContent: 'center',
+    borderRadius: toDp(10),
+    margin: toDp(20),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   }
 });
 

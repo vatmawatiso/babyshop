@@ -21,7 +21,7 @@ import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 
 
-const Editalamat = (props) => {
+const EditAlamattoko = (props) => {
 
   const [state, setState] = useState({
     cityname: [],
@@ -34,21 +34,25 @@ const Editalamat = (props) => {
     adr_mb_id: '',
     adr_address: '',
     adr_cty_id: '',
-    tmp_hp:'',
-    tmp_address:'',
-    tmp_cty_name:'',
-    tmp_cty_id:''
+    tmp_hp: '',
+    tmp_address: '',
+    tmp_cty_name: '',
+    tmp_cty_id: '',
+    tmp_name: ''
   })
 
   useEffect(() => {
-    setState(state => ({ ...state,
+    setState(state => ({
+      ...state,
       tmp_hp: props.navigation.state.params.phone,
-      tmp_address:props.navigation.state.params.adrress ,
+      tmp_address: props.navigation.state.params.adrress,
       tmp_cty_name: props.navigation.state.params.cty_name,
       tmp_cty_id: props.navigation.state.params.cty_id,
+      tmp_name: props.navigation.state.params.adr_name,
 
     }))
-    console.log("ahh--->"+ props.navigation.state.params.phone);
+    console.log("HP--->" + props.navigation.state.params.phone);
+    console.log("NAMA--->" + props.navigation.state.params.adr_name);
 
     city()
   }, [])
@@ -62,10 +66,10 @@ const Editalamat = (props) => {
         // handle success
         //alert(JSON.stringify(result))
         let data = result.data.data.map(doc => {
-              return {
-                cty_id: doc.cty_id,
-                cty_name: doc.cty_name
-              }
+          return {
+            cty_id: doc.cty_id,
+            cty_name: doc.cty_name
+          }
         })
 
         //setState(state => ({ ...state, cityname: result.data.data }))
@@ -161,22 +165,24 @@ const Editalamat = (props) => {
       adr_mb_id: state.adr_mb_id,
       adr_address: state.tmp_address,
       adr_cty_id: state.tmp_cty_id,
-      adr_hp : state.tmp_hp
+      adr_hp: state.tmp_hp,
+      adr_name: state.tmp_name
     }
-    // console.log('Body Alamat====> '+ JSON.stringify(body));
+    console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
     const adr_id = props.navigation.state.params.adr_id
+    console.log('Let adr_id ===> ', adr_id)
     axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
       .then(response => {
 
-        console.log('-----ALAMAT=====>', JSON.stringify(body));
+        console.log('-----ALAMAT=====>', JSON.stringify(response));
 
         if (response.data.status == 200) {
           alert('Berhasil Mengubah Alamat')
           console.log('HASIL ALAMAT ==> : ', response)
           setState(state => ({ ...state, loading: false }))
-          NavigatorService.navigate('Alamat');
+          NavigatorService.navigate('Alamatoko', { adr_mb_id: state.mb_id });
 
         } else {
           alert('Ubah Alamat Gagal!')
@@ -213,8 +219,8 @@ const Editalamat = (props) => {
             style={styles.textInput}
             placeholder={'Nama'}
             placeholderTextColor={'grey'}
-            value={state.mb_name}
-            onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
+            value={state.tmp_name}
+            onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
           />
           <TextInput
             top={toDp(6)}
@@ -248,7 +254,7 @@ const Editalamat = (props) => {
             }}
             data={state.cityname}
             onSelect={(selectedItem, index) => {
-              console.log(selectedItem.cty_name+selectedItem.cty_id)
+              console.log(selectedItem.cty_name + selectedItem.cty_id)
               setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
@@ -280,20 +286,6 @@ const Editalamat = (props) => {
             value={state.tmp_address}
             onChangeText={(text) => setState(state => ({ ...state, tmp_address: text }))}
           />
-          {/* <TextInput
-                        left={toDp(3)}
-                        top={toDp(8)}
-                        width={toDp(335)}
-                        height={toDp(40)}
-                        borderRadius={toDp(15)}
-                        backgroundColor={'white'}
-                        autoCapitalize={'none'}
-                        style={styles.textInput}
-                        placeholder={'Patokan'}
-                        placeholderTextColor={'grey'}
-                        // value={state.username}
-                        // onChangeText={(text) => setState(state => ({...state, username: text })) }
-                    /> */}
         </SafeAreaView>
       </View>
 
@@ -418,4 +410,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Editalamat;
+export default EditAlamattoko;

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import BackHeader from '@BackHeader'
+import Header from '@Header'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
@@ -77,132 +77,144 @@ const Checkout = (props) => {
 
     return (
         <View style={styles.container}>
-            <BackHeader
+            <Header
                 title={'Checkout'}
                 onPress={() => props.navigation.goBack()}
             />
-            <View style={{ flex: 1 }}>
-                <View>
+            <ScrollView>
+                <View style={{ flex: 1 }}>
                     <View>
-                        <View style={styles.Address}>
-                            <Image source={allLogo.icaddress1} style={styles.icaddress1} />
-                            <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
+                        <View style={{
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 1,
+                            },
+                            shadowOpacity: 0.22,
+                            shadowRadius: 2.22,
+
+                            elevation: 3,
+                        }}>
+                            <View style={styles.Address}>
+                                <Image source={allLogo.icaddress1} style={styles.icaddress1} />
+                                <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
+                            </View>
+
+                            <Pressable style={{ bottom: toDp(60), }} onPress={() => NavigatorService.navigate('Alamat')}>
+                                <View style={styles.isiAddress}>
+                                    <Text style={{ fontSize: toDp(12), }}>{Address[0].nama} {Address[0].telepon}</Text>
+                                    <Text style={{ fontSize: toDp(12), }}>{Address[0].alamat}</Text>
+                                    <Image source={allLogo.iclineblack} style={[styles.icaddress, { marginLeft: toDp(30) }]} />
+                                </View>
+                            </Pressable>
                         </View>
 
-                        <Pressable style={{ bottom: toDp(60), }} onPress={() => NavigatorService.navigate('Alamat')}>
-                            <View style={styles.isiAddress}>
-                                <Text style={{ fontSize: toDp(12), }}>{Address[0].nama} {Address[0].telepon}</Text>
-                                <Text style={{ fontSize: toDp(12), }}>{Address[0].alamat}</Text>
-                                <Image source={allLogo.iclineblack} style={[styles.icaddress, { marginLeft: toDp(30) }]} />
-                            </View>
-                        </Pressable>
-                    </View>
+                        <View>
+                            <Text style={styles.txtTB}>Jaya Abadi Bandung</Text>
 
-                    <View>
-                        <Text style={styles.txtTB}>Jaya Abadi Bandung</Text>
-
-                        <View style={styles.OrderDetail}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Image source={allLogo.icgerobak} style={styles.icgerobak} />
-                                <Text style={{ top: toDp(20), right: toDp(40), fontSize: toDp(12) }}>{DATA[0].produk}</Text>
-                                <Text style={{ top: toDp(80), right: toDp(10), fontSize: toDp(12) }}>{DATA[0].jumlah}x</Text>
-                            </View>
-                            <Text style={{ bottom: toDp(60), left: toDp(135), fontSize: toDp(12) }}>{DATA[0].harga}</Text>
-                        </View>
-                    </View>
-
-                    <View>
-                        <View style={styles.Shipping}>
-                            <Text style={styles.txtOption}>Opsi Pengiriman</Text>
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
-                            <Pressable onPress={() => alert('Coba Ajalah')}>
+                            <View style={styles.OrderDetail}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Image source={allLogo.icvoucher} style={styles.icvoucher} />
-                                    <Text style={styles.voucher}>Klaim Voucher</Text>
-                                    <Image source={allLogo.iclineblack} style={styles.iclineblack} />
+                                    <Image source={allLogo.icgerobak} style={{ marginLeft: toDp(10) }} />
+                                    <Text style={{ top: toDp(20), right: toDp(40), fontSize: toDp(12) }}>{DATA[0].produk}</Text>
+                                    <Text style={{ top: toDp(80), right: toDp(10), fontSize: toDp(12) }}>{DATA[0].jumlah}x</Text>
                                 </View>
-                            </Pressable>
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
-                            <Pressable onPress={() => NavigatorService.navigate('Jasakirim')}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <SelectDropdown
-                                        buttonStyle={styles.dropdown}
-                                        buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
-                                        rowTextStyle={{ fontSize: toDp(12) }}
-                                        dropdownStyle={{ borderRadius: toDp(7) }}
-                                        rowStyle={{ height: toDp(30), padding: toDp(5) }}
-                                        defaultButtonText={'Pilih Jasa Pengiriman'}
-                                        data={state.datas}
-                                        onSelect={(selectedItem, index) => {
-                                            console.log(selectedItem.shp_id, index)
-                                            setState(state => ({ ...state, shp_name: selectedItem.shp_id }))
-                                        }}
-                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                <Text style={{ bottom: toDp(60), left: toDp(150), fontSize: toDp(12) }}>{DATA[0].harga}</Text>
+                            </View>
+                        </View>
 
-                                            return selectedItem.shp_name;
-                                        }}
-                                        rowTextForSelection={(item, index) => {
-                                            return item.shp_name;
-                                        }}
-                                        renderDropdownIcon={(isOpened) => {
-                                            return (
-                                                <FontAwesome
-                                                    name={isOpened ? "chevron-up" : "chevron-down"}
-                                                    color={"#444"}
-                                                    size={12}
-                                                />
-                                            );
-                                        }}
-                                    />
+                        <View>
+                            <View style={styles.Shipping}>
+                                <Text style={styles.txtOption}>Opsi Pengiriman</Text>
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
+                                <Pressable onPress={() => alert('Coba Ajalah')}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Image source={allLogo.icvoucher} style={styles.icvoucher} />
+                                        <Text style={styles.voucher}>Klaim Voucher</Text>
+                                        <Image source={allLogo.iclineblack} style={styles.iclineblack} />
+                                    </View>
+                                </Pressable>
+                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} /> */}
+                                <Pressable onPress={() => NavigatorService.navigate('Jasakirim')}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <SelectDropdown
+                                            buttonStyle={styles.dropdown}
+                                            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+                                            rowTextStyle={{ fontSize: toDp(12) }}
+                                            dropdownStyle={{ borderRadius: toDp(7) }}
+                                            rowStyle={{ height: toDp(30), padding: toDp(5) }}
+                                            defaultButtonText={'Pilih Jasa Pengiriman'}
+                                            data={state.datas}
+                                            onSelect={(selectedItem, index) => {
+                                                console.log(selectedItem.shp_id, index)
+                                                setState(state => ({ ...state, shp_name: selectedItem.shp_id }))
+                                            }}
+                                            buttonTextAfterSelection={(selectedItem, index) => {
+
+                                                return selectedItem.shp_name;
+                                            }}
+                                            rowTextForSelection={(item, index) => {
+                                                return item.shp_name;
+                                            }}
+                                            renderDropdownIcon={(isOpened) => {
+                                                return (
+                                                    <FontAwesome
+                                                        name={isOpened ? "chevron-up" : "chevron-down"}
+                                                        color={"#444"}
+                                                        size={12}
+                                                    />
+                                                );
+                                            }}
+                                        />
+                                    </View>
+                                </Pressable>
+                                <Text style={styles.estimasi}>Akan DIterima Pada {DATA[0].diterima}</Text>
+                            </View>
+                        </View>
+
+                        <View>
+                            <View style={styles.bodyPayment}>
+                                <Pressable onPress={() => NavigatorService.navigate('Pembayaran')}>
+                                    <View style={styles.payment}>
+                                        <Text style={styles.txtPayment}>Metode Pembayaran</Text>
+                                        <Text style={styles.txtTransfer}>Transfer Bank</Text>
+                                        <Image source={allLogo.iclineblack} style={styles.iclineblack2} />
+                                    </View>
+                                </Pressable>
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
+
+                                <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
+                                    <Text style={styles.txtSubTot}>Subtotal Untuk Produk</Text>
+                                    <Text style={styles.txtSubTot}>Rp 700.000</Text>
                                 </View>
-                            </Pressable>
-                            <Text style={styles.estimasi}>Akan DIterima Pada {DATA[0].diterima}</Text>
+                                <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
+                                    <Text style={styles.txtSubPeng}>Subtotal Pengiriman</Text>
+                                    <Text style={styles.txtSubPeng}>Rp 50.000</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
+                                    <Text style={styles.txtBiayaPen}>Biaya Penanganan</Text>
+                                    <Text style={styles.txtBiayaPen}>Rp 50.000</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
+                                    <Text style={styles.txtTotPem}>Total Pembayaran</Text>
+                                    <Text style={styles.txtTotPem1}>Rp 800.000</Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
 
-                    <View>
-                        <View style={styles.bodyPayment}>
-                            <Pressable onPress={() => NavigatorService.navigate('Pembayaran')}>
-                                <View style={styles.payment}>
-                                    <Text style={styles.txtPayment}>Metode Pembayaran</Text>
-                                    <Text style={styles.txtTransfer}>Transfer Bank</Text>
-                                    <Image source={allLogo.iclineblack} style={styles.iclineblack2} />
-                                </View>
+                    <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40), }}>
+                            <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(10) }}>
+                                <Text style={{ textAlign: 'center', color: 'white', }}>Total Pembayaran</Text>
+                                <Text style={{ textAlign: 'center', color: 'white', }}>{DATA[0].total}</Text>
+                            </View>
+                            <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(10), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
+                                <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
-
-                            <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
-                                <Text style={styles.txtSubTot}>Subtotal Untuk Produk</Text>
-                                <Text style={styles.txtSubTot}>Rp 700.000</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
-                                <Text style={styles.txtSubPeng}>Subtotal Pengiriman</Text>
-                                <Text style={styles.txtSubPeng}>Rp 50.000</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
-                                <Text style={styles.txtBiayaPen}>Biaya Penanganan</Text>
-                                <Text style={styles.txtBiayaPen}>Rp 50.000</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
-                                <Text style={styles.txtTotPem}>Total Pembayaran</Text>
-                                <Text style={styles.txtTotPem1}>Rp 800.000</Text>
-                            </View>
                         </View>
                     </View>
                 </View>
-
-                <View style={{ marginTop: toDp(10), bottom: 10, position: 'absolute' }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40), }}>
-                        <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(20) }}>
-                            <Text style={{ textAlign: 'center', color: 'white', }}>Total Pembayaran</Text>
-                            <Text style={{ textAlign: 'center', color: 'white', }}>{DATA[0].total}</Text>
-                        </View>
-                        <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(20), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
-                            <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </View>
+            </ScrollView>
         </View>
     );
 
@@ -216,31 +228,34 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         height: toDp(25),
-        borderRadius: toDp(20),
-        width: toDp(335),
+        borderRadius: toDp(10),
+        width: toDp(320),
         top: toDp(4),
-        backgroundColor: '#e7e7e7',
+        backgroundColor: '#f9f8f8',
+        borderWidth: toDp(0.5)
     },
     Address: {
-        backgroundColor: '#e7e7e7',
+        backgroundColor: '#f9f8f8',
         width: toDp(335),
         height: toDp(105),
-        borderRadius: toDp(25),
+        borderRadius: toDp(10),
         top: toDp(15),
         flexDirection: 'row',
+
+
+    },
+    isiAddress: {
+        top: toDp(10),
+        marginLeft: toDp(50),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 1,
         },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+        shadowOpacity: 0.18,
+        shadowRadius: 1.00,
 
-        elevation: 2,
-    },
-    isiAddress: {
-        top: toDp(10),
-        marginLeft: toDp(50)
+        elevation: 1,
     },
     icaddress1: {
         marginLeft: toDp(10),
@@ -262,8 +277,8 @@ const styles = StyleSheet.create({
         bottom: toDp(20)
     },
     OrderDetail: {
-        backgroundColor: '#e7e7e7',
-        borderRadius: toDp(25),
+        backgroundColor: '#f9f8f8',
+        borderRadius: toDp(10),
         width: toDp(335),
         height: toDp(110),
         bottom: toDp(15),
@@ -278,10 +293,11 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     Shipping: {
-        backgroundColor: '#e7e7e7',
-        borderRadius: toDp(25),
+        padding: toDp(10),
+        backgroundColor: '#f9f8f8',
+        borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(95),
+        height: toDp(110),
         bottom: toDp(5),
         shadowColor: "#000",
         shadowOffset: {
@@ -296,7 +312,7 @@ const styles = StyleSheet.create({
     txtOption: {
         color: '#6495ED',
         margin: toDp(4),
-        marginLeft:toDp(10),
+        marginLeft: toDp(10),
         fontSize: toDp(12),
     },
     delivery: {
@@ -307,12 +323,11 @@ const styles = StyleSheet.create({
     estimasi: {
         fontSize: toDp(12),
         margin: toDp(6),
-        bottom: toDp(5),
-        marginLeft:toDp(55)
+        marginLeft: toDp(55)
     },
     icvoucher: {
         margin: toDp(4),
-        marginLeft:toDp(10),
+        marginLeft: toDp(10),
         width: toDp(22),
         height: toDp(12)
     },
@@ -340,18 +355,19 @@ const styles = StyleSheet.create({
         fontSize: toDp(12),
     },
     payment: {
-        backgroundColor: '#C4C4C4',
+        backgroundColor: '#f9f8f8',
         width: toDp(316),
         height: toDp(105),
         borderRadius: toDp(20),
         top: toDp(10)
     },
     bodyPayment: {
-        backgroundColor: '#e7e7e7',
+        padding: toDp(10),
+        backgroundColor: '#f9f8f8',
         top: toDp(5),
-        borderRadius: toDp(25),
+        borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(130),
+        height: toDp(145),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -368,7 +384,7 @@ const styles = StyleSheet.create({
     },
     txtPayment: {
         margin: toDp(4),
-        marginLeft:toDp(10),
+        marginLeft: toDp(10),
         fontSize: toDp(12)
     },
     txtTransfer: {
@@ -384,20 +400,20 @@ const styles = StyleSheet.create({
     },
     txtSubTot: {
         fontSize: toDp(12),
-        marginLeft:toDp(6),
+        marginLeft: toDp(6),
     },
     txtSubPeng: {
         fontSize: toDp(12),
-        marginLeft:toDp(6),
+        marginLeft: toDp(6),
     },
     txtBiayaPen: {
         fontSize: toDp(12),
-        marginLeft:toDp(6),
+        marginLeft: toDp(6),
     },
     txtTotPem: {
         fontSize: toDp(13),
         fontWeight: 'bold',
-        marginLeft:toDp(6),
+        marginLeft: toDp(6),
     },
     txtTotPem1: {
         fontSize: toDp(13),

@@ -392,8 +392,7 @@ const styles = StyleSheet.create({
   content: {
     width: toDp(350),
     height: toDp(70),
-    bottom: toDp(10),
-    top: toDp(-10),
+    bottom: toDp(15),
     flexDirection: 'row',
     left:toDp(5),
     backgroundColor: 'white'
@@ -408,7 +407,8 @@ const styles = StyleSheet.create({
   icon: {
     height: toDp(38),
     width: toDp(38),
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    tintColor:'#f83308'
   }
 });
 

@@ -29,7 +29,8 @@ const Alamat = (props) => {
     mb_id: '',
     mb_name: '',
     cty_name: '',
-    adr_address: ''
+    adr_address: '',
+    adr_name:''
   })
 
   useEffect(() => {
@@ -99,7 +100,7 @@ const Alamat = (props) => {
 
 
 
-  const alamatUtama = async (idm, adr_address, adr_cty_id, adr_mb_name, adr_mb_phone) => {
+  const alamatUtama = async (idm, adr_address, adr_cty_id, adr_mb_name, adr_mb_phone, adr_name) => {
     const body = {
       adr_mb_id: state.mb_id,
     }
@@ -116,7 +117,8 @@ const Alamat = (props) => {
           name: adr_mb_name,
           phone: adr_mb_phone,
           address: adr_address,
-          city: adr_cty_id
+          city: adr_cty_id,
+          nama: adr_name
         }
 
         if (response.data.status == 200) {
@@ -168,8 +170,8 @@ const Alamat = (props) => {
     return nama
 }
 
-  const selectAlamat = (adr_id,hp, alamat, cty_id, cty_name) => {
-    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name })
+  const selectAlamat = (adr_id,hp, alamat, cty_id, cty_name, adr_name) => {
+    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name, adr_name : adr_name })
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
@@ -181,7 +183,7 @@ const Alamat = (props) => {
         </View>
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
           <View>
-            <Text>{item.mb_name} {item.adr_hp}</Text>
+            <Text>{item.adr_name} {item.adr_hp}</Text>
             <Text>{item.adr_address} {displayName(item.cty_name)}</Text>
             <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => onSetutama()}>
               <Text style={styles.txtAlamatUtama}>Jadikan Alamat Utama</Text>
@@ -204,7 +206,7 @@ const Alamat = (props) => {
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_id, item.cty_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
+              ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_id, item.cty_name, item.adr_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
             )
           }}
           ListFooterComponent={() => <View style={{ height: toDp(120) }} />}

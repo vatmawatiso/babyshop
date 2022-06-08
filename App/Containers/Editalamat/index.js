@@ -37,7 +37,8 @@ const Editalamat = (props) => {
     tmp_hp:'',
     tmp_address:'',
     tmp_cty_name:'',
-    tmp_cty_id:''
+    tmp_cty_id:'',
+    tmp_name:''
   })
 
   useEffect(() => {
@@ -46,9 +47,11 @@ const Editalamat = (props) => {
       tmp_address:props.navigation.state.params.adrress ,
       tmp_cty_name: props.navigation.state.params.cty_name,
       tmp_cty_id: props.navigation.state.params.cty_id,
+      tmp_name: props.navigation.state.params.adr_name,
 
     }))
-    console.log("ahh--->"+ props.navigation.state.params.phone);
+    console.log("HP--->"+ props.navigation.state.params.phone);
+    console.log("NAMA--->"+ props.navigation.state.params.adr_name);
 
     city()
   }, [])
@@ -161,12 +164,14 @@ const Editalamat = (props) => {
       adr_mb_id: state.adr_mb_id,
       adr_address: state.tmp_address,
       adr_cty_id: state.tmp_cty_id,
-      adr_hp : state.tmp_hp
+      adr_hp : state.tmp_hp,
+      adr_name : state.tmp_name
     }
-    // console.log('Body Alamat====> '+ JSON.stringify(body));
+    console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
     const adr_id = props.navigation.state.params.adr_id
+    console.log('Let adr_id ===> ', adr_id)
     axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
       .then(response => {
 
@@ -213,8 +218,8 @@ const Editalamat = (props) => {
             style={styles.textInput}
             placeholder={'Nama'}
             placeholderTextColor={'grey'}
-            value={state.mb_name}
-            onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
+            value={state.tmp_name}
+            onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
           />
           <TextInput
             top={toDp(6)}
