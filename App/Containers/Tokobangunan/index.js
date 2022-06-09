@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import BackHeader from '@BackHeader'
+import Header from '@Header'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
@@ -31,7 +31,7 @@ const Tokobangunan = (props) => {
   }, [])
 
   const Tokobangunan = () => {
-    axios.get('https://market.pondok-huda.com/dev/react/store-building/')
+    axios.get('https://market.pondok-huda.com/dev/react/retail/')
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))
@@ -145,22 +145,26 @@ const Tokobangunan = (props) => {
               <Text>Nama</Text>
               <Text>Telepon</Text>
               <Text>Alamat</Text>
+              <Text>Latitude</Text>
+              <Text>Longtitude</Text>
             </View>
             <View>
-              <Text> : {item.sb_name}</Text>
-              <Text> : {item.sb_phone}</Text>
-              <Text> : {item.sb_address}</Text>
+              <Text> : {item.rtl_name}</Text>
+              <Text> : {item.rtl_phone}</Text>
+              <Text> : {item.rtl_address} {item.cty_name}</Text>
+              <Text> : {item.rtl_long}</Text>
+              <Text> : {item.rtl_lat}</Text>
             </View>
           </View>
         </View>
-      </TouchableOpacity> 
+      </TouchableOpacity>
     </View>
   )
 
   return (
     <View style={styles.container}>
-      <BackHeader
-        title={'Toko Bangunan'}
+      <Header
+        title={'Notification'}
         onPress={() => props.navigation.goBack()}
       />
       <View style={styles.flatcontent}>
@@ -183,20 +187,29 @@ const Tokobangunan = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1
+    // justifyContent: 'center',
+    // alignItems: 'center',
     // backgroundColor: 'red'
   },
   body: {
     flexDirection: 'row',
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#f8f9f9',
     width: toDp(335),
-    height: toDp(80),
-    borderRadius: toDp(20),
+    height: toDp(110),
+    borderRadius: toDp(10),
     top: toDp(10),
     justifyContent: 'space-between',
     marginBottom: toDp(2),
-    // right:toDp(10)
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 3,
   },
   content: {
     right: toDp(10),
@@ -211,6 +224,15 @@ const styles = StyleSheet.create({
     height: toDp(50),
     width: toDp(50),
     borderRadius: toDp(20),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 3,
   },
 });
 

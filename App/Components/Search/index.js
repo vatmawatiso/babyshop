@@ -43,8 +43,8 @@ class Search extends Component {
           <TouchableOpacity onPress={() => NavigatorService.navigate('Keranjang')}>
             <Image source={allLogo.iccart} style={styles.cart}  />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={allLogo.icnav} style={styles.nav} />
+          <TouchableOpacity onPress={() => NavigatorService.navigate('Wishlist')}>
+            <Image source={allLogo.icwishlist} style={styles.nav} />
           </TouchableOpacity>
         </View>
 
@@ -121,7 +121,7 @@ searchIcon: {
     zIndex:3,
     padding: toDp(8),
     position: 'absolute',
-    left: toDp(17),
+    left: toDp(21),
     top: Platform.OS === 'ios' ? toDp(18) : toDp(18)
 
 },
@@ -132,7 +132,7 @@ input: {
     paddingBottom: 10,
     paddingLeft: 0,
     backgroundColor: '#2A334B',
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     paddingLeft: toDp(45),
     color:'#FFF'
 },

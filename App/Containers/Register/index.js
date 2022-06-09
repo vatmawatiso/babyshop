@@ -71,6 +71,38 @@ const Register = (props) => {
         console.log(hash);
       })
     }
+
+    const validateInput = () =>{
+      if(state.mb_name.trim()==''){
+        alert('Nama tidak boleh kosong!')
+        return;
+      }
+      if(state.mb_email.trim()==''){
+        alert('Email tidak boleh kosong!')
+        return;
+      }
+      if(state.mb_phone.trim()==''){
+        alert('Nomor Hp tidak boleh kosong!')
+        return;
+      }
+      if(state.mb_type.trim()==''){
+        alert('Tipe pengguna tidak boleh kosong!')
+        return;
+      }
+      if(state.mb_username.trim()==''){
+        alert('Username tidak boleh kosong!')
+        return;
+      }
+      if(state.mb_password.trim()==''){
+        alert('Password tidak boleh kosong!')
+        return;
+      }
+
+      RegisterMember()
+  }
+
+
+
     return (
         <View style={styles.container}>
           <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
@@ -168,10 +200,11 @@ const Register = (props) => {
                       <Text style={styles.textLogin}>Masuk</Text>
                   </Pressable>
                   <Pressable
-                      style={styles.pressableSignup} onPress={() => RegisterMember()}>
+                      style={styles.pressableSignup}      onPress={() => validateInput()}>
                       <Text style={styles.textSignup}>Daftar</Text>
                   </Pressable>
               </View>
+         
  
               <Text style={styles.textDont}>Atau Masuk Dengan</Text>
               <View style={styles.rowFooter}>

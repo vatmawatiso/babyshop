@@ -15,7 +15,7 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import Profiltoko from '@Profiltoko'
 import MenuToko from '@MenuToko'
-import BackHeader from '@BackHeader'
+import Logout from '@Logout'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import { createIconSetFromFontello } from "react-native-vector-icons";
@@ -106,13 +106,35 @@ const Homeseller = (props) => {
     },
   ]
 
+  const logout = () => {
+    Alert.alert(
+      "Konfirmasi",
+      "Apakah anda ingin keluar ?",
+      [
+        {
+          text: "Batal",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Keluar", onPress: () => {
+            AsyncStorage.clear()
+            NavigatorService.reset('Login')
+          }
+        }
+      ]
+    )
+  }
+
+
 
 
   return (
     <View style={styles.container}>
-      <BackHeader
+       <Logout
         title={'Home'}
         onPress={() => props.navigation.goBack()}
+        onFilter={()=> logout()}
       />
       <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
         refreshControl={
@@ -257,16 +279,16 @@ const Homeseller = (props) => {
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <View style={styles.footer}>
           <Pressable style={[styles.presable, {backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'Homeseller' }))}>
-            <Image source={allLogo.ichome} style={styles.ichome} />
-            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8) }}>Beranda</Text>
+            <Image source={allLogo.Home1} style={styles.ichome} />
+            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom:toDp(8) }}>Beranda</Text>
           </Pressable>
           <Pressable style={[styles.presable, {backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Tambahproduk')} >
-            <Image source={allLogo.icplusround} style={styles.icplus} />
-            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(7) }}>Tambah</Text>
+            <Image source={allLogo.Plus} style={styles.icplus} />
+            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom:toDp(8)  }}>Tambah</Text>
           </Pressable>
           <Pressable style={[styles.presable, {backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('DaftarChat')} >
-            <Image source={allLogo.icchat} style={styles.icchat} />
-            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(3) }}>Chat</Text>
+            <Image source={allLogo.Chat1} style={styles.icchat} />
+            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(4), bottom:toDp(8)  }}>Chat</Text>
           </Pressable>
         </View>
       </View>
@@ -417,24 +439,24 @@ const styles = StyleSheet.create({
     height: toDp(15),
   },
   icchat: {
-    width: toDp(28),
-    height: toDp(26),
+    width: toDp(35),
+    height: toDp(35),
     resizeMode: 'contain',
     tintColor: 'white',
     marginLeft:toDp(12),
     marginBottom:toDp(5)
   },
   icplus: {
-    width: toDp(28),
-    height: toDp(26),
+    width: toDp(35),
+    height: toDp(35),
     resizeMode: 'contain',
     tintColor: 'white',
     marginLeft:toDp(17),
     marginBottom:toDp(5)
   },
   ichome: {
-    width: toDp(28),
-    height: toDp(26),
+    width: toDp(35),
+    height: toDp(35),
     resizeMode: 'contain',
     tintColor: 'white',
     marginLeft:toDp(17),
@@ -444,14 +466,6 @@ const styles = StyleSheet.create({
     marginTop: toDp(15)
   },
   footer: {
-    // width: toDp(340),
-    // height: toDp(52),
-    // justifyContent: 'space-between',
-    // // top: toDp(100),
-    // flexDirection: 'row',
-    // bottom: toDp(5),
-    // backgroundColor: '#2A334B',
-    // borderRadius: toDp(25)
     width: toDp(340),
     height: toDp(60),
     bottom: toDp(10),
@@ -485,13 +499,13 @@ const styles = StyleSheet.create({
     width: toDp(24), 
     height: toDp(24), 
     resizeMode: 'contain',
-    tintColor:'#ea421e'
+    tintColor:'#f83308'
   },
   wallet: {
     width: toDp(24), 
     height: toDp(24), 
     resizeMode: 'contain',
-    tintColor:'#ea421e'
+    tintColor:'#f83308'
   }
 });
 

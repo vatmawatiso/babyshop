@@ -140,11 +140,6 @@ const Informasitoko = (props) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <TouchableOpacity style={{ backgroundColor: '#2A334B', width: toDp(335), alignItems: 'center', height: toDp(40), borderRadius: toDp(20), justifyContent: 'center', marginBottom: toDp(10) }} onPress={() => logout()}>
-          <Text style={{ textAlign: 'center', color: 'white', fontSize: toDp(16) }}>Keluar</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   )
 };

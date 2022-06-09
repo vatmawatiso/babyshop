@@ -105,6 +105,35 @@ const Login = (props) => {
       setState(state => ({ ...state, mb_password: hash }));
     })
   }
+
+  const validateInput = () =>{
+    if(state.mb_name.trim()==''){
+      alert('Nama tidak boleh kosong!')
+      return;
+    }
+    if(state.mb_email.trim()==''){
+      alert('Email tidak boleh kosong!')
+      return;
+    }
+    if(state.mb_phone.trim()==''){
+      alert('Nomor Hp tidak boleh kosong!')
+      return;
+    }
+    if(state.mb_type.trim()==''){
+      alert('Tipe pengguna tidak boleh kosong!')
+      return;
+    }
+    if(state.mb_username.trim()==''){
+      alert('Username tidak boleh kosong!')
+      return;
+    }
+    if(state.mb_password.trim()==''){
+      alert('Password tidak boleh kosong!')
+      return;
+    }
+
+    LoginMember()
+}
  
  
   return (
@@ -113,11 +142,11 @@ const Login = (props) => {
       <Image source={allLogo.icbina} style={styles.icbina} />
       <Text style={styles.title}>Masuk</Text>
       <Text style={styles.desc}>silahkan masuk untuk melanjutkan</Text>
-      <Text style={[styles.textName, { right: toDp(40) }]}>Nama Pengguna</Text>
+      <Text style={[styles.textName, { right: toDp(33) }]}>Nama Pengguna</Text>
       <TextInput autoCapitalize={'none'}
         style={styles.textInput}
         placeholder={'Username or Email'}
-        placeholderTextColor={'grey'}
+        placeholderTextColor={'#6e736f'}
         value={state.mb_username}
         onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
       />
@@ -126,7 +155,7 @@ const Login = (props) => {
         <TextInput autoCapitalize={'none'}
           style={[styles.textInput, { marginTop: toDp(-11) }]}
           placeholder={'Password'}
-          placeholderTextColor={'grey'}
+          placeholderTextColor={'#6e736f'}
           secureTextEntry={state.secureTextEntry}
           // value={state.mb_password}
           onChangeText={(text) => Shaone(text)}
@@ -149,10 +178,8 @@ const Login = (props) => {
           style={styles.pressableSignup}>
           <Text style={styles.textSignup}>Daftar</Text>
         </Pressable>
-      </View>
- 
- 
-      <View style={[styles.rowFooter, { position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }]}>
+
+        <View style={[styles.rowFooter, {  position: 'absolute', width: '100%' }]}>
         <Text style={styles.textDont}>Atau Masuk Dengan</Text>
         <Pressable style={[styles.pressableClick, { padding: toDp(2), height: toDp(40), backgroundColor: 'white', width: toDp(180), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
           <View style={{ flexDirection: 'row' }}>
@@ -168,6 +195,8 @@ const Login = (props) => {
           </View>
         </Pressable>
       </View>
+      </View>
+ 
     </View>
   )
 };
@@ -221,7 +250,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textInput: {
-    width: toDp(335),
+    width: toDp(320),
     height: toDp(39),
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
@@ -251,6 +280,7 @@ const styles = StyleSheet.create({
   },
   viewRow: {
     paddingLeft: toDp(168),
+    justifyContent: 'space-around'
   },
   textForgot: {
     color: 'white',
@@ -262,7 +292,7 @@ const styles = StyleSheet.create({
     width: toDp(75),
     height: toDp(70),
     paddingTop: toDp(20),
-    left: toDp(40)
+    left: toDp(30)
   },
   textLogin: {
     color: 'white',
@@ -275,13 +305,13 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10)
   },
   pressableSignup: {
-    right: toDp(210),
+    right: toDp(200),
     bottom: toDp(50)
   },
   textSignup: {
     color: 'white',
     fontSize: toDp(14),
-    backgroundColor: '#698498',
+    backgroundColor: '#FBA23B',
     borderRadius: toDp(10),
     width: toDp(80),
     height: toDp(35),
@@ -294,8 +324,11 @@ const styles = StyleSheet.create({
     tintColor: 'grey'
   },
   rowFooter: {
-    flexDirection: 'column',
-    marginBottom: toDp(10)
+    marginBottom: toDp(10),
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: toDp(110),
+    marginLeft:toDp(30)
   },
   icon: {
     width: toDp(25),

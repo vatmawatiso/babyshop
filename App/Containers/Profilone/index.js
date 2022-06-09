@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import Header from '@Header'
+import Logout from '@Logout'
 import ImagePicker from 'react-native-image-crop-picker'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
@@ -222,9 +222,10 @@ const Profilone = (props) => {
   // render() {
   return (
     <View style={styles.container}>
-      <Header
+        <Logout
         title={'Profil'}
         onPress={() => props.navigation.goBack()}
+        onFilter={()=> logout()}
       />
       {/* <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
         refreshControl={
@@ -256,13 +257,13 @@ const Profilone = (props) => {
           <View style={{ zIndex: 5, justifyContent: 'center', marginTop: toDp(15), marginLeft: toDp(-10) }}>
             <Pressable style={styles.presable}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={allLogo.icwallet} style={styles.icwallet} />
+                <Image source={allLogo.wallet} style={styles.icwallet} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pembayaran</Text>
               </View>
             </Pressable>
             <Pressable style={styles.presable}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={allLogo.icstore} style={styles.icstore} />
+                <Image source={allLogo.store} style={styles.icstore} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pengiriman</Text>
               </View>
             </Pressable>
@@ -277,7 +278,7 @@ const Profilone = (props) => {
         </View>
         <View style={{ zIndex: 0, marginBottom: 50 }}>
           <View style={styles.viewJual}>
-            <Pressable style={styles.btnJual} onPress={() => NavigatorService.navigate('Homeseller')}>
+            <Pressable style={styles.btnJual} onPress={() => NavigatorService.navigate('Ubahtoko')}>
               <Text style={styles.txtJual}>Mulai Jual</Text>
             </Pressable>
           </View>
@@ -361,12 +362,6 @@ const Profilone = (props) => {
 
       {/* </ScrollView> */}
 
-      <View style={{ position: 'absolute', bottom: toDp(0), top: toDp(200), alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <TouchableOpacity style={{ backgroundColor: '#2A334B', width: toDp(335), alignItems: 'center', height: toDp(40), borderRadius: toDp(20), justifyContent: 'center', top: toDp(180) }} onPress={() => logout()}>
-          <Text style={{ textAlign: 'center', color: 'white', fontSize: toDp(16) }}>Keluar</Text>
-        </TouchableOpacity>
-      </View>
-
     </View>
   )
 
@@ -423,22 +418,18 @@ const styles = StyleSheet.create({
     left: toDp(6)
   },
   icwallet: {
-
     height: toDp(22),
     width: toDp(25),
-
+    tintColor:'#f83308'
   },
   icstore: {
-
     height: toDp(22),
     width: toDp(25),
-
+    tintColor:'#f83308'
   },
   icline: {
-
     height: toDp(12),
     width: toDp(8),
-
   },
   icorders: {
     width: toDp(23),

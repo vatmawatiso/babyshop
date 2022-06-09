@@ -77,10 +77,12 @@ const allLogo = {
   icbina: require('./img/ic_bina.png'),
   icpassword: require('./img/ic_password.png'),
   icdonation: require('./img/ic_donation.png'),
-  home: require('./img/home.png'),
+  ichome: require('./img/home.png'),
+  ictoko: require('./img/toko.png'),
   worker: require('./img/worker.png'),
   arsitek: require('./img/arsitek.png'),
   donation: require('./img/donation.png'),
+  toko: require('./img/toko.png'),
   menu: require('./img/menu.png'),
   cart: require('./img/cart.png'),
   wallet: require('./img/wallet.png'),
@@ -100,6 +102,10 @@ const allLogo = {
   star: require('./img/star.png'),
   support: require('./img/support.png'),
   exit: require('./img/exit.png'),
+  Plus: require('./img/Plus.png'),
+  Chat1: require('./img/Chat1.png'),
+  Home1: require('./img/Home1.png'),
+  heart: require('./img/heart.jpeg'),
 
 
 

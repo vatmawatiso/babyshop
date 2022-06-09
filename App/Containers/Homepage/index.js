@@ -33,7 +33,7 @@ const Homepage = () => {
     <View style={styles.container}>
       <Search onChangeText={(text)=> setSrc(text)} />
         <Image source={allLogo.iccart} style={styles.cart} />
-        <Image source={allLogo.icnav} style={styles.nav} />
+        <Image source={allLogo.icwishlist} style={styles.nav} />
       
 
       <View style={styles.content}>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     height: toDp(35),
     width: toDp(250),
     backgroundColor: '#2A334B',
-    borderRadius: toDp(25),
+    borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
     	width: 0,
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
   },
   cart: {
     padding: toDp(1),
-    top: toDp(-45),
+    bottom: toDp(45),
     left: toDp(260) 
   },
   nav: {
     padding: toDp(1),
-    top: toDp(-66),
+    bottom: toDp(66),
     left: toDp(290) 
   },
   content: {
@@ -117,13 +117,13 @@ const styles = StyleSheet.create({
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',
-    borderRadius: toDp(25)
+    borderRadius: toDp(10)
   },
   presable: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: toDp(20), 
+    borderRadius: toDp(10), 
   },
   icon: {
     width: toDp(28),

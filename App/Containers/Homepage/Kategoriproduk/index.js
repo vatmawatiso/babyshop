@@ -19,6 +19,8 @@ import SelectableChips from 'react-native-chip/SelectableChips'
 import Search from '@Search'
 import NavigatorService from '@NavigatorService'
 import Axios from "axios";
+import NumberFormat from 'react-number-format';
+
 const { width, height } = Dimensions.get('window')
 
 const Kategoriproduk = () => {
@@ -140,7 +142,14 @@ const Kategoriproduk = () => {
             <Text style={styles.textproduct}>{item.product_name.substr(0, 4)}</Text>
             <Image source={allLogo.icwishlist} style={{ width: toDp(25), height: toDp(25) }} />
           </View>
-          <Text style={styles.harga}>Rp {item.price}</Text>
+          <NumberFormat
+              value={item.price}
+              displayType={'text'}
+              thousandSeparator={'.'}
+              decimalSeparator={','}
+              prefix={'Rp. '}
+              renderText={formattedValue => <Text style={{color: '#F83308', fontWeight: '800'}}>{formattedValue}</Text>} // <--- Don't forget this!
+            />
           <Image source={allLogo.icaddress} style={styles.address} />
           <Text style={styles.dariKota}>{item.retailaddres.substr(0, 12)}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
@@ -274,7 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(50),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   textButton2: {
@@ -283,7 +292,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   textButton3: {
@@ -292,7 +301,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(20),
+    borderRadius: toDp(0),
     textAlign: 'center'
   },
   textButton4: {
@@ -301,7 +310,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(20),
+    borderRadius: toDp(0),
     textAlign: 'center'
   },
   textButton5: {
@@ -310,7 +319,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     height: toDp(11),
     width: toDp(50),
-    borderRadius: toDp(20),
+    borderRadius: toDp(0),
     textAlign: 'center'
   },
   textButton6: {
@@ -319,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     height: toDp(13),
     width: toDp(100),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   textButton7: {
@@ -338,7 +347,7 @@ const styles = StyleSheet.create({
   text: {
     backgroundColor: '#F9F8F8',
     textAlign: 'center',
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     width: toDp(70),
     height: toDp(70),
     fontSize: toDp(10),
@@ -348,13 +357,13 @@ const styles = StyleSheet.create({
   imgProduk: {
     position: 'absolute',
     zIndex: 1,
-    marginLeft: toDp(20),
+    marginLeft: toDp(10),
     top: toDp(10)
   },
   text2: {
     backgroundColor: 'red',
     textAlign: 'center',
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     width: toDp(64),
     height: toDp(64),
     margin: toDp(5),
@@ -383,7 +392,7 @@ const styles = StyleSheet.create({
     margin: toDp(5),
     paddingRight: toDp(20),
     // left: toDp(65),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -419,7 +428,7 @@ const styles = StyleSheet.create({
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     height: toDp(221),
     right: toDp(2),
     shadowColor: "#000",
