@@ -117,17 +117,7 @@ const Informasitoko = (props) => {
             <Text style={styles.txtPengikut}>{DATA[0].pengikutUser} {DATA[0].mengikutiUser}</Text>
           </View>
           <View style={{ right: toDp(20) }}>
-            <TouchableOpacity style={{
-              backgroundColor: '#ea421e', width: toDp(335), height: toDp(38), borderRadius: toDp(20), justifyContent: 'center', shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 1,
-              },
-              shadowOpacity: 0.20,
-              shadowRadius: 1.41,
-
-              elevation: 2,
-            }} onPress={() => NavigatorService.navigate('Settingtoko')}>
+            <TouchableOpacity style={styles.btnSetting} onPress={() => NavigatorService.navigate('Settingtoko')}>
               <Text style={{ textAlign: 'center', }}>Pengaturan</Text>
             </TouchableOpacity>
           </View>
@@ -161,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(130),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     top: toDp(20)
   },
   txtToko: {
@@ -188,7 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f8f8',
     width: toDp(335),
     height: toDp(45),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     bottom: toDp(10),
     justifyContent: 'center',
     shadowColor: "#000",
@@ -205,6 +195,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black'
   },
+  btnSetting: {
+    backgroundColor: '#f8f9f9', 
+    width: toDp(335), 
+    height: toDp(38), 
+    // borderRadius: toDp(10), 
+    borderBottomRightRadius:toDp(10),
+    borderBottomLeftRadius:toDp(10),
+    justifyContent: 'center', 
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  }
 });
 
 export default Informasitoko;

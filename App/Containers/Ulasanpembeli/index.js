@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  BackHeader from '@BackHeader'
+import  Header from '@Header'
 import Modal from "react-native-modal";
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
@@ -156,7 +156,7 @@ const Ulasanpembeli = (props) => {
  
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:toDp(400), width:width, marginTop:toDp(10), marginBottom:toDp(45)}}
+      <FlatList style={{ minHeight:toDp(400), width:width, marginBottom:toDp(45)}}
           showsVerticalScrollIndicator={true}
           contentContainerStyle={{
             marginTop: toDp(3),
@@ -180,7 +180,7 @@ const Ulasanpembeli = (props) => {
   return (
     <View style={styles.container}>
  
-        <BackHeader
+        <Header
           title={'Ulasan'}
           onPress={() => props.navigation.goBack()}
         />
@@ -225,10 +225,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
     padding: toDp(15),
-    top:toDp(30),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
-    borderRadius:toDp(20),
+    borderRadius:toDp(10),
     height: toDp(150),
     right: toDp(2),
     shadowColor: "#000",
@@ -281,7 +280,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: toDp(20),
     backgroundColor: "white",
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     padding: toDp(35),
     alignItems: "center",
     shadowColor: "#000",

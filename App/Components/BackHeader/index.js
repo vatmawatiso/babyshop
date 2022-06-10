@@ -47,9 +47,9 @@ class BackHeader extends Component {
                 {/* <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.iccart} style={styles.cart} />
                 </TouchableOpacity> */}
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
+                {/* <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.icnav} style={styles.nav} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
 
             </View>

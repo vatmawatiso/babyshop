@@ -14,19 +14,20 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  HeaderToko  from '@HeaderToko'
-import  BackDetailKate  from '@BackDetailKate'
+import HeaderToko from '@HeaderToko'
+import BackHeader from '@BackHeader'
 import axios from "axios";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import { BottomNavigation } from "react-native-paper";
+import NumberFormat from 'react-number-format';
 
 const { width, height } = Dimensions.get('window')
 
 const Detailkategori = (props) => {
-  const [src, setSrc]=useState(null);
+  const [src, setSrc] = useState(null);
 
   const [state, setState] = useState({
     datas: [],
@@ -38,16 +39,16 @@ const Detailkategori = (props) => {
 
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
-    axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id='+kid)
+    axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
       .then(result => {
         if (result.data.status == 200) {
-             //hendle success
-        console.log('Produk Bangunan ===> ' , result);
-        setState(state => ({ ...state, datas: result.data.data }))
-        setState(state => ({ ...state, loading: false }))
+          //hendle success
+          console.log('Produk Bangunan ===> ', result);
+          setState(state => ({ ...state, datas: result.data.data }))
+          setState(state => ({ ...state, loading: false }))
         } else if (result.data.status == 404) {
-           alert('Produk Belum Ditambahkan')
-            setState(state => ({ ...state, loading: false }))
+          alert('Produk Belum Ditambahkan')
+          setState(state => ({ ...state, loading: false }))
         }
 
       }).catch(err => {
@@ -62,7 +63,7 @@ const Detailkategori = (props) => {
       title: 'Semen',
       harga: 'Rp. 100.000',
       dariKota: 'Kab. Cirebon',
-      bintang : '4',
+      bintang: '4',
       terjual: '| Terjual 50',
       image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
     },
@@ -71,7 +72,7 @@ const Detailkategori = (props) => {
       title: 'Batu Bata',
       harga: 'Rp. 50.000',
       dariKota: 'Kab. Cirebon',
-      bintang : '4',
+      bintang: '4',
       terjual: '| Terjual 50',
       image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
     },
@@ -80,7 +81,7 @@ const Detailkategori = (props) => {
       title: 'Paku',
       harga: 'Rp. 10.000',
       dariKota: 'Kab. Cirebon',
-      bintang : '4',
+      bintang: '4',
       terjual: '| Terjual 50',
       image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
     },
@@ -89,15 +90,15 @@ const Detailkategori = (props) => {
       title: 'Paku',
       harga: 'Rp. 10.000',
       dariKota: 'Kab. Cirebon',
-      bintang : '4',
+      bintang: '4',
       terjual: '| Terjual 50',
       image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    },{
+    }, {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
       title: 'Semen',
       harga: 'Rp. 80.000',
       dariKota: 'Kab. Cirebon',
-      bintang : '4',
+      bintang: '4',
       terjual: '| Terjual 50',
       image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
     },
@@ -106,53 +107,61 @@ const Detailkategori = (props) => {
       title: 'Batu Bata',
       harga: 'Rp. 100.000',
       dariKota: 'Kab. Cirebon',
-      bintang : '4',
+      bintang: '4',
       terjual: '| Terjual 50',
       image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
     },
   ]
 
   const RenderItem = (item, index) => (
-    <Pressable onPress={()=> alert('Produk : '+index)}>
+    <Pressable onPress={() => alert('Produk : ' + index)}>
       <View style={styles.card}>
-          <View style={styles.txtProduct}>
-             <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
-             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Harga: {item.price}</Text>
-             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Stock: {item.stock}</Text>
-             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Berat: {item.berat}</Text>
-             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Kategori: {item.category.substr(0, 5)}</Text>
-             <Text style={{width:toDp(200), fontSize:toDp(12)}}>Kondisi: {item.kondisi}</Text>
-             {/* <Image source={allLogo.icaddress} style={styles.address} />
+        <View style={styles.txtProduct}>
+          <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
+          <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+          <NumberFormat
+            value={item.price}
+            displayType={'text'}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            prefix={'Rp. '}
+            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', marginRight: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+          />
+          {/* <Text style={{width:toDp(200)}}>Harga: {item.price}</Text> */}
+          <Text style={{ width: toDp(200) }}>Stock: {item.stock}</Text>
+          <Text style={{ width: toDp(200) }}>Berat: {item.berat}</Text>
+          <Text style={{ width: toDp(200) }}>Kategori: {item.category.substr(0, 5)}</Text>
+          <Text style={{ width: toDp(200) }}>Kondisi: {item.kondisi}</Text>
+          {/* <Image source={allLogo.icaddress} style={styles.address} />
              <Text style={styles.dariKota}>{item.dariKota}</Text>
              <Image source={allLogo.icstar} style={styles.star}/>
              <Text style={styles.bintang}>{item.bintang}</Text>
              <Text style={styles.terjual}>{item.terjual}</Text> */}
-          </ View>
+        </ View>
       </ View>
     </Pressable>
   );
 
-  const CardProduct = () =>{
-    return(
-      <FlatList style={{ minHeight:toDp(400), width:width}}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            marginTop: toDp(3),
-            paddingBottom: toDp(30),
+  const CardProduct = () => {
+    return (
+      <FlatList style={{ minHeight: toDp(400), width: width }}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          marginTop: toDp(3),
+          paddingBottom: toDp(30),
 
-          }}
+        }}
 
-          numColumns={2}
-          data={state.datas}
-            renderItem={({item, index}) => {
-              return (
-                RenderItem(item, index)
-              )
-            }}
-          ListFooterComponent={() => <View style={{height: toDp(100)}} />}
-        />
+        numColumns={2}
+        data={state.datas}
+        renderItem={({ item, index }) => {
+          return (
+            RenderItem(item, index)
+          )
+        }}
+        ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
+      />
     )
   }
 
@@ -160,20 +169,23 @@ const Detailkategori = (props) => {
   return (
     <View style={styles.container}>
 
-        <BackDetailKate/>
+      <BackHeader
+        title={'Detail Kategori'}
+        onPress={() => props.navigation.goBack()}
+      />
 
-        <View style={styles.bodyMenu}>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.txtTerbaru}>Terbaru</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button1}>
-                <Text style={styles.txtTerlaris}>Terlaris</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button2}>
-                <Text style={styles.txtHarga}>Harga</Text>
-            </TouchableOpacity>
-        </View>
-        <CardProduct/>
+      <View style={styles.bodyMenu}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.txtTerbaru}>Terbaru</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button1}>
+          <Text style={styles.txtTerlaris}>Terlaris</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button2}>
+          <Text style={styles.txtHarga}>Harga</Text>
+        </TouchableOpacity>
+      </View>
+      <CardProduct />
     </View>
   )
 };
@@ -181,102 +193,100 @@ const Detailkategori = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top:toDp(50)
   },
   button: {
-    backgroundColor:'#E7E7E7',
-    width:toDp(112),
-    height:toDp(40),
+    backgroundColor: '#E7E7E7',
+    width: toDp(112),
+    height: toDp(40),
     padding: toDp(10),
     // top:toDp(10),
-    justifyContent:'center',
-    borderTopLeftRadius:toDp(8),
-    borderBottomLeftRadius:toDp(8),
-        shadowColor: "#000",
-        shadowOffset: {
-        width: 0,
-        height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    justifyContent: 'center',
+    borderTopLeftRadius: toDp(8),
+    borderBottomLeftRadius: toDp(8),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-        elevation: 2,
-    
+    elevation: 2,
+
   },
   button1: {
-    backgroundColor:'#E7E7E7',
-    width:toDp(111),
-    height:toDp(40),
+    backgroundColor: '#E7E7E7',
+    width: toDp(111),
+    height: toDp(40),
     padding: toDp(10),
     // top:toDp(10),
-    justifyContent:'center',
-        shadowColor: "#000",
-        shadowOffset: {
-        width: 0,
-        height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-        elevation: 2
+    elevation: 2
   },
   button2: {
-    backgroundColor:'#E7E7E7',
-    width:toDp(111),
-    height:toDp(40),
+    backgroundColor: '#E7E7E7',
+    width: toDp(111),
+    height: toDp(40),
     padding: toDp(10),
     // top:toDp(10),
-    justifyContent:'center',
-    borderTopRightRadius:toDp(8),
-    borderBottomRightRadius:toDp(8),
-        shadowColor: "#000",
-        shadowOffset: {
-        width: 0,
-        height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    justifyContent: 'center',
+    borderTopRightRadius: toDp(8),
+    borderBottomRightRadius: toDp(8),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-        elevation: 2
+    elevation: 2
   },
   bodyMenu: {
-    backgroundColor:'#E7E7E7',
-    width:toDp(335),
-    height:toDp(36),
-    borderRadius:toDp(20),
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      
-      elevation: 2,
-  }, 
+    backgroundColor: '#E7E7E7',
+    width: toDp(335),
+    height: toDp(36),
+    borderRadius: toDp(10),
+    flexDirection: 'row',
+    top:toDp(10),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  },
   txtTerbaru: {
-    marginLeft:toDp(5),
-    textAlign:'center'
+    marginLeft: toDp(5),
+    textAlign: 'center'
   },
   txtTerlaris: {
-    textAlign:'center'
+    textAlign: 'center'
   },
   txtHarga: {
-    marginRight:toDp(5),
-    textAlign:'center'
+    marginRight: toDp(5),
+    textAlign: 'center'
   },
   card: {
     backgroundColor: 'white',
-    top:toDp(15),
+    top: toDp(15),
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
-    borderRadius:toDp(10),
-    // backgroundColor:'cyan',
-    // width:toDp(200),
+    borderRadius: toDp(10),
     height: toDp(235),
     right: toDp(2),
     shadowColor: "#000",
@@ -312,15 +322,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: toDp(12)
   },
-  txtProduct:{
-    width:toDp(100),
-    height:toDp(225),
-    backgroundColor:'white',
-    bottom:toDp(20)
-  },
-  imgProduct:{
+  txtProduct: {
     width: toDp(100),
-    height:toDp(100)
+    height: toDp(225),
+    backgroundColor: 'white',
+    bottom: toDp(20)
+  },
+  imgProduct: {
+    width: toDp(100),
+    height: toDp(100)
   }
 });
 

@@ -131,7 +131,6 @@ const Produksaya = (props) => {
           contentContainerStyle={{
             marginTop: toDp(3),
             paddingBottom: toDp(3),
-
           }}
 
           numColumns={2}
@@ -154,11 +153,11 @@ const Produksaya = (props) => {
           onPress={() => props.navigation.goBack()}
         />
 
-        <View style={{bottom:toDp(20)}}>
+        <View style={{bottom:toDp(60)}}>
             <CardProduct/>
         </View>
        
-        <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
+        {/* <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
             <Pressable style={styles.btnHome}>
                 <Image source={allLogo.ichome} style={styles.ichome} />
             </Pressable>
@@ -168,7 +167,7 @@ const Produksaya = (props) => {
             <Pressable style={styles.btnChat} onPress={() => NavigatorService.navigate('Chat')}>
                 <Image source={allLogo.icchat} style={styles.icchat}/>
             </Pressable> 
-        </View>
+        </View> */}
 
         
     
@@ -179,6 +178,7 @@ const Produksaya = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor:'white',
   },
   bodyMenu: {
     flexDirection:'row',
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     bottom:toDp(150),
     width:toDp(335),
     height:toDp(45),
-    borderRadius:toDp(8),
+    borderRadius:toDp(10),
 },
 btnHome: {
   marginHorizontal:toDp(20)
@@ -207,7 +207,7 @@ btnChat: {
   marginHorizontal:toDp(20),
 },
 card: {
-  backgroundColor: 'white',
+  backgroundColor: '#f8f9f9',
   padding: toDp(25),
   marginVertical: toDp(5),
   marginHorizontal: toDp(16),

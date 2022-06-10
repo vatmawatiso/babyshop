@@ -37,7 +37,7 @@ const Login = (props) => {
     secureTextEntry: true,
     mb_username: '',
     mb_password: '',
-    rtl_id:'RTL00000002',
+    rtl_id:'',
     encpass: '',
     updatePass: false,
     linkLogin: ''
@@ -54,19 +54,22 @@ const Login = (props) => {
       rtl_id: state.rtl_id
     }
     console.log('BODY'+JSON.stringify(body));
+
     setState(state => ({ ...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
       .then(result => {
-        console.log('----------->'+JSON.stringify(result));   //untuk cek ke json viewer 
+        console.log('Cek Result----------->'+JSON.stringify(result));   //untuk cek ke json viewer 
         if (result.data.status == 200) {                      // untuk memfilter dan variable utamanya ada result, 
                                                               //didalam result itu ada nilai data dan didata ada status yang nilanya 200, jika status = 200 maka eksekusinya :
           const datas = {                                     // value akan dimasukkan ke dalam API datas
             id: result.data.data[0].mb_id,                    // untuk mengambil data id kita masuk ke result.data.data[0].mb_id
             value: result.data.data[0],
             tipe: result.data.data[0].mb_type,
-            retail_id:state.rtl_id                        // untuk mengambil data value kita masuk ke result.data.data.[0]
+            retail_id:result.data.rtl_id                        // untuk mengambil data value kita masuk ke result.data.data.[0]
             
           }
+          console.log('DATAS'+JSON.stringify(datas));
+
           if (datas.value.length === 0) {
             alert('Nama Pengguna atau Kata Sandi Salah!')
           } else {
@@ -80,13 +83,16 @@ const Login = (props) => {
             // NavigatorService.reset('Homepage')
           
  
-          } if (datas.tipe === 'seller') {
-            NavigatorService.reset('Homeseller')
-          } else if (datas.tipe === 'client') {
-            NavigatorService.reset('Homepage')
-          }
-          
+          } 
+          // if (datas.tipe === 'seller') {
+          //   NavigatorService.reset('Homeseller')
+          // } else if (datas.tipe === 'client') {
+          //   NavigatorService.reset('Homepage')
+          // }
+
+          NavigatorService.reset('Homepage')
           setState(state => ({ ...state, loading: false }))
+          
         } else if (result.data.status == 404) {
           alert('Pengguna tidak ditemukan!')
           setState(state => ({ ...state, loading: false }))

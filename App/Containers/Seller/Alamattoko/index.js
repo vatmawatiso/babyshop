@@ -119,14 +119,14 @@ const Alamattoko = (props) => {
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
-    <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
+    <View style={styles.body}>
       <TouchableOpacity style={{ width: toDp(330) }} onPress={() => onPress()}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
-          <Image source={allLogo.icaddress1} style={styles.icaddress1} />
+          <Image source={allLogo.location} style={styles.icaddress1} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
-          <View>
+          <View style={styles.viewAlamat}>
             <Text>{item.adr_name} {item.adr_hp}</Text>
             <Text>{item.adr_address} {displayName(item.cty_name)}</Text>
           </View>
@@ -175,9 +175,11 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: '#F9F8F8',
     width: toDp(335),
-    height: toDp(130),
+    height: toDp(110),
     borderRadius: toDp(10),
     marginBottom: toDp(10),
+    marginTop: toDp(5), 
+    marginHorizontal: toDp(12),
     flexDirection: 'row',
     top: toDp(10),
     shadowColor: "#000",
@@ -191,12 +193,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   icaddress1: {
+    width: toDp(38),
+    height: toDp(38),
+    right: toDp(8),
     marginLeft: toDp(10),
     top: toDp(10)
   },
   txtAddress: {
-    marginLeft: toDp(20),
-    top: toDp(10)
+    marginLeft: toDp(2),
+    top: toDp(10),
+    fontWeight:'bold'
   },
   isiAddress: {
     bottom: toDp(60),
@@ -250,6 +256,9 @@ const styles = StyleSheet.create({
   txtAlamatUtama: {
     fontWeight: 'bold',
     color: '#F83308'
+  },
+  viewAlamat: {
+    bottom:toDp(5)
   }
 });
 

@@ -148,12 +148,12 @@ const Kategori = (props) => {
 
         <View style={styles.profil3}>
           <Pressable style={styles.btnPembayaran}>
-            <Image source={allLogo.icwallet} style={styles.icwallet} />
+            <Image source={allLogo.wallet} style={styles.wallet} />
             <Text style={styles.txtPembayaran}>Pembayaran</Text>
           </Pressable>
 
           <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
-            <Image source={allLogo.icstore} style={styles.icstore} />
+            <Image source={allLogo.store} style={styles.store} />
             <Text style={styles.txtPengiriman}>Pengiriman</Text>
           </Pressable>
 
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#2A334B',
     width:toDp(335),
     height:toDp(116),
-    borderRadius:toDp(20),
+    borderRadius:toDp(10),
     top:toDp(10),
       shadowColor: "#000",
       shadowOffset: {
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     width: toDp(50),
     top: toDp(25),
     left: toDp(25),
-    borderRadius: toDp(25)
+    borderRadius: toDp(10)
   },
   profil1: {
     flexDirection:'row',
@@ -279,8 +279,8 @@ const styles = StyleSheet.create({
   BodyKategori: {
     width: toDp(335),
     height: toDp(378),
-    borderRadius: toDp(20),
-    backgroundColor:'#e7e7e7',
+    borderRadius: toDp(10),
+    backgroundColor:'#f8f9f9',
     top: toDp(20),
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   },
   btnKonfirm: {
     backgroundColor: '#2A334B',
-    borderRadius: toDp(15),
+    borderRadius: toDp(10),
     width: toDp(335),
     height: toDp(40),
     justifyContent: 'center',
@@ -320,6 +320,18 @@ const styles = StyleSheet.create({
   txtKonfirm: {
     textAlign: 'center',
     color: 'white'
+  },
+  store: {
+    width: toDp(24), 
+    height: toDp(24), 
+    resizeMode: 'contain',
+    tintColor:'#f83308'
+  },
+  wallet: {
+    width: toDp(24), 
+    height: toDp(24), 
+    resizeMode: 'contain',
+    tintColor:'#f83308'
   }
 });
 

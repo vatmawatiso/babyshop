@@ -45,16 +45,8 @@ class Order extends Component {
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
-              <Image source={allLogo.icsearch} style={styles.search} />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Pencarian.."
-                    underlineColorAndroid="transparent"
-                    placeholderTextColor="#FFF"
-                    onChangeText={(text)=>this.props.onFilter}
-                />
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                  <Image source={allLogo.icchat} style={styles.chat} />
+                  <Image source={allLogo.Chat1} style={styles.chat} />
                 </TouchableOpacity>
               </View>
 
@@ -82,7 +74,7 @@ const styles = StyleSheet.create({
     // bottom: toDp(50),
   },
   icheader: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   input: {
     // paddingTop: 5,
@@ -120,20 +112,12 @@ const styles = StyleSheet.create({
   touchHeader: {
     padding: toDp(4),
   },
-  search: {
-    left: toDp(10),
-    top:toDp(10),
-    width: toDp(21),
-    height: toDp(22),
-    tintColor:'white',
-    position:'relative',
-    zIndex:1,
-  },
   chat: {
-    right: toDp(10),
-    top:toDp(8),
-    width: toDp(22),
-    height: toDp(22),
+    top:toDp(1),
+    width: toDp(40),
+    height: toDp(40),
+    left:toDp(135),
+    tintColor:'black'
   },
   icBack: {
     marginHorizontal: toDp(8),

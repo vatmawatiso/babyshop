@@ -16,8 +16,7 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-// import Header from '@Header'
-import BackHeader from '@BackHeader'
+import Header from '@Header'
 import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
@@ -84,6 +83,7 @@ const Produk = (props) => {
   const DATA = [
     {
       id: '1',
+      produk: 'Gerobak Pasir',
       name: 'TB Sumber Kasih FM',
       harga: 'Rp 500.000 - 700.000',
       rating: '5.8',
@@ -101,7 +101,7 @@ const Produk = (props) => {
     return (
       <View style={styles.viewRenderExplore}>
         <View style={styles.viewImage}>
-          <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
+          <LinearGradient colors={['#F9F8F8', 'transparent']} style={styles.gradientTop} />
           <Image source={{ uri: item.item.value.picture }} style={styles.imageProfile} />
           <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
         </View>
@@ -116,36 +116,36 @@ const Produk = (props) => {
       <View style={styles.detailProduk}>
 
         <View style={{ width: toDp(335) }}>
+          <Text style={{ marginBottom: toDp(5), fontWeight: 'bold', fontSize: toDp(16) }}>{item[index].produk}</Text>
           <Text style={{ marginBottom: toDp(5) }}>{item[index].name}</Text>
-          <Text style={{ marginBottom: toDp(5) }}>{item[index].name}</Text>
-          <Text style={{ marginBottom: toDp(5) }}>{item[index].harga}</Text>
+          <Text style={{ marginBottom: toDp(5), color: '#F83308', fontWeight: 'bold' }}>{item[index].harga}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
-            <Image source={allLogo.icwishlist} style={{ bottom: toDp(5), right: toDp(10), width: toDp(30), height: toDp(30) }} />
+            <Image source={allLogo.love} style={styles.iclove} />
           </View>
 
-          <View>
+          <View style={{ bottom: toDp(10) }}>
             <View style={{ top: toDp(0) }}>
               <Text style={{ fontWeight: 'bold', top: toDp(0) }}>Rincian Produk</Text>
               <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Stok</Text>
-                <Text style={{ right: toDp(162) }}>{item[index].stok}</Text>
+                <Text style={{ right: toDp(162) }}>: {item[index].stok}</Text>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Beban Kapasitas</Text>
-                <Text style={{ right: toDp(131) }}>{item[index].beban}</Text>
+                <Text style={{ right: toDp(131) }}>: {item[index].beban}</Text>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Warna</Text>
-                <Text style={{ right: toDp(13) }}>{item[index].warna}</Text>
+                <Text style={{ right: toDp(13) }}>: {item[index].warna}</Text>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Kapasitas</Text>
-                <Text style={{ right: toDp(135) }}>{item[index].kapasitas}</Text>
+                <Text style={{ right: toDp(135) }}>: {item[index].kapasitas}</Text>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Dikirim Dari </Text>
-                <Text style={{ right: toDp(17) }}>{item[index].dikirimdari}</Text>
+                <Text style={{ right: toDp(17) }}>: {item[index].dikirimdari}</Text>
               </View>
             </View>
 
@@ -204,7 +204,7 @@ const Produk = (props) => {
 
   return (
     <View style={styles.container}>
-      <BackHeader
+      <Header
         title={'Produk'}
         onPress={() => props.navigation.goBack()}
       />
@@ -226,17 +226,15 @@ const Produk = (props) => {
         </View>
       </ScrollView>
 
-      <View style={styles.footer}>
+      <View style={{ position: 'absolute', bottom: toDp(20), alignItems: 'center', justifyContent: 'center', width: '100%',     backgroundColor: 'transparent', position: 'absolute', }}>
         <View style={styles.btnMenu}>
           <Pressable style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
-            <Image source={allLogo.icchat} style={styles.icchat} />
+            <Image source={allLogo.Chat1} style={styles.icchat} />
           </Pressable>
-          <Pressable style={{ left: toDp(30) }} onPress={() => NavigatorService.navigate('Keranjang')}>
-            <Image source={allLogo.iccartWhite} style={styles.iccartWhite} />
+          <Pressable style={{ left: toDp(0) }} onPress={() => NavigatorService.navigate('Keranjang')}>
+            <Image source={allLogo.cart} style={styles.cart} />
           </Pressable>
-
-          <View style={{ borderWidth: toDp(0.5), borderColor: 'white', width: toDp(55), rotation: toDp(90) }} />
-          <Pressable style={{ right: toDp(30) }} onPress={() => NavigatorService.navigate('Checkout')} >
+          <Pressable style={{ right: toDp(0), borderWidth:toDp(0.5), width:toDp(150), height:toDp(60), justifyContent:'center', alignItems:'center', borderBottomRightRadius:toDp(10), borderTopRightRadius:toDp(10), backgroundColor:'#f83308' }} onPress={() => NavigatorService.navigate('Checkout')} >
             <Text style={styles.txtBeli}>Beli Sekarang</Text>
           </Pressable>
         </View>
@@ -252,8 +250,8 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    backgroundColor:'white',
+    justifyContent: 'center',
+    backgroundColor: 'white',
     // top:toDp(50)
   },
   footer: {
@@ -331,14 +329,14 @@ const styles = StyleSheet.create({
     marginBottom: toDp(70),
     right: toDp(8),
     shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 1,
-},
-shadowOpacity: 0.20,
-shadowRadius: 1.41,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-elevation: 2,
+    elevation: 2,
   },
   txtUlasan: {
     marginLeft: toDp(15)
@@ -368,12 +366,21 @@ elevation: 2,
     marginLeft: toDp(8)
   },
   icchat: {
-    tintColor: 'white'
+    height: toDp(45),
+    width: toDp(45)
+  },
+  cart: {
+    width: toDp(30),
+    height: toDp(30),
+    tintColor: '#fff'
+  },
+  iclove: {
+    bottom: toDp(5),
+    right: toDp(10),
+    width: toDp(40),
+    height: toDp(40),
+    tintColor: 'black'
   }
-  // contentContainer: {
-  //   paddingVertical: 20
-  // }
-
 
 });
 

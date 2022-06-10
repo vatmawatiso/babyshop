@@ -85,17 +85,27 @@ const Successorder = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent:'center',
     alignItems: 'center',
+    backgroundColor: 'white',
+    height: '100%'
   },
   content: {
-      backgroundColor:'#C4C4C4',
+      backgroundColor:'#F9F8F8',
       width:toDp(335),
       height:toDp(139),
-      borderRadius:toDp(20),
+      borderRadius:toDp(10),
       marginTop:toDp(10),
       justifyContent:'center',
-      alignItems:'center'
+      alignItems:'center',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+
+      elevation: 4,
   },
   txtKonfirm: {
       bottom:toDp(10),
@@ -110,7 +120,7 @@ const styles = StyleSheet.create({
       top:toDp(20),
       width:toDp(126),
       height:toDp(40),
-      borderRadius:toDp(20),
+      borderRadius:toDp(10),
       justifyContent:'center'
   },
   txtBtn: {

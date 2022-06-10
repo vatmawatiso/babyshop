@@ -18,6 +18,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
+import NumberFormat from 'react-number-format';
 
 const Konsultan = (props) => {
 
@@ -177,7 +178,7 @@ const Konsultan = (props) => {
 
       <View style={styles.body}>
         <Image source={{ uri: DATA[0].image }} style={styles.imgKontak} />
-        <View style={{ flexDirection: 'row', marginRight:toDp(20) }}>
+        <View style={{ flexDirection: 'row', marginRight: toDp(20) }}>
           <View>
             <Text style={{ fontSize: toDp(12) }}>Nama</Text>
             <Text style={{ fontSize: toDp(12) }}>Email</Text>
@@ -190,7 +191,15 @@ const Konsultan = (props) => {
             <Text style={{ fontSize: toDp(12) }}> : {item.ac_email}</Text>
             <Text style={{ fontSize: toDp(12) }}> : {item.ac_phone}</Text>
             <Text style={{ fontSize: toDp(12) }}> : {item.name_pt}</Text>
-            <Text style={{ fontSize: toDp(12) }}> : {item.ac_payment}</Text>
+            <NumberFormat
+              value={item.ac_payment}
+              displayType={'text'}
+              thousandSeparator={'.'}
+              decimalSeparator={','}
+              prefix={'Rp. '}
+              renderText={formattedValue => <Text style={{ fontSize: toDp(12) }}> : {formattedValue}</Text>} // <--- Don't forget this!
+            />
+            {/* <Text style={{ fontSize: toDp(12) }}> : {item.ac_payment}</Text> */}
           </View>
         </View>
 
@@ -232,17 +241,27 @@ const Konsultan = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    backgroundColor: 'white',
     alignItems: 'center',
+    height: '100%'
   },
   body: {
     flexDirection: 'row',
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F9F8F8',
     width: toDp(335),
     height: toDp(100),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     justifyContent: 'space-between',
     alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   flatcontent: {
     width: '100%',
@@ -253,7 +272,7 @@ const styles = StyleSheet.create({
   imgKontak: {
     height: toDp(50),
     width: toDp(50),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     left: toDp(10)
   },
   txtKontak: {
@@ -267,7 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(52),
     height: toDp(20),
-    borderRadius: toDp(20),
+    borderRadius: toDp(5),
   },
 });
 

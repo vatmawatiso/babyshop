@@ -211,6 +211,14 @@ const Profilone = (props) => {
     )
   }
 
+  const Seller = () => {
+        if (datas.tipe === 'seller') {
+            NavigatorService.reset('Homeseller')
+          } else if (datas.tipe === 'client') {
+            NavigatorService.reset('Homepage')
+          }
+  }
+
 //   const displayName = (alu_city) =>{
 //     let count = '';
 //     let nama  = '';
@@ -278,7 +286,7 @@ const Profilone = (props) => {
         </View>
         <View style={{ zIndex: 0, marginBottom: 50 }}>
           <View style={styles.viewJual}>
-            <Pressable style={styles.btnJual} onPress={() => NavigatorService.navigate('Ubahtoko')}>
+            <Pressable style={styles.btnJual}  onPress={() => Seller()}>
               <Text style={styles.txtJual}>Mulai Jual</Text>
             </Pressable>
           </View>

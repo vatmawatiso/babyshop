@@ -25,22 +25,22 @@ const Donasi = (props) => {
     const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
 
     const createThreeButtonAlert = () =>
-    Alert.alert(
-      "Donasikan Bahan Bangunan!",
-      "Apakah anda yakin ingin di donasikan?",
-      [
-        // {
-        //   text: "Ask me later",
-        //   onPress: () => console.log("Ask me later pressed")
-        // },
-        {
-          text: "Tidak",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Donasikan", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+        Alert.alert(
+            "Donasikan Bahan Bangunan!",
+            "Apakah anda yakin ingin di donasikan?",
+            [
+                // {
+                //   text: "Ask me later",
+                //   onPress: () => console.log("Ask me later pressed")
+                // },
+                {
+                    text: "Tidak",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Donasikan", onPress: () => console.log("OK Pressed") }
+            ]
+        );
 
 
     return (
@@ -203,7 +203,7 @@ const Donasi = (props) => {
                                             top={toDp(6)}
                                             width={toDp(335)}
                                             height={toDp(40)}
-                                            borderRadius={toDp(15)}
+                                            borderRadius={toDp(10)}
                                             backgroundColor={'white'}
                                             autoCapitalize={'none'}
                                             style={styles.textInput}
@@ -216,7 +216,7 @@ const Donasi = (props) => {
                                             top={toDp(6)}
                                             width={toDp(335)}
                                             height={toDp(40)}
-                                            borderRadius={toDp(15)}
+                                            borderRadius={toDp(10)}
                                             backgroundColor={'white'}
                                             autoCapitalize={'none'}
                                             style={styles.textInput}
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: toDp(335),
         height: toDp(80),
-        borderRadius: toDp(20),
+        borderRadius: toDp(10),
         top: toDp(150),
         justifyContent: 'space-between',
         marginBottom: toDp(2),
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         height: toDp(38),
-        borderRadius: toDp(20),
+        borderRadius: toDp(10),
         width: toDp(335),
         top: toDp(4),
         backgroundColor: 'white',
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     },
     dropdown1: {
         height: toDp(38),
-        borderRadius: toDp(20),
+        borderRadius: toDp(10),
         width: toDp(150),
         top: toDp(4),
         backgroundColor: 'white',
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     },
     btnDonasi: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(15),
+        borderRadius: toDp(10),
         width: toDp(335),
         height: toDp(40),
         justifyContent: 'center',

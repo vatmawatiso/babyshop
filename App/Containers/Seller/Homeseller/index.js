@@ -279,16 +279,16 @@ const Homeseller = (props) => {
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <View style={styles.footer}>
           <Pressable style={[styles.presable, {backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B'}]} onPress={() => setState(state => ({...state, content: 'Homeseller' }))}>
-            <Image source={allLogo.Home1} style={styles.ichome} />
-            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom:toDp(8) }}>Beranda</Text>
+            <Image source={allLogo.ichome} style={styles.ichome} />
+            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom:toDp(5) }}>Beranda</Text>
           </Pressable>
           <Pressable style={[styles.presable, {backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Tambahproduk')} >
             <Image source={allLogo.Plus} style={styles.icplus} />
-            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom:toDp(8)  }}>Tambah</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom:toDp(5)  }}>Tambah</Text>
           </Pressable>
           <Pressable style={[styles.presable, {backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('DaftarChat')} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
-            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(4), bottom:toDp(8)  }}>Chat</Text>
+            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(1), bottom:toDp(5)  }}>Chat</Text>
           </Pressable>
         </View>
       </View>
@@ -439,35 +439,38 @@ const styles = StyleSheet.create({
     height: toDp(15),
   },
   icchat: {
-    width: toDp(35),
-    height: toDp(35),
+    width: toDp(30),
+    height: toDp(28),
     resizeMode: 'contain',
     tintColor: 'white',
     marginLeft:toDp(12),
-    marginBottom:toDp(5)
+    marginBottom:toDp(5),
+    top:toDp(3)
   },
   icplus: {
-    width: toDp(35),
-    height: toDp(35),
+    width: toDp(30),
+    height: toDp(28),
     resizeMode: 'contain',
     tintColor: 'white',
     marginLeft:toDp(17),
-    marginBottom:toDp(5)
+    marginBottom:toDp(5),
+    top:toDp(3)
   },
   ichome: {
-    width: toDp(35),
-    height: toDp(35),
+    width: toDp(28),
+    height: toDp(26),
     resizeMode: 'contain',
     tintColor: 'white',
     marginLeft:toDp(17),
-    marginBottom:toDp(5)
+    marginBottom:toDp(5),
+    top:toDp(3)
   },
   bodyJual: {
     marginTop: toDp(15)
   },
   footer: {
     width: toDp(340),
-    height: toDp(60),
+    height: toDp(52),
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',
@@ -478,7 +481,7 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10),
     marginHorizontal: toDp(23),
     width: toDp(70),
-    height: toDp(60),
+    height: toDp(52),
     justifyContent: 'center',
   },
   presable2: {

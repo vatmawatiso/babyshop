@@ -71,7 +71,7 @@ const Tambahkategori = (props) => {
         <View style={styles.bodyKategori}>
           <Text style={styles.txtKategori}>Nama Kategori</Text>
           <TextInput autoCapitalize={'none'}
-            style={[styles.textInput, { marginTop: toDp(-11) }]}
+            style={styles.textInput}
             placeholder={'Masukkan kategori'}
             placeholderTextColor={'grey'}
             value={state.ctg_name}
@@ -114,15 +114,15 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: 'white',
-    borderRadius: toDp(15),
+    borderRadius: toDp(10),
     margin: toDp(5),
-    top: toDp(10)
+    marginBottom:toDp(15)
   },
   btnKategori: {
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(42),
-    borderRadius: toDp(15),
+    borderRadius: toDp(10),
     top: toDp(30),
     left: toDp(12),
     justifyContent: 'center',
