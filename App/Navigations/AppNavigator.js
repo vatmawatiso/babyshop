@@ -58,6 +58,7 @@ import Tambahkategori from '../Containers/Seller/Tambahkategori'
 import Profilseller from '../Containers/Seller/Profilseller'
 import Donasi from '../Containers/Seller/Donasi'
 import DaftarChat from '../Containers/Seller/DaftarChat'
+import Pengajuan from '../Containers/Seller/Pengajuan'
 
 
 const AppNavigator = createStackNavigator(
@@ -119,6 +120,7 @@ const AppNavigator = createStackNavigator(
     Profilseller: { screen: Profilseller },
     Donasi: { screen: Donasi },
     DaftarChat: { screen: DaftarChat },
+    Pengajuan: { screen: Pengajuan },
     
   },
   {

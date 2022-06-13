@@ -38,6 +38,7 @@ const Login = (props) => {
     mb_username: '',
     mb_password: '',
     rtl_id:'',
+    rtl_status: '',
     encpass: '',
     updatePass: false,
     linkLogin: ''
@@ -51,7 +52,8 @@ const Login = (props) => {
     const body = {
       mb_password: state.mb_password,
       mb_username: state.mb_username,
-      rtl_id: state.rtl_id
+      rtl_id: state.rtl_id,
+      rtl_status: state.rtl_status
     }
     console.log('BODY'+JSON.stringify(body));
 
@@ -65,8 +67,8 @@ const Login = (props) => {
             id: result.data.data[0].mb_id,                    // untuk mengambil data id kita masuk ke result.data.data[0].mb_id
             value: result.data.data[0],
             tipe: result.data.data[0].mb_type,
-            retail_id:result.data.rtl_id                        // untuk mengambil data value kita masuk ke result.data.data.[0]
-            
+            retail_id:result.data.rtl_id,                        // untuk mengambil data value kita masuk ke result.data.data.[0]
+            rtl_status:result.data.rtl_status
           }
           console.log('DATAS'+JSON.stringify(datas));
 

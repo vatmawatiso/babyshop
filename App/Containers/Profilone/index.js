@@ -35,13 +35,15 @@ const Profilone = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
-    cty_name:'',
+    cty_name: '',
     alu_name: '',
     alu_id: '',
     alu_city: '',
     alu_adress: '',
     alu_phone: '',
     alu_desk: '',
+    rtl_id:'',
+    rtl_status: '',
     alu_stats: false,
     loading: false,
     modalVisible: false,
@@ -212,36 +214,111 @@ const Profilone = (props) => {
   }
 
   const Seller = () => {
-        if (datas.tipe === 'seller') {
-            NavigatorService.reset('Homeseller')
-          } else if (datas.tipe === 'client') {
-            NavigatorService.reset('Homepage')
-          }
+
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+
+      let data = JSON.parse(response);
+      // const val = JSON.stringify(data);
+
+      console.log('CEK RTL----------->' + JSON.stringify(data));
+
+      setState(state => ({
+        ...state,
+        mb_id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture,
+        retail_id: data.value.rtl_id,
+        rtl_status: data.value.rtl_status
+      }))
+
+      
+      if (data.rtl_status === 'Validate') { 
+        alert('Pengajuan retail sudah berhasil di validasi!')              
+        NavigatorService.navigate('Homeseller')
+
+      } else if (data.rtl_status == 'Rejected') {
+        alert('lakukan pengajuan ulang!')
+        NavigatorService.navigate('Pengajuan')
+
+      } else if (data.rtl_status == 'Review') {
+        alert('Pengajuan sedang direview!')
+
+      } else if (data.rtl_id == 'null') {
+        alert('Buat pengajuan sekarang!')
+
+      }  else {
+        NavigatorService.navigate('Pengajuan')
+      } 
+
+    })
+    .catch(err => {
+      console.log(err)
+      alert('Gagal menerima data dari server!')
+      setState(state => ({ ...state, loading: false }))
+    })
+
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
+
   }
 
-//   const displayName = (alu_city) =>{
-//     let count = '';
-//     let nama  = '';
-//     count = alu_city.split(' ' || '-');
-//     nama  = count.slice(0, 3).join(' ');
-//     return nama
-// }
+  const refresh = async () => {
+    try {
+     AsyncStorage.getItem('member').then(response => {
+       //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+ 
+       let data = JSON.parse(response);
+       //const val = JSON.stringify(data);
+ 
+       //console.log('Profilseller ------->'+ JSON.stringify(response));
+ 
+       setState(state => ({
+         ...state,
+         id: data.mb_id,
+         mb_name: data.value.mb_name,
+         mb_email: data.value.mb_email,
+         mb_phone: data.value.mb_phone,
+         mb_type: data.value.mb_type,
+         picture: data.value.picture,
+         retail_id: data.value.rtl_id,
+         rtl_status: data.value.rtl_status
+       }))
+ 
+     }).catch(err => {
+       console.log('err', err)
+     })
+
+    } catch(e) {
+      console.log('e', e)
+    }
+   }
 
   // render() {
   return (
     <View style={styles.container}>
-        <Logout
+      <Logout
         title={'Profil'}
         onPress={() => props.navigation.goBack()}
-        onFilter={()=> logout()}
+        onFilter={() => logout()}
       />
-      {/* <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+      <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={refresh}
           />}
-      > */}
+      >
 
       <View style={{ width: '100%', height: 740, alignItems: 'center' }}>
         <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
@@ -286,7 +363,7 @@ const Profilone = (props) => {
         </View>
         <View style={{ zIndex: 0, marginBottom: 50 }}>
           <View style={styles.viewJual}>
-            <Pressable style={styles.btnJual}  onPress={() => Seller()}>
+            <Pressable style={styles.btnJual} onPress={() => Seller()}>
               <Text style={styles.txtJual}>Mulai Jual</Text>
             </Pressable>
           </View>
@@ -321,7 +398,7 @@ const Profilone = (props) => {
               </Pressable>
 
               <Pressable style={{ marginHorizontal: toDp(10), left: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikirim' })}>
-                <Image source={allLogo.kirim} style={{width: toDp(38), height: toDp(38), left:toDp(2)}} />
+                <Image source={allLogo.kirim} style={{ width: toDp(38), height: toDp(38), left: toDp(2) }} />
                 <Text style={{ fontSize: toDp(13) }}>Dikirim</Text>
               </Pressable>
 
@@ -346,7 +423,7 @@ const Profilone = (props) => {
                   </>
                 }
                 <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
-                <View style={{left:toDp(125)}}>
+                <View style={{ left: toDp(125) }}>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </View>
@@ -368,7 +445,7 @@ const Profilone = (props) => {
       </View>
 
 
-      {/* </ScrollView> */}
+      </ScrollView>
 
     </View>
   )
@@ -428,12 +505,12 @@ const styles = StyleSheet.create({
   icwallet: {
     height: toDp(22),
     width: toDp(25),
-    tintColor:'#f83308'
+    tintColor: '#f83308'
   },
   icstore: {
     height: toDp(22),
     width: toDp(25),
-    tintColor:'#f83308'
+    tintColor: '#f83308'
   },
   icline: {
     height: toDp(12),
@@ -484,7 +561,7 @@ const styles = StyleSheet.create({
     width: toDp(10),
     height: toDp(14.8),
     bottom: toDp(10),
-    right:toDp(90)
+    right: toDp(90)
   },
   txtPengiriman: {
     left: toDp(0),
@@ -525,9 +602,31 @@ const styles = StyleSheet.create({
   },
   txtAddress: {
     fontSize: toDp(13),
-    bottom:toDp(10)
+    bottom: toDp(10)
   }
 
 });
 
 export default Profilone;
+
+
+        // const datas = {                                 
+        //   id: result.data.data[0].mb_id,                 
+        //   value: result.data.data[0],
+        //   tipe: result.data.data[0].mb_type,
+        //   retail_idtl_srtl_status.data.rtl_id                      
+
+        // }
+        // console.log('DATAS' + JSON.stringify(datas));
+
+        // if (datas.retail_idtl_srtl_status_id) {
+        //   // alert('Nama Pengguna atau Kata Sandi Salah!')
+        //      NavigatorService.navigate('Homeseller')
+        // } else {
+        //   console.log(JSON.stringify(datas));
+
+        //   NavigatorService.reset('Ubahtoko')
+        // }
+
+        // NavigatorService.reset('Homepage')
+        // setState(state => ({ ...state, loading: false }))

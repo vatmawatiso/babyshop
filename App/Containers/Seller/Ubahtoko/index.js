@@ -41,7 +41,7 @@ const Ubahtoko = (props) => {
     rtl_long: '',
     rtl_lat: '',
     rtl_id: '',
-    id_retail: '',
+    retail_id: '',
     bo_rtlid: false
   })
 
@@ -65,11 +65,11 @@ const Ubahtoko = (props) => {
       setState(state => ({
         ...state,
         rtl_mb_id: data.rtl_mb_id,
-        id_retail: data.retail_id,
+        retail_id: data.rtl_id,
         mb_name: data.value.mb_name,
       }))
-      getProfilseller(data.retail_id)
-      console.log('ID RETAIL ====> ' + JSON.stringify(data.retail_id));
+      getProfilseller(data.rtl_id)
+      console.log('ID RETAIL ====> ' + JSON.stringify(data.rtl_id));
 
     }).catch(err => {
       console.log('err', err)
@@ -78,10 +78,10 @@ const Ubahtoko = (props) => {
 
 
     return (() => {
-      console.log('===========================>' + state.id_retail);
+      console.log('===========================>' + state.retail_id);
       //getProfilseller()
     })
-  }, [state.id_retail])
+  }, [state.retail_id])
 
   const getProfilseller = (rtid) => {
 
@@ -244,7 +244,7 @@ const Ubahtoko = (props) => {
         </View>
       </View>
       {state.bo_rtlid == true &&
-        <Text>{state.id_retail}</Text>
+        <Text>{state.retail_id}</Text>
       }
       <Pressable style={styles.btnSimpan}>
         <Text style={styles.txtSimpan}>Simpan</Text>
