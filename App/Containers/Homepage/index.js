@@ -7,7 +7,8 @@ import {
   Image,
   StatusBar,
   ImageBackground,
-  Pressable
+  Pressable, 
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -19,15 +20,94 @@ import Kategoriproduk from './Kategoriproduk'
 import Notification from './Notification'
 import Profilone from '../Profilone'
 import Search from '@Search'
+import axios from "axios";
+
 
 const Homepage = () => {
 
+  const [status, setStatus] = useState(false);
+
   const [state, setState] = useState({
+    // mb_id: '',
+    // mb_name: '',
+    // mb_type: '',
+    // mb_phone: '',
+    // mb_email: '',
+    // rtl_id:'',
+    // rtl_status: '',
     content: 'home', // home, user, setting
+
   })
 
   const [text, setText] = useState('');
   const [src, setSrc]=useState(null);
+
+  // useEffect(() => {
+
+  //   AsyncStorage.getItem('member').then(response => {
+  //     // console.log('Profil----------->'+ JSON.stringify(response));
+
+  //     let data = JSON.parse(response);
+  //     // const val = JSON.stringify(data);
+
+  //     console.log('Profilefiks----------->' + JSON.stringify(data));
+
+  //     setState(state => ({
+  //       ...state,
+  //       mb_id: data.mb_id,
+  //       mb_name: data.value.mb_name,
+  //       mb_email: data.value.mb_email,
+  //       mb_phone: data.value.mb_phone,
+  //       mb_type: data.value.mb_type,
+  //       picture: data.value.picture,
+  //       retail_id: data.value.rtl_id,
+  //       rtl_status: data.value.rtl_status
+  //     }))
+  //     console.log('cek state  ===> ', data.mb_id)
+
+
+  //   }).catch(err => {
+  //     console.log('err', err)
+  //   })
+
+  //   AsyncStorage.getItem('uid').then(uids => {
+  //     let ids = uids;
+  //     setState(state => ({
+  //       ...state,
+  //       mb_id: ids
+  //     }))
+  //   }).catch(err => {
+  //     console.log('err', err)
+  //   })
+
+  //   getStatus()
+
+  // }, [])
+
+
+  //  //get status
+  //  const getStatus = () => {
+  //   AsyncStorage.getItem('member').then(response => {
+  //     let idmb = response;
+  //     console.log('Let rtl_id ===> ', idmb)
+
+  //     axios.get('https://market.pondok-huda.com/dev/react/retail/?rtl_id=' + idmb)
+  //       .then(result => {
+  //         console.log('STATUS RETAIL ---->' + JSON.stringify(result));
+
+  //         if (result.data.status == 200) {
+  //           setState(state => ({ ...state, datas: result.data.data }))
+  //           console.log('result ===> ', result.data.data)
+  //         }
+  
+  //       }).catch(error => {
+  //         console.log(error)
+  //       })
+
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  // }
 
   return (
     <View style={styles.container}>
