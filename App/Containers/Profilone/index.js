@@ -44,6 +44,7 @@ const Profilone = (props) => {
     alu_desk: '',
     rtl_id:'',
     rtl_status: '',
+    retail_sts:[],
     alu_stats: false,
     loading: false,
     modalVisible: false,
@@ -96,42 +97,21 @@ const Profilone = (props) => {
       'didFocus',
       payload => {
         loatAlamatU()
-        getRetail()
+        getRetail()  // untuk reload data terbaru retail
       }
     );
   
   }, [stAlu])
 
-//get retail 
+//get retail keseluruhan
 
   const getRetail = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idm = uids;
     Axios.get('https://market.pondok-huda.com/dev/react/retail/?mb_id='+ idm)
       .then(result => {
-        // handle success
-          console.log('RETAIL ID=====>'+ JSON.stringify(result));
-        setState(state => ({ ...state, cityname: result.data.data }))
-        // console.log('-----kotaaa=====>'+ JSON.stringify(result.data.data));
-
-        if (result.data.data[0].rtl_status === 'Validate') { 
-          alert('Pengajuan retail sudah berhasil di validasi!')              
-          NavigatorService.navigate('Homeseller')
-  
-        } else if (result.data.data[0].rtl_status == 'Rejected') {
-          alert('lakukan pengajuan ulang!')
-          NavigatorService.navigate('Pengajuan')
-  
-        } else if (result.data.data[0].rtl_status == 'Review') {
-          alert('Pengajuan sedang direview!')
-  
-        } else if (result.data.data[0].rtl_id == 'null') {
-          alert('Buat pengajuan sekarang!')
-  
-        }  else {
-          NavigatorService.navigate('Pengajuan')
-        } 
-  
+        console.log('cek result ===> '+ JSON.stringify(result));
+          setState(state => ({ ...state, retail_sts : result.data.data[0].rtl_status })) 
 
       }).catch(err => {
         //console.log(err)
@@ -141,38 +121,30 @@ const Profilone = (props) => {
   })
 }
 
-//get Status BELUM KELAR
+//get Status untuk kondisi if dan akan digunakan untuk pressable mulai jual
 
 const getStatus = () => {
   try {
 
-    AsyncStorage.getItem('setAlamat').then(response => {
-      let data = JSON.parse(response);
-      console.log('---data--->' + data);
-      setState(state => ({
-        ...state,
-        alu_id: data?.id,
-        alu_city: data?.city,
-        alu_phone: data?.phone,
-        alu_name: data?.name,
-        alu_adress: data?.address,
-      }))
-      if (data == null) {
-        setState(state => ({
-          ...state,
-          alu_stats: true
-        }))
-      } else {
-        setState(state => ({
-          ...state,
-          alu_stats: false
-        }))
-      }
-    }).catch(err => {
-      console.log('err', err)
-    })
-  } catch (e) {
-    console.log('e', e)
+      if (state.retail_sts === 'Validate') { 
+        alert('Pengajuan retail sudah berhasil di validasi!')              
+        NavigatorService.navigate('Homeseller')
+
+      } else if (state.retail_sts === 'Rejected') {
+        alert('lakukan pengajuan ulang!')
+        NavigatorService.navigate('Pengajuan')
+
+      } else if (state.retail_sts === 'Review') {
+        alert('Pengajuan sedang direview!')
+
+      } else if (state.retail_sts === 'null') {
+        alert('Buat pengajuan sekarang!')
+
+      }  else {
+        NavigatorService.navigate('Pengajuan')
+      } 
+  } catch (err) {
+    console.log('err', err)
   }
 }
 
@@ -186,7 +158,7 @@ const getStatus = () => {
           console.log('oid = ' + oid.data.length);
 
           if (oid.data.length > 0) {
-            const ALAMAT = {            //belum select data database
+            const ALAMAT = {         
               id: oid.data[0]?.adr_id,
               name: oid.data[0]?.adr_name,
               phone: oid.data[0]?.adr_hp,
@@ -287,66 +259,6 @@ const getStatus = () => {
     )
   }
 
-  // const Seller = () => {
-
-  //   AsyncStorage.getItem('member').then(response => {
-  //     // console.log('Profil----------->'+ JSON.stringify(response));
-
-  //     let data = JSON.parse(response);
-  //     // const val = JSON.stringify(data);
-
-  //     console.log('CEK RTL----------->' + JSON.stringify(data));
-
-  //     setState(state => ({
-  //       ...state,
-  //       mb_id: data.mb_id,
-  //       mb_name: data.value.mb_name,
-  //       mb_email: data.value.mb_email,
-  //       mb_phone: data.value.mb_phone,
-  //       mb_type: data.value.mb_type,
-  //       picture: data.value.picture,
-  //       retail_id: data.value.rtl_id,
-  //       rtl_status: data.value.rtl_status
-  //     }))
-
-      
-  //     if (data.rtl_status === 'Validate') { 
-  //       alert('Pengajuan retail sudah berhasil di validasi!')              
-  //       NavigatorService.navigate('Homeseller')
-
-  //     } else if (data.rtl_status == 'Rejected') {
-  //       alert('lakukan pengajuan ulang!')
-  //       NavigatorService.navigate('Pengajuan')
-
-  //     } else if (data.rtl_status == 'Review') {
-  //       alert('Pengajuan sedang direview!')
-
-  //     } else if (data.rtl_id == 'null') {
-  //       alert('Buat pengajuan sekarang!')
-
-  //     }  else {
-  //       NavigatorService.navigate('Pengajuan')
-  //     } 
-
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //     alert('Gagal menerima data dari server!')
-  //     setState(state => ({ ...state, loading: false }))
-  //   })
-
-  //   AsyncStorage.getItem('uid').then(uids => {
-  //     let ids = uids;
-  //     setState(state => ({
-  //       ...state,
-  //       mb_id: ids
-  //     }))
-  //   }).catch(err => {
-  //     console.log('err', err)
-  //   })
-
-  // }
-
   //REFRESH PROFIL
 
   const refresh = async () => {
@@ -439,7 +351,7 @@ const getStatus = () => {
         </View>
         <View style={{ zIndex: 0, marginBottom: 50 }}>
           <View style={styles.viewJual}>
-            <Pressable style={styles.btnJual} onPress={() => getRetail()}>
+            <Pressable style={styles.btnJual} onPress={() => getStatus()}>
               <Text style={styles.txtJual}>Mulai Jual</Text>
             </Pressable>
           </View>

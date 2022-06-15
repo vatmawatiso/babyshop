@@ -6,9 +6,11 @@ import {
     Image,
     Alert,
     TextInput,
-    SafeAreaView,
+
     Pressable,
-    ScrollView
+    ScrollView,
+    AsyncStorage,
+    TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -46,11 +48,143 @@ const Checkout = (props) => {
         },
     ]
 
+    const [stAlu, setAllu] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
         datas: [],
-        isLoading: true,
-        isError: false,
+        alu_name: '',
+        alu_id: '',
+        alu_city: '',
+        alu_adress: '',
+        alu_phone: '',
+        alu_desk: '',
+        alu_stats: false,
+        loading: false,
+        modalVisible: false,
+        option: {
+            width: 750,
+            height: 750,
+            cropping: true,
+        }
     })
+
+
+    useEffect(() => {
+
+        AsyncStorage.getItem('member').then(response => {
+            // console.log('Profil----------->'+ JSON.stringify(response));
+
+            let data = JSON.parse(response);
+            // const val = JSON.stringify(data);
+
+            console.log('Profilefiks----------->' + JSON.stringify(data));
+
+            setState(state => ({
+                ...state,
+                mb_id: data.mb_id,
+                mb_name: data.value.mb_name,
+                mb_email: data.value.mb_email,
+                mb_phone: data.value.mb_phone,
+                mb_type: data.value.mb_type,
+                picture: data.value.picture,
+                retail_id: data.value.rtl_id,
+            }))
+
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+        AsyncStorage.getItem('uid').then(uids => {
+            let ids = uids;
+            setState(state => ({
+                ...state,
+                mb_id: ids
+            }))
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+        getAlumember()
+
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                loatAlamatU()
+                // getRetail()  // untuk reload data terbaru retail
+            }
+        );
+
+    }, [stAlu])
+
+
+    const getAlumember = () => {
+        AsyncStorage.getItem('uid').then(uids => {
+            let idember = uids;
+            axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+                .then(result => {
+                    let oid = result.data;
+                    console.log('oid = ' + oid.data.length);
+
+                    if (oid.data.length > 0) {
+                        const ALAMAT = {
+                            id: oid.data[0]?.adr_id,
+                            name: oid.data[0]?.adr_name,
+                            phone: oid.data[0]?.adr_hp,
+                            address: oid.data[0]?.adr_address,
+                            city: oid.data[0]?.cty_name
+                        }
+                        console.log('length--------> ' + JSON.stringify(oid.data[0].adr_id));
+                        AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
+                        setAllu(1)
+                        //loatAlamatU()
+                    } else {
+                        console.log('null--------> ' + oid.data.length);
+                        setState(state => ({
+                            ...state,
+                            alu_desk: 'Atur alamat dulu',
+                            alu_stats: true
+                        }))
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+        }).catch(err => {
+            console.log('err', err)
+        })
+    }
+
+    const loatAlamatU = async () => {
+        try {
+
+            AsyncStorage.getItem('setAlamat').then(response => {
+                let data = JSON.parse(response);
+                console.log('---data--->' + data);
+                setState(state => ({
+                    ...state,
+                    alu_id: data?.id,
+                    alu_city: data?.city,
+                    alu_phone: data?.phone,
+                    alu_name: data?.name,
+                    alu_adress: data?.address,
+                }))
+                if (data == null) {
+                    setState(state => ({
+                        ...state,
+                        alu_stats: true
+                    }))
+                } else {
+                    setState(state => ({
+                        ...state,
+                        alu_stats: false
+                    }))
+                }
+            }).catch(err => {
+                console.log('err', err)
+            })
+        } catch (e) {
+            console.log('e', e)
+        }
+    }
 
     useEffect(() => {
         getJasa()
@@ -84,27 +218,26 @@ const Checkout = (props) => {
             <ScrollView>
                 <View style={{ flex: 1 }}>
                     <View>
-                        <View style={{
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 1,
-                            },
-                            shadowOpacity: 0.22,
-                            shadowRadius: 2.22,
+                        <View style={{ marginBottom: toDp(40), top: toDp(10) }}>
+                            <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
+                                <View style={{ flexDirection: 'row', }}>
+                                    <Image source={allLogo.location} style={styles.iclocation} />
+                                    <Text style={styles.txtAlamat}>Alamat Pengiriman</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', bottom: toDp(10) }}>
+                                    <View style={styles.isiAddress}>
+                                        {state.alu_stats == true &&
+                                            <>
+                                                <Text style={styles.txtAddress}>{state.alu_desk}</Text>
 
-                            elevation: 3,
-                        }}>
-                            <View style={styles.Address}>
-                                <Image source={allLogo.icaddress1} style={styles.icaddress1} />
-                                <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
-                            </View>
+                                            </>
+                                        }
+                                        <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
 
-                            <Pressable style={{ bottom: toDp(60), }} onPress={() => NavigatorService.navigate('Alamat')}>
-                                <View style={styles.isiAddress}>
-                                    <Text style={{ fontSize: toDp(12), }}>{Address[0].nama} {Address[0].telepon}</Text>
-                                    <Text style={{ fontSize: toDp(12), }}>{Address[0].alamat}</Text>
-                                    <Image source={allLogo.iclineblack} style={[styles.icaddress, { marginLeft: toDp(30) }]} />
+                                    </View>
+                                    <View>
+                                        <Image source={allLogo.iclineblack} style={styles.icaddress} />
+                                    </View>
                                 </View>
                             </Pressable>
                         </View>
@@ -235,17 +368,12 @@ const styles = StyleSheet.create({
         borderWidth: toDp(0.5)
     },
     Address: {
-        backgroundColor: '#f9f8f8',
-        width: toDp(335),
-        height: toDp(105),
-        borderRadius: toDp(10),
         top: toDp(15),
         flexDirection: 'row',
-
-
+        backgroundColor: '#f9f8f8',
     },
     isiAddress: {
-        top: toDp(10),
+        top: toDp(5),
         marginLeft: toDp(50),
         shadowColor: "#000",
         shadowOffset: {
@@ -257,20 +385,46 @@ const styles = StyleSheet.create({
 
         elevation: 1,
     },
+    btnAlamat: {
+        bottom: toDp(0),
+        backgroundColor: '#f8f9f9',
+        width: toDp(335),
+        height: toDp(105),
+        borderRadius: toDp(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
+    },
     icaddress1: {
         marginLeft: toDp(10),
         top: toDp(10),
     },
     txtAddress: {
-        marginLeft: toDp(20),
         top: toDp(15),
         fontSize: toDp(12)
+    },
+    txtAlamat: {
+        top: toDp(20),
+        fontSize: toDp(12),
+        marginLeft: toDp(15)
+    },
+    iclocation: {
+        width: toDp(35),
+        height: toDp(35),
+        left: toDp(10),
+        top: toDp(5)
     },
     icaddress: {
         width: toDp(12),
         height: toDp(12),
-        left: toDp(233),
-        bottom: toDp(25)
+        top: toDp(25),
+        marginLeft: toDp(60)
     },
     txtTB: {
         fontWeight: 'bold',

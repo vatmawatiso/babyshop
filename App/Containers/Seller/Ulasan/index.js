@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     width:toDp(335),
     height:toDp(100),
     top:toDp(10),
-    borderRadius:toDp(20),
+    borderRadius:toDp(10),
     justifyContent:'center',
     alignItems:'center',
         shadowColor: "#000",
@@ -166,13 +166,13 @@ const styles = StyleSheet.create({
   },
   txtRating: {
       fontSize:toDp(35),
-      color:'#0960A1'
+      color:'#F83308'
   },
   btnSemua: {
-      backgroundColor:'#E7E7E7',
+      backgroundColor:'#f8f9f9',
       width:toDp(85),
       bottom:toDp(30),
-      borderRadius:toDp(20),
+      borderRadius:toDp(10),
       height:toDp(35),
       justifyContent:'flex-end',
       alignItems:'center',
@@ -188,11 +188,11 @@ const styles = StyleSheet.create({
 
   },
   btnBintang5: {
-    backgroundColor:'#E7E7E7',
+    backgroundColor:'#f8f9f9',
     marginHorizontal:toDp(38),
     width:toDp(85),
     bottom:toDp(30),
-    borderRadius:toDp(20),
+    borderRadius:toDp(10),
     height:toDp(35),
     justifyContent:'flex-end',
     alignItems:'center',
@@ -207,10 +207,10 @@ const styles = StyleSheet.create({
         elevation: 2,
 },
 btnBintang4: {
-  backgroundColor:'#E7E7E7',
+  backgroundColor:'#f8f9f9',
   width:toDp(85),
   bottom:toDp(30),
-  borderRadius:toDp(20),
+  borderRadius:toDp(10),
   height:toDp(35),
   justifyContent:'flex-end',
   alignItems:'center',

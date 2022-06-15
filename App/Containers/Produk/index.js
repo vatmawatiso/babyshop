@@ -12,7 +12,8 @@ import {
   Modal,
   StatusBar,
   Pressable,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -23,132 +24,260 @@ import LinearGradient from 'react-native-linear-gradient'
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
+import Axios from "axios";
+import NumberFormat from 'react-number-format';
 
 
 const { width, height } = Dimensions.get('window')
 
 const Produk = (props) => {
 
-
+  const [selectedItems, setSelectedItems] = useState([]);
   const [state, setState] = useState({
-    arrayFriends: [
-      {
-        value: {
-          picture: 'https://sc04.alicdn.com/kf/Hecf7550c5eda410e83757893019d57a7Z.jpg',
-          name: 'TB Abadi jaya',
-          harga: 'Rp 500.000',
-          rating: '5.8',
-          terjual: '27'
-        }
-      }, {
-        value: {
-          picture: 'https://sc04.alicdn.com/kf/Hfa2817ad10804b7dbb847a43def8a3ce9.jpg',
-          name: 'TB Tembang Pantura',
-          harga: 'Rp 500.000',
-          rating: '5.8',
-          terjual: '27'
-        }
-      }, {
-        value: {
-          picture: 'https://sc04.alicdn.com/kf/H6d5cf1f618734ee9a04dbd57383ad546l.jpg',
-          name: 'TB Maju Jaya',
-          harga: 'Rp 500.000',
-          rating: '5.8',
-          terjual: '27'
-        }
-      }, {
-        value: {
-          picture: 'https://sc04.alicdn.com/kf/H054ec1fc8ba04bc9add21665e8f5ab92a.jpg',
-          name: 'TB Sumber Jaya',
-          harga: 'Rp 500.000',
-          rating: '5.8',
-          terjual: '27'
-        }
-      }, {
-        value: {
-          picture: 'https://sc04.alicdn.com/kf/Hf4bf3ce3f6c244c7822a5f633ba080feB.jpg',
-          name: 'TB Sumber Kasih FM',
-          harga: 'Rp 500.000',
-          rating: '5.8',
-          terjual: '27'
-        }
-      }
-    ],
     arrayUsers: [],
     arrayData: [],
-    loading: false
+    fotoProduk: [],
+    produk: [],
+    detail: [],
+    thumbnails: '',
+    id: '',
+    loading: false,
+    selected: false,
   })
 
+  useEffect(() => {
+    //getProdukbyId()
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
 
-  const DATA = [
-    {
-      id: '1',
-      produk: 'Gerobak Pasir',
-      name: 'TB Sumber Kasih FM',
-      harga: 'Rp 500.000 - 700.000',
-      rating: '5.8',
-      terjual: '27',
-      stok: '5',
-      warna: 'Hijau, Merah, Kuning, Biru',
-      beban: '100kg',
-      kapasitas: '4CBF',
-      dikirimdari: 'Indonesia Kota bandung'
-    },
-  ]
+    return (() => {
+      getProdukDetailbyId()
+    })
 
-  const renderItemExpore = (item, index) => {
-    //console.log('item', item);
+  }, [state.id])
+
+
+  const getProdukDetailbyId = () => {
+    let pid = props.navigation.state.params.value
+    Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+      .then(response => {
+        if (response.data.status == 200) {
+          getCurrentWsh()
+
+          let thumbnail = [{
+            thum: response.data.data[0]?.thumbnail
+          }]
+
+          let images_det = response.data.detail;
+          console.log('response =>', JSON.stringify(response.data.data))
+          if (images_det.length > 0) {
+
+          } else {
+
+          }
+          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail }))
+        } else {
+          console.log('response =>', response)
+        }
+      }).catch(error => {
+        console.log('error => ', error)
+      })
+  }
+
+  //get current wishlist datas
+  const getCurrentWsh = () => {
+    AsyncStorage.getItem('uid').then(uids => {
+      let idmb = uids;
+      let pid = props.navigation.state.params.value
+      Axios.get('https://market.pondok-huda.com/dev/react/wishlist/get/' + idmb + '/' + pid)
+        .then(result => {
+          console.log('current Wishlish---->' + JSON.stringify(result.data.data));
+          let oid = result.data;
+          if (oid.data.length > 0) {
+            console.log('length--------> ' + result.data.data.length);
+            setState(state => ({ ...state, selected: true }))
+
+          } else {
+            console.log('null--------> ' + oid.data.length);
+            setState(state => ({ ...state, selected: false }))
+            setSelectedItems([])
+          }
+
+          //console.log('result2 =>', result.data.data)
+        }).catch(error => {
+          console.log(error)
+        })
+
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  const selectItems = (pid, retail) => {
+    const body = {
+      ws_mb_id: state.id,
+      ws_rtl_id: retail,
+      ws_prd_id: pid
+    }
+
+    Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      .then(response => {
+        console.log('wishlist -----=>', response.data);
+
+        if (response.data.status == 201) {
+          //alert('Produk telah masuk ke wishlist anda!')
+          setState(state => ({ ...state, selected: true }))
+
+        } else {
+          setState(state => ({ ...state, selected: false }))
+          alert('Gagal menambahkan ke wishlist anda!')
+          console.log('Wishlish gagal =>', response)
+        }
+      }).catch(error => {
+        console.log('error wishlist =>', error)
+      })
+
+
+  };
+  // unlike produk
+  const deSelectItems = (idprd) => {
+    // if(selectItems.length>0){
+    //     if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
+    console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' + idprd + '/' + state.id)
+    Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + state.id + '/' + idprd)
+      .then(response => {
+        console.log('response-unlike =>', response.data)
+        if (response.data.status == 200) {
+          setState(state => ({ ...state, dataWish: [] }))
+          getCurrentWsh()
+
+        } else {
+          console.log('response =>', response)
+        }
+      }).catch(error => {
+        console.log('error =>', error)
+      })
+    //   }
+    // }
+  }
+
+  // put produk to cart
+  const putCart = (retail, berat) => {
+    const body = {
+      crt_mb_id: state.id,
+      crt_rtl_id: retail,
+      crt_ongkir: berat,
+      crt_berattotal: berat
+    }
+    Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
+      .then(response => {
+        if (response.data.status == 201) {
+          console.log('response =>', response)
+          alert('Berhasil Memasukan Barang Ke Keranjang')
+          NavigatorService.navigate('Keranjang', { id: state.id })
+        } else {
+          console.log('response =>', response)
+          alert('Gagal Menambahkan Barang Ke Keranjang')
+        }
+      }).catch(error => {
+        console.log('error =>', error)
+      })
+  }
+
+
+  const renderItemExpore = (item, i) => {
+
     return (
       <View style={styles.viewRenderExplore}>
         <View style={styles.viewImage}>
-          <LinearGradient colors={['#F9F8F8', 'transparent']} style={styles.gradientTop} />
-          <Image source={{ uri: item.item.value.picture }} style={styles.imageProfile} />
+          <LinearGradient colors={['#f8f9f9', 'transparent']} style={styles.gradientTop} />
+          <Image source={{ uri: item.item.images }} style={styles.imageProfile} />
           <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
         </View>
 
       </View>
     )
+
   }
 
-  const RenderItem = (item, index) => {
+  const renderItemExporeThum = (item) => {
+
+    return (
+      <View style={styles.viewRenderExplore}>
+        <View style={styles.viewImage}>
+          <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
+          <Image source={{ uri: item.item.thum }} style={styles.imageProfile} />
+          <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
+        </View>
+
+      </View>
+    )
+
+  }
+
+  const RenderItem = (item) => {
     return (
 
       <View style={styles.detailProduk}>
 
         <View style={{ width: toDp(335) }}>
-          <Text style={{ marginBottom: toDp(5), fontWeight: 'bold', fontSize: toDp(16) }}>{item[index].produk}</Text>
-          <Text style={{ marginBottom: toDp(5) }}>{item[index].name}</Text>
-          <Text style={{ marginBottom: toDp(5), color: '#F83308', fontWeight: 'bold' }}>{item[index].harga}</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text>{item[index].rating}      {item[index].terjual} Terjual</Text>
-            <Image source={allLogo.love} style={styles.iclove} />
+
+          <Text style={{ marginBottom: toDp(5), fontSize: 20, fontWeight: 'bold' }}>{item[0]?.product_name}</Text>
+          <Text style={{ marginBottom: toDp(5) }}>{item[0]?.retail_name}</Text>
+          {/* <Text style={{ marginBottom: toDp(5), color: '#F83308', fontWeight: 'bold' }}>{item[0]?.price}</Text> */}
+          <NumberFormat
+            value={item[0]?.price}
+            displayType={'text'}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            prefix={'Rp. '}
+            renderText={formattedValue => <Text style={{ marginBottom: toDp(5), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+          />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: toDp(25) }}>
+            <View style={{ width: '50%', justifyContent: 'center' }}>
+              <Text>Rating || Terjual</Text>
+            </View>
+            <View style={{ width: '50%', alignItems: 'flex-end' }}>
+              {state.selected == false ?
+                <TouchableOpacity style={{ right: toDp(20), }} onPress={() => selectItems(item[0].id, item[0].retail)}>
+                  <Image source={allLogo.love} style={styles.iclove} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity style={{ right: toDp(20), }} onPress={() => deSelectItems(item[0].id)}>
+                  <Image source={allLogo.heart} style={{ width: toDp(25), height: toDp(25), zIndex: 999, resizeMode: 'contain' }} />
+                </TouchableOpacity>
+              }
+
+
+            </View>
           </View>
 
-          <View style={{ bottom: toDp(10) }}>
-            <View style={{ top: toDp(0) }}>
-              <Text style={{ fontWeight: 'bold', top: toDp(0) }}>Rincian Produk</Text>
-              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
+          <View>
+            <Text style={{ fontWeight: 'bold', top: toDp(0) }}>Rincian Produk</Text>
+            <View style={{ flexDirection: 'row', top: toDp(10) }}>
+              <View>
                 <Text>Stok</Text>
-                <Text style={{ right: toDp(162) }}>: {item[index].stok}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Beban Kapasitas</Text>
-                <Text style={{ right: toDp(131) }}>: {item[index].beban}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Warna</Text>
-                <Text style={{ right: toDp(13) }}>: {item[index].warna}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
                 <Text>Kapasitas</Text>
-                <Text style={{ right: toDp(135) }}>: {item[index].kapasitas}</Text>
+                <Text>Dikirim dari</Text>
               </View>
-              <View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'space-between' }}>
-                <Text>Dikirim Dari </Text>
-                <Text style={{ right: toDp(17) }}>: {item[index].dikirimdari}</Text>
+              <View>
+                <Text> : {item[0]?.stock}</Text>
+                <Text> : {item[0]?.berat}</Text>
+                <Text> : -</Text>
+                <Text> : -</Text>
+                <Text> : {item[0]?.retailaddres}</Text>
               </View>
             </View>
-
 
             <Collapse style={{ top: toDp(15), left: toDp(50) }}>
               <CollapseHeader>
@@ -157,26 +286,20 @@ const Produk = (props) => {
                 </View>
               </CollapseHeader>
               <CollapseBody>
-                <View style={{ top: toDp(5), right: 50 }}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', top: toDp(10), right: 50 }}>
+                  <View>
                     <Text>Stok</Text>
-                    <Text style={{ right: toDp(162) }}>{item[index].stok}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text>Beban Kapasitas</Text>
-                    <Text style={{ right: toDp(131) }}>{item[index].beban}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text>Warna</Text>
-                    <Text style={{ right: toDp(13) }}>{item[index].warna}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text>Kapasitas</Text>
-                    <Text style={{ right: toDp(135) }}>{item[index].kapasitas}</Text>
+                    <Text>Dikirim dari</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text>Dikirim Dari </Text>
-                    <Text style={{ right: toDp(17) }}>{item[index].dikirimdari}</Text>
+                  <View>
+                    <Text> : {item[0]?.stock}</Text>
+                    <Text> : {item[0]?.berat}</Text>
+                    <Text> : -</Text>
+                    <Text> : -</Text>
+                    <Text> : {item[0]?.retailaddres}</Text>
                   </View>
                 </View>
               </CollapseBody>
@@ -185,10 +308,10 @@ const Produk = (props) => {
 
           <View style={styles.Ulasan}>
             <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
-            <Pressable style={{ right: toDp(15) }} onPress={() => NavigatorService.navigate('Ulasanpembeli')}>
+            <Pressable style={{ right: toDp(15) }} onPress={() => NavigatorService.navigate('Ulasanpembeli', { value, id: id })}>
               <View style={{ flexDirection: 'row' }}>
                 <Text>Lihat Ulasan</Text>
-                <Image source={allLogo.iclineright} style={styles.iclineright} />
+                <Image source={allLogo.iclineright} style={styles.iclineright} /> 
               </View>
             </Pressable>
           </View>
@@ -202,43 +325,81 @@ const Produk = (props) => {
 
   };
 
+    // (ketika klik tombol beli sekarang)
+
+    const selectProduk = (value, id) => {
+      NavigatorService.navigate('Checkout', { value, id: id })
+    }
+  
+
+  const renderFooter = (item, onPressProduk) => {
+    return (
+
+      <View style={styles.footer}>
+        <View style={styles.btnMenu}>
+          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
+            <Image source={allLogo.Chat1} style={styles.icchat} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat)}>
+            <Image source={allLogo.cart} style={styles.cart} />
+          </TouchableOpacity>
+
+          <View style={{ borderWidth: toDp(0.5), }} />
+          <TouchableOpacity style={styles.btnCheckout}  onPress={() => onPressProduk()} >
+            <Text style={styles.txtBeli}>Beli Sekarang</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <Header
         title={'Produk'}
-        onPress={() => props.navigation.goBack()}
+        onPress={() => alert('dfhfg')}
       />
 
       <ScrollView style={{ backgroundColor: 'white', paddingVertical: toDp(20), bottom: toDp(70) }}>
         <View style={{ width: '100%', height: toDp(230), backgroundColor: 'white', top: toDp(50) }}>
-          <Carousel
-            layout={"default"}
-            data={state.arrayFriends}
-            sliderWidth={width}
-            itemWidth={toDp(350)}
-            renderItem={(item, index) => renderItemExpore(item, index)}
-            onSnapToItem={index => setState(state => ({ ...state, activeIndex: index }))}
-          />
+          {state.fotoProduk.length > 0 ?
+            <Carousel
+              layout={"default"}
+              data={state.fotoProduk}
+              sliderWidth={width}
+              itemWidth={toDp(350)}
+              renderItem={(item, index) => renderItemExpore(item, index)}
+              onSnapToItem={index => setState(state => ({ ...state, activeIndex: index }))}
+            />
+            :
+            <>
+
+              <Carousel
+                layout={"default"}
+                data={state.thumbnails}
+                sliderWidth={width}
+                itemWidth={toDp(350)}
+                renderItem={(item, index) => renderItemExporeThum(item)}
+                onSnapToItem={index => setState(state => ({ ...state, activeIndex: index }))}
+              />
+            </>
+          }
         </View>
 
         <View style={styles.content}>
-          {RenderItem(DATA, 0)}
+          {RenderItem(state.produk)}
         </View>
       </ScrollView>
 
-      <View style={{ position: 'absolute', bottom: toDp(20), alignItems: 'center', justifyContent: 'center', width: '100%',     backgroundColor: 'transparent', position: 'absolute', }}>
-        <View style={styles.btnMenu}>
-          <Pressable style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
-            <Image source={allLogo.Chat1} style={styles.icchat} />
-          </Pressable>
-          <Pressable style={{ left: toDp(0) }} onPress={() => NavigatorService.navigate('Keranjang')}>
-            <Image source={allLogo.cart} style={styles.cart} />
-          </Pressable>
-          <Pressable style={{ right: toDp(0), borderWidth:toDp(0.5), width:toDp(150), height:toDp(60), justifyContent:'center', alignItems:'center', borderBottomRightRadius:toDp(10), borderTopRightRadius:toDp(10), backgroundColor:'#f83308' }} onPress={() => NavigatorService.navigate('Checkout')} >
-            <Text style={styles.txtBeli}>Beli Sekarang</Text>
-          </Pressable>
-        </View>
-      </View>
+      {renderFooter(state.produk)}
+          {/* <RenderItem
+            item={item}
+            index={index}
+            onPress={() => selectItems(item.id, item.retail, index)}
+            selected={getSelected(item.id, state.id)}
+            unLike={() => deSelectItems(item.id, item.retail, state.id)}
+            onPressProduk={() => selectProduk(item.id)}
+          /> */}
 
     </View>
   )
@@ -250,9 +411,21 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: 'white',
     // top:toDp(50)
+  },
+  btnCheckout: {
+    right: toDp(30), 
+    left: toDp(0), 
+    borderColor: 'white', 
+    width: toDp(150), 
+    height: toDp(60), 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderBottomRightRadius: toDp(10), 
+    borderTopRightRadius: toDp(10),
+    backgroundColor: '#f83308'
   },
   footer: {
     backgroundColor: 'transparent',
@@ -293,15 +466,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: toDp(130),
     top: toDp(0),
-    borderTopLeftRadius: toDp(16),
-    borderTopRightRadius: toDp(16),
+    borderTopLeftRadius: toDp(10),
+    borderTopRightRadius: toDp(10),
     zIndex: 1,
   },
   gradientBottom: {
     width: '100%',
     height: toDp(130),
-    borderBottomLeftRadius: toDp(16),
-    borderBottomRightRadius: toDp(16),
+    borderBottomLeftRadius: toDp(10),
+    borderBottomRightRadius: toDp(10),
     position: 'absolute',
     bottom: toDp(0),
   },
@@ -317,7 +490,7 @@ const styles = StyleSheet.create({
     top: toDp(15),
   },
   Ulasan: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#f8f9f9',
     width: toDp(335),
     height: toDp(47),
     // left:toDp(50),
@@ -376,10 +549,13 @@ const styles = StyleSheet.create({
   },
   iclove: {
     bottom: toDp(5),
-    right: toDp(10),
+    right: toDp(0),
+    left: toDp(5),
     width: toDp(40),
     height: toDp(40),
-    tintColor: 'black'
+    tintColor: 'black',
+    zIndex: 10,
+    resizeMode: 'contain'
   }
 
 });

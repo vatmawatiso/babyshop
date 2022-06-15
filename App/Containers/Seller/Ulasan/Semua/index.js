@@ -111,11 +111,11 @@ const styles = StyleSheet.create({
     backgroundColor:'yellow'
   },
 bodyUlasan: {
-  backgroundColor:'#E7E7E7',
+  backgroundColor:'#f8f9f9',
   width:toDp(335),
   height:toDp(180),
   top:toDp(260),
-  borderRadius:toDp(20),
+  borderRadius:toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

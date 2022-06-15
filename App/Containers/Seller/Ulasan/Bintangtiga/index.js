@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
     bottom:toDp(50)
   },
 bodyUlasan: {
-  backgroundColor:'#E7E7E7',
+  backgroundColor:'#f8f9f9',
   width:toDp(335),
   height:toDp(180),
   top:toDp(260),
-  borderRadius:toDp(8),
+  borderRadius:toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

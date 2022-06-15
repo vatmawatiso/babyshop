@@ -293,7 +293,7 @@ const Home = (props) => {
                   </TouchableOpacity>
                   :
                   <TouchableOpacity onPress={unLike} key={index}>
-                    <Image source={allLogo.ic_heart} style={{ width: toDp(25), height: toDp(24) }} />
+                    <Image source={allLogo.heart} style={{ width: toDp(25), height: toDp(24) }} />
                   </TouchableOpacity>
               }
             </View>
@@ -338,13 +338,7 @@ const Home = (props) => {
             unLike={() => deSelectItems(item.id, item.retail, state.id)}
             onPressProduk={() => selectProduk(item.id)}
           />
-          // return (
-          //   RenderItem(item, index,
-          //   ()=> selectItems(item.id, item.retail, state.ws_mb_id, index),
-          //   getSelected(item.id, state.ws_mb_id),
-          //   ()=> deSelectItems(item.id, state.ws_mb_id),
-          //   ()=> selectProduk(item.id))
-          // )
+
         )}
         KeyExtractor={item => item}
         ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
