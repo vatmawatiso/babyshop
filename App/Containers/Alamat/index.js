@@ -178,11 +178,11 @@ const Alamat = (props) => {
     <View style={[styles.body, { marginTop: toDp(5), marginHorizontal: toDp(12) }]}>
       <TouchableOpacity style={{ width: toDp(330) }} onPress={() => onPress()}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
-          <Image source={allLogo.icaddress1} style={styles.icaddress1} />
+          <Image source={allLogo.location} style={styles.icLocation} />
           <Text style={styles.txtAddress}>Alamat Pengiriman</Text>
         </View>
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
-          <View>
+          <View style={styles.isiAddress}>
             <Text>{item.adr_name} {item.adr_hp}</Text>
             <Text>{item.adr_address} {displayName(item.cty_name)}</Text>
             <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => onSetutama()}>
@@ -213,7 +213,7 @@ const Alamat = (props) => {
         />
       </View>
 
-      <Pressable style={{ bottom: toDp(610), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+      <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('TambahAlamat')}>
         <View style={styles.btnAddress}>
           <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
           <Image source={allLogo.icplus} style={styles.icplus} />
@@ -230,6 +230,12 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff'
     // justifyContent: 'center',
     // alignItems: 'center',
+  },
+  btnAlamat: {
+    bottom: toDp(610), 
+    width: toDp(335), 
+    left: toDp(12),
+    backgroundColor:'#2A334B'
   },
   body: {
     backgroundColor: '#F9F8F8',
@@ -254,19 +260,16 @@ const styles = StyleSheet.create({
     top: toDp(10)
   },
   txtAddress: {
-    marginLeft: toDp(20),
-    top: toDp(10)
+    marginLeft: toDp(10),
+    top: toDp(5)
   },
   isiAddress: {
-    bottom: toDp(60),
-    //   backgroundColor:'cyan',
-    width: toDp(270), marginLeft: toDp(45)
+    bottom: toDp(10),
   },
-  icaddress: {
-    width: toDp(15),
-    height: toDp(15),
-    left: toDp(248),
-    bottom: toDp(25)
+  icLocation: {
+    width: toDp(38), 
+    height: toDp(38), 
+    top:toDp(5)
   },
   btnAddress: {
     backgroundColor: '#F9F8F8',

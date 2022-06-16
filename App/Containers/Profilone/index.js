@@ -310,7 +310,7 @@ const getStatus = () => {
 
       <View style={{ width: '100%', height: 740, alignItems: 'center' }}>
         <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
-          <View >
+          <View style={{flexDirection:'column'}}>
             <Image source={state.picture ? { uri: state.picture } :
               require('../../Assets/img/tzuyu.jpg')}
               style={styles.imgProfil} />
@@ -399,19 +399,21 @@ const getStatus = () => {
 
             <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
               <View style={styles.bodyAlamat}>
-                <Image source={allLogo.location} style={{ width: toDp(38), height: toDp(38), right: toDp(5) }} />
+                <Image source={allLogo.location} style={styles.icLocation} />
                 <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
               </View>
 
-              <View style={{ flexDirection: 'row', left: toDp(60), bottom: toDp(10) }}>
-                {state.alu_stats == true &&
-                  <>
-                    <Text style={styles.txtAddress}>{state.alu_desk}</Text>
+              <View style={{ flexDirection: 'row', bottom: toDp(10) }}>
+                <View style={{ top: toDp(5), marginLeft: toDp(57),}}>
+                    {state.alu_stats == true &&
+                      <>
+                        <Text style={styles.txtAddress}>{state.alu_desk}</Text>
 
-                  </>
-                }
-                <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
-                <View style={{ left: toDp(125) }}>
+                      </>
+                    }
+                    <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
+                </View>
+                <View style={{  }}>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </View>
@@ -451,10 +453,15 @@ const styles = StyleSheet.create({
     top: toDp(-257),
     left: toDp(110)
   },
+  icLocation: {
+    width: toDp(38), 
+    height: toDp(38), 
+    right: toDp(5)
+  },
   typeUser: {
     color: 'white',
     top: toDp(32),
-    left: toDp(19),
+    left: toDp(26),
     fontSize: toDp(12)
   },
   imgProfil: {
@@ -542,14 +549,12 @@ const styles = StyleSheet.create({
     width: toDp(10),
     height: toDp(14.8),
     right: toDp(-10),
-    bottom: toDp(2)
+    bottom: toDp(2),
   },
   iclineright: {
-    margin: toDp(10),
     width: toDp(10),
     height: toDp(14.8),
-    bottom: toDp(10),
-    right: toDp(90)
+    marginLeft: toDp(24),
   },
   txtPengiriman: {
     left: toDp(0),
@@ -557,7 +562,8 @@ const styles = StyleSheet.create({
     fontSize: toDp(15),
   },
   btnAlamat: {
-    height: toDp(94)
+    height: toDp(94),
+    // backgroundColor:'cyan'
   },
   txtRiwayat: {
     top: toDp(5),

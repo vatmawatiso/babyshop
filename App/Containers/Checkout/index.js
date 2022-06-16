@@ -48,6 +48,7 @@ const Checkout = (props) => {
         },
     ]
 
+    const [selectedItems, setSelectedItems] = useState([]);
     const [stAlu, setAllu] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
@@ -58,6 +59,13 @@ const Checkout = (props) => {
         alu_adress: '',
         alu_phone: '',
         alu_desk: '',
+        arrayUsers: [],
+        arrayData: [],
+        fotoProduk: [],
+        produk: [],
+        detail: [],
+        thumbnails: '',
+        id: '',
         alu_stats: false,
         loading: false,
         modalVisible: false,
@@ -67,6 +75,75 @@ const Checkout = (props) => {
             cropping: true,
         }
     })
+
+    //get PRODUK
+
+    useEffect(() => {
+        //getProdukbyId()
+        // get id pengguna
+        AsyncStorage.getItem('uid').then(uids => {
+          let ids = uids;
+          setState(state => ({
+            ...state,
+            id: ids
+          }))
+        }).catch(err => {
+          console.log('err', err)
+        })
+    
+        return (() => {
+          getProdukDetailbyId()
+        })
+    
+      }, [state.id])
+
+      const getProdukDetailbyId = () => {
+       let pid = props.navigation.state.params.value
+        axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+          .then(result => {
+
+            console.log('response get produk =>'+ JSON.stringify(result))
+            //hendle success
+            // if (result.data.status == 200) {
+            //   setState(state => ({ ...state, datas: result.data.data }))
+            //   console.log('Toko Bangunan FIKS ===> ', result.data.data)
+            // }
+    
+          }).catch(err => {
+            alert('Gagal menerima data dari server!' + err)
+            setState(state => ({ ...state, loading: false }))
+          })
+      }
+
+
+    //   const getProdukDetailbyId = () => {
+    //     let pid = props.navigation.state.params.value
+    //     axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+    //       .then(response => {
+    //              console.log('response get produk =>', JSON.stringify(response))
+    //         if (response.data.status == 200) {
+    
+    //           let thumbnail = [{
+    //             thum: response.data.data[0]?.thumbnail
+    //           }]
+    
+    //           let images_det = response.data.detail;
+    //           console.log('response get produk =>', JSON.stringify(response.data.data))
+    //           if (images_det.length > 0) {
+    
+    //           } else {
+    
+    //           }
+    //           setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail }))
+    //         } else {
+    //           console.log('response =>', response)
+    //         }
+    //       }).catch(error => {
+    //         console.log('error => ', error)
+    //       })
+    //   }
+
+    //get ALAMAT
 
 
     useEffect(() => {
@@ -248,7 +325,7 @@ const Checkout = (props) => {
                             <View style={styles.OrderDetail}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Image source={allLogo.icgerobak} style={{ marginLeft: toDp(10) }} />
-                                    <Text style={{ top: toDp(20), right: toDp(40), fontSize: toDp(12) }}>{DATA[0].produk}</Text>
+                                    <Text style={{ top: toDp(20), right: toDp(40), fontSize: toDp(12) }}>{state[0]?.product_name}</Text>
                                     <Text style={{ top: toDp(80), right: toDp(10), fontSize: toDp(12) }}>{DATA[0].jumlah}x</Text>
                                 </View>
                                 <Text style={{ bottom: toDp(60), left: toDp(150), fontSize: toDp(12) }}>{DATA[0].harga}</Text>

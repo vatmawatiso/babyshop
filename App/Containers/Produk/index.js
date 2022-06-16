@@ -34,13 +34,13 @@ const Produk = (props) => {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [state, setState] = useState({
+    id: '',
     arrayUsers: [],
     arrayData: [],
     fotoProduk: [],
     produk: [],
     detail: [],
     thumbnails: '',
-    id: '',
     loading: false,
     selected: false,
   })
@@ -69,7 +69,36 @@ const Produk = (props) => {
     let pid = props.navigation.state.params.value
     Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
+
+        console.log('PRODUK =====>', response.data);
+        // const PRODUK = {
+        //   id: id,
+        //   nama: product_name,
+        //   stok: stock,
+        //   harga: price,
+        //   city: adr_cty_id,
+        //   foto: thumbnail,
+        //   stok: category,
+        //   toko: retail_name,
+        //   alamat: retailaddres,
+        //   retailid: retail,
+        //   beban: berat,
+        //   id_kon: idkondisi,
+        //   nm_kon: kondisi
+        // }
+
         if (response.data.status == 200) {
+          // //save Async Storage
+          // console.log('CHECKOUT===>' + JSON.stringify(PRODUK));
+
+          // AsyncStorage.setItem('setProduk', JSON.stringify(PRODUK))
+
+          // NavigatorService.navigate('Checkout', { adr_mb_id: state.adr_id });
+
+          // console.log('HASIL DETAIL PRODUK ==> : ', response.data)
+          // setState(state => ({ ...state, loading: false }))
+
+
           getCurrentWsh()
 
           let thumbnail = [{
@@ -77,7 +106,7 @@ const Produk = (props) => {
           }]
 
           let images_det = response.data.detail;
-          console.log('response =>', JSON.stringify(response.data.data))
+          console.log('response 1 =>', JSON.stringify(response.data.data))
           if (images_det.length > 0) {
 
           } else {
@@ -85,7 +114,7 @@ const Produk = (props) => {
           }
           setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail }))
         } else {
-          console.log('response =>', response)
+          console.log('response 2 =>', response)
         }
       }).catch(error => {
         console.log('error => ', error)
@@ -311,7 +340,7 @@ const Produk = (props) => {
             <Pressable style={{ right: toDp(15) }} onPress={() => NavigatorService.navigate('Ulasanpembeli', { value, id: id })}>
               <View style={{ flexDirection: 'row' }}>
                 <Text>Lihat Ulasan</Text>
-                <Image source={allLogo.iclineright} style={styles.iclineright} /> 
+                <Image source={allLogo.iclineright} style={styles.iclineright} />
               </View>
             </Pressable>
           </View>
@@ -325,14 +354,15 @@ const Produk = (props) => {
 
   };
 
-    // (ketika klik tombol beli sekarang)
+  // (ketika klik tombol beli sekarang)
 
-    const selectProduk = (value, id) => {
-      NavigatorService.navigate('Checkout', { value, id: id })
-    }
-  
+  const selectProduk = (value, id) => {
+    NavigatorService.navigate('Checkout', { value, id: id })
+    console.log('cek', (value));
+  }
 
-  const renderFooter = (item, onPressProduk) => {
+
+  const renderFooter = (item) => {
     return (
 
       <View style={styles.footer}>
@@ -345,7 +375,7 @@ const Produk = (props) => {
           </TouchableOpacity>
 
           <View style={{ borderWidth: toDp(0.5), }} />
-          <TouchableOpacity style={styles.btnCheckout}  onPress={() => onPressProduk()} >
+          <TouchableOpacity style={styles.btnCheckout} onPress={() => selectProduk()} >
             <Text style={styles.txtBeli}>Beli Sekarang</Text>
           </TouchableOpacity>
         </View>
@@ -392,7 +422,7 @@ const Produk = (props) => {
       </ScrollView>
 
       {renderFooter(state.produk)}
-          {/* <RenderItem
+      {/* <RenderItem
             item={item}
             index={index}
             onPress={() => selectItems(item.id, item.retail, index)}
@@ -416,14 +446,14 @@ const styles = StyleSheet.create({
     // top:toDp(50)
   },
   btnCheckout: {
-    right: toDp(30), 
-    left: toDp(0), 
-    borderColor: 'white', 
-    width: toDp(150), 
-    height: toDp(60), 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderBottomRightRadius: toDp(10), 
+    right: toDp(30),
+    left: toDp(0),
+    borderColor: 'white',
+    width: toDp(150),
+    height: toDp(60),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomRightRadius: toDp(10),
     borderTopRightRadius: toDp(10),
     backgroundColor: '#f83308'
   },
