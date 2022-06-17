@@ -71,32 +71,17 @@ const Produk = (props) => {
       .then(response => {
 
         console.log('PRODUK =====>', response.data);
-        // const PRODUK = {
-        //   id: id,
-        //   nama: product_name,
-        //   stok: stock,
-        //   harga: price,
-        //   city: adr_cty_id,
-        //   foto: thumbnail,
-        //   stok: category,
-        //   toko: retail_name,
-        //   alamat: retailaddres,
-        //   retailid: retail,
-        //   beban: berat,
-        //   id_kon: idkondisi,
-        //   nm_kon: kondisi
-        // }
 
         if (response.data.status == 200) {
           // //save Async Storage
-          // console.log('CHECKOUT===>' + JSON.stringify(PRODUK));
+          console.log('CHECKOUT===>' + JSON.stringify(response.data));
 
-          // AsyncStorage.setItem('setProduk', JSON.stringify(PRODUK))
+          AsyncStorage.setItem('setProduk', JSON.stringify(response.data))
 
-          // NavigatorService.navigate('Checkout', { adr_mb_id: state.adr_id });
+          // NavigatorService.navigate('Checkout');
 
-          // console.log('HASIL DETAIL PRODUK ==> : ', response.data)
-          // setState(state => ({ ...state, loading: false }))
+          console.log('HASIL DETAIL PRODUK ==> : ', response.data)
+          setState(state => ({ ...state, loading: false }))
 
 
           getCurrentWsh()

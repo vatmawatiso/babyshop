@@ -16,6 +16,7 @@ import NavigatorService from '@NavigatorService'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from 'axios';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Settingtoko = (props) => {
   const [src, setSrc] = useState(null);
@@ -151,6 +152,9 @@ const Settingtoko = (props) => {
               );
             }}
           />
+          <TouchableOpacity  onPress={() => NavigatorService.navigate('Layananjasa')}>
+            <Text style={{top:toDp(1)}}>Layanan Jasa</Text>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -172,7 +176,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     top: toDp(20),
     width: toDp(335),
-    height: toDp(190),
+    height: toDp(210),
     borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {

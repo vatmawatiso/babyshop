@@ -14,14 +14,14 @@ import {
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  BackHeader  from '@BackHeader'
+import BackHeader from '@BackHeader'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 
 const Layananjasa = (props) => {
-  const [src, setSrc]=useState(null);
+  const [src, setSrc] = useState(null);
 
 
 
@@ -30,7 +30,7 @@ const Layananjasa = (props) => {
       id: '1',
       nama: 'Chou Tzuyu',
       kontak: '083120203876',
-      alamat:'Desa meguclik blok pengadangan RT/RW:02/02',
+      alamat: 'Desa meguclik blok pengadangan RT/RW:02/02',
       kecamatan: 'Kec. Weru',
       kotakab: 'Kab. Cirebon',
       provinsi: 'Jawa Barat',
@@ -39,7 +39,7 @@ const Layananjasa = (props) => {
 
 
   // const [state,setState] = useState({
-    
+
   //   jasper:[
   //     {
   //       'id':1,
@@ -55,13 +55,13 @@ const Layananjasa = (props) => {
   // })
   // const [isSwitchOn,setSwitch] = useState(false)
   // const [val,setval] = useState(false)
-  
+
   const [state, setState] = useState({
     datas: [],
     isLoading: true,
     isError: false,
   })
-  
+
   useEffect(() => {
     getJasa()
 
@@ -95,125 +95,108 @@ const Layananjasa = (props) => {
   }
 
 
-  const ListJasa = ({item, index}) => {
-  return (
-    <View style={{width:toDp(316), left:toDp(20), borderRadius:toDp(15)}}>
-        <View style={{flexDirection:'row', 
-                        justifyContent:'space-between',
-                        alignItems:'center',
-                        width:'100%',
-                        borderRadius:toDp(20),
-                        width:toDp(335),
-                        height:toDp(340),
-                        padding:toDp(12), 
-                        height:toDp(50), 
-                        right:toDp(8),
-                        backgroundColor:'#C4C4C4'}}>
+  const ListJasa = ({ item, index }) => {
+    return (
+      <View style={{ width: toDp(316), left: toDp(20), borderRadius: toDp(10) }}>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          borderRadius: toDp(10),
+          width: toDp(335),
+          height: toDp(340),
+          padding: toDp(12),
+          height: toDp(50),
+          right: toDp(8),
+          backgroundColor: '#f8f9f9',
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
 
-                <Text>{item.shp_name}</Text>
-                
-                <Switch  
-                  thumbColor={'#f4f3f4'}
-                  trackColor={{false:'grey', true:'#6495ED'}}
-                  ios_backgroundColor='grey'
-                 
-                  onValueChange={(value) => setSwitchValue(value, index,item.datas)} 
-                  value={item.status}
-                  
-                />  
-        
+          elevation: 3,
+        }}>
+
+          <Text>{item.shp_name}</Text>
+
+          <Switch
+            thumbColor={'#f4f3f4'}
+            trackColor={{ false: 'grey', true: '#6495ED' }}
+            ios_backgroundColor='grey'
+
+            onValueChange={(value) => setSwitchValue(value, index, item.datas)}
+            value={item.status}
+
+          />
+
         </View>
-        <View style={{borderWidth:toDp(1), borderColor:'white'}} />
-    </View>
+        <View style={{ borderWidth: toDp(1), borderColor: 'white' }} />
+      </View>
     )
-  } 
-   
-    
-     return (
-      <View style={styles.container}>
-         <BackHeader
-          title={'Jasa Kirim'}
-          onPress={() => props.navigation.goBack()}
-        />
-{/* 
+  }
+
+
+  return (
+    <View style={styles.container}>
+      <BackHeader
+        title={'Jasa Kirim'}
+        onPress={() => props.navigation.goBack()}
+      />
+      {/* 
         <ScrollView> */}
-         <View style={styles.content}>
-            <View style={styles.address}>
-                <Image source={allLogo.icaddress1} style={styles.icAddress} />
-                <Text style={styles.titleAddress}>Alamat Pengiriman</Text>
-                    <Pressable style={styles.buttonAddress}>
-                        <Text style={styles.txtAddress}>{DATA[0].nama} {DATA[0].kontak}</Text>
-                        <Text style={styles.txtAddress}>{DATA[0].alamat}</Text>
-                        <Text style={styles.txtAddress}>{DATA[0].kecamatan} {DATA[0].kotakab} {DATA[0].provinsi}</Text>
-                    </Pressable>
-            </View>
+      <View style={{ top: toDp(0) }}>
+        <View style={{flexDirection:'row', borderWidth:0.5, height:toDp(40), marginBottom:toDp(10), bottom:toDp(5), borderColor:'grey'}}>
+          <Text style={styles.txtJasa}>Pilih jasa pengiriman</Text>
+          <Image source={allLogo.siapkirim} style={{ margin:toDp(10), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
         </View>
-      <View style={{bottom:toDp(65)}}>
         <FlatList
           data={state.datas}
           renderItem={ListJasa}
           keyExtractor={item => item.id}
-          ListFooterComponent={() => <View style={{height: toDp(50)}} />}
+          ListFooterComponent={() => <View style={{ height: toDp(50) }} />}
         />
       </View>
       {/* </ScrollView> */}
-      </View>
-    );
-  
+    </View>
+  );
+
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     // justifyContent:'center',
     // alignItems: 'center',
     // backgroundColor:'red'
   },
-  content: {
-      marginTop:toDp(70),
-      bottom:toDp(60),
-      width:toDp(360),
-      height:toDp(120),
-      // backgroundColor:'cyan'
-  },
-  address: {
-      backgroundColor:'#C4C4C4',
-      width:toDp(335),
-      height:toDp(105),
-      marginLeft:toDp(20),
-      borderRadius:toDp(20),
-      position:'relative',
-      right:toDp(8)
-  },
-  icAddress: {
-      left:toDp(10),
-      top:toDp(10)
-  },
-  titleAddress: {
-      left:toDp(40),
-      bottom:toDp(6)
-  },
-  txtAddress: {
-      left:toDp(38),
-      fontSize:toDp(12),
+  txtJasa: {
+    margin: toDp(10),
+    top:toDp(5),
+    // right:toDp(5),
+    left:toDp(5),
+    fontWeight: 'bold'
   },
   body: {
-    backgroundColor:'yellow',
-    width:toDp(360),
-    height:toDp(360),
+    backgroundColor: 'yellow',
+    width: toDp(360),
+    height: toDp(360),
   },
   courier: {
-    backgroundColor:'#C4C4C4',
-    width:toDp(335),
-    height:toDp(330),
-    left:toDp(20),
-    borderRadius:toDp(20),
-    alignItems:'flex-start',
-    justifyContent:'space-between',
+    backgroundColor: '#C4C4C4',
+    width: toDp(335),
+    height: toDp(330),
+    left: toDp(20),
+    borderRadius: toDp(20),
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   },
   txtCourier: {
-    marginTop:toDp(10),
-    left:toDp(10)
+    marginTop: toDp(10),
+    left: toDp(10)
   }
 });
 

@@ -19,6 +19,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
+import NumberFormat from 'react-number-format';
 
 const Checkout = (props) => {
 
@@ -66,6 +67,10 @@ const Checkout = (props) => {
         detail: [],
         thumbnails: '',
         id: '',
+        product_name: '',
+        retail_name: '',
+        price: '',
+        thumbnail: '',
         alu_stats: false,
         loading: false,
         modalVisible: false,
@@ -81,67 +86,34 @@ const Checkout = (props) => {
     useEffect(() => {
         //getProdukbyId()
         // get id pengguna
-        AsyncStorage.getItem('uid').then(uids => {
-          let ids = uids;
-          setState(state => ({
-            ...state,
-            id: ids
-          }))
+        AsyncStorage.getItem('setProduk').then(response => {
+            console.log('CEK PRODUK ----------->' + JSON.stringify(response));
+
+            let data = JSON.parse(response);
+            // const val = JSON.stringify(data);
+
+            console.log('Jadikan Produk----------->' + JSON.stringify(data));
+
+            setState(state => ({
+                ...state,
+                product_name: data.data[0].product_name,
+                thumbnail: data.data[0].thumbnail,
+                price: data.data[0].price,
+                retail_name: data.data[0].retail_name,
+
+            }))
+
+            console.log('CEK STATE ASYNC STORAGE nama retail ---->' + JSON.stringify(state.retail_name));
+            console.log('CEK STATE ASYNC STORAGE nama produk --->' + JSON.stringify(state.product_name));
+            console.log('CEK STATE ASYNC STORAGE harga ---->' + JSON.stringify(state.price));
+            console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
+
+
         }).catch(err => {
-          console.log('err', err)
+            console.log('err', err)
         })
-    
-        return (() => {
-          getProdukDetailbyId()
-        })
-    
-      }, [state.id])
+    }, [])
 
-      const getProdukDetailbyId = () => {
-       let pid = props.navigation.state.params.value
-        axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
-          .then(result => {
-
-            console.log('response get produk =>'+ JSON.stringify(result))
-            //hendle success
-            // if (result.data.status == 200) {
-            //   setState(state => ({ ...state, datas: result.data.data }))
-            //   console.log('Toko Bangunan FIKS ===> ', result.data.data)
-            // }
-    
-          }).catch(err => {
-            alert('Gagal menerima data dari server!' + err)
-            setState(state => ({ ...state, loading: false }))
-          })
-      }
-
-
-    //   const getProdukDetailbyId = () => {
-    //     let pid = props.navigation.state.params.value
-    //     axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
-    //       .then(response => {
-    //              console.log('response get produk =>', JSON.stringify(response))
-    //         if (response.data.status == 200) {
-    
-    //           let thumbnail = [{
-    //             thum: response.data.data[0]?.thumbnail
-    //           }]
-    
-    //           let images_det = response.data.detail;
-    //           console.log('response get produk =>', JSON.stringify(response.data.data))
-    //           if (images_det.length > 0) {
-    
-    //           } else {
-    
-    //           }
-    //           setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail }))
-    //         } else {
-    //           console.log('response =>', response)
-    //         }
-    //       }).catch(error => {
-    //         console.log('error => ', error)
-    //       })
-    //   }
 
     //get ALAMAT
 
@@ -320,15 +292,21 @@ const Checkout = (props) => {
                         </View>
 
                         <View>
-                            <Text style={styles.txtTB}>Jaya Abadi Bandung</Text>
+                            <Text style={styles.txtTB}>{state.retail_name}</Text>
 
                             <View style={styles.OrderDetail}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Image source={allLogo.icgerobak} style={{ marginLeft: toDp(10) }} />
-                                    <Text style={{ top: toDp(20), right: toDp(40), fontSize: toDp(12) }}>{state[0]?.product_name}</Text>
-                                    <Text style={{ top: toDp(80), right: toDp(10), fontSize: toDp(12) }}>{DATA[0].jumlah}x</Text>
+                                    <Image source={{ uri: state.thumbnail }} style={{ marginLeft: toDp(10), width: toDp(100), height: toDp(100) }} />
+                                    <Text style={{ top: toDp(20), right: toDp(10), fontSize: toDp(12) }}>{state.product_name}</Text>
                                 </View>
-                                <Text style={{ bottom: toDp(60), left: toDp(150), fontSize: toDp(12) }}>{DATA[0].harga}</Text>
+                                <NumberFormat
+                                    value={state.price}
+                                    displayType={'text'}
+                                    thousandSeparator={'.'}
+                                    decimalSeparator={','}
+                                    prefix={'Rp. '}
+                                    renderText={formattedValue => <Text style={{ bottom: toDp(60), left: toDp(126), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                />
                             </View>
                         </View>
 
