@@ -105,6 +105,7 @@ const allLogo = {
   Plus: require('./img/Plus.png'),
   Chat1: require('./img/Chat1.png'),
   heart: require('./img/heart.jpeg'),
+  bahan: require('./img/bahan.jpg'),
 
 
 

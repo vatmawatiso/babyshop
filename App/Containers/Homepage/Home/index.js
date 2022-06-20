@@ -264,7 +264,7 @@ const Home = (props) => {
       <View style={styles.viewRenderExplore}>
         <View style={styles.viewImage}>
           <LinearGradient colors={['#C4C4C4', 'transparent']} style={styles.gradientTop} />
-          <Image source={require('../../../Assets/img/tzuyu.jpg')} style={styles.imageProfile} />
+          <Image source={require('../../../Assets/img/bahan.jpg')} style={styles.imageProfile} />
           <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
         </View>
         <View style={styles.viewImageContent}>

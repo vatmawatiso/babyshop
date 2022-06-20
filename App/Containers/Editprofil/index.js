@@ -302,7 +302,7 @@ const gallery = () => {
       <View style={styles.content}>
         <View style={styles.profil}>
           <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Buatpassword')}>
-            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30) }} />
+            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30), right:toDp(15) }} />
           </Pressable>
             <Pressable onPress={()=> toggleModal()}>
               <Image style={styles.icEdit} source={allLogo.icedit}/>

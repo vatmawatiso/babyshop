@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
       color:'white'
   },
   txtHarga: {
-      fontSize:toDp(22),
-      color:'#0960A1'
+      fontSize:toDp(25),
+      color:'#F83308'
   },
   btnSaldo: {
-      backgroundColor:'#E7E7E7',
+      backgroundColor:'#f8f9f9',
       marginHorizontal:toDp(5),
       width:toDp(160),
       right:toDp(5),
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 
   },
   btnHarga: {
-    backgroundColor:'#E7E7E7',
+    backgroundColor:'#f8f9f9',
     width:toDp(160),
     top:toDp(20),
     borderRadius:toDp(8),

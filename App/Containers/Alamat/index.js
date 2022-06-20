@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     bottom: toDp(610), 
     width: toDp(335), 
     left: toDp(12),
-    backgroundColor:'#2A334B'
+    // backgroundColor:'#2A334B'
   },
   body: {
     backgroundColor: '#F9F8F8',

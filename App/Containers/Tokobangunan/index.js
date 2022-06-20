@@ -164,7 +164,7 @@ const Tokobangunan = (props) => {
   return (
     <View style={styles.container}>
       <Header
-        title={'Notification'}
+        title={'Toko'}
         onPress={() => props.navigation.goBack()}
       />
       <View style={styles.flatcontent}>
