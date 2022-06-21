@@ -5,7 +5,6 @@ import {
   View,
   Image,
   Alert,
-  ImageBackground,
   Pressable,
   AsyncStorage
 } from "react-native";
@@ -13,7 +12,9 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
-import { TextInput } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import SelectDropdown from 'react-native-select-dropdown'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from 'axios';
 
 const Ubahtoko = (props) => {
@@ -28,8 +29,11 @@ const Ubahtoko = (props) => {
 
   const [state, setState] = useState({
     loading: false,
-    nama: '',
-    deskripsi: '',
+    cityname: [],
+    tmp_cty_name: '',
+    tmp_cty_id: '',
+    cty_id: '',
+    cty_name: '',
     datas: [],
     mb_id: '',
     rtl_name: '',
@@ -44,6 +48,44 @@ const Ubahtoko = (props) => {
     retail_id: '',
     bo_rtlid: false
   })
+
+  //GET CITY
+
+  useEffect(() => {
+    setState(state => ({ ...state,
+      tmp_cty_name: props.navigation.state.params.cty_name,
+      tmp_cty_id: props.navigation.state.params.cty_id,
+
+    }))
+    console.log("CITY ---> "+ props.navigation.state.params.cty_id);
+
+    city()
+  }, [])
+
+  const city = () => {
+    // setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/city/')
+      .then(result => {
+        // handle success
+        //alert(JSON.stringify(result))
+        let data = result.data.data.map(doc => {
+          return {
+            cty_id: doc.cty_id,
+            cty_name: doc.cty_name
+          }
+        })
+
+        //setState(state => ({ ...state, cityname: result.data.data }))
+        setState(state => ({ ...state, cityname: data }))
+        console.log('-----kotaaa=====>'+ JSON.stringify(data));
+        // alert(JSON.stringify(response.data));
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
 
   // ===> GET nama member di profil seller <== //
 
@@ -65,11 +107,12 @@ const Ubahtoko = (props) => {
       setState(state => ({
         ...state,
         rtl_mb_id: data.rtl_mb_id,
-        retail_id: data.rtl_id,
+        id_retail: data.retail_id,
         mb_name: data.value.mb_name,
       }))
       getProfilseller(data.rtl_id)
-      console.log('ID RETAIL ====> ' + JSON.stringify(data.rtl_id));
+      console.log('DATA ID RETAIL ====> ' + JSON.stringify(data.retail_id));
+      console.log('STATE ID RETAIL ====> ' + JSON.stringify(state.id_retail));
 
     }).catch(err => {
       console.log('err', err)
@@ -78,16 +121,16 @@ const Ubahtoko = (props) => {
 
 
     return (() => {
-      console.log('===========================>' + state.retail_id);
+      console.log('===========================>' + state.id_retail);
       //getProfilseller()
     })
-  }, [state.retail_id])
+  }, [state.id_retail])
 
   const getProfilseller = (rtid) => {
 
     setState(state => ({ ...state, loading: true }))
     // let id = rtl_id;
-    axios.get('https://market.pondok-huda.com/dev/react/retail/' + rtid)
+    axios.get('https://market.pondok-huda.com/dev/react/retail/' + state.id_retail)
       .then(result => {
 
         console.log('CEK RETAIL UBAH TOKO====> ' + JSON.stringify(result));
@@ -106,7 +149,7 @@ const Ubahtoko = (props) => {
               rtl_status: doc.rtl_status,
             }
           })
-          // console.log('CEK Profil Seller =>'+ JSON.stringify(the_data))
+          console.log('CEK Retail Seller =>'+ JSON.stringify(the_data))
 
           setState(state => ({
             ...state,
@@ -186,62 +229,100 @@ const Ubahtoko = (props) => {
       />
 
       <View style={styles.profilToko}>
-        <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
-        <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
-          <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
-          <Text style={{ fontSize: toDp(11) }}>Besar file maks. 2MB dengan format .JPG, JPEG atau PNG.</Text>
-          <Pressable style={styles.btnGanti}>
-            <Text style={{ color: '#0960A1' }}>Ganti Gambar</Text>
-          </Pressable>
-        </View>
+        <ScrollView>
+          <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
+          <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
+            <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
+            <Text style={{ fontSize: toDp(11) }}>Besar file maks. 2MB dengan format .JPG, JPEG atau PNG.</Text>
+            <Pressable style={styles.btnGanti}>
+              <Text style={{ color: '#0960A1' }}>Ganti Gambar</Text>
+            </Pressable>
+          </View>
 
-        <View style={{ margin: toDp(8), bottom: toDp(30) }}>
+          <View style={{ margin: toDp(8), bottom: toDp(30) }}>
 
-          <Text style={styles.txtToko}>Nama Pengguna</Text>
-          <TextInput autoCapitalize={'none'}
-            style={styles.textInput}
-            placeholderTextColor={'grey'}
-            value={state.mb_name}
-            onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
-          />
+            <Text style={styles.txtToko}>Nama Pengguna</Text>
+            <TextInput autoCapitalize={'none'}
+              style={styles.textInput}
+              placeholderTextColor={'grey'}
+              value={state.mb_name}
+              onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
+            />
 
-          <Text style={styles.txtToko}>Nama Toko</Text>
-          <TextInput autoCapitalize={'none'}
-            style={styles.textInput}
-            placeholderTextColor={'grey'}
-            value={state.rtl_name}
-            onChangeText={(text) => setState(state => ({ ...state, rtl_name: text }))}
-          />
+            <Text style={styles.txtToko}>Nama Toko</Text>
+            <TextInput autoCapitalize={'none'}
+              style={styles.textInput}
+              placeholderTextColor={'grey'}
+              value={state.rtl_name}
+              onChangeText={(text) => setState(state => ({ ...state, rtl_name: text }))}
+            />
 
-          <Text style={styles.txtDeskripsi}>Telepon</Text>
-          <TextInput autoCapitalize={'none'}
-            style={styles.textInput1}
-            placeholderTextColor={'grey'}
-            value={state.rtl_phone}
-            onChangeText={(text) => setState(state => ({ ...state, rtl_phone: text }))}
-          />
-          <Text style={styles.txtDeskripsi}>Alamat</Text>
-          <TextInput autoCapitalize={'none'}
-            style={styles.textInput1}
-            placeholderTextColor={'grey'}
-            value={state.rtl_addres}
-            onChangeText={(text) => setState(state => ({ ...state, rtl_addres: text }))}
-          />
-          <Text style={styles.txtDeskripsi}>Latitude</Text>
-          <TextInput autoCapitalize={'none'}
-            style={styles.textInput1}
-            placeholderTextColor={'grey'}
-            value={state.rtl_lat}
-            onChangeText={(text) => setState(state => ({ ...state, rtl_lat: text }))}
-          />
-          <Text style={styles.txtDeskripsi}>Longtitude</Text>
-          <TextInput autoCapitalize={'none'}
-            style={styles.textInput1}
-            placeholderTextColor={'grey'}
-            value={state.rtl_long}
-            onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
-          />
-        </View>
+            <Text style={styles.txtDeskripsi}>Telepon</Text>
+            <TextInput autoCapitalize={'none'}
+              style={styles.textInput1}
+              placeholderTextColor={'grey'}
+              value={state.rtl_phone}
+              onChangeText={(text) => setState(state => ({ ...state, rtl_phone: text }))}
+            />
+            <Text style={styles.txtDeskripsi}>Jalan</Text>
+            <TextInput autoCapitalize={'none'}
+              style={styles.textInput1}
+              placeholderTextColor={'grey'}
+              value={state.rtl_addres}
+              onChangeText={(text) => setState(state => ({ ...state, rtl_addres: text }))}
+            />
+            <Text style={styles.txtDeskripsi}>Kota</Text>
+            <SelectDropdown
+              buttonStyle={styles.dropdown}
+              buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+              rowTextStyle={{ fontSize: toDp(12) }}
+              dropdownStyle={{ borderRadius: toDp(7) }}
+              rowStyle={{ height: toDp(35), padding: toDp(5) }}
+              defaultButtonText={'Pilih Kota atau Kabupaten'}
+              defaultValue={{
+                cty_id: state.tmp_cty_id,
+                cty_name: state.tmp_cty_name
+              }}
+              data={state.cityname}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem.cty_id, index)
+                // setState(state => ({ ...state, rtl_city: selectedItem.cty_id })) 
+                console.log(selectedItem.cty_name+selectedItem.cty_id)
+                setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+
+                return selectedItem.cty_name;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item.cty_name;
+              }}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={12}
+                  />
+                );
+              }}
+            />
+            <Text style={styles.txtDeskripsi}>Latitude</Text>
+            <TextInput autoCapitalize={'none'}
+              style={styles.textInput1}
+              placeholderTextColor={'grey'}
+              value={state.rtl_lat}
+              onChangeText={(text) => setState(state => ({ ...state, rtl_lat: text }))}
+            />
+            <Text style={styles.txtDeskripsi}>Longtitude</Text>
+            <TextInput autoCapitalize={'none'}
+              style={styles.textInput1}
+              placeholderTextColor={'grey'}
+              value={state.rtl_long}
+              onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
+            />
+          </View>
+        </ScrollView>
       </View>
       {state.bo_rtlid == true &&
         <Text>{state.retail_id}</Text>
@@ -342,25 +423,26 @@ const styles = StyleSheet.create({
   txtSimpan: {
     textAlign: 'center',
     color: 'white',
-    fontSize:toDp(14)
-  }
+    fontSize: toDp(14)
+  },
+  dropdown: {
+    width: toDp(320),
+    height: toDp(39),
+    borderRadius: toDp(10),
+    top: toDp(10),
+    backgroundColor: '#F2F3F3',
+    marginBottom: toDp(5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 1,
+  },
 
 });
 
 export default Ubahtoko;
-
-
-  // const body = {
-  //   rtl_mb_id: state.rtl_mb_id,
-  //   mb_name: state.mb_name,
-  //   rtl_id: state.rtl_id,
-  //   rtl_name: state.rtl_name,
-  //   rtl_mb_id:state.rtl_mb_id,
-  //   rtl_phone:state.rtl_phone,
-  //   rtl_addres:state.rtl_addres,
-  //   rtl_city:state.rtl_city,
-  //   rtl_status:state.rtl_status,
-  //   rtl_long:state.rtl_long,
-  //   rtl_lat:state.rtl_lat,
-  // }
-  // console.log('BODY RETAIL UBAH TOKO====> '+ JSON.stringify(body));

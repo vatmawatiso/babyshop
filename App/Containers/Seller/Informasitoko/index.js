@@ -14,6 +14,7 @@ import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
+import axios from "axios";
 import { TextInput } from "react-native-gesture-handler";
 
 const Informasitoko = (props) => {
@@ -27,6 +28,9 @@ const Informasitoko = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
+    cty_name: '',
+    cityname: [],
+    retail_id:'',
     modalVisible: false,
     option: {
       width: 750,
@@ -44,7 +48,7 @@ const Informasitoko = (props) => {
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
-      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+      console.log('Member ----------->'+ JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -53,8 +57,10 @@ const Informasitoko = (props) => {
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
-        picture: data.value.picture
+        picture: data.value.picture,
+        id_retail: data.retail_id,
       }))
+      console.log('cek state member----------->' + JSON.stringify(state.id_retail));
 
 
     }).catch(err => {
@@ -95,6 +101,52 @@ const Informasitoko = (props) => {
     )
   }
 
+  useEffect(() => {
+
+    city()
+  }, [])
+
+  const city = () => {
+    // setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/city/')
+      .then(result => {
+        // handle success
+        //alert(JSON.stringify(result))
+        let data = result.data.data.map(doc => {
+          return {
+            cty_id: doc.cty_id,
+            cty_name: doc.cty_name
+          }
+        })
+
+        //setState(state => ({ ...state, cityname: result.data.data }))
+        setState(state => ({ ...state, cityname: result.data.data }))
+        console.log('-----kotaaa=====>' + JSON.stringify(data));
+        // alert(JSON.stringify(response.data));
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+  const selectAlamat = (retail_id, cty_id, cty_name) => {
+    console.log('DATA KOTA=====>' + JSON.stringify(cty_name));
+    NavigatorService.navigate('Ubahtoko', { retail_id: retail_id, cty_id: cty_id, cty_name: cty_name })
+
+  }
+
+  const render = (item) => {
+    return (
+      <View style={{ bottom: toDp(20) }}>
+        <TouchableOpacity style={styles.btnUbah} onPress={() => selectAlamat(item.retail_id, item.cty_id, item.cty_name)} >
+          <Text style={styles.txtUbah}>Ubah Toko</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
 
@@ -123,12 +175,13 @@ const Informasitoko = (props) => {
           </View>
         </View>
       </View>
-
+      {render(state.cityname)}
+      {/* 
       <View style={{ bottom: toDp(20) }}>
-        <TouchableOpacity style={styles.btnUbah} onPress={() => NavigatorService.navigate('Ubahtoko')} >
+        <TouchableOpacity style={styles.btnUbah} onPress={() => selectAlamat()} >
           <Text style={styles.txtUbah}>Ubah</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
     </View>
   )
@@ -196,13 +249,13 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   btnSetting: {
-    backgroundColor: '#f8f9f9', 
-    width: toDp(335), 
-    height: toDp(38), 
+    backgroundColor: '#f8f9f9',
+    width: toDp(335),
+    height: toDp(38),
     // borderRadius: toDp(10), 
-    borderBottomRightRadius:toDp(10),
-    borderBottomLeftRadius:toDp(10),
-    justifyContent: 'center', 
+    borderBottomRightRadius: toDp(10),
+    borderBottomLeftRadius: toDp(10),
+    justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
