@@ -28,6 +28,7 @@ const Informasitoko = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
+    rtl_city: '',
     cty_name: '',
     cityname: [],
     retail_id:'',
@@ -67,6 +68,8 @@ const Informasitoko = (props) => {
       console.log('err', err)
     })
 
+    city()
+
   }, [])
 
   const DATA = [
@@ -101,27 +104,29 @@ const Informasitoko = (props) => {
     )
   }
 
-  useEffect(() => {
-
-    city()
-  }, [])
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/city/')
+    axios.get('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail)
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
+         console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].rtl_city));
+         // console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].cty_name));
         let data = result.data.data.map(doc => {
           return {
-            cty_id: doc.cty_id,
-            cty_name: doc.cty_name
+            rtl_city: doc.rtl_city,
+            cty_name: doc.cty_name,
+            rtl_id: doc.rtl_id
           }
         })
+        // console.log('CEK COK =====>' + JSON.stringify(data.cty_name));
 
         //setState(state => ({ ...state, cityname: result.data.data }))
         setState(state => ({ ...state, cityname: result.data.data }))
-        console.log('-----kotaaa=====>' + JSON.stringify(data));
+        console.log('-----kotaaa=====>' + JSON.stringify(data[0].cty_name));
+        console.log('-----retail=====>' + JSON.stringify(data[0].rtl_id));
+        console.log('-----id kota=====>' + JSON.stringify(data[0].rtl_city));
         // alert(JSON.stringify(response.data));
 
       }).catch(err => {
@@ -131,16 +136,17 @@ const Informasitoko = (props) => {
       })
   }
 
-  const selectAlamat = (retail_id, cty_id, cty_name) => {
+  const selectToko = ( rtl_city, cty_name) => {
     console.log('DATA KOTA=====>' + JSON.stringify(cty_name));
-    NavigatorService.navigate('Ubahtoko', { retail_id: retail_id, cty_id: cty_id, cty_name: cty_name })
+    console.log('DATA ID KOTA=====>' + JSON.stringify(rtl_city));
+    NavigatorService.navigate('Ubahtoko', { rtl_city: rtl_city, cty_name: cty_name })
 
   }
 
   const render = (item) => {
     return (
       <View style={{ bottom: toDp(20) }}>
-        <TouchableOpacity style={styles.btnUbah} onPress={() => selectAlamat(item.retail_id, item.cty_id, item.cty_name)} >
+        <TouchableOpacity style={styles.btnUbah} onPress={() => selectToko( item[0]?.rtl_city, item[0]?.cty_name)} >
           <Text style={styles.txtUbah}>Ubah Toko</Text>
         </TouchableOpacity>
       </View>
@@ -176,12 +182,6 @@ const Informasitoko = (props) => {
         </View>
       </View>
       {render(state.cityname)}
-      {/* 
-      <View style={{ bottom: toDp(20) }}>
-        <TouchableOpacity style={styles.btnUbah} onPress={() => selectAlamat()} >
-          <Text style={styles.txtUbah}>Ubah</Text>
-        </TouchableOpacity>
-      </View> */}
 
     </View>
   )

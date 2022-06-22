@@ -54,10 +54,11 @@ const Ubahtoko = (props) => {
   useEffect(() => {
     setState(state => ({ ...state,
       tmp_cty_name: props.navigation.state.params.cty_name,
-      tmp_cty_id: props.navigation.state.params.cty_id,
+      tmp_cty_id: props.navigation.state.params.rtl_city,
 
     }))
-    console.log("CITY ---> "+ props.navigation.state.params.cty_id);
+    console.log("CITY ---> "+ props.navigation.state.params.rtl_city);
+    console.log("NAMA ---> "+ props.navigation.state.params.cty_name);
 
     city()
   }, [])
@@ -288,7 +289,7 @@ const Ubahtoko = (props) => {
                 // console.log(selectedItem.cty_id, index)
                 // setState(state => ({ ...state, rtl_city: selectedItem.cty_id })) 
                 console.log(selectedItem.cty_name+selectedItem.cty_id)
-                setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
+                setState(state => ({ ...state, rtl_city: selectedItem.cty_id }))
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
 

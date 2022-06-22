@@ -46,7 +46,9 @@ const Settingtoko = (props) => {
         mb_id: data.mb_id,
         mb_name: data.value.mb_name,
         mb_phone: data.value.mb_phone,
+        id_retail: data.retail_id,
       }))
+      console.log('cek state member----------->' + JSON.stringify(state.id_retail));
 
 
     }).catch(err => {
@@ -152,7 +154,7 @@ const Settingtoko = (props) => {
               );
             }}
           />
-          <TouchableOpacity  onPress={() => NavigatorService.navigate('Layananjasa')}>
+          <TouchableOpacity  onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.retail_id })}>
             <Text style={{top:toDp(1)}}>Layanan Jasa</Text>
           </TouchableOpacity>
         </View>

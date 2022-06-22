@@ -24,39 +24,6 @@ import NumberFormat from 'react-number-format';
 const Layananjasa = (props) => {
   const [src, setSrc] = useState(null);
 
-
-
-  const DATA = [
-    {
-      id: '1',
-      nama: 'Chou Tzuyu',
-      kontak: '083120203876',
-      alamat: 'Desa meguclik blok pengadangan RT/RW:02/02',
-      kecamatan: 'Kec. Weru',
-      kotakab: 'Kab. Cirebon',
-      provinsi: 'Jawa Barat',
-    },
-  ]
-
-
-  // const [state,setState] = useState({
-
-  //   jasper:[
-  //     {
-  //       'id':1,
-  //       'name':'Antar',
-  //       'status' : true
-  //     },
-  //     {
-  //       'id':2,
-  //       'name':'Jemput',
-  //       'status' : false
-  //     },
-  //   ] 
-  // })
-  // const [isSwitchOn,setSwitch] = useState(false)
-  // const [val,setval] = useState(false)
-
   const [state, setState] = useState({
     datas: [],
     shr_rtl_id: '',
@@ -72,6 +39,10 @@ const Layananjasa = (props) => {
   const InputpayJasa = async () => {
     const body = {
       shr_jasa: state.shr_jasa,
+      shr_rtl_id : state.shr_rtl_id,
+      shr_shp_id: state.shr_shp_id,
+      shr_status: state.shr_status
+
     }
     console.log('Body Jasa====> ' + JSON.stringify(body));
 
@@ -82,9 +53,17 @@ const Layananjasa = (props) => {
         console.log('JASA PENGIRIMAN =====>' + JSON.stringify(result.data));
 
         if (result.data.status == 201) {
-          alert('Sukses tambah harga jasa!')
-          NavigatorService.navigate('jasa')
-          console.log('HASIL JASA PENGIRIMAN ==> : ' + JSON.stringify(result.data))
+
+          let jum = data.length;
+
+          for(let i=0; i < jum; i++){
+            state.textInputs.push(data[i].shr_jasa)
+            state.idform.push(data[i].shr_shp_id)
+          }
+
+          // alert('Sukses tambah harga jasa!')
+          // NavigatorService.navigate('jasa')
+          // console.log('HASIL JASA PENGIRIMAN ==> : ' + JSON.stringify(result.data))
           setState(state => ({ ...state, loading: false }))
           //NavigatorService.navigation('Alamattoko');
 
@@ -100,7 +79,6 @@ const Layananjasa = (props) => {
         setState(state => ({ ...state, loading: false }))
       })
   }
-
 
 
   //getJasa 
@@ -149,8 +127,14 @@ const Layananjasa = (props) => {
               placeholder={'Masukan harga'}
               placeholderTextColor={'#6e736f'}
               multiline={false}
-              // value={state.shr_jasa}
-              onChangeText={(text) => setState(state => ({ ...state, shr_jasa: text }))}
+              onChangeText={text => {
+                let { textInputs } = state;
+                textInputs[index] = text;
+                setState(state => ({...state,
+                  textInputs
+                 }));
+              }}
+              value={state.textInputs[index]}
             />
           </View>
 
@@ -184,38 +168,6 @@ const Layananjasa = (props) => {
           <Text style={styles.txtJasa}>Pilih jasa pengiriman</Text>
           <Image source={allLogo.siapkirim} style={{ margin: toDp(10), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
         </View>
-        {/* <View style={{margin:toDp(15), bottom:toDp(20)}}>
-          <Text style={styles.txtJasap}>Antar Reguler</Text>
-          <TextInput
-            style={styles.textInput}
-            keyboardType="numeric"
-            placeholder={'Masukan harga'}
-            placeholderTextColor={'#6e736f'}
-            multiline={false}
-            value={state.shr_jasa}
-            onChangeText={(text) => setState(state => ({ ...state, shr_jasa: text }))}
-          />
-          <Text style={styles.txtJasap}>Antar Cargo</Text>
-          <TextInput
-            style={styles.textInput}
-            keyboardType="numeric"
-            placeholder={'Masukan harga'}
-            placeholderTextColor={'#6e736f'}
-            multiline={false}
-            value={state.shr_jasa}
-            onChangeText={(text) => setState(state => ({ ...state, shr_jasa: text }))}
-          />
-          <Text style={styles.txtJasap}>Jemput</Text>
-          <TextInput
-            style={styles.textInput}
-            keyboardType="numeric"
-            placeholder={'Masukan harga'}
-            placeholderTextColor={'#6e736f'}
-            multiline={false}
-            value={state.shr_jasa}
-            onChangeText={(text) => setState(state => ({ ...state, shr_jasa: text }))}
-          />
-        </View> */}
         <FlatList
           data={state.datas}
           renderItem={ListJasa}
