@@ -111,27 +111,21 @@ const Informasitoko = (props) => {
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
-         console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].rtl_city));
+         console.log('CEK COK =====>' + JSON.stringify(result.data));
          // console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].cty_name));
-        let data = result.data.data.map(doc => {
-          return {
-            rtl_city: doc.rtl_city,
-            cty_name: doc.cty_name,
-            rtl_id: doc.rtl_id
-          }
-        })
+        let data = result.data.data[0];
         // console.log('CEK COK =====>' + JSON.stringify(data.cty_name));
 
         //setState(state => ({ ...state, cityname: result.data.data }))
-        setState(state => ({ ...state, cityname: result.data.data }))
-        console.log('-----kotaaa=====>' + JSON.stringify(data[0].cty_name));
-        console.log('-----retail=====>' + JSON.stringify(data[0].rtl_id));
-        console.log('-----id kota=====>' + JSON.stringify(data[0].rtl_city));
+        setState(state => ({ ...state, cityname: result.data.data[0]}))
+        console.log('-----kotaaa=====>' + JSON.stringify(data.cty_name));
+        console.log('-----retail=====>' + JSON.stringify(data.rtl_id));
+        console.log('-----id kota=====>' + JSON.stringify(data.rtl_city));
         // alert(JSON.stringify(response.data));
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        alert('Gagal menerima data dari server!ss' + err)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -146,7 +140,7 @@ const Informasitoko = (props) => {
   const render = (item) => {
     return (
       <View style={{ bottom: toDp(20) }}>
-        <TouchableOpacity style={styles.btnUbah} onPress={() => selectToko( item[0]?.rtl_city, item[0]?.cty_name)} >
+        <TouchableOpacity style={styles.btnUbah} onPress={() => selectToko( item.rtl_city, item.cty_name)} >
           <Text style={styles.txtUbah}>Ubah Toko</Text>
         </TouchableOpacity>
       </View>
@@ -252,7 +246,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9f9',
     width: toDp(335),
     height: toDp(38),
-    // borderRadius: toDp(10), 
+    // borderRadius: toDp(10),
     borderBottomRightRadius: toDp(10),
     borderBottomLeftRadius: toDp(10),
     justifyContent: 'center',

@@ -36,6 +36,7 @@ const Ubahtoko = (props) => {
     cty_name: '',
     datas: [],
     mb_id: '',
+    mb_name:'',
     rtl_name: '',
     rtl_mb_id: '',
     rtl_phone: '',
@@ -78,7 +79,7 @@ const Ubahtoko = (props) => {
 
         //setState(state => ({ ...state, cityname: result.data.data }))
         setState(state => ({ ...state, cityname: data }))
-        console.log('-----kotaaa=====>'+ JSON.stringify(data));
+        // console.log('-----kotaaa=====>'+ JSON.stringify(data));
         // alert(JSON.stringify(response.data));
 
       }).catch(err => {
@@ -134,7 +135,7 @@ const Ubahtoko = (props) => {
     axios.get('https://market.pondok-huda.com/dev/react/retail/' + state.id_retail)
       .then(result => {
 
-        console.log('CEK RETAIL UBAH TOKO====> ' + JSON.stringify(result));
+        // console.log('CEK RETAIL UBAH TOKO====> ' + JSON.stringify(result));
 
         if (result.data.status == 200) {
           const the_data = result.data.data.map(doc => {
@@ -145,6 +146,7 @@ const Ubahtoko = (props) => {
               rtl_phone: doc.rtl_phone,
               rtl_addres: doc.rtl_addres,
               cty_name: doc.cty_name,
+              rtl_city: doc.rtl_city,
               rtl_long: doc.rtl_long,
               rtl_lat: doc.rtl_lat,
               rtl_status: doc.rtl_status,
@@ -158,13 +160,16 @@ const Ubahtoko = (props) => {
             rtl_name: the_data[0].rtl_name,
             rtl_phone: the_data[0]?.rtl_phone,
             rtl_addres: the_data[0]?.rtl_addres,
-            rtl_city: the_data[0]?.cty_name,
+            rtl_city: the_data[0]?.rtl_city,
+            cty_name: the_data[0]?.cty_name,
             rtl_status: the_data[0]?.rtl_status,
             rtl_long: the_data[0]?.rtl_long,
             rtl_lat: the_data[0]?.rtl_lat,
             rtl_id: the_data[0]?.rtl_id
           }))
           // alert('CEK Profil Seller =>'+ JSON.stringify(the_data))
+              // console.log('CEK Retail Seller =>'+ JSON.stringify(state.cty_id))
+              // console.log('CEK Retail Seller =>'+ JSON.stringify(state.cty_id))
 
 
         } else if (result.data.status == 500) {
@@ -177,36 +182,39 @@ const Ubahtoko = (props) => {
       })
   }
 
-  // ===> POST Porifl Seller atau Retail <=== //
+  // ===> POST Ubah Toko Seller atau Retail <=== //
 
-  const InputProfil = async (rtl_mb_id) => {
+  const inputUbahtoko = async () => {
     const body = {
-      rtl_mb_id: state.rtl_mb_id,
+      rtl_id: state.rtl_id,
       rtl_name: state.rtl_name,
+      mb_name: state.mb_name,
       rtl_phone: state.rtl_phone,
+      rtl_status: state.rtl_status,
       rtl_addres: state.rtl_addres,
-      rtl_lat: state.rtl_lat,
+      rtl_city: state.tmp_cty_id,
       rtl_long: state.rtl_long,
+      rtl_lat: state.rtl_lat,
     }
     console.log('CEK BODY ===> ' + JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/retail/', body)
+    axios.post('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail, body)
       .then(response => {
 
-        console.log('CEK URL ===>' + JSON.stringify(response.data.status));
+        console.log('CEK URL ===>' + JSON.stringify(response));
 
-        if (response.data.status === 201) {
+        if (response.data.status === 200) {
           alert('Berhasil tambah data diri!')
 
           NavigatorService.navigate('Informasitoko')
 
-          console.log('CEK Hasil Profil Seller ===>' + JSON.stringify(response.data));
+          // console.log('CEK Hasil Tambah Toko ===>' + JSON.stringify(response.data));
 
           setState(state => ({ ...state, loading: false }))
 
         } else {
-          alert('Gagal Tambah Data Diri!')
+          alert('Gagal ubah toko!')
           setState(state => ({ ...state, loading: false }))
 
           console.log('CEK ERROR ===>' + JSON.stringify(response.data));
@@ -289,7 +297,7 @@ const Ubahtoko = (props) => {
                 // console.log(selectedItem.cty_id, index)
                 // setState(state => ({ ...state, rtl_city: selectedItem.cty_id })) 
                 console.log(selectedItem.cty_name+selectedItem.cty_id)
-                setState(state => ({ ...state, rtl_city: selectedItem.cty_id }))
+                setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
 
@@ -328,7 +336,7 @@ const Ubahtoko = (props) => {
       {state.bo_rtlid == true &&
         <Text>{state.retail_id}</Text>
       }
-      <Pressable style={styles.btnSimpan}>
+      <Pressable style={styles.btnSimpan} onPress={() => inputUbahtoko()}>
         <Text style={styles.txtSimpan}>Simpan</Text>
       </Pressable>
 
