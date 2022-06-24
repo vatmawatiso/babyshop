@@ -63,7 +63,7 @@ const Pengiriman = (props) => {
           </Pressable>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <View style={{ borderWidth: toDp(0.5), width: toDp(360), borderColor: 'grey', bottom: toDp(8), alignItems: 'center', justifyContent: 'center' }} />
+          <View style={{borderWidth:toDp(0.5), width:toDp(335), borderColor:'grey', bottom:toDp(8), alignItems:'center', justifyContent:'center'}} />
         </View>
       </View>
 
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    // top:toDp(50)
   },
   header: {
     width: '100%',
@@ -100,12 +99,15 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
     flexDirection: 'row',
+    marginTop: toDp(10),
+    right:toDp(3),
+    alignItems: 'center'
   },
   presable: {
     flex: 0,
     justifyContent: 'space-between',
     margin: toDp(7),
-    height: toDp(19)
+    height:toDp(19)
   },
   icon: {
     width: toDp(31),
@@ -119,8 +121,9 @@ const styles = StyleSheet.create({
     marginTop: toDp(80),
     marginLeft: toDp(16)
   },
-  txtOrder: {
-    bottom: 5
+  txtOrder:{
+    bottom:toDp(5),
+    marginHorizontal:toDp(-4)
   }
 });
 

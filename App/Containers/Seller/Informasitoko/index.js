@@ -139,7 +139,7 @@ const Informasitoko = (props) => {
 
   const render = (item) => {
     return (
-      <View style={{ bottom: toDp(20) }}>
+      <View style={{ top: toDp(20) }}>
         <TouchableOpacity style={styles.btnUbah} onPress={() => selectToko( item.rtl_city, item.cty_name)} >
           <Text style={styles.txtUbah}>Ubah Toko</Text>
         </TouchableOpacity>
@@ -156,18 +156,14 @@ const Informasitoko = (props) => {
       />
 
       <View>
-        <View style={[styles.Tokosaya, { flexDirection: 'row' }]}>
+        <View style={[styles.Tokosaya, { flexDirection: 'column' }]}>
+        <View style={{ alignItems: 'center', bottom:toDp(10) }}>
           <Image source={state.picture ? { uri: state.picture } :
             require('../../../Assets/img/tzuyu.jpg')} style={styles.imgProfil} />
-          <View style={{ alignItems: 'center', flex: 0.8 }}>
             <Text style={styles.txtToko}>{state.mb_name}</Text>
           </View>
         </View>
-        <View style={{ bottom: toDp(50), left: toDp(20) }}>
-          <View style={{ flexDirection: 'column' }}>
-            <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
-            <Text style={styles.txtPengikut}>{DATA[0].pengikutUser} {DATA[0].mengikutiUser}</Text>
-          </View>
+        <View style={{ bottom: toDp(15), left: toDp(20) }}>
           <View style={{ right: toDp(20) }}>
             <TouchableOpacity style={styles.btnSetting} onPress={() => NavigatorService.navigate('Settingtoko')}>
               <Text style={{ textAlign: 'center', }}>Pengaturan</Text>
@@ -190,8 +186,8 @@ const styles = StyleSheet.create({
     height: toDp(50),
     width: toDp(50),
     top: toDp(20),
-    left: toDp(15),
-    borderRadius: toDp(25)
+    borderRadius: toDp(25),
+    marginBottom:toDp(5)
   },
   Tokosaya: {
     flexDirection: 'row',

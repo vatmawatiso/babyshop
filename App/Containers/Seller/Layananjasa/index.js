@@ -38,11 +38,10 @@ const Layananjasa = (props) => {
 
   const InputpayJasa = async () => {
     const body = {
-      shr_jasa: state.shr_jasa,
       shr_rtl_id : state.shr_rtl_id,
       shr_shp_id: state.shr_shp_id,
-      shr_status: state.shr_status
-
+      shr_jasa: state.shr_jasa,
+      shr_status: state.shr_status,
     }
     console.log('Body Jasa====> ' + JSON.stringify(body));
 
@@ -52,13 +51,13 @@ const Layananjasa = (props) => {
 
         console.log('JASA PENGIRIMAN =====>' + JSON.stringify(result.data));
 
-        if (result.data.status == 201) {
+        if (result.data.status == 200) {
 
-          let jum = data.length;
+          let jum = result.data.length;
 
           for(let i=0; i < jum; i++){
-            state.textInputs.push(data[i].shr_jasa)
-            state.idform.push(data[i].shr_shp_id)
+            state.shr_jasa.push(result.data[i].shr_jasa)
+            state.shr_shp_id.push(result.data[i].shr_shp_id)
           }
 
           // alert('Sukses tambah harga jasa!')
@@ -128,13 +127,13 @@ const Layananjasa = (props) => {
               placeholderTextColor={'#6e736f'}
               multiline={false}
               onChangeText={text => {
-                let { textInputs } = state;
-                textInputs[index] = text;
+                let { shr_jasa } = state;
+                shr_jasa[index] = text;
                 setState(state => ({...state,
-                  textInputs
+                  shr_jasa
                  }));
               }}
-              value={state.textInputs[index]}
+              value={state.shr_jasa[index]}
             />
           </View>
 

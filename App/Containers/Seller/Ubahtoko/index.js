@@ -186,6 +186,7 @@ const Ubahtoko = (props) => {
 
   const inputUbahtoko = async () => {
     const body = {
+      rtl_mb_id: state.mb_id,
       rtl_id: state.rtl_id,
       rtl_name: state.rtl_name,
       mb_name: state.mb_name,
@@ -205,7 +206,7 @@ const Ubahtoko = (props) => {
         console.log('CEK URL ===>' + JSON.stringify(response));
 
         if (response.data.status === 200) {
-          alert('Berhasil tambah data diri!')
+          alert('Berhasil ubah toko!')
 
           NavigatorService.navigate('Informasitoko')
 

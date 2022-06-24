@@ -11,30 +11,9 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
-import { Card } from "react-native-paper";
+import NumberFormat from 'react-number-format';
 
 const Belumbayar = (props) => {
-
-    const [state, setState] = useState({
-        datas: [],
-      })
-    
-      useEffect(() => {
-        getOrder()
-      }, [])
-    
-      const getOrder = () => {
-        axios.get('https://market.pondok-huda.com/dev/react/product/')
-          .then(result => {
-            //hendle success
-            setState(state => ({ ...state, datas: result.data.data }))
-            console.log('Produk Bangunan ===> ' + JSON.stringify(result.data.data));
-    
-          }).catch(err => {
-            alert('Gagal menerima data dari server!' + err)
-            setState(state => ({ ...state, loading: false }))
-          })
-      }
 
     const DATA = [
         {
@@ -57,24 +36,40 @@ const Belumbayar = (props) => {
             <View>
                 <View style={styles.information}>
                     <Text style={styles.txtInformation1}>{DATA[0].tb}</Text>
-                    <Text style={{ color: '#6495ED' }}>{DATA[0].diproses}</Text>
+                    <Text style={{ color: '#6495ED', right:toDp(3) }}>{DATA[0].diproses}</Text>
                 </View>
 
-                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(9) }} />
+                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', left:toDp(12), width:toDp(335), top: toDp(30) }} />
 
                 <View style={styles.OrderDetail}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Image source={{uri: item.thumbnail}} style={styles.icAddress} />
+                        <Image source={allLogo.icgerobak} style={styles.icAddress} />
                         <Text style={{ top: toDp(20), right: toDp(40) }}>{DATA[0].produk}</Text>
                         <Text style={{ top: toDp(80), right: toDp(10) }}>{DATA[0].jumlah}x</Text>
                     </View>
-                    <Text style={{ bottom: toDp(50), left: toDp(128) }}>{DATA[0].harga}</Text>
+                    <NumberFormat
+                        value={DATA[0].harga}
+                        displayType={'text'}
+                        thousandSeparator={'.'}
+                        decimalSeparator={','}
+                        prefix={'Rp. '}
+                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', marginRight: toDp(5), bottom: toDp(50), left: toDp(128) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                    />
+                    {/* <Text style={{ bottom: toDp(50), left: toDp(128) }}>{DATA[0].harga}</Text> */}
                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                     <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                             <Text style={styles.txtCard}>{DATA[0].jumlah} Produk</Text>
-                            <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text>
+                            <NumberFormat
+                                value={DATA[0].total}
+                                displayType={'text'}
+                                thousandSeparator={'.'}
+                                decimalSeparator={','}
+                                prefix={'Rp. '}
+                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            />
+                            {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(5) }} />
                         </View>
                     </Pressable>
@@ -96,7 +91,6 @@ const Belumbayar = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        top:toDp(50)
     },
     content: {
         flexDirection: 'row',
@@ -106,24 +100,38 @@ const styles = StyleSheet.create({
         bottom: toDp(40),
     },
     information: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        bottom:toDp(12),
-        marginHorizontal:toDp(5)
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height:toDp(50),
+      padding: toDp(10), 
+      top:toDp(40)
     },
     txtInformation1: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginHorizontal:toDp(2)
     },
     OrderDetail: {
-        backgroundColor: '#C4C4C4',
+        backgroundColor: '#F9F8F8',
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(190),
-        left:toDp(12)
+        height: toDp(200),
+        left:toDp(12),
+        padding: toDp(10),
+        top:toDp(40),
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+    
+        elevation: 3,
     },
     buttonPay: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(15),
+        borderRadius: toDp(10),
         width: toDp(97),
         height: toDp(34),
         fontSize: toDp(11),

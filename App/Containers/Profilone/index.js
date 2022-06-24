@@ -309,41 +309,34 @@ const getStatus = () => {
       >
 
       <View style={{ width: '100%', height: 740, alignItems: 'center' }}>
-        <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
-          <View style={{flexDirection:'column'}}>
+        <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(10) }}>
+          <View style={{flexDirection:'column', left:toDp(120), bottom:toDp(15)}}>
             <Image source={state.picture ? { uri: state.picture } :
               require('../../Assets/img/tzuyu.jpg')}
               style={styles.imgProfil} />
-            <Text style={styles.typeUser}>{state.mb_type}</Text>
+            <Text style={styles.typeUser}>{state.mb_name}</Text>
           </View>
 
-          <View style={{ alignItems: 'center', marginTop: toDp(10), justifyContent: 'center', }}>
-            <Text style={styles.nmProfil}>{state.mb_name}</Text>
-            <Text style={styles.member}>{DATA[0].memberUser}</Text>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={styles.pengikut}>{DATA[0].pengikutUser}</Text>
-              <Text style={styles.mengikuti}>{DATA[0].mengikutiUser}</Text>
-            </View>
+          <View>
+          <Pressable style={{ width: toDp(60), height: toDp(20), left:toDp(190), top:toDp(10)}} onPress={() => NavigatorService.navigate('Editprofil')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ marginRight: toDp(5), color: 'white', fontSize: toDp(12) }}>{text}</Text>
+                <Image source={allLogo.icline} style={styles.icline} />
+              </View>
+            </Pressable>
           </View>
 
-          <View style={{ zIndex: 5, justifyContent: 'center', marginTop: toDp(15), marginLeft: toDp(-10) }}>
+          <View style={{flexDirection:'row'}}>
             <Pressable style={styles.presable}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={allLogo.wallet} style={styles.icwallet} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pembayaran</Text>
               </View>
             </Pressable>
-            <Pressable style={styles.presable}>
+            <Pressable style={[styles.presable, {right:toDp(15)}]}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={allLogo.store} style={styles.icstore} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pengiriman</Text>
-              </View>
-            </Pressable>
-            <Pressable style={[styles.presable, { right: toDp(-29), width: toDp(60), height: toDp(20), justifyContent: 'center' }]} onPress={() => NavigatorService.navigate('Editprofil')}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ marginRight: toDp(5), color: 'white', fontSize: toDp(12) }}>{text}</Text>
-                <Image source={allLogo.icline} style={styles.icline} />
               </View>
             </Pressable>
           </View>
@@ -358,46 +351,46 @@ const getStatus = () => {
 
           <View style={styles.bodyProfil}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Pressable style={{ height: toDp(40), top: toDp(5), left: toDp(5) }} >
+              <TouchableOpacity style={{ height: toDp(40), top: toDp(5), left: toDp(5) }} >
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
                   <Image source={allLogo.bag} style={styles.icorders} />
                   <Text style={styles.txtPesanan}>Pesanan Saya</Text>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
 
-              <Pressable style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
+              <TouchableOpacity style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
                   <Text style={styles.txtRiwayat}>Lihat Riwayat Pesanan</Text>
                   <Image source={allLogo.iclineright} style={styles.iclineright1} />
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
             <View style={{ flexDirection: 'row', margin: toDp(10), justifyContent: 'center' }}>
-              <Pressable style={{ right: toDp(20) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
+              <TouchableOpacity style={{ right: toDp(20) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
                 <Image source={allLogo.bayar} style={{ width: toDp(38), height: toDp(38), left: toDp(18) }} />
                 <Text style={{ fontSize: toDp(13), }}>Belum Bayar</Text>
-              </Pressable>
+              </TouchableOpacity>
 
-              <Pressable style={{ marginHorizontal: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikemas' })}>
+              <TouchableOpacity style={{ marginHorizontal: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikemas' })}>
                 <Image source={allLogo.kemas} style={styles.icon} />
                 <Text style={{ fontSize: toDp(13) }}>Dikemas</Text>
-              </Pressable>
+              </TouchableOpacity>
 
-              <Pressable style={{ marginHorizontal: toDp(10), left: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikirim' })}>
+              <TouchableOpacity style={{ marginHorizontal: toDp(10), left: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikirim' })}>
                 <Image source={allLogo.kirim} style={{ width: toDp(38), height: toDp(38), left: toDp(2) }} />
                 <Text style={{ fontSize: toDp(13) }}>Dikirim</Text>
-              </Pressable>
+              </TouchableOpacity>
 
-              <Pressable style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai' })}>
+              <TouchableOpacity style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai' })}>
                 <Image source={allLogo.like} style={styles.icon} />
                 <Text style={{ fontSize: toDp(13) }}>Beri Nilai</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(5) }} />
 
-            <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
+            <TouchableOpacity style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
               <View style={styles.bodyAlamat}>
                 <Image source={allLogo.location} style={styles.icLocation} />
                 <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
@@ -417,7 +410,7 @@ const getStatus = () => {
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </View>
-            </Pressable>
+            </TouchableOpacity>
 
           </View>
 
@@ -461,7 +454,7 @@ const styles = StyleSheet.create({
   typeUser: {
     color: 'white',
     top: toDp(32),
-    left: toDp(26),
+    left: toDp(30),
     fontSize: toDp(12)
   },
   imgProfil: {
@@ -518,8 +511,8 @@ const styles = StyleSheet.create({
     left: toDp(5)
   },
   presable: {
-    zIndex: 3,
-    marginBottom: toDp(15),
+    top:toDp(85),
+    right:toDp(115)
   },
   bodyProfil: {
     backgroundColor: '#F9F8F8',
