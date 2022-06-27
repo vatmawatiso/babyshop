@@ -10,7 +10,7 @@ import {
   Alert,
   ImageBackground,
   Pressable,
-  ScrollView
+  ScrollView,AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -25,76 +25,75 @@ const Layananjasa = (props) => {
   const [src, setSrc] = useState(null);
 
   const [state, setState] = useState({
+    textInputs:[],
+    idform:[],
     datas: [],
+    shipretail:[],
     shr_rtl_id: '',
     shr_shp_id: '',
     shr_status: '',
     shr_jasa: '',
     isLoading: true,
     isError: false,
+    isSwitch: [false,false,false]
   })
 
-  //post Jasa
-
-  const InputpayJasa = async () => {
-    const body = {
-      shr_rtl_id : state.shr_rtl_id,
-      shr_shp_id: state.shr_shp_id,
-      shr_jasa: state.shr_jasa,
-      shr_status: state.shr_status,
-    }
-    console.log('Body Jasa====> ' + JSON.stringify(body));
-
-    setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/ship-retail/', body)
-      .then(result => {
-
-        console.log('JASA PENGIRIMAN =====>' + JSON.stringify(result.data));
-
-        if (result.data.status == 200) {
-
-          let jum = result.data.length;
-
-          for(let i=0; i < jum; i++){
-            state.shr_jasa.push(result.data[i].shr_jasa)
-            state.shr_shp_id.push(result.data[i].shr_shp_id)
-          }
-
-          // alert('Sukses tambah harga jasa!')
-          // NavigatorService.navigate('jasa')
-          // console.log('HASIL JASA PENGIRIMAN ==> : ' + JSON.stringify(result.data))
-          setState(state => ({ ...state, loading: false }))
-          //NavigatorService.navigation('Alamattoko');
-
-        } else {
-          alert('Gagal tambah harga jasa!')
-          setState(state => ({ ...state, loading: false }))
-          //console.log('-----COBA=====>'+ JSON.stringify(body));
-        }
-
-      }).catch(err => {
-        //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
-        setState(state => ({ ...state, loading: false }))
-      })
-  }
-
-
-  //getJasa 
+  //getJasa
   useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+
+      let data = JSON.parse(response);
+      // const val = JSON.stringify(data);
+
+      console.log('Member ----------->'+ JSON.stringify(data));
+
+      setState(state => ({
+        ...state,
+        shr_rtl_id: data.retail_id,
+      }))
+      console.log('cek state member----------->' + JSON.stringify(state.shr_rtl_id));
+
+
+    }).catch(err => {
+      console.log('err', err)
+    })
     getJasa()
+    getHarga()
 
   }, [])
 
-  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+  //post Jasa
+
+  const InputpayJasa = async (body) => {
+      setState(state => ({ ...state, loading: true }))
+      axios.post('https://market.pondok-huda.com/dev/react/ship-retail/', body)
+        .then(result => {
+          if (result.data.status == 200) {
+            setState(state => ({ ...state, loading: false }))
+            console.log('Response : '+ JSON.stringify(result.data));
+          } else {
+            alert('Gagal tambah harga jasa!')
+            setState(state => ({ ...state, loading: false }))
+            //console.log('-----COBA=====>'+ JSON.stringify(body));
+          }
+
+        }).catch(err => {
+          //console.log(err)
+          alert('Gagal menerima data dari server!' + err)
+          setState(state => ({ ...state, loading: false }))
+        })
+
+  }
 
   const getJasa = () => {
     // setState(state => ({...state, loading: true }))
     axios.get('https://market.pondok-huda.com/dev/react/shipping/')
       .then(result => {
         // handle success
+        console.log(result.data.data);
         setState(state => ({ ...state, datas: result.data.data }))
-        console.log('----JASA=====>' + JSON.stringify(result.data.data));
+        // console.log('----JASA=====>' + JSON.stringify(result.data.data));
         // alert(JSON.stringify(result.data));
 
       }).catch(err => {
@@ -104,19 +103,87 @@ const Layananjasa = (props) => {
       })
   }
 
-  const setSwitchValue = (val, ind, id) => {
-    const tempData = JSON.parse(JSON.stringify(state.datas));
-    tempData[ind].status = val;
-    setState({ datas: tempData });
+  // useEffect(() => {
+  //   getHarga()
+
+  // }, [])
+
+
+  const getHarga = () => {
+    // setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/'+ state.shr_rtl_id)
+      .then(result => {
+        // handle success
+        console.log('SHIPP'+ JSON.stringify(result.data.data));
+        setState(state => ({ ...state, shipretail: result.data.data }))
+        // console.log('----JASA=====>' + JSON.stringify(result.data.data));
+        // alert(JSON.stringify(result.data));
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+    // //get harga 
+    // const getHarga = () => {
+    //   // setState(state => ({...state, loading: true }))
+    //   axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/'+ state.shr_rtl_id)
+    //     .then(result => {
+    //       // handle success
+    //       //alert(JSON.stringify(result))
+    //        console.log('SHIPP =====>' + JSON.stringify(result.data));
+    //        // console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].cty_name));
+    //       let data = result.data.data[0];
+    //       // console.log('CEK COK =====>' + JSON.stringify(data.cty_name));
+  
+    //       //setState(state => ({ ...state, cityname: result.data.data }))
+    //       setState(state => ({ ...state, shipretail: data}))
+    //       console.log('Shipping Harga=====>' + JSON.stringify(data.shr_jasa));
+  
+    //     }).catch(err => {
+    //       //console.log(err)
+    //       alert('Gagal menerima data dari server!ss' + err)
+    //       setState(state => ({ ...state, loading: false }))
+    //     })
+    // }
+
+  const setSwitchValue = (input, name, i, id) => {
+    let status = 0;
+
+    let { isSwitch } = state;
+    isSwitch[i] = !state.isSwitch[i];
+    if(isSwitch[i]===false){
+      status=0
+    }else{
+      status=1
+    }
+    setState(state => ({
+      ...state,
+      isSwitch
+    }))
+
+    let data = {
+      price: input,
+      shp_name: name,
+      shp_id: id,
+      rtl_id: state.shr_rtl_id,
+      status: status
+    }
+
+    InputpayJasa(data)
+
+    console.log('---->'+JSON.stringify(data));
     //langsung push data terbaru ke server
     //tulis kode disini
 
   }
 
 
-  const ListJasa = ({ item, index }) => {
+  const ListJasa = (item, index) => {
     return (
-      <View style={{ width: toDp(316), left: toDp(20), borderRadius: toDp(10) }}>
+      <View style={{ width: toDp(316), left: toDp(20), borderRadius: toDp(10), marginBottom:toDp(20) }}>
         <View style={styles.viewBody}>
           <View>
             <Text>{item.shp_name}</Text>
@@ -126,13 +193,8 @@ const Layananjasa = (props) => {
               placeholder={'Masukan harga'}
               placeholderTextColor={'#6e736f'}
               multiline={false}
-              onChangeText={text => {
-                let { shr_jasa } = state;
-                shr_jasa[index] = text;
-                setState(state => ({...state,
-                  shr_jasa
-                 }));
-              }}
+              onChangeText={text => {let { shr_jasa } = state ; shr_jasa[index] = text ; setState(state => ({...state, shr_jasa}));
+                }}
               value={state.shr_jasa[index]}
             />
           </View>
@@ -142,8 +204,8 @@ const Layananjasa = (props) => {
             trackColor={{ false: 'grey', true: '#6495ED' }}
             ios_backgroundColor='grey'
 
-            onValueChange={(value) => setSwitchValue(value, index, item.datas)}
-            value={item.status}
+            onValueChange={(value) => setSwitchValue(state.textInputs[index], item.shp_name, index, item.shp_id)}
+            value={state.isSwitch[index]}
 
           />
 
@@ -160,7 +222,7 @@ const Layananjasa = (props) => {
         title={'Jasa Kirim'}
         onPress={() => props.navigation.goBack()}
       />
-      {/* 
+      {/*
         <ScrollView> */}
       <View style={{ top: toDp(0) }}>
         <View style={{ flexDirection: 'row', borderWidth: 0.5, height: toDp(40), marginBottom: toDp(10), bottom: toDp(5), borderColor: 'grey' }}>
@@ -168,12 +230,18 @@ const Layananjasa = (props) => {
           <Image source={allLogo.siapkirim} style={{ margin: toDp(10), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
         </View>
         <FlatList
-          data={state.datas}
-          renderItem={ListJasa}
+          data={state.shipretail}
+          renderItem=
+          {({item, index}) => {
+              return (
+                ListJasa(item, index)
+              )
+            }}
           keyExtractor={item => item.id}
           ListFooterComponent={() => <View style={{ height: toDp(50) }} />}
         />
       </View>
+      <Text>{JSON.stringify(state.textInputs)}</Text>
       <Pressable style={styles.btnJasa} onPress={() => InputpayJasa()}>
         <Text style={styles.txtSimpan}>Simpan Harga</Text>
       </Pressable>
@@ -215,7 +283,7 @@ const styles = StyleSheet.create({
   txtJasap: {
     marginBottom:toDp(5),
     marginTop:toDp(5)
-  },  
+  },
   textInput: {
     height: toDp(35),
     width: toDp(130),

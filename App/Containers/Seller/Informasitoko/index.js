@@ -137,6 +137,8 @@ const Informasitoko = (props) => {
 
   }
 
+
+
   const render = (item) => {
     return (
       <View style={{ top: toDp(20) }}>
