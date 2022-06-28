@@ -240,8 +240,6 @@ const Checkout = (props) => {
 
     }, [])
 
-    // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
-
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
         axios.get('https://market.pondok-huda.com/dev/react/shipping/')
@@ -519,7 +517,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     txtOption: {
-        color: '#6495ED',
+        color: '#F83308',
         margin: toDp(4),
         marginLeft: toDp(10),
         fontSize: toDp(12),
@@ -626,7 +624,7 @@ const styles = StyleSheet.create({
     },
     txtTotPem1: {
         fontSize: toDp(13),
-        color: '#6495ED',
+        color: '#F83308',
         fontWeight: 'bold'
     },
     btnCheckout: {

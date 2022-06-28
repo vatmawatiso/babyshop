@@ -48,7 +48,7 @@ const Settingtoko = (props) => {
         mb_phone: data.value.mb_phone,
         id_retail: data.retail_id,
       }))
-      console.log('cek state member----------->' + JSON.stringify(state.id_retail));
+      console.log('cek state SettingToko----------->' + JSON.stringify(state.id_retail));
 
 
     }).catch(err => {
@@ -125,36 +125,7 @@ const Settingtoko = (props) => {
           <Pressable style={{ height: toDp(20), width: toDp(70) }} onPress={() => NavigatorService.navigate('Alamattoko', { adr_mb_id: state.mb_id })} >
             <Text style={styles.txtAlamat}>Alamat Toko</Text>
           </Pressable>
-          <SelectDropdown
-            buttonStyle={styles.dropdown}
-            buttonTextStyle={{ fontSize: toDp(12), color: 'black', left:toDp(65) }}
-            rowTextStyle={{ fontSize: toDp(12) }}
-            dropdownStyle={{ borderRadius: toDp(7) }}
-            rowStyle={{ height: toDp(30), padding: toDp(5) }}
-            defaultButtonText={'Pilih Jasa Pengiriman'}
-            data={state.datas}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem.shp_id, index)
-              setState(state => ({ ...state, shp_name: selectedItem.shp_id }))
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-
-              return selectedItem.shp_name;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item.shp_name;
-            }}
-            renderDropdownIcon={(isOpened) => {
-              return (
-                <FontAwesome
-                  name={isOpened ? "chevron-up" : "chevron-down"}
-                  color={"#444"}
-                  size={12}
-                />
-              );
-            }}
-          />
-          <TouchableOpacity  onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.retail_id })}>
+          <TouchableOpacity  onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.id_retail })}>
             <Text style={{top:toDp(1)}}>Layanan Jasa</Text>
           </TouchableOpacity>
         </View>
