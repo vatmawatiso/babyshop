@@ -8,7 +8,8 @@ import {
   ImageBackground,
   Pressable,
   ScrollView,
-  Modal
+  Modal,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -39,10 +40,12 @@ const Tambahproduk = (props) => {
     prd_price:0,
     prd_thumbnail:'',
     prd_ctg_id:'',
-    prd_rtl_id:'RTL00000001',
+    prd_rtl_id:'',
     prd_berat:0,
     nama_kondisi: '',
     ctg_name:'',
+    mb_name:'',
+    retail_id:'',
     loading: false,
     picture: '../../Assets/img/tzuyu.jpg',
     options: {
@@ -64,10 +67,38 @@ const Tambahproduk = (props) => {
 
    //====> GET Kategori Barang pada Tambah Produk Seller <====//
 
-  useEffect(() => {
+   useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      // console.log('Profil----------->'+ JSON.stringify(response));
+
+      let data = JSON.parse(response);
+      // const val = JSON.stringify(data);
+
+      console.log('Member ----------->' + JSON.stringify(data));
+
+      setState(state => ({
+        ...state,
+        mb_id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_phone: data.value.mb_phone,
+        id_retail: data.retail_id,
+      }))
+      console.log('cek state ----------->' + JSON.stringify(state.id_retail));
+      console.log('cek state ----------->' + JSON.stringify(state.mb_name));
+
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
     category()
 
-  },[])
+  }, [])
+
+  // useEffect(() => {
+  //   category()
+
+  // },[])
 
     // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
 
@@ -129,7 +160,7 @@ const Tambahproduk = (props) => {
         prd_price:state.prd_price,
         prd_thumbnail:state.prd_thumbnail,
         prd_ctg_id:state.prd_ctg_id,
-        prd_rtl_id:state.prd_rtl_id,
+        prd_rtl_id:state.id_retail,
         prd_berat:state.prd_berat,
         prd_kd_id:state.prd_kd_id,
         nama_kondisi:state.nama_kondisi,
@@ -144,7 +175,7 @@ const Tambahproduk = (props) => {
       formData.append('prd_stock', state.prd_stock);
       formData.append('prd_price', state.prd_price);
       formData.append('prd_ctg_id', state.prd_ctg_id);
-      formData.append('prd_rtl_id', state.prd_rtl_id);
+      formData.append('prd_rtl_id', state.id_retail);
       formData.append('prd_berat', state.prd_berat);
       formData.append('prd_kd_id', state.prd_kd_id);
       formData.append('nama_kondisi', state.nama_kondisi);
@@ -195,30 +226,6 @@ const Tambahproduk = (props) => {
           console.log('Error', error.message);
         }
       })
-
-      // axios.post('https://market.pondok-huda.com/dev/react/product/', body)
-      // .then(result =>{
-
-        // console.log('-----PRODUK=====>'+ JSON.stringify(response.data));
-
-        // if(result.data.status==201){
-        //   alert('Sukses tambah Produk!')
-        //   NavigatorService.navigate('Homeseller')
-        //   console.log('HASIL PRODUK ==> : '+ JSON.stringify(result.data))
-        //   setState(state => ({...state, loading: false }))
-        //   // NavigatorService.navigation('Homeseller');
-
-        // }else{
-        //   alert('Tambah Produk Gagal!')
-        //   setState(state => ({...state, loading: false }))
-        //   // console.log('-----COBA=produk=====>'+ JSON.stringify(result.data));
-        // }
-
-      // }).catch(err =>{
-      //   //console.log(err)
-      //   alert('Gagal menerima data dari server!'+err)
-      //   setState(state => ({...state, loading: false }))
-      // })
     }
 
     const upImageToServer = (imagePath) => {

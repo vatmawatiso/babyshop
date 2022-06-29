@@ -44,6 +44,7 @@ const Profilone = (props) => {
     alu_desk: '',
     rtl_id:'',
     rtl_status: '',
+    retail_id:'',
     retail_sts:[],
     alu_stats: false,
     loading: false,
@@ -64,7 +65,7 @@ const Profilone = (props) => {
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
-      console.log('Profilefiks----------->' + JSON.stringify(data));
+      // console.log('Profilefiks----------->' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -74,8 +75,10 @@ const Profilone = (props) => {
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
         picture: data.value.picture,
-        retail_id: data.value.rtl_id,
+        id_retail: data.retail_id,
       }))
+      console.log('CEK RETAIL ID ' + JSON.stringify(state.id_retail));
+      console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {
       console.log('err', err)

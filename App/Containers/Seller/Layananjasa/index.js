@@ -251,7 +251,7 @@ const Layananjasa = (props) => {
             trackColor={{ false: 'grey', true: '#6495ED' }}
             ios_backgroundColor='grey'
             //disable jika teks input 0 atau kosong
-            disabled={state.swDis[index]}
+            disabled={true}
             onValueChange={(value) => setSwitchValue(state.textInputs[index], item.shp_name, index, item.shp_id)}
             value={
               state.isSwitch[index]
@@ -291,8 +291,8 @@ const Layananjasa = (props) => {
           ListFooterComponent={() => <View style={{ height: toDp(50) }} />}
         />
       </View>
-      {/* <Text> {JSON.stringify(state.textInputs)}</Text>
-      <Text> {state.textInputs[0] != 0 ? 'yes' : 'no'}</Text> */}
+      <Text> {JSON.stringify(state.textInputs)}</Text>
+      <Text> {state.textInputs[0] != 0 ? 'yes' : 'no'}</Text>
       <Pressable style={styles.btnJasa} onPress={() => InputpayJasa()}>
         <Text style={styles.txtSimpan}>Simpan Harga</Text>
       </Pressable>

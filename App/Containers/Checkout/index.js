@@ -67,7 +67,10 @@ const Checkout = (props) => {
         detail: [],
         thumbnails: '',
         id: '',
+        shp_id:'',
+        shp_name:'',
         product_name: '',
+        retail:'',
         retail_name: '',
         price: '',
         thumbnail: '',
@@ -100,6 +103,7 @@ const Checkout = (props) => {
                 thumbnail: data.data[0].thumbnail,
                 price: data.data[0].price,
                 retail_name: data.data[0].retail_name,
+                retail: data.data[0].retail
 
             }))
 
@@ -107,6 +111,7 @@ const Checkout = (props) => {
             console.log('CEK STATE ASYNC STORAGE nama produk --->' + JSON.stringify(state.product_name));
             console.log('CEK STATE ASYNC STORAGE harga ---->' + JSON.stringify(state.price));
             console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
+            console.log('CEK STATE ASYNC ID RETAIL ---->' + JSON.stringify(state.retail));
 
 
         }).catch(err => {
@@ -136,8 +141,10 @@ const Checkout = (props) => {
                 mb_phone: data.value.mb_phone,
                 mb_type: data.value.mb_type,
                 picture: data.value.picture,
-                retail_id: data.value.rtl_id,
+                id_retail: data.retail_id,
             }))
+            // console.log('Retail ID --->' + JSON.stringify(state.id_retail));
+            // console.log('Retail mb_name --->' + JSON.stringify(state.mb_name));
 
         }).catch(err => {
             console.log('err', err)
@@ -159,9 +166,11 @@ const Checkout = (props) => {
             'didFocus',
             payload => {
                 loatAlamatU()
+               
                 // getRetail()  // untuk reload data terbaru retail
             }
         );
+        getJasa()
 
     }, [stAlu])
 
@@ -235,18 +244,13 @@ const Checkout = (props) => {
         }
     }
 
-    useEffect(() => {
-        getJasa()
-
-    }, [])
-
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/shipping/')
+        axios.get('https://market.pondok-huda.com/dev/react/ship-retail/get/RTL00000026/SHP0001/')
             .then(result => {
                 // handle success
                 setState(state => ({ ...state, datas: result.data.data }))
-                console.log('----JASA=====>' + JSON.stringify(result.data.data));
+                console.log('jasa kirim  ' + JSON.stringify(result.data.data));
                 // alert(JSON.stringify(result.data));
 
             }).catch(err => {
@@ -255,6 +259,50 @@ const Checkout = (props) => {
                 setState(state => ({ ...state, loading: false }))
             })
     }
+
+    useEffect(() => {
+        AsyncStorage.getItem('shipname').then(response => {
+            // console.log('Profil----------->'+ JSON.stringify(response));
+
+            let data = JSON.parse(response);
+            // const val = JSON.stringify(data);
+
+            console.log('shipname ==>' + JSON.stringify(data));
+
+            setState(state => ({
+                ...state,
+                shp_name: data.shp_name,
+            }))
+            console.log('name shiping --->' + JSON.stringify(state.shp_name));
+            // console.log('Retail mb_name --->' + JSON.stringify(state.mb_name));
+
+        }).catch(err => {
+            console.log('err', err)
+        })
+        
+        getShip()
+
+    }, [])
+
+    
+    const getShip = () => {
+        // setState(state => ({...state, loading: true }))
+        axios.get('https://market.pondok-huda.com/dev/react/shipping/')
+            .then(result => {
+                // handle success
+                let datas = result.data.data;
+                AsyncStorage.setItem('shipname', JSON.stringify(datas))
+                // setState(state => ({ ...state, loading: datas}))
+                console.log('getship  ' + JSON.stringify(datas));
+                // alert(JSON.stringify(result.data));
+
+            }).catch(err => {
+                //console.log(err)
+                alert('Gagal menerima data dari server!' + err)
+                setState(state => ({ ...state, loading: false }))
+            })
+    }
+
 
     return (
         <View style={styles.container}>
@@ -353,7 +401,7 @@ const Checkout = (props) => {
                                         />
                                     </View>
                                 </Pressable>
-                                <Text style={styles.estimasi}>Akan DIterima Pada {DATA[0].diterima}</Text>
+                                {/* <Text style={styles.estimasi}>Akan DIterima Pada {DATA[0].diterima}</Text> */}
                             </View>
                         </View>
 
@@ -370,7 +418,14 @@ const Checkout = (props) => {
 
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtSubTot}>Subtotal Untuk Produk</Text>
-                                    <Text style={styles.txtSubTot}>Rp 700.000</Text>
+                                    <NumberFormat
+                                        value={state.price}
+                                        displayType={'text'}
+                                        thousandSeparator={'.'}
+                                        decimalSeparator={','}
+                                        prefix={'Rp. '}
+                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                    />
                                 </View>
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtSubPeng}>Subtotal Pengiriman</Text>
