@@ -51,6 +51,7 @@ const Checkout = (props) => {
 
     const [selectedItems, setSelectedItems] = useState([]);
     const [stAlu, setAllu] = useState(0);
+    const [selected, setSelected] = useState();
     const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
         datas: [],
@@ -67,10 +68,12 @@ const Checkout = (props) => {
         detail: [],
         thumbnails: '',
         id: '',
-        shp_id:'',
-        shp_name:'',
+        shp_id: '',
+        shp_name: '',
+        shr_jasa:'',
+        id_retail: '',
         product_name: '',
-        retail:'',
+        retail: '',
         retail_name: '',
         price: '',
         thumbnail: '',
@@ -90,7 +93,7 @@ const Checkout = (props) => {
         //getProdukbyId()
         // get id pengguna
         AsyncStorage.getItem('setProduk').then(response => {
-            console.log('CEK PRODUK ----------->' + JSON.stringify(response));
+            // console.log('CEK PRODUK ----------->' + JSON.stringify(response));
 
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
@@ -131,7 +134,7 @@ const Checkout = (props) => {
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
 
-            console.log('Profilefiks----------->' + JSON.stringify(data));
+            // console.log('Profilefiks----------->' + JSON.stringify(data));
 
             setState(state => ({
                 ...state,
@@ -141,10 +144,7 @@ const Checkout = (props) => {
                 mb_phone: data.value.mb_phone,
                 mb_type: data.value.mb_type,
                 picture: data.value.picture,
-                id_retail: data.retail_id,
             }))
-            // console.log('Retail ID --->' + JSON.stringify(state.id_retail));
-            // console.log('Retail mb_name --->' + JSON.stringify(state.mb_name));
 
         }).catch(err => {
             console.log('err', err)
@@ -166,7 +166,7 @@ const Checkout = (props) => {
             'didFocus',
             payload => {
                 loatAlamatU()
-               
+
                 // getRetail()  // untuk reload data terbaru retail
             }
         );
@@ -246,11 +246,11 @@ const Checkout = (props) => {
 
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/ship-retail/get/RTL00000026/SHP0001/')
+        axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
                 // handle success
                 setState(state => ({ ...state, datas: result.data.data }))
-                console.log('jasa kirim  ' + JSON.stringify(result.data.data));
+                console.log('jasa kirim  ' + JSON.stringify(result));
                 // alert(JSON.stringify(result.data));
 
             }).catch(err => {
@@ -259,49 +259,8 @@ const Checkout = (props) => {
                 setState(state => ({ ...state, loading: false }))
             })
     }
-
-    useEffect(() => {
-        AsyncStorage.getItem('shipname').then(response => {
-            // console.log('Profil----------->'+ JSON.stringify(response));
-
-            let data = JSON.parse(response);
-            // const val = JSON.stringify(data);
-
-            console.log('shipname ==>' + JSON.stringify(data));
-
-            setState(state => ({
-                ...state,
-                shp_name: data.shp_name,
-            }))
-            console.log('name shiping --->' + JSON.stringify(state.shp_name));
-            // console.log('Retail mb_name --->' + JSON.stringify(state.mb_name));
-
-        }).catch(err => {
-            console.log('err', err)
-        })
-        
-        getShip()
-
-    }, [])
 
     
-    const getShip = () => {
-        // setState(state => ({...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/shipping/')
-            .then(result => {
-                // handle success
-                let datas = result.data.data;
-                AsyncStorage.setItem('shipname', JSON.stringify(datas))
-                // setState(state => ({ ...state, loading: datas}))
-                console.log('getship  ' + JSON.stringify(datas));
-                // alert(JSON.stringify(result.data));
-
-            }).catch(err => {
-                //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
-                setState(state => ({ ...state, loading: false }))
-            })
-    }
 
 
     return (
@@ -370,6 +329,7 @@ const Checkout = (props) => {
                                 {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} /> */}
                                 <Pressable onPress={() => NavigatorService.navigate('Jasakirim')}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
                                         <SelectDropdown
                                             buttonStyle={styles.dropdown}
                                             buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
@@ -429,12 +389,24 @@ const Checkout = (props) => {
                                 </View>
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtSubPeng}>Subtotal Pengiriman</Text>
-                                    <Text style={styles.txtSubPeng}>Rp 50.000</Text>
+                                    { !!selectedItems && (
+                                        <Text>
+                                            Selected: shp_name = {setSelectedItems(state.shp_name)}
+                                        </Text>
+                                    )}
+                                    <NumberFormat
+                                        value={state.shr_jasa}
+                                        displayType={'text'}
+                                        thousandSeparator={'.'}
+                                        decimalSeparator={','}
+                                        prefix={'Rp. '}
+                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                    />
                                 </View>
-                                <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
+                                {/* <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtBiayaPen}>Biaya Penanganan</Text>
                                     <Text style={styles.txtBiayaPen}>Rp 50.000</Text>
-                                </View>
+                                </View> */}
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtTotPem}>Total Pembayaran</Text>
                                     <Text style={styles.txtTotPem1}>Rp 800.000</Text>
@@ -559,7 +531,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f8f8',
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(110),
+        height: toDp(100),
         bottom: toDp(5),
         shadowColor: "#000",
         shadowOffset: {
@@ -629,7 +601,7 @@ const styles = StyleSheet.create({
         top: toDp(5),
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(145),
+        height: toDp(125),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
