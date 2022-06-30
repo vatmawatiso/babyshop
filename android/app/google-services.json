@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "645952857359",
+    "project_id": "bina-app-354203",
+    "storage_bucket": "bina-app-354203.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645952857359:android:984096966ea87eb8ccca7a",
+        "android_client_info": {
+          "package_name": "com.market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645952857359-378fb2eu6gbg76j1okmb1nsf15d2oueo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcKhmxfo4DIXHX7cvbCZDW4T8U1oXTyxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645952857359-378fb2eu6gbg76j1okmb1nsf15d2oueo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
