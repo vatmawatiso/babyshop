@@ -72,7 +72,6 @@ const Alamattoko = (props) => {
     props.navigation.addListener(
          'didFocus',
          payload => {
- 
              getAlamatClient()
          }
    );

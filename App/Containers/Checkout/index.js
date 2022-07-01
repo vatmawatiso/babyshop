@@ -70,12 +70,14 @@ const Checkout = (props) => {
         id: '',
         shp_id: '',
         shp_name: '',
-        shr_jasa:'',
+        shp_harga: '',
+        shr_jasa: '',
         id_retail: '',
         product_name: '',
         retail: '',
         retail_name: '',
         price: '',
+        totalll:'',
         thumbnail: '',
         alu_stats: false,
         loading: false,
@@ -98,7 +100,7 @@ const Checkout = (props) => {
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
 
-            console.log('Jadikan Produk----------->' + JSON.stringify(data));
+            // console.log('Jadikan Produk----------->' + JSON.stringify(data));
 
             setState(state => ({
                 ...state,
@@ -110,16 +112,18 @@ const Checkout = (props) => {
 
             }))
 
-            console.log('CEK STATE ASYNC STORAGE nama retail ---->' + JSON.stringify(state.retail_name));
-            console.log('CEK STATE ASYNC STORAGE nama produk --->' + JSON.stringify(state.product_name));
+            // console.log('CEK STATE ASYNC STORAGE nama retail ---->' + JSON.stringify(state.retail_name));
+            // console.log('CEK STATE ASYNC STORAGE nama produk --->' + JSON.stringify(state.product_name));
             console.log('CEK STATE ASYNC STORAGE harga ---->' + JSON.stringify(state.price));
-            console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
-            console.log('CEK STATE ASYNC ID RETAIL ---->' + JSON.stringify(state.retail));
+            // console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
+            // console.log('CEK STATE ASYNC ID RETAIL ---->' + JSON.stringify(state.retail));
 
 
         }).catch(err => {
             console.log('err', err)
         })
+
+        totalPro()
     }, [])
 
 
@@ -244,14 +248,39 @@ const Checkout = (props) => {
         }
     }
 
+    const totalPro = () => {
+
+        AsyncStorage.getItem('setProduk').then(response => {
+            let total = JSON.parse(response);
+            // console.log('CEK PRODUK ----------->' + JSON.stringify(total));
+            setState(state => ({
+                ...state,
+                price: total.data[0].price,
+
+            }))
+            console.log('CEK harga produk ---->' + JSON.stringify(state.price));
+            console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
+            let priceProduk = state.price;
+            let priceJasa = state.shp_harga;
+            let jumlah = priceProduk + priceJasa;
+
+            console.log('hasil total '+ JSON.stringify(jumlah))
+            setState(state => ({
+                ...state,
+                totalll: jumlah,
+
+            }))
+            console.log('kuyyy hasil ' + JSON.stringify(state.totalll));
+        })
+    }
+
+
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
         axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
-                // handle success
+                // console.log('jasa kirim  ' + JSON.stringify(result));
                 setState(state => ({ ...state, datas: result.data.data }))
-                console.log('jasa kirim  ' + JSON.stringify(result));
-                // alert(JSON.stringify(result.data));
 
             }).catch(err => {
                 //console.log(err)
@@ -260,7 +289,7 @@ const Checkout = (props) => {
             })
     }
 
-    
+
 
 
     return (
@@ -339,8 +368,16 @@ const Checkout = (props) => {
                                             defaultButtonText={'Pilih Jasa Pengiriman'}
                                             data={state.datas}
                                             onSelect={(selectedItem, index) => {
-                                                console.log(selectedItem.shp_id, index)
-                                                setState(state => ({ ...state, shp_name: selectedItem.shp_id }))
+                                                console.log('cek drop ' + (selectedItem.shp_id, index))
+                                                setState(state => ({
+                                                    ...state,
+                                                    shp_name: selectedItem.shp_id,
+                                                    shr_jasa: selectedItem.shp_id,
+                                                    shp_harga: selectedItem.shr_jasa,
+                                                }))
+                                                console.log('cek state harga ' + (state.shp_harga))
+                                                console.log('cek state id ' + (state.shp_name))
+                                                console.log('cek state nama jasa ' + (state.shr_jasa))
                                             }}
                                             buttonTextAfterSelection={(selectedItem, index) => {
 
@@ -389,13 +426,8 @@ const Checkout = (props) => {
                                 </View>
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtSubPeng}>Subtotal Pengiriman</Text>
-                                    { !!selectedItems && (
-                                        <Text>
-                                            Selected: shp_name = {setSelectedItems(state.shp_name)}
-                                        </Text>
-                                    )}
                                     <NumberFormat
-                                        value={state.shr_jasa}
+                                        value={state.shp_harga}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
@@ -409,7 +441,15 @@ const Checkout = (props) => {
                                 </View> */}
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtTotPem}>Total Pembayaran</Text>
-                                    <Text style={styles.txtTotPem1}>Rp 800.000</Text>
+                                    {/* <Text style={styles.txtTotPem1}>Rp 800.000</Text> */}
+                                    <NumberFormat
+                                        value={state.totalll}
+                                        displayType={'text'}
+                                        thousandSeparator={'.'}
+                                        decimalSeparator={','}
+                                        prefix={'Rp. '}
+                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                    />
                                 </View>
                             </View>
                         </View>

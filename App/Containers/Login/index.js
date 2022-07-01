@@ -60,14 +60,14 @@ const Login = (props) => {
     setState(state => ({ ...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
       .then(result => {
-        console.log('Cek Result----------->'+JSON.stringify(result));   //untuk cek ke json viewer 
-        if (result.data.status == 200) {                      // untuk memfilter dan variable utamanya ada result, 
-                                                              //didalam result itu ada nilai data dan didata ada status yang nilanya 200, jika status = 200 maka eksekusinya :
-          const datas = {                                     // value akan dimasukkan ke dalam API datas
-            id: result.data.data[0].mb_id,                    // untuk mengambil data id kita masuk ke result.data.data[0].mb_id
+        console.log('Cek Result----------->'+JSON.stringify(result));  
+        if (result.data.status == 200) {                    
+                                                              
+          const datas = {                                    
+            id: result.data.data[0].mb_id,                   
             value: result.data.data[0],
             tipe: result.data.data[0].mb_type,
-            retail_id:result.data.rtl_id,                        // untuk mengambil data value kita masuk ke result.data.data.[0]
+            retail_id:result.data.rtl_id,                       
             rtl_status:result.data.rtl_status
           }
           console.log('DATAS'+JSON.stringify(datas));
@@ -78,19 +78,11 @@ const Login = (props) => {
             //save Async Storage
             console.log(JSON.stringify(datas));
 
-            AsyncStorage.setItem('member', JSON.stringify(datas)) // jika ingin masuk ke asyneStorage harus di stringify kemudian harus di parse
+            AsyncStorage.setItem('member', JSON.stringify(datas)) 
  
-            AsyncStorage.setItem('uid', datas.id)
+            AsyncStorage.setItem('uid', datas.id)    
  
-            // NavigatorService.reset('Homepage')
-          
- 
-          } 
-          // if (datas.tipe === 'seller') {
-          //   NavigatorService.reset('Homeseller')
-          // } else if (datas.tipe === 'client') {
-          //   NavigatorService.reset('Homepage')
-          // }
+          }
 
           NavigatorService.reset('Homepage')
           setState(state => ({ ...state, loading: false }))
