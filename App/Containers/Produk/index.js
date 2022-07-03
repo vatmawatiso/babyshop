@@ -6,11 +6,8 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  ImageBackground,
+  TextInput,
   Alert,
-  Button,
-  Modal,
-  StatusBar,
   Pressable,
   ScrollView,
   AsyncStorage
@@ -40,6 +37,7 @@ const Produk = (props) => {
     fotoProduk: [],
     produk: [],
     detail: [],
+    qty: '1',
     thumbnails: '',
     loading: false,
     selected: false,
@@ -242,11 +240,10 @@ const Produk = (props) => {
 
       <View style={styles.detailProduk}>
 
-        <View style={{ width: toDp(335) }}>
+        <View style={{ width: toDp(335), bottom: toDp(15), left: toDp(5) }}>
 
-          <Text style={{ marginBottom: toDp(5), fontSize: 20, fontWeight: 'bold' }}>{item[0]?.product_name}</Text>
+          <Text style={{ marginBottom: toDp(5), fontSize: toDp(15), fontWeight: 'bold' }}>{item[0]?.product_name}</Text>
           <Text style={{ marginBottom: toDp(5) }}>{item[0]?.retail_name}</Text>
-          {/* <Text style={{ marginBottom: toDp(5), color: '#F83308', fontWeight: 'bold' }}>{item[0]?.price}</Text> */}
           <NumberFormat
             value={item[0]?.price}
             displayType={'text'}
@@ -283,6 +280,7 @@ const Produk = (props) => {
                 <Text>Warna</Text>
                 <Text>Kapasitas</Text>
                 <Text>Dikirim dari</Text>
+                <Text>Jumlah</Text>
               </View>
               <View>
                 <Text> : {item[0]?.stock}</Text>
@@ -290,6 +288,13 @@ const Produk = (props) => {
                 <Text> : -</Text>
                 <Text> : -</Text>
                 <Text> : {item[0]?.retailaddres}</Text>
+                <TextInput autoCapitalize={'none'}
+                  style={styles.textInput}
+                  placeholder={'Phone'}
+                  placeholderTextColor={'grey'}
+                  value={state.qty}
+                  onChangeText={(text) => setState(state => ({ ...state, qty: text }))}
+                />
               </View>
             </View>
 
@@ -372,11 +377,11 @@ const Produk = (props) => {
     <View style={styles.container}>
       <Header
         title={'Produk'}
-        onPress={() => alert('dfhfg')}
+        onPress={() => props.navigation.goBack()}
       />
 
-      <ScrollView style={{ backgroundColor: 'white', paddingVertical: toDp(20), bottom: toDp(70) }}>
-        <View style={{ width: '100%', height: toDp(230), backgroundColor: 'white', top: toDp(50) }}>
+      <ScrollView>
+        <View style={{ width: '100%', height: toDp(230), backgroundColor: 'white', top: toDp(0) }}>
           {state.fotoProduk.length > 0 ?
             <Carousel
               layout={"default"}
@@ -407,14 +412,6 @@ const Produk = (props) => {
       </ScrollView>
 
       {renderFooter(state.produk)}
-      {/* <RenderItem
-            item={item}
-            index={index}
-            onPress={() => selectItems(item.id, item.retail, index)}
-            selected={getSelected(item.id, state.id)}
-            unLike={() => deSelectItems(item.id, item.retail, state.id)}
-            onPressProduk={() => selectProduk(item.id)}
-          /> */}
 
     </View>
   )
@@ -460,7 +457,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: toDp(16),
     padding: toDp(10),
-    top: toDp(10)
+    top: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   viewImage: {
     width: '100%',
@@ -502,20 +508,33 @@ const styles = StyleSheet.create({
   detailProduk: {
     padding: toDp(20),
     alignItems: 'center',
-    top: toDp(15),
+    bottom: toDp(10),
+    backgroundColor: '#f8f9f9',
+    height: toDp(400),
+    width: toDp(335),
+    borderRadius: toDp(10),
+    left: toDp(13),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   Ulasan: {
     backgroundColor: '#f8f9f9',
     width: toDp(335),
     height: toDp(47),
-    // left:toDp(50),
     borderRadius: toDp(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: toDp(30),
+    marginTop: toDp(20),
     marginBottom: toDp(70),
-    right: toDp(8),
+    right: toDp(5),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -571,7 +590,16 @@ const styles = StyleSheet.create({
     tintColor: 'black',
     zIndex: 10,
     resizeMode: 'contain'
-  }
+  },
+  textInput: {
+    width: toDp(50),
+    height: toDp(35),
+    backgroundColor: '#F2F3F3',
+    // borderWidth:0.5,
+    marginLeft: toDp(4),
+    paddingHorizontal: toDp(8),
+    borderRadius: toDp(10),
+  },
 
 });
 

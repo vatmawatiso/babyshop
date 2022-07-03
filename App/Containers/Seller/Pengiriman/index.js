@@ -22,13 +22,13 @@ import Selesai from './Selesai'
 
 const Pengiriman = (props) => {
 
-  const [con, setCon] = useState();
+  const [con, setCon] = useState(props.navigation.state.params.content);
 
   return (
     <View style={styles.container}>
       <Order
         title={'Pesanan Saya'}
-        onPress={() => props.navigation.goBack(props.navigation.state.params.content)}
+        onPress={() => props.navigation.goBack()}
       />
       <View style={styles.content}>
         {

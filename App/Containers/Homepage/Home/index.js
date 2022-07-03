@@ -298,11 +298,11 @@ const Home = (props) => {
               {
                 selected == false ?
                   <TouchableOpacity onPress={() => onPress()} key={index}>
-                    <Image source={allLogo.icwishlist} style={{ width: toDp(25), height: toDp(25) }} />
+                    <Image source={allLogo.icwishlist} style={{ width: toDp(20), height: toDp(20) }} />
                   </TouchableOpacity>
                   :
                   <TouchableOpacity onPress={unLike} key={index}>
-                    <Image source={allLogo.heart} style={{ width: toDp(25), height: toDp(24) }} />
+                    <Image source={allLogo.heart} style={{ width: toDp(20), height: toDp(20) }} />
                   </TouchableOpacity>
               }
             </View>

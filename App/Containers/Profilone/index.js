@@ -77,8 +77,8 @@ const Profilone = (props) => {
         picture: data.value.picture,
         id_retail: data.retail_id,
       }))
-      console.log('CEK RETAIL ID ' + JSON.stringify(state.id_retail));
-      console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
+      // console.log('CEK RETAIL ID ' + JSON.stringify(state.id_retail));
+      // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {
       console.log('err', err)
@@ -129,8 +129,7 @@ const Profilone = (props) => {
 const getStatus = () => {
   try {
 
-      if (state.retail_sts === 'Validate') { 
-        alert('Pengajuan retail sudah berhasil di validasi!')              
+      if (state.retail_sts === 'Validate') {             
         NavigatorService.navigate('Homeseller')
 
       } else if (state.retail_sts === 'Rejected') {

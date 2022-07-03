@@ -55,6 +55,9 @@ const Checkout = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
         datas: [],
+        odr_pay_id: 'PYM00001',
+        odr_status: 'menunggu',
+        qty: '1',
         alu_name: '',
         alu_id: '',
         alu_city: '',
@@ -74,10 +77,11 @@ const Checkout = (props) => {
         shr_jasa: '',
         id_retail: '',
         product_name: '',
+        prd_id: '',
         retail: '',
         retail_name: '',
         price: '',
-        totalll:'',
+        totalll: '',
         thumbnail: '',
         alu_stats: false,
         loading: false,
@@ -108,15 +112,19 @@ const Checkout = (props) => {
                 thumbnail: data.data[0].thumbnail,
                 price: data.data[0].price,
                 retail_name: data.data[0].retail_name,
-                retail: data.data[0].retail
+                retail: data.data[0].retail,
+                prd_id: data.data[0].id,
+                berat: data.data[0].berat
 
             }))
 
             // console.log('CEK STATE ASYNC STORAGE nama retail ---->' + JSON.stringify(state.retail_name));
-            // console.log('CEK STATE ASYNC STORAGE nama produk --->' + JSON.stringify(state.product_name));
-            console.log('CEK STATE ASYNC STORAGE harga ---->' + JSON.stringify(state.price));
+            console.log('nama produk --->' + JSON.stringify(state.product_name));
+            console.log('harga produk ---->' + JSON.stringify(state.price));
             // console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
-            // console.log('CEK STATE ASYNC ID RETAIL ---->' + JSON.stringify(state.retail));
+            console.log('ID RETAIL ---->' + JSON.stringify(state.retail));
+            console.log('ID PRODUK ---->' + JSON.stringify(state.prd_id));
+            console.log('BERAT PRODUK ---->' + JSON.stringify(state.berat));
 
 
         }).catch(err => {
@@ -149,6 +157,7 @@ const Checkout = (props) => {
                 mb_type: data.value.mb_type,
                 picture: data.value.picture,
             }))
+            console.log('mb_id ---->' + JSON.stringify(state.mb_id));
 
         }).catch(err => {
             console.log('err', err)
@@ -195,8 +204,9 @@ const Checkout = (props) => {
                             address: oid.data[0]?.adr_address,
                             city: oid.data[0]?.cty_name
                         }
-                        console.log('length--------> ' + JSON.stringify(oid.data[0].adr_id));
+                        // console.log('adr_id--------> ' + JSON.stringify(oid.data[0].adr_id));
                         AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
+                        console.log('async setAlamat ' + JSON.stringify(ALAMAT));
                         setAllu(1)
                         //loatAlamatU()
                     } else {
@@ -219,8 +229,9 @@ const Checkout = (props) => {
         try {
 
             AsyncStorage.getItem('setAlamat').then(response => {
+                console.log('SET alamat ' + JSON.stringify(response));
                 let data = JSON.parse(response);
-                console.log('---data--->' + data);
+                console.log('---data alamat--->' + JSON.stringify(data));
                 setState(state => ({
                     ...state,
                     alu_id: data?.id,
@@ -229,6 +240,7 @@ const Checkout = (props) => {
                     alu_name: data?.name,
                     alu_adress: data?.address,
                 }))
+                console.log('address id ' + JSON.stringify(data?.alu_id));
                 if (data == null) {
                     setState(state => ({
                         ...state,
@@ -248,6 +260,8 @@ const Checkout = (props) => {
         }
     }
 
+    //mencari total harga 
+
     const totalPro = () => {
 
         AsyncStorage.getItem('setProduk').then(response => {
@@ -258,22 +272,28 @@ const Checkout = (props) => {
                 price: total.data[0].price,
 
             }))
-            console.log('CEK harga produk ---->' + JSON.stringify(state.price));
-            console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
+            // console.log('CEK harga produk ---->' + JSON.stringify(state.price));
+            // console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
             let priceProduk = state.price;
             let priceJasa = state.shp_harga;
-            let jumlah = priceProduk + priceJasa;
+            let dor = typeof (priceProduk);
+            let der = typeof (priceJasa);
+            // console.log('tipe data produk ' + JSON.stringify(dor));
+            // console.log('tipe data jasa ' + JSON.stringify(der));
+            let jumlah = Number(priceProduk) + Number(priceJasa);
 
-            console.log('hasil total '+ JSON.stringify(jumlah))
+            // console.log('hasil total ' + JSON.stringify(jumlah))
             setState(state => ({
                 ...state,
                 totalll: jumlah,
 
             }))
-            console.log('kuyyy hasil ' + JSON.stringify(state.totalll));
+            // console.log('kuyyy hasil ' + JSON.stringify(state.totalll));
         })
     }
 
+
+    //get jasa pengiriman
 
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
@@ -290,6 +310,59 @@ const Checkout = (props) => {
     }
 
 
+    //post data order
+
+    const postProduk = async () => {
+        const body = {
+            ord_mb_id: state.mb_id,
+            odr_shp_id: state.shp_name,
+            odr_adr_id: state.alu_id,
+            odr_rtl_id: state.retail,
+            odr_pay_id:state.odr_pay_id,
+            odr_ongkir: state.shp_harga,
+            odr_berattotal: state.berat,
+            odr_status: state.odr_status,
+            prd_id: state.prd_id,
+            prd_name: state.product_name,
+            prc_price: state.price,
+            qty: state.qty,
+        }
+        console.log('BODY' + JSON.stringify(body));
+
+        // setState(state => ({ ...state, loading: true }))
+        axios.post('https://market.pondok-huda.com/dev/react/order/', body)
+            .then(result => {
+                console.log('Cek Result----------->' + JSON.stringify(result));
+                if (result.data.status == 201) {
+
+                    const datas = {
+                        value: result.data.data[0],
+                    }
+                      console.log('DATAS'+JSON.stringify(datas));
+
+                    if (datas.value === 0) {
+                        alert('Tidak ditemukan data order!')
+                    } else {
+                        //save Async Storage
+                        console.log(JSON.stringify(datas));
+
+                        AsyncStorage.setItem('setOrder', JSON.stringify(datas))
+
+                    }
+
+                    setState(state => ({ ...state, loading: false }))
+
+                } else if (result.data.status == 500) {
+                    alert('Internal server error!')
+                    setState(state => ({ ...state, loading: false }))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Gagal menerima data dari server!')
+                setState(state => ({ ...state, loading: false }))
+            })
+    }
 
 
     return (
@@ -329,18 +402,20 @@ const Checkout = (props) => {
                             <Text style={styles.txtTB}>{state.retail_name}</Text>
 
                             <View style={styles.OrderDetail}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top:toDp(5)}}>
                                     <Image source={{ uri: state.thumbnail }} style={{ marginLeft: toDp(10), width: toDp(100), height: toDp(100) }} />
-                                    <Text style={{ top: toDp(20), right: toDp(10), fontSize: toDp(12) }}>{state.product_name}</Text>
                                 </View>
-                                <NumberFormat
-                                    value={state.price}
-                                    displayType={'text'}
-                                    thousandSeparator={'.'}
-                                    decimalSeparator={','}
-                                    prefix={'Rp. '}
-                                    renderText={formattedValue => <Text style={{ bottom: toDp(60), left: toDp(126), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                />
+                                <View style={{ alignSelf:'center', bottom:toDp(80), flexDirection:'column', width:toDp(100)}}>
+                                    <Text style={{fontSize:toDp(12)}}>{state.product_name}</Text>
+                                    <NumberFormat
+                                        value={state.price}
+                                        displayType={'text'}
+                                        thousandSeparator={'.'}
+                                        decimalSeparator={','}
+                                        prefix={'Rp. '}
+                                        renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                    />
+                                </View>
                             </View>
                         </View>
 
@@ -457,11 +532,7 @@ const Checkout = (props) => {
 
                     <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40), }}>
-                            <View style={{ flexDirection: 'column', width: toDp(140), height: toDp(40), backgroundColor: '#2A334B', borderRadius: toDp(10) }}>
-                                <Text style={{ textAlign: 'center', color: 'white', }}>Total Pembayaran</Text>
-                                <Text style={{ textAlign: 'center', color: 'white', }}>{DATA[0].total}</Text>
-                            </View>
-                            <Pressable style={{ backgroundColor: '#2A334B', borderRadius: toDp(10), width: toDp(120), height: toDp(40) }} onPress={() => NavigatorService.navigate('Successorder')}>
+                            <Pressable style={styles.btn} onPress={() => postProduk()}>
                                 <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
@@ -700,6 +771,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
 
     },
+    btn: {
+        backgroundColor: '#2A334B',
+        borderRadius: toDp(10),
+        width: toDp(335),
+        height: toDp(40)
+    }
 });
 
 export default Checkout;
