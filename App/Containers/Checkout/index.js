@@ -56,7 +56,7 @@ const Checkout = (props) => {
     const [state, setState] = useState({
         datas: [],
         odr_pay_id: 'PYM00001',
-        odr_status: 'menunggu',
+        odr_status: 'Dikemas',
         qty: '1',
         alu_name: '',
         alu_id: '',
@@ -229,7 +229,7 @@ const Checkout = (props) => {
         try {
 
             AsyncStorage.getItem('setAlamat').then(response => {
-                console.log('SET alamat ' + JSON.stringify(response));
+                // console.log('SET alamat ' + JSON.stringify(response));
                 let data = JSON.parse(response);
                 console.log('---data alamat--->' + JSON.stringify(data));
                 setState(state => ({
@@ -290,6 +290,18 @@ const Checkout = (props) => {
             }))
             // console.log('kuyyy hasil ' + JSON.stringify(state.totalll));
         })
+        AsyncStorage.getItem('setAlamat').then(response => {
+             let data = JSON.parse(response);
+             console.log('set alamat ' + JSON.stringify(data));
+
+             setState(state => ({
+                ...state,
+                adr_id: data?.id,
+
+            }))
+            console.log('set adr_id ' + JSON.stringify(state.adr_id));
+
+        })
     }
 
 
@@ -314,22 +326,22 @@ const Checkout = (props) => {
 
     const postProduk = async () => {
         const body = {
-            ord_mb_id: state.mb_id,
-            odr_shp_id: state.shp_name,
-            odr_adr_id: state.alu_id,
-            odr_rtl_id: state.retail,
+            ord_mb_id:state.mb_id,
+            odr_shp_id:state.shp_name,
+            odr_adr_id:state.adr_id,
+            odr_rtl_id:state.retail,
             odr_pay_id:state.odr_pay_id,
-            odr_ongkir: state.shp_harga,
-            odr_berattotal: state.berat,
-            odr_status: state.odr_status,
-            prd_id: state.prd_id,
-            prd_name: state.product_name,
-            prc_price: state.price,
-            qty: state.qty,
+            odr_ongkir:state.shp_harga,
+            odr_berattotal:state.berat,
+            odr_status:state.odr_status,
+            prd_id:state.prd_id,
+            prd_name:state.product_name,
+            prc_price:state.price,
+            qty:state.qty,
         }
         console.log('BODY' + JSON.stringify(body));
 
-        // setState(state => ({ ...state, loading: true }))
+        setState(state => ({ ...state, loading: true }))
         axios.post('https://market.pondok-huda.com/dev/react/order/', body)
             .then(result => {
                 console.log('Cek Result----------->' + JSON.stringify(result));
@@ -340,7 +352,7 @@ const Checkout = (props) => {
                     }
                       console.log('DATAS'+JSON.stringify(datas));
 
-                    if (datas.value === 0) {
+                    if (datas.value.length === 0) {
                         alert('Tidak ditemukan data order!')
                     } else {
                         //save Async Storage
@@ -363,6 +375,52 @@ const Checkout = (props) => {
                 setState(state => ({ ...state, loading: false }))
             })
     }
+
+    // const postProduk = async () => {
+    //     const body = {
+    //         ord_mb_id:state.mb_id,
+    //         odr_shp_id:state.shp_name,
+    //         odr_adr_id:state.adr_id,
+    //         odr_rtl_id:state.retail,
+    //         odr_pay_id:state.odr_pay_id,
+    //         odr_ongkir:state.shp_harga,
+    //         odr_berattotal:state.berat,
+    //         odr_status:state.odr_status,
+    //         prd_id:state.prd_id,
+    //         prd_name:state.product_name,
+    //         prc_price:state.price,
+    //         qty:state.qty,
+    //     }
+    //     console.log('CEK BODY ===> ' + JSON.stringify(body));
+
+    //     setState(state => ({ ...state, loading: true }))
+    //     axios.post('https://market.pondok-huda.com/dev/react/order/', body)
+    //         .then(response => {
+
+    //             console.log('CEK URL ===>' + JSON.stringify(response.data.status));
+
+    //             if (response.data.status === 201) {
+    //                 alert('Pengajuan berhasil dikirim!')
+
+    //                 // NavigatorService.navigate('Profilone')
+
+    //                 console.log('CEK Hasil Pengajuan ===>' + JSON.stringify(response.data));
+
+    //                 setState(state => ({ ...state, loading: false }))
+
+    //             } else {
+    //                 alert('Gagal buat pengajuan!')
+    //                 setState(state => ({ ...state, loading: false }))
+
+    //                 console.log('CEK ERROR ===>' + JSON.stringify(response.data));
+    //             }
+
+    //         }).catch(err => {
+    //             // console.log(err)
+    //             alert('Gagal menerima data dari server!' + err)
+    //             setState(state => ({ ...state, loading: false }))
+    //         })
+    // }
 
 
     return (

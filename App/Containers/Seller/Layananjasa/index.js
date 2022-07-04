@@ -180,6 +180,7 @@ const Layananjasa = (props) => {
       ...state,
       isSwitch
     }))
+    
 
     let data = {
       price: input,
@@ -227,6 +228,7 @@ const Layananjasa = (props) => {
                     ...state,
                     swDis
                   }));
+                  console.log('cek switch '+ JSON.stringify(state.swDis));
 
                 } else {
                   let swDis = state;
