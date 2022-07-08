@@ -34,6 +34,7 @@ const Home = (props) => {
     id: '',
     arrayUsers: [],
     arrayData: [],
+    lainnya:'',
     arrayRetail: [],
     dataWish: [],
     loading: false,
@@ -90,9 +91,9 @@ const Home = (props) => {
       .then(result => {
         //console.log('result', result);
         getCurrentWsh()
-        setState(state => ({...state, arrayData: result.data.data}))
+        setState(state => ({...state, arrayData: result.data.data }))
  
-        console.log('result2 =>', result.data.data)
+        // console.log('result2 =>', result.data.data)
       }).catch(error => {
         console.log(error)
       })
@@ -104,7 +105,7 @@ const Home = (props) => {
         .then(result => {
           //console.log('result', result);
           setState(state => ({...state, arrayRetail: result.data.data}))
-          console.log('result2 =>', result.data.data)
+          // console.log('result2 =>', result.data.data)
  
         }).catch(error => {
           console.log(error)
@@ -201,62 +202,6 @@ const Home = (props) => {
       }
     }
 
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-      title: 'Semen',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-      title: 'Gerobak',
-      harga: 'Rp. 500.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://sc04.alicdn.com/kf/Hecf7550c5eda410e83757893019d57a7Z.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d723',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d724',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    }, {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
-      title: 'Semen',
-      harga: 'Rp. 80.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f636',
-      title: 'Batu Bata',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-  ]
-
 
   const renderItemExpore = (item, index) => {
     // console.log('item', item);
@@ -318,8 +263,8 @@ const Home = (props) => {
           <Image source={allLogo.icaddress} style={styles.address} />
           <Text style={styles.dariKota}>{item.retailaddres.substr(0, 12)}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
-          <Text style={styles.bintang}>{DATA[0].bintang}</Text>
-          <Text style={styles.terjual}>{DATA[0].bintang}</Text>
+          <Text style={styles.bintang}>{item.lainnya.rating}</Text>
+          <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
         </ View>
       </Pressable>
     </ View>

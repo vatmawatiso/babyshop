@@ -131,7 +131,7 @@ const Checkout = (props) => {
             console.log('err', err)
         })
 
-        totalPro()
+        // totalPro()
     }, [])
 
 
@@ -184,6 +184,7 @@ const Checkout = (props) => {
             }
         );
         getJasa()
+        totalPro()
 
     }, [stAlu])
 
@@ -260,13 +261,20 @@ const Checkout = (props) => {
         }
     }
 
-    //mencari total harga 
+    //mencari total harga
+
+    // useEffect(() => {
+    //     getJasa()
+    //     totalPro()
+
+
+    // },[])
 
     const totalPro = () => {
 
         AsyncStorage.getItem('setProduk').then(response => {
             let total = JSON.parse(response);
-            // console.log('CEK PRODUK ----------->' + JSON.stringify(total));
+            console.log('CEK PRODUK ----------->' + JSON.stringify(total));
             setState(state => ({
                 ...state,
                 price: total.data[0].price,
@@ -282,7 +290,7 @@ const Checkout = (props) => {
             // console.log('tipe data jasa ' + JSON.stringify(der));
             let jumlah = Number(priceProduk) + Number(priceJasa);
 
-            // console.log('hasil total ' + JSON.stringify(jumlah))
+            console.log('hasil total ' + JSON.stringify(jumlah))
             setState(state => ({
                 ...state,
                 totalll: jumlah,
@@ -291,10 +299,10 @@ const Checkout = (props) => {
             // console.log('kuyyy hasil ' + JSON.stringify(state.totalll));
         })
         AsyncStorage.getItem('setAlamat').then(response => {
-             let data = JSON.parse(response);
-             console.log('set alamat ' + JSON.stringify(data));
+            let data = JSON.parse(response);
+            console.log('set alamat ' + JSON.stringify(data));
 
-             setState(state => ({
+            setState(state => ({
                 ...state,
                 adr_id: data?.id,
 
@@ -326,18 +334,18 @@ const Checkout = (props) => {
 
     const postProduk = async () => {
         const body = {
-            ord_mb_id:state.mb_id,
-            odr_shp_id:state.shp_name,
-            odr_adr_id:state.adr_id,
-            odr_rtl_id:state.retail,
-            odr_pay_id:state.odr_pay_id,
-            odr_ongkir:state.shp_harga,
-            odr_berattotal:state.berat,
-            odr_status:state.odr_status,
-            prd_id:state.prd_id,
-            prd_name:state.product_name,
-            prc_price:state.price,
-            qty:state.qty,
+            odr_mb_id: state.mb_id,
+            odr_shp_id: state.shp_name,
+            odr_adr_id: state.adr_id,
+            odr_rtl_id: state.retail,
+            odr_pay_id: state.odr_pay_id,
+            odr_ongkir: state.shp_harga,
+            odr_berattotal: state.berat,
+            odr_status: state.odr_status,
+            prd_id: state.prd_id,
+            prd_name: state.product_name,
+            prc_price: state.price,
+            qty: state.qty,
         }
         console.log('BODY' + JSON.stringify(body));
 
@@ -348,20 +356,21 @@ const Checkout = (props) => {
                 if (result.data.status == 201) {
 
                     const datas = {
-                        value: result.data.data[0],
+                        value: result.data.data,
                     }
-                      console.log('DATAS'+JSON.stringify(datas));
+                    console.log('DATAS' + JSON.stringify(datas));
 
-                    if (datas.value.length === 0) {
+                    if (datas.value < 0) {
                         alert('Tidak ditemukan data order!')
                     } else {
                         //save Async Storage
-                        console.log(JSON.stringify(datas));
-
+                        console.log('cek async '+ JSON.stringify(datas));
                         AsyncStorage.setItem('setOrder', JSON.stringify(datas))
+                      
 
                     }
 
+                    NavigatorService.navigate('Successorder');
                     setState(state => ({ ...state, loading: false }))
 
                 } else if (result.data.status == 500) {
@@ -378,7 +387,7 @@ const Checkout = (props) => {
 
     // const postProduk = async () => {
     //     const body = {
-    //         ord_mb_id:state.mb_id,
+    //         odr_mb_id:state.mb_id,
     //         odr_shp_id:state.shp_name,
     //         odr_adr_id:state.adr_id,
     //         odr_rtl_id:state.retail,
@@ -397,26 +406,27 @@ const Checkout = (props) => {
     //     axios.post('https://market.pondok-huda.com/dev/react/order/', body)
     //         .then(response => {
 
-    //             console.log('CEK URL ===>' + JSON.stringify(response.data.status));
+    //             console.log('CEK URL ===>' + JSON.stringify(response.status));
 
     //             if (response.data.status === 201) {
-    //                 alert('Pengajuan berhasil dikirim!')
 
-    //                 // NavigatorService.navigate('Profilone')
+    //                 alert('Berhasil order!')
 
-    //                 console.log('CEK Hasil Pengajuan ===>' + JSON.stringify(response.data));
+    //                 NavigatorService.navigate('Successorder')
+
+    //                 console.log('CEK Hasil Order ===>' + JSON.stringify(response.data));
 
     //                 setState(state => ({ ...state, loading: false }))
 
     //             } else {
-    //                 alert('Gagal buat pengajuan!')
+    //                 alert('Gagal order!')
     //                 setState(state => ({ ...state, loading: false }))
 
     //                 console.log('CEK ERROR ===>' + JSON.stringify(response.data));
     //             }
 
     //         }).catch(err => {
-    //             // console.log(err)
+    //             console.log(err)
     //             alert('Gagal menerima data dari server!' + err)
     //             setState(state => ({ ...state, loading: false }))
     //         })
@@ -432,13 +442,13 @@ const Checkout = (props) => {
             <ScrollView>
                 <View style={{ flex: 1 }}>
                     <View>
-                        <View style={{ marginBottom: toDp(40), top: toDp(10) }}>
+                        <View style={styles.viewAlamat}>
                             <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Image source={allLogo.location} style={styles.iclocation} />
                                     <Text style={styles.txtAlamat}>Alamat Pengiriman</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', bottom: toDp(10) }}>
+                                <View style={{ flexDirection: 'row', bottom: toDp(10), }}>
                                     <View style={styles.isiAddress}>
                                         {state.alu_stats == true &&
                                             <>
@@ -460,18 +470,18 @@ const Checkout = (props) => {
                             <Text style={styles.txtTB}>{state.retail_name}</Text>
 
                             <View style={styles.OrderDetail}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top:toDp(5)}}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(5) }}>
                                     <Image source={{ uri: state.thumbnail }} style={{ marginLeft: toDp(10), width: toDp(100), height: toDp(100) }} />
                                 </View>
-                                <View style={{ alignSelf:'center', bottom:toDp(80), flexDirection:'column', width:toDp(100)}}>
-                                    <Text style={{fontSize:toDp(12)}}>{state.product_name}</Text>
+                                <View style={{ alignSelf: 'center', bottom: toDp(80), flexDirection: 'column', width: toDp(200), left: toDp(50) }}>
+                                    <Text style={{ fontSize: toDp(12) }}>{state.product_name}</Text>
                                     <NumberFormat
                                         value={state.price}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
                                         prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        renderText={formattedValue => <Text style={{ bottom: toDp(0), marginTop: toDp(10), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
                                 </View>
                             </View>
@@ -481,7 +491,7 @@ const Checkout = (props) => {
                             <View style={styles.Shipping}>
                                 <Text style={styles.txtOption}>Opsi Pengiriman</Text>
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
-                                <Pressable onPress={() => alert('Coba Ajalah')}>
+                                <Pressable onPress={() => alert('Coming soon')}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Image source={allLogo.icvoucher} style={styles.icvoucher} />
                                         <Text style={styles.voucher}>Klaim Voucher</Text>
@@ -607,6 +617,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // backgroundColor: 'red',
         flex: 1
+    },
+    viewAlamat: {
+        marginBottom: toDp(40),
+        top: toDp(10)
     },
     dropdown: {
         height: toDp(25),

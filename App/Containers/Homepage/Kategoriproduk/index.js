@@ -9,7 +9,8 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
-  FlatList
+  FlatList,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -24,78 +25,27 @@ import NumberFormat from 'react-number-format';
 const { width, height } = Dimensions.get('window')
 
 const Kategoriproduk = () => {
-  useEffect(() => {
-    produk()
 
-    dataCat()
-  }, [])
   const [state, setState] = useState({
     dataProduk: [],
     dataKategori: '',
     loading: false,
-    sChip: ''
+    sChip: '',
+    dataLain:[],
   })
   const [sChip, setChip] = useState(['Dapur', 'Kamar Mandi', 'Atap Rumah', 'Jendela', 'Cat Tembok', 'Peralatan Bangunan', 'Ruang Tamu'])
-  
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-      title: 'Semen',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-      title: 'Batu Bata',
-      harga: 'Rp. 50.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d723',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d724',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    }, {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
-      title: 'Semen',
-      harga: 'Rp. 80.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f636',
-      title: 'Batu Bata',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-  ]
+
+  useEffect(() => {
+
+    produk()
+
+    dataCat()
+  }, [])
 
   const produk = () => {
     Axios.get('https://market.pondok-huda.com/dev/react/product/')
       .then(result => {
+
         console.log('result', result);
         setState(state => ({ ...state, dataProduk: result.data.data }))
         console.log('result2 =>', result.data.data)
@@ -109,7 +59,7 @@ const Kategoriproduk = () => {
     Axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         if (result.data.status == 200) {
-          console.log('result kategori =>', result)
+          // console.log('result kategori =>', result)
           setState(state => ({ ...state, dataKategori: result.data.data }));
           // convert(result.data)
           setState(state => ({ ...state, loading: false }))
@@ -134,7 +84,6 @@ const Kategoriproduk = () => {
   }
 
   const RenderItem = (item, index) => (
-    <Pressable>
       <View style={styles.card}>
         <View style={[styles.txtProduct, { height: toDp(30) }]}>
           <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
@@ -143,21 +92,20 @@ const Kategoriproduk = () => {
             <Image source={allLogo.icwishlist} style={{ width: toDp(25), height: toDp(25) }} />
           </View>
           <NumberFormat
-              value={item.price}
-              displayType={'text'}
-              thousandSeparator={'.'}
-              decimalSeparator={','}
-              prefix={'Rp. '}
-              renderText={formattedValue => <Text style={{color: '#F83308', fontWeight: '800'}}>{formattedValue}</Text>} // <--- Don't forget this!
-            />
+            value={item.price}
+            displayType={'text'}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            prefix={'Rp. '}
+            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+          />
           <Image source={allLogo.icaddress} style={styles.address} />
           <Text style={styles.dariKota}>{item.retailaddres.substr(0, 12)}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
-          <Text style={styles.bintang}>{DATA[0].bintang}</Text>
-          <Text style={styles.terjual}>{DATA[0].terjual}</Text>
+          <Text style={styles.bintang}>{item.lainnya.rating}</Text>
+          <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
         </ View>
       </ View>
-    </Pressable>
   );
 
   const CardProduct = () => {

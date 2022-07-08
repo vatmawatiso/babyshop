@@ -103,30 +103,30 @@ const Settingtoko = (props) => {
       />
 
       <View style={styles.content}>
-        <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+        <View style={styles.viewProfiltoko}>
           <Image source={allLogo.store} style={styles.store} />
-          <Text style={{ padding: toDp(5), bottom: toDp(2), left: toDp(2), fontWeight: 'bold' }}>Profil Toko</Text>
+          <Text style={styles.txtProfiltoko}>Profil Toko</Text>
         </View>
-        <View style={{ marginLeft: toDp(40), bottom: toDp(10) }}>
-          <Pressable style={{ height: toDp(20), width: toDp(90) }} onPress={() => NavigatorService.navigate('Informasitoko')} >
+        <View style={styles.viewInAn}>
+          <Pressable style={styles.btnInfo} onPress={() => NavigatorService.navigate('Informasitoko')} >
             <Text style={styles.txtInfo}>Informasi Toko</Text>
           </Pressable>
-          <Pressable style={{ top: toDp(5), height: toDp(20), width: toDp(80) }} onPress={() => NavigatorService.navigate('Catatantoko')} >
+          <Pressable style={styles.btnCatat} onPress={() => NavigatorService.navigate('Catatantoko')} >
             <Text style={styles.txtCatatan}>Catatan Toko</Text>
           </Pressable>
         </View>
-        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
+        <View style={styles.viewAlpeng} />
 
-        <View style={{ flexDirection: 'row', margin: toDp(10) }}>
+        <View style={styles.viewAlampengiriam}>
           <Image source={allLogo.location} style={styles.icon} />
-          <Text style={{ padding: toDp(5), fontWeight: 'bold', top: toDp(5), right: toDp(13) }}>Alamat dan Pengiriman</Text>
+          <Text style={styles.txtAlamPengiriman}>Alamat dan Pengiriman</Text>
         </View>
-        <View style={{ marginLeft: toDp(40), bottom: toDp(10) }}>
-          <Pressable style={{ height: toDp(20), width: toDp(70) }} onPress={() => NavigatorService.navigate('Alamattoko', { adr_mb_id: state.mb_id })} >
+        <View style={styles.viewInAn}>
+          <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamattoko', { adr_mb_id: state.mb_id })} >
             <Text style={styles.txtAlamat}>Alamat Toko</Text>
           </Pressable>
-          <TouchableOpacity  onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.id_retail })}>
-            <Text style={{top:toDp(1)}}>Layanan Jasa</Text>
+          <TouchableOpacity onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.id_retail })}>
+            <Text style={styles.txtLayananjasa}>Layanan Jasa</Text>
           </TouchableOpacity>
         </View>
 
@@ -140,6 +140,51 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
   },
+  viewInAn: {
+    marginLeft: toDp(40),
+    bottom: toDp(10)
+  },
+  viewProfiltoko: {
+    flexDirection: 'row',
+    margin: toDp(10)
+  },
+  txtProfiltoko: {
+    padding: toDp(5),
+    bottom: toDp(2),
+    left: toDp(2),
+    fontWeight: 'bold'
+  },
+  btnInfo: {
+    height: toDp(20),
+    width: toDp(90)
+  },
+  btnCatat: {
+    top: toDp(5),
+    height: toDp(20),
+    width: toDp(80)
+  },
+  viewAlpeng: {
+    borderWidth: toDp(0.5),
+    borderColor: 'grey'
+  },
+  viewAlampengiriam: {
+    flexDirection: 'row',
+    margin: toDp(10)
+  },
+  txtAlamPengiriman: {
+    padding: toDp(5),
+    fontWeight: 'bold',
+    top: toDp(5),
+    right: toDp(13)
+  },
+  btnAlamat: {
+    height: toDp(20),
+    width: toDp(70)
+  },
+  txtLayananjasa: {
+    top: toDp(1),
+    fontSize: toDp(12),
+  },
   icon: {
     width: toDp(38),
     height: toDp(38),
@@ -149,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     top: toDp(20),
     width: toDp(335),
-    height: toDp(210),
+    height: toDp(190),
     borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -187,10 +232,10 @@ const styles = StyleSheet.create({
     right: toDp(40),
   },
   store: {
-    width: toDp(24), 
-    height: toDp(24), 
+    width: toDp(24),
+    height: toDp(24),
     resizeMode: 'contain',
-    tintColor:'#ea421e'
+    tintColor: '#ea421e'
   },
 });
 

@@ -277,35 +277,27 @@ const Produk = (props) => {
               <View>
                 <Text>Stok</Text>
                 <Text>Beban Kapasitas</Text>
+                <Text>Kondisi</Text>
                 <Text>Warna</Text>
-                <Text>Kapasitas</Text>
                 <Text>Dikirim dari</Text>
-                <Text>Jumlah</Text>
               </View>
               <View>
                 <Text> : {item[0]?.stock}</Text>
                 <Text> : {item[0]?.berat}</Text>
-                <Text> : -</Text>
+                <Text> : {item[0]?.kondisi}</Text>
                 <Text> : -</Text>
                 <Text> : {item[0]?.retailaddres}</Text>
-                <TextInput autoCapitalize={'none'}
-                  style={styles.textInput}
-                  placeholder={'Phone'}
-                  placeholderTextColor={'grey'}
-                  value={state.qty}
-                  onChangeText={(text) => setState(state => ({ ...state, qty: text }))}
-                />
               </View>
             </View>
 
-            <Collapse style={{ top: toDp(15), left: toDp(50) }}>
+            <Collapse style={{ top: toDp(15), left: toDp(50), marginBottom:toDp(10) }}>
               <CollapseHeader>
                 <View style={{ alignItems: 'center', right: toDp(55) }}>
                   <Text style={{ color: 'grey' }}>Lihat Selengkapnya</Text>
                 </View>
               </CollapseHeader>
               <CollapseBody>
-                <View style={{ flexDirection: 'row', top: toDp(10), right: 50 }}>
+                <View style={{ flexDirection: 'row', top: toDp(10), right: toDp(50) }}>
                   <View>
                     <Text>Stok</Text>
                     <Text>Beban Kapasitas</Text>
@@ -510,7 +502,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     bottom: toDp(10),
     backgroundColor: '#f8f9f9',
-    height: toDp(400),
+    height: toDp(470),
     width: toDp(335),
     borderRadius: toDp(10),
     left: toDp(13),

@@ -47,7 +47,7 @@ const Orderpage = (props) => {
           }
         </View>
         
-        <View style={{flex:85}}>
+        <View style={{flex:89}}>
           <View style={styles.body}>
             <Pressable style={[styles.presable]} onPress={() => setCon('Belumbayar')}>
               <Text style={[styles.txtOrder, { color: con === 'Belumbayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>

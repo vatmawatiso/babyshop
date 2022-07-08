@@ -145,7 +145,7 @@ const Homeseller = (props) => {
           />}
       >
         <View style={styles.bodyProfil}>
-          <View style={{flexDirection:'column', marginLeft:toDp(100), bottom:toDp(15)}}>
+          <View style={styles.viewBodyProfil}>
             <View>
               <Image source={state.picture ? { uri: state.picture } :
                 require('../../../Assets/img/tzuyu.jpg')}
@@ -165,14 +165,14 @@ const Homeseller = (props) => {
 
           <View style={styles.viewBtnEdit}>
             <Pressable style={styles.btnProfile} onPress={() => NavigatorService.navigate('Editprofil')}>
-              <View style={{ flexDirection: 'row', }}>
-                <Text style={{ bottom: toDp(2), color: 'white', fontSize:toDp(12) }}>Edit Profil</Text>
+              <View style={styles.viewBtnprofil}>
+                <Text style={styles.txtEditprofil}>Edit Profil</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
               </View>
             </Pressable>
           </View>
 
-          <View style={{flexDirection:'row', marginHorizontal:toDp(20), bottom:toDp(10)}}>
+          <View style={styles.viewpengiriman}>
             <Pressable style={styles.btnPembayaran}>
               <Image source={allLogo.wallet} style={styles.wallet} />
               <Text style={styles.txtPembayaran}>Pembayaran</Text>
@@ -187,91 +187,92 @@ const Homeseller = (props) => {
         </View>
 
 
-        <View style={{ flexDirection: 'row', width: toDp(350), height: toDp(70), top: toDp(15) }}>
+        <View style={styles.viewBtnhomeseller}>
           <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Informasitoko')}>
-            <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(8), borderColor: '#E6E6E6' }}>
-              <Image source={allLogo.store2} style={{ height: toDp(28), width: toDp(28), resizeMode: 'contain' }} />
+            <View style={styles.viewBtntoko}>
+              <Image source={allLogo.store2} style={styles.imgToko} />
             </View>
-            <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Toko Saya</Text>
+            <Text style={styles.textIcon}>Toko Saya</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya')}>
-            <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(8), borderColor: '#E6E6E6' }}>
-              <Image source={allLogo.product} style={{ height: toDp(28), width: toDp(28), resizeMode: 'contain' }} />
+            <View style={styles.viewProduk}>
+              <Image source={allLogo.product} style={styles.imgProduk} />
             </View>
-            <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Produk Saya</Text>
+            <Text style={styles.textIcon}>Produk Saya</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Kategori')}>
-            <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: '#E6E6E6' }}>
-              <Image source={allLogo.kategori} style={{ height: toDp(38), width: toDp(38), resizeMode: 'contain' }} />
+            <View style={styles.viewKategori}>
+              <Image source={allLogo.kategori} style={styles.imgKategori} />
             </View>
-            <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Kategori</Text>
+            <Text style={styles.textIcon}>Kategori</Text>
           </TouchableOpacity>
 
         </View>
 
-        <View style={{ height: toDp(400) }}>
+        <View style={styles.viewBodyHomeseller}>
           <View style={styles.Penjualan}>
-            <Pressable style={{ marginVertical: toDp(5), bottom: toDp(5), height: toDp(30), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Ulasan')}>
+            <Pressable style={styles.btnSkortoko} onPress={() => NavigatorService.navigate('Ulasan')}>
               <View style={styles.BodySaldo}>
                 <Text style={styles.txtSkor}>Skor Toko</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
               </View>
             </Pressable>
-            <Pressable style={{ bottom: toDp(10), height: toDp(30), justifyContent: 'center', marginVertical: toDp(5) }} onPress={() => NavigatorService.navigate('Saldopenjual')} >
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{ marginLeft: toDp(10) }}>Saldo</Text>
+            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual')} >
+              <View style={styles.viewSaldo}>
+                <Text style={styles.txtSaldo}>Saldo</Text>
                 <NumberFormat
                   value={5000000}
                   displayType={'text'}
                   thousandSeparator={'.'}
                   decimalSeparator={','}
                   prefix={'Rp. '}
-                  renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', marginRight: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                  renderText={formattedValue => <Text style={styles.hargaSaldo}>{formattedValue}</Text>} // <--- Don't forget this!
                 />
               </View>
             </Pressable>
-            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
 
-            <Pressable style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(10) }} onPress={() => alert('Coming Soon')}>
+            <View style={styles.garis} />
+
+            <Pressable style={styles.btnPenjualan} onPress={() => alert('Coming Soon')}>
               <Text style={styles.txtPenjualan}>Penjualan</Text>
               <Image source={allLogo.iclineright} style={styles.iclineright1} />
             </Pressable>
-            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+            <View style={styles.garis} />
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <TouchableOpacity style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Belumbayar' })} >
-                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.bag} style={{ bottom: toDp(10), width: toDp(28), height: toDp(28) }} />
-                  <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Pesanan Baru</Text>
+            <View style={styles.viewSet}>
+              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Belumbayar' })} >
+                <View style={styles.viewIcon2}>
+                  <Image source={allLogo.bag} style={styles.imgViewset} />
+                  <Text style={styles.txtIcon1}>Pesanan Baru</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={{ height: toDp(30) }} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Perludikirim' })}>
-                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.siapkirim} style={{ bottom: toDp(10), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
-                  <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Siap dikirim</Text>
+              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Perludikirim' })}>
+                <View style={styles.viewIcon2}>
+                  <Image source={allLogo.siapkirim} style={styles.imgViewset} />
+                  <Text style={styles.txtIcon1}>Siap dikirim</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <Text style={{ margin: toDp(10) }}>Kata Pembeli</Text>
+            <Text style={styles.txtKtpembeli}>Kata Pembeli</Text>
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
 
             <View style={styles.bodyJual}>
-              <TouchableOpacity style={{ width: toDp(335), height: toDp(30), bottom: toDp(5) }} onPress={() => NavigatorService.navigate('Ulasan')} >
-                <View style={{ flexDirection: 'row', margin: toDp(10), top: toDp(10) }}>
-                  <Image source={allLogo.star} style={{ bottom: toDp(20), width: toDp(28), height: toDp(28) }} />
-                  <Text style={{ padding: toDp(5), bottom: toDp(20) }}>ulasan</Text>
+              <TouchableOpacity style={styles.btnUlasan} onPress={() => NavigatorService.navigate('Ulasan')} >
+                <View style={styles.viewIcon1}>
+                  <Image source={allLogo.star} style={styles.imgUlasan} />
+                  <Text style={styles.txtIcon2}>ulasan</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={{ width: toDp(335), height: toDp(30), top: toDp(10) }} onPress={() => alert('Coming Soon')}>
-                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.chat} style={{ bottom: toDp(10), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
-                  <Text style={{ padding: toDp(5), bottom: toDp(10) }}>Diskusi</Text>
+              <TouchableOpacity style={styles.btnDiskusi} onPress={() => alert('Coming Soon')}>
+                <View style={styles.viewIcon2}>
+                  <Image source={allLogo.chat} style={styles.imgDiskusi} />
+                  <Text style={styles.txtIcon1}>Diskusi</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={{ width: toDp(335), height: toDp(35), top: toDp(15) }} onPress={() => alert('Coming Soon')}>
-                <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Image source={allLogo.support} style={{ bottom: toDp(5), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
-                  <Text style={{ padding: toDp(5), bottom: toDp(6) }}>Pesanan Komplain</Text>
+              <TouchableOpacity style={styles.btnKomplain} onPress={() => alert('Coming Soon')}>
+                <View style={styles.viewIcon2}>
+                  <Image source={allLogo.support} style={styles.imgKomplain} />
+                  <Text style={styles.txtKomplain}>Pesanan Komplain</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -279,19 +280,19 @@ const Homeseller = (props) => {
         </View>
       </ScrollView>
 
-      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+      <View style={styles.viewMenu}>
         <View style={styles.footer}>
           <Pressable style={[styles.presable, { backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B' }]} onPress={() => setState(state => ({ ...state, content: 'Homeseller' }))}>
             <Image source={allLogo.ichome} style={styles.ichome} />
-            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom: toDp(5) }}>Beranda</Text>
+            <Text style={styles.txtBtnmenu}>Beranda</Text>
           </Pressable>
           <Pressable style={[styles.presable, { backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('Tambahproduk')} >
             <Image source={allLogo.Plus} style={styles.icplus} />
-            <Text style={{ color: 'white', fontSize: toDp(13), marginHorizontal: toDp(8), bottom: toDp(5) }}>Tambah</Text>
+            <Text style={styles.txtBtnmenu}>Tambah</Text>
           </Pressable>
           <Pressable style={[styles.presable, { backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('DaftarChat')} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
-            <Text style={{ color: 'white', fontSize: toDp(13), right: toDp(3), marginHorizontal: toDp(10), left: toDp(1), bottom: toDp(5) }}>Chat</Text>
+            <Text style={styles.txtBtnchat}>Chat</Text>
           </Pressable>
         </View>
       </View>
@@ -306,6 +307,195 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     flex: 1,
     backgroundColor: 'white'
+  },
+  viewMenu: {
+    position: 'absolute', 
+    bottom: 0, 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    width: '100%'
+  },
+  txtBtnmenu: {
+    color: 'white', 
+    fontSize: toDp(13), 
+    marginHorizontal: toDp(8), 
+    bottom: toDp(5)
+  },
+  txtBtnchat: {
+    color: 'white', 
+    fontSize: toDp(13), 
+    right: toDp(3), 
+    marginHorizontal: toDp(10), 
+    left: toDp(1), 
+    bottom: toDp(5)
+  },
+  viewBodyProfil: {
+    flexDirection: 'column',
+    marginLeft: toDp(100),
+    bottom: toDp(15)
+  },
+  viewBtnprofil: {
+    flexDirection: 'row',
+  },
+  txtEditprofil: {
+    bottom: toDp(2),
+    color: 'white',
+    fontSize: toDp(12)
+  },
+  viewBtnhomeseller: {
+    flexDirection: 'row',
+    width: toDp(350),
+    height: toDp(70),
+    top: toDp(15)
+  },
+  viewBtntoko: {
+    borderWidth: toDp(0.5),
+    borderRadius: toDp(10),
+    padding: toDp(8),
+    borderColor: '#E6E6E6'
+  },
+  imgToko: {
+    height: toDp(28),
+    width: toDp(28),
+    resizeMode: 'contain'
+  },
+  textIcon: {
+    textAlign: 'center',
+    fontSize: toDp(12)
+  },
+  viewProduk: {
+    borderWidth: toDp(0.5),
+    borderRadius: toDp(10),
+    padding: toDp(8),
+    borderColor: '#E6E6E6'
+  },
+  imgProduk: {
+    height: toDp(28),
+    width: toDp(28),
+    resizeMode: 'contain'
+  },
+  viewKategori: {
+    borderWidth: toDp(0.5),
+    borderRadius: toDp(10),
+    padding: toDp(3),
+    borderColor: '#E6E6E6'
+  },
+  imgKategori: {
+    height: toDp(38),
+    width: toDp(38),
+    resizeMode: 'contain'
+  },
+  viewpengiriman: {
+    flexDirection: 'row',
+    marginHorizontal: toDp(20),
+    bottom: toDp(10)
+  },
+  viewBodyHomeseller: {
+    height: toDp(400)
+  },
+  btnSkortoko: {
+    marginVertical: toDp(5),
+    bottom: toDp(5),
+    height: toDp(30),
+    justifyContent: 'center'
+  },
+  btnSaldo: {
+    bottom: toDp(10),
+    height: toDp(30),
+    justifyContent: 'center',
+    marginVertical: toDp(5)
+  },
+  viewSaldo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  txtSaldo: {
+    marginLeft: toDp(10)
+  },
+  hargaSaldo: {
+    color: '#F83308',
+    fontWeight: '800',
+    marginRight: toDp(5)
+  },
+  garis: {
+    borderWidth: toDp(0.5), 
+    borderColor: 'grey', 
+    bottom: toDp(10)
+  },
+  btnPenjualan: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    bottom: toDp(10)
+  },
+  viewSet: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between'
+  },
+  imgViewset: {
+    bottom: toDp(10), 
+    width: toDp(28), 
+    height: toDp(28), 
+    resizeMode: 'contain'
+  },
+  btnPesanan:{
+    height: toDp(30),
+    height: toDp(30)
+  },
+  viewIcon1:{
+    flexDirection: 'row', 
+    margin: toDp(10), 
+    top: toDp(10)
+  },
+  viewIcon2: {
+    flexDirection: 'row', 
+    margin: toDp(10)
+  },
+  txtIcon1: {
+    padding: toDp(5), 
+    bottom: toDp(10)
+  },
+  txtIcon2: {
+    padding: toDp(5),
+    bottom: toDp(20)
+  },
+  txtKtpembeli: {
+    margin: toDp(10)
+  },
+  btnUlasan: {
+    width: toDp(335), 
+    height: toDp(30), 
+    bottom: toDp(5)
+  },
+  imgUlasan: {
+    bottom: toDp(20), 
+    width: toDp(28), 
+    height: toDp(28)
+  },
+  btnDiskusi: {
+    width: toDp(335), 
+    height: toDp(30), 
+    top: toDp(10)
+  },
+  imgDiskusi: {
+    bottom: toDp(10), 
+    width: toDp(28), 
+    height: toDp(28), 
+    resizeMode: 'contain'
+  },
+  btnKomplain: {
+    width: toDp(335), 
+    height: toDp(35), 
+    top: toDp(15)
+  },
+  imgKomplain: {
+    bottom: toDp(5), 
+    width: toDp(28), 
+    height: toDp(28), 
+    resizeMode: 'contain'
+  },
+  txtKomplain: {
+    padding: toDp(5), 
+    bottom: toDp(6)
   },
   iclineright: {
     width: toDp(8),
@@ -348,7 +538,7 @@ const styles = StyleSheet.create({
   txtProfil1: {
     // marginLeft:toDp(25),
     marginTop: toDp(25),
-    left:toDp(50),
+    left: toDp(50),
     fontSize: toDp(13),
     color: 'white'
   },
@@ -377,7 +567,7 @@ const styles = StyleSheet.create({
   },
   btnPengiriman: {
     bottom: toDp(50),
-    marginLeft:toDp(70),
+    marginLeft: toDp(70),
     width: toDp(120),
     height: toDp(25),
   },
@@ -394,8 +584,8 @@ const styles = StyleSheet.create({
   btnProfile: {
     // backgroundColor:'yellow',
     width: toDp(75),
-    left:toDp(175),
-    bottom:toDp(75)
+    left: toDp(175),
+    bottom: toDp(75)
   },
   Body: {
     backgroundColor: '#F9F8F8',

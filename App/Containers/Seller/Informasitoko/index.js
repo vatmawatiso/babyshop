@@ -158,17 +158,17 @@ const Informasitoko = (props) => {
       />
 
       <View>
-        <View style={[styles.Tokosaya, { flexDirection: 'column' }]}>
-        <View style={{ alignItems: 'center', bottom:toDp(10) }}>
+        <View style={styles.Tokosaya}>
+        <View style={styles.viewProfil}>
           <Image source={state.picture ? { uri: state.picture } :
             require('../../../Assets/img/tzuyu.jpg')} style={styles.imgProfil} />
             <Text style={styles.txtToko}>{state.mb_name}</Text>
           </View>
         </View>
-        <View style={{ bottom: toDp(15), left: toDp(20) }}>
-          <View style={{ right: toDp(20) }}>
+        <View style={styles.viewSetting}>
+          <View style={styles.viewSet}>
             <TouchableOpacity style={styles.btnSetting} onPress={() => NavigatorService.navigate('Settingtoko')}>
-              <Text style={{ textAlign: 'center', }}>Pengaturan</Text>
+              <Text style={styles.txtset}>Pengaturan</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -184,6 +184,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
+  viewProfil: {
+    alignItems: 'center', 
+    bottom:toDp(10)
+  },
   imgProfil: {
     height: toDp(50),
     width: toDp(50),
@@ -191,13 +195,24 @@ const styles = StyleSheet.create({
     borderRadius: toDp(25),
     marginBottom:toDp(5)
   },
+  viewSetting: {
+    bottom: toDp(15), 
+    left: toDp(20)
+  },
+  viewSet: {
+    right: toDp(20)
+  },
+  txtset: {
+    textAlign: 'center',
+  },
   Tokosaya: {
     flexDirection: 'row',
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(130),
     borderRadius: toDp(10),
-    top: toDp(20)
+    top: toDp(20),
+    flexDirection: 'column'
   },
   txtToko: {
     top: toDp(15),

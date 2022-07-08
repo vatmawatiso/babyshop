@@ -149,10 +149,6 @@ const Layananjasa = (props) => {
             textInputs: input
           }));
 
-
-
-
-
           console.log('----JASA=====>' + JSON.stringify(state.isSwitch));
         } else if (result.data.status == 404) {
           console.log('404 = ' + rtl_id);
@@ -192,7 +188,7 @@ const Layananjasa = (props) => {
 
     InputpayJasa(data)
 
-    console.log('---->' + JSON.stringify(data));
+    console.log('cekk---->' + JSON.stringify(data));
     //langsung push data terbaru ke server
     //tulis kode disini
 

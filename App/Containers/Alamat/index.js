@@ -152,6 +152,24 @@ const Alamat = (props) => {
       })
   }
 
+  const deleteAlamat = (adr_id) => {
+    // const adr = props.navigation.state.params.adr_id
+    axios.delete('https://market.pondok-huda.com/dev/react/addres/'+adr_id)
+    .then(response => {
+      console.log('Alamat '+ JSON.stringify(response));
+      if(response.data.status === 200 ){
+        console.log(response);
+        alert('Berhasil menghapus alamat')
+        refresh()
+        setState(state => ({...state, datas: response.data.data}))
+      } else if (response.data.status === 500) {
+        alert('gagal')
+        console.log(response)
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
 
   const Address = [
     {
@@ -191,10 +209,13 @@ const Alamat = (props) => {
           </View>
         </View>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.btndelete} onPress={() => deleteAlamat(item.adr_id)}>
+        <Image source={allLogo.delete} style={styles.imgdelete} />
+      </TouchableOpacity>
     </View>
   )
 
-  return (
+  return ( 
     <View style={styles.container}>
       <BackHeader
         title={'Alamat'}
@@ -231,8 +252,19 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
   },
+  imgdelete: {
+    width:toDp(20), 
+    height:toDp(22), 
+    tintColor:'#F83308'
+  },
+  btndelete:{
+    right:toDp(30), 
+    height:toDp(25),
+    alignSelf:'flex-end', 
+    bottom:toDp(10)
+  },
   btnAlamat: {
-    bottom: toDp(610), 
+    bottom: toDp(100), 
     width: toDp(335), 
     left: toDp(12),
     // backgroundColor:'#2A334B'
