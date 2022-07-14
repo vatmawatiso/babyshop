@@ -132,7 +132,7 @@ const TambahAlamat = (props) => {
     axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
       .then(response => {
 
-        //console.log('-----ALAMAT=====>' + JSON.stringify(response.data.status));
+        console.log('response ' + JSON.stringify(response));
         //console.log('-----data=====>' + JSON.stringify(body));
 
         if (response.data.status == 201) {

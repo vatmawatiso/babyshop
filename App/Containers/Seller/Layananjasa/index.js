@@ -123,7 +123,8 @@ const Layananjasa = (props) => {
           let data = result.data.data.map((doc, i) => {
             let isSwitch = '';
             if (doc.shr_status != '') {
-              if (doc.shr_status == 1) {
+              if (doc.shr_status == 1)
+               {
                 isSwitch = true;
               } else {
                 isSwitch = false;
@@ -163,11 +164,11 @@ const Layananjasa = (props) => {
   }
 
   const setSwitchValue = (input, name, i, id) => {
-    let status = 0;
+    let status = 1;
 
     let { isSwitch } = state;
     isSwitch[i] = !state.isSwitch[i];
-    if (isSwitch[i] === false) {
+    if (isSwitch[i] == false) {
       status = 0
     } else {
       status = 1
@@ -249,7 +250,7 @@ const Layananjasa = (props) => {
             trackColor={{ false: 'grey', true: '#6495ED' }}
             ios_backgroundColor='grey'
             //disable jika teks input 0 atau kosong
-            disabled={true}
+            disabled={false}
             onValueChange={(value) => setSwitchValue(state.textInputs[index], item.shp_name, index, item.shp_id)}
             value={
               state.isSwitch[index]

@@ -56,7 +56,7 @@ const Checkout = (props) => {
     const [state, setState] = useState({
         datas: [],
         odr_pay_id: 'PYM00001',
-        odr_status: 'Dikemas',
+        odr_status: 'Belum Dibayar',
         qty: '1',
         alu_name: '',
         alu_id: '',
@@ -360,7 +360,7 @@ const Checkout = (props) => {
                     }
                     console.log('DATAS' + JSON.stringify(datas));
 
-                    if (datas.value < 0) {
+                    if (datas.value == 0) {
                         alert('Tidak ditemukan data order!')
                     } else {
                         //save Async Storage
@@ -406,7 +406,7 @@ const Checkout = (props) => {
     //     axios.post('https://market.pondok-huda.com/dev/react/order/', body)
     //         .then(response => {
 
-    //             console.log('CEK URL ===>' + JSON.stringify(response.status));
+    //             console.log('response (URL) ===>' + JSON.stringify(response));
 
     //             if (response.data.status === 201) {
 

@@ -6,7 +6,7 @@ import {
   Image,
   ActivityIndicator,
   Alert,
-  ImageBackground,
+
   Pressable,
   TouchableOpacity,
   AsyncStorage,
@@ -44,7 +44,6 @@ const Profilone = (props) => {
     alu_desk: '',
     rtl_id:'',
     rtl_status: '',
-    retail_id:'',
     retail_sts:[],
     alu_stats: false,
     loading: false,
@@ -368,9 +367,9 @@ const getStatus = () => {
               </TouchableOpacity>
             </View>
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
-
+            {/*Bagian Update*/}
             <View style={{ flexDirection: 'row', margin: toDp(10), justifyContent: 'center' }}>
-              <TouchableOpacity style={{ right: toDp(20) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
+              <TouchableOpacity style={{ right: toDp(20) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id  })}>
                 <Image source={allLogo.bayar} style={{ width: toDp(38), height: toDp(38), left: toDp(18) }} />
                 <Text style={{ fontSize: toDp(13), }}>Belum Bayar</Text>
               </TouchableOpacity>

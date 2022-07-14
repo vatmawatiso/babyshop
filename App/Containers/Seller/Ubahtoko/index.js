@@ -135,7 +135,7 @@ const Ubahtoko = (props) => {
     axios.get('https://market.pondok-huda.com/dev/react/retail/' + state.id_retail)
       .then(result => {
 
-        // console.log('CEK RETAIL UBAH TOKO====> ' + JSON.stringify(result));
+        console.log('CEK RETAIL UBAH TOKO====> ' + JSON.stringify(result));
 
         if (result.data.status == 200) {
           const the_data = result.data.data.map(doc => {

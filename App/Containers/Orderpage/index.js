@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar,
   ImageBackground,
-  Pressable
+  Pressable,Dimensions
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -19,11 +19,14 @@ import Dikemas from './Dikemas'
 import Dikirim from './Dikirim'
 import Dibatalkan from "./Dibatalkan";
 import Selesai from './Selesai'
+const width= Dimensions.get('window').width;
+const height= Dimensions.get('window').height;
 
 const Orderpage = (props) => {
 
   const [con, setCon] = useState(props.navigation.state.params.content);
-
+  const [mb_id, setMb] = useState(props.navigation.state.params.mb_id);
+  
   return (
     <View style={styles.container}>
       <Order
@@ -32,25 +35,11 @@ const Orderpage = (props) => {
       />
 
       <View style={{alignItems:'center'}}>
-        <View style={styles.content}>
-          {
-            con == 'Belumbayar' ?
-              <Belumbayar />
-              : con == 'Dikemas' ?
-                <Dikemas />
-                : con == 'Dikirim' ?
-                  <Dikirim />
-                  : con == 'Selesai' ?
-                    <Selesai />
-                    :
-                    <Dibatalkan />
-          }
-        </View>
-        
-        <View style={{flex:89}}>
+        <View style={{top:toDp(20)}}>
+        {/*Bagian Update*/}
           <View style={styles.body}>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Belumbayar')}>
-              <Text style={[styles.txtOrder, { color: con === 'Belumbayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
+              <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>
             </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
               <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Dikemas</Text>
@@ -69,7 +58,23 @@ const Orderpage = (props) => {
             <View style={{borderWidth:toDp(0.5), width:toDp(335), borderColor:'grey', bottom:toDp(8), alignItems:'center', justifyContent:'center'}} />
           </View>
         </View>
-      
+        
+        {/*Bagian Update*/}
+        <View style={styles.content}>
+          {
+            con == 'Belum Dibayar' ?
+              <Belumbayar mbid={mb_id} con={con}/>
+              : con == 'Dikemas' ?
+                <Dikemas mbid={mb_id} con={con}/>
+                : con == 'Dikirim' ?
+                  <Dikirim mbid={mb_id} con={con}/>
+                  : con == 'Selesai' ?
+                    <Selesai mbid={mb_id} con={con}/>
+                    :
+                    <Dibatalkan mbid={mb_id} con={con}/>
+          }
+        </View>
+
       </View>
 
     </View>
@@ -98,8 +103,9 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   content: {
-    flex: 1,
-    width: '100%'
+
+    width: '100%',
+    height:height
   },
   body: {
     backgroundColor: 'white',

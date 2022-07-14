@@ -68,7 +68,7 @@ const Produk = (props) => {
     Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
 
-        console.log('PRODUK =====>', response.data);
+        console.log('PRODUK =====>', response);
 
         if (response.data.status == 200) {
           // //save Async Storage
