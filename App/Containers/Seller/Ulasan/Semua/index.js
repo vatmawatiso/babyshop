@@ -34,7 +34,7 @@ const Semua = (props) => {
       produk: 'Gerobak Pasir',
       rating: '5',
       deskripsi: 'Gerobak pasir warna hijau',
-      image: 'https://www.glistagen.com/988-home_default/gerobak-pasir-gerobak-sorong-double-thunders.jpg'
+      image: 'https://png.pngtree.com/png-clipart/20220502/ourlarge/pngtree-wheelbarrow-3d-modelling-png-image_4561593.png'
     },
   ]
 
@@ -139,10 +139,15 @@ imgProduk: {
   height: toDp(80),
   width: toDp(80),
   left:toDp(53),
-  bottom:toDp(10)
+  bottom:toDp(10),
 },
 txtDeskripsi: {
   left:toDp(53)
+},
+icuser: {
+  tintColor:'black',
+  width:toDp(35),
+  height:toDp(35)
 }
 
 });

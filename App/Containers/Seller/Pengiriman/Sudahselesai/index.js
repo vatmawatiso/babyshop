@@ -13,7 +13,7 @@ import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 import NumberFormat from 'react-number-format';
 
-const Selesai = () => {
+const Sudahselesai = () => {
     const DATA = [
         {
             id: '2938492',
@@ -143,4 +143,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Selesai;
+export default Sudahselesai;

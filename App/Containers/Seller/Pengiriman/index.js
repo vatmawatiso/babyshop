@@ -6,7 +6,8 @@ import {
   Image,
   StatusBar,
   ImageBackground,
-  Pressable
+  Pressable,
+  Dimensions
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -14,15 +15,18 @@ import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 import Order from '@Order'
 
-import Belumbayar from './Belumbayar'
-import Perludikirim from './Perludikirim'
-import Dikirim from './Dikirim'
-import Dibatalkan from "./Dibatalkan";
-import Selesai from './Selesai'
+import Sudahdibayar from './Sudahdibayar'
+import Diproses from './Diproses'
+import Sedangdikirim from './Sedangdikirim'
+import Diterima from "./Diterima";
+import Sudahselesai from './Sudahselesai'
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const Pengiriman = (props) => {
 
   const [con, setCon] = useState(props.navigation.state.params.content);
+  const [retail_id, setRetail] = useState(props.navigation.state.params.retail_id);
 
   return (
     <View style={styles.container}>
@@ -30,40 +34,44 @@ const Pengiriman = (props) => {
         title={'Pesanan Saya'}
         onPress={() => props.navigation.goBack()}
       />
-      <View style={styles.content}>
-        {
-          con == 'Belumbayar' ?
-            <Belumbayar />
-            : con == 'Perludikirim' ?
-              <Perludikirim />
-              : con == 'Dikirim' ?
-                <Dikirim />
-                : con == 'Selesai' ?
-                  <Selesai />
-                  :
-                  <Dibatalkan />
-        }
-      </View>
-      <View style={{ flex: 85 }}>
-        <View style={styles.body}>
-          <Pressable style={[styles.presable]} onPress={() => setCon('Belumbayar')}>
-            <Text style={[styles.txtOrder, { color: con === 'Belumbayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>
-          </Pressable>
-          <Pressable style={[styles.presable]} onPress={() => setCon('Perludikirim')}>
-            <Text style={[styles.txtOrder, { color: con === 'Perludikirim' ? '#6495ED' : 'black', left:toDp(2) }]}>Perlu Dikirim</Text>
-          </Pressable>
-          <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
-            <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left:toDp(5) }]}>Dikirim</Text>
-          </Pressable>
-          <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
-            <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left:toDp(6) }]}>Selesai</Text>
-          </Pressable>
-          <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
-            <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left:toDp(7) }]}>Dibatalkan</Text>
-          </Pressable>
+      <View style={{alignItems:'center'}}>
+        <View style={{ top:toDp(20) }}>
+          <View style={styles.body}> 
+            <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
+              <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black' }]}>Sudah Dibayar</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
+              <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black', left: toDp(2) }]}>Diproses</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
+              <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Sedang Dikirim</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
+              <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
+              <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(7) }]}>Selesai</Text>
+            </Pressable>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <View style={{ borderWidth: toDp(0.5), width: toDp(335), borderColor: 'grey', bottom: toDp(8), alignItems: 'center', justifyContent: 'center' }} />
+          </View>
         </View>
-        <View style={{ alignItems: 'center' }}>
-          <View style={{borderWidth:toDp(0.5), width:toDp(335), borderColor:'grey', bottom:toDp(8), alignItems:'center', justifyContent:'center'}} />
+
+          {/*Bagian Update*/}
+          <View style={styles.content}>
+          {
+            con == 'Belum Dibayar' ?
+              <Sudahdibayar retail_id={retail_id} con={con}/>
+              : con == 'Dikemas' ?
+                <Diproses retail_id={retail_id} con={con}/>
+                : con == 'Dikirim' ?
+                  <Sedangdikirim retail_id={retail_id} con={con}/>
+                  : con == 'Dibatalkan' ?
+                    <Diterima retail_id={retail_id} con={con}/>
+                    :
+                    <Sudahselesai retail_id={retail_id} con={con}/>
+          }
         </View>
       </View>
 
@@ -100,14 +108,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     marginTop: toDp(10),
-    right:toDp(3),
-    alignItems: 'center'
+    right: toDp(3),
+    alignItems: 'center', 
   },
   presable: {
     flex: 0,
     justifyContent: 'space-between',
     margin: toDp(7),
-    height:toDp(19)
+    height: toDp(19),
+    marginHorizontal:toDp(6)
   },
   icon: {
     width: toDp(31),
@@ -121,9 +130,9 @@ const styles = StyleSheet.create({
     marginTop: toDp(80),
     marginLeft: toDp(16)
   },
-  txtOrder:{
-    bottom:toDp(5),
-    marginHorizontal:toDp(-4)
+  txtOrder: {
+    bottom: toDp(5),
+    marginHorizontal: toDp(-4)
   }
 });
 

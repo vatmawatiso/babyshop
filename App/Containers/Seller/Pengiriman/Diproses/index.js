@@ -14,7 +14,7 @@ import NavigatorService from '@NavigatorService'
 import { toDp } from '@percentageToDP';
 import NumberFormat from 'react-number-format';
 
-const Perludikirim = () => {
+const Diproses = () => {
   const DATA = [
     {
       id: '2938492',
@@ -141,4 +141,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Perludikirim;
+export default Diproses;

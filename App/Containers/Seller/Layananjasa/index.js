@@ -219,20 +219,19 @@ const Layananjasa = (props) => {
 
                 //Tolong di fix
                 if ((state.textInputs[index] === 0) || (state.textInputs[index] === '')) {
-                  let swDis = state;
-                  swDis[index] = true;
+                  let isSwitch = state;
+                  isSwitch[index] = false;
                   setState(state => ({
                     ...state,
-                    swDis
+                    isSwitch
                   }));
-                  console.log('cek switch '+ JSON.stringify(state.swDis));
 
                 } else {
-                  let swDis = state;
-                  swDis[index] = !state.swDis[index];
+                  let isSwitch = state;
+                  isSwitch[index] = true;
                   setState(state => ({
                     ...state,
-                    swDis
+                    isSwitch
                   }));
                 }
 

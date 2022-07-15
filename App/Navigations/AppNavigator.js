@@ -45,6 +45,11 @@ import Ubahtoko from '../Containers/Seller/Ubahtoko'
 import Catatantoko from '../Containers/Seller/Catatantoko'
 import Tambahcatatan from '../Containers/Seller/Tambahcatatan'
 import Pengiriman from '../Containers/Seller/Pengiriman'
+import Sudahdibayar from '../Containers/Seller/Pengiriman/Sudahdibayar'
+import Diproses from '../Containers/Seller/Pengiriman/Diproses'
+import Sedangdikirim from '../Containers/Seller/Pengiriman/Sedangdikirim'
+import Diterima from '../Containers/Seller/Pengiriman/Diterima'
+import Sudahselesai from '../Containers/Seller/Pengiriman/Sudahselesai'
 import Tambahproduk from '../Containers/Seller/Tambahproduk'
 import Homeseller from '../Containers/Seller/Homeseller'
 import Kategori from '../Containers/Seller/Kategori'
@@ -107,6 +112,11 @@ const AppNavigator = createStackNavigator(
     Catatantoko: { screen: Catatantoko },
     Tambahcatatan: { screen: Tambahcatatan },
     Pengiriman: { screen: Pengiriman },
+    Sudahdibayar: { screen: Sudahdibayar },
+    Diproses: { screen: Diproses },
+    Sedangdikirim: { screen: Sedangdikirim },
+    Diterima: { screen: Diterima },
+    Sudahselesai: { screen: Sudahselesai },
     Tambahproduk: { screen: Tambahproduk },
     Homeseller: { screen: Homeseller },
     Kategori: { screen: Kategori },

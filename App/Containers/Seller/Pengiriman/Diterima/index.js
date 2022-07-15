@@ -13,19 +13,19 @@ import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 import NumberFormat from 'react-number-format';
 
-const Dibatalkan = () => {
+const Diterima = () => {
     const DATA = [
         {
             id: '2938492',
             tb: 'Jaya Abadi Bandung',
-            diproses: 'Dibatalkan',
+            diproses: 'Diterima',
             produk: 'Gerobak Pasir',
             harga: 'Rp 500.000',
             jumlah: '2',
             total: 'Rp 800.0000',
             bataswaktu: '13 Januari 2022',
             metodePembayaran: 'Bank Mandiri',
-            konfirmasi: 'Dibatalkan Pembeli',
+            konfirmasi: 'Diterima Pembeli',
             image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
         },
     ]
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Dibatalkan;
+export default Diterima;

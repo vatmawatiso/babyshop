@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   AsyncStorage,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  Dimensions
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -19,10 +20,10 @@ import MenuToko from '@MenuToko'
 import Logout from '@Logout'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
-import { createIconSetFromFontello } from "react-native-vector-icons";
-import Axios from "axios";
-import { getActiveChildNavigationOptions } from "react-navigation";
+import axios from "axios";
 import NumberFormat from 'react-number-format';
+
+const { width, height } = Dimensions.get('window')
 
 const Homeseller = (props) => {
   const [src, setSrc] = useState(null);
@@ -34,6 +35,8 @@ const Homeseller = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
+    id_retail:'',
+    // rtl_id:'',
     modalVisible: false,
     option: {
       width: 750,
@@ -49,7 +52,7 @@ const Homeseller = (props) => {
       let data = JSON.parse(response);
       //const val = JSON.stringify(data);
 
-      //console.log('Profilseller ------->'+ JSON.stringify(response));
+      // console.log('Homeseller ==> '+ JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -58,9 +61,21 @@ const Homeseller = (props) => {
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
-        picture: data.value.picture
+        picture: data.value.picture,
+        retail_id: data.retail_id,
       }))
+       console.log('RTL ID '+ JSON.stringify(state.retail_id));
 
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids
+      }))
     }).catch(err => {
       console.log('err', err)
     })
@@ -240,7 +255,7 @@ const Homeseller = (props) => {
             <View style={styles.garis} />
 
             <View style={styles.viewSet}>
-              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Belumbayar' })} >
+              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Sudahdibayar', retail_id: state.retail_id })} >
                 <View style={styles.viewIcon2}>
                   <Image source={allLogo.bag} style={styles.imgViewset} />
                   <Text style={styles.txtIcon1}>Pesanan Baru</Text>

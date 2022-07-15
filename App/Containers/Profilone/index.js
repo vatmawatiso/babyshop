@@ -76,7 +76,7 @@ const Profilone = (props) => {
         picture: data.value.picture,
         id_retail: data.retail_id,
       }))
-      // console.log('CEK RETAIL ID ' + JSON.stringify(state.id_retail));
+      console.log('MB ID ' + JSON.stringify(state.mb_id));
       // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {
@@ -112,7 +112,7 @@ const Profilone = (props) => {
       let idm = uids;
     Axios.get('https://market.pondok-huda.com/dev/react/retail/?mb_id='+ idm)
       .then(result => {
-        console.log('cek result ===> '+ JSON.stringify(result));
+        // console.log('cek result ===> '+ JSON.stringify(result));
           setState(state => ({ ...state, retail_sts : result.data.data[0].rtl_status })) 
 
       }).catch(err => {
@@ -283,6 +283,7 @@ const getStatus = () => {
          retail_id: data.value.rtl_id,
          rtl_status: data.value.rtl_status
        }))
+           
  
      }).catch(err => {
        console.log('err', err)
