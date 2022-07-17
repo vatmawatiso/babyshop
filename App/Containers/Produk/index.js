@@ -38,8 +38,11 @@ const Produk = (props) => {
     produk: [],
     detail: [],
     qty: '1',
+    stock: '',
+    stoks: '',
     thumbnails: '',
     loading: false,
+    loading: true,
     selected: false,
   })
 
@@ -68,7 +71,7 @@ const Produk = (props) => {
     Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
 
-        console.log('PRODUK =====>', response);
+        console.log('PRODUK =====>' + JSON.stringify(response));
 
         if (response.data.status == 200) {
           // //save Async Storage
@@ -76,7 +79,7 @@ const Produk = (props) => {
 
           AsyncStorage.setItem('setProduk', JSON.stringify(response.data))
 
-          // NavigatorService.navigate('Checkout');
+          // NavigatorService.navigate('Checkout');s
 
           console.log('HASIL DETAIL PRODUK ==> : ', response.data)
           setState(state => ({ ...state, loading: false }))
@@ -95,7 +98,8 @@ const Produk = (props) => {
           } else {
 
           }
-          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail }))
+          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail, stock: response.data.data[0]?.stock }))
+          console.log('stock', state.stoks)
         } else {
           console.log('response 2 =>', response)
         }
@@ -182,26 +186,53 @@ const Produk = (props) => {
   }
 
   // put produk to cart
-  const putCart = (retail, berat) => {
+  const putCart = (retail, berat, id, product_name, price) => {
     const body = {
       crt_mb_id: state.id,
       crt_rtl_id: retail,
       crt_ongkir: berat,
-      crt_berattotal: berat
+      crt_berattotal: berat,
+      prd_id: id,
+      prd_name: product_name,
+      prc_price: price,
+      crd_qty: state.qty
     }
+    console.log('body put cart =>' + JSON.stringify(body))
+    setState(state => ({ ...state, loading: true }))
+
+    let stok1 = parseInt(state.stock);
+    console.log('stokk ', stok1)
+    let crdQ = parseInt(state.qty);
+    console.log('crddd ', crdQ)
+    if (crdQ > stok1) {
+      alert('Melampaui stok!')
+      setState(state => ({ ...state, loading: false}))
+    }else{     
+
     Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
       .then(response => {
         if (response.data.status == 201) {
-          console.log('response =>', response)
+          // console.log('response =>' + JSON.stringify(response))
           alert('Berhasil Memasukan Barang Ke Keranjang')
+          setState(state => ({ ...state, loading: false }))
           NavigatorService.navigate('Keranjang', { id: state.id })
-        } else {
+
+        } else if (response.data.status == 200) {
+          console.log('body', body)
+          alert('Berhasil Memasukan Barang Ke Keranjang')
+          setState(state => ({ ...state, loading: false }))
+
+        }else {
           console.log('response =>', response)
           alert('Gagal Menambahkan Barang Ke Keranjang')
+          setState(state => ({ ...state, loading: false }))
         }
       }).catch(error => {
         console.log('error =>', error)
+        setState(state => ({ ...state, loading: false }))
       })
+    }
+
   }
 
 
@@ -290,7 +321,7 @@ const Produk = (props) => {
               </View>
             </View>
 
-            <Collapse style={{ top: toDp(15), left: toDp(50), marginBottom:toDp(10) }}>
+            <Collapse style={{ top: toDp(15), left: toDp(50), marginBottom: toDp(10) }}>
               <CollapseHeader>
                 <View style={{ alignItems: 'center', right: toDp(55) }}>
                   <Text style={{ color: 'grey' }}>Lihat Selengkapnya</Text>
@@ -304,6 +335,7 @@ const Produk = (props) => {
                     <Text>Warna</Text>
                     <Text>Kapasitas</Text>
                     <Text>Dikirim dari</Text>
+                    <Text>Jumlah</Text>
                   </View>
                   <View>
                     <Text> : {item[0]?.stock}</Text>
@@ -311,6 +343,15 @@ const Produk = (props) => {
                     <Text> : -</Text>
                     <Text> : -</Text>
                     <Text> : {item[0]?.retailaddres}</Text>
+                    <TextInput
+                      keyboardType="numeric"
+                      autoCapitalize={'none'}
+                      style={styles.textInput}
+                      placeholder={'Jumlah'}
+                      placeholderTextColor={'grey'}
+                      value={state.qty}
+                      onChangeText={(qty) => setState(state => ({ ...state, qty }))}
+                    />
                   </View>
                 </View>
               </CollapseBody>
@@ -352,7 +393,7 @@ const Produk = (props) => {
           <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
             <Image source={allLogo.Chat1} style={styles.icchat} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat)}>
+          <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat, item[0].id, item[0].product_name, item[0].price)}>
             <Image source={allLogo.cart} style={styles.cart} />
           </TouchableOpacity>
 

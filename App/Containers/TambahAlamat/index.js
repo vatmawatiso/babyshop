@@ -32,6 +32,7 @@ const TambahAlamat = (props) => {
     adr_mb_id: '',
     adr_address: '',
     adr_cty_id: '',
+    adr_name: '',
   })
 
   useEffect(() => {
@@ -122,9 +123,10 @@ const TambahAlamat = (props) => {
   const InputAlamat = async (adr_mb_id) => {
     const body = {
       adr_mb_id: state.adr_mb_id,
+      adr_name: state.adr_name,
       adr_address: state.adr_address,
       adr_cty_id: state.adr_cty_id,
-      adr_hp: state.mb_phone
+      adr_hp: state.adr_hp
     }
     // console.log('Body Alamat====> '+ JSON.stringify(body));
 
@@ -132,7 +134,7 @@ const TambahAlamat = (props) => {
     axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
       .then(response => {
 
-        console.log('response ' + JSON.stringify(response));
+        console.log('Post alamat ' + JSON.stringify(response));
         //console.log('-----data=====>' + JSON.stringify(body));
 
         if (response.data.status == 201) {
@@ -179,7 +181,7 @@ const TambahAlamat = (props) => {
                       placeholder={'Nama'}
                       placeholderTextColor={'grey'}
                       // value={state.username}
-                      onChangeText={(text) => setState(state => ({...state, adr_mb_name: text })) }
+                      onChangeText={(text) => setState(state => ({...state, adr_name: text })) }
                   />
                   <TextInput
                       right={toDp(9)}
@@ -193,7 +195,7 @@ const TambahAlamat = (props) => {
                       placeholder={'Nomer HP'}
                       placeholderTextColor={'grey'}
                       // value={state.username}
-                      onChangeText={(text) => setState(state => ({...state, mb_phone: text })) }
+                      onChangeText={(text) => setState(state => ({...state, adr_hp: text })) }
                   />
               </SafeAreaView>
           </View>

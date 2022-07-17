@@ -49,6 +49,41 @@ const Belumbayar = (props) => {
     })
 
     useEffect(() => {
+        AsyncStorage.getItem('member').then(response => {
+            // console.log('Profil----------->'+ JSON.stringify(response));
+      
+            let data = JSON.parse(response);
+            // const val = JSON.stringify(data);
+      
+            // console.log('Profilefiks----------->' + JSON.stringify(data));
+      
+            setState(state => ({
+              ...state,
+              mb_id: data.mb_id,
+              mb_name: data.value.mb_name,
+              mb_email: data.value.mb_email,
+              mb_phone: data.value.mb_phone,
+              mb_type: data.value.mb_type,
+              picture: data.value.picture,
+              id_retail: data.retail_id,
+            }))
+            console.log('MB ID ' + JSON.stringify(state.mb_id));
+            // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
+      
+          }).catch(err => {
+            console.log('err', err)
+          })
+      
+          AsyncStorage.getItem('uid').then(uids => {
+            let ids = uids;
+            setState(state => ({
+              ...state,
+              mb_id: ids
+            }))
+          }).catch(err => {
+            console.log('err', err)
+          })
+      
         //*Bagian Update
         getOrder()
     }, [])
@@ -60,6 +95,15 @@ const Belumbayar = (props) => {
         axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {
                 //hendle success
+                if (content == 'Dikemas') {
+                    NavigatorService.navigate('Dikemas')
+                }else if (content == 'Dikirim') {
+                    NavigatorService.navigate('Dikirim')
+                }else if (content == 'Selesai'){
+                    NavigatorService.navigate('Selesai')
+                }else if (content == 'Dibatalkan'){
+                    NavigatorService.navigate('Dibatalkan')
+                }
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
                 //
@@ -84,7 +128,7 @@ const Belumbayar = (props) => {
                     <View style={{ marginTop: toDp(20) }}>
                         <View style={styles.information}>
                             <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                            <Text style={{ color: '#6495ED' }}>{DATA[0].diproses}</Text>
+                            <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
                         </View>
                         <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
 

@@ -1,4 +1,4 @@
-package com.market;
+package com.binaappgmjgloben;
 
 import com.facebook.react.ReactActivity;
 

@@ -19,7 +19,7 @@ import Sudahdibayar from './Sudahdibayar'
 import Diproses from './Diproses'
 import Sedangdikirim from './Sedangdikirim'
 import Diterima from "./Diterima";
-import Sudahselesai from './Sudahselesai'
+import Sudahdibatalkan from './Sudahdibatalkan'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -37,20 +37,20 @@ const Pengiriman = (props) => {
       <View style={{alignItems:'center'}}>
         <View style={{ top:toDp(20) }}>
           <View style={styles.body}> 
-            <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
-              <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black' }]}>Sudah Dibayar</Text>
-            </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black', left: toDp(2) }]}>Diproses</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Terima Pesanan</Text>
             </Pressable>
+            {/* <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
+              <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black', left: toDp(2) }]}>Diproses</Text>
+            </Pressable> */}
             <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
               <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Sedang Dikirim</Text>
             </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
-            </Pressable>
             <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
-              <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(7) }]}>Selesai</Text>
+              <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
+            </Pressable>
+            <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
+              <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left: toDp(7) }]}>Dibatalkan</Text>
             </Pressable>
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -61,16 +61,16 @@ const Pengiriman = (props) => {
           {/*Bagian Update*/}
           <View style={styles.content}>
           {
-            con == 'Belum Dibayar' ?
+              con == 'Dikemas' ?
               <Sudahdibayar retail_id={retail_id} con={con}/>
-              : con == 'Dikemas' ?
-                <Diproses retail_id={retail_id} con={con}/>
+              // : con == 'Belum Dibayar' ?
+              //   <Diproses retail_id={retail_id} con={con}/>
                 : con == 'Dikirim' ?
                   <Sedangdikirim retail_id={retail_id} con={con}/>
-                  : con == 'Dibatalkan' ?
+                  : con == 'Selesai' ?
                     <Diterima retail_id={retail_id} con={con}/>
                     :
-                    <Sudahselesai retail_id={retail_id} con={con}/>
+                    <Sudahdibatalkan retail_id={retail_id} con={con}/>
           }
         </View>
       </View>

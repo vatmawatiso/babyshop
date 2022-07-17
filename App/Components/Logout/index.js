@@ -64,10 +64,10 @@ class Logout extends Component {
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(145) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onFilter}>
+                {/* <TouchableOpacity style={styles.touchHeader} onPress={this.props.onFilter}>
                   <Image source={allLogo.exit} style={styles.cart} />
                   <Text style={{left: toDp(100), fontSize: toDp(10)}}>Keluar</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 {/* <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.icnav} style={styles.nav} />
                 </TouchableOpacity> */}

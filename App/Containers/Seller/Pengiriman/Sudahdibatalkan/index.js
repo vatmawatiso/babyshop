@@ -7,20 +7,19 @@ import {
     TextInput,
     Alert,
     Pressable,
-    FlatList,
     AsyncStorage,
-    TouchableOpacity, Dimensions
+    Dimensions,
+    FlatList
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
-import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Dikirim = (props) => {
+const Sudahdibatalkan = (props) => {
 
     const DATA = [
         {
@@ -28,9 +27,9 @@ const Dikirim = (props) => {
             tb: 'Jaya Abadi Bandung',
             diproses: 'Belum Bayar',
             produk: 'Gerobak Pasir',
-            harga: '500000',
+            harga: 'Rp 500.000',
             jumlah: '2',
-            total: '800000',
+            total: 'Rp 800.0000',
             bataswaktu: '13 Januari 2022',
             metodePembayaran: 'Bank Mandiri',
             konfirmasi: 'Dibatalkan Pembeli',
@@ -43,7 +42,7 @@ const Dikirim = (props) => {
         order: '',
         information: '',
         item: '',
-        mb_id: '',
+        rtl_id: '',
         odr_id: '',
 
     })
@@ -54,10 +53,11 @@ const Dikirim = (props) => {
     }, [])
 
     const getOrder = () => {
-        let mb = props.mbid;
+        let rtl = props.retail_id;
         let content = props.con;
-
-        axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+        console.log('cek rtl id ' + (rtl));
+        console.log('cek content ' + (content));
+        axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
             .then(result => {
                 //hendle success
                 console.log('full ===> ' + JSON.stringify(result.data.data));
@@ -73,7 +73,6 @@ const Dikirim = (props) => {
                 setState(state => ({ ...state, loading: false }))
             })
     }
-
 
     return (
         <View style={styles.container}>
@@ -122,8 +121,8 @@ const Dikirim = (props) => {
                                 </Pressable>
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
 
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5), bottom: toDp(5) }}>
-                                    <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text>
+                                <View style={{ alignItems:'flex-end', margin: toDp(5), bottom: toDp(5) }}>
+                                    {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
                                     <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
                                         <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
                                     </Pressable>
@@ -203,4 +202,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Dikirim;
+export default Sudahdibatalkan;

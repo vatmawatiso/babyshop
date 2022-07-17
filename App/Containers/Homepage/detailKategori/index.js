@@ -135,7 +135,7 @@ const detailKategori = (props) => {
 
   const CardProduct = () =>{
     return(
-      <FlatList style={{ minHeight:toDp(400), width:width, marginTop:toDp(60), marginBottom:toDp(45)}}
+      <FlatList style={{ minHeight:toDp(400), width:width, marginTop:toDp(20), marginBottom:toDp(45)}}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -222,7 +222,7 @@ card: {
   marginVertical: toDp(5),
   marginHorizontal: toDp(16),
   borderRadius:toDp(10),
-  height: toDp(280),
+  height: toDp(300),
   right: toDp(2),
   shadowColor: "#000",
   shadowOffset: {

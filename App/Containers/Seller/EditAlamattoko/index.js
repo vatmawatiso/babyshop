@@ -213,6 +213,7 @@ const EditAlamattoko = (props) => {
             top={toDp(4)}
             width={toDp(335)}
             height={toDp(40)}
+            marginHorizontal={toDp(10)}
             borderRadius={toDp(15)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
@@ -226,6 +227,7 @@ const EditAlamattoko = (props) => {
             top={toDp(6)}
             width={toDp(335)}
             height={toDp(40)}
+            marginHorizontal={toDp(10)}
             borderRadius={toDp(15)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
@@ -406,7 +408,7 @@ const styles = StyleSheet.create({
     bottom: toDp(5)
   },
   textInput: {
-    borderWidth: toDp(0.5),
+    borderWidth: toDp(0.5)
   }
 });
 

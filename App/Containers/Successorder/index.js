@@ -10,6 +10,7 @@ import {
   Pressable,
   ScrollView,
   Dimensions,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -36,6 +37,46 @@ const Successorder = (props) => {
           cropping: true
         }
     })
+
+    useEffect(() => {
+
+      AsyncStorage.getItem('member').then(response => {
+        // console.log('Profil----------->'+ JSON.stringify(response));
+  
+        let data = JSON.parse(response);
+        // const val = JSON.stringify(data);
+  
+        // console.log('Profilefiks----------->' + JSON.stringify(data));
+  
+        setState(state => ({
+          ...state,
+          mb_id: data.mb_id,
+          mb_name: data.value.mb_name,
+          mb_email: data.value.mb_email,
+          mb_phone: data.value.mb_phone,
+          mb_type: data.value.mb_type,
+          picture: data.value.picture,
+          id_retail: data.retail_id,
+        }))
+        console.log('MB ID ' + JSON.stringify(state.mb_id));
+        // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
+  
+      }).catch(err => {
+        console.log('err', err)
+      })
+  
+      AsyncStorage.getItem('uid').then(uids => {
+        let ids = uids;
+        setState(state => ({
+          ...state,
+          mb_id: ids
+        }))
+      }).catch(err => {
+        console.log('err', err)
+      })
+
+    
+    }, [])
 
     const camera = () => {
         ImagePicker.openCamera(state.options).then(response => {
@@ -67,13 +108,13 @@ const Successorder = (props) => {
          /> 
 
         <View style={styles.content}>
-            <Text style={styles.txtKonfirm}>Kamu berhasil membayar {Pembayaran[0].Konfirmasibayar}</Text>
+            <Text style={styles.txtKonfirm}>Kamu berhasil membayar</Text>
             <Text style={styles.txtKet}>silahkan cek untuk mengetahui status pesananmu</Text>
                 <View style={{flexDirection:'row'}}>
                     <Pressable style={styles.btnBeranda} onPress={()=> NavigatorService.navigate('Homepage', {content:'Home'})}>
                         <Text style={styles.txtBtn}>Beranda</Text>
                     </Pressable>
-                    <Pressable style={styles.btnBeranda} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Belumbayar'})}>
+                    <Pressable style={styles.btnBeranda} onPress={()=> NavigatorService.navigate('Orderpage', {content:'Belum Dibayar', mb_id: state.mb_id})}>
                         <Text style={styles.txtBtn}>Pesanan Saya</Text>
                     </Pressable>
                 </View>

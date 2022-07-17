@@ -41,81 +41,27 @@ const Homepage = () => {
 
   const [text, setText] = useState('');
   const [src, setSrc]=useState(null);
+  useEffect(() => {
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({...state, id: ids}))
+      console.log('id', state.id)
+    }).catch(error => {
+      console.log('error', error)
+    })
 
-  // useEffect(() => {
-
-  //   AsyncStorage.getItem('member').then(response => {
-  //     // console.log('Profil----------->'+ JSON.stringify(response));
-
-  //     let data = JSON.parse(response);
-  //     // const val = JSON.stringify(data);
-
-  //     console.log('Profilefiks----------->' + JSON.stringify(data));
-
-  //     setState(state => ({
-  //       ...state,
-  //       mb_id: data.mb_id,
-  //       mb_name: data.value.mb_name,
-  //       mb_email: data.value.mb_email,
-  //       mb_phone: data.value.mb_phone,
-  //       mb_type: data.value.mb_type,
-  //       picture: data.value.picture,
-  //       retail_id: data.value.rtl_id,
-  //       rtl_status: data.value.rtl_status
-  //     }))
-  //     console.log('cek state  ===> ', data.mb_id)
-
-
-  //   }).catch(err => {
-  //     console.log('err', err)
-  //   })
-
-  //   AsyncStorage.getItem('uid').then(uids => {
-  //     let ids = uids;
-  //     setState(state => ({
-  //       ...state,
-  //       mb_id: ids
-  //     }))
-  //   }).catch(err => {
-  //     console.log('err', err)
-  //   })
-
-  //   getStatus()
-
-  // }, [])
-
-
-  //  //get status
-  //  const getStatus = () => {
-  //   AsyncStorage.getItem('member').then(response => {
-  //     let idmb = response;
-  //     console.log('Let rtl_id ===> ', idmb)
-
-  //     axios.get('https://market.pondok-huda.com/dev/react/retail/?rtl_id=' + idmb)
-  //       .then(result => {
-  //         console.log('STATUS RETAIL ---->' + JSON.stringify(result));
-
-  //         if (result.data.status == 200) {
-  //           setState(state => ({ ...state, datas: result.data.data }))
-  //           console.log('result ===> ', result.data.data)
-  //         }
-  
-  //       }).catch(error => {
-  //         console.log(error)
-  //       })
-
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  // }
-
+  }, [])
+ 
   return (
     <View style={styles.container}>
-      <Search onChangeText={(text)=> setSrc(text)} />
-        <Image source={allLogo.iccart} style={styles.cart} />
-        <Image source={allLogo.icwishlist} style={styles.nav} />
+      <Search onChangeText={(text)=> setSrc(text)}
+       onChart={() => NavigatorService.navigate('Keranjang', {id: state.id})}
+       onWish={() => NavigatorService.navigate('Wishlist')}
+       />
       
-
+      <Image source={allLogo.iccart} style={styles.cart} />
+        <Image source={allLogo.icnav} style={styles.nav} />
       <View style={styles.content}>
         {
           state.content == 'home' ?
@@ -134,7 +80,7 @@ const Homepage = () => {
           <Image source={allLogo.iccategory} style={styles.icon} />
           <Text style={{color:'white', fontSize:toDp(11)}}>Kategori</Text>
         </Pressable>
-        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Notification')}>
+        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('underConstruction')}>
           <Image source={allLogo.icnotification} style={styles.icon} />
           <Text style={{color:'white', fontSize:toDp(11)}}>Notifikasi</Text>
         </Pressable>
@@ -161,7 +107,7 @@ const styles = StyleSheet.create({
     height: toDp(35),
     width: toDp(250),
     backgroundColor: '#2A334B',
-    borderRadius: toDp(10),
+    borderRadius: toDp(25),
     shadowColor: "#000",
     shadowOffset: {
     	width: 0,
@@ -180,16 +126,16 @@ const styles = StyleSheet.create({
   },
   cart: {
     padding: toDp(1),
-    bottom: toDp(45),
+    top: toDp(-45),
     left: toDp(260) 
   },
   nav: {
     padding: toDp(1),
-    bottom: toDp(66),
+    top: toDp(-66),
     left: toDp(290) 
   },
   content: {
-    flex: 1
+    flex: 1,
   },
   footer: {
     width: toDp(340),
@@ -197,13 +143,13 @@ const styles = StyleSheet.create({
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',
-    borderRadius: toDp(10)
+    borderRadius: toDp(25)
   },
   presable: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: toDp(10), 
+    borderRadius: toDp(20), 
   },
   icon: {
     width: toDp(28),
@@ -211,6 +157,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     tintColor: 'white'
   }
+
 
 });
 

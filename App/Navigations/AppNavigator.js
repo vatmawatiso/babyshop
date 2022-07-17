@@ -11,6 +11,7 @@ import Editprofil from '../Containers/Editprofil'
 import Chat from '../Containers/Chat'
 import Wishlist from '../Containers/Wishlist'
 import Kategoriproduk from '../Containers/Homepage/Kategoriproduk'
+import detailKategori from "../Containers/Homepage/detailKategori";
 import Notification from '../Containers/Homepage/Notification'
 import Jasakirim from '../Containers/Jasakirim'
 import Orderpage from '../Containers/Orderpage'
@@ -47,9 +48,9 @@ import Tambahcatatan from '../Containers/Seller/Tambahcatatan'
 import Pengiriman from '../Containers/Seller/Pengiriman'
 import Sudahdibayar from '../Containers/Seller/Pengiriman/Sudahdibayar'
 import Diproses from '../Containers/Seller/Pengiriman/Diproses'
-import Sedangdikirim from '../Containers/Seller/Pengiriman/Sedangdikirim'
 import Diterima from '../Containers/Seller/Pengiriman/Diterima'
-import Sudahselesai from '../Containers/Seller/Pengiriman/Sudahselesai'
+import Sedangdikirim from "../Containers/Seller/Pengiriman/Sedangdikirim";
+import Detailorderan from "../Containers/Seller/Pengiriman/Detailorderan";
 import Tambahproduk from '../Containers/Seller/Tambahproduk'
 import Homeseller from '../Containers/Seller/Homeseller'
 import Kategori from '../Containers/Seller/Kategori'
@@ -64,6 +65,9 @@ import Profilseller from '../Containers/Seller/Profilseller'
 import Donasi from '../Containers/Seller/Donasi'
 import DaftarChat from '../Containers/Seller/DaftarChat'
 import Pengajuan from '../Containers/Seller/Pengajuan'
+import underConstruction from '../Containers/underConstruction';
+import emptyCart from "../Containers/emptyCart";
+import Sudahdibatalkan from "../Containers/Seller/Pengiriman/Sudahdibatalkan";
 
 
 const AppNavigator = createStackNavigator(
@@ -114,9 +118,7 @@ const AppNavigator = createStackNavigator(
     Pengiriman: { screen: Pengiriman },
     Sudahdibayar: { screen: Sudahdibayar },
     Diproses: { screen: Diproses },
-    Sedangdikirim: { screen: Sedangdikirim },
     Diterima: { screen: Diterima },
-    Sudahselesai: { screen: Sudahselesai },
     Tambahproduk: { screen: Tambahproduk },
     Homeseller: { screen: Homeseller },
     Kategori: { screen: Kategori },
@@ -131,6 +133,13 @@ const AppNavigator = createStackNavigator(
     Donasi: { screen: Donasi },
     DaftarChat: { screen: DaftarChat },
     Pengajuan: { screen: Pengajuan },
+    underConstruction: { screen: underConstruction},
+    Sudahdibatalkan: { screen: Sudahdibatalkan},
+    detailKategori: { screen: detailKategori},
+    Sedangdikirim: { screen: Sedangdikirim},
+    Detailorderan: { screen: Detailorderan},
+    emptyCart: { screen: emptyCart},
+    
     
   },
   {

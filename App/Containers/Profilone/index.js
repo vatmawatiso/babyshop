@@ -21,6 +21,8 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import Axios from "axios";
+import { LoginManager } from "react-native-fbsdk";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const { width, height } = Dimensions.get('window')
 
@@ -45,6 +47,7 @@ const Profilone = (props) => {
     rtl_id:'',
     rtl_status: '',
     retail_sts:[],
+    login: '',
     alu_stats: false,
     loading: false,
     modalVisible: false,
@@ -57,6 +60,12 @@ const Profilone = (props) => {
 
 
   useEffect(() => {
+    AsyncStorage.getItem('login').then(response => {
+      console.log('login :', response)
+      setState(state => ({...state, login: response}))
+    }).catch(error => {
+      console.log('error :', error)
+    })
 
     AsyncStorage.getItem('member').then(response => {
       // console.log('Profil----------->'+ JSON.stringify(response));
@@ -240,6 +249,53 @@ const getStatus = () => {
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("Edit Profil");
 
+  const logoutGoogle = async () => {
+    try{
+      Alert.alert(
+        "Konfirmasi",
+        "Apakah Anda Yakin Akan Keluar ?",
+        [
+          {
+            text: "Batal",
+            onPress: ()=> console.log('Cancel Pressed'),
+            style: "cancel"
+          },
+          {
+            text: "Keluar",
+            onPress: () => {
+            AsyncStorage.clear()
+            GoogleSignin.signOut();
+            NavigatorService.reset('Login')
+            }
+          }
+        ]
+      )
+    } catch (error) {
+      console.error('Logout ',error);
+    }
+  }
+  
+  const logoutWithFacebook = () => {
+    Alert.alert (
+      "Konfirmasi",
+      "Apakah Anda Yakin Akan Keluar ?",
+      [
+        {
+          text: "Batal",
+          onPress: ()=> console.log('Cancel Pressed'),
+          style: "cancel"
+        },
+        {
+          text: "Keluar", onPress: () => {
+          AsyncStorage.clear()
+          LoginManager.logOut();
+          NavigatorService.reset('Login')
+          }
+        }
+      ]
+    )
+  };
+
   const logout = () => {
     Alert.alert(
       "Konfirmasi",
@@ -301,6 +357,8 @@ const getStatus = () => {
         title={'Profil'}
         onPress={() => props.navigation.goBack()}
         onFilter={() => logout()}
+        onGoogle={() => logoutGoogle()}
+        onFacebook={() => logoutWithFacebook()}
       />
       <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
         refreshControl={
@@ -329,13 +387,13 @@ const getStatus = () => {
           </View>
 
           <View style={{flexDirection:'row'}}>
-            <Pressable style={styles.presable}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={allLogo.wallet} style={styles.icwallet} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pembayaran</Text>
               </View>
             </Pressable>
-            <Pressable style={[styles.presable, {right:toDp(15)}]}>
+            <Pressable style={[styles.presable, {right:toDp(15)}]} onPress={() => NavigatorService.navigate('underConstruction')}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={allLogo.store} style={styles.icstore} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pengiriman</Text>
@@ -353,14 +411,14 @@ const getStatus = () => {
 
           <View style={styles.bodyProfil}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <TouchableOpacity style={{ height: toDp(40), top: toDp(5), left: toDp(5) }} >
+              <Pressable style={{ height: toDp(40), top: toDp(5), left: toDp(5) }} >
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
                   <Image source={allLogo.bag} style={styles.icorders} />
                   <Text style={styles.txtPesanan}>Pesanan Saya</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
 
-              <TouchableOpacity style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belumbayar' })}>
+              <TouchableOpacity style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai', mb_id: state.mb_id })}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
                   <Text style={styles.txtRiwayat}>Lihat Riwayat Pesanan</Text>
                   <Image source={allLogo.iclineright} style={styles.iclineright1} />
@@ -385,7 +443,7 @@ const getStatus = () => {
                 <Text style={{ fontSize: toDp(13) }}>Dikirim</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai' })}>
+              <TouchableOpacity style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai', mb_id: state.mb_id })}>
                 <Image source={allLogo.like} style={styles.icon} />
                 <Text style={{ fontSize: toDp(13) }}>Beri Nilai</Text>
               </TouchableOpacity>
@@ -427,10 +485,36 @@ const getStatus = () => {
             color="#FFFFFF"
           />
         </View>
+
+        <View>
+        <View style={{alignItems: 'center', width: '100%', height:150,}}>
+        {
+          state.login === 'google' ?
+            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutGoogle()}>
+              <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Google</Text>
+            </TouchableOpacity>
+          : state.login === 'facebook' ?
+            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutWithFacebook()}>
+              <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Facebook</Text>
+            </TouchableOpacity>
+          :
+          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logout()}>
+            <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
+          </TouchableOpacity>
+        }
+        
       </View>
+        </View>
+
+
+      </View>
+
+      
 
 
       </ScrollView>
+
+     
 
     </View>
   )

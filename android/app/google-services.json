@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1052179751583",
+    "project_id": "bina-app-c2186",
+    "storage_bucket": "bina-app-c2186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052179751583:android:e37f3146db52a137b8f8aa",
+        "android_client_info": {
+          "package_name": "com.binaappgmjgloben"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052179751583-gdk2ej0h361m19lh2lkbq247e27i8msa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.binaappgmjgloben",
+            "certificate_hash": "76791650b53fa315bacb0149fc7a0649863547b7"
+          }
+        },
+        {
+          "client_id": "1052179751583-3p83i6eiiq8hiinddq6o13egn9b25ias.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT79fEDmZdBBLRDGxjREJn8mwD8AKLZ8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052179751583-3p83i6eiiq8hiinddq6o13egn9b25ias.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

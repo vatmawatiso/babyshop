@@ -107,6 +107,7 @@ const allLogo = {
   heart: require('./img/heart.jpeg'),
   bahan: require('./img/bahan.jpg'),
   delete: require('./img/delete.png'),
+  udc: require('./img/udc.png'),
 
 
 

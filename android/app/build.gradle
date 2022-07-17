@@ -126,7 +126,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.market"
+        applicationId "com.binaappgmjgloben"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -183,6 +183,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     compile project(':react-native-vector-icons')
+    implementation project(':react-native-fbsdk')
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-svg')
 

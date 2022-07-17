@@ -57,11 +57,37 @@ const Sudahdibayar = (props) => {
         let content = props.con;
         console.log('cek rtl id ' + (rtl));
         console.log('cek content ' + (content));
-        axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
+        axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' + rtl + '/' + content)
             .then(result => {
                 //hendle success
+
+                // let simpan = result.data.data;
+
+
+                if (content == 'Dikirim') {
+                    NavigatorService.navigate('Sedangdikirim')
+                } else if (content == 'Selesai') {
+                    NavigatorService.navigate('Selesai')
+                } else if (content == 'Dibatalkan') {
+                    NavigatorService.navigate('Dibatalkan')
+                }
+
+
+                // setState(state => ({ ...state, loading: false }))
+
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
+                console.log('cek ===> ' + JSON.stringify(state.datas));
+                let dataorder = state.datas;
+
+                if (dataorder == 'null') {
+                    alert('Gagal simpan async storage!')
+                  } else {
+                    AsyncStorage.setItem('setOrderdetail', JSON.stringify(state.datas))
+
+                    console.log('HASIL DETAIL ORDER ==> : ', state.datas)
+                  }
+
                 //
                 // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
                 // console.log('data order ===> ' + JSON.stringify(result.data.order));
@@ -74,6 +100,15 @@ const Sudahdibayar = (props) => {
             })
     }
 
+    
+  const selectProduk = () => {
+    let rtl = props.retail_id;
+    let content = props.con;
+    NavigatorService.navigate('Detailorderan', { rtl, content })
+    console.log('cekcok ', (rtl));
+    console.log('cekcokcok ', (content));
+  }
+
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
@@ -83,15 +118,15 @@ const Sudahdibayar = (props) => {
                     <View style={{ marginTop: toDp(20) }}>
                         <View style={styles.information}>
                             <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                            <Text style={{ color: '#6495ED' }}>{DATA[0].diproses}</Text>
+                            <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
                         </View>
                         <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
 
                         <View style={{ alignItems: 'center', top: toDp(10) }}>
                             <View style={styles.OrderDetail}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
-                                    <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width:toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                    <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} />
+                                    <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
                                     {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
                                 </View>
                                 <NumberFormat
@@ -104,7 +139,7 @@ const Sudahdibayar = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => selectProduk()}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat
@@ -121,7 +156,7 @@ const Sudahdibayar = (props) => {
                                 </Pressable>
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
 
-                                <View style={{ alignItems:'flex-end', margin: toDp(5), bottom: toDp(5) }}>
+                                <View style={{ alignItems: 'flex-end', margin: toDp(5), bottom: toDp(5) }}>
                                     {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
                                     <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
                                         <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>

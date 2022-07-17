@@ -55,8 +55,10 @@ const Kategori = (props) => {
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
-        picture: data.value.pictures
+        picture: data.value.pictures,
+        retail_id: data.retail_id,
       }))
+      console.log('RTL ID '+ JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)

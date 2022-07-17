@@ -168,8 +168,8 @@ const Ubahtoko = (props) => {
             rtl_id: the_data[0]?.rtl_id
           }))
           // alert('CEK Profil Seller =>'+ JSON.stringify(the_data))
-              // console.log('CEK Retail Seller =>'+ JSON.stringify(state.cty_id))
-              // console.log('CEK Retail Seller =>'+ JSON.stringify(state.cty_id))
+              console.log('rtl name =>'+ JSON.stringify(state.rtl_name))
+              console.log('cty name =>'+ JSON.stringify(state.rtl_city))
 
 
         } else if (result.data.status == 500) {
@@ -186,14 +186,12 @@ const Ubahtoko = (props) => {
 
   const inputUbahtoko = async () => {
     const body = {
-      rtl_mb_id: state.mb_id,
-      rtl_id: state.rtl_id,
       rtl_name: state.rtl_name,
-      mb_name: state.mb_name,
+      rtl_mb_id: state.mb_id,
       rtl_phone: state.rtl_phone,
-      rtl_status: state.rtl_status,
       rtl_addres: state.rtl_addres,
-      rtl_city: state.tmp_cty_id,
+      rtl_city: state.rtl_city,
+      rtl_status: state.rtl_status,
       rtl_long: state.rtl_long,
       rtl_lat: state.rtl_lat,
     }
@@ -240,7 +238,7 @@ const Ubahtoko = (props) => {
 
       <View style={styles.profilToko}>
         <ScrollView>
-          <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
+          <Image source={allLogo.icuser} style={styles.imgProfil} />
           <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
             <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
             <Text style={{ fontSize: toDp(11) }}>Besar file maks. 2MB dengan format .JPG, JPEG atau PNG.</Text>
@@ -299,6 +297,7 @@ const Ubahtoko = (props) => {
                 // setState(state => ({ ...state, rtl_city: selectedItem.cty_id })) 
                 console.log(selectedItem.cty_name+selectedItem.cty_id)
                 setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
+                console.log(state.tmp_cty_id);
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
 
@@ -354,7 +353,8 @@ const styles = StyleSheet.create({
     width: toDp(50),
     top: toDp(20),
     left: toDp(15),
-    borderRadius: toDp(25)
+    borderRadius: toDp(25),
+    tintColor:'black'
   },
   profilToko: {
     backgroundColor: '#F9F8F8',

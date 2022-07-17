@@ -196,9 +196,9 @@ const Register = (props) => {
         </View>
 
 
-        <Pressable style={{ left: toDp(260), bottom: toDp(20) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+        {/* <Pressable style={{ left: toDp(260), bottom: toDp(20) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
           <Text style={styles.textForgot}>Lupa Kata Sandi</Text>
-        </Pressable>
+        </Pressable> */}
 
         <View style={styles.viewRow}>
           <Pressable

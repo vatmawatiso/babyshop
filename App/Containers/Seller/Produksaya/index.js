@@ -10,7 +10,8 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -32,15 +33,49 @@ const Produksaya = (props) => {
   })
 
   useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+
+      let data = JSON.parse(response);
+      //const val = JSON.stringify(data);
+
+      // console.log('Homeseller ==> '+ JSON.stringify(data));
+
+      setState(state => ({
+        ...state,
+        id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture,
+        retail_id: data.retail_id,
+      }))
+       console.log('RTL ID '+ JSON.stringify(state.retail_id));
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
+
     Produkbangunan()
   }, [])
 
   const Produkbangunan = () => {
-    axios.get('https://market.pondok-huda.com/dev/react/product/')
+    axios.get('https://market.pondok-huda.com/dev/react/product/retail/'+ state.retail_id)
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))
-        console.log('Produk Bangunan ===> ' + JSON.stringify(result.data.data));
+        console.log('Produk ===> ' + JSON.stringify(result.data.data));
 
       }).catch(err => {
         alert('Gagal menerima data dari server!' + err)
@@ -105,16 +140,24 @@ const Produksaya = (props) => {
     },
   ]
 
+  const displayName = (product_name) =>{
+    let count = '';
+    let nama  = '';
+    count = product_name.split(' ' || '-');
+    nama  = count.slice(0, 2).join(' ');
+    return nama
+}
+
   const renderItem = (item, index) => (
     <Pressable onPress={()=> alert('Produk : '+index)}>
       <View style={styles.card}>
           <View style={styles.txtProduct}>
              <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.product_name.substr(0,15)}</Text>
+             <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
              <Text style={styles.harga}>Rp {item.price}</Text>
 
              <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.retailaddres.substr(0,12)}</Text>
+             <Text style={styles.dariKota}>{item.retailaddres}</Text>
              <Image source={allLogo.icstar} style={styles.star}/>
              <Text style={styles.bintang}>{DATA[0].bintang}</Text>
              <Text style={styles.terjual}>{DATA[0].terjual}</Text>

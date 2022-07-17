@@ -10,7 +10,8 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -34,12 +35,45 @@ const Detailkategori = (props) => {
   })
 
   useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+
+      let data = JSON.parse(response);
+      //const val = JSON.stringify(data);
+
+      // console.log('Homeseller ==> '+ JSON.stringify(data));
+
+      setState(state => ({
+        ...state,
+        id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture,
+        retail_id: data.retail_id,
+      }))
+       console.log('RTL ID '+ JSON.stringify(state.retail_id));
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
     detailKategori()
   }, [])
 
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
-    axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
+    axios.get('https://market.pondok-huda.com/dev/react/product/'+ state.retail_id + kid)
       .then(result => {
         if (result.data.status == 200) {
           //hendle success

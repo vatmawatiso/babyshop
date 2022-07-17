@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.market">
+  package="com.binaappgmjgloben">
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
   <uses-permission android:name="android.permission.CAMERA" />
@@ -34,9 +34,8 @@
         </intent-filter>
       </activity>
     
-    <meta-data
-    android:name="com.google.android.geo.API_KEY"
-    android:value="AIzaSyD2FKxA9mTQF65IDr36XLftUxVNYjV1JIk" />
+   <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCT79fEDmZdBBLRDGxjREJn8mwD8AKLZ8Q"/>
     
     
     </application>

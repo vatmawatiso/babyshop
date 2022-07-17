@@ -49,6 +49,7 @@ const Settingtoko = (props) => {
         id_retail: data.retail_id,
       }))
       console.log('cek state SettingToko----------->' + JSON.stringify(state.id_retail));
+      
 
 
     }).catch(err => {
@@ -111,7 +112,7 @@ const Settingtoko = (props) => {
           <Pressable style={styles.btnInfo} onPress={() => NavigatorService.navigate('Informasitoko')} >
             <Text style={styles.txtInfo}>Informasi Toko</Text>
           </Pressable>
-          <Pressable style={styles.btnCatat} onPress={() => NavigatorService.navigate('Catatantoko')} >
+          <Pressable style={styles.btnCatat} onPress={() => NavigatorService.navigate('underConstruction')} >
             <Text style={styles.txtCatatan}>Catatan Toko</Text>
           </Pressable>
         </View>

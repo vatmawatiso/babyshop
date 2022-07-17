@@ -33,6 +33,54 @@ const Alamattoko = (props) => {
     adr_name:''
   })
 
+//   AsyncStorage.getItem('member').then(response => {
+//     // console.log('Profil----------->'+ JSON.stringify(response));
+
+//     let data = JSON.parse(response);
+//     // const val = JSON.stringify(data);
+
+//     // console.log('Profilefiks----------->' + JSON.stringify(data));
+
+//     setState(state => ({
+//       ...state,
+//       mb_id: data.mb_id,
+//       mb_name: data.value.mb_name,
+//       mb_email: data.value.mb_email,
+//       mb_phone: data.value.mb_phone,
+//       mb_type: data.value.mb_type,
+//       picture: data.value.picture,
+//       id_retail: data.retail_id,
+//     }))
+//     console.log('MB ID ' + JSON.stringify(state.mb_id));
+//     // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
+
+//   }).catch(err => {
+//     console.log('err', err)
+//   })
+
+//   AsyncStorage.getItem('uid').then(uids => {
+//     let ids = uids;
+//     setState(state => ({
+//       ...state,
+//       mb_id: ids
+//     }))
+//   }).catch(err => {
+//     console.log('err', err)
+//   })
+
+//   getAlumember()
+
+//     getAlamatClient()
+ 
+//     props.navigation.addListener(
+//          'didFocus',
+//          payload => {
+//              getAlamatClient()
+//          }
+//    );
+
+// }, [stAlu])
+
   useEffect(() => {
  
     AsyncStorage.getItem('uid').then(uids => {
@@ -55,13 +103,13 @@ const Alamattoko = (props) => {
  
       //console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
  
-      setState(state => ({...state,
-        adr_mb_id: data.adr_mb_id,
-        adr_id: data.adr_id,
-        // mb_name:data.value.mb_name,
-        // mb_phone:data.value.mb_phone,
+      setState(state => ({
+        ...state,
+        mb_id: data.mb_id,
+        mb_name: data.value.mb_name,
       }))
- 
+      console.log('MB ID ==> ' + JSON.stringify(state.mb_id));
+      console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
  
     }).catch(err => {
       console.log('err', err)
@@ -163,8 +211,17 @@ const Alamattoko = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
+    <View style={{justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10)}}>
+      <Pressable style={{ width: toDp(335) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+        <View style={styles.btnAddress}>
+          <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
+          <Image source={allLogo.icplus} style={styles.icplus} />
+        </View>
+      </Pressable>
+      </View>
+
       <View style={styles.flatcontent}>
-        <FlatList style={{ width: '100%', marginTop: toDp(30) }}
+        <FlatList style={{ width: '100%', marginTop: toDp(10) }}
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
@@ -175,12 +232,7 @@ const Alamattoko = (props) => {
         />
       </View>
 
-      <Pressable style={{ bottom: toDp(610), width: toDp(335), left: toDp(12) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
-        <View style={styles.btnAddress}>
-          <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
-          <Image source={allLogo.icplus} style={styles.icplus} />
-        </View>
-      </Pressable>
+     
     </View>
   );
 
@@ -251,7 +303,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: toDp(10),
     width: toDp(335),
     height: toDp(32),
     borderRadius: toDp(10),
@@ -279,7 +330,7 @@ const styles = StyleSheet.create({
   flatcontent: {
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   btnAlamatUtama: {
     top: toDp(8),

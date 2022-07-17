@@ -193,7 +193,7 @@ const Homeseller = (props) => {
               <Text style={styles.txtPembayaran}>Pembayaran</Text>
             </Pressable>
 
-            <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
+            <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('underConstruction')} >
               <Image source={allLogo.store} style={styles.store} />
               <Text style={styles.txtPengiriman}>Pengiriman</Text>
             </Pressable>
@@ -209,7 +209,7 @@ const Homeseller = (props) => {
             </View>
             <Text style={styles.textIcon}>Toko Saya</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya')}>
+          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya', {retail_id: state.retail_id})}>
             <View style={styles.viewProduk}>
               <Image source={allLogo.product} style={styles.imgProduk} />
             </View>
@@ -226,13 +226,13 @@ const Homeseller = (props) => {
 
         <View style={styles.viewBodyHomeseller}>
           <View style={styles.Penjualan}>
-            <Pressable style={styles.btnSkortoko} onPress={() => NavigatorService.navigate('Ulasan')}>
+            <Pressable style={styles.btnSkortoko} onPress={() => NavigatorService.navigate('underConstruction')}>
               <View style={styles.BodySaldo}>
                 <Text style={styles.txtSkor}>Skor Toko</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
               </View>
             </Pressable>
-            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual')} >
+            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('underConstruction')} >
               <View style={styles.viewSaldo}>
                 <Text style={styles.txtSaldo}>Saldo</Text>
                 <NumberFormat
@@ -248,20 +248,20 @@ const Homeseller = (props) => {
 
             <View style={styles.garis} />
 
-            <Pressable style={styles.btnPenjualan} onPress={() => alert('Coming Soon')}>
+            <Pressable style={styles.btnPenjualan}>
               <Text style={styles.txtPenjualan}>Penjualan</Text>
-              <Image source={allLogo.iclineright} style={styles.iclineright1} />
+              {/* <Image source={allLogo.iclineright} style={styles.iclineright1} /> */}
             </Pressable>
             <View style={styles.garis} />
 
             <View style={styles.viewSet}>
-              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Sudahdibayar', retail_id: state.retail_id })} >
+              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Dikemas', retail_id: state.retail_id })} >
                 <View style={styles.viewIcon2}>
                   <Image source={allLogo.bag} style={styles.imgViewset} />
                   <Text style={styles.txtIcon1}>Pesanan Baru</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Perludikirim' })}>
+              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Dikirim', retail_id: state.retail_id })}>
                 <View style={styles.viewIcon2}>
                   <Image source={allLogo.siapkirim} style={styles.imgViewset} />
                   <Text style={styles.txtIcon1}>Siap dikirim</Text>
@@ -272,19 +272,19 @@ const Homeseller = (props) => {
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
 
             <View style={styles.bodyJual}>
-              <TouchableOpacity style={styles.btnUlasan} onPress={() => NavigatorService.navigate('Ulasan')} >
+              <TouchableOpacity style={styles.btnUlasan} onPress={() => NavigatorService.navigate('underConstruction')} >
                 <View style={styles.viewIcon1}>
                   <Image source={allLogo.star} style={styles.imgUlasan} />
                   <Text style={styles.txtIcon2}>ulasan</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.btnDiskusi} onPress={() => alert('Coming Soon')}>
+              <TouchableOpacity style={styles.btnDiskusi} onPress={() => NavigatorService.navigate('underConstruction')}>
                 <View style={styles.viewIcon2}>
                   <Image source={allLogo.chat} style={styles.imgDiskusi} />
                   <Text style={styles.txtIcon1}>Diskusi</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.btnKomplain} onPress={() => alert('Coming Soon')}>
+              <TouchableOpacity style={styles.btnKomplain} onPress={() => NavigatorService.navigate('underConstruction')}>
                 <View style={styles.viewIcon2}>
                   <Image source={allLogo.support} style={styles.imgKomplain} />
                   <Text style={styles.txtKomplain}>Pesanan Komplain</Text>
@@ -305,7 +305,7 @@ const Homeseller = (props) => {
             <Image source={allLogo.Plus} style={styles.icplus} />
             <Text style={styles.txtBtnmenu}>Tambah</Text>
           </Pressable>
-          <Pressable style={[styles.presable, { backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('DaftarChat')} >
+          <Pressable style={[styles.presable, { backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('underConstruction')} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
             <Text style={styles.txtBtnchat}>Chat</Text>
           </Pressable>

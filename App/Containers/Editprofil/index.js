@@ -408,15 +408,17 @@ const gallery = () => {
             onChangeText={(text) => setState(state => ({ ...state, mb_phone: text }))}
           />
         </View>
-      </View>
 
-      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+        <View style={{ position: 'relative', top: toDp(70), right: toDp(8), width: '100%' }}>
         <View style={styles.buttonSave}>
           <Pressable onPress={() => update()}>
             <Text style={styles.save}>Simpan</Text>
           </Pressable>
         </View>
       </View>
+      </View>
+
+      
     </View>
   )
 };

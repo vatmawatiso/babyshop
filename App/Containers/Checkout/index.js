@@ -280,14 +280,14 @@ const Checkout = (props) => {
                 price: total.data[0].price,
 
             }))
-            // console.log('CEK harga produk ---->' + JSON.stringify(state.price));
-            // console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
+            console.log('CEK harga produk ---->' + JSON.stringify(state.price));
+            console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
             let priceProduk = state.price;
             let priceJasa = state.shp_harga;
             let dor = typeof (priceProduk);
             let der = typeof (priceJasa);
-            // console.log('tipe data produk ' + JSON.stringify(dor));
-            // console.log('tipe data jasa ' + JSON.stringify(der));
+            console.log('tipe data produk ' + JSON.stringify(dor));
+            console.log('tipe data jasa ' + JSON.stringify(der));
             let jumlah = Number(priceProduk) + Number(priceJasa);
 
             console.log('hasil total ' + JSON.stringify(jumlah))
@@ -385,53 +385,6 @@ const Checkout = (props) => {
             })
     }
 
-    // const postProduk = async () => {
-    //     const body = {
-    //         odr_mb_id:state.mb_id,
-    //         odr_shp_id:state.shp_name,
-    //         odr_adr_id:state.adr_id,
-    //         odr_rtl_id:state.retail,
-    //         odr_pay_id:state.odr_pay_id,
-    //         odr_ongkir:state.shp_harga,
-    //         odr_berattotal:state.berat,
-    //         odr_status:state.odr_status,
-    //         prd_id:state.prd_id,
-    //         prd_name:state.product_name,
-    //         prc_price:state.price,
-    //         qty:state.qty,
-    //     }
-    //     console.log('CEK BODY ===> ' + JSON.stringify(body));
-
-    //     setState(state => ({ ...state, loading: true }))
-    //     axios.post('https://market.pondok-huda.com/dev/react/order/', body)
-    //         .then(response => {
-
-    //             console.log('response (URL) ===>' + JSON.stringify(response));
-
-    //             if (response.data.status === 201) {
-
-    //                 alert('Berhasil order!')
-
-    //                 NavigatorService.navigate('Successorder')
-
-    //                 console.log('CEK Hasil Order ===>' + JSON.stringify(response.data));
-
-    //                 setState(state => ({ ...state, loading: false }))
-
-    //             } else {
-    //                 alert('Gagal order!')
-    //                 setState(state => ({ ...state, loading: false }))
-
-    //                 console.log('CEK ERROR ===>' + JSON.stringify(response.data));
-    //             }
-
-    //         }).catch(err => {
-    //             console.log(err)
-    //             alert('Gagal menerima data dari server!' + err)
-    //             setState(state => ({ ...state, loading: false }))
-    //         })
-    // }
-
 
     return (
         <View style={styles.container}>
@@ -491,7 +444,7 @@ const Checkout = (props) => {
                             <View style={styles.Shipping}>
                                 <Text style={styles.txtOption}>Opsi Pengiriman</Text>
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
-                                <Pressable onPress={() => alert('Coming soon')}>
+                                <Pressable onPress={() => NavigatorService.navigate('underConstruction')}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Image source={allLogo.icvoucher} style={styles.icvoucher} />
                                         <Text style={styles.voucher}>Klaim Voucher</Text>
@@ -516,7 +469,7 @@ const Checkout = (props) => {
                                                     ...state,
                                                     shp_name: selectedItem.shp_id,
                                                     shr_jasa: selectedItem.shp_id,
-                                                    shp_harga: selectedItem.shr_jasa,
+                                                    shp_harga: parseInt(selectedItem.shr_jasa),
                                                 }))
                                                 console.log('cek state harga ' + (state.shp_harga))
                                                 console.log('cek state id ' + (state.shp_name))
@@ -547,7 +500,7 @@ const Checkout = (props) => {
 
                         <View>
                             <View style={styles.bodyPayment}>
-                                <Pressable onPress={() => NavigatorService.navigate('Pembayaran')}>
+                                <Pressable onPress={() => NavigatorService.navigate('underConstruction')}>
                                     <View style={styles.payment}>
                                         <Text style={styles.txtPayment}>Metode Pembayaran</Text>
                                         <Text style={styles.txtTransfer}>Transfer Bank</Text>
