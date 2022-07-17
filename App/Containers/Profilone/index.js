@@ -28,10 +28,11 @@ const { width, height } = Dimensions.get('window')
 
 const Profilone = (props) => {
   const [src, setSrc] = useState(null);
-
+  const [stAlu, setAllu] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
     mb_id:'',
+    id: '',
     picture: '../../Assets/img/tzuyu.jpg',
     mb_name: '',
     mb_type:'',
@@ -41,6 +42,17 @@ const Profilone = (props) => {
     adr_mb_id: '',
     adr_address: '',
     cty_name: '',
+    alu_id: '',
+    alu_name: '',
+    alu_city: '',
+    alu_adress: '',
+    alu_phone: '',
+    rtl_id: '',
+    alu_desk: '',
+    rtl_status: '',
+    retail_id: '',
+    retail_sts: [],
+    alu_status: false,
     login: '',
     loading: false,
     modalVisible: false,
@@ -66,17 +78,17 @@ const Profilone = (props) => {
       let data    =  JSON.parse(response); 
       // const val = JSON.stringify(data);
 
-      console.log('profile one----------->'+ JSON.stringify(data));
+      console.log('profile one----------->', data);
 
-      // setState(state => ({...state,
-      //   id: data.mb_id,
-      //   mb_name:data.value.mb_name,
-      //   mb_email:data.value.mb_email,
-      //   mb_phone:data.value.mb_phone,
-      //   mb_type:data.value.mb_type,
-      //   picture:data.value.picture
-      // }))
-  
+      setState(state => ({...state,
+        mb_id: data.mb_id,
+        mb_name:data.value?.mb_name,
+        mb_email:data.value?.mb_email,
+        mb_phone:data.value?.mb_phone,
+        mb_type:data.value?.mb_type,
+        picture:data.value?.picture
+      }))
+      console.log('mb_name', state.mb_name)
 
     }).catch(err => {
       console.log('err', err)
@@ -91,28 +103,37 @@ const Profilone = (props) => {
       console.log('err', err)
     })
 
-    AsyncStorage.getItem('alamatUtama').then(alamatUtama => {
-      console.log('berhail jadikan alamat utama----------->'+ JSON.stringify(alamatUtama));
+    // AsyncStorage.getItem('alamatUtama').then(alamatUtama => {
+    //   console.log('berhail jadikan alamat utama----------->'+ JSON.stringify(alamatUtama));
 
-      let data    =  JSON.parse(alamatUtama); 
-      const val = JSON.stringify(data);
+    //   let data    =  JSON.parse(alamatUtama); 
+    //   const val = JSON.stringify(data);
 
-      // console.log('Profilefiks----------->'+ JSON.stringify(data));
+    //   // console.log('Profilefiks----------->'+ JSON.stringify(data));
 
-      setState(state => ({...state,
-        id: val.adr_id,
-        address: val.address,
-        city: val.city
+    //   setState(state => ({...state,
+    //     id: val.adr_id,
+    //     address: val.address,
+    //     city: val.city
         
-      }))
+    //   }))
   
 
-    }).catch(err => {
-      console.log('err', err)
-    })
+    // }).catch(err => {
+    //   console.log('err', err)
+    // })
 
-    // getAlamatUtama()
-  }, [])
+    getAlamatUtama()
+
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        showAlamatUtama(
+          getRetail()
+        )
+      }
+    )
+  }, [stAlu])
 
   const refresh = async () => {
     try {
@@ -127,11 +148,11 @@ const Profilone = (props) => {
        setState(state => ({
          ...state,
          mb_id: data.mb_id,
-         mb_name: data.value.mb_name,
-         mb_email: data.value.mb_email,
-         mb_phone: data.value.mb_phone,
-         mb_type: data.value.mb_type,
-         picture: data.value.picture
+         mb_name: data.value?.mb_name,
+         mb_email: data.value?.mb_email,
+         mb_phone: data.value?.mb_phone,
+         mb_type: data.value?.mb_type,
+         picture: data.value?.picture
        }))
  
      }).catch(err => {
@@ -162,6 +183,96 @@ const Profilone = (props) => {
     }
    }
 
+  //  ambil alamat utama
+  const getAlamatUtama = () => {
+    AsyncStorage.getItem('uid').then(uids => {
+      let idember = uids;
+      axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+        .then(result => {
+          let oid = result.data;
+          console.log('oid = ' + oid.data.length);
+
+          if (oid.data.length > 0) {
+            const ALAMAT = {         
+              id: oid.data[0]?.adr_id,
+              name: oid.data[0]?.adr_name,
+              phone: oid.data[0]?.adr_hp,
+              address: oid.data[0]?.adr_address,
+              city: oid.data[0]?.cty_name
+            }
+            console.log('length--------> ' + JSON.stringify(oid.data[0].adr_id));
+            AsyncStorage.setItem('setAlamat', JSON.stringify(ALAMAT))
+            setAllu(1)
+            //loatAlamatU()
+          } else {
+            console.log('null--------> ' + oid.data.length);
+            setState(state => ({
+              ...state,
+              alu_desk: 'Atur alamat dulu',
+              alu_status: true
+            }))
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+    }).catch(err => {
+      console.log('err', err)
+    })
+  }
+
+  // tampilin alamat uatama 
+  const showAlamatUtama = async () => {
+    try {
+
+      AsyncStorage.getItem('setAlamat').then(response => {
+        let data = JSON.parse(response);
+        console.log('---data--->' + data);
+        setState(state => ({
+          ...state,
+          alu_id: data?.id,
+          alu_city: data?.city,
+          alu_phone: data?.phone,
+          alu_name: data?.name,
+          alu_adress: data?.address,
+        }))
+        if (data == null) {
+          setState(state => ({
+            ...state,
+            alu_status: true
+          }))
+        } else {
+          setState(state => ({
+            ...state,
+            alu_status: false
+          }))
+        }
+      }).catch(err => {
+        console.log('err', err)
+      })
+    } catch (e) {
+      console.log('e', e)
+    }
+  }
+
+  //get retail keseluruhan
+
+  const getRetail = () => {
+    AsyncStorage.getItem('uid').then(uids => {
+      let idm = uids;
+    axios.get('https://market.pondok-huda.com/dev/react/retail/?mb_id='+ idm)
+      .then(result => {
+        console.log('cek result ===> '+ JSON.stringify(result));
+          setState(state => ({ ...state, retail_sts : result.data.data[0].rtl_status })) 
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  })
+}
+
+
   const DATA = [
     {
       id: '1',
@@ -184,19 +295,50 @@ const Profilone = (props) => {
   const [text, setText] = useState("Edit Profil");
 
   const logoutGoogle = async () => {
-    try {
-      AsyncStorage.clear()
-      await GoogleSignin.signOut();
-      NavigatorService.reset('Login')
+    try{
+      Alert.alert(
+        "Konfirmasi",
+        "Apakah Anda Yakin Akan Keluar ?",
+        [
+          {
+            text: "Batal",
+            onPress: ()=> console.log('Cancel Pressed'),
+            style: "cancel"
+          },
+          {
+            text: "Keluar",
+            onPress: () => {
+            AsyncStorage.clear()
+            GoogleSignin.signOut();
+            NavigatorService.reset('Login')
+            }
+          }
+        ]
+      )
     } catch (error) {
       console.error('Logout ',error);
     }
   }
   
   const logoutWithFacebook = () => {
-    AsyncStorage.clear()
-    LoginManager.logOut();
-    NavigatorService.reset('Login')
+    Alert.alert (
+      "Konfirmasi",
+      "Apakah Anda Yakin Akan Keluar ?",
+      [
+        {
+          text: "Batal",
+          onPress: ()=> console.log('Cancel Pressed'),
+          style: "cancel"
+        },
+        {
+          text: "Keluar", onPress: () => {
+          AsyncStorage.clear()
+          LoginManager.logOut();
+          NavigatorService.reset('Login')
+          }
+        }
+      ]
+    )
   };
 
   const logout = () => {
@@ -236,13 +378,14 @@ const Profilone = (props) => {
       <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(20) }}>
           <View >
             <Image source={ state.picture ? { uri: state.picture } :
-                            require('../../Assets/img/tzuyu.jpg')} 
+                            require('../../Assets/img/profile.png')} 
                    style={styles.imgProfil} />
             <Text style={styles.typeUser}>{state.mb_type}</Text>
           </View>
 
           <View style={{ alignItems: 'center', marginTop: toDp(10), justifyContent: 'center', }}>
             <Text style={styles.nmProfil}>{state.mb_name}</Text>
+            {console.log('mb name =>', state.mb_name)}
             <Text style={styles.member}>{DATA[0].memberUser}</Text>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -258,7 +401,7 @@ const Profilone = (props) => {
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pembayaran</Text>
               </View>
             </Pressable>
-            <Pressable style={styles.presable}>
+            <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={allLogo.icstore} style={styles.icstore} />
                 <Text style={{ marginLeft: toDp(10), color: 'white', fontSize: toDp(12) }}>Pengiriman</Text>
@@ -320,7 +463,7 @@ const Profilone = (props) => {
                 <Text style={{ fontSize: toDp(13) }}>Dikirim</Text>
               </Pressable>
 
-              <Pressable style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai' })}>
+              <Pressable style={{ marginHorizontal: toDp(10), left: toDp(25) }} onPress={() => NavigatorService.navigate('underConstruction', { content: 'Selesai' })}>
                 <Image source={allLogo.icstars} style={{ left: toDp(15) }} />
                 <Text style={{ fontSize: toDp(13) }}>Beri Nilai</Text>
               </Pressable>
@@ -333,9 +476,19 @@ const Profilone = (props) => {
                 <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
               </View>
 
-              <View style={{ flexDirection: 'row', left: toDp(49), bottom: toDp(10) }}>
-                <Text style={{ fontSize: toDp(13) }}>{state.mb_name} {state.mb_phone}{"\n"}{state.address} {state.city}</Text>
-                <Image source={allLogo.iclineright} style={styles.iclineright} />
+              <View style={{ flexDirection: 'row', bottom: toDp(10) }}>
+                <View style={{ top: toDp(5), marginLeft: toDp(57),}}>
+                    {state.alu_status == true &&
+                      <>
+                        <Text style={styles.txtAddress}>{state.alu_desk}</Text>
+
+                      </>
+                    }
+                    <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
+                </View>
+                <View style={{  }}>
+                  <Image source={allLogo.iclineright} style={styles.iclineright} />
+                </View>
               </View>
             </Pressable>
 

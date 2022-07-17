@@ -10,54 +10,66 @@ import {
   Pressable,
   ScrollView,
   Dimensions,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
-import ImagePicker from 'react-native-image-crop-picker'
+import Axios from "axios";
+import NumberFormat from "react-number-format";
 
 const { width, height } = Dimensions.get('window')
 
 const Successorder = (props) => {
+  const [state, setState] = useState({
+    totalProdukCart: '',
+    dataProdukCart: [],
+    totalAkhir: ''
+  })
 
-    
-    const Pembayaran = [
-        {
-          id: '1',
-          Konfirmasibayar: 'Rp 800.000'
-        },
-      ]
-    
-      const [state, setState] = useState({
-        options: {
-          width: 750,
-          height: 750,
-          cropping: true
-        }
-    })
+  useEffect(() => {
+    getCartProduk()
+  },[])
 
-    const camera = () => {
-        ImagePicker.openCamera(state.options).then(response => {
-        //   upImageToServer(response)
-        console.log(response)
-        }).catch(err => {
-          console.log(err)
-          if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
-            Alert.alert(
-              'Pengaturan',
-              'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
-              [
-                {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
-                {text: 'Aktifkan', onPress: () => {
-                  Linking.openSettings();
-                }},
-              ],
-              {cancelable: false},
-            );
-          }
-        })
-      }
+     // get produk yg udah masuk ke keranjang
+     const getCartProduk = () => {
+      AsyncStorage.getItem('uid').then(uids => {
+          let aid = uids;
+          Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + aid)
+              .then(response => {
+                  if (response.data.status == 200) {
+                      console.log('response produk cart =>', JSON.stringify(response))
+                      setState(state => ({ ...state, dataProdukCart: response.data.data }))
+                      setState(state => ({ ...state, totalProdukCart: response.data.total }))
+                      let total = state.totalProdukCart;
+                      let totalSemua = Number(total);
+                      setState(state => ({...state, totalAkhir: totalSemua}))
+                      console.log('total akhir', state.totalAkhir)
+                      response.data.data.map((doc, index) => {
+                          //console.log('index---->', index);
+                          // let { rtlids} = state;
+                          // rtlids[i] = doc.retail_id;
+                          // setState(state => ({
+                          //   ...state,
+                          //   rtlids
+                          // }))
+                          // setState(state => ({ ...state, rtlids }))
+                          getJasa(doc.retail_id, index)
+                      })
+
+
+                  } else {
+                      alert('Gagal Mengambil data')
+                      console.log('response produk cart =>', response)
+                  }
+              }).catch(error => {
+                  console.log('error =>', error)
+              })
+      }).catch(error => {
+          console.log('error 2 =>', error)
+      })
+  }
 
      return (
       <View style={styles.container}>
@@ -67,7 +79,15 @@ const Successorder = (props) => {
          /> 
 
         <View style={styles.content}>
-            <Text style={styles.txtKonfirm}>Kamu berhasil membayar {Pembayaran[0].Konfirmasibayar}</Text>
+            <Text style={styles.txtKonfirm}>Silahkan Lakukan Pembayaran Sebesar</Text>
+            <NumberFormat
+                value={state.totalAkhir}
+                displayType={'text'}
+                thousandSeparator={'.'}
+                decimalSeparator={','}
+                prefix={'Rp. '}
+                renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+            />
             <Text style={styles.txtKet}>silahkan cek untuk mengetahui status pesananmu</Text>
                 <View style={{flexDirection:'row'}}>
                     <Pressable style={styles.btnBeranda} onPress={()=> NavigatorService.navigate('Homepage', {content:'Home'})}>

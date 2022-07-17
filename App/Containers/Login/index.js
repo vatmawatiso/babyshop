@@ -28,15 +28,15 @@ import {
   GraphRequestManager,
   LoginManager
 } from 'react-native-fbsdk';
- 
+
 const Login = (props) => {
- 
+
   const [state, setState] = useState({
     loading: false,
     secureTextEntry: true,
     mb_username: '',
     mb_password: '',
-    rtl_id:'',
+    rtl_id: '',
     rtl_status: '',
     encpass: '',
     updatePass: false,
@@ -47,10 +47,13 @@ const Login = (props) => {
   useEffect(() => {
     AsyncStorage.setItem('login', '')
     GoogleSignin.configure({
+      offlineAccess: true,
       webClientId: '645952857359-378fb2eu6gbg76j1okmb1nsf15d2oueo.apps.googleusercontent.com',
+      androidClientId: '645952857359-378fb2eu6gbg76j1okmb1nsf15d2oueo.apps.googleusercontent.com',
+      scopes: ['profile', 'email']
     })
   }, [])
- 
+
   const [llogin, setLogin] = useState('');
   const [user, setUser] = useState({});
 
@@ -59,55 +62,55 @@ const Login = (props) => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      // console.log('User Infor =>', userInfo)
+      //console.log('User Infor =>', userInfo)
       // setUser(userInfo)
       const ugDatas = JSON.stringify(userInfo);
       const newData = JSON.parse(ugDatas);
-        state.GUser.push({userInfo});
-          // NavigatorService.navigate('Homepage')
+      state.GUser.push({ userInfo });
+      //NavigatorService.navigate('Homepage')
 
-          let body = [{
-            name: newData.user.name,
-            email: newData.user.email,
-            phone: '',
-            type: '',
-            password: '',
-            username: newData.user.email,
-            picture: newData.user.photo
-          }]
+      let body = {
+        mb_name: newData.user.name,
+        mb_email: newData.user.email,
+        mb_phone: '',
+        mb_type: 'client',
+        mb_password: '',
+        mb_username: newData.user.email,
+        picture: newData.user.photo
+      }
 
-          let datas = [];
-          datas.push({
-            id: newData.user.id,
-            value: [{
-              name: newData.user.name,
-              phone: '',
-              type: '',
-              password: '',
-              username: newData.user.email,
-              picture: newData.user.photo,
-              email: newData.user.email
-            }]
-          })
-
-          console.log('user log =>', datas);
-          console.log('user body =>', body);
-
-          if(state.GUser.length > 0) {
-            // cek login ada ngga
-            cekGLogin(newData.user.email, body, datas, newData.user.id, 'google')
-          }
-    } catch (error) {
-      console.log('error =>', error.message);
-        if(error.code === statusCodes.SIGN_IN_CANCELLED) {
-          console.log('User cancelled login');
-        } else if (error.code === statusCodes.IN_PROGRESS) {
-            console.log('Sign In Proccess');
-        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-          console.log('Play service not available');
-        } else {
-          console.log('Erorr yang lain')
+      let datas = [];
+      datas.push({
+        id: newData.user.id,
+        value: {
+          mb_name: newData.user.name,
+          mb_phone: '',
+          mb_type: '',
+          password: '',
+          mb_username: newData.user.email,
+          mb_picture: newData.user.photo,
+          mb_email: newData.user.email
         }
+      })
+
+      console.log('user log =>', ugDatas);
+      //console.log('user body =>', body);
+
+      if (state.GUser.length > 0) {
+        // cek login ada ngga
+        cekGLogin(newData.user.email, body, datas, newData.user.id, 'google')
+      }
+    } catch (error) {
+      console.log('errorssss =>', error.message);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled login');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Sign In Proccess');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play service not available');
+      } else {
+        console.log('Erorr ' + error.code)
+      }
     }
   };
 
@@ -116,114 +119,116 @@ const Login = (props) => {
     const data = {
       mb_email: email
     }
-    setState(state => ({...state, loading: true}))
+    setState(state => ({ ...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/login-member/sosmed', data)
-    .then(response => {
-      console.log('response cek login =>', response)
-      if(response.data.status == 200) {
-        const datas = {
-          id: response.data.data[0].mb_id,
-          value: response.data.data[0]
-        }
-        if (datas.value.length === 0) {
-          registrasiUser(body, id, dataus, login);
-        } else {
-          console.log('data regerted =>', datas);
-          AsyncStorage.setItem('member', JSON.stringify(datas.value))
-          AsyncStorage.setItem('uid', datas.id);
-          if (login == 'google') {
-            AsyncStorage.setItem('login', 'google')
-            setTimeout(function() {
-              NavigatorService.reset('Homepage', {login: 'google'});
-            }, 1000);
-          } else {
-            AsyncStorage.setItem('login', 'facebook')
-            setTimeout(function() {
-              NavigatorService.reset('Homepage', {login: 'facebook'});
-            }, 1000);
+      .then(response => {
+        console.log('response cek login =>', response)
+        if (response.data.status == 200) {
+          const datas = {
+            id: response.data.data[0].mb_id,
+            value: response.data.data[0]
           }
+          if (datas.value.length === 0) {
+            registrasiUser(body, id, dataus, login);
+          } else {
+            console.log('data regerted =>', datas);
+            AsyncStorage.setItem('member', JSON.stringify(datas))
+            AsyncStorage.setItem('uid', datas.id);
+            if (login == 'google') {
+              AsyncStorage.setItem('login', 'google')
+              setTimeout(function () {
+                NavigatorService.reset('Homepage', { login: 'google' });
+              }, 1000);
+            } else {
+              AsyncStorage.setItem('login', 'facebook')
+              setTimeout(function () {
+                NavigatorService.reset('Homepage', { login: 'facebook' });
+              }, 1000);
+            }
+          }
+          setState(state => ({ ...state, loading: false }))
+        } else if (response.data.status == 404) {
+          setState(state => ({ ...state, loading: false }))
+          registrasiUser(body, id, dataus, login)
+        } else if (response.data.status == 500) {
+          alert('error server')
+          console.log('error server', response)
+          setState(state => ({ ...state, loading: false }))
         }
-        setState(state => ({...state, loading: false}))
-      } else if (response.data.status == 404) {
-        setState(state => ({...state, loading: false}))
-        registrasiUser(body, id, dataus, login)
-      } else if (response.data.status == 500) {
-        alert('error server')
-        console.log('error server', response)
-        setState(state => ({...state, loading: false}))
-      }
-    }).catch(error => {
-      console.log('error =>', error)
-      setState(state => ({...state, loading: false}))
-    })
+      }).catch(error => {
+        console.log('error =>', error)
+        setState(state => ({ ...state, loading: false }))
+      })
   }
 
   // kalo data dari g login dan fb login ga ada maka dimasukin ke registrasiUser
   const registrasiUser = (body, id, datas, login) => {
-    setState(state => ({...state, loading: true}))
+    setState(state => ({ ...state, loading: true }))
     // console.log('body'+ JSON.stringify(body))
     axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/', body)
-    .then(response => {
-      console.log('response =>', response)
-      // console.log('response resgiter =>', datas);
-      if(response.data.status == 201) {
-        console.log('register =>', datas)
-        AsyncStorage.setItem('member', JSON.stringify(datas[0].value))
-        AsyncStorage.setItem('uid', JSON.stringify(datas[0].id))
-        if (login == 'google') {
-          AsyncStorage.setItem('login', 'google')
-            NavigatorService.reset('Homepage', {login: 'google'});
-        } else if (login === 'facebook') {
-          AsyncStorage.setItem('login', 'facebook')
-            NavigatorService.reset('Homepage', {login: 'facebook'});
+      .then(response => {
+        console.log('response =>', id)
+        // console.log('response resgiter =>', datas);
+        if (response.data.status == 201) {
+          console.log('register =>', response.data)
+          AsyncStorage.setItem('member', JSON.stringify(response.data))
+          AsyncStorage.setItem('uid', JSON.stringify(response.data.id))
+          // AsyncStorage.setItem('member', JSON.stringify(response.value))
+          // AsyncStorage.setItem('uid', JSON.stringify(response.value.mb_id))
+          if (login == 'google') {
+            AsyncStorage.setItem('login', 'google')
+            NavigatorService.reset('Homepage', { login: 'google' });
+          } else if (login === 'facebook') {
+            AsyncStorage.setItem('login', 'facebook')
+            NavigatorService.reset('Homepage', { login: 'facebook' });
+          }
+          setState(state => ({ ...state, loading: false }))
+        } else {
+          alert('Registrasi Gagal, Nama Pengguna atau Email Telah Digunakan')
+          setState(state => ({ ...state, loading: false }))
         }
+      }).catch(error => {
+        alert('Gagal Coba Lagi Nanti')
+        console.log('error register =>', error)
         setState(state => ({ ...state, loading: false }))
-      } else {
-        alert('Registrasi Gagal, Nama Pengguna atau Email Telah Digunakan')
-        setState(state => ({...state, loading: false}))
-      }
-    }).catch(error => {
-      alert('Gagal Coba Lagi Nanti')
-      console.log('error register =>', error)
-      setState(state => ({...state, loading: false}))
-    })
+      })
   }
 
   // facebook login
   const fbLogin = (resCallback) => {
     return LoginManager.logInWithPermissions(['email', 'public_profile'])
-     .then(
-      response => {
-        if(response.declinedPermissions && response.declinedPermissions.includes("email")) {
-          resCallback({message: "email is required"})
-        }
+      .then(
+        response => {
+          if (response.declinedPermissions && response.declinedPermissions.includes("email")) {
+            resCallback({ message: "email is required" })
+          }
 
-        if (response.isCancelled) {
+          if (response.isCancelled) {
             console.log('Cancelled')
-        } else {
-          const infoRequest = new GraphRequest(
-            '/me?fields=email,name,picture',
-            null,
-            resCallback
-          );
-          new GraphRequestManager().addRequest(infoRequest).start()
+          } else {
+            const infoRequest = new GraphRequest(
+              '/me?fields=email,name,picture',
+              null,
+              resCallback
+            );
+            new GraphRequestManager().addRequest(infoRequest).start()
+          }
+        },
+        function (error) {
+          console.log('error =>', error)
         }
-      },
-      function(error){
-        console.log('error =>', error)
-      }
-     )
+      )
   }
- 
+
   // login facebook
   const onFbLogin = async () => {
-    setState(state => ({...state, linkLogin: '' }))
-      try {
-        setState(state => ({...state, linkLogin: 'facebook'}))
-        await fbLogin(_responseInfoCallBack)
-      } catch (error) {
-        console.log('error onfbLogin =>', error)
-      }
+    setState(state => ({ ...state, linkLogin: '' }))
+    try {
+      setState(state => ({ ...state, linkLogin: 'facebook' }))
+      await fbLogin(_responseInfoCallBack)
+    } catch (error) {
+      console.log('error onfbLogin =>', error)
+    }
   }
 
   // response info callback dari fb login
@@ -231,11 +236,11 @@ const Login = (props) => {
     if (error) {
       console.log('error response =>', error)
       return;
-    }else{
+    } else {
       const userData = response
       console.log('response userData =>', userData)
 
-      state.GUser.push({userData});
+      state.GUser.push({ userData });
       let datas = [];
       datas.push({
         mb_id: response.id,
@@ -254,15 +259,15 @@ const Login = (props) => {
         picture: response.picture.data.url
       }
       if (state.GUser.length > 0) {
-        setState(state => ({...state, linkLogin: 'facebook'}))
+        setState(state => ({ ...state, linkLogin: 'facebook' }))
         console.log('guser length: ', state.GUser.length)
         console.log('data fb login', datas)
 
         cekGLogin(response.email, body, datas, response.id, 'facebook')
         const data = await AccessToken.getCurrentAccessToken();
 
-        if(!data) {
-          throw('Something wrong obtaining access token')
+        if (!data) {
+          throw ('Something wrong obtaining access token')
         }
       }
     }
@@ -278,20 +283,20 @@ const Login = (props) => {
       rtl_id: state.rtl_id,
       rtl_status: state.rtl_status
     }
-    console.log('BODY'+JSON.stringify(body));
+    console.log('BODY' + JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
     axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
       .then(result => {
-        console.log('Cek Result----------->', result);   //untuk cek ke json viewer 
-        if (result.data.status == 200) {                      // untuk memfilter dan variable utamanya ada result, 
-                                                              //didalam result itu ada nilai data dan didata ada status yang nilanya 200, jika status = 200 maka eksekusinya :
+        console.log('Cek Result----------->', result);   //untuk cek ke json viewer
+        if (result.data.status == 200) {                      // untuk memfilter dan variable utamanya ada result,
+          //didalam result itu ada nilai data dan didata ada status yang nilanya 200, jika status = 200 maka eksekusinya :
           const datas = {                                     // value akan dimasukkan ke dalam API datas
             id: result.data.data[0].mb_id,                    // untuk mengambil data id kita masuk ke result.data.data[0].mb_id
             value: result.data.data[0],
             tipe: result.data.data[0].mb_type,
-            retail_id:result.data.rtl_id,                        // untuk mengambil data value kita masuk ke result.data.data.[0]
-            rtl_status:result.data.rtl_status
+            retail_id: result.data.rtl_id,                        // untuk mengambil data value kita masuk ke result.data.data.[0]
+            rtl_status: result.data.rtl_status
           }
           console.log('DATAS', datas);
 
@@ -302,13 +307,13 @@ const Login = (props) => {
             console.log(JSON.stringify(datas));
 
             AsyncStorage.setItem('member', JSON.stringify(datas)) // jika ingin masuk ke asyneStorage harus di stringify kemudian harus di parse
- 
+
             AsyncStorage.setItem('uid', datas.id)
- 
+
             // NavigatorService.reset('Homepage')
-          
- 
-          } 
+
+
+          }
           // if (datas.tipe === 'seller') {
           //   NavigatorService.reset('Homeseller')
           // } else if (datas.tipe === 'client') {
@@ -317,59 +322,60 @@ const Login = (props) => {
 
           NavigatorService.reset('Homepage')
           setState(state => ({ ...state, loading: false }))
-          
+
         } else if (result.data.status == 404) {
           alert('Pengguna tidak ditemukan!')
           setState(state => ({ ...state, loading: false }))
         }
       })
- 
+
       .catch(err => {
         console.log(err)
         alert('Gagal menerima data dari server!')
         setState(state => ({ ...state, loading: false }))
       })
   }
- 
+
   const Shaone = (pass) => {
     sha1(pass).then(hash => {
       setState(state => ({ ...state, mb_password: hash }));
     })
   }
 
-  const validateInput = () =>{
-    if(state.mb_name.trim()==''){
+  const validateInput = () => {
+    if (state.mb_name.trim() == '') {
       alert('Nama tidak boleh kosong!')
       return;
     }
-    if(state.mb_email.trim()==''){
+    if (state.mb_email.trim() == '') {
       alert('Email tidak boleh kosong!')
       return;
     }
-    if(state.mb_phone.trim()==''){
+    if (state.mb_phone.trim() == '') {
       alert('Nomor Hp tidak boleh kosong!')
       return;
     }
-    if(state.mb_type.trim()==''){
+    if (state.mb_type.trim() == '') {
       alert('Tipe pengguna tidak boleh kosong!')
       return;
     }
-    if(state.mb_username.trim()==''){
+    if (state.mb_username.trim() == '') {
       alert('Username tidak boleh kosong!')
       return;
     }
-    if(state.mb_password.trim()==''){
+    if (state.mb_password.trim() == '') {
       alert('Password tidak boleh kosong!')
       return;
     }
 
     LoginMember()
-}
- 
- 
+  }
+
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
+      <Loader loading={state.loading}/>
       <Image source={allLogo.icbina} style={styles.icbina} />
       <Text style={styles.title}>Masuk</Text>
       <Text style={styles.desc}>silahkan masuk untuk melanjutkan</Text>
@@ -398,7 +404,7 @@ const Login = (props) => {
       <Pressable style={{ left: toDp(120) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
         <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
       </Pressable>
- 
+
       <View style={styles.viewRow}>
         <Pressable
           style={styles.pressableLogin} onPress={() => getlogin()}>
@@ -410,29 +416,29 @@ const Login = (props) => {
           <Text style={styles.textSignup}>Daftar</Text>
         </Pressable>
 
-        <View style={[styles.rowFooter, {  position: 'absolute', width: '100%' }]}>
-        <Text style={styles.textDont}>Atau Masuk Dengan</Text>
-        <Pressable style={styles.pressableClick} onPress={() => googleSignin() }>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={allLogo.icGoogle} style={styles.icon} />
-            <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
-          </View>
-        </Pressable>
-        {/* <GoogleSigninButton/> */}
- 
-        <Pressable style={styles.pressableClick} onPress={()=> onFbLogin()}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={allLogo.icFacebook} style={styles.icon} />
-            <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Facebook</Text>
-          </View>
-        </Pressable>
+        <View style={[styles.rowFooter, { position: 'absolute', width: '100%' }]}>
+          <Text style={styles.textDont}>Atau Masuk Dengan</Text>
+          <Pressable style={styles.pressableClick} onPress={() => googleSignin()}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={allLogo.icGoogle} style={styles.icon} />
+              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
+            </View>
+          </Pressable>
+          {/* <GoogleSigninButton/> */}
+
+          <Pressable style={styles.pressableClick} onPress={() => onFbLogin()}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={allLogo.icFacebook} style={styles.icon} />
+              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Facebook</Text>
+            </View>
+          </Pressable>
+        </View>
       </View>
-      </View>
- 
+
     </View>
   )
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -527,11 +533,11 @@ const styles = StyleSheet.create({
     left: toDp(30)
   },
   pressableClick: {
-    padding: toDp(2), 
-    height: toDp(40), 
-    backgroundColor: 'white', 
-    width: toDp(180), 
-    borderRadius: toDp(10), 
+    padding: toDp(2),
+    height: toDp(40),
+    backgroundColor: 'white',
+    width: toDp(180),
+    borderRadius: toDp(10),
     marginBottom: toDp(5)
   },
   textLogin: {
@@ -568,7 +574,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: toDp(110),
-    marginLeft:toDp(30)
+    marginLeft: toDp(30)
   },
   icon: {
     width: toDp(25),
@@ -593,5 +599,5 @@ const styles = StyleSheet.create({
     marginTop: toDp(14)
   }
 });
- 
+
 export default Login;

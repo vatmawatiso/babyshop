@@ -12,7 +12,8 @@ import {
   Pressable,
   FlatList,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  TextInput
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -26,112 +27,187 @@ import NumericInput from 'react-native-numeric-input'
 import CheckBox from '@react-native-community/checkbox';
 import { color } from "react-native-reanimated";
 import { ScrollView } from "react-native-gesture-handler";
+import NumberFormat from 'react-number-format';
 import Axios from "axios";
-
+ 
 const Keranjang = (props) => {
-
+  //// NOTE:
+  //Kasih batas maksimal QTY sesuai stok produknya
+  //Ketika tambah data ke keranjang, QTY langsung 1.
+ 
   const [state, setState] = useState({
     dataCart: [],
-    id:''
+    totalCart: [],
+    qty2: [],
+    stock: '',
+    stock2: '',
+    id: '',
+    mb_id:'',
+    crt_id: '',
+    id_cart:''
   })
-
+ 
   useEffect(() => {
     // get id pengguna
     AsyncStorage.getItem('uid').then(uids => {
       let ids = uids;
-      setState(state => ({...state, id: ids}))
+      setState(state => ({ ...state, id: ids }))
       console.log('id', state.id)
     }).catch(error => {
       console.log('error', error)
     })
-
+ 
     getCart()
-
+    // getTotalCart()
+ 
   }, [])
+ 
+ 
+ 
   // get data produk di keranjang
   const getCart = () => {
     let mid = props.navigation.state.params.id
-    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id='+mid)
-    .then(response => {
-      if(response.data.status == 200) {
-        console.log('response =>', response)
-        setState(state => ({...state, dataCart: response.data.data}))
-      } else if (response.data.status == 404){
-        <>
-          <Text style={{alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: toDp(15) }}>
-            Anda Belum Memasukan Barang Ke Keranjang
-          </Text>
-        </>
-        console.log('response', response)
-      } else {
-        alert('Gagal Mengambil Data')
-        console.log('response =>', response)
-      }
-    }).catch(error => {
-      console.log('error', error)
-    })
+    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+      .then(response => {
+        console.log('response get cart', JSON.stringify(response))
+        if (response.data.status == 200) {
+          const dataCartProduk = {
+            id_crt: response.data.id,
+            value: response.data
+          }
+          console.log('id cart ini', JSON.stringify(dataCartProduk))
+          AsyncStorage.setItem('idCartProduk', dataCartProduk.id_crt)
+          AsyncStorage.setItem('cartProduk', JSON.stringify(dataCartProduk))
+          setState(state => ({ ...state, dataCart: response.data.data, stock: response.data.data[0]?.stock}))
+          setState(stateass => ({ ...state, totalCart: response.data}))
+          // getCartrRefresh()
+          let stok1 = parseInt(state.stock);
+          console.log('stok1', stok1)
+          setState(state => ({ ...state, stock2: stok1}))
+          
+ 
+          let qtys = response.data.data.map((doc, i) => {
+            return doc.items.map((docs, ix) => {
+              return parseInt(docs.qty)
+            })
+ 
+          })
+          var arrayOfNumbers = qtys;//qtys.map(Number);
+          setState(state => ({
+            ...state,
+          qty2: arrayOfNumbers
+          }));
+ 
+          console.log('QTYS ===>', arrayOfNumbers);
+ 
+ 
+        } else if (response.data.status == 404) {
+          NavigatorService.navigate('underConstruction')
+          console.log('response', response)
+        } else {
+          alert('Gagal Mengambil Data')
+          console.log('response =>', response)
+        }
+      }).catch(error => {
+        console.log('error', error)
+      })
   }
-
+ 
   // refresh data cart
-
-  const refresh = () => {
+ 
+  const getCartrRefresh = () => {
+    //setState(state => ({ ...state, dataCart: []}))
     let mid = props.navigation.state.params.id
-    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id='+mid)
-    .then(response => {
-      if(response.data.status == 200) {
-        console.log('response =>', response)
-        setState(state => ({...state, dataCart: response.data.data}))
-      } else if (response.data.status == 404){
-        <>
-          <Text style={{alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: toDp(15) }}>
-            Anda Belum Memasukan Barang Ke Keranjang
-          </Text>
-        </>
-        console.log('response', response)
-      } else {
-        alert('Gagal Mengambil Data')
-        console.log('response =>', response)
-      }
-    }).catch(error => {
-      console.log('error', error)
-    })
+    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+      .then(response => {
+        console.log('response get cart', JSON.stringify(response))
+        if (response.data.status == 200) {
+          const dataCartProduk = {
+            id_crt: response.data.id,
+            value: response.data
+          }
+          console.log('id cart ini', JSON.stringify(dataCartProduk))
+          AsyncStorage.setItem('idCartProduk', dataCartProduk.id_crt)
+          AsyncStorage.setItem('cartProduk', JSON.stringify(dataCartProduk))
+          setState(state => ({ ...state, dataCart: response.data.data}))
+          setState(state => ({ ...state, totalCart: response.data}))
+ 
+          let qtys = response.data.data.map((doc, i) => {
+            return doc.items.map((docs, ix) => {
+              return parseInt(docs.qty)
+            })
+          })
+          var arrayOfNumbers = qtys;
+          setState(state => ({
+            ...state,
+            qty2: arrayOfNumbers
+          }));
+          console.log('QTYS ===>', arrayOfNumbers);
+ 
+        } else if (response.data.status == 404) {
+          NavigatorService.navigate('underConstruction')
+          console.log('response', response)
+        } else {
+          alert('Gagal Mengambil Data')
+          console.log('response =>', response)
+        }
+      }).catch(error => {
+        console.log('error', error)
+      })
   }
-
+ 
+  // refresh total price barang2 yg ada di keranjang
+  const refreshTotalPrice = () => {
+    let mid = props.navigation.state.params.id
+    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+      .then(response => {
+        console.log('total', response.data)
+        if(response.data.status == 200) {
+          setState(state => ({...state, totalCart: response.data}))
+          getCartrRefresh()
+        } else {
+          alert('gagal merefresh totl produk')
+        }
+      }).catch(error => {
+        console.log('error 1 =>', error)
+      })
+  }
+ 
   // deleete keranjang
   const delCart = (cid, pid) => {
-    console.log('Cart Id =>', cid+pid)
-    Axios.delete('https://market.pondok-huda.com/dev/react/cart/delete/'+cid+'/'+pid)
-    .then(response => {
-      console.log('response =>', response);
-        if(response.data.status == 200) {
+    console.log('Cart Id =>', cid + pid)
+    Axios.delete('https://market.pondok-huda.com/dev/react/cart/delete/' + cid + '/' + pid)
+      .then(response => {
+        console.log('response =>', response);
+        if (response.data.status == 200) {
           alert('Berhasil Menghapus Produk dari Keranjang')
-          refresh()
-          setState(state => ({...state, dataCart: response.data.data}))
+          props.navigation.goBack();
+          setState(state => ({ ...state, dataCart: response.data.data }))
         } else if (response.data.data == 500) {
           alert('Gagal Menghapus Produk dari Keranjang')
         }
-    }).catch(error => {
-      console.log('error =>', error)
-    })
+      }).catch(error => {
+        console.log('error =>', error)
+      })
   }
-
+ 
   // delete all data cart
   const delCartAll = (id) => {
     console.log('Cart Id =>', id)
-    Axios.delete('https://market.pondok-huda.com/dev/react/cart/delall/'+id)
-    .then(response => {
-      console.log('response =>', response);
-        if(response.data.status == 200) {
+    Axios.delete('https://market.pondok-huda.com/dev/react/cart/delall/' + id)
+      .then(response => {
+        console.log('response =>', response);
+        if (response.data.status == 200) {
           console.log('response hapus => ', response)
           alert('Berhasil Menghapus Produk dari Keranjang')
-          refresh()
-          setState(state => ({...state, dataCart: response.data.data}))
+          props.navigation.goBack();
+          //setState(state => ({ ...state, dataCart: response.data.data }))
         } else if (response.data.data == 500) {
           alert('Gagal Menghapus Produk dari Keranjang')
         }
-    }).catch(error => {
-      console.log('error =>', error)
-    })
+      }).catch(error => {
+        console.log('error =>', error)
+      })
   }
   const delAlert = (id) => {
     Alert.alert(
@@ -149,45 +225,79 @@ const Keranjang = (props) => {
       ]
     )
   }
-  
-
-
-  const RenderItem = (item, index) => {
-    return (
-      <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={styles.orderCart}>
-
-          {/*produk dari setiap toko*/}
-          <View style={styles.orderCartone}>
-            {/*Identitas produk*/}
-            <View style={{ width: '100%', height: toDp(40) }}>
-              <View style={{ flexDirection: 'row' }}>
-
-                <Text style={{ fontWeight: 'bold', marginLeft: toDp(15), top: toDp(6) }}>{item.retail_name}</Text>
-              </View>
-              <Text style={{ marginTop: toDp(10), marginLeft: toDp(15) }}>{item.crd_prd_name}</Text>
+ 
+  // fungsi numericInput +-
+  const CartQty = (crd_id, crd_qty, prd_id, crt_id, value, i) => {
+    //console.log('crd id', value)
+    let { qty2} = state;
+    qty2[i] = value;
+    setState(state => ({
+      ...state,
+      qty2
+    }))
+    console.log('qty2', state.qty2)
+ 
+    const datas = {
+      crd_qty: state.qty2[i],
+      prd_id: prd_id,
+      crt_id: crt_id
+    }
+    console.log('------>>', crd_id+'  |  '+crd_qty+'  |  '+prd_id+'  |  '+crt_id+'  |  '+value+'  |  '+i)
+    Axios.post('https://market.pondok-huda.com/dev/react/cart/' + crd_id + '/', datas)
+      .then(response => {
+        console.log('response data=>', datas)
+ 
+        if (response.data.status == 200) {
+          console.log('Response 200 => ', response.data)
+          // refresh()
+          refreshTotalPrice()
+          //alert('Berhasil Menambah QTY')
+        } else {
+          console.log('response =>', response.data)
+          alert('gagal')
+        }
+      }).catch(error => {
+        console.log('error =>', error)
+      })
+  }
+ 
+  const perProduk = (item, index, idcart, inc) =>{
+    return(
+      <>
+          <View style={{ flexDirection: 'row', marginTop: toDp(10), marginBottom: toDp(4), backgroundColor:'#fff', padding:toDp(12), width:toDp(315)}}>
+            <View style={{ marginLeft: toDp(12) }}>
+              <Image source={{ uri: item.thumbnail }} style={styles.imgProduk} />
             </View>
-            {/*Identitas produk*/}
-
-            {/*Per produk*/}
-            <View style={{ flexDirection: 'row', marginTop: toDp(20), marginBottom: toDp(20) }}>
-              <View style={{ marginLeft: toDp(12) }}>
-                <Image source={{uri: item.thumbnail}} style={styles.imgProduk} />
+ 
+            <View style={{ marginLeft: toDp(12) }}>
+              <Text style={{ fontSize: toDp(12), fontWeight: 'bold', marginBottom: toDp(5) }}>{item.prd_name.substr(0, 25)}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontSize: toDp(12), marginTop: toDp(10) }}>{item.qty}</Text>
+ 
+                <Text style={{ fontSize: toDp(14), marginTop: toDp(10), marginHorizontal: toDp(5) }}>x</Text>
+                <NumberFormat value={item.price} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
+                  renderText={(value, props) => <Text style={{ fontSize: toDp(12), marginTop: toDp(10), marginHorizontal: toDp(5) }}>{value}</Text>}
+                />
+ 
+                <Text style={{ fontSize: toDp(14), marginTop: toDp(10), marginHorizontal: toDp(5) }}>=</Text>
+                <NumberFormat value={item.price*item.qty} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
+                  renderText={(value, props) =>
+                    <Text style={{ fontSize: toDp(12), marginTop: toDp(10), marginHorizontal: toDp(5) }}>{value}</Text>}
+                />
               </View>
-
-              <View style={{ marginLeft: toDp(12) }}>
-                <Text style={{ fontSize: toDp(12), fontWeight: 'bold', marginBottom: toDp(5) }}>{item.crd_prd_name}</Text>
-                <Text style={{ fontSize: toDp(14), marginTop: toDp(10) }}>{item.crd_price}</Text>
-
-                <View style={{ flexDirection: 'row', marginTop: toDp(25), justifyContent: 'center', alignItems: 'center' }}>
-                  <TouchableOpacity onPress={() => delCart(item.id, item.crd_prd_id)}>
-                    <Image source={allLogo.ictrash} style={{ width: toDp(20), height: toDp(25), resizeMode: 'cover', marginRight: toDp(12) }} />
-                  </TouchableOpacity>
+ 
+ 
+              <View style={{ flexDirection: 'row', marginTop: toDp(25), justifyContent: 'flex-start', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => delCart(idcart, item.prd_id)}>
+                  <Image source={allLogo.ictrash} style={{ width: toDp(20), height: toDp(25), resizeMode: 'cover', marginRight: toDp(12) }} />
+                </TouchableOpacity>
                 <NumericInput
-                  value={item.crd_qty}
-                  minValue={0}
-                  maxValue={10}
-                  onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+                  key={index}
+                  initValue={item.qty == 0 ? 1 : state.qty2[inc]?.[index]}
+                  value={state.qty2[inc]?.[index]}
+                  onChange={value => CartQty(item.crd_id, item.qty, item.prd_id, idcart, value, index)}
+                  onLimitReached={(isMax, msg) => alert('Stok Terbatas')}
+                  maxValue={state.stock2}
                   totalWidth={90}
                   totalHeight={30}
                   iconSize={toDp(25)}
@@ -199,30 +309,66 @@ const Keranjang = (props) => {
                   iconStyle={{ color: 'white' }}
                   rightButtonBackgroundColor='#698498'
                   leftButtonBackgroundColor='#698498'
+ 
                 />
-                </View>
-
+ 
+                <Text>{JSON.stringify(state.qty2[inc]?.data)}</Text>
               </View>
+ 
             </View>
-
-
+          </View>
+      </>
+    )
+  }
+ 
+  const RenderItem = (itm, i) => {
+    return (
+      <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.orderCart}>
+ 
+          {/*produk dari setiap toko*/}
+          <View style={styles.orderCartone}>
+            {/*Identitas produk*/}
+            <View style={{ width: '100%', height: toDp(20) }}>
+              <View style={{ flexDirection: 'row' }}>
+ 
+                <Text style={{ fontWeight: 'bold', marginLeft: toDp(15), top: toDp(6) }}>{itm.retail_name}</Text>
+              </View>
+ 
+            </View>
+            {/*Identitas produk*/}
+ 
+ 
             {/*Per produk*/}
-
+ 
+            <FlatList style={{ width: toDp(335), top: toDp(10), marginBottom: toDp(70) }}
+              data={itm.items}
+              renderItem={({ item, index }) => {
+                return (
+                  perProduk(item, index, itm.id, i)
+                )
+              }}
+              ListFooterComponent={() => <View style={{ height: toDp(0) }} />}
+            />
+ 
+            {/*Per produk*/}
+ 
           </View>
           {/*produk dari setiap toko*/}
-
+ 
         </View>
-
-
+ 
+ 
       </View>
-
+ 
     )
-
+ 
   };
-
+ 
   const CardProduct = () => {
     return (
       <View style={styles.content}>
+        <Text style={{marginTop:20}}>{JSON.stringify(state.qty2)}</Text>
         <FlatList style={{ width: toDp(335), top: toDp(10), marginBottom: toDp(70) }}
           data={state.dataCart}
           renderItem={({ item, index }) => {
@@ -235,55 +381,66 @@ const Keranjang = (props) => {
       </View>
     )
   }
-
+ 
   const renderHapus = (item) => {
     return (
       <View style={styles.chooseAll}>
-          <Pressable style={styles.delete} onPress={() => delAlert(item[0].id)}>
-            <Text style={{ fontWeight: 'bold' }}>Hapus</Text>
-          </Pressable>
-        </View>
+        <Pressable style={styles.delete} onPress={() => delAlert(item[0].id)}>
+          <Text style={{ fontWeight: 'bold' }}>Hapus</Text>
+        </Pressable>
+      </View>
     )
   }
-
+ 
+  const renderButtonCheckOut = (item, index) => {
+    return (
+      <View style={{ zIndex: 9, position: 'absolute', bottom: 95 }}>
+        <View style={styles.checkout}>
+          <Pressable style={styles.buttonTotal}>
+            <NumberFormat value={item.total} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
+              renderText={(value, props) => <Text style={{ color: 'white', fontSize: toDp(18), textAlign: 'center' }}>{value}</Text>}
+            />
+ 
+ 
+            {/* {console.log('total price =', item[0].crd_prd_id)} */}
+          </Pressable>
+ 
+          <View style={{ borderWidth: toDp(0.3), borderColor: 'white', marginRight: toDp(-7) }} />
+ 
+          <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('CartCheckout', {id: state.id })}>
+            <Text style={styles.txtPay}>Beli Sekarang</Text>
+          </Pressable>
+        </View>
+      </View>
+    )
+  }
+ 
   return (
     <View style={styles.container}>
       <BackHeader
         title={'Keranjang'}
         onPress={() => props.navigation.goBack()}
       />
-
+ 
       <View style={{ bottom: toDp(5) }}>
-        
+ 
         {renderHapus(state.dataCart)}
-
+ 
         <View style={{ marginTop: toDp(10), marginBottom: toDp(90) }}>
           <CardProduct />
         </View>
-
+ 
         {/*Button Checkout*/}
-        <View style={{ zIndex: 9, position: 'absolute', bottom: 95 }}>
-          <View style={styles.checkout}>
-            <Pressable style={styles.buttonTotal}>
-              <Text style={styles.txtTotal}>Total Harga</Text>
-              <Text style={{ color: 'white', fontSize: toDp(18), textAlign: 'center' }}>Harga Total</Text>
-            </Pressable>
-
-            <View style={{ borderWidth: toDp(0.5), borderColor: 'white' }} />
-
-            <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Checkout')}>
-              <Text style={styles.txtPay}>Beli Sekarang</Text>
-            </Pressable>
-          </View>
-        </View>
-
+        {renderButtonCheckOut(state.totalCart)}
+ 
+ 
       </View>
     </View>
-
+ 
   )
 };
-
-
+ 
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -313,8 +470,8 @@ const styles = StyleSheet.create({
     top: toDp(10),
     position: 'absolute',
     zIndex: 1,
-
-
+ 
+ 
   },
   notProcessed: {
     marginBottom: toDp(5),
@@ -331,7 +488,7 @@ const styles = StyleSheet.create({
   //   backgroundColor: 'cyan',
   //   width: '100%',
   //   borderRadius: toDp(8),
-
+ 
   // },
   ickotak: {
     marginTop: toDp(11),
@@ -346,7 +503,7 @@ const styles = StyleSheet.create({
     borderRadius: toDp(20),
     width: toDp(335),
     paddingBottom: toDp(10),
-    backgroundColor: '#C4C4C4'
+    backgroundColor: '#ccc'
   },
   txtp: {
     fontSize: toDp(25),
@@ -372,7 +529,7 @@ const styles = StyleSheet.create({
   },
   checkout: {
     backgroundColor: '#2A334B',
-    borderRadius: toDp(20),
+    borderRadius: toDp(15),
     flexDirection: 'row',
     justifyContent: 'space-between',
     // top: toDp(20),
@@ -380,15 +537,19 @@ const styles = StyleSheet.create({
   },
   buttonTotal: {
     // backgroundColor: 'red',
-    borderRadius: toDp(20),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: toDp(15),
     width: toDp(160),
     height: toDp(50),
     // right:toDp(12)
   },
   buttonPay: {
     // backgroundColor: 'red',
-    borderRadius: toDp(20),
-    width: toDp(150),
+    backgroundColor: '#f83308',
+    borderTopRightRadius: toDp(15),
+    borderBottomRightRadius: toDp(15),
+    width: '50%',
     height: toDp(50),
     // left:toDp(8)
   },
@@ -404,8 +565,8 @@ const styles = StyleSheet.create({
     top: toDp(13)
   },
   imgProduk: {
-    width: toDp(120),
-    height: toDp(120),
+    width: toDp(70),
+    height: toDp(70),
     borderRadius: 20
   },
   delete: {
@@ -415,5 +576,5 @@ const styles = StyleSheet.create({
     height: toDp(45)
   }
 });
-
+ 
 export default Keranjang;

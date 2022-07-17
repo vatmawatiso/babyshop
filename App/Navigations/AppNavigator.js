@@ -55,7 +55,10 @@ import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
 import Tambahkategori from '../Containers/Seller/Tambahkategori'
 import Profilseller from '../Containers/Seller/Profilseller'
-import detailKategori from "../Containers/Homepage/detailKategori";
+import detailKategori from "../Containers/Homepage/detailKategori"
+import underConstruction from "../Containers/UnderContsruction"
+import emptyCart from "../Containers/emptyCart"
+import cartCheckout from "../Containers/cartCheckout";
 
 
 const AppNavigator = createStackNavigator(
@@ -115,6 +118,9 @@ const AppNavigator = createStackNavigator(
     Tambahkategori: { screen: Tambahkategori },
     Profilseller: { screen: Profilseller },
     detailKategori: { screen: detailKategori },
+    cartCheckout: {screen: cartCheckout},
+    underConstruction: {screen: underConstruction},
+    emptyCart: {screen: emptyCart},
     
   },
   {

@@ -82,6 +82,8 @@ const allLogo = {
   ic_delete: require('./img/ic_delete.png'),
   ic_Wishlist: require('./img/icWishlist.png'),
   ic_heart: require('./img/ic_heart.png'),
+  ic_underConst: require('./img/underConst.png'),
+  ic_underConst2: require('./img/underConst2.png'),
 
 }
 

@@ -26,6 +26,7 @@ import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import Axios from "axios";
+import Loader from '@Loader';
 
 
 const { width, height } = Dimensions.get('window')
@@ -39,6 +40,8 @@ const Produk = (props) => {
     fotoProduk: [],
     produk: [],
     detail: [],
+    stock:'',
+    stoks: '',
     thumbnails: '',
     id: '',
     jumlah: '1',
@@ -59,6 +62,16 @@ const Produk = (props) => {
       console.log('err', err)
     })
 
+    // AsyncStorage.getItem('setProduk').then(response => {
+    //   let data = JSON.parse(response);
+    //   console.log('data', data)
+    //   setState(state => ({
+    //     ...state, 
+    //     stock: data.stock
+    //   }))
+    //   console.log('stokkkkk', state.stock)
+    // })
+
     return (() => {
       getProdukDetailbyId()
     })
@@ -71,12 +84,13 @@ const Produk = (props) => {
     Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
         if (response.data.status == 200) {
-          const datas ={
-            id: response.data.data[0].id,
-            value: response.data.data[0]
-          }
-          AsyncStorage.setItem('produk', JSON.stringify(datas));
-          console.log('hasil async =>', datas)
+          console.log('responseeeee', response)
+          // const datas ={
+          //   id: response.data.data[0].id,
+          //   value: response.data.data[0]
+          // }
+          AsyncStorage.setItem('setProduk', JSON.stringify(response.data));
+          console.log('hasil async =>', response.data)
           getCurrentWsh()
 
           let thumbnail = [{
@@ -90,7 +104,8 @@ const Produk = (props) => {
           } else {
 
           }
-          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail }))
+          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail, stock: response.data.data[0]?.stock}))
+          console.log('stock', state.stoks)
         } else {
           console.log('response =>', response)
         }
@@ -186,24 +201,42 @@ const Produk = (props) => {
       prd_id: id,
       prd_name: product_name,
       prc_price: price,
-      qty: state.jumlah
+      crd_qty: state.jumlah
     }
+    setState(state => ({ ...state, loading: true }))
+     // kondisi qty > stock
+     let stok1 = parseInt(state.stock)
+     console.log('stokkkk', stok1)
+     let crdQ = parseInt(state.jumlah);
+     console.log('crddd', crdQ)
+     if (crdQ > stok1) {
+       alert('Melampaui stok')
+       setState(state => ({ ...state, loading: false }))
+     } else {
     Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
       .then(response => {
-        if (response.data.status == 201) {
-          console.log('response =>', response)
+       
+          if (response.data.status == 201) {
+          // console.log('response =>', response)
+          // AsyncStorage.setItem('cartProduk', JSON.stringify(response.data))
           alert('Berhasil Memasukan Barang Ke Keranjang')
+          setState(state => ({ ...state, loading: false }))
           NavigatorService.navigate('Keranjang', {id: state.id })
         } else if (response.data.status == 200) {
           console.log('body', body)
-          alert('Berhasil Mengupdate Data')
+          alert('Berhasil Memasukan Barang Ke Keranjang')
+          setState(state => ({ ...state, loading: false }))
         } else {
           console.log('response =>', response)
           alert('Gagal Menambahkan Barang Ke Keranjang')
+          setState(state => ({ ...state, loading: false }))
         }
+
       }).catch(error => {
         console.log('error =>', error)
+        setState(state => ({ ...state, loading: false }))
       })
+    }
   }
 
   const renderItemExpore = (item, i) => {
@@ -291,6 +324,9 @@ const Produk = (props) => {
 
               <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-between' }}>
                 <Text>Jumlah </Text>
+              {
+                
+              }
                   <TextInput 
                     keyboardType="numeric"
                     autoCapitalize={'none'}
@@ -383,6 +419,7 @@ const Produk = (props) => {
         title={'Produk'}
         onPress={() => alert('dfhfg')}
       />
+      <Loader loading={state.loading} />
 
       <ScrollView style={{ backgroundColor: 'white', paddingVertical: toDp(20), bottom: toDp(70) }}>
         <View style={{ width: '100%', height: toDp(230), backgroundColor: 'white', top: toDp(50) }}>

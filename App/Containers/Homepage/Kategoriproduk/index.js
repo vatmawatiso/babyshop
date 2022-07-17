@@ -50,6 +50,7 @@ const Kategoriproduk = () => {
       setState(state => ({...state,
        id: ids
       }))
+      console.log('iddddd', state.id)
     }).catch(err => {
       console.log('err', err)
     })
@@ -109,7 +110,7 @@ const Kategoriproduk = () => {
 
         Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/'+idmb)
           .then(result => {
-            console.log('current Wishlish---->'+state.id);
+            console.log('current Wishlish---->'+idmb);
             let oid = result.data;
             if(oid.data.length>0){
               console.log('length--------> '+oid.data.length);
@@ -129,41 +130,44 @@ const Kategoriproduk = () => {
      console.log(err);
   })
 }
-  const selectItems = (id, retail, index) => {
-    if((selectedItems.ws_prd_id != state.dataProduk[index]?.id) && (selectedItems.ws_mb_id != state.id)){
-      const body = {
-        ws_mb_id: state.id,
-        ws_rtl_id: retail,
-        ws_prd_id: id
+    // memasukan produk ke wishlist
+    const selectItems = (id, retail, index) => {
+ 
+      if((selectedItems.ws_prd_id != state.dataProduk[index]?.prd_id) && (selectedItems.ws_mb_id != state.id)){
+        const body = {
+          ws_mb_id: state.id,
+          ws_rtl_id: retail,
+          ws_prd_id: id
       }
-      console.log('body =>', body)
-      Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
-      .then(response => {
-        console.log('wishlist =>', response.data);
-
-        if(response.data.status == 201) {
-          // alert('Produk telah masuk ke wishlist anda!')
-          // console.log('wishlist2 =>', response)
-          setSelectedItems([...selectedItems, body])
-        } else {
-          alert('Gagal menambahkan ke wishlist anda!')
-          console.log('Wishlish gagal =>', response)
-        }
-      }).catch(error => {
-        console.log('error wishlist =>', error)
-      })
-    }
-    
-  }
+      console.log('data -----=>', body);
+          Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+          .then(response => {
+            console.log('wishlist -----=>', response.data);
+ 
+            if(response.data.status == 201) {
+              //alert('Produk telah masuk ke wishlist anda!')
+              //console.log('wishlist2 =>', response)
+              setSelectedItems([...selectedItems, body])
+            } else {
+              alert('Gagal menambahkan ke wishlist anda!')
+              console.log('Wishlish gagal =>', response)
+            }
+          }).catch(error => {
+            console.log('error wishlist =>', error)
+        })
+      }
+ 
+    };
 
     // unlike produk
     const deSelectItems = (id, retail, ws_mb_id) => {
       if(selectItems.length>0){
           if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
-          // console.log('unloved');
+          console.log('unloved'+id+'/'+ws_mb_id);
+          console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' +ws_mb_id+'/'+ id)
             Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/'+ws_mb_id+'/'+id)
             .then(response => {
-              console.log('response =>', response)
+              console.log('response =>', response.data.status)
               if(response.data.status == 200) {
                 const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
                 const arr3 = selectedItems.filter(arraylst);
@@ -178,8 +182,8 @@ const Kategoriproduk = () => {
         }
     }
 
-  // untuk memfilter button
-  const getSelected = ( id , ws_mb_id) => {
+    // filter button
+    const getSelected = ( id , ws_mb_id) => {
       if(selectItems.length>0){
         if(selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i=> i.ws_mb_id === ws_mb_id)) {
           return true
@@ -205,33 +209,34 @@ const Kategoriproduk = () => {
 
   const RenderItem = ({item, index, onPress, selected, unLike, onPressProduk}) => (
     
-      <View style={styles.card}>
-        <Pressable onPress={()=> onPressProduk()}>
-          <View style={[styles.txtProduct, {height:toDp(30)} ]}>
-             <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
-              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text style={styles.textproduct}>{item.product_name.substr(0, 4)}</Text>
+    <View style={styles.card}>
+    {/* <Pressable style={{backgroundColor:'red'}} onPress={() => onPressProduk()}> */}
+        <View style={styles.txtProduct}>
+           <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+              <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+                <View>
                 {
-                    selected == false ?
-                      <TouchableOpacity onPress={() => onPress()} key={index}>
-                        <Image source={allLogo.icwishlist} style={{width:toDp(25), height:toDp(25)}} />
-                      </TouchableOpacity>
-                      :
-                      <TouchableOpacity onPress={unLike} key={index}>
-                        <Image source={allLogo.ic_heart} style={{width:toDp(25), height:toDp(24)}} />
-                      </TouchableOpacity>
-                  }
-                 
-              </View>
-             <Text style={styles.harga}>{item.price}</Text>
-             <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.dariKota}</Text>
-             <Image source={allLogo.icstar} style={styles.star}/>
-             <Text style={styles.bintang}>{item.bintang}</Text>
-             <Text style={styles.terjual}>{item.terjual}</Text>
-          </ View>
-          </Pressable>
-      </View>
+                  selected == false ?
+                    <TouchableOpacity onPress={() => onPress()} key={index}>
+                      <Image source={allLogo.icwishlist} style={{width:toDp(25), height:toDp(25)}} />
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity onPress={unLike} key={index}>
+                      <Image source={allLogo.ic_heart} style={{width:toDp(25), height:toDp(24)}} />
+                    </TouchableOpacity>
+                }
+                </View>
+            </View>
+           <Text style={styles.harga}>{item.price}</Text>
+            <Image source={allLogo.icaddress} style={styles.address} />
+            <Text style={styles.dariKota}>{item.dariKota}</Text>
+            <Image source={allLogo.icstar} style={styles.star} />
+            <Text style={styles.bintang}>{item.bintang}</Text>
+            <Text style={styles.terjual}>{item.terjual}</Text>
+        </ View>
+        {/* </Pressable> */}
+    </ View>
    
   );
 

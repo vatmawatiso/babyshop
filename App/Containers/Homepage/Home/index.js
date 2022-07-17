@@ -186,7 +186,8 @@ const logoutWithFacebook = () => {
     const deSelectItems = (id, retail, ws_mb_id) => {
       if(selectItems.length>0){
           if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
-          //console.log('unloved'+id+'/'+ws_mb_id);
+          console.log('unloved'+id+'/'+ws_mb_id);
+          console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' +ws_mb_id+'/'+ id)
             Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/'+ws_mb_id+'/'+id)
             .then(response => {
               console.log('response =>', response.data.status)

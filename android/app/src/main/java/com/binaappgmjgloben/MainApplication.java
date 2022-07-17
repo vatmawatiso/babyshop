@@ -1,4 +1,4 @@
-package com.market;
+package com.binaappgmjgloben;
 
 import android.app.Application;
 import android.content.Context;

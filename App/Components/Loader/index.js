@@ -41,10 +41,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    backgroundColor: '#00000060'
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#222222',
+    backgroundColor: '#FFFFFF',
     width: toDp(190),
     height: toDp(148),
     borderRadius: toDp(16),
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: toDp(16),
-    color: 'white',
+    color: 'black',
   }
 });
 

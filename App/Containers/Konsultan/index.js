@@ -205,7 +205,7 @@ const Konsultan = (props) => {
                     </View>
                 </View>
  
-                <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('Chat')}>
+                <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('underConstruction')}>
                     <Text style={styles.txtKontak}>Kontak</Text>
                 </Pressable>
             </View>

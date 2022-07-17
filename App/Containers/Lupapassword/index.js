@@ -22,6 +22,7 @@ import { sha1 } from "react-native-sha1";
 const Lupapassword = (props) => {
 
     const [state, setState] = useState({
+        loading: false,
         mb_id: '',
         mb_password: '',
         mb_username: '',
@@ -145,10 +146,14 @@ const Lupapassword = (props) => {
 
     const verifyEmail = () => {
         if(state.mb_email === state.confirmEmail) {
+            setState(state => ({ ...state, loading: true }))
             setState(state => ({...state, showEmail: false}))
             setState(state => ({...state, resetPassword: true}))
+            setState(state => ({ ...state, loading: false }))
         } else {
+            setState(state => ({ ...state, loading: false }))
             alert('Email yang Dimasukkan tidak Sesuai')
+            
         }
     }
 
@@ -157,6 +162,7 @@ const Lupapassword = (props) => {
             id: state.mb_id,
             mb_password: state.mb_password,
         }
+        setState(state => ({ ...state, loading: true }))
         axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', body)
             .then(result => {
                 console.log('result ----------->', result);
@@ -164,8 +170,10 @@ const Lupapassword = (props) => {
                     console.log('result update', result);
                     alert('Berhasil mengubah password');
                     NavigatorService.reset('Login')
+                    setState(state => ({ ...state, loading: false }))
                 } else if (result.data.status == 500) {
                     console.log('gagal update', result)
+                    setState(state => ({ ...state, loading: false }))
                 }
             }).catch(error => {
                 console.log('error update:', error)
@@ -196,6 +204,7 @@ const Lupapassword = (props) => {
 
     return (
         <View style={styles.container}>
+            <Loader loading={state.loading}/>
             <Back
                 title={'Kembali'}
                 onPress={() => props.navigation.goBack()}
@@ -226,15 +235,16 @@ const Lupapassword = (props) => {
                         {state.showEmail == true ? 
                             (
                             <View>
-                                <Text style={styles.hideEmail}>{hideEmail(state.mb_email)}</Text>
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholder={'Email'}
-                                        placeholderTextColor={'grey'}
-                                        value={state.confirmEmail}
-                                        onChangeText={(text) => setState(state => ({...state, confirmEmail: text}))}
-                                    />
-                            </View>
+                                <Loader loading={state.loading}/>
+                                    <Text style={styles.hideEmail}>{hideEmail(state.mb_email)}</Text>
+                                        <TextInput
+                                            style={styles.textInput}
+                                            placeholder={'Email'}
+                                            placeholderTextColor={'grey'}
+                                            value={state.confirmEmail}
+                                            onChangeText={(text) => setState(state => ({...state, confirmEmail: text}))}
+                                        />
+                                </View>
                         ) : null
                     }
 
@@ -244,24 +254,25 @@ const Lupapassword = (props) => {
                 {state.resetPassword == true ? 
                     (
                     <View>
-                         <Text style={styles.txtPassword}>Masukkan Password</Text>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder={'Password Baru'}
-                                placeholderTextColor={'grey'}
-                                secureTextEntry={state.secureTextEntry}
-                                onChangeText={(text) => passlength(text)}
-                            />
+                        <Loader loading={state.loading}/>
+                            <Text style={styles.txtPassword}>Masukkan Password</Text>
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholder={'Password Baru'}
+                                    placeholderTextColor={'grey'}
+                                    secureTextEntry={state.secureTextEntry}
+                                    onChangeText={(text) => passlength(text)}
+                                />
 
-                            <Pressable style={styles.presableShow1} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-                                <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
-                            </Pressable>
+                                <Pressable style={styles.presableShow1} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+                                    <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+                                </Pressable>
 
-                            {state.valPass === true ? (
-                                <Text style={styles.msgError}>
-                                    *Masukan kata sandi minimal 6 karakter
-                                </Text>
-                            ) : null}
+                                {state.valPass === true ? (
+                                    <Text style={styles.msgError}>
+                                        *Masukan kata sandi minimal 6 karakter
+                                    </Text>
+                                ) : null}
                     </View>
                 ) : null
             }

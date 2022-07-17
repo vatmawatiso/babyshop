@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:645952857359:android:984096966ea87eb8ccca7a",
+        "mobilesdk_app_id": "1:645952857359:android:533a07e09b2578a2ccca7a",
         "android_client_info": {
-          "package_name": "com.market"
+          "package_name": "com.binaappgmjgloben"
         }
       },
       "oauth_client": [

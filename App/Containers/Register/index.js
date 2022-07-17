@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    StatusBar,
-    TextInput,
-    Pressable,
-    Platform,
-    AsynStorage,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  TextInput,
+  Pressable,
+  Platform,
+  AsynStorage,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -20,180 +20,181 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import { sha1 } from 'react-native-sha1';
 const Register = (props) => {
- 
+
   const tipeUser = ["Client", "Seller"]
- 
-    const [state, setState] = useState({
-        loading: false,
-        secureTextEntry: true,
-        mb_name: '',
-        mb_email: '',
-        mb_phone: '',
-        mb_username: '',
-        mb_password: '',
-        mb_type: '',
-        valName:false,
-        valMail:false,
-        valPass:false,
-    })
- 
-    const RegisterMember = async (value) => {
-      const body = {
-       mb_name: state.mb_name,
-       mb_email: state.mb_email,
-       mb_phone: state.mb_phone,
-       mb_username: state.mb_username,
-       mb_password: state.mb_password,
-       mb_type: state.mb_type
-     }
- 
-     setState(state => ({...state, loading: true }))
-     axios.post('https://market.pondok-huda.com/dev/react/registrasi-member',body)
-     .then(result =>{
-         //console.log('hasil --------------> : '+ JSON.stringify(result.data))
-         if(result.data.status==201){
-           console.log('hasil : '+ JSON.stringify(result.data))
-           setState(state => ({...state, loading: false }))
-           NavigatorService.reset('Login');
-         }else{
-           alert('Registrasi Gagal, Nama Pengguna / Email telah digunakan!')
-           setState(state => ({...state, loading: false }))
-         }
-     }).catch(err =>{
-       alert('Registrasi Gagal, coba lagi nanti')
-       setState(state => ({...state, loading: false }))
-     })
+
+  const [state, setState] = useState({
+    loading: false,
+    secureTextEntry: true,
+    mb_name: '',
+    mb_email: '',
+    mb_phone: '',
+    mb_username: '',
+    mb_password: '',
+    mb_type: '',
+    valName: false,
+    valMail: false,
+    valPass: false,
+  })
+
+  const RegisterMember = async (value) => {
+    const body = {
+      mb_name: state.mb_name,
+      mb_email: state.mb_email,
+      mb_phone: state.mb_phone,
+      mb_username: state.mb_username,
+      mb_password: state.mb_password,
+      mb_type: state.mb_type
     }
- 
-    const Shaone = (pass) => {
-      sha1(pass).then(hash => {
-        setState(state => ({ ...state, mb_password: hash }));
-        console.log(hash);
+
+    setState(state => ({ ...state, loading: true }))
+    axios.post('https://market.pondok-huda.com/dev/react/registrasi-member', body)
+      .then(result => {
+        //console.log('hasil --------------> : '+ JSON.stringify(result.data))
+        if (result.data.status == 201) {
+          console.log('hasil : ', result)
+          setState(state => ({ ...state, loading: false }))
+          NavigatorService.reset('Login');
+        } else {
+          alert('Registrasi Gagal, Nama Pengguna / Email telah digunakan!')
+          setState(state => ({ ...state, loading: false }))
+        }
+      }).catch(err => {
+        alert('Registrasi Gagal, coba lagi nanti')
+        setState(state => ({ ...state, loading: false }))
       })
-    }
-    return (
-        <View style={styles.container}>
-          <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
-            <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'}/>
-            <Text style={styles.title}>Buat Akun</Text>
- 
-            <View style={{marginTop: toDp(-18)}}>
-            <Text style={styles.textName}>Nama</Text>
-                <TextInput  autoCapitalize={'none'}
-                            style={styles.textInput}
-                            placeholder={'Name'}
-                            placeholderTextColor={'grey'}
-                            value={state.nama}
-                            onChangeText={(text) => setState(state => ({...state, mb_name: text })) }
+  }
+
+  const Shaone = (pass) => {
+    sha1(pass).then(hash => {
+      setState(state => ({ ...state, mb_password: hash }));
+      console.log(hash);
+    })
+  }
+  return (
+    <View style={styles.container}>
+      <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
+        <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
+          <Loader loading={state.loading} />
+        <Text style={styles.title}>Buat Akun</Text>
+
+        <View style={{ marginTop: toDp(-18) }}>
+          <Text style={styles.textName}>Nama</Text>
+          <TextInput autoCapitalize={'none'}
+            style={styles.textInput}
+            placeholder={'Name'}
+            placeholderTextColor={'grey'}
+            value={state.nama}
+            onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
+          />
+          <Text style={[styles.textName, { bottom: toDp(5) }]}>Alamat Email</Text>
+          <TextInput autoCapitalize={'none'}
+            style={[styles.textInput, { bottom: toDp(15) }]}
+            placeholder={'Email'}
+            placeholderTextColor={'grey'}
+            value={state.email}
+            onChangeText={(text) => setState(state => ({ ...state, mb_email: text }))}
+          />
+          <Text style={[styles.textName, { bottom: toDp(8) }]}>Nomer Telepon</Text>
+          <TextInput autoCapitalize={'none'}
+            style={[styles.textInput, { bottom: toDp(18) }]}
+            placeholder={'Phone'}
+            placeholderTextColor={'grey'}
+            value={state.hp}
+            onChangeText={(text) => setState(state => ({ ...state, mb_phone: text }))}
+          />
+          <Text style={[styles.textName, { bottom: toDp(13) }]}>Pilih User</Text>
+          <SelectDropdown
+            buttonStyle={styles.dropdown}
+            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+            rowTextStyle={{ fontSize: toDp(12) }}
+            dropdownStyle={{ borderRadius: toDp(7) }}
+            rowStyle={{ height: toDp(35), padding: toDp(5) }}
+            defaultButtonText={'Type User'}
+            data={tipeUser}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index)
+              setState(state => ({ ...state, mb_type: selectedItem }))
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem
+            }}
+            rowTextForSelection={(item, index) => {
+              return item
+            }}
+            renderDropdownIcon={(isOpened) => {
+              return (
+                <FontAwesome
+                  name={isOpened ? "chevron-up" : "chevron-down"}
+                  color={"#444"}
+                  size={toDp(12)}
                 />
-            <Text style={[styles.textName, {bottom:toDp(5)} ]}>Alamat Email</Text>
-                <TextInput  autoCapitalize={'none'}
-                            style={[styles.textInput, {bottom:toDp(15)}]}
-                            placeholder={'Email'}
-                            placeholderTextColor={'grey'}
-                            value={state.email}
-                            onChangeText={(text) => setState(state => ({...state, mb_email: text })) }
-                />
-            <Text style={[styles.textName, {bottom:toDp(8)} ]}>Nomer Telepon</Text>
-                <TextInput  autoCapitalize={'none'}
-                            style={[styles.textInput, {bottom:toDp(18)} ]}
-                            placeholder={'Phone'}
-                            placeholderTextColor={'grey'}
-                            value={state.hp}
-                            onChangeText={(text) => setState(state => ({...state, mb_phone: text })) }
-                />
-            <Text style={[styles.textName, {bottom:toDp(13)} ]}>Pilih User</Text>
-                 <SelectDropdown
-                          buttonStyle={styles.dropdown}
-                          buttonTextStyle={{fontSize:toDp(12), color:'grey'}}
-                          rowTextStyle={{fontSize:toDp(12)}}
-                          dropdownStyle={{borderRadius:toDp(7)}}
-                          rowStyle={{height:toDp(35),padding:toDp(5)}}
-                          defaultButtonText={'Type User'}
-                          data={tipeUser}
-                          onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index)
-                            setState(state => ({...state, mb_type: selectedItem }))
-                          }}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item
-                          }}
-                          renderDropdownIcon={(isOpened) => {
-                            return (
-                              <FontAwesome
-                                name={isOpened ? "chevron-up" : "chevron-down"}
-                                color={"#444"}
-                                size={toDp(12)}
-                              />
-                            );
-                          }}
-                    />
-            <Text style={[styles.textName, {bottom:toDp(38)} ]}>Nama Pengguna</Text>
-                <TextInput  autoCapitalize={'none'}
-                            style={[styles.textInput, {bottom:toDp(48)} ]}
-                            placeholder={'Username'}
-                            placeholderTextColor={'grey'}
-                            value={state.username}
-                            onChangeText={(text) => setState(state => ({...state, mb_username: text })) }
-                />
- 
-                <View style={{marginTop: toDp(-4)}}>
-                 <Text style={[styles.textName, {bottom:toDp(40)} ]}>Kata Sandi</Text>
-                 <TextInput autoCapitalize={'none'}
-                            style={[styles.textInput, {bottom:toDp(50)}]}
-                            placeholder={'Password'}
-                            placeholderTextColor={'grey'}
-                            secureTextEntry={state.secureTextEntry}
-                            value={state.password}
-                            onChangeText={(text) => Shaone(text) }
-                 />
-                 <Pressable style={styles.presableShow} onPress={() => setState(state => ({...state, secureTextEntry: !state.secureTextEntry }))}>
-                     <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
-                 </Pressable>
-                </View>
-              </View>
- 
- 
-                  <Pressable style={{left:toDp(260), bottom:toDp(30)}} onPress={() => NavigatorService.navigate('Lupapassword')}>
-                      <Text style={styles.textForgot}>Lupa Kata Sandi</Text>
-                  </Pressable>
- 
-              <View style={styles.viewRow}>
-                  <Pressable
-                      onPress={() => NavigatorService.navigate('Login')}
-                      style={styles.pressableLogin}>
-                      <Text style={styles.textLogin}>Masuk</Text>
-                  </Pressable>
-                  <Pressable
-                      style={styles.pressableSignup} onPress={() => RegisterMember()}>
-                      <Text style={styles.textSignup}>Daftar</Text>
-                  </Pressable>
-              </View>
- 
-              <Text style={styles.textDont}>Atau Masuk Dengan</Text>
-              <View style={styles.rowFooter}>
-                  <Pressable style={[styles.pressableClick, {padding: toDp(2), backgroundColor:'white', width:toDp(180), height:toDp(40), borderRadius:toDp(10), marginBottom:toDp(5)}]}>
-                    <View style={{flexDirection:'row'}}>
-                      <Image source={allLogo.icGoogle} style={styles.icon} />
-                      <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold'}}>Masuk Dengan Google</Text>
-                    </View>
-                  </Pressable>
- 
-                  <Pressable style={[styles.pressableClick, {padding: toDp(2), width:toDp(180), height:toDp(40), backgroundColor:'#3B5998', borderRadius:toDp(10)}]}>
-                    <View style={{flexDirection:'row'}}>
-                        <Image source={allLogo.icFacebook} style={styles.icon} />
-                        <Text style={{fontSize:toDp(12.5), top:toDp(10), fontWeight:'bold', color:'white'}}>Masuk Dengan Facebook</Text>
-                     </View>
-                  </Pressable>
-              </View>
-              </ScrollView>
+              );
+            }}
+          />
+          <Text style={[styles.textName, { bottom: toDp(38) }]}>Nama Pengguna</Text>
+          <TextInput autoCapitalize={'none'}
+            style={[styles.textInput, { bottom: toDp(48) }]}
+            placeholder={'Username'}
+            placeholderTextColor={'grey'}
+            value={state.username}
+            onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
+          />
+
+          <View style={{ marginTop: toDp(-4) }}>
+            <Text style={[styles.textName, { bottom: toDp(40) }]}>Kata Sandi</Text>
+            <TextInput autoCapitalize={'none'}
+              style={[styles.textInput, { bottom: toDp(50) }]}
+              placeholder={'Password'}
+              placeholderTextColor={'grey'}
+              secureTextEntry={state.secureTextEntry}
+              value={state.password}
+              onChangeText={(text) => Shaone(text)}
+            />
+            <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+              <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+            </Pressable>
+          </View>
         </View>
-    )
+
+
+        <Pressable style={{ left: toDp(260), bottom: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+          <Text style={styles.textForgot}>Lupa Kata Sandi</Text>
+        </Pressable>
+
+        <View style={styles.viewRow}>
+          <Pressable
+            onPress={() => NavigatorService.navigate('Login')}
+            style={styles.pressableLogin}>
+            <Text style={styles.textLogin}>Masuk</Text>
+          </Pressable>
+          <Pressable
+            style={styles.pressableSignup} onPress={() => RegisterMember()}>
+            <Text style={styles.textSignup}>Daftar</Text>
+          </Pressable>
+        </View>
+
+        <Text style={styles.textDont}>Atau Masuk Dengan</Text>
+        <View style={styles.rowFooter}>
+          <Pressable style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(40), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={allLogo.icGoogle} style={styles.icon} />
+              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
+            </View>
+          </Pressable>
+
+          <Pressable style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(40), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={allLogo.icFacebook} style={styles.icon} />
+              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
+            </View>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </View>
+  )
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -212,12 +213,12 @@ const styles = StyleSheet.create({
     padding: toDp(27) //Y
   },
   title: {
-      color: 'white',
-      fontWeight: 'bold',
-      bottom:toDp(30),
-      paddingBottom: toDp(13),
-      fontSize: toDp(18),
-      textAlign:'center'
+    color: 'white',
+    fontWeight: 'bold',
+    bottom: toDp(30),
+    paddingBottom: toDp(13),
+    fontSize: toDp(18),
+    textAlign: 'center'
   },
   desc: {
     fontSize: toDp(13),
@@ -241,8 +242,8 @@ const styles = StyleSheet.create({
     padding: toDp(16),
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
     marginBottom: toDp(-20),
-    bottom:toDp(10)
+    bottom: toDp(10)
   },
   positionRight: {
     width: '100%',
@@ -265,8 +266,8 @@ const styles = StyleSheet.create({
   textDont: {
     fontSize: toDp(13),
     color: 'white',
-    textAlign:'center',
-    top:toDp(20)
+    textAlign: 'center',
+    top: toDp(20)
   },
   textClick: {
     fontSize: toDp(14),
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
   },
   viewRow: {
     paddingLeft: toDp(168),
-    flexDirection:'row',
+    flexDirection: 'row',
   },
   textForgot: {
     color: 'white',
@@ -323,14 +324,14 @@ const styles = StyleSheet.create({
   },
   rowFooter: {
     flexDirection: 'column',
-    top:toDp(30),
-    alignItems:'center'
+    top: toDp(30),
+    alignItems: 'center'
   },
   icon: {
     width: toDp(25),
     height: toDp(25),
     marginHorizontal: toDp(5),
-    top:toDp(7)
+    top: toDp(7)
   },
   textCreate: {
     textAlign: 'right'
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: toDp(14)
   },
-  dropdown:{
+  dropdown: {
     // height:toDp(38),
     // borderRadius:toDp(13),
     // width:toDp(310),
@@ -360,8 +361,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F3F3',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
-    bottom:toDp(23)
+    bottom: toDp(23)
   },
 });
- 
+
 export default Register;
