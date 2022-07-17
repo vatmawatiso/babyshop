@@ -78,12 +78,12 @@ const Keranjang = (props) => {
           console.log('id cart ini', JSON.stringify(dataCartProduk))
           AsyncStorage.setItem('idCartProduk', dataCartProduk.id_crt)
           AsyncStorage.setItem('cartProduk', JSON.stringify(dataCartProduk))
-          setState(state => ({ ...state, dataCart: response.data.data, stock: response.data.data[0]?.stock}))
-          setState(stateass => ({ ...state, totalCart: response.data}))
+          setState(state => ({ ...state, dataCart: response.data.data,  stock: parseInt(response.data.data[0]?.stock)}))
+          setState(state => ({ ...state, totalCart: response.data}))
           // getCartrRefresh()
-          let stok1 = parseInt(state.stock);
-          console.log('stok1', stok1)
-          setState(state => ({ ...state, stock2: stok1}))
+          // let stok1 = parseInt(state.stock);
+          console.log('stok1', state.stock)
+          // setState(state => ({ ...state, stock2: stok1}))
           
  
           let qtys = response.data.data.map((doc, i) => {
@@ -102,7 +102,7 @@ const Keranjang = (props) => {
  
  
         } else if (response.data.status == 404) {
-          NavigatorService.navigate('underConstruction')
+          NavigatorService.navigate('emptyCart')
           console.log('response', response)
         } else {
           alert('Gagal Mengambil Data')
@@ -297,7 +297,7 @@ const Keranjang = (props) => {
                   value={state.qty2[inc]?.[index]}
                   onChange={value => CartQty(item.crd_id, item.qty, item.prd_id, idcart, value, index)}
                   onLimitReached={(isMax, msg) => alert('Stok Terbatas')}
-                  maxValue={state.stock2}
+                  maxValue={state.stock}
                   totalWidth={90}
                   totalHeight={30}
                   iconSize={toDp(25)}
