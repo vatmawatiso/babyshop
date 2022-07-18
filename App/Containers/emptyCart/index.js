@@ -19,7 +19,7 @@ import NavigatorService from '@NavigatorService'
 const emptyCart = (props) => {
     return (
         <View style={styles.container}>
-            <Image source={allLogo.ic_underConst} style={styles.imgUnderConst}/>
+            <Image source={allLogo.empty} style={styles.imgUnderConst}/>
                 <View style={styles.viewTxtImg}>
                     <Text style={styles.txt1}>Your Cart Is Empty</Text>
                 {/* <Text style={styles.txt2}>We Are Working On It!</Text> */}

@@ -54,6 +54,7 @@ const Detailkategori = (props) => {
         retail_id: data.retail_id,
       }))
        console.log('RTL ID '+ JSON.stringify(state.retail_id));
+       console.log('name '+ JSON.stringify(state.mb_name));
 
     }).catch(err => {
       console.log('err', err)
@@ -71,10 +72,13 @@ const Detailkategori = (props) => {
     detailKategori()
   }, [])
 
+  
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
-    axios.get('https://market.pondok-huda.com/dev/react/product/'+ state.retail_id + kid)
+    console.log('kid ', (kid))
+    axios.get('https://market.pondok-huda.com/dev/react/product/getct/'+state.retail_id+'/'+kid)
       .then(result => {
+        console.log('Detail Kategori '+ JSON.stringify(result.data));
         if (result.data.status == 200) {
           //hendle success
           console.log('Produk Bangunan ===> ', result);

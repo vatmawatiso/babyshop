@@ -123,8 +123,7 @@ const Layananjasa = (props) => {
           let data = result.data.data.map((doc, i) => {
             let isSwitch = '';
             if (doc.shr_status != '') {
-              if (doc.shr_status == 1)
-               {
+              if (doc.shr_status == 1) {
                 isSwitch = true;
               } else {
                 isSwitch = false;
@@ -164,11 +163,11 @@ const Layananjasa = (props) => {
   }
 
   const setSwitchValue = (input, name, i, id) => {
-    let status = 1;
+    let status = 0;
 
     let { isSwitch } = state;
     isSwitch[i] = !state.isSwitch[i];
-    if (isSwitch[i] == false) {
+    if (isSwitch[i] === false) {
       status = 0
     } else {
       status = 1
@@ -220,15 +219,16 @@ const Layananjasa = (props) => {
                 //Tolong di fix
                 if ((state.textInputs[index] === 0) || (state.textInputs[index] === '')) {
                   let swDis = state;
-                  swDis[index] = false;
+                  swDis[index] = true;
                   setState(state => ({
                     ...state,
                     swDis
                   }));
+                  console.log('cek switch '+ JSON.stringify(state.swDis));
 
                 } else {
                   let swDis = state;
-                  swDis[index] = true;
+                  swDis[index] = !state.swDis[index];
                   setState(state => ({
                     ...state,
                     swDis
@@ -289,11 +289,11 @@ const Layananjasa = (props) => {
           ListFooterComponent={() => <View style={{ height: toDp(50) }} />}
         />
       </View>
-      <Text> {JSON.stringify(state.textInputs)}</Text>
+      {/* <Text> {JSON.stringify(state.textInputs)}</Text>
       <Text> {state.textInputs[0] != 0 ? 'yes' : 'no'}</Text>
       <Pressable style={styles.btnJasa} onPress={() => InputpayJasa()}>
         <Text style={styles.txtSimpan}>Simpan Harga</Text>
-      </Pressable>
+      </Pressable> */}
       {/* </ScrollView> */}
     </View>
   );

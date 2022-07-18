@@ -6,7 +6,6 @@ import {
   Image,
   ActivityIndicator,
   Alert,
-
   Pressable,
   TouchableOpacity,
   AsyncStorage,
@@ -85,7 +84,7 @@ const Profilone = (props) => {
         picture: data.value.picture,
         id_retail: data.retail_id,
       }))
-      console.log('MB ID ' + JSON.stringify(state.mb_id));
+      console.log('id retail ' + JSON.stringify(state.id_retail));
       // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {

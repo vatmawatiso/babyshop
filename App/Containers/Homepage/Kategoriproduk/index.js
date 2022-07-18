@@ -10,7 +10,9 @@ import {
   ImageBackground,
   Pressable,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
+  LogBox,
+  TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -21,45 +23,62 @@ import Search from '@Search'
 import NavigatorService from '@NavigatorService'
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
-
+// import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get('window')
 
 const Kategoriproduk = () => {
-
+  const [selectedItems, setSelectedItems] = useState([]);
   const [state, setState] = useState({
     dataProduk: [],
+    dataWish: [],
+    ws_mb_id: '',
+    ws_rtl_id: '',
+    ws_prd_id: '',
     dataKategori: '',
     loading: false,
     sChip: '',
-    dataLain:[],
+    id: '',
+    icHide: ''
   })
-  const [sChip, setChip] = useState(['Dapur', 'Kamar Mandi', 'Atap Rumah', 'Jendela', 'Cat Tembok', 'Peralatan Bangunan', 'Ruang Tamu'])
-
   useEffect(() => {
 
-    produk()
-
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
     dataCat()
-  }, [])
 
-  const produk = () => {
-    Axios.get('https://market.pondok-huda.com/dev/react/product/')
-      .then(result => {
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        id: ids
+      }))
+      console.log('iddddd', state.id)
+    }).catch(err => {
+      console.log('err', err)
+    })
 
-        console.log('result', result);
-        setState(state => ({ ...state, dataProduk: result.data.data }))
-        console.log('result2 =>', result.data.data)
-      }).catch(error => {
-        console.log(error)
-      })
-  }
+    return (() => {
+
+      produk()
+    })
+
+    console.log('loooo');
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        alert('load')
+      }
+    );
+
+  }, [state.id])
+
 
   const dataCat = () => {
     setState(state => ({ ...state, loading: true }))
     Axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         if (result.data.status == 200) {
-          // console.log('result kategori =>', result)
+          console.log('result kategori =>', result)
           setState(state => ({ ...state, dataKategori: result.data.data }));
           // convert(result.data)
           setState(state => ({ ...state, loading: false }))
@@ -72,6 +91,110 @@ const Kategoriproduk = () => {
         setState(state => ({ ...state, loading: false }))
       })
   }
+
+  // get produk yg kotak2 besar
+  const produk = () => {
+    Axios.get('https://market.pondok-huda.com/dev/react/product/')
+      .then(result => {
+        console.log('result', result);
+        getCurrentWsh()
+        setState(state => ({ ...state, dataProduk: result.data.data }))
+
+        console.log('result2 =>', result.data.data)
+      }).catch(error => {
+        console.log(error)
+      })
+  }
+
+  const getCurrentWsh = () => {
+    AsyncStorage.getItem('uid').then(uids => {
+      let idmb = uids;
+
+      Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
+        .then(result => {
+          console.log('current Wishlish---->' + idmb);
+          let oid = result.data;
+          if (oid.data.length > 0) {
+            console.log('length--------> ' + oid.data.length);
+            //setState(state => ({...state, curWishlist: result.data.data}))
+            setSelectedItems(result.data.data)
+          } else {
+            console.log('null--------> ' + oid.data.length);
+            setSelectedItems([])
+          }
+
+          //console.log('result2 =>', result.data.data)
+        }).catch(error => {
+          console.log(error)
+        })
+
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+  // memasukan produk ke wishlist
+  const selectItems = (id, retail, index) => {
+
+    if ((selectedItems.ws_prd_id != state.dataProduk[index]?.prd_id) && (selectedItems.ws_mb_id != state.id)) {
+      const body = {
+        ws_mb_id: state.id,
+        ws_rtl_id: retail,
+        ws_prd_id: id
+      }
+      console.log('data -----=>', body);
+      Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+        .then(response => {
+          console.log('wishlist -----=>', response.data);
+
+          if (response.data.status == 201) {
+            //alert('Produk telah masuk ke wishlist anda!')
+            //console.log('wishlist2 =>', response)
+            setSelectedItems([...selectedItems, body])
+          } else {
+            alert('Gagal menambahkan ke wishlist anda!')
+            console.log('Wishlish gagal =>', response)
+          }
+        }).catch(error => {
+          console.log('error wishlist =>', error)
+        })
+    }
+
+  };
+
+  // unlike produk
+  const deSelectItems = (id, retail, ws_mb_id) => {
+    if (selectItems.length > 0) {
+      if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
+        console.log('unloved' + id + '/' + ws_mb_id);
+        console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
+        Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
+          .then(response => {
+            console.log('response =>', response.data.status)
+            if (response.data.status == 200) {
+              const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
+              const arr3 = selectedItems.filter(arraylst);
+              return setSelectedItems(arr3);
+            } else {
+              console.log('response =>', response)
+            }
+          }).catch(error => {
+            console.log('error =>', error)
+          })
+      }
+    }
+  }
+
+  // filter button
+  const getSelected = (id, ws_mb_id) => {
+    if (selectItems.length > 0) {
+      if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id === ws_mb_id)) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+
   const convert = (datas) => {
     //this func => convert json to array
     let final = [];
@@ -82,15 +205,32 @@ const Kategoriproduk = () => {
     setState(state => ({ ...state, dataKategori: final })) //set result to state 
     //return JSON.stringify(final)
   }
+  const selectProduk = (value, id) => {
+    NavigatorService.navigate('Produk', { value, id: id })
+  }
 
-  const RenderItem = (item, index) => (
-      <View style={styles.card}>
-        <View style={[styles.txtProduct, { height: toDp(30) }]}>
+  const RenderItem = ({ item, index, onPress, selected, unLike, onPressProduk }) => (
+
+    <View style={styles.card}>
+      <Pressable onPress={() => onPressProduk()}>
+        <View style={styles.txtProduct}>
           <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.textproduct}>{item.product_name.substr(0, 4)}</Text>
-            <Image source={allLogo.icwishlist} style={{ width: toDp(25), height: toDp(25) }} />
+            <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+            <View>
+              {
+                selected == false ?
+                  <TouchableOpacity onPress={() => onPress()} key={index}>
+                    <Image source={allLogo.icwishlist} style={{ width: toDp(20), height: toDp(20) }} />
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity onPress={unLike} key={index}>
+                    <Image source={allLogo.heart} style={{ width: toDp(20), height: toDp(20) }} />
+                  </TouchableOpacity>
+              }
+            </View>
           </View>
+          {/* <Text style={styles.harga}>{item.price}</Text> */}
           <NumberFormat
             value={item.price}
             displayType={'text'}
@@ -105,13 +245,15 @@ const Kategoriproduk = () => {
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
         </ View>
-      </ View>
+      </Pressable>
+    </ View>
+
   );
 
   const CardProduct = () => {
     return (
       <FlatList style={{ backgroundColor: 'white', minHeight: toDp(400), width: width, marginTop: toDp(-10), }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        columnWrapperStyle={{ justifyContent: 'space-between', marginHorizontal: toDp(15) }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           bottom: toDp(13),
@@ -121,11 +263,17 @@ const Kategoriproduk = () => {
 
         numColumns={2}
         data={state.dataProduk}
-        renderItem={({ item, index }) => {
-          return (
-            RenderItem(item, index)
-          )
-        }}
+        renderItem={({ item, index }) => (
+          <RenderItem
+            item={item}
+            index={index}
+            onPress={() => selectItems(item.prd_id, item.retail, index)}
+            selected={getSelected(item.prd_id, state.id)}
+            unLike={() => deSelectItems(item.prd_id, item.retail, state.id)}
+            onPressProduk={() => selectProduk(item.prd_id)}
+          />
+        )}
+        KeyExtractor={item => item}
         ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
       />
     )
@@ -149,10 +297,9 @@ const Kategoriproduk = () => {
       <ScrollView style={styles.ScrollView}>
         {/* <Search onChangeText={(text)=> setSrc(text)} /> */}
         {/* <View style={{width: '100%', marginTop: toDp(1), flexDirection: 'column', height: toDp(100)}}> */}
-        <View style={{ width: '100%' }}>
+        <View style={{ width: '100%', marginVertical: 5 }}>
           <Text style={{ fontSize: toDp(10), fontWeight: 'bold', fontSize: toDp(13), marginLeft: toDp(14) }}>Kategori</Text>
         </View>
-
         <View style={styles.content}>
           <FlatList
             horizontal={true}
@@ -228,7 +375,7 @@ const styles = StyleSheet.create({
   },
   textButton1: {
     right: toDp(130),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(50),
     borderRadius: toDp(10),
@@ -237,7 +384,7 @@ const styles = StyleSheet.create({
   textButton2: {
     top: toDp(-11),
     right: toDp(58),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
     borderRadius: toDp(10),
@@ -246,34 +393,34 @@ const styles = StyleSheet.create({
   textButton3: {
     top: toDp(-22),
     right: toDp(-29),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(0),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   textButton4: {
     top: toDp(-33),
     right: toDp(-116),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(0),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   textButton5: {
     top: toDp(-28),
     right: toDp(130),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(50),
-    borderRadius: toDp(0),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   textButton6: {
     top: toDp(-39),
     right: toDp(49),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(13),
     width: toDp(100),
     borderRadius: toDp(10),
@@ -282,10 +429,10 @@ const styles = StyleSheet.create({
   textButton7: {
     top: toDp(-51),
     right: toDp(-48),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     height: toDp(11),
     width: toDp(80),
-    borderRadius: toDp(8),
+    borderRadius: toDp(10),
     textAlign: 'center'
   },
   product: {
@@ -293,7 +440,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     textAlign: 'center',
     borderRadius: toDp(10),
     width: toDp(70),
@@ -320,7 +467,7 @@ const styles = StyleSheet.create({
   },
   textVocher: {
     right: toDp(32),
-    top: toDp(3),
+    top: toDp(-8),
     fontSize: toDp(13)
   },
   judul: {
@@ -332,24 +479,15 @@ const styles = StyleSheet.create({
   contentVocher: {
     flexDirection: 'row',
     right: toDp(59),
-    bottom: toDp(5)
+    bottom: toDp(20)
   },
   vocher: {
     // top: toDp(10),
-    backgroundColor: '#F9F8F8',
+    backgroundColor: '#C4C4C4',
     margin: toDp(5),
     paddingRight: toDp(20),
     // left: toDp(65),
-    borderRadius: toDp(10),
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 3,
+    borderRadius: toDp(10)
   },
   titleVocher: {
     textAlign: 'center',
@@ -372,13 +510,12 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'white',
-    bottom: toDp(-15),
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius: toDp(10),
-    height: toDp(221),
-    right: toDp(2),
+    height: toDp(251),
+    right: toDp(17),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -405,7 +542,7 @@ const styles = StyleSheet.create({
     right: toDp(0)
   },
   dariKota: {
-    bottom: toDp(12),
+    bottom: toDp(10),
     left: toDp(15)
   },
   textproduct: {
@@ -427,7 +564,7 @@ const styles = StyleSheet.create({
     marginLeft: toDp(8),
     backgroundColor: '#2B324C',
     height: toDp(45),
-    borderRadius: toDp(6),
+    borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -52,7 +52,7 @@ const Homeseller = (props) => {
       let data = JSON.parse(response);
       //const val = JSON.stringify(data);
 
-      // console.log('Homeseller ==> '+ JSON.stringify(data));
+      console.log('Homeseller ==> '+ JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -90,7 +90,7 @@ const Homeseller = (props) => {
         let data = JSON.parse(response);
         //const val = JSON.stringify(data);
 
-        //console.log('Profilseller ------->'+ JSON.stringify(response));
+        console.log('Profilseller ------->'+ JSON.stringify(response));
 
         setState(state => ({
           ...state,
@@ -99,7 +99,8 @@ const Homeseller = (props) => {
           mb_email: data.value.mb_email,
           mb_phone: data.value.mb_phone,
           mb_type: data.value.mb_type,
-          picture: data.value.picture
+          picture: data.value.picture,
+          
         }))
 
       }).catch(err => {
@@ -188,7 +189,7 @@ const Homeseller = (props) => {
           </View>
 
           <View style={styles.viewpengiriman}>
-            <Pressable style={styles.btnPembayaran}>
+            <Pressable style={styles.btnPembayaran} onPress={() => NavigatorService.navigate('underConstruction')}>
               <Image source={allLogo.wallet} style={styles.wallet} />
               <Text style={styles.txtPembayaran}>Pembayaran</Text>
             </Pressable>
@@ -236,7 +237,7 @@ const Homeseller = (props) => {
               <View style={styles.viewSaldo}>
                 <Text style={styles.txtSaldo}>Saldo</Text>
                 <NumberFormat
-                  value={5000000}
+                  value={0}
                   displayType={'text'}
                   thousandSeparator={'.'}
                   decimalSeparator={','}

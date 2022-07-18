@@ -32,6 +32,7 @@ const Orderpage = (props) => {
       <Order
         title={'Pesanan Saya'}
         onPress={() => props.navigation.goBack()}
+        onChat={() => NavigatorService.navigate('underConstruction')}
       />
 
       <View style={{alignItems:'center'}}>

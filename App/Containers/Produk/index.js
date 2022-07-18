@@ -311,6 +311,7 @@ const Produk = (props) => {
                 <Text>Kondisi</Text>
                 <Text>Warna</Text>
                 <Text>Dikirim dari</Text>
+                <Text>Jumlah</Text>
               </View>
               <View>
                 <Text> : {item[0]?.stock}</Text>
@@ -318,9 +319,18 @@ const Produk = (props) => {
                 <Text> : {item[0]?.kondisi}</Text>
                 <Text> : -</Text>
                 <Text> : {item[0]?.retailaddres}</Text>
+                <TextInput
+                      keyboardType="numeric"
+                      autoCapitalize={'none'}
+                      style={styles.textInput}
+                      placeholder={'Jumlah'}
+                      placeholderTextColor={'grey'}
+                      value={state.qty}
+                      onChangeText={(qty) => setState(state => ({ ...state, qty }))}
+                    />
               </View>
             </View>
-
+{/* 
             <Collapse style={{ top: toDp(15), left: toDp(50), marginBottom: toDp(10) }}>
               <CollapseHeader>
                 <View style={{ alignItems: 'center', right: toDp(55) }}>
@@ -335,7 +345,7 @@ const Produk = (props) => {
                     <Text>Warna</Text>
                     <Text>Kapasitas</Text>
                     <Text>Dikirim dari</Text>
-                    <Text>Jumlah</Text>
+                    
                   </View>
                   <View>
                     <Text> : {item[0]?.stock}</Text>
@@ -343,24 +353,16 @@ const Produk = (props) => {
                     <Text> : -</Text>
                     <Text> : -</Text>
                     <Text> : {item[0]?.retailaddres}</Text>
-                    <TextInput
-                      keyboardType="numeric"
-                      autoCapitalize={'none'}
-                      style={styles.textInput}
-                      placeholder={'Jumlah'}
-                      placeholderTextColor={'grey'}
-                      value={state.qty}
-                      onChangeText={(qty) => setState(state => ({ ...state, qty }))}
-                    />
+            
                   </View>
                 </View>
               </CollapseBody>
-            </Collapse>
+            </Collapse> */}
           </View>
 
           <View style={styles.Ulasan}>
             <Text style={styles.txtUlasan}>Ulasan Pembeli</Text>
-            <Pressable style={{ right: toDp(15) }} onPress={() => NavigatorService.navigate('Ulasanpembeli', { value, id: id })}>
+            <Pressable style={{ right: toDp(15) }} onPress={() => NavigatorService.navigate('underConstruction')}>
               <View style={{ flexDirection: 'row' }}>
                 <Text>Lihat Ulasan</Text>
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
@@ -390,7 +392,7 @@ const Produk = (props) => {
 
       <View style={styles.footer}>
         <View style={styles.btnMenu}>
-          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
+          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('underConstruction')}>
             <Image source={allLogo.Chat1} style={styles.icchat} />
           </TouchableOpacity>
           <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat, item[0].id, item[0].product_name, item[0].price)}>

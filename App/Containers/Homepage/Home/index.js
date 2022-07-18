@@ -261,7 +261,7 @@ const Home = (props) => {
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
           <Image source={allLogo.icaddress} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres.substr(0, 12)}</Text>
+          <Text style={styles.dariKota}>{item.retailaddres.substr(0, 15)}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>

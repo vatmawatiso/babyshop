@@ -221,7 +221,7 @@ const Alamattoko = (props) => {
       </View>
 
       <View style={styles.flatcontent}>
-        <FlatList style={{ width: '100%', marginTop: toDp(10) }}
+        <FlatList style={{ width: '100%', marginTop: toDp(0) }}
           data={state.datas}
           renderItem={({ item, index }) => {
             return (

@@ -44,6 +44,13 @@ const Editprofil = (props) => {
 
   useEffect(() => {
     // get data pengguna
+    AsyncStorage.getItem('login').then(response =>{
+      console.log('login :', response);
+      setState(state => ({...state, login: response}))
+    }).catch(err =>{
+      console.log('err', err)
+    })
+    
     AsyncStorage.getItem('member').then(response => {
       //console.log('Editprofil ------->' + JSON.stringify(response));
 
@@ -207,33 +214,6 @@ const Editprofil = (props) => {
         setState(state => ({ ...state, loading: false }))
       })
   }
-
-  // const upImageToServer = (imagePath) => {
-  //   const imageData = new FormData();
-  //   imageData.append("picture", {
-  //     uri: imagePath,
-  //     name: 'image.jpg',
-  //     type: 'image/jpg'
-  //   })
-  //   console.log('This imageData', imageData)
-  //   fetch('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/', {
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'multipart/form-data'
-  //     },
-  //     method: 'POST',
-  //     body: imageData
-  //   }).then(response => response.json())
-  //   .then(response => {
-  //     console.log(response)
-  //     if (response.status == 200) {
-  //       refresh()
-  //     }
-  //   }).catch(error => {
-  //     console.log(error)
-  //     alert('gagal gagal')
-  //   })
-  // }
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);

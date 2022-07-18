@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width:'100%',
-    height: 60,
+    height: toDp(60),
     backgroundColor: '#52B788',
     shadowColor: "#000",
     shadowOffset: {
@@ -132,7 +132,7 @@ input: {
     paddingBottom: 10,
     paddingLeft: 0,
     backgroundColor: '#2A334B',
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     paddingLeft: toDp(45),
     color:'#FFF'
 },

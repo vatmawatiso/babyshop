@@ -48,6 +48,8 @@ const Belumbayar = (props) => {
 
     })
 
+    
+
     useEffect(() => {
         AsyncStorage.getItem('member').then(response => {
             // console.log('Profil----------->'+ JSON.stringify(response));
@@ -67,7 +69,7 @@ const Belumbayar = (props) => {
               picture: data.value.picture,
               id_retail: data.retail_id,
             }))
-            console.log('MB ID ' + JSON.stringify(state.mb_id));
+            console.log('MB ID ' + JSON.stringify(state.id_retail));
             // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
       
           }).catch(err => {
@@ -149,7 +151,7 @@ const Belumbayar = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('underConstruction')}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat

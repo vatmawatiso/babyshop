@@ -45,7 +45,7 @@ class Order extends Component {
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
+                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onChat}>
                   <Image source={allLogo.Chat1} style={styles.chat} />
                 </TouchableOpacity>
               </View>

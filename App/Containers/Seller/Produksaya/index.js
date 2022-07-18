@@ -144,7 +144,7 @@ const Produksaya = (props) => {
     let count = '';
     let nama  = '';
     count = product_name.split(' ' || '-');
-    nama  = count.slice(0, 2).join(' ');
+    nama  = count.slice(0, 0,).join(' ');
     return nama
 }
 
@@ -153,7 +153,7 @@ const Produksaya = (props) => {
       <View style={styles.card}>
           <View style={styles.txtProduct}>
              <Image source={{uri: item.thumbnail}} style={styles.imgProduct} />
-             <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+             <Text style={styles.textproduct}>{item.product_name}</Text>
              <Text style={styles.harga}>Rp {item.price}</Text>
 
              <Image source={allLogo.icaddress} style={styles.address} />

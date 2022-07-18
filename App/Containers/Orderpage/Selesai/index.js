@@ -105,7 +105,7 @@ const Selesai = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('underConstruction')}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat

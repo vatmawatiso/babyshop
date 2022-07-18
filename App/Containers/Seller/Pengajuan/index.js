@@ -25,7 +25,7 @@ const Pengajuan = (props) => {
     const DATA = [
         {
             id: '2938492',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+            image: 'https://www.pngfind.com/pngs/m/93-938050_png-file-transparent-white-user-icon-png-download.png'
         },
     ]
 

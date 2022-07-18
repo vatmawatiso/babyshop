@@ -9,6 +9,7 @@ import {
   Pressable,
   Platform,
   AsynStorage,
+  TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -17,6 +18,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Loader from '@Loader';
 import axios from 'axios';
+import CheckBox from '@react-native-community/checkbox';
 import { ScrollView } from 'react-native-gesture-handler';
 import { sha1 } from 'react-native-sha1';
 const Register = (props) => {
@@ -36,6 +38,8 @@ const Register = (props) => {
     valMail: false,
     valPass: false,
   })
+  const [isSelected, setSelection] = useState(false)
+  const [isDisable, setDisable] = useState(true)
 
   const RegisterMember = async (value) => {
     const body = {
@@ -72,6 +76,15 @@ const Register = (props) => {
     })
   }
 
+  const toggleAgree = (val) => {
+    setSelection(val)
+    if (isSelected == true) {
+      setDisable(true)
+    } else {
+      setDisable(false)
+    }
+  }
+
   const validateInput = () => {
     if (state.mb_name.trim() == '') {
       alert('Nama tidak boleh kosong!')
@@ -100,6 +113,18 @@ const Register = (props) => {
 
     RegisterMember()
   }
+  const passlength = (pass) => {
+    const psw = pass;
+
+    if (psw.length >= 6) {
+      setState(state => ({ ...state, valPass: false }));
+      Shaone(pass);
+
+    } else {
+      setState(state => ({ ...state, valPass: true }))
+
+    }
+  }
 
 
 
@@ -109,7 +134,7 @@ const Register = (props) => {
         <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
         <Text style={styles.title}>Buat Akun</Text>
 
-        <View style={{ marginTop: toDp(-18) }}>
+        <View style={{ marginTop: toDp(-18), marginLeft:toDp(10) }}>
           <Text style={styles.textName}>Nama</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
@@ -187,11 +212,17 @@ const Register = (props) => {
               placeholderTextColor={'grey'}
               secureTextEntry={state.secureTextEntry}
               value={state.password}
-              onChangeText={(text) => Shaone(text)}
+              onChangeText={(password) => passlength(password)}
             />
-            <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-              <Image source={styles.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+             <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+              <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
             </Pressable>
+            {state.valPass === true ? (
+              <Text>
+                * Katasandi harus lebih dari 6 karakter
+              </Text>
+            ) : null
+            }
           </View>
         </View>
 
@@ -206,10 +237,10 @@ const Register = (props) => {
             style={styles.pressableLogin}>
             <Text style={styles.textLogin}>Masuk</Text>
           </Pressable>
-          <Pressable
-            style={styles.pressableSignup} onPress={() => validateInput()}>
-            <Text style={styles.textSignup}>Daftar</Text>
-          </Pressable>
+          <TouchableOpacity disabled={isDisable} style={[styles.pressableSignup, { backgroundColor: isDisable==true ?  'grey' : '#698498'} ]}
+                     onPress={() => validateInput()}>
+            <Text style={styles.textLogin}>Daftar</Text>
+          </TouchableOpacity>
         </View>
 
 
@@ -229,6 +260,17 @@ const Register = (props) => {
             </View>
           </Pressable>
         </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+          <CheckBox
+            value={isSelected}
+            onValueChange={(val) => toggleAgree(val)}
+            style={styles.checkbox}
+          />
+          <Pressable style={{ padding: 5, marginLeft: toDp(-10), height: toDp(48), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Terms')}>
+            <Text style={{ fontSize: 14 }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </View>
   )
@@ -243,6 +285,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingVertical: toDp(50),
+  },
+  errorMessage: {
+    // marginTop:toDp(3),
+    marginBottom: toDp(15),
+    color: '#780000',
+    fontSize: toDp(15),
+    left: 0,
+    position: 'relative',
   },
   logo: {
     width: toDp(200),
@@ -322,6 +372,7 @@ const styles = StyleSheet.create({
   viewRow: {
     paddingLeft: toDp(168),
     flexDirection: 'row',
+    marginLeft:toDp(10)
   },
   textForgot: {
     color: 'white',
@@ -330,11 +381,21 @@ const styles = StyleSheet.create({
     right: toDp(12)
   },
   pressableSignup: {
-    width: toDp(75),
-    height: toDp(70),
+    borderRadius: toDp(10),
+    width: toDp(80),
+    height: toDp(40),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft:toDp(5)
   },
   pressableLogin: {
+    borderRadius: toDp(10),
+    width: toDp(80),
+    height: toDp(40),
+    backgroundColor: '#698498',
     right: toDp(167),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textSignup: {
     color: 'white',
@@ -343,18 +404,18 @@ const styles = StyleSheet.create({
     width: toDp(80),
     height: toDp(40),
     paddingLeft: toDp(20),
-    backgroundColor: '#698498',
+    // backgroundColor: '#698498',
     borderRadius: toDp(10)
   },
   textLogin: {
     color: 'white',
     fontSize: toDp(14),
-    backgroundColor: '#698498',
-    borderRadius: toDp(10),
+    textAlignVertical: 'center',
     width: toDp(80),
     height: toDp(40),
-    paddingLeft: toDp(19),
-    textAlignVertical: 'center',
+    paddingLeft: toDp(20),
+    // backgroundColor: 'red',
+    borderRadius: toDp(10)
   },
   icVisibility: {
     width: toDp(24),

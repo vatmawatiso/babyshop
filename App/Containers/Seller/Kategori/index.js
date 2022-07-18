@@ -58,7 +58,7 @@ const Kategori = (props) => {
         picture: data.value.pictures,
         retail_id: data.retail_id,
       }))
-      console.log('RTL ID '+ JSON.stringify(state.retail_id));
+      console.log('RTL_ID '+ JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)
@@ -131,7 +131,7 @@ const Kategori = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={styles.bodyProfil}>
+      {/* <View style={styles.bodyProfil}>
         <View style={styles.profil1}>
           <Image source={state.picture ? { uri: state.picture } :
             require('../../../Assets/img/tzuyu.jpg')}
@@ -160,7 +160,7 @@ const Kategori = (props) => {
           </Pressable>
 
         </View>
-      </View>
+      </View> */}
 
       <View style={styles.BodyKategori}>
         <View style={{ top: toDp(10), justifyContent: 'center', alignItems: 'center' }}>
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   },
   BodyKategori: {
     width: toDp(335),
-    height: toDp(378),
+    height: toDp(470),
     borderRadius: toDp(10),
     backgroundColor:'#f8f9f9',
     top: toDp(20),

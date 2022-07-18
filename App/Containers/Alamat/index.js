@@ -30,11 +30,11 @@ const Alamat = (props) => {
     mb_name: '',
     cty_name: '',
     adr_address: '',
-    adr_name:''
+    adr_name: ''
   })
 
   useEffect(() => {
- 
+
     AsyncStorage.getItem('uid').then(uids => {
       // console.log('ids', uids)
       let ids = uids;
@@ -49,34 +49,35 @@ const Alamat = (props) => {
 
     AsyncStorage.getItem('member').then(response => {
       // console.log('Profil----------->'+ JSON.stringify(response));
- 
-      let data    =  JSON.parse(response);
+
+      let data = JSON.parse(response);
       // const val = JSON.stringify(data);
- 
+
       //console.log('Jadikan Alamat Utama----------->'+ JSON.stringify(data));
- 
-      setState(state => ({...state,
+
+      setState(state => ({
+        ...state,
         adr_mb_id: data.adr_mb_id,
         adr_id: data.adr_id,
         // mb_name:data.value.mb_name,
         // mb_phone:data.value.mb_phone,
       }))
- 
- 
+
+
     }).catch(err => {
       console.log('err', err)
     })
- 
+
     getAlamatClient()
- 
+
     props.navigation.addListener(
-         'didFocus',
-         payload => {
- 
-             getAlamatClient()
-         }
-   );
- 
+      'didFocus',
+      payload => {
+
+        getAlamatClient()
+      }
+    );
+
   }, [])
 
   const getAlamatClient = () => {
@@ -154,21 +155,21 @@ const Alamat = (props) => {
 
   const deleteAlamat = (adr_id) => {
     // const adr = props.navigation.state.params.adr_id
-    axios.delete('https://market.pondok-huda.com/dev/react/addres/'+adr_id)
-    .then(response => {
-      console.log('Alamat '+ JSON.stringify(response));
-      if(response.data.status === 200 ){
-        console.log(response);
-        alert('Berhasil menghapus alamat')
-        refresh()
-        setState(state => ({...state, datas: response.data.data}))
-      } else if (response.data.status === 500) {
-        alert('gagal')
-        console.log(response)
-      }
-    }).catch(error => {
-      console.log(error)
-    })
+    axios.delete('https://market.pondok-huda.com/dev/react/addres/' + adr_id)
+      .then(response => {
+        console.log('Alamat ' + JSON.stringify(response));
+        if (response.data.status === 200) {
+          console.log(response);
+          alert('Berhasil menghapus alamat')
+          refresh()
+          setState(state => ({ ...state, datas: response.data.data }))
+        } else if (response.data.status === 500) {
+          alert('gagal')
+          console.log(response)
+        }
+      }).catch(error => {
+        console.log(error)
+      })
   }
 
   const Address = [
@@ -180,16 +181,16 @@ const Alamat = (props) => {
     },
   ]
 
-  const displayName = (cty_name) =>{
+  const displayName = (cty_name) => {
     let count = '';
-    let nama  = '';
+    let nama = '';
     count = cty_name.split(' ' || '-');
-    nama  = count.slice(0, 2,).join(' ');
+    nama = count.slice(0, 2,).join(' ');
     return nama
-}
+  }
 
-  const selectAlamat = (adr_id,hp, alamat, cty_id, cty_name, adr_name) => {
-    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name, adr_name : adr_name })
+  const selectAlamat = (adr_id, hp, alamat, cty_id, cty_name, adr_name) => {
+    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id: cty_id, cty_name: cty_name, adr_name: adr_name })
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
@@ -215,15 +216,25 @@ const Alamat = (props) => {
     </View>
   )
 
-  return ( 
+  return (
     <View style={styles.container}>
       <BackHeader
         title={'Alamat'}
         onPress={() => props.navigation.goBack()}
       />
 
+      <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10) }}>
+        <Pressable style={{width:toDp(335)}} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+          <View style={styles.btnAddress}>
+            <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
+            <Image source={allLogo.icplus} style={styles.icplus} />
+          </View>
+        </Pressable>
+      </View>
+
+
       <View style={styles.flatcontent}>
-        <FlatList style={{ width: '100%', marginTop: toDp(30) }}
+        <FlatList style={{ width: '100%', marginTop: toDp(0) }}
           data={state.datas}
           renderItem={({ item, index }) => {
             return (
@@ -234,12 +245,8 @@ const Alamat = (props) => {
         />
       </View>
 
-      <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('TambahAlamat')}>
-        <View style={styles.btnAddress}>
-          <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
-          <Image source={allLogo.icplus} style={styles.icplus} />
-        </View>
-      </Pressable>
+
+
     </View>
   );
 
@@ -248,24 +255,24 @@ const Alamat = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#fff'
+    backgroundColor: '#fff'
     // justifyContent: 'center',
     // alignItems: 'center',
   },
   imgdelete: {
-    width:toDp(20), 
-    height:toDp(22), 
-    tintColor:'#F83308'
+    width: toDp(20),
+    height: toDp(22),
+    tintColor: '#F83308'
   },
-  btndelete:{
-    right:toDp(30), 
-    height:toDp(25),
-    alignSelf:'flex-end', 
-    bottom:toDp(10)
+  btndelete: {
+    right: toDp(30),
+    height: toDp(25),
+    alignSelf: 'flex-end',
+    bottom: toDp(10)
   },
   btnAlamat: {
-    bottom: toDp(100), 
-    width: toDp(335), 
+    bottom: toDp(100),
+    width: toDp(335),
     left: toDp(12),
     // backgroundColor:'#2A334B'
   },
@@ -299,9 +306,9 @@ const styles = StyleSheet.create({
     bottom: toDp(10),
   },
   icLocation: {
-    width: toDp(38), 
-    height: toDp(38), 
-    top:toDp(5)
+    width: toDp(38),
+    height: toDp(38),
+    top: toDp(5)
   },
   btnAddress: {
     backgroundColor: '#F9F8F8',
@@ -318,7 +325,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    
+
     elevation: 3,
   },
   icplus: {

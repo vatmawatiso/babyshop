@@ -27,6 +27,7 @@ const Settingtoko = (props) => {
     mb_id: '',
     mb_name: '',
     mb_phone: '',
+    id_retail:'',
     loading: false,
     adr_mb_id: '',
   })
@@ -34,23 +35,25 @@ const Settingtoko = (props) => {
   useEffect(() => {
 
     AsyncStorage.getItem('member').then(response => {
-      // console.log('Profil----------->'+ JSON.stringify(response));
+      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
 
       let data = JSON.parse(response);
-      // const val = JSON.stringify(data);
+      //const val = JSON.stringify(data);
 
-      console.log('Profilefiks----------->' + JSON.stringify(data));
+      // console.log('Homeseller ==> '+ JSON.stringify(data));
 
       setState(state => ({
         ...state,
-        mb_id: data.mb_id,
+        id: data.mb_id,
         mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
-        id_retail: data.retail_id,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture,
+        retail_id: data.retail_id,
       }))
-      console.log('cek state SettingToko----------->' + JSON.stringify(state.id_retail));
-      
-
+       console.log('RTL ID '+ JSON.stringify(state.retail_id));
+      //  console.log('name '+ JSON.stringify(state.mb_name));
 
     }).catch(err => {
       console.log('err', err)

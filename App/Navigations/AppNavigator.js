@@ -68,6 +68,9 @@ import Pengajuan from '../Containers/Seller/Pengajuan'
 import underConstruction from '../Containers/underConstruction';
 import emptyCart from "../Containers/emptyCart";
 import Sudahdibatalkan from "../Containers/Seller/Pengiriman/Sudahdibatalkan";
+import cartCheckout from "../Containers/cartCheckout";
+import Terms from "../Containers/Terms";
+import SuccessorderCart from "../Containers/SuccessorderCart";
 
 
 const AppNavigator = createStackNavigator(
@@ -139,6 +142,9 @@ const AppNavigator = createStackNavigator(
     Sedangdikirim: { screen: Sedangdikirim},
     Detailorderan: { screen: Detailorderan},
     emptyCart: { screen: emptyCart},
+    cartCheckout: { screen: cartCheckout},
+    Terms : { screen: Terms},
+    SuccessorderCart: { screen: SuccessorderCart},
     
     
   },

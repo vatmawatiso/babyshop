@@ -204,7 +204,7 @@ const Tambahproduk = (props) => {
                   'Content-Type': 'multipart/form-data',
         }
       })
-
+        alert ('berhasil tambah produk')
       .then(function(response) {
         console.log("response :", response.data);
         setState(state => ({ ...state,tmb_image:false}))

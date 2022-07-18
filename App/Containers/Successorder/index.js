@@ -10,13 +10,14 @@ import {
   Pressable,
   ScrollView,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
 import ImagePicker from 'react-native-image-crop-picker'
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window')
 
@@ -31,6 +32,10 @@ const Successorder = (props) => {
       ]
     
       const [state, setState] = useState({
+        price:'',
+        retail_id:'',
+        id_retail:'',
+        shp_harga:'',
         options: {
           width: 750,
           height: 750,
@@ -58,8 +63,8 @@ const Successorder = (props) => {
           picture: data.value.picture,
           id_retail: data.retail_id,
         }))
-        console.log('MB ID ' + JSON.stringify(state.mb_id));
-        // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
+        console.log('id retail ' + JSON.stringify(state.id_retail));
+        console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
   
       }).catch(err => {
         console.log('err', err)
@@ -75,30 +80,24 @@ const Successorder = (props) => {
         console.log('err', err)
       })
 
+      getJasa()
     
     }, [])
 
-    const camera = () => {
-        ImagePicker.openCamera(state.options).then(response => {
-        //   upImageToServer(response)
-        console.log(response)
-        }).catch(err => {
-          console.log(err)
-          if(err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
-            Alert.alert(
-              'Pengaturan',
-              'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
-              [
-                {text: 'Nanti Saja', onPress: () => console.log('Cancel')},
-                {text: 'Aktifkan', onPress: () => {
-                  Linking.openSettings();
-                }},
-              ],
-              {cancelable: false},
-            );
-          }
-        })
-      }
+    const getJasa = () => {
+      // setState(state => ({...state, loading: true }))
+      axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
+          .then(result => {
+              // console.log('jasa kirim  ' + JSON.stringify(result));
+              setState(state => ({ ...state, datas: result.data.data }))
+
+          }).catch(err => {
+              //console.log(err)
+              alert('Gagal menerima data dari server!' + err)
+              setState(state => ({ ...state, loading: false }))
+          })
+  }
+
 
      return (
       <View style={styles.container}>

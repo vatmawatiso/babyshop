@@ -42,9 +42,9 @@ const Keranjang = (props) => {
     stock: '',
     stock2: '',
     id: '',
-    mb_id:'',
+    mb_id: '',
     crt_id: '',
-    id_cart:''
+    id_cart: ''
   })
 
   useEffect(() => {
@@ -69,24 +69,24 @@ const Keranjang = (props) => {
     let mid = props.navigation.state.params.id
     Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
-        console.log('response get cart'+ JSON.stringify(response))
+        console.log('response get cart' + JSON.stringify(response))
         if (response.data.status == 200) {
           const dataCartProduk = {
             id_crt: response.data.data.id,
-            data: response.data
+            value: response.data
           }
           console.log('id cart ini', JSON.stringify(dataCartProduk))
           AsyncStorage.setItem('idCartProduk', dataCartProduk.id_crt)
           AsyncStorage.setItem('cartProduk', JSON.stringify(dataCartProduk))
-          setState(state => ({ ...state, dataCart: response.data.data, stock: parseInt(response.data.data[0]?.stock)}))
-          setState(state => ({ ...state, totalCart: response.data}))
+          setState(state => ({ ...state, dataCart: response.data.data, stock: parseInt(response.data.data[0]?.stock) }))
+          setState(state => ({ ...state, totalCart: response.data }))
           //getCartRefresh
           // let stok1 = parseInt(state.stock);
-          console.log('stok1', stok1)
+          console.log('stok1', state.stock)
           // setState(state => ({ ...state, stock2: stok1}))
 
           let qtys = response.data.data.map((doc, i) => {
-            return doc.items.map((docs,ix) => {
+            return doc.items.map((docs, ix) => {
               return parseInt(docs.qty)
             })
           })
@@ -110,7 +110,7 @@ const Keranjang = (props) => {
   }
 
   // refresh data cart
- 
+
   const getCartrRefresh = () => {
     //setState(state => ({ ...state, dataCart: []}))
     let mid = props.navigation.state.params.id
@@ -125,9 +125,9 @@ const Keranjang = (props) => {
           console.log('id cart ini', JSON.stringify(dataCartProduk))
           AsyncStorage.setItem('idCartProduk', dataCartProduk.id_crt)
           AsyncStorage.setItem('cartProduk', JSON.stringify(dataCartProduk))
-          setState(state => ({ ...state, dataCart: response.data.data}))
-          setState(state => ({ ...state, totalCart: response.data}))
- 
+          setState(state => ({ ...state, dataCart: response.data.data }))
+          setState(state => ({ ...state, totalCart: response.data }))
+
           let qtys = response.data.data.map((doc, i) => {
             return doc.items.map((docs, ix) => {
               return parseInt(docs.qty)
@@ -139,7 +139,7 @@ const Keranjang = (props) => {
             qty2: arrayOfNumbers
           }));
           console.log('QTYS ===>', arrayOfNumbers);
- 
+
         } else if (response.data.status == 404) {
           NavigatorService.navigate('underConstruction')
           console.log('response', response)
@@ -158,8 +158,8 @@ const Keranjang = (props) => {
     Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('total', response.data)
-        if(response.data.status == 200) {
-          setState(state => ({...state, totalCart: response.data}))
+        if (response.data.status == 200) {
+          setState(state => ({ ...state, totalCart: response.data }))
           getCartrRefresh()
         } else {
           alert('gagal merefresh total produk')
@@ -225,7 +225,7 @@ const Keranjang = (props) => {
   // fungsi numericInput +-
   const CartQty = (crd_id, crd_qty, prd_id, crt_id, value, i) => {
     //console.log('crd id', value)
-    let { qty2} = state;
+    let { qty2 } = state;
     qty2[i] = value;
     setState(state => ({
       ...state,
@@ -238,7 +238,7 @@ const Keranjang = (props) => {
       prd_id: prd_id,
       crt_id: crt_id
     }
-    console.log('------>>', crd_id+'  |  '+crd_qty+'  |  '+prd_id+'  |  '+crt_id+'  |  '+value+'  |  '+i)
+    console.log('------>>', crd_id + '  |  ' + crd_qty + '  |  ' + prd_id + '  |  ' + crt_id + '  |  ' + value + '  |  ' + i)
     Axios.post('https://market.pondok-huda.com/dev/react/cart/' + crd_id + '/', datas)
       .then(response => {
         console.log('response data=>', datas)
@@ -257,62 +257,62 @@ const Keranjang = (props) => {
       })
   }
 
-  const perProduk = (item, index, idcart, inc) =>{
-    return(
+  const perProduk = (item, index, idcart, inc) => {
+    return (
       <>
-          <View style={{ flexDirection: 'row', marginTop: toDp(10), marginBottom: toDp(4), backgroundColor:'#fff', padding:toDp(12), width:toDp(315)}}>
-            <View style={{ marginLeft: toDp(12) }}>
-              <Image source={{ uri: item.thumbnail }} style={styles.imgProduk} />
-            </View>
- 
-            <View style={{ marginLeft: toDp(12) }}>
-              <Text style={{ fontSize: toDp(12), fontWeight: 'bold', marginBottom: toDp(5) }}>{item.prd_name.substr(0, 25)}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontSize: toDp(12), marginTop: toDp(10) }}>{item.qty}</Text>
- 
-                <Text style={{ fontSize: toDp(14), marginTop: toDp(10), marginHorizontal: toDp(5) }}>x</Text>
-                <NumberFormat value={item.price} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
-                  renderText={(value, props) => <Text style={{ fontSize: toDp(12), marginTop: toDp(10), marginHorizontal: toDp(5) }}>{value}</Text>}
-                />
- 
-                <Text style={{ fontSize: toDp(14), marginTop: toDp(10), marginHorizontal: toDp(5) }}>=</Text>
-                <NumberFormat value={item.price*item.qty} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
-                  renderText={(value, props) =>
-                    <Text style={{ fontSize: toDp(12), marginTop: toDp(10), marginHorizontal: toDp(5) }}>{value}</Text>}
-                />
-              </View>
- 
- 
-              <View style={{ flexDirection: 'row', marginTop: toDp(25), justifyContent: 'flex-start', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => delCart(idcart, item.prd_id)}>
-                  <Image source={allLogo.ictrash} style={{ width: toDp(20), height: toDp(25), resizeMode: 'cover', marginRight: toDp(12) }} />
-                </TouchableOpacity>
-                <NumericInput
-                  key={index}
-                  initValue={item.qty == 0 ? 1 : state.qty2[inc]?.[index]}
-                  value={state.qty2[inc]?.[index]}
-                  onChange={value => CartQty(item.crd_id, item.qty, item.prd_id, idcart, value, index)}
-                  onLimitReached={(isMax, msg) => alert('Stok Terbatas')}
-                  maxValue={state.stock2}
-                  totalWidth={90}
-                  totalHeight={30}
-                  iconSize={toDp(25)}
-                  step={1}
-                  valueType='real'
-                  rounded
-                  textColor='black'
-                  inputStyle={{ backgroundColor: 'white' }}
-                  iconStyle={{ color: 'white' }}
-                  rightButtonBackgroundColor='#698498'
-                  leftButtonBackgroundColor='#698498'
- 
-                />
- 
-                <Text>{JSON.stringify(state.qty2[inc]?.data)}</Text>
-              </View>
- 
-            </View>
+        <View style={{ flexDirection: 'row', marginTop: toDp(10), marginBottom: toDp(4), backgroundColor: '#fff', borderRadius: 10, padding: toDp(12), width: toDp(315) }}>
+          <View style={{ marginLeft: toDp(12) }}>
+            <Image source={{ uri: item.thumbnail }} style={styles.imgProduk} />
           </View>
+
+          <View style={{ marginLeft: toDp(12) }}>
+            <Text style={{ fontSize: toDp(12), fontWeight: 'bold', marginBottom: toDp(5) }}>{item.prd_name.substr(0, 25)}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: toDp(12), marginTop: toDp(10) }}>{item.qty}</Text>
+
+              <Text style={{ fontSize: toDp(14), marginTop: toDp(10), marginHorizontal: toDp(5) }}>x</Text>
+              <NumberFormat value={item.price} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
+                renderText={(value, props) => <Text style={{ fontSize: toDp(12), marginTop: toDp(10), marginHorizontal: toDp(5) }}>{value}</Text>}
+              />
+
+              <Text style={{ fontSize: toDp(14), marginTop: toDp(10), marginHorizontal: toDp(5) }}>=</Text>
+              <NumberFormat value={item.price * item.qty} displayType={'text'} thousandSeparator={true} prefix={'Rp '}
+                renderText={(value, props) =>
+                  <Text style={{ fontSize: toDp(12), marginTop: toDp(10), marginHorizontal: toDp(5) }}>{value}</Text>}
+              />
+            </View>
+
+
+            <View style={{ flexDirection: 'row', marginTop: toDp(25), justifyContent: 'flex-start', alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => delCart(idcart, item.prd_id)}>
+                <Image source={allLogo.ictrash} style={{ width: toDp(20), height: toDp(25), resizeMode: 'cover', marginRight: toDp(12) }} />
+              </TouchableOpacity>
+              <NumericInput
+                key={index}
+                initValue={item.qty == 0 ? 1 : state.qty2[inc]?.[index]}
+                value={state.qty2[inc]?.[index]}
+                onChange={value => CartQty(item.crd_id, item.qty, item.prd_id, idcart, value, index)}
+                onLimitReached={(isMax, msg) => alert('Stok Terbatas')}
+                maxValue={state.stock}
+                totalWidth={90}
+                totalHeight={30}
+                iconSize={toDp(25)}
+                step={1}
+                valueType='real'
+                rounded
+                textColor='black'
+                inputStyle={{ backgroundColor: 'white' }}
+                iconStyle={{ color: 'white' }}
+                rightButtonBackgroundColor='#698498'
+                leftButtonBackgroundColor='#698498'
+
+              />
+
+              <Text>{JSON.stringify(state.qty2[inc]?.data)}</Text>
+            </View>
+
+          </View>
+        </View>
       </>
     )
   }
@@ -322,22 +322,22 @@ const Keranjang = (props) => {
     return (
       <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.orderCart}>
- 
+
           {/*produk dari setiap toko*/}
           <View style={styles.orderCartone}>
             {/*Identitas produk*/}
             <View style={{ width: '100%', height: toDp(20) }}>
               <View style={{ flexDirection: 'row' }}>
- 
+
                 <Text style={{ fontWeight: 'bold', marginLeft: toDp(15), top: toDp(6) }}>{itm.retail_name}</Text>
               </View>
- 
+
             </View>
             {/*Identitas produk*/}
- 
- 
+
+
             {/*Per produk*/}
- 
+
             <FlatList style={{ width: toDp(335), top: toDp(10), marginBottom: toDp(70) }}
               data={itm.items}
               renderItem={({ item, index }) => {
@@ -347,24 +347,24 @@ const Keranjang = (props) => {
               }}
               ListFooterComponent={() => <View style={{ height: toDp(0) }} />}
             />
- 
+
             {/*Per produk*/}
- 
+
           </View>
           {/*produk dari setiap toko*/}
- 
+
         </View>
- 
- 
+
+
       </View>
- 
+
     )
- 
+
   };
   const CardProduct = () => {
     return (
       <View style={styles.content}>
-        <Text style={{marginTop:20}}>{JSON.stringify(state.qty2)}</Text>
+        {/* <Text style={{marginTop:20}}>{JSON.stringify(state.qty2)}</Text> */}
         <FlatList style={{ width: toDp(335), top: toDp(10), marginBottom: toDp(70) }}
           data={state.dataCart}
           renderItem={({ item, index }) => {
@@ -382,7 +382,7 @@ const Keranjang = (props) => {
     return (
       <View style={styles.chooseAll}>
         <Pressable style={styles.delete} onPress={() => delAlert(item[0].id)}>
-          <Text style={{ fontWeight: 'bold' }}>Hapus</Text>
+          <Text style={{ fontWeight: 'bold', color:'#fff' }}>Hapus</Text>
         </Pressable>
       </View>
     )
@@ -403,7 +403,7 @@ const Keranjang = (props) => {
 
           <View style={{ borderWidth: toDp(0.3), borderColor: 'white', marginRight: toDp(-7) }} />
 
-          <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('cartCheckout', {id: state.id })}>
+          <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('cartCheckout', { id: state.id })}>
             <Text style={styles.txtPay}>Beli Sekarang</Text>
           </Pressable>
         </View>
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: toDp(25),
-    borderRadius: toDp(40),
+    borderRadius: toDp(10),
     width: toDp(100),
   },
   content: {
@@ -459,32 +459,40 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(40),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     top: toDp(10),
     position: 'absolute',
     zIndex: 1,
- 
- 
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+
   },
   notProcessed: {
     marginBottom: toDp(5),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#f8f9f9',
     width: toDp(335),
     height: toDp(41),
-    borderRadius: toDp(20)
+    borderRadius: toDp(10)
   },
   // orderCart: {
   //   paddingBottom:toDp(30),
   //   backgroundColor: 'cyan',
   //   width: '100%',
   //   borderRadius: toDp(8),
- 
+
   // },
   ickotak: {
     marginTop: toDp(11),
@@ -496,7 +504,7 @@ const styles = StyleSheet.create({
   },
   orderCartone: {
     padding: toDp(8),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     width: toDp(335),
     paddingBottom: toDp(10),
     backgroundColor: '#ccc'
@@ -525,7 +533,7 @@ const styles = StyleSheet.create({
   },
   checkout: {
     backgroundColor: '#2A334B',
-    borderRadius: toDp(15),
+    borderRadius: toDp(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     // top: toDp(20),
@@ -535,7 +543,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: toDp(15),
+    borderRadius: toDp(10),
     width: toDp(160),
     height: toDp(50),
     // right:toDp(12)
@@ -543,8 +551,8 @@ const styles = StyleSheet.create({
   buttonPay: {
     // backgroundColor: 'red',
     backgroundColor: '#f83308',
-    borderTopRightRadius: toDp(15),
-    borderBottomRightRadius: toDp(15),
+    borderTopRightRadius: toDp(10),
+    borderBottomRightRadius: toDp(10),
     width: '50%',
     height: toDp(50),
     // left:toDp(8)
@@ -563,7 +571,7 @@ const styles = StyleSheet.create({
   imgProduk: {
     width: toDp(70),
     height: toDp(70),
-    borderRadius: 20
+    borderRadius: toDp(10)
   },
   delete: {
     justifyContent: 'center',
