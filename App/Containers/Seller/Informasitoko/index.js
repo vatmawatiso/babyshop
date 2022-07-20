@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   btnUbah: {
     backgroundColor: '#f9f8f8',
     width: toDp(335),
-    height: toDp(45),
+    height: toDp(48),
     borderRadius: toDp(10),
     bottom: toDp(10),
     justifyContent: 'center',
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   btnSetting: {
     backgroundColor: '#f8f9f9',
     width: toDp(335),
-    height: toDp(38),
+    height: toDp(48),
     // borderRadius: toDp(10),
     borderBottomRightRadius: toDp(10),
     borderBottomLeftRadius: toDp(10),

@@ -78,9 +78,9 @@ const Sudahdibayar = (props) => {
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
                 console.log('cek ===> ' + JSON.stringify(state.datas));
-                let dataorder = state.datas;
+                // let dataorder = state.datas;
 
-                if (dataorder == 'null') {
+                if (state.datas < 0) {
                     alert('Gagal simpan async storage!')
                   } else {
                     AsyncStorage.setItem('setOrderdetail', JSON.stringify(state.datas))
@@ -143,7 +143,7 @@ const Sudahdibayar = (props) => {
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat
-                                            value={item.items[0]?.qty * item.total_bayar}
+                                            value={item.total_bayar}
                                             displayType={'text'}
                                             thousandSeparator={'.'}
                                             decimalSeparator={','}
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
         padding: toDp(15),
         borderRadius: toDp(10),
         width: width - 30,
+        borderColor: "thistle",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

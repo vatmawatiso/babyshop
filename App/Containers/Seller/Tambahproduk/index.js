@@ -361,7 +361,8 @@ const Tambahproduk = (props) => {
               <Text style={styles.txtFormInput}>Nama Product</Text>
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
-                placeholderTextColor={'grey'}
+                placeholderTextColor={'#4E5A64'}
+                placeholder = {"Nama product"}
                 value={state.prd_name}
                 onChangeText={(text) => setState(state => ({ ...state, prd_name: text }))}
               />
@@ -371,7 +372,8 @@ const Tambahproduk = (props) => {
               <Text style={[styles.txtFormInput, { bottom: toDp(30) }]}>Berat Barang</Text>
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(40) }]}
-                placeholderTextColor={'grey'}
+                placeholderTextColor={'#4E5A64'}
+                placeholder = {"Berat product"}
                 value={state.prd_berat}
                 onChangeText={(text) => setState(state => ({ ...state, prd_berat: text }))}
               />
@@ -381,7 +383,8 @@ const Tambahproduk = (props) => {
               <Text style={[styles.txtFormInput, { bottom: toDp(50) }]}>Harga Barang</Text>
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(60) }]}
-                placeholderTextColor={'grey'}
+                placeholderTextColor={'#4E5A64'}
+                placeholder = {"Harga product"}
                 value={state.prd_price}
                 onChangeText={(text) => setState(state => ({ ...state, prd_price: text }))}
               />
@@ -391,7 +394,8 @@ const Tambahproduk = (props) => {
               <Text style={[styles.txtFormInput, { bottom: toDp(70) }]}>Stok Barang</Text>
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(80) }]}
-                placeholderTextColor={'grey'}
+                placeholderTextColor={'#4E5A64'}
+                placeholder = {"Stock product"}
                 value={state.prd_stock}
                 onChangeText={(text) => setState(state => ({ ...state, prd_stock: text }))}
               />
@@ -401,7 +405,7 @@ const Tambahproduk = (props) => {
               <Text style={styles.txtKategori}>Kategori</Text>
               <SelectDropdown
                 buttonStyle={styles.dropdown}
-                buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+                buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
                 dropdownStyle={{ borderRadius: toDp(7) }}
                 rowStyle={{ height: toDp(35), padding: toDp(5) }}
@@ -433,7 +437,7 @@ const Tambahproduk = (props) => {
               <Text style={styles.txtKondisi}>Kondisi</Text>
               <SelectDropdown
                 buttonStyle={styles.dropdown1}
-                buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+                buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
                 dropdownStyle={{ borderRadius: toDp(7) }}
                 rowStyle={{ height: toDp(35), padding: toDp(5) }}
@@ -559,7 +563,7 @@ const styles = StyleSheet.create({
   textInput: {
     width: toDp(320),
     height: toDp(39),
-    backgroundColor: '#F2F3F3',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(5),
     bottom: toDp(20),
@@ -685,10 +689,12 @@ const styles = StyleSheet.create({
   viewJudul: {
       marginTop: toDp(10),
       justifyContent: 'center',
+      // color: '#4E5A64',
       alignItems: 'center'
   },
   txtJudul: {
       fontSize: toDp(20),
+      color: '#4E5A64',
       fontWeight: 'bold'
   },
   viewBtn: {

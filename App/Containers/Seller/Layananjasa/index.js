@@ -205,7 +205,7 @@ const Layananjasa = (props) => {
               style={styles.textInput}
               keyboardType="numeric"
               placeholder={'Masukan harga'}
-              placeholderTextColor={'#6e736f'}
+              placeholderTextColor={'#4E5A64'}
               multiline={false}
               onChangeText={text => {
                 let { textInputs } = state;
@@ -337,7 +337,8 @@ const styles = StyleSheet.create({
     height: toDp(35),
     width: toDp(130),
     borderWidth: toDp(0.5),
-    borderRadius: toDp(10)
+    borderRadius: toDp(10),
+    backgroundColor:'#FFFFFF'
   },
   txtJasa: {
     margin: toDp(10),

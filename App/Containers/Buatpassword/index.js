@@ -228,7 +228,7 @@ const Buatpassword = (props) => {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder={'Nama Pengguna'}
-                                placeholderTextColor={'grey'}
+                                placeholderTextColor={'#4E5A64'}
                                 onChangeText={(text) => setState(state => ({...state, mb_username: text}))}
                             />
                     </View>
@@ -244,7 +244,7 @@ const Buatpassword = (props) => {
                                     <TextInput
                                         style={styles.textInput}
                                         placeholder={'Email'}
-                                        placeholderTextColor={'grey'}
+                                        placeholderTextColor={'#4E5A64'}
                                         value={state.confirmEmail}
                                         onChangeText={(text) => setState(state => ({...state, confirmEmail: text}))}
                                     />
@@ -262,7 +262,7 @@ const Buatpassword = (props) => {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder={'Password Baru'}
-                                placeholderTextColor={'grey'}
+                                placeholderTextColor={'#4E5A64'}
                                 secureTextEntry={state.secureTextEntry}
                                 onChangeText={(text) => passlength(text)}
                             />
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         height: toDp(48),
-        backgroundColor: '#F2F3F3',
+        backgroundColor: '#FFFFFF',
         paddingHorizontal: toDp(8),
         borderRadius: toDp(8),
         marginTop: toDp(8)

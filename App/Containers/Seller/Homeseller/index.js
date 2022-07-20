@@ -111,18 +111,6 @@ const Homeseller = (props) => {
     }
   }
 
-  const DATA = [
-    {
-      id: '2938492',
-      nama: 'TB Jaya Abadi Bandung',
-      memberUser: 'Member Classic',
-      pengikutUser: 'Pengikut (100)',
-      mengikutiUser: 'Mengikuti (4)',
-      type: 'Pembeli',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-  ]
-
   const logout = () => {
     Alert.alert(
       "Konfirmasi",
@@ -681,7 +669,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: toDp(340),
-    height: toDp(52),
+    height: toDp(48),
     bottom: toDp(10),
     flexDirection: 'row',
     backgroundColor: '#2A334B',
@@ -692,7 +680,7 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10),
     marginHorizontal: toDp(23),
     width: toDp(70),
-    height: toDp(52),
+    height: toDp(48),
     justifyContent: 'center',
   },
   presable2: {

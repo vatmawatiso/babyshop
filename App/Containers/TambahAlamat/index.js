@@ -161,7 +161,7 @@ const TambahAlamat = (props) => {
   return (
       <View style={styles.container}>
          <BackHeader
-          title={'Tambah Alamat'}
+          title={'Tambah Alamat Toko'}
           onPress={() => props.navigation.goBack()}
         />
       <ScrollView style={{height:'100%',}}>
@@ -175,11 +175,11 @@ const TambahAlamat = (props) => {
                       width={toDp(335)}
                       height={toDp(40)}
                       borderRadius={toDp(20)}
-                      backgroundColor={'white'}
+                      backgroundColor={'red'}
                       autoCapitalize={'none'}
-                      style={styles.textInput}
+                      style={styles.textInput}s
                       placeholder={'Nama'}
-                      placeholderTextColor={'grey'}
+                      placeholderTextColor={'green'}
                       // value={state.username}
                       onChangeText={(text) => setState(state => ({...state, adr_name: text })) }
                   />
@@ -193,7 +193,7 @@ const TambahAlamat = (props) => {
                       autoCapitalize={'none'}
                       style={styles.textInput}
                       placeholder={'Nomer HP'}
-                      placeholderTextColor={'grey'}
+                      placeholderTextColor={'red'}
                       // value={state.username}
                       onChangeText={(text) => setState(state => ({...state, adr_hp: text })) }
                   />

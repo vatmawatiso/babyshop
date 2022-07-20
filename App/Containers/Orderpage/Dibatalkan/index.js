@@ -109,7 +109,7 @@ const Dibatalkan = (props) => {
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat
-                                            value={item.items[0]?.qty * item.total_bayar}
+                                            value={item.total_bayar}
                                             displayType={'text'}
                                             thousandSeparator={'.'}
                                             decimalSeparator={','}

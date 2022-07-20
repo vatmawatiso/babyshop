@@ -122,9 +122,10 @@ const Tambahalamat = (props) => {
   const InputAlamat = async (adr_mb_id) => {
     const body = {
       adr_mb_id: state.adr_mb_id,
+      adr_name: state.adr_name,
       adr_address: state.adr_address,
       adr_cty_id: state.adr_cty_id,
-      adr_hp: state.mb_phone
+      adr_hp: state.adr_hp
     }
     // console.log('Body Alamat====> '+ JSON.stringify(body));
 
@@ -159,7 +160,7 @@ const Tambahalamat = (props) => {
   return (
     <View style={styles.container}>
       <BackHeader
-        title={'Tambah Alamat'}
+        title={'Tambah Alamat Toko'}
         onPress={() => props.navigation.goBack()}
       />
 
@@ -170,27 +171,27 @@ const Tambahalamat = (props) => {
             top={toDp(4)}
             width={toDp(335)}
             height={toDp(40)}
-            borderRadius={toDp(15)}
-            backgroundColor={'white'}
+            borderRadius={toDp(10)}
+            backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Nama'}
-            placeholderTextColor={'grey'}
-            value={state.mb_name}
-            onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
+            placeholderTextColor={'#4E5A64'}
+            // value={state.mb_name}
+            onChangeText={(text) => setState(state => ({ ...state, adr_name: text }))}
           />
           <TextInput
-            top={toDp(6)}
+            top={toDp(10)}
             width={toDp(335)}
             height={toDp(40)}
-            borderRadius={toDp(15)}
-            backgroundColor={'white'}
+            borderRadius={toDp(10)}
+            backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Nomer HP'}
-            placeholderTextColor={'grey'}
-            value={state.mb_phone}
-            onChangeText={(text) => setState(state => ({ ...state, mb_phone: text }))}
+            placeholderTextColor={'#4E5A64'}
+            // value={state.mb_phone}
+            onChangeText={(text) => setState(state => ({ ...state, adr_hp: text }))}
           />
         </SafeAreaView>
       </View>
@@ -200,7 +201,7 @@ const Tambahalamat = (props) => {
         <SafeAreaView>
           <SelectDropdown
             buttonStyle={styles.dropdown}
-            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+            buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
             rowTextStyle={{ fontSize: toDp(12) }}
             dropdownStyle={{ borderRadius: toDp(7) }}
             rowStyle={{ height: toDp(35), padding: toDp(5) }}
@@ -231,12 +232,12 @@ const Tambahalamat = (props) => {
             top={toDp(6)}
             width={toDp(335)}
             height={toDp(40)}
-            borderRadius={toDp(15)}
-            backgroundColor={'white'}
+            borderRadius={toDp(10)}
+            backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Tuliskan Detail Jalan'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.adr_address}
             onChangeText={(text) => setState(state => ({ ...state, adr_address: text }))}
           />
@@ -244,7 +245,7 @@ const Tambahalamat = (props) => {
         </SafeAreaView>
       </View>
 
-      <Pressable style={{ backgroundColor: 'yellow', borderRadius: toDp(20), height: toDp(40), width: toDp(335) }} onPress={() => InputAlamat()}>
+      <Pressable style={{ borderRadius: toDp(10), height: toDp(40), width: toDp(335) }} onPress={() => InputAlamat()}>
         <View style={styles.searchSection}>
           <Text style={{ color: 'white' }}>Simpan</Text>
         </View>
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(40),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     marginBottom: toDp(10)
   },
   searchIcon: {
@@ -339,10 +340,10 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: toDp(38),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     width: toDp(335),
-    top: toDp(4),
-    backgroundColor: 'white',
+    top: toDp(0),
+    backgroundColor: '#FFFFFF',
     borderWidth: toDp(0.5)
   },
   contentMap: {
@@ -354,6 +355,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: toDp(0.5),
+
   }
 });
 

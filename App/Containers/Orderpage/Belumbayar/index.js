@@ -106,8 +106,17 @@ const Belumbayar = (props) => {
                 }else if (content == 'Dibatalkan'){
                     NavigatorService.navigate('Dibatalkan')
                 }
+    
+
+                // if (result.data.data === 0) {
+                //     alert('Tidak ditemukan data!')
+                // } else {
+                //     AsyncStorage.setItem('setorderan', JSON.stringify(result.data.data))
+                //     console.log('setorderan ===> ' + JSON.stringify(result.data.data));
+                // }
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
+                
                 //
                 // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
                 // console.log('data order ===> ' + JSON.stringify(result.data.order));
@@ -151,11 +160,11 @@ const Belumbayar = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('underConstruction')}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat
-                                            value={item.items[0]?.qty * item.total_bayar}
+                                            value={item.total_bayar}
                                             displayType={'text'}
                                             thousandSeparator={'.'}
                                             decimalSeparator={','}

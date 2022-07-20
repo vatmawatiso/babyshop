@@ -327,8 +327,6 @@ const styles = StyleSheet.create({
     },
     btnKirim: {
         backgroundColor: '#2A334B',
-        top: toDp(40),
-        width: toDp(335),
         height: toDp(40),
         borderRadius: toDp(20)
     },
@@ -359,8 +357,7 @@ const styles = StyleSheet.create({
         tintColor: 'grey'
     },
     textInput: {
-        width: '100%',
-        borderWidth: 1,
+        borderWidth: 0.5,
         height: toDp(48),
         backgroundColor: '#F2F3F3',
         paddingHorizontal: toDp(8),

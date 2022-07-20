@@ -359,88 +359,208 @@ const cartCheckout = (props) => {
         let hasil = data.map(item => parseInt(item)).reduce((prev, curr) => prev + curr, 0)
         return hasil
     }
-    const RenderItem = (item, index) => {
-        return (
-            <View style={styles.renderItem} key={index}>
-                <View style={styles.cartProduk}>
-                    <View style={{ marginTop: 15, backgroundColor: '#f8f9f9', height: 200, borderRadius: 10, shadowColor: "#000",
-                                    shadowOffset: {
-                                        width: 0,
-                                        height: 2,
-                                    },
-                                    shadowOpacity: 0.25,
-                                    shadowRadius: 3.84,
+    // const RenderItem = (item, index) => {
+    //     return (
+    //         <View style={styles.renderItem} key={index}>
+    //             <View style={styles.cartProduk}>
+    //                 <View style={{ marginTop: 15, backgroundColor: '#f8f9f9', height: 200, borderRadius: 10, shadowColor: "#000",
+    //                                 shadowOffset: {
+    //                                     width: 0,
+    //                                     height: 2,
+    //                                 },
+    //                                 shadowOpacity: 0.25,
+    //                                 shadowRadius: 3.84,
 
-                                    elevation: 5, }}>
-                        <Text style={styles.textRetailName}>{item.retail_name}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            <Image source={{ uri: item.items[0].thumbnail }} style={styles.imageThumb} />
+    //                                 elevation: 5, }}>
+    //                     <Text style={styles.textRetailName}>{item.retail_name}</Text>
+    //                     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+    //                         <Image source={{ uri: item.items[0].thumbnail }} style={styles.imageThumb} />
                         
-                        <View style={{flexDirection: 'column'}}>
-                        <Text style={styles.txtPrd}>{item.items[0].prd_name}</Text>
-                        <NumberFormat
-                            value={item.subtotal}
+    //                     <View style={{flexDirection: 'column'}}>
+    //                     <Text style={styles.txtPrd}>{item.items[0].prd_name}</Text>
+    //                     <NumberFormat
+    //                         value={item.subtotal}
+    //                         displayType={'text'}
+    //                         thousandSeparator={'.'}
+    //                         decimalSeparator={','}
+    //                         prefix={'Rp. '}
+    //                         renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+    //                     />
+    //                     </View>
+    //                     </View>
+    //                     {/* line separate */}
+    //                     {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
+    //                     <SelectDropdown
+    //                         key={index}
+    //                         defaultValue={state.shpName}
+    //                         buttonStyle={styles.dropdown}
+    //                         buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+    //                         rowTextStyle={{ fontSize: toDp(12) }}
+    //                         dropdownStyle={{ borderRadius: toDp(7) }}
+    //                         rowStyle={{ height: toDp(30), padding: toDp(5) }}
+    //                         defaultButtonText={'Pilih Jasa Pengiriman'}
+    //                         data={state.datas[index] == '' || state.datas[index] == null ? '' : state.datas[index]}
+    //                         onSelect={(selectedItem, i) => {
+    //                             console.log('cek drop ', selectedItem.shp_id, i)
+
+    //                             let { shpPrice } = state;
+    //                             shpPrice[index] = selectedItem.shr_jasa;
+    //                             setState(state => ({
+    //                                 ...state,
+    //                                 shpPrice
+    //                             }))
+    //                             let { shp_id } = state;
+    //                             shp_id[index] = selectedItem.shp_id;
+    //                             setState(state => ({
+    //                                 ...state,
+    //                                 shp_id
+    //                             }))
+    //                             console.log('argghhhh', state.shp_id)
+    //                             let { shpName } = state;
+    //                             shpName[index] = selectedItem.shp_name;
+    //                             setState(state => ({
+    //                                 ...state,
+    //                                 shpName
+    //                             }))
+    //                         }}
+    //                         buttonTextAfterSelection={(selectedItem, index) => {
+
+    //                             return selectedItem.shp_name;
+    //                         }}
+    //                         rowTextForSelection={(item, index) => {
+    //                             return item.shp_name;
+    //                         }}
+    //                         renderDropdownIcon={(isOpened) => {
+    //                             return (
+    //                                 <FontAwesome
+    //                                     name={isOpened ? "chevron-up" : "chevron-down"}
+    //                                     color={"#444"}
+    //                                     size={12}
+    //                                 />
+    //                             );
+    //                         }}
+    //                     />
+    //                 </View>
+    //             </View>
+    //         </View>
+    //     )
+    // }
+
+    const perProduk = (item, index, idCart, inc) => {
+        let qtyyy = item.qty;
+        let priceee = item.price;
+        var hasilll = parseInt(qtyyy) * parseInt(priceee)
+        return (
+                <View style={styles.cartProduk}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <View style={{ marginLeft: toDp(12) }}>
+                            <Image source={{ uri: item.thumbnail }} style={styles.imageThumb} />
+                        </View>
+                        <View style={{ flexDirection: 'column' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{item.qty} {item.prd_name.substr(0, 25)}</Text>
+                            <NumberFormat
+                                value={hasilll}
+                                displayType={'text'}
+                                thousandSeparator={'.'}
+                                decimalSeparator={','}
+                                prefix={'Rp. '}
+                                renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            />
+                            
+                        </View>
+                    </View>
+                    {/* line separate */}
+                    {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
+                    <SelectDropdown
+                        key={inc}
+                        defaultValue={state.shpName}
+                        buttonStyle={styles.dropdown}
+                        buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+                        rowTextStyle={{ fontSize: toDp(12) }}
+                        dropdownStyle={{ borderRadius: toDp(7) }}
+                        rowStyle={{ height: toDp(30), padding: toDp(5) }}
+                        defaultButtonText={'Pilih Jasa Pengiriman'}
+                        data={state.datas[inc] == '' || state.datas[inc] == null ? '' : state.datas[inc]}
+                        onSelect={(selectedItem, i) => {
+                            console.log('cek drop ', selectedItem.shp_id, i)
+
+                            let { shpPrice } = state;
+                            shpPrice[inc] = selectedItem.shr_jasa;
+                            setState(state => ({
+                                ...state,
+                                shpPrice
+                            }))
+                            let { shp_id } = state;
+                            shp_id[inc] = selectedItem.shp_id;
+                            setState(state => ({
+                                ...state,
+                                shp_id
+                            }))
+                            console.log('argghhhh', state.shp_id)
+                            let { shpName } = state;
+                            shpName[inc] = selectedItem.shp_name;
+                            setState(state => ({
+                                ...state,
+                                shpName
+                            }))
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+
+                            return selectedItem.shp_name;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item.shp_name;
+                        }}
+                        renderDropdownIcon={(isOpened) => {
+                            return (
+                                <FontAwesome
+                                    name={isOpened ? "chevron-up" : "chevron-down"}
+                                    color={"#444"}
+                                    size={12}
+                                />
+                            );
+                        }}
+                    />
+                </View>
+        )
+    }
+
+    const RenderItem = (itm, i) => {
+        return (
+            <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }} key={i}>
+                <View style={styles.orderCartone}>
+                    {/*Identitas produk*/}
+                    <View style={{ width: '100%', height: toDp(20) }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ fontWeight: 'bold', marginLeft: toDp(15), top: toDp(6) }}>{itm.retail_name}</Text>
+                        </View>
+
+                    </View>
+                    <View style={{position: 'absolute', zIndex: 3, left: '50%', top: '35%'}}>
+                        {/* <NumberFormat
+                            value={itm.subtotal}
                             displayType={'text'}
                             thousandSeparator={'.'}
                             decimalSeparator={','}
                             prefix={'Rp. '}
                             renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                        </View>
-                        </View>
-                        {/* line separate */}
-                        {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
-                        <SelectDropdown
-                            key={index}
-                            defaultValue={state.shpName}
-                            buttonStyle={styles.dropdown}
-                            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
-                            rowTextStyle={{ fontSize: toDp(12) }}
-                            dropdownStyle={{ borderRadius: toDp(7) }}
-                            rowStyle={{ height: toDp(30), padding: toDp(5) }}
-                            defaultButtonText={'Pilih Jasa Pengiriman'}
-                            data={state.datas[index] == '' || state.datas[index] == null ? '' : state.datas[index]}
-                            onSelect={(selectedItem, i) => {
-                                console.log('cek drop ', selectedItem.shp_id, i)
-
-                                let { shpPrice } = state;
-                                shpPrice[index] = selectedItem.shr_jasa;
-                                setState(state => ({
-                                    ...state,
-                                    shpPrice
-                                }))
-                                let { shp_id } = state;
-                                shp_id[index] = selectedItem.shp_id;
-                                setState(state => ({
-                                    ...state,
-                                    shp_id
-                                }))
-                                console.log('argghhhh', state.shp_id)
-                                let { shpName } = state;
-                                shpName[index] = selectedItem.shp_name;
-                                setState(state => ({
-                                    ...state,
-                                    shpName
-                                }))
-                            }}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-
-                                return selectedItem.shp_name;
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return item.shp_name;
-                            }}
-                            renderDropdownIcon={(isOpened) => {
-                                return (
-                                    <FontAwesome
-                                        name={isOpened ? "chevron-up" : "chevron-down"}
-                                        color={"#444"}
-                                        size={12}
-                                    />
-                                );
-                            }}
-                        />
+                        /> */}
                     </View>
+
+
+                    {/* end Identitas produk*/}
+                    {/* flat list per produk */}
+                    <FlatList style={{ width: toDp(335), top: toDp(10), marginBottom: toDp(70) }}
+                        data={itm.items}
+                        renderItem={({ item, index }) => {
+                            return (
+                                perProduk(item, index, itm.id, i)
+                            )
+                        }}
+
+                        ListFooterComponent={() => <View style={{ height: toDp(0) }} />}
+                    />
+                    {/* akhir dari per produk */}
                 </View>
             </View>
         )

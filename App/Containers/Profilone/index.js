@@ -19,6 +19,7 @@ import Logout from '@Logout'
 import ImagePicker from 'react-native-image-crop-picker'
 import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
+import Loader from '@Loader'
 import Axios from "axios";
 import { LoginManager } from "react-native-fbsdk";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -150,10 +151,13 @@ const getStatus = () => {
         alert('Buat pengajuan sekarang!')
 
       }  else {
+        setState(state => ({ ...state, loading: false }))
         NavigatorService.navigate('Pengajuan')
+
       } 
   } catch (err) {
     console.log('err', err)
+    setState(state => ({ ...state, loading: false }))
   }
 }
 
@@ -373,13 +377,13 @@ const getStatus = () => {
             <Image source={state.picture ? { uri: state.picture } :
               require('../../Assets/img/tzuyu.jpg')}
               style={styles.imgProfil} />
-            <Text style={styles.typeUser}>{state.mb_name}</Text>
+            <Text style={[styles.typeUser, { width:toDp(80),  }]}>{state.mb_name.substr(0,13)}</Text>
           </View>
 
           <View>
-          <Pressable style={{ width: toDp(60), height: toDp(20), left:toDp(190), top:toDp(10)}} onPress={() => NavigatorService.navigate('Editprofil')}>
+          <Pressable style={{ width: toDp(60), height: toDp(20), left:toDp(180), top:toDp(10)}} onPress={() => NavigatorService.navigate('Editprofil')}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ marginRight: toDp(5), color: 'white', fontSize: toDp(12) }}>{text}</Text>
+                <Text style={{ marginRight: toDp(5), color: 'white', fontSize: toDp(12), }}>{text}</Text>
                 <Image source={allLogo.icline} style={styles.icline} />
               </View>
             </Pressable>
@@ -402,7 +406,9 @@ const getStatus = () => {
 
         </View>
         <View style={{ zIndex: 0, marginBottom: 50 }}>
+       
           <View style={styles.viewJual}>
+          <Loader loading={state.loading}/>
             <Pressable style={styles.btnJual} onPress={() => getStatus()}>
               <Text style={styles.txtJual}>Mulai Jual</Text>
             </Pressable>
@@ -539,7 +545,8 @@ const styles = StyleSheet.create({
   typeUser: {
     color: 'white',
     top: toDp(32),
-    left: toDp(30),
+    left: toDp(0),
+    right:toDp(0),
     fontSize: toDp(12)
   },
   imgProfil: {

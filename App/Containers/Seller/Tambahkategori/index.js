@@ -73,7 +73,7 @@ const Tambahkategori = (props) => {
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Masukkan kategori'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.ctg_name}
             onChangeText={(text) => setState(state => ({ ...state, ctg_name: text }))}
           />
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   txtKategori: {
     margin: toDp(5),
     left: toDp(3),
-    color: 'grey'
+    color: '#4E5A64'
   },
   textInput: {
     backgroundColor: 'white',

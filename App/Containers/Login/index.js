@@ -366,6 +366,7 @@ const Login = (props) => {
 
   return (
     <View style={styles.container}>
+        <Loader loading={state.loading}/>
       <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
       <Image source={allLogo.icbina} style={styles.icbina} />
       <Text style={styles.title}>Masuk</Text>

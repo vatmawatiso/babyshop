@@ -202,7 +202,7 @@ const EditAlamattoko = (props) => {
   return (
     <View style={styles.container}>
       <BackHeader
-        title={'Edit Alamat'}
+        title={'Edit Alamat Toko'}
         onPress={() => props.navigation.goBack()}
       />
 
@@ -214,26 +214,26 @@ const EditAlamattoko = (props) => {
             width={toDp(335)}
             height={toDp(40)}
             marginHorizontal={toDp(10)}
-            borderRadius={toDp(15)}
-            backgroundColor={'white'}
+            borderRadius={toDp(10)}
+            backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Nama'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.tmp_name}
             onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
           />
           <TextInput
-            top={toDp(6)}
+            top={toDp(10)}
             width={toDp(335)}
             height={toDp(40)}
             marginHorizontal={toDp(10)}
-            borderRadius={toDp(15)}
-            backgroundColor={'white'}
+            borderRadius={toDp(10)}
+            backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Nomer HP'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.tmp_hp}
             onChangeText={(text) => setState(state => ({ ...state, tmp_hp: text }))}
           />
@@ -245,9 +245,9 @@ const EditAlamattoko = (props) => {
         <SafeAreaView>
           <SelectDropdown
             buttonStyle={styles.dropdown}
-            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+            buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
             rowTextStyle={{ fontSize: toDp(12) }}
-            dropdownStyle={{ borderRadius: toDp(7) }}
+            dropdownStyle={{ borderRadius: toDp(10) }}
             rowStyle={{ height: toDp(35), padding: toDp(5) }}
             defaultButtonText={'Pilih Kota atau Kabupaten'}
             defaultValue={{
@@ -279,19 +279,20 @@ const EditAlamattoko = (props) => {
             top={toDp(6)}
             width={toDp(335)}
             height={toDp(40)}
-            borderRadius={toDp(15)}
+            borderRadius={toDp(10)}
+            left={toDp(0)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Tuliskan Detail Jalan'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.tmp_address}
             onChangeText={(text) => setState(state => ({ ...state, tmp_address: text }))}
           />
         </SafeAreaView>
       </View>
 
-      <Pressable style={{ backgroundColor: 'yellow', borderRadius: toDp(20), height: toDp(40), width: toDp(335) }} onPress={() => editAlamat()}>
+      <Pressable style={{ borderRadius: toDp(10), height: toDp(40), width: toDp(335) }} onPress={() => editAlamat()}>
         <View style={styles.searchSection}>
           <Text style={{ color: 'white' }}>Simpan</Text>
           {/* <Image style={styles.searchIcon} source={allLogo.icsearch} /> */}
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(335),
     height: toDp(40),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     marginBottom: toDp(10)
   },
   searchIcon: {
@@ -394,9 +395,9 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: toDp(38),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     width: toDp(335),
-    top: toDp(4),
+    top: toDp(0),
     backgroundColor: 'white',
     borderWidth: toDp(0.5)
   },
@@ -408,7 +409,8 @@ const styles = StyleSheet.create({
     bottom: toDp(5)
   },
   textInput: {
-    borderWidth: toDp(0.5)
+    borderWidth: toDp(0.5),
+    right:toDp(10)
   }
 });
 

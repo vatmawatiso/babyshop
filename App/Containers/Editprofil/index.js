@@ -281,7 +281,7 @@ const gallery = () => {
       />
       <View style={styles.content}>
         <View style={styles.profil}>
-          <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Buatpassword')}>
+          <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
             <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30), right:toDp(15) }} />
           </Pressable>
             <Pressable onPress={()=> toggleModal()}>
@@ -319,7 +319,7 @@ const gallery = () => {
             style={styles.textInput}
             bottom={toDp(5)}
             placeholder={'Nama'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.mb_name}
             onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
           />
@@ -329,7 +329,7 @@ const gallery = () => {
             style={styles.textInput}
             bottom={toDp(10)}
             placeholder={'Username'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.mb_username}
             onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
           />
@@ -339,17 +339,18 @@ const gallery = () => {
             style={styles.textInput}
             bottom={toDp(15)}
             placeholder={'Email'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.mb_email}
             onChangeText={(text) => setState(state => ({ ...state, mb_email: text }))}
           />
         </View>
         <SelectDropdown
           buttonStyle={[styles.textInput, {bottom:toDp(10), right:toDp(6)}]}
-          buttonTextStyle={{fontSize:toDp(13), color:'grey', }}
+          buttonTextStyle={{fontSize:toDp(13), color:'#4E5A64', }}
           rowTextStyle={{fontSize:toDp(13)}}
           dropdownStyle={{borderRadius:toDp(10)}}
           rowStyle={{height:toDp(50),padding:toDp(5)}}
+          placeholderTextColor = {'#4E5A64'}
           defaultButtonText={'Pilih Tipe User'}
           defaultValue={state.mb_type}
           data={tipeUsers}
@@ -372,7 +373,7 @@ const gallery = () => {
             return (
               <FontAwesome
                 name={isOpened ? "chevron-up" : "chevron-down"}
-                color={"#444"}
+                color={"#4E5A64"}
                 size={toDp(12)}
               />
             );
@@ -383,7 +384,7 @@ const gallery = () => {
             style={styles.textInput}
             bottom={toDp(5)}
             placeholder={'Nomer Telepon'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.mb_phone}
             onChangeText={(text) => setState(state => ({ ...state, mb_phone: text }))}
           />
@@ -474,7 +475,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   textInput: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     width: toDp(320),
     height: toDp(40),
     borderRadius: toDp(10),

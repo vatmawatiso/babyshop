@@ -252,7 +252,7 @@ const Ubahtoko = (props) => {
             <Text style={styles.txtToko}>Nama Pengguna</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput}
-              placeholderTextColor={'grey'}
+              placeholderTextColor={'#4E5A64'}
               value={state.mb_name}
               onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
             />
@@ -260,7 +260,7 @@ const Ubahtoko = (props) => {
             <Text style={styles.txtToko}>Nama Toko</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput}
-              placeholderTextColor={'grey'}
+              placeholderTextColor={'#4E5A64'}
               value={state.rtl_name}
               onChangeText={(text) => setState(state => ({ ...state, rtl_name: text }))}
             />
@@ -268,21 +268,21 @@ const Ubahtoko = (props) => {
             <Text style={styles.txtDeskripsi}>Telepon</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput1}
-              placeholderTextColor={'grey'}
+              placeholderTextColor={'#4E5A64'}
               value={state.rtl_phone}
               onChangeText={(text) => setState(state => ({ ...state, rtl_phone: text }))}
             />
             <Text style={styles.txtDeskripsi}>Jalan</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput1}
-              placeholderTextColor={'grey'}
+              placeholderTextColor={'#4E5A64'}
               value={state.rtl_addres}
               onChangeText={(text) => setState(state => ({ ...state, rtl_addres: text }))}
             />
             <Text style={styles.txtDeskripsi}>Kota</Text>
             <SelectDropdown
               buttonStyle={styles.dropdown}
-              buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+              buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
               rowTextStyle={{ fontSize: toDp(12) }}
               dropdownStyle={{ borderRadius: toDp(7) }}
               rowStyle={{ height: toDp(35), padding: toDp(5) }}
@@ -319,14 +319,14 @@ const Ubahtoko = (props) => {
             <Text style={styles.txtDeskripsi}>Latitude</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput1}
-              placeholderTextColor={'grey'}
+              placeholderTextColor={'#4E5A64'}
               value={state.rtl_lat}
               onChangeText={(text) => setState(state => ({ ...state, rtl_lat: text }))}
             />
             <Text style={styles.txtDeskripsi}>Longtitude</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput1}
-              placeholderTextColor={'grey'}
+              placeholderTextColor={'#4E5A64'}
               value={state.rtl_long}
               onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
             />
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
   textInput: {
     width: toDp(320),
     height: toDp(39),
-    backgroundColor: '#F2F3F3',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
     borderRadius: toDp(10),
     top: toDp(3),
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
   textInput1: {
     width: toDp(320),
     height: toDp(39),
-    backgroundColor: '#F2F3F3',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
     borderRadius: toDp(10),
     top: toDp(5),
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(50),
     borderRadius: toDp(10),
-    top: toDp(20),
+    top: toDp(80),
     justifyContent: 'center'
   },
   txtSimpan: {

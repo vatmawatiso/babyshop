@@ -181,7 +181,7 @@ const Alamattoko = (props) => {
 }
 
   const selectAlamat = (adr_id,hp, alamat, cty_id, cty_name, adr_name) => {
-    NavigatorService.navigate('Editalamat', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name, adr_name : adr_name })
+    NavigatorService.navigate('EditAlamattoko', { adr_id: adr_id, phone: hp, adrress: alamat, cty_id : cty_id, cty_name: cty_name, adr_name : adr_name })
   }
 
   const ListAlamatClient = (item, index, onPress, onSetutama) => (
@@ -207,12 +207,12 @@ const Alamattoko = (props) => {
   return (
     <View style={styles.container}>
       <BackHeader
-        title={'Alamat'}
+        title={'Alamat Toko'}
         onPress={() => props.navigation.goBack()}
       />
 
     <View style={{justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10)}}>
-      <Pressable style={{ width: toDp(335) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+      <Pressable style={{ width: toDp(335), height:toDp(48) }} onPress={() => NavigatorService.navigate('Tambahalamatseller')}>
         <View style={styles.btnAddress}>
           <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
           <Image source={allLogo.icplus} style={styles.icplus} />
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: toDp(335),
-    height: toDp(32),
+    height: toDp(48),
     borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -319,11 +319,11 @@ const styles = StyleSheet.create({
   icplus: {
     width: toDp(12),
     height: toDp(12),
-    top: toDp(10),
+    top: toDp(18),
     right: toDp(10)
   },
   txtBtnAddress: {
-    top: toDp(5),
+    top: toDp(13),
     left: toDp(10),
     fontWeight: 'bold'
   },
