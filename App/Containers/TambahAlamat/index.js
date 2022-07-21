@@ -173,13 +173,13 @@ const TambahAlamat = (props) => {
                       right={toDp(9)}
                       top={toDp(4)}
                       width={toDp(335)}
-                      height={toDp(40)}
+                      height={toDp(48)}
                       borderRadius={toDp(20)}
-                      backgroundColor={'red'}
+                      backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}s
                       placeholder={'Nama'}
-                      placeholderTextColor={'green'}
+                      placeholderTextColor={'#4E5A64'}
                       // value={state.username}
                       onChangeText={(text) => setState(state => ({...state, adr_name: text })) }
                   />
@@ -187,20 +187,20 @@ const TambahAlamat = (props) => {
                       right={toDp(9)}
                       top={toDp(16)}
                       width={toDp(335)}
-                      height={toDp(40)}
+                      height={toDp(48)}
                       borderRadius={toDp(20)}
                       backgroundColor={'white'}
                       autoCapitalize={'none'}
                       style={styles.textInput}
                       placeholder={'Nomer HP'}
-                      placeholderTextColor={'red'}
+                      placeholderTextColor={'#4E5A64'}
                       // value={state.username}
                       onChangeText={(text) => setState(state => ({...state, adr_hp: text })) }
                   />
               </SafeAreaView>
           </View>
 
-        <Text style={[styles.txtAlamat,{top:toDp(35)}]}>Alamat</Text>
+        <Text style={[styles.txtAlamat,{top:toDp(40)}]}>Alamat</Text>
           <View style={[styles.inputAlamat,{top:toDp(45)}]}>
                 <SafeAreaView>
                   <SelectDropdown
@@ -236,13 +236,13 @@ const TambahAlamat = (props) => {
                         right={toDp(9)}
                         top={toDp(16)}
                         width={toDp(335)}
-                        height={toDp(40)}
+                        height={toDp(48)}
                         borderRadius={toDp(20)}
                         backgroundColor={'white'}
                         autoCapitalize={'none'}
                         style={styles.textInput}
                         placeholder={'Tuliskan Detail Jalan'}
-                        placeholderTextColor={'grey'}
+                        placeholderTextColor={'#4E5A64'}
                         // value={state.username}
                         onChangeText={(text) => setState(state => ({...state, adr_address: text })) }
                     />
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2A334B',
     width:toDp(335),
-    height:toDp(40),
+    height:toDp(48),
     borderRadius:toDp(20),
     marginBottom:toDp(10)
 },
@@ -357,7 +357,7 @@ input: {
     borderRadius:toDp(20)
 },
 dropdown:{
-  height:toDp(38),
+  height:toDp(48),
   borderRadius:toDp(20),
   width:toDp(335),
   top:toDp(4),

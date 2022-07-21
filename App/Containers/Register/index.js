@@ -139,7 +139,7 @@ const Register = (props) => {
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Name'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.nama}
             onChangeText={(text) => setState(state => ({ ...state, mb_name: text }))}
           />
@@ -147,7 +147,7 @@ const Register = (props) => {
           <TextInput autoCapitalize={'none'}
             style={[styles.textInput, { bottom: toDp(15) }]}
             placeholder={'Email'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.email}
             onChangeText={(text) => setState(state => ({ ...state, mb_email: text }))}
           />
@@ -155,7 +155,7 @@ const Register = (props) => {
           <TextInput autoCapitalize={'none'}
             style={[styles.textInput, { bottom: toDp(18) }]}
             placeholder={'Phone'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.hp}
             onChangeText={(text) => setState(state => ({ ...state, mb_phone: text }))}
           />
@@ -163,13 +163,13 @@ const Register = (props) => {
           <TextInput autoCapitalize={'none'}
             style={[styles.textInput, { bottom: toDp(25) }]}
             placeholder={'Phone'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.mb_type}
             onChangeText={(text) => setState(state => ({ ...state, mb_type: text }))}
           />
           {/* <SelectDropdown
             buttonStyle={styles.dropdown}
-            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+            buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
             rowTextStyle={{ fontSize: toDp(12) }}
             dropdownStyle={{ borderRadius: toDp(7) }}
             rowStyle={{ height: toDp(35), padding: toDp(5) }}
@@ -237,7 +237,7 @@ const Register = (props) => {
             style={styles.pressableLogin}>
             <Text style={styles.textLogin}>Masuk</Text>
           </Pressable>
-          <TouchableOpacity disabled={isDisable} style={[styles.pressableSignup, { backgroundColor: isDisable==true ?  'grey' : '#698498'} ]}
+          <TouchableOpacity disabled={isDisable} style={[styles.pressableSignup, { backgroundColor: isDisable==true ?  '#4E5A64' : '#A7661B'} ]}
                      onPress={() => validateInput()}>
             <Text style={styles.textLogin}>Daftar</Text>
           </TouchableOpacity>
@@ -246,14 +246,14 @@ const Register = (props) => {
 
         <Text style={styles.textDont}>Atau Masuk Dengan</Text>
         <View style={styles.rowFooter}>
-          <Pressable style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(40), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
+          <Pressable style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(48), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icGoogle} style={styles.icon} />
               <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
             </View>
           </Pressable>
 
-          <Pressable style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(40), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
+          <Pressable style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(48), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icFacebook} style={styles.icon} />
               <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
@@ -268,7 +268,7 @@ const Register = (props) => {
             style={styles.checkbox}
           />
           <Pressable style={{ padding: 5, marginLeft: toDp(-10), height: toDp(48), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Terms')}>
-            <Text style={{ fontSize: 14 }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
+            <Text style={{padding: 4, fontSize: 12, color: '#FFFFFF' }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -340,8 +340,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: toDp(335),
-    height: toDp(39),
-    backgroundColor: '#F2F3F3',
+    height: toDp(48),
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
     marginBottom: toDp(-20),
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
     padding: toDp(4),
     position: 'absolute',
     right: toDp(8),
-    top: Platform.OS === 'ios' ? toDp(19) : toDp(19)
+    top: Platform.OS === 'ios' ? toDp(19) : toDp(23)
   },
   viewRow: {
     paddingLeft: toDp(168),
@@ -383,16 +383,16 @@ const styles = StyleSheet.create({
   pressableSignup: {
     borderRadius: toDp(10),
     width: toDp(80),
-    height: toDp(40),
+    height: toDp(48),
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft:toDp(5)
+    // marginLeft:toDp(5)
   },
   pressableLogin: {
     borderRadius: toDp(10),
     width: toDp(80),
-    height: toDp(40),
-    backgroundColor: '#698498',
+    height: toDp(48),
+    backgroundColor: '#516675',
     right: toDp(167),
     justifyContent: 'center',
     alignItems: 'center',
@@ -404,23 +404,16 @@ const styles = StyleSheet.create({
     width: toDp(80),
     height: toDp(40),
     paddingLeft: toDp(20),
-    // backgroundColor: '#698498',
-    borderRadius: toDp(10)
   },
   textLogin: {
     color: 'white',
     fontSize: toDp(14),
     textAlignVertical: 'center',
-    width: toDp(80),
-    height: toDp(40),
-    paddingLeft: toDp(20),
-    // backgroundColor: 'red',
-    borderRadius: toDp(10)
   },
   icVisibility: {
     width: toDp(24),
     height: toDp(24),
-    tintColor: 'grey'
+    tintColor: '#4E5A64'
   },
   rowFooter: {
     flexDirection: 'column',

@@ -106,27 +106,23 @@ const Belumbayar = (props) => {
                 }else if (content == 'Dibatalkan'){
                     NavigatorService.navigate('Dibatalkan')
                 }
-    
-
-                // if (result.data.data === 0) {
-                //     alert('Tidak ditemukan data!')
-                // } else {
-                //     AsyncStorage.setItem('setorderan', JSON.stringify(result.data.data))
-                //     console.log('setorderan ===> ' + JSON.stringify(result.data.data));
-                // }
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
-                
-                //
-                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
-                // console.log('data order ===> ' + JSON.stringify(result.data.order));
-                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
-                // console.log('data item ===> ' + JSON.stringify(result.data.item));
 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
+            
             })
+    }
+
+    const Lihatdetail = (data) => {
+        let detailOrder = data;
+        AsyncStorage.setItem('setDetail', JSON.stringify(detailOrder))
+        console.log('setDetail ===> ' + JSON.stringify(detailOrder));
+
+        NavigatorService.navigate('Orderdetail')
+
     }
 
 
@@ -160,7 +156,7 @@ const Belumbayar = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item)}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat

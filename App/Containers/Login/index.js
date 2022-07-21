@@ -375,7 +375,7 @@ const Login = (props) => {
       <TextInput autoCapitalize={'none'}
         style={styles.textInput}
         placeholder={'Username or Email'}
-        placeholderTextColor={'#6e736f'}
+        placeholderTextColor={'#4E5A64'}
         value={state.mb_username}
         onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
       />
@@ -384,7 +384,7 @@ const Login = (props) => {
         <TextInput autoCapitalize={'none'}
           style={[styles.textInput, { marginTop: toDp(-11) }]}
           placeholder={'Password'}
-          placeholderTextColor={'#6e736f'}
+          placeholderTextColor={'#4E5A64'}
           secureTextEntry={state.secureTextEntry}
           // value={state.mb_password}
           onChangeText={(text) => Shaone(text)}
@@ -393,7 +393,7 @@ const Login = (props) => {
           <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
         </Pressable>
       </View>
-      <Pressable style={{ left: toDp(120) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+      <Pressable style={{ left: toDp(115), top: toDp(10) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
         <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
       </Pressable>
 
@@ -413,14 +413,14 @@ const Login = (props) => {
           <Pressable style={styles.pressableClick} onPress={() => googleSignin()}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icGoogle} style={styles.icon} />
-              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
+              <Text style={{ fontSize: toDp(12.5), top: toDp(15), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
             </View>
           </Pressable>
 
           <Pressable style={styles.pressableClick1} onPress={() => onFbLogin()}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icFacebook} style={styles.icon} />
-              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
+              <Text style={{ fontSize: toDp(12.5), top: toDp(15), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
             </View>
           </Pressable>
         </View>
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
   },
   pressableClick: {
     padding: toDp(2), 
-    height: toDp(40), 
+    height: toDp(48), 
     backgroundColor: 'white', 
     width: toDp(180), 
     borderRadius: toDp(10),
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
   pressableClick1: {
     padding: toDp(2), 
     width: toDp(180), 
-    height: toDp(40), 
+    height: toDp(48), 
     backgroundColor: '#3B5998', 
     borderRadius: toDp(10)
   },
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 'auto',
     backgroundColor: '#52B788',
-    borderRadius: toDp(24),
+    borderRadius: toDp(10),
     marginTop: toDp(16),
     padding: toDp(16),
     shadowColor: "#000",
@@ -495,8 +495,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: toDp(320),
-    height: toDp(39),
-    backgroundColor: '#F2F3F3',
+    height: toDp(48),
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
     marginTop: toDp(-10)
@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
     padding: toDp(4),
     position: 'absolute',
     right: toDp(8),
-    top: Platform.OS === 'ios' ? toDp(30) : toDp(48)
+    top: Platform.OS === 'ios' ? toDp(30) : toDp(53)
   },
   viewRow: {
     paddingLeft: toDp(168),
@@ -542,10 +542,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: toDp(14),
     textAlignVertical: 'center',
-    width: toDp(80),
-    height: toDp(35),
-    paddingLeft: toDp(20),
-    backgroundColor: '#698498',
+    width: toDp(90),
+    height: toDp(48),
+    paddingLeft: toDp(25),
+    backgroundColor: '#516675',
     borderRadius: toDp(10)
   },
   pressableSignup: {
@@ -555,17 +555,17 @@ const styles = StyleSheet.create({
   textSignup: {
     color: 'white',
     fontSize: toDp(14),
-    backgroundColor: '#FBA23B',
+    backgroundColor: '#A7661B',
     borderRadius: toDp(10),
-    width: toDp(80),
-    height: toDp(35),
-    paddingLeft: toDp(20),
+    width: toDp(90),
+    height: toDp(48),
+    paddingLeft: toDp(26),
     textAlignVertical: 'center'
   },
   icVisibility: {
     width: toDp(24),
     height: toDp(24),
-    tintColor: 'grey'
+    tintColor: '#4E5A64'
   },
   rowFooter: {
     marginBottom: toDp(10),

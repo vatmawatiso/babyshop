@@ -54,50 +54,50 @@ const Orderdetail = (props) => {
     ]
 
     const [state, setState] = useState({
-        retail_name: '',
-        prd_name: '',
-        dataOrder:[]
+        datas: [],
+        datakes: '',
     })
 
 
     useEffect(() => {
         //*Bagian Update
-        setOrder()
-    }, [])
+        AsyncStorage.getItem('setDetail').then(response => {
+            //console.log('Profilseller=======>'+ JSON.stringify(responponse));
 
-    const setOrder = () => {
+            let data = JSON.parse(response);
+            //const val = JSON.stringify(data);
 
-        AsyncStorage.getItem('setorderan').then(response => {
-            let odr = JSON.parse(response);
-            console.log('CEK DETAIL ORDER ----------->' + JSON.stringify(odr));
+            console.log('detail order ==> ' + JSON.stringify(data));
+
             setState(state => ({
                 ...state,
-                dataOrder: odr.items?.prd_name
-                // prd_name: odr.data?.items[0].prd_name,
-
+                datakes: data
+                //   mb_name: data.value.mb_name,
             }))
-            console.log('data order  ---->' + JSON.stringify(state.dataOrder));
+            console.log('datakes ' + JSON.stringify(state.datakes));
+            // console.log('items ' + JSON.stringify(state.datait));
 
+        }).catch(err => {
+            console.log('err', err)
         })
 
-    }
+    }, [])
 
 
-
-    const ListToko = (item, index) => (
+    const listDetail = (item, index) => (
         <View style={[styles.body, { backgroundColor: '#fff', height: toDp(220), }]}>
             <ScrollView contentContainerStyle={styles.contentContainer}>
-                <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20) }}>{item.diproses}</Text>
+                {/* <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20) }}>{item.diproses}</Text> */}
 
                 <View style={styles.OrderDetail}>
                     <Text style={styles.txtOrder}>{item.retail_name}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(10) }}>
-                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{width: toDp(120), height: toDp(120)}} />
-                        <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>{item.items[0]?.prd_name}</Text>
+                        {/* <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} /> */}
+                        <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>{item.retail_name}</Text>
                         {/* <Text style={{ top: toDp(80), right: toDp(10) }}>{DATA[0].jumlah}x</Text> */}
                     </View>
                     <NumberFormat
-                        value={item.items[0]?.price}
+                        // value={item.items[0]?.price}
                         displayType={'text'}
                         thousandSeparator={'.'}
                         decimalSeparator={','}
@@ -107,7 +107,7 @@ const Orderdetail = (props) => {
                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(20), margin: toDp(5) }}>
-                        <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
+                        <Text style={styles.txtCard}> Produk</Text>
                         {/* <Text style={styles.txtCard}>{DATA[0].total}</Text> */}
                         <NumberFormat
                             value={item.subtotal}
@@ -119,12 +119,10 @@ const Orderdetail = (props) => {
                         />
                     </View>
                 </View>
-
-
             </ScrollView>
-
         </View>
     )
+
 
     return (
         <View style={styles.container}>
@@ -133,20 +131,19 @@ const Orderdetail = (props) => {
                 onPress={() => props.navigation.goBack()}
             />
 
-            <ScrollView contentContainerStyle={styles.contentContainer1}>
+            <View style={styles.flatcontent}>
+                <FlatList style={{ width: '100%' }}
+                    data={state.datakes}
+                    renderItem={({ item, index }) => {
+                        return (
+                            listDetail(item, index)
+                        )
+                    }}
+                    ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+                />
+            </View>
 
-                <View style={styles.flatcontent}>
-                    <FlatList style={{ width: '100%' }}
-                        data={state.dataOrder}
-                        renderItem={({ item, index }) => {
-                            return (
-                                ListToko(item, index)
-                            )
-                        }}
-                        ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
-                    />
-                </View>
-
+            {/* <View style={{ marginTop: toDp(200) }}>
                 <Text style={{ fontWeight: 'bold', left: toDp(22), bottom: toDp(110) }}>Rincian Pembayaran</Text>
 
                 <View style={styles.PaymentDetails}>
@@ -205,11 +202,7 @@ const Orderdetail = (props) => {
                         />
                     </View>
                 </View>
-                {/* </ScrollView> */}
-
-
-            </ScrollView>
-
+            </View> */}
 
         </View>
     )

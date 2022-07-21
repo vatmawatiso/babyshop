@@ -320,7 +320,7 @@ const Keranjang = (props) => {
 
   const RenderItem = (itm, i) => {
     return (
-      <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.orderCart}>
 
           {/*produk dari setiap toko*/}
@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(40),
+    height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(10),
     position: 'absolute',
@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: toDp(45)
+    height: toDp(48)
   }
 });
 

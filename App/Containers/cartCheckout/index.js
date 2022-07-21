@@ -478,7 +478,7 @@ const cartCheckout = (props) => {
                         buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
                         rowTextStyle={{ fontSize: toDp(12) }}
                         dropdownStyle={{ borderRadius: toDp(7) }}
-                        rowStyle={{ height: toDp(30), padding: toDp(5) }}
+                        rowStyle={{ height: toDp(48), padding: toDp(5) }}
                         defaultButtonText={'Pilih Jasa Pengiriman'}
                         data={state.datas[inc] == '' || state.datas[inc] == null ? '' : state.datas[inc]}
                         onSelect={(selectedItem, i) => {
@@ -675,9 +675,9 @@ const cartCheckout = (props) => {
                     </View>
 
                     <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40), }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(48), }}>
                             <Pressable style={styles.btn} onPress={() => postProduk()}>
-                                <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
+                                <Text style={{ textAlign: 'center', top: toDp(17), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -694,8 +694,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     dropdown: {
-        height: toDp(25),
-        borderRadius: toDp(10),
+        height: toDp(48),
+        borderRadius: toDp(15),
         width: toDp(335),
         top: toDp(4),
         backgroundColor: '#f9f8f8',
@@ -912,9 +912,9 @@ const styles = StyleSheet.create({
     },
     btn: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(10),
+        borderRadius: toDp(15),
         width: toDp(335),
-        height: toDp(40)
+        height: toDp(48)
     },
     flatcontent: {
         width: '100%',

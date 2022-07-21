@@ -355,6 +355,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: toDp(0.5),
+    padding:toDp(5)
 
   }
 });

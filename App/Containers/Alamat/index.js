@@ -224,7 +224,7 @@ const Alamat = (props) => {
       />
 
       <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10) }}>
-        <Pressable style={{width:toDp(335)}} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+        <Pressable style={{width:toDp(335), height: toDp(48)}} onPress={() => NavigatorService.navigate('TambahAlamat')}>
           <View style={styles.btnAddress}>
             <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
             <Image source={allLogo.icplus} style={styles.icplus} />
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: toDp(10),
     width: toDp(335),
-    height: toDp(32),
+    height: toDp(48),
     borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -329,13 +329,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   icplus: {
-    width: toDp(12),
-    height: toDp(12),
-    top: toDp(10),
+    width: toDp(15),
+    height: toDp(15),
+    top: toDp(15),
     right: toDp(10)
   },
   txtBtnAddress: {
-    top: toDp(5),
+    top: toDp(15),
     left: toDp(10),
     fontWeight: 'bold'
   },

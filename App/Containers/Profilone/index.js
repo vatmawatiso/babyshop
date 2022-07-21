@@ -495,15 +495,15 @@ const getStatus = () => {
         <View style={{alignItems: 'center', width: '100%', height:150,}}>
         {
           state.login === 'google' ?
-            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutGoogle()}>
+            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutGoogle()}>
               <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Google</Text>
             </TouchableOpacity>
           : state.login === 'facebook' ?
-            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutWithFacebook()}>
+            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutWithFacebook()}>
               <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Facebook</Text>
             </TouchableOpacity>
           :
-          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(40), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logout()}>
+          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logout()}>
             <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
           </TouchableOpacity>
         }

@@ -56,32 +56,35 @@ const Detailorderan = (props) => {
     const [state, setState] = useState({
         retail_name: '',
         prd_name: '',
-        dataOrder:[]
+        dataOrder: []
     })
 
 
     useEffect(() => {
         //*Bagian Update
-        setOrder()
+        getOrder()
     }, [])
 
-    const setOrder = () => {
+    const getOrder = () => {
+        let rtl = props.retail_id;
+        let content = props.con;
+        console.log('cek rtl id ' + (rtl));
+        console.log('cek content ' + (content));
+        axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' + rtl + '/' + content)
+            .then(result => {
 
-        AsyncStorage.getItem('setOrderdetail').then(response => {
-            let odr = JSON.parse(response);
-            console.log('CEK DETAIL ORDER ----------->' + JSON.stringify(odr));
-            setState(state => ({
-                ...state,
-                dataOrder: odr
-                // prd_name: odr.data?.items[0].prd_name,
+                console.log('full ===> ' + JSON.stringify(result.data.data));
+                setState(state => ({ ...state, datas: result.data.data }))
 
-            }))
-            console.log('data order  ---->' + JSON.stringify(state.dataOrder));
-            // console.log('nama produk ---->' + JSON.stringify(state.prd_name));
+                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
+                // console.log('data order ===> ' + JSON.stringify(result.data.order));
+                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
+                // console.log('data item ===> ' + JSON.stringify(result.data.item));
 
-            // console.log('kuyyy hasil ' + JSON.stringify(state.totalll));
-        })
-
+            }).catch(err => {
+                alert('Gagal menerima data dari server!' + err)
+                setState(state => ({ ...state, loading: false }))
+            })
     }
 
 
@@ -94,12 +97,12 @@ const Detailorderan = (props) => {
                 <View style={styles.OrderDetail}>
                     <Text style={styles.txtOrder}>{item.retail_name}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(10) }}>
-                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{width: toDp(120), height: toDp(120)}} />
-                        <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>{item.items[0]?.prd_name}</Text>
+                        {/* <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} /> */}
+                        <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>jdaksdadsj</Text>
                         {/* <Text style={{ top: toDp(80), right: toDp(10) }}>{DATA[0].jumlah}x</Text> */}
                     </View>
                     <NumberFormat
-                        value={item.items[0]?.price}
+                        // value={item.items[0]?.price}
                         displayType={'text'}
                         thousandSeparator={'.'}
                         decimalSeparator={','}
@@ -109,7 +112,7 @@ const Detailorderan = (props) => {
                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(20), margin: toDp(5) }}>
-                        <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
+                        <Text style={styles.txtCard}> Produk</Text>
                         {/* <Text style={styles.txtCard}>{DATA[0].total}</Text> */}
                         <NumberFormat
                             value={item.subtotal}
@@ -134,12 +137,24 @@ const Detailorderan = (props) => {
                 title={'Pesanan Sayaaa'}
                 onPress={() => props.navigation.goBack()}
             />
+            <FlatList style={{ width: '100%', }}
+                data={state.datas}
+                renderItem={({ item, index }) => (
+                    <View style={{ marginTop: toDp(20) }}>
+                        <View style={styles.information}>
+                            <Text style={styles.txtInformation1}>{item.retail_name}</Text>
+                            <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
+                        </View>
+                    </View>
+                )}
+                ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+            />
 
             <ScrollView contentContainerStyle={styles.contentContainer1}>
 
                 <View style={styles.flatcontent}>
                     <FlatList style={{ width: '100%' }}
-                        data={state.dataOrder}
+                        data={state.state.datas}
                         renderItem={({ item, index }) => {
                             return (
                                 ListToko(item, index)

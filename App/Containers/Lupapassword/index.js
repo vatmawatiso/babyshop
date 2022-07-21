@@ -223,7 +223,7 @@ const Lupapassword = (props) => {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder={'Nama Pengguna'}
-                                placeholderTextColor={'grey'}
+                                placeholderTextColor={'#4E5A64'}
                                 onChangeText={(text) => setState(state => ({...state, mb_username: text}))}
                             />
                     </View>
@@ -240,7 +240,7 @@ const Lupapassword = (props) => {
                                         <TextInput
                                             style={styles.textInput}
                                             placeholder={'Email'}
-                                            placeholderTextColor={'grey'}
+                                            placeholderTextColor={'#4E5A64'}
                                             value={state.confirmEmail}
                                             onChangeText={(text) => setState(state => ({...state, confirmEmail: text}))}
                                         />
@@ -259,7 +259,7 @@ const Lupapassword = (props) => {
                                 <TextInput
                                     style={styles.textInput}
                                     placeholder={'Password Baru'}
-                                    placeholderTextColor={'grey'}
+                                    placeholderTextColor={'#4E5A64'}
                                     secureTextEntry={state.secureTextEntry}
                                     onChangeText={(text) => passlength(text)}
                                 />
@@ -322,13 +322,15 @@ const styles = StyleSheet.create({
     },
     txtKirim: {
         textAlign: 'center',
-        top: toDp(10),
+        top: toDp(15),
         color: 'white'
     },
     btnKirim: {
         backgroundColor: '#2A334B',
-        height: toDp(40),
-        borderRadius: toDp(20)
+        top: toDp(40),
+        width: toDp(335),
+        height: toDp(48),
+        borderRadius: toDp(10)
     },
     txtPassword: {
         bottom: toDp(5)
@@ -354,14 +356,14 @@ const styles = StyleSheet.create({
     icVisibility: {
         width: toDp(24),
         height: toDp(24),
-        tintColor: 'grey'
+        tintColor: '#4E5A64'
     },
     textInput: {
         borderWidth: 0.5,
         height: toDp(48),
-        backgroundColor: '#F2F3F3',
+        backgroundColor: '#FFFFFF',
         paddingHorizontal: toDp(8),
-        borderRadius: toDp(8),
+        borderRadius: toDp(10),
         marginTop: toDp(8)
     },
     msgError: {
