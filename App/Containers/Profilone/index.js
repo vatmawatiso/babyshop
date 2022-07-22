@@ -363,21 +363,21 @@ const getStatus = () => {
         onGoogle={() => logoutGoogle()}
         onFacebook={() => logoutWithFacebook()}
       />
-      <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+      {/* <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={refresh}
           />}
-      >
+      > */}
 
-      <View style={{ width: '100%', height: 740, alignItems: 'center' }}>
-        <View style={{ backgroundColor: '#2A334B', flexDirection: 'row', justifyContent: 'space-around', height: toDp(116), width: toDp(335), marginTop: toDp(25), top: toDp(-10), borderRadius: toDp(10) }}>
+      <View style={{ width: '100%', alignItems: 'center' }}>
+        <View style={styles.profil}>
           <View style={{flexDirection:'column', left:toDp(120), bottom:toDp(15)}}>
             <Image source={state.picture ? { uri: state.picture } :
               require('../../Assets/img/tzuyu.jpg')}
               style={styles.imgProfil} />
-            <Text style={[styles.typeUser, { width:toDp(80),  }]}>{state.mb_name.substr(0,13)}</Text>
+            <Text style={[styles.typeUser, { width:toDp(80), justifyContent: 'center', alignItems: 'center', textAlign: 'center' }]}>{state.mb_name.substr(0,13)}</Text>
           </View>
 
           <View>
@@ -461,7 +461,7 @@ const getStatus = () => {
                 <Text style={styles.txtPengiriman}>Alamat Pengiriman</Text>
               </View>
 
-              <View style={{ flexDirection: 'row', bottom: toDp(10) }}>
+              <View style={{ flexDirection: 'row', bottom: toDp(10), justifyContent: 'space-between' }}>
                 <View style={{ top: toDp(5), marginLeft: toDp(57),}}>
                     {state.alu_stats == true &&
                       <>
@@ -471,7 +471,7 @@ const getStatus = () => {
                     }
                     <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
                 </View>
-                <View style={{  }}>
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', right: toDp(10)}}>
                   <Image source={allLogo.iclineright} style={styles.iclineright} />
                 </View>
               </View>
@@ -491,33 +491,30 @@ const getStatus = () => {
           />
         </View>
 
-        <View>
-        <View style={{alignItems: 'center', width: '100%', height:150,}}>
+        
+
+
+      </View>
+      <View style={{ justifyContent: 'flex-end', alignItems: 'center', height: toDp(100) }}>
         {
           state.login === 'google' ?
-            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutGoogle()}>
+            <TouchableOpacity style={{ backgroundColor:'#2A334B',width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutGoogle()}>
               <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Google</Text>
             </TouchableOpacity>
           : state.login === 'facebook' ?
-            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logoutWithFacebook()}>
+            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutWithFacebook()}>
               <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Facebook</Text>
             </TouchableOpacity>
           :
-          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(20), justifyContent:'center', top: toDp(150)}} onPress={() => logout()}>
+          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logout()}>
             <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
           </TouchableOpacity>
         }
-        
-      </View>
         </View>
-
-
-      </View>
-
       
 
 
-      </ScrollView>
+      {/* </ScrollView> */}
 
      
 
@@ -531,7 +528,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white'
   },
-
+  profil: {
+    backgroundColor: '#2A334B', 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
+    height: toDp(116), 
+    width: toDp(335), 
+    marginTop: toDp(25), 
+    bottom: toDp(10), 
+    borderRadius: toDp(10),shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    
+    elevation: 2,
+  },
   cart: {
     padding: toDp(1),
     top: toDp(-257),
@@ -620,7 +634,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
 
-    elevation: 3,
+    elevation: 2,
   },
   bodyAlamat: {
     // backgroundColor: 'green',
@@ -669,7 +683,7 @@ const styles = StyleSheet.create({
   viewJual: {
     backgroundColor: '#F9F8F8',
     width: toDp(330),
-    height: toDp(35),
+    height: toDp(48),
     borderRadius: toDp(10),
     justifyContent: 'center',
     alignItems: 'center',
@@ -677,7 +691,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1, },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    elevation: 3,
+    elevation: 2,
   },
   txtAddress: {
     fontSize: toDp(13),
@@ -695,7 +709,7 @@ export default Profilone;
         //   tipe: result.data.data[0].mb_type,
         //   retail_idtl_srtl_status.data.rtl_id                      
 
-        // }
+        // }wq  
         // console.log('DATAS' + JSON.stringify(datas));
 
         // if (datas.retail_idtl_srtl_status_id) {
@@ -709,3 +723,5 @@ export default Profilone;
 
         // NavigatorService.reset('Homepage')
         // setState(state => ({ ...state, loading: false }))
+
+      

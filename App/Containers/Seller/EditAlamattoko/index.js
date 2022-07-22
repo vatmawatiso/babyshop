@@ -168,7 +168,7 @@ const EditAlamattoko = (props) => {
       adr_hp: state.tmp_hp,
       adr_name: state.tmp_name
     }
-    console.log('Body Alamat====> '+ JSON.stringify(body));
+    console.log('Body Alamat====> ' + JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
     const adr_id = props.navigation.state.params.adr_id
@@ -212,8 +212,7 @@ const EditAlamattoko = (props) => {
           <TextInput
             top={toDp(4)}
             width={toDp(335)}
-            height={toDp(40)}
-            marginHorizontal={toDp(10)}
+            height={toDp(48)}
             borderRadius={toDp(10)}
             backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
@@ -224,10 +223,9 @@ const EditAlamattoko = (props) => {
             onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
           />
           <TextInput
-            top={toDp(10)}
+            top={toDp(16)}
             width={toDp(335)}
-            height={toDp(40)}
-            marginHorizontal={toDp(10)}
+            height={toDp(48)}
             borderRadius={toDp(10)}
             backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
@@ -276,11 +274,10 @@ const EditAlamattoko = (props) => {
             }}
           />
           <TextInput
-            top={toDp(6)}
+            top={toDp(35)}
             width={toDp(335)}
-            height={toDp(40)}
+            height={toDp(48)}
             borderRadius={toDp(10)}
-            left={toDp(0)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
             style={styles.textInput}
@@ -292,21 +289,13 @@ const EditAlamattoko = (props) => {
         </SafeAreaView>
       </View>
 
-      <Pressable style={{ borderRadius: toDp(10), height: toDp(40), width: toDp(335) }} onPress={() => editAlamat()}>
+      <Pressable style={{ borderRadius: toDp(10), height: toDp(48), width: toDp(335) }} onPress={() => editAlamat()}>
         <View style={styles.searchSection}>
           <Text style={{ color: 'white' }}>Simpan</Text>
-          {/* <Image style={styles.searchIcon} source={allLogo.icsearch} /> */}
-          {/* <TextInput
-                        style={styles.input}
-                        placeholder="Cari Lokasi"
-                        underlineColorAndroid="transparent"
-                        placeholderTextColor="white"
-                        onChangeText={(text)=>this.props.onFilter}
-                    /> */}
         </View>
       </Pressable>
 
-      <View style={[styles.contentMap, { marginTop: toDp(40) }]}>
+      <View style={[styles.contentMap, { marginTop: toDp(50) }]}>
         <View style={[styles.wrapper, { margin: toDp(10) }]}>
           <MapView style={styles.map} initialRegion={{
             latitude: -7.7926359,
@@ -338,9 +327,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(40),
+    height: toDp(48),
     borderRadius: toDp(10),
-    marginBottom: toDp(10)
+    marginTop: toDp(40)
   },
   searchIcon: {
     resizeMode: 'contain',
@@ -374,7 +363,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'#C4C4C4',
     width: toDp(335),
     height: toDp(90),
-    borderRadius: toDp(20)
+    borderRadius: toDp(10)
   },
   txtContact: {
     fontWeight: 'bold',
@@ -384,33 +373,51 @@ const styles = StyleSheet.create({
   txtAlamat: {
     fontWeight: 'bold',
     right: toDp(145),
-    top: toDp(20)
+    top: toDp(44)
   },
   inputAlamat: {
     top: toDp(30),
     // backgroundColor:'#C4C4C4',
     width: toDp(335),
     height: toDp(130),
-    borderRadius: toDp(20)
+    borderRadius: toDp(10)
   },
   dropdown: {
-    height: toDp(38),
+    height: toDp(48),
     borderRadius: toDp(10),
     width: toDp(335),
-    top: toDp(0),
-    backgroundColor: 'white',
-    borderWidth: toDp(0.5)
+    top: toDp(23),
+    backgroundColor: '#FFFFFF',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   contentMap: {
     backgroundColor: 'white',
     width: toDp(335),
     height: toDp(200),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     bottom: toDp(5)
   },
   textInput: {
-    borderWidth: toDp(0.5),
-    right:toDp(10)
+    padding: toDp(5),
+    paddingHorizontal: toDp(18),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
+
   }
 });
 

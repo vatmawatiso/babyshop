@@ -332,7 +332,8 @@ const styles = StyleSheet.create({
     width: toDp(15),
     height: toDp(15),
     top: toDp(15),
-    right: toDp(10)
+    right: toDp(10),
+    tintColor:'#F83308'
   },
   txtBtnAddress: {
     top: toDp(15),

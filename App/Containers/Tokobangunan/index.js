@@ -136,27 +136,30 @@ const Tokobangunan = (props) => {
   ]
 
   const ListToko = (item, index) => (
-    <View style={[styles.body, { marginTop: toDp(5), alignItems: 'center', marginHorizontal: toDp(12) }]}>
+    <View style={styles.body}>
       <TouchableOpacity style={{ width: toDp(330) }} onPress={() => NavigatorService.navigate('Profilseller')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={{ uri: DATA[0].image }} style={styles.imgKontak} />
           <View style={{ flexDirection: 'row', marginLeft: toDp(10) }}>
             <View>
-              <Text>Nama</Text>
-              <Text>Telepon</Text>
-              <Text>Alamat</Text>
-              <Text>Latitude</Text>
-              <Text>Longtitude</Text>
+              <Text style={{ fontSize: toDp(12) }}>Nama</Text>
+              <Text style={{ fontSize: toDp(12) }}>Telepon</Text>
+              <Text style={{ fontSize: toDp(12) }}>Alamat</Text>
+              <Text style={{ fontSize: toDp(12) }}>Latitude</Text>
+              <Text style={{ fontSize: toDp(12) }}>Longtitude</Text>
             </View>
             <View>
-              <Text> : {item.rtl_name}</Text>
-              <Text> : {item.rtl_phone}</Text>
-              <Text> : {item.rtl_address} {item.cty_name}</Text>
-              <Text> : {item.rtl_long}</Text>
-              <Text> : {item.rtl_lat}</Text>
+              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_name}</Text>
+              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_phone}</Text>
+              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_address} {item.cty_name}</Text>
+              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_long}</Text>
+              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_lat}</Text>
             </View>
           </View>
         </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={{right:toDp(50), top:toDp(30)}}>
+        <Text>Buka</Text>
       </TouchableOpacity>
     </View>
   )
@@ -198,7 +201,12 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(110),
     borderRadius: toDp(10),
+    borderBottomWidth:10,
+    borderBottomColor:'#2A334B',
     top: toDp(10),
+    marginTop: toDp(5), 
+    alignItems: 'center',
+    marginHorizontal: toDp(12),
     justifyContent: 'space-between',
     marginBottom: toDp(2),
     shadowColor: "#000",

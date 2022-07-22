@@ -176,7 +176,7 @@ const Layananjasa = (props) => {
       ...state,
       isSwitch
     }))
-    
+
 
     let data = {
       price: input,
@@ -224,7 +224,7 @@ const Layananjasa = (props) => {
                     ...state,
                     swDis
                   }));
-                  console.log('cek switch '+ JSON.stringify(state.swDis));
+                  console.log('cek switch ' + JSON.stringify(state.swDis));
 
                 } else {
                   let swDis = state;
@@ -273,7 +273,7 @@ const Layananjasa = (props) => {
       {/*
         <ScrollView> */}
       <View style={{ top: toDp(0) }}>
-        <View style={{ flexDirection: 'row', borderWidth: 0.5, height: toDp(40), marginBottom: toDp(10), bottom: toDp(5), borderColor: 'grey' }}>
+        <View style={{ flexDirection: 'row', borderWidth: 0.5, height: toDp(48), marginBottom: toDp(10), bottom: toDp(5), borderColor: 'grey' }}>
           <Text style={styles.txtJasa}>Pilih jasa pengiriman</Text>
           <Image source={allLogo.siapkirim} style={{ margin: toDp(10), width: toDp(28), height: toDp(28), resizeMode: 'contain' }} />
         </View>
@@ -334,11 +334,19 @@ const styles = StyleSheet.create({
     marginTop: toDp(5)
   },
   textInput: {
-    height: toDp(35),
+    height: toDp(48),
     width: toDp(130),
-    borderWidth: toDp(0.5),
     borderRadius: toDp(10),
-    backgroundColor:'#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   txtJasa: {
     margin: toDp(10),
@@ -359,8 +367,8 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: toDp(10),
     width: toDp(335),
-    padding: toDp(12),
-    height: toDp(65),
+    padding: toDp(5),
+    height: toDp(80),
     right: toDp(8),
     backgroundColor: '#f8f9f9',
     shadowColor: "#000",

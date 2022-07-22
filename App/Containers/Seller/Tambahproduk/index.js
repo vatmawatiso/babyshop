@@ -31,21 +31,21 @@ const Tambahproduk = (props) => {
   // const Kondisi = ["Baru", "Bekas"]
 
   const [state, setState] = useState({
-    kategori:'',
-    kondisi:'',
-    pdd_prd_id:'',
-    prd_kd_id:'',
-    prd_name:'',
-    prd_stock:0,
-    prd_price:0,
-    prd_thumbnail:'',
-    prd_ctg_id:'',
-    prd_rtl_id:'',
-    prd_berat:0,
+    kategori: '',
+    kondisi: '',
+    pdd_prd_id: '',
+    prd_kd_id: '',
+    prd_name: '',
+    prd_stock: 0,
+    prd_price: 0,
+    prd_thumbnail: '',
+    prd_ctg_id: '',
+    prd_rtl_id: '',
+    prd_berat: 0,
     nama_kondisi: '',
-    ctg_name:'',
-    mb_name:'',
-    retail_id:'',
+    ctg_name: '',
+    mb_name: '',
+    retail_id: '',
     loading: false,
     picture: '../../Assets/img/tzuyu.jpg',
     options: {
@@ -57,17 +57,17 @@ const Tambahproduk = (props) => {
       includeExif: true,
       forceJpg: true,
     },
-    fileUri:'',
-    images:[],
-    tmb_image:false
+    fileUri: '',
+    images: [],
+    tmb_image: false
 
   })
 
   const [modalVisible, setModalVisible] = useState(false);
 
-   //====> GET Kategori Barang pada Tambah Produk Seller <====//
+  //====> GET Kategori Barang pada Tambah Produk Seller <====//
 
-   useEffect(() => {
+  useEffect(() => {
     AsyncStorage.getItem('member').then(response => {
       // console.log('Profil----------->'+ JSON.stringify(response));
 
@@ -100,118 +100,118 @@ const Tambahproduk = (props) => {
 
   // },[])
 
-    // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
+  // const countries = ["Jakarta", "Cirebon", "Bandung", "Kuningan"]
 
-    const category = () => {
-      // setState(state => ({...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/category/')
-          .then(result =>{
-            // handle success
-            setState(state => ({...state, kategori: result.data.data }))
-            console.log('----Katagori=====>'+ JSON.stringify(result.data.data));
-            // alert(JSON.stringify(result.data));
+  const category = () => {
+    // setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/category/')
+      .then(result => {
+        // handle success
+        setState(state => ({ ...state, kategori: result.data.data }))
+        console.log('----Katagori=====>' + JSON.stringify(result.data.data));
+        // alert(JSON.stringify(result.data));
 
-          }).catch(err =>{
-            //console.log(err)
-            alert('Gagal menerima data dari server!'+err)
-            setState(state => ({...state, loading: false }))
-          })
-    }
-
-    //====> GET Kondisi Barang pada Tambah Produk Seller <====//
-
-    useEffect(() => {
-      getKondisi()
-
-    },[])
-
-      const getKondisi = () => {
-        // setState(state => ({...state, loading: true }))
-          axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
-            .then(result =>{
-              // handle success
-              setState(state => ({...state, kondisi: result.data.data }))
-              console.log('----Kondisi=====>'+ JSON.stringify(result.data.data));
-              // alert(JSON.stringify(result.data));
-
-            }).catch(err =>{
-              //console.log(err)
-              alert('Gagal menerima data dari server!'+err)
-              setState(state => ({...state, loading: false }))
-            })
-      }
-
-    // ====> POST Tambah Produk Seller <====//
-    const makeRandom=(length)=> {
-        let result           = '';
-        let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let charactersLength = characters.length;
-        for ( let i = 0; i < length; i++ ) {
-          result += characters.charAt(Math.floor(Math.random() *
-     charactersLength));
-       }
-       return result;
-    }
-    const InputProduk = async () => {
-      const body = {
-        prd_name:state.prd_name,
-        pdd_prd_id:state.pdd_prd_id,
-        prd_stock:state.prd_stock,
-        prd_price:state.prd_price,
-        prd_thumbnail:state.prd_thumbnail,
-        prd_ctg_id:state.prd_ctg_id,
-        prd_rtl_id:state.id_retail,
-        prd_berat:state.prd_berat,
-        prd_kd_id:state.prd_kd_id,
-        nama_kondisi:state.nama_kondisi,
-        ctg_name:state.ctg_name,
-      }
-      console.log('BODY == Produk===>'+ JSON.stringify(body));
-
-      setState(state => ({...state, loading: true }))
-      const formData = new FormData();
-      formData.append('prd_name', state.prd_name);
-      formData.append('pdd_prd_id', state.pdd_prd_id);
-      formData.append('prd_stock', state.prd_stock);
-      formData.append('prd_price', state.prd_price);
-      formData.append('prd_ctg_id', state.prd_ctg_id);
-      formData.append('prd_rtl_id', state.id_retail);
-      formData.append('prd_berat', state.prd_berat);
-      formData.append('prd_kd_id', state.prd_kd_id);
-      formData.append('nama_kondisi', state.nama_kondisi);
-      formData.append('ctg_name', state.ctg_name);
-      //formData.append("prd_thumbnail",state.fileUri);
-      formData.append("prd_thumbnail", {
-        uri: state.fileUri.path,
-        name: 'image-thumbnail-'+state.prd_name+'-'+'.jpg',
-        type: 'image/jpg'
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
       })
+  }
 
-      state.images.forEach((file,i)=>{
-          formData.append('images[]', {
-            uri: file.uri,
-            type: 'image/jpeg',
-            name: "product-"+state.prd_name+"-"+makeRandom(21)+"-"+i+"-.jpg",
-          });
+  //====> GET Kondisi Barang pada Tambah Produk Seller <====//
+
+  useEffect(() => {
+    getKondisi()
+
+  }, [])
+
+  const getKondisi = () => {
+    // setState(state => ({...state, loading: true }))
+    axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
+      .then(result => {
+        // handle success
+        setState(state => ({ ...state, kondisi: result.data.data }))
+        console.log('----Kondisi=====>' + JSON.stringify(result.data.data));
+        // alert(JSON.stringify(result.data));
+
+      }).catch(err => {
+        //console.log(err)
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+  // ====> POST Tambah Produk Seller <====//
+  const makeRandom = (length) => {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
+    return result;
+  }
+  const InputProduk = async () => {
+    const body = {
+      prd_name: state.prd_name,
+      pdd_prd_id: state.pdd_prd_id,
+      prd_stock: state.prd_stock,
+      prd_price: state.prd_price,
+      prd_thumbnail: state.prd_thumbnail,
+      prd_ctg_id: state.prd_ctg_id,
+      prd_rtl_id: state.id_retail,
+      prd_berat: state.prd_berat,
+      prd_kd_id: state.prd_kd_id,
+      nama_kondisi: state.nama_kondisi,
+      ctg_name: state.ctg_name,
+    }
+    console.log('BODY == Produk===>' + JSON.stringify(body));
+
+    setState(state => ({ ...state, loading: true }))
+    const formData = new FormData();
+    formData.append('prd_name', state.prd_name);
+    formData.append('pdd_prd_id', state.pdd_prd_id);
+    formData.append('prd_stock', state.prd_stock);
+    formData.append('prd_price', state.prd_price);
+    formData.append('prd_ctg_id', state.prd_ctg_id);
+    formData.append('prd_rtl_id', state.id_retail);
+    formData.append('prd_berat', state.prd_berat);
+    formData.append('prd_kd_id', state.prd_kd_id);
+    formData.append('nama_kondisi', state.nama_kondisi);
+    formData.append('ctg_name', state.ctg_name);
+    //formData.append("prd_thumbnail",state.fileUri);
+    formData.append("prd_thumbnail", {
+      uri: state.fileUri.path,
+      name: 'image-thumbnail-' + state.prd_name + '-' + '.jpg',
+      type: 'image/jpg'
+    })
+
+    state.images.forEach((file, i) => {
+      formData.append('images[]', {
+        uri: file.uri,
+        type: 'image/jpeg',
+        name: "product-" + state.prd_name + "-" + makeRandom(21) + "-" + i + "-.jpg",
       });
-      console.log('---INI----->'+ JSON.stringify(state.fileUri.path));
-      await axios({
-        url: 'https://market.pondok-huda.com/dev/react/product/',
-        method: 'POST',
-        data: formData,
-        headers: {
-          'Accept': 'application/json',
-                  'Content-Type': 'multipart/form-data',
-        }
-      })
-        alert ('berhasil tambah produk')
-      .then(function(response) {
+    });
+    console.log('---INI----->' + JSON.stringify(state.fileUri.path));
+    await axios({
+      url: 'https://market.pondok-huda.com/dev/react/product/',
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    alert('berhasil tambah produk')
+      .then(function (response) {
         console.log("response :", response.data);
-        setState(state => ({ ...state,tmb_image:false}))
+        setState(state => ({ ...state, tmb_image: false }))
       })
-      .catch(function(error) {
-         console.log("error up", error)
-         setState(state => ({ ...state,tmb_image:false}))
+      .catch(function (error) {
+        console.log("error up", error)
+        setState(state => ({ ...state, tmb_image: false }))
 
         if (error.response) {
           // Request made and server responded
@@ -226,38 +226,38 @@ const Tambahproduk = (props) => {
           console.log('Error', error.message);
         }
       })
-    }
+  }
 
-    const upImageToServer = (imagePath) => {
-      const imageDta = new FormData();
-      imageDta.append("prd_thumbnail", {
-        uri: imagePath.path,
-        name: 'image.jpg',
-        type: 'image/jpg'
-      })
-      console.log('THIS => ', imageDta);
-      fetch('https://market.pondok-huda.com/dev/react/product',
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data'
-          },
-          method: 'POST',
-          body: imageDta
+  const upImageToServer = (imagePath) => {
+    const imageDta = new FormData();
+    imageDta.append("prd_thumbnail", {
+      uri: imagePath.path,
+      name: 'image.jpg',
+      type: 'image/jpg'
+    })
+    console.log('THIS => ', imageDta);
+    fetch('https://market.pondok-huda.com/dev/react/product',
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data'
+        },
+        method: 'POST',
+        body: imageDta
+      }
+    ).then(response => response.json())
+      .then(response => {
+        console.log(response)
+        if (response.status == 200) {
+          console.log('response =>', response)
         }
-      ).then(response => response.json())
-        .then(response => {
-          console.log(response)
-          if (response.status == 200) {
-           console.log('response =>', response)
-          }
-        }).catch(err => {
-          // console.log(response)
-          console.log(err)
-          alert('Gagal menerima data dari server!')
-          setState(state => ({ ...state, loading: false }))
-        })
-    }
+      }).catch(err => {
+        // console.log(response)
+        console.log(err)
+        alert('Gagal menerima data dari server!')
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
@@ -288,20 +288,21 @@ const Tambahproduk = (props) => {
     ImagePicker.openPicker(state.options).then(response => {
       //  processUpload(response)
       //setState(state => ({ ...state, fileUri: response.path }))
-      if(state.tmb_image==false){
-         setState(state => ({ ...state, fileUri: response[0], tmb_image:true}))
-          console.log('path -- >'+ JSON.stringify(response[0].path));
-      }else{
-        setState(state => ({ ...state,
+      if (state.tmb_image == false) {
+        setState(state => ({ ...state, fileUri: response[0], tmb_image: true }))
+        console.log('path -- >' + JSON.stringify(response[0].path));
+      } else {
+        setState(state => ({
+          ...state,
           images: response.map((i) => {
-          console.log('received image', i);
-          return {
-            uri: i.path,
-            width: i.width,
-            height: i.height,
-            mime: i.mime,
-          };
-        }),
+            console.log('received image', i);
+            return {
+              uri: i.path,
+              width: i.width,
+              height: i.height,
+              mime: i.mime,
+            };
+          }),
         }));
       }
     }).catch(err => {
@@ -325,7 +326,7 @@ const Tambahproduk = (props) => {
   }
 
   const renderFileUri = () => {
-    if (state.fileUri!='') {
+    if (state.fileUri != '') {
       return <Image
         source={{ uri: state.fileUri.path }}
         style={styles.images}
@@ -351,8 +352,8 @@ const Tambahproduk = (props) => {
       <View style={styles.bodyInputProduk}>
         <ScrollView>
           <View>
-            <View style={{flexDirection:'row', justifyContent:'space-around',}}>
-              <TouchableOpacity style={[styles.btnFoto,{left:0}]}  onPress={()=> setModalVisible(true)}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
+              <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
                 <Text style={styles.txtFoto}>Tambah Foto</Text>
               </TouchableOpacity>
               {renderFileUri()}
@@ -362,7 +363,7 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
                 placeholderTextColor={'#4E5A64'}
-                placeholder = {"Nama product"}
+                placeholder={"Nama product"}
                 value={state.prd_name}
                 onChangeText={(text) => setState(state => ({ ...state, prd_name: text }))}
               />
@@ -373,7 +374,7 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(40) }]}
                 placeholderTextColor={'#4E5A64'}
-                placeholder = {"Berat product"}
+                placeholder={"Berat product"}
                 value={state.prd_berat}
                 onChangeText={(text) => setState(state => ({ ...state, prd_berat: text }))}
               />
@@ -384,7 +385,7 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(60) }]}
                 placeholderTextColor={'#4E5A64'}
-                placeholder = {"Harga product"}
+                placeholder={"Harga product"}
                 value={state.prd_price}
                 onChangeText={(text) => setState(state => ({ ...state, prd_price: text }))}
               />
@@ -395,7 +396,7 @@ const Tambahproduk = (props) => {
               <TextInput autoCapitalize={'none'}
                 style={[styles.textInput, { bottom: toDp(80) }]}
                 placeholderTextColor={'#4E5A64'}
-                placeholder = {"Stock product"}
+                placeholder={"Stock product"}
                 value={state.prd_stock}
                 onChangeText={(text) => setState(state => ({ ...state, prd_stock: text }))}
               />
@@ -449,7 +450,7 @@ const Tambahproduk = (props) => {
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem.nama_kondisi;
-                }}s
+                }} s
                 rowTextForSelection={(item, index) => {
                   return item.nama_kondisi;
                 }}
@@ -471,38 +472,38 @@ const Tambahproduk = (props) => {
         </ScrollView>
       </View>
 
-        <View style={{position:'absolute', bottom:0, alignItems:'center', justifyContent:'center', width:'100%' }}>
-          <Text>{JSON.stringify(state.tmb_image)}</Text>
-          <View style={styles.bodySimpan}>
-            <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
-              <Text style={styles.txtSimpan}>Simpan</Text>
-            </Pressable>
-          </View>
+      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+        <Text>{JSON.stringify(state.tmb_image)}</Text>
+        <View style={styles.bodySimpan}>
+          <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
+            <Text style={styles.txtSimpan}>Simpan</Text>
+          </Pressable>
         </View>
-          {/* Modal */}
-          <View style={styles.modalBuka}>
-            <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
-                 <View style={styles.viewModal}>
-                     <Pressable style={styles.modalClose} onPress={()=> setModalVisible(!modalVisible)}>
-                            <Image source={allLogo.icSilang} style={{height: toDp(20), width: toDp(20)}}/>
-                        </Pressable>
-                    <View style={styles.viewJudul}>
-                        <Text style={styles.txtJudul}>Tambah Foto Produk</Text>
-                    </View>
-                    {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
-                        <View style={styles.viewBtn}>
-                            <Pressable style={[styles.btnImage, {backgroundColor: '#2A334B'}]} onPress={() => camera()}>
-                                <Text style={styles.txtButon}>Kamera</Text>
-                            </Pressable>
-                            <Pressable style={[styles.btnImage, {backgroundColor: '#2A334B'}]} onPress={() => gallery()}>
-                                <Text style={styles.txtButon}>Galeri</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </Modal>
+      </View>
+      {/* Modal */}
+      <View style={styles.modalBuka}>
+        <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
+          <View style={styles.viewModal}>
+            <Pressable style={styles.modalClose} onPress={() => setModalVisible(!modalVisible)}>
+              <Image source={allLogo.icSilang} style={{ height: toDp(20), width: toDp(20) }} />
+            </Pressable>
+            <View style={styles.viewJudul}>
+              <Text style={styles.txtJudul}>Tambah Foto Produk</Text>
+            </View>
+            {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
+            <View style={styles.viewBtn}>
+              <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => camera()}>
+                <Text style={styles.txtButon}>Kamera</Text>
+              </Pressable>
+              <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => gallery()}>
+                <Text style={styles.txtButon}>Galeri</Text>
+              </Pressable>
+            </View>
           </View>
+        </Modal>
+      </View>
 
-            {/* end modal */}
+      {/* end modal */}
 
 
 
@@ -513,7 +514,7 @@ const Tambahproduk = (props) => {
 const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
-    flex:1
+    flex: 1
   },
   contentContainer: {
     paddingVertical: toDp(20)
@@ -524,7 +525,7 @@ const styles = StyleSheet.create({
     height: toDp(490),
     borderRadius: toDp(8),
     top: toDp(10),
-    left:toDp(12),
+    left: toDp(12),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -545,7 +546,7 @@ const styles = StyleSheet.create({
     height: toDp(42),
     justifyContent: 'center',
     borderRadius: toDp(8),
-    bottom:toDp(5),
+    bottom: toDp(5),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -562,13 +563,21 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: toDp(320),
-    height: toDp(39),
+    height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
-    borderRadius: toDp(5),
+    borderRadius: toDp(10),
     bottom: toDp(20),
     margin: toDp(7),
-    borderWidth: 0.5
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   btnFoto: {
     backgroundColor: 'white',
@@ -578,7 +587,15 @@ const styles = StyleSheet.create({
     width: toDp(59),
     borderRadius: toDp(5),
     justifyContent: 'center',
-    borderWidth: 0.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   txtFoto: {
     textAlign: 'center',
@@ -593,13 +610,21 @@ const styles = StyleSheet.create({
     margin: toDp(8),
   },
   dropdown: {
-    height: toDp(38),
-    borderRadius: toDp(8),
+    height: toDp(48),
+    borderRadius: toDp(10),
     width: toDp(319),
     left: toDp(8),
-    backgroundColor: '#f2f3f3',
+    backgroundColor: '#FFFFFF',
     bottom: toDp(93),
-    borderWidth: 0.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   txtVariasi: {
     margin: toDp(3),
@@ -608,12 +633,20 @@ const styles = StyleSheet.create({
   btnVariasi: {
     backgroundColor: '#FFFFFF',
     width: toDp(320),
-    height: toDp(39),
+    height: toDp(48),
     justifyContent: 'center',
     borderRadius: toDp(8),
     bottom: toDp(65),
     left: toDp(8),
-    borderWidth: toDp(0.5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   iclineright: {
     width: toDp(8),
@@ -636,26 +669,42 @@ const styles = StyleSheet.create({
     borderWidth: toDp(0.5),
   },
   dropdown: {
-    height: toDp(38),
-    borderRadius: toDp(8),
+    height: toDp(48),
+    borderRadius: toDp(10),
     width: toDp(319),
     left: toDp(8),
     backgroundColor: 'white',
     bottom: toDp(93),
-    borderWidth: toDp(0.5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   txtKondisi: {
     bottom: toDp(98),
     margin: toDp(8)
   },
   dropdown1: {
-    height: toDp(38),
-    borderRadius: toDp(8),
+    height: toDp(48),
+    borderRadius: toDp(10),
     width: toDp(319),
     left: toDp(8),
     backgroundColor: 'white',
     bottom: toDp(100),
-    borderWidth: toDp(0.5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    
+    elevation: 2,
   },
   // modalBuka: {
   //   justifyContent: 'center',
@@ -687,34 +736,34 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   viewJudul: {
-      marginTop: toDp(10),
-      justifyContent: 'center',
-      // color: '#4E5A64',
-      alignItems: 'center'
+    marginTop: toDp(10),
+    justifyContent: 'center',
+    // color: '#4E5A64',
+    alignItems: 'center'
   },
   txtJudul: {
-      fontSize: toDp(20),
-      color: '#4E5A64',
-      fontWeight: 'bold'
+    fontSize: toDp(20),
+    color: '#4E5A64',
+    fontWeight: 'bold'
   },
   viewBtn: {
-      justifyContent: 'space-around',
-      flexDirection: 'row',
-      marginTop: toDp(60),
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    marginTop: toDp(60),
   },
   btnImage: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: toDp(48),
-      width: toDp(80),
-      borderRadius: toDp(20)
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: toDp(48),
+    width: toDp(80),
+    borderRadius: toDp(20)
   },
   txtButon: {
-      fontSize: toDp(14),
-      fontWeight: 'bold',
-      color: 'white'
+    fontSize: toDp(14),
+    fontWeight: 'bold',
+    color: 'white'
   },
-  images:{
+  images: {
     backgroundColor: 'white',
     marginTop: toDp(20),
     margin: toDp(8),

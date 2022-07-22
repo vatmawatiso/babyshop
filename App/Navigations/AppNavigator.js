@@ -57,7 +57,7 @@ import Kategori from '../Containers/Seller/Kategori'
 import Produksaya from '../Containers/Seller/Produksaya'
 import Detailkategori from '../Containers/Seller/Detailkategori'
 import EditAlamattoko from '../Containers/Seller/EditAlamattoko'
-import Tambahalamatseller from "../Containers/Seller/Tambahalamat";
+import Tambahalamatseller from "../Containers/Seller/Tambahalamatseller";
 import Saldopenjual from '../Containers/Seller/Saldopenjual'
 import Ulasan from '../Containers/Seller/Ulasan'
 import Tambahkategori from '../Containers/Seller/Tambahkategori'

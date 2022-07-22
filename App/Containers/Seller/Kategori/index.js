@@ -181,7 +181,7 @@ const Kategori = (props) => {
       </View>
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <Pressable style={[styles.btnKonfirm, { width: toDp(335) }]} onPress={() => NavigatorService.navigate('Tambahkategori')}>
+        <Pressable style={styles.btnKonfirm} onPress={() => NavigatorService.navigate('Tambahkategori')}>
           <Text style={styles.txtKonfirm}>Tambah Kategori</Text>
         </Pressable>
       </View>
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     borderRadius: toDp(10),
     width: toDp(335),
-    height: toDp(40),
+    height: toDp(48),
     justifyContent: 'center',
     bottom: toDp(5)
   },

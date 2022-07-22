@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: toDp(320),
-    height: toDp(39),
+    height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
     borderRadius: toDp(10),
@@ -391,11 +391,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
 
-    elevation: 1,
+    elevation: 2,
   },
   textInput1: {
     width: toDp(320),
-    height: toDp(39),
+    height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
     borderRadius: toDp(10),
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
 
-    elevation: 1,
+    elevation: 2,
   },
   txtDeskripsi: {
     top: toDp(8),
@@ -425,9 +425,9 @@ const styles = StyleSheet.create({
   btnSimpan: {
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(50),
+    height: toDp(48),
     borderRadius: toDp(10),
-    top: toDp(80),
+    top: toDp(20),
     justifyContent: 'center'
   },
   txtSimpan: {
@@ -437,10 +437,10 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: toDp(320),
-    height: toDp(39),
+    height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(10),
-    backgroundColor: '#F2F3F3',
+    backgroundColor: '#FFFFFF',
     marginBottom: toDp(5),
     shadowColor: "#000",
     shadowOffset: {
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 1,
+    elevation: 2,
   },
 
 });

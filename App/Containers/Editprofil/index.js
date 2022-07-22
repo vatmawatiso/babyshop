@@ -44,13 +44,13 @@ const Editprofil = (props) => {
 
   useEffect(() => {
     // get data pengguna
-    AsyncStorage.getItem('login').then(response =>{
+    AsyncStorage.getItem('login').then(response => {
       console.log('login :', response);
-      setState(state => ({...state, login: response}))
-    }).catch(err =>{
+      setState(state => ({ ...state, login: response }))
+    }).catch(err => {
       console.log('err', err)
     })
-    
+
     AsyncStorage.getItem('member').then(response => {
       //console.log('Editprofil ------->' + JSON.stringify(response));
 
@@ -103,7 +103,7 @@ const Editprofil = (props) => {
     axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/', body)
       .then(result => {
         if (result.data.status == 200) {
-          console.log('result update'+ JSON.stringify (result));
+          console.log('result update' + JSON.stringify(result));
           alert('Berhasil mengubah profil');
           refresh()
         } else if (result.data.status == 500) {
@@ -118,28 +118,28 @@ const Editprofil = (props) => {
     setState(state => ({ ...state, loading: true }))
     axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/')
       .then(result => {
-        console.log('mb_id refresh'+ state.mb_id)
-          if (result.data.status == 200) {
-            console.log('result refresh =>', result.data)
-              const datas = {
-                id: result.data.data[0].mb_id,
-                value: result.data.data[0],
-                type: result.data.data[0].mb_type
-              }
-         if(datas.value.length === 0) {
-           alert('not found users')
-         } else {
-            //save Async Storage
-          try {
-            AsyncStorage.setItem('member', JSON.stringify(datas))
-          } catch (e) {
-            alert('Error ' + e)
+        console.log('mb_id refresh' + state.mb_id)
+        if (result.data.status == 200) {
+          console.log('result refresh =>', result.data)
+          const datas = {
+            id: result.data.data[0].mb_id,
+            value: result.data.data[0],
+            type: result.data.data[0].mb_type
           }
-          getData()
-          console.log('===>> ', (datas));
-          setState(state => ({ ...state, loading: false }))
-         }
-          
+          if (datas.value.length === 0) {
+            alert('not found users')
+          } else {
+            //save Async Storage
+            try {
+              AsyncStorage.setItem('member', JSON.stringify(datas))
+            } catch (e) {
+              alert('Error ' + e)
+            }
+            getData()
+            console.log('===>> ', (datas));
+            setState(state => ({ ...state, loading: false }))
+          }
+
         } else if (result.data.status == 404) {
           alert('Data tidak ditemukan!')
           setState(state => ({ ...state, loading: false }))
@@ -217,60 +217,60 @@ const Editprofil = (props) => {
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
-}
+  }
 
-const camera = () => {
-  ImagePicker.openCamera(state.options).then(response => {
-    upImageToServer(response)
-  }).catch(err => {
-    console.log(err)
-    if (err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
-      Alert.alert(
-        'Pengaturan',
-        'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
-        [
-          { text: 'Nanti Saja', onPress: () => console.log('Cancel') },
-          {
-            text: 'Aktifkan', onPress: () => {
-              Linking.openSettings();
-            }
-          },
-        ],
-        { cancelable: false },
-      );
-    }
-  })
-}
+  const camera = () => {
+    ImagePicker.openCamera(state.options).then(response => {
+      upImageToServer(response)
+    }).catch(err => {
+      console.log(err)
+      if (err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
+        Alert.alert(
+          'Pengaturan',
+          'Akses ambil foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses ambil foto dari Pengaturan.',
+          [
+            { text: 'Nanti Saja', onPress: () => console.log('Cancel') },
+            {
+              text: 'Aktifkan', onPress: () => {
+                Linking.openSettings();
+              }
+            },
+          ],
+          { cancelable: false },
+        );
+      }
+    })
+  }
 
-const gallery = () => {
-  ImagePicker.openPicker(state.options).then(response => {
-    //  processUpload(response)
-    upImageToServer(response)
-  }).catch(err => {
-    console.log(err)
-    if (err == 'Error: Required permission missing' || err == 'Error: Cannot access images. Please allow access if you want to be able to select images.') {
-      Alert.alert(
-        'Pengaturan',
-        'Akses pilih foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses pilih foto dari Pengaturan.',
-        [
-          { text: 'Nanti Saja', onPress: () => console.log('Cancel') },
-          {
-            text: 'Aktifkan', onPress: () => {
-              Linking.openSettings();
-            }
-          },
-        ],
-        { cancelable: false },
-      );
-    }
-  })
-}
+  const gallery = () => {
+    ImagePicker.openPicker(state.options).then(response => {
+      //  processUpload(response)
+      upImageToServer(response)
+    }).catch(err => {
+      console.log(err)
+      if (err == 'Error: Required permission missing' || err == 'Error: Cannot access images. Please allow access if you want to be able to select images.') {
+        Alert.alert(
+          'Pengaturan',
+          'Akses pilih foto belum diaktifkan.\nBerikan akses untuk memulai mengambil gambar. Aktifkan akses pilih foto dari Pengaturan.',
+          [
+            { text: 'Nanti Saja', onPress: () => console.log('Cancel') },
+            {
+              text: 'Aktifkan', onPress: () => {
+                Linking.openSettings();
+              }
+            },
+          ],
+          { cancelable: false },
+        );
+      }
+    })
+  }
 
-// const [isModalVisible, setModalVisible] = useState(false);
+  // const [isModalVisible, setModalVisible] = useState(false);
 
-// const toggleModal = () => {
-//   setModalVisible(!isModalVisible);
-// }; onPress={()=> toggleModal()}
+  // const toggleModal = () => {
+  //   setModalVisible(!isModalVisible);
+  // }; onPress={()=> toggleModal()}
 
   // const RenderItem = (item, index) => {
   return (
@@ -282,36 +282,36 @@ const gallery = () => {
       <View style={styles.content}>
         <View style={styles.profil}>
           <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
-            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30), right:toDp(15) }} />
+            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30), right: toDp(15) }} />
           </Pressable>
-            <Pressable onPress={()=> toggleModal()}>
-              <Image style={styles.icEdit} source={allLogo.icedit}/>
-                <Image style={styles.imgProfil} source={state.picture ? { uri: state.picture } :
-                  require('../../Assets/img/tzuyu.jpg')} />
-                  {/* <Text style={styles.nama}>{state.mb_name}</Text> */}
-            </Pressable>
-            {/* Modal */}
-            <Modal style={styles.modal} isVisible={modalVisible}>
-                 <View style={styles.viewModal}>
-                     <Pressable style={styles.modalClose} onPress={()=> toggleModal()}>
-                            <Image source={allLogo.iccross} style={{height: toDp(20), width: toDp(20), right:toDp(10)}}/>
-                        </Pressable>
-                    <View style={styles.viewJudul}>
-                        <Text style={styles.txtJudul}>Ubah Poto Profil</Text>
-                    </View> 
-                    {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
-                        <View style={styles.viewBtn}>
-                            <Pressable style={[styles.btnImage, {backgroundColor: '#2A334B'}]} onPress={() => camera()}>
-                                <Text style={styles.txtButon}>Kamera</Text>
-                            </Pressable>
-                            <Pressable style={[styles.btnImage, {backgroundColor: '#2A334B'}]} onPress={() => gallery()}>
-                                <Text style={styles.txtButon}>Galeri</Text>
-                            </Pressable>
-                        </View>
-                    </View>                   
-                </Modal>
-            {/* end modal */}
-          </View>
+          <Pressable onPress={() => toggleModal()}>
+            <Image style={styles.icEdit} source={allLogo.icedit} />
+            <Image style={styles.imgProfil} source={state.picture ? { uri: state.picture } :
+              require('../../Assets/img/tzuyu.jpg')} />
+            {/* <Text style={styles.nama}>{state.mb_name}</Text> */}
+          </Pressable>
+          {/* Modal */}
+          <Modal style={styles.modal} isVisible={modalVisible}>
+            <View style={styles.viewModal}>
+              <Pressable style={styles.modalClose} onPress={() => toggleModal()}>
+                <Image source={allLogo.iccross} style={{ height: toDp(20), width: toDp(20), right: toDp(10) }} />
+              </Pressable>
+              <View style={styles.viewJudul}>
+                <Text style={styles.txtJudul}>Ubah Poto Profil</Text>
+              </View>
+              {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
+              <View style={styles.viewBtn}>
+                <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => camera()}>
+                  <Text style={styles.txtButon}>Kamera</Text>
+                </Pressable>
+                <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => gallery()}>
+                  <Text style={styles.txtButon}>Galeri</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+          {/* end modal */}
+        </View>
       </View>
       <View style={styles.formInput}>
         <View style={styles.card}>
@@ -345,19 +345,19 @@ const gallery = () => {
           />
         </View>
         <SelectDropdown
-          buttonStyle={[styles.textInput, {bottom:toDp(10), right:toDp(6)}]}
-          buttonTextStyle={{fontSize:toDp(13), color:'#4E5A64', }}
-          rowTextStyle={{fontSize:toDp(13)}}
-          dropdownStyle={{borderRadius:toDp(10)}}
-          rowStyle={{height:toDp(50),padding:toDp(5)}}
-          placeholderTextColor = {'#4E5A64'}
+          buttonStyle={[styles.textInput, { bottom: toDp(10), right: toDp(6) }]}
+          buttonTextStyle={{ fontSize: toDp(13), color: '#4E5A64', }}
+          rowTextStyle={{ fontSize: toDp(13) }}
+          dropdownStyle={{ borderRadius: toDp(10) }}
+          rowStyle={{ height: toDp(50), padding: toDp(5) }}
+          placeholderTextColor={'#4E5A64'}
           defaultButtonText={'Pilih Tipe User'}
           defaultValue={state.mb_type}
           data={tipeUsers}
           // onChangeText={(text) => setState(state => ({ ...state, mb_type: text }))}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
-            setState(state => ({...state, mb_type: selectedItem }))
+            setState(state => ({ ...state, mb_type: selectedItem }))
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
@@ -390,16 +390,16 @@ const gallery = () => {
           />
         </View>
 
-        <View style={{ position: 'relative', top: toDp(70), right: toDp(8), width: '100%' }}>
-        <View style={styles.buttonSave}>
-          <Pressable onPress={() => update()}>
-            <Text style={styles.save}>Simpan</Text>
-          </Pressable>
+        <View style={{ position: 'relative', top: toDp(50), right: toDp(8), width: '100%' }}>
+          <View style={styles.buttonSave}>
+            <Pressable onPress={() => update()}>
+              <Text style={styles.save}>Simpan</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-      </View>
 
-      
+
     </View>
   )
 };
@@ -426,10 +426,10 @@ const styles = StyleSheet.create({
     top: toDp(10)
   },
   imgProfil: {
-    height: toDp(80),
-    width: toDp(80),
-    borderRadius:toDp(10),
-    left: toDp(135),
+    height: toDp(70),
+    width: toDp(70),
+    borderRadius: toDp(40),
+    left: toDp(120),
     bottom: toDp(10),
   },
   nama: {
@@ -443,15 +443,6 @@ const styles = StyleSheet.create({
     fontSize: toDp(10),
     left: toDp(133),
   },
-  // textInput: {
-  //   width: toDp(250),
-  //   height: toDp(39),
-  //   backgroundColor: '#F2F3F3',
-  //   paddingHorizontal: toDp(8),
-  //   borderRadius: toDp(20),
-  //   borderWidth: toDp(0.5),
-  //   padding: toDp(5)
-  // },
   formInput: {
     top: toDp(25),
     left: toDp(18)
@@ -463,7 +454,7 @@ const styles = StyleSheet.create({
   buttonSave: {
     backgroundColor: '#2A334B',
     width: toDp(320),
-    height: toDp(50),
+    height: toDp(48),
     borderRadius: toDp(10),
     bottom: toDp(15),
     justifyContent: 'center'
@@ -477,13 +468,21 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: '#FFFFFF',
     width: toDp(320),
-    height: toDp(40),
+    height: toDp(48),
     borderRadius: toDp(10),
     bottom: toDp(15),
     marginBottom: toDp(-8),
     right: toDp(8),
-    borderWidth: toDp(0.5),
-    paddingHorizontal: toDp(10)
+    paddingHorizontal: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   icVisibility: {
     width: toDp(24),
@@ -526,30 +525,30 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   viewJudul: {
-      marginTop: toDp(10),
-      justifyContent: 'center',
-      alignItems: 'center'
+    marginTop: toDp(10),
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   txtJudul: {
-      fontSize: toDp(20),
-      fontWeight: 'bold'
+    fontSize: toDp(20),
+    fontWeight: 'bold'
   },
   viewBtn: {
-      justifyContent: 'space-around',
-      flexDirection: 'row',
-      marginTop: toDp(60),
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    marginTop: toDp(60),
   },
   btnImage: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: toDp(48),
-      width: toDp(80),
-      borderRadius: toDp(10)
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: toDp(48),
+    width: toDp(80),
+    borderRadius: toDp(10)
   },
   txtButon: {
-      fontSize: toDp(14),
-      fontWeight: 'bold',
-      color: 'white'
+    fontSize: toDp(14),
+    fontWeight: 'bold',
+    color: 'white'
   }
 
 });

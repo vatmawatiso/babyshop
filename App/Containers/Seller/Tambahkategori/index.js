@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bodyKategori: {
-    backgroundColor: '#E7E7E7',
+    backgroundColor: '#FFFFFF',
     width: toDp(335),
     height: toDp(88),
     borderRadius: toDp(10),
@@ -110,18 +110,28 @@ const styles = StyleSheet.create({
   txtKategori: {
     margin: toDp(5),
     left: toDp(3),
-    color: '#4E5A64'
+    color: '#4E5A64',
   },
   textInput: {
     backgroundColor: 'white',
     borderRadius: toDp(10),
+    height:toDp(48),
     margin: toDp(5),
-    marginBottom:toDp(15)
+    marginBottom:toDp(15),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   btnKategori: {
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(42),
+    height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(30),
     left: toDp(12),

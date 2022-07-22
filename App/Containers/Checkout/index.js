@@ -401,7 +401,7 @@ const Checkout = (props) => {
                                     <Image source={allLogo.location} style={styles.iclocation} />
                                     <Text style={styles.txtAlamat}>Alamat Pengiriman</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', bottom: toDp(10), }}>
+                                <View style={{ flexDirection: 'row', bottom: toDp(10),  justifyContent: 'space-between'}}>
                                     <View style={styles.isiAddress}>
                                         {state.alu_stats == true &&
                                             <>
@@ -412,7 +412,7 @@ const Checkout = (props) => {
                                         <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
 
                                     </View>
-                                    <View>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', right: toDp(10), top: toDp(15)}}>
                                         <Image source={allLogo.iclineblack} style={styles.icaddress} />
                                     </View>
                                 </View>
@@ -423,7 +423,7 @@ const Checkout = (props) => {
                             <Text style={styles.txtTB}>{state.retail_name}</Text>
 
                             <View style={styles.OrderDetail}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(5) }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(5)}}>
                                     <Image source={{ uri: state.thumbnail }} style={{ marginLeft: toDp(10), width: toDp(100), height: toDp(100) }} />
                                 </View>
                                 <View style={{ alignSelf: 'center', bottom: toDp(80), flexDirection: 'column', width: toDp(200), left: toDp(50) }}>
@@ -618,7 +618,6 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     icaddress1: {
-        marginLeft: toDp(10),
         top: toDp(10),
     },
     txtAddress: {
@@ -639,8 +638,7 @@ const styles = StyleSheet.create({
     icaddress: {
         width: toDp(12),
         height: toDp(12),
-        top: toDp(25),
-        marginLeft: toDp(60)
+        marginLeft: toDp(24),
     },
     txtTB: {
         fontWeight: 'bold',

@@ -22,7 +22,7 @@ import axios from 'axios';
 import { validatePathConfig } from "@react-navigation/native";
 
 
-const Tambahalamat = (props) => {
+const Tambahalamatseller = (props) => {
 
   const [state, setState] = useState({
     cityname: [],
@@ -137,7 +137,7 @@ const Tambahalamat = (props) => {
 
         if (response.data.status == 201) {
           alert('Sukses tambah alamat!')
-          NavigatorService.navigate('Alamattoko', {adr_mb_id : adr_mb_id})
+          NavigatorService.navigate('Alamattoko', { adr_mb_id: adr_mb_id })
           console.log('HASIL ALAMAT ==> : ' + JSON.stringify(response.data))
           setState(state => ({ ...state, loading: false }))
           //NavigatorService.navigation('Alamattoko');
@@ -160,7 +160,7 @@ const Tambahalamat = (props) => {
   return (
     <View style={styles.container}>
       <BackHeader
-        title={'Tambah Alamat Toko'}
+        title={'Tambah Alamat'}
         onPress={() => props.navigation.goBack()}
       />
 
@@ -170,7 +170,7 @@ const Tambahalamat = (props) => {
           <TextInput
             top={toDp(4)}
             width={toDp(335)}
-            height={toDp(40)}
+            height={toDp(48)}
             borderRadius={toDp(10)}
             backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
@@ -181,9 +181,9 @@ const Tambahalamat = (props) => {
             onChangeText={(text) => setState(state => ({ ...state, adr_name: text }))}
           />
           <TextInput
-            top={toDp(10)}
+            top={toDp(16)}
             width={toDp(335)}
-            height={toDp(40)}
+            height={toDp(48)}
             borderRadius={toDp(10)}
             backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
@@ -203,7 +203,7 @@ const Tambahalamat = (props) => {
             buttonStyle={styles.dropdown}
             buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
             rowTextStyle={{ fontSize: toDp(12) }}
-            dropdownStyle={{ borderRadius: toDp(7) }}
+            dropdownStyle={{ borderRadius: toDp(10) }}
             rowStyle={{ height: toDp(35), padding: toDp(5) }}
             defaultButtonText={'Pilih Kota atau Kabupaten'}
             data={state.cityname}
@@ -229,9 +229,9 @@ const Tambahalamat = (props) => {
             }}
           />
           <TextInput
-            top={toDp(6)}
+            top={toDp(35)}
             width={toDp(335)}
-            height={toDp(40)}
+            height={toDp(48)}
             borderRadius={toDp(10)}
             backgroundColor={'#FFFFFF'}
             autoCapitalize={'none'}
@@ -245,13 +245,13 @@ const Tambahalamat = (props) => {
         </SafeAreaView>
       </View>
 
-      <Pressable style={{ borderRadius: toDp(10), height: toDp(40), width: toDp(335) }} onPress={() => InputAlamat()}>
+      <Pressable style={{ borderRadius: toDp(10), height: toDp(48), width: toDp(335) }} onPress={() => InputAlamat()}>
         <View style={styles.searchSection}>
           <Text style={{ color: 'white' }}>Simpan</Text>
         </View>
       </Pressable>
 
-      <View style={[styles.contentMap, { marginTop: toDp(40) }]}>
+      <View style={[styles.contentMap, { marginTop: toDp(50) }]}>
         <View style={[styles.wrapper, { margin: toDp(10) }]}>
           <MapView style={styles.map} initialRegion={{
             latitude: -7.7926359,
@@ -283,9 +283,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(40),
+    height: toDp(48),
     borderRadius: toDp(10),
-    marginBottom: toDp(10)
+    marginTop: toDp(40)
   },
   searchIcon: {
     resizeMode: 'contain',
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'#C4C4C4',
     width: toDp(335),
     height: toDp(90),
-    borderRadius: toDp(20)
+    borderRadius: toDp(10)
   },
   txtContact: {
     fontWeight: 'bold',
@@ -329,35 +329,52 @@ const styles = StyleSheet.create({
   txtAlamat: {
     fontWeight: 'bold',
     right: toDp(145),
-    top: toDp(20)
+    top: toDp(44)
   },
   inputAlamat: {
     top: toDp(30),
     // backgroundColor:'#C4C4C4',
     width: toDp(335),
     height: toDp(130),
-    borderRadius: toDp(20)
+    borderRadius: toDp(10)
   },
   dropdown: {
-    height: toDp(38),
+    height: toDp(48),
     borderRadius: toDp(10),
     width: toDp(335),
-    top: toDp(0),
+    top: toDp(23),
     backgroundColor: '#FFFFFF',
-    borderWidth: toDp(0.5)
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   contentMap: {
     backgroundColor: 'white',
     width: toDp(335),
     height: toDp(200),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     bottom: toDp(5)
   },
   textInput: {
-    borderWidth: toDp(0.5),
-    padding:toDp(5)
+    padding: toDp(5),
+    paddingHorizontal: toDp(18),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
 
   }
 });
 
-export default Tambahalamat;
+export default Tambahalamatseller;

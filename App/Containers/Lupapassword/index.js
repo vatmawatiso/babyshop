@@ -87,7 +87,7 @@ const Lupapassword = (props) => {
             }).catch(error => {
                 console.log('error1 =>', error)
                 alert('Gagal Menerima Data dari Server')
-                setState(state => ({...state, loading: false}))
+                setState(state => ({ ...state, loading: false }))
             })
     }
 
@@ -97,7 +97,7 @@ const Lupapassword = (props) => {
             AsyncStorage.getItem('member').then(response => {
                 let data = JSON.parse(response);
                 console.log('response1 => ', data);
-    
+
                 setState(state => ({
                     ...state,
                     mb_id: data.value.mb_id,
@@ -105,13 +105,13 @@ const Lupapassword = (props) => {
                     mb_email: data.value.mb_email
                 }))
 
-                setState(state => ({...state, getUsername: false}))
-                setState(state => ({...state, showEmail: true}))
-    
+                setState(state => ({ ...state, getUsername: false }))
+                setState(state => ({ ...state, showEmail: true }))
+
             }).catch(error => {
                 console.log('error1 =>', error)
             })
-    
+
             AsyncStorage.getItem('uid').then(uids => {
                 // console.log('response2 =>', ids)
                 let ids = uids;
@@ -123,37 +123,37 @@ const Lupapassword = (props) => {
             }).catch(error => {
                 console.log('error2 =>', error)
             })
-        } catch(error) {
+        } catch (error) {
             alert('Eror', error)
         }
     }
 
     // sensor email
-    const hideEmail= (text)=> {
+    const hideEmail = (text) => {
         let mb_email = text
         let hiddenEmail = "";
         for (let i = 0; i < mb_email.length; i++) {
-          if (i > 2 && i< mb_email.indexOf("@") ) {
-            hiddenEmail += "*";
-          } else {
-            hiddenEmail += mb_email[i];
-          }
+            if (i > 2 && i < mb_email.indexOf("@")) {
+                hiddenEmail += "*";
+            } else {
+                hiddenEmail += mb_email[i];
+            }
         }
         return hiddenEmail;
-     }
+    }
 
     // menyesuaikan email yg dimasukan dengan yang ditampilkan
 
     const verifyEmail = () => {
-        if(state.mb_email === state.confirmEmail) {
+        if (state.mb_email === state.confirmEmail) {
             setState(state => ({ ...state, loading: true }))
-            setState(state => ({...state, showEmail: false}))
-            setState(state => ({...state, resetPassword: true}))
+            setState(state => ({ ...state, showEmail: false }))
+            setState(state => ({ ...state, resetPassword: true }))
             setState(state => ({ ...state, loading: false }))
         } else {
             setState(state => ({ ...state, loading: false }))
             alert('Email yang Dimasukkan tidak Sesuai')
-            
+
         }
     }
 
@@ -186,25 +186,25 @@ const Lupapassword = (props) => {
         })
     }
 
-    const passlength = (pass) =>{
+    const passlength = (pass) => {
         const psw = pass;
-    
-        if(psw.length >= 6 ){
-          setState(state => ({...state, valPass: false }));
-        //   setState(state => ({...state, btnReset: true }));
-    
-          Enc(pass);
-    
-        }else{
-          setState(state => ({...state, valPass: true }))
-        //   setState(state => ({...state, btnReset: false }));
-    
+
+        if (psw.length >= 6) {
+            setState(state => ({ ...state, valPass: false }));
+            //   setState(state => ({...state, btnReset: true }));
+
+            Enc(pass);
+
+        } else {
+            setState(state => ({ ...state, valPass: true }))
+            //   setState(state => ({...state, btnReset: false }));
+
         }
-      }
+    }
 
     return (
         <View style={styles.container}>
-            <Loader loading={state.loading}/>
+            <Loader loading={state.loading} />
             <Back
                 title={'Kembali'}
                 onPress={() => props.navigation.goBack()}
@@ -215,90 +215,90 @@ const Lupapassword = (props) => {
                     <Text style={styles.txtForget}>Buat Password Baru</Text>
                     <Text style={styles.titleForget}>kata sandi baru anda harus berbeda dari kata sandi{"\n"}yang digunakan sebelumnya</Text>
                 </View>
-                   
-                {state.getUsername == true ? 
+
+                {state.getUsername == true ?
                     (
-                    <View>
-                         <Text style={styles.txtPassword}>Masukkan Username</Text>
+                        <View>
+                            <Text style={styles.txtPassword}>Masukkan Username</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder={'Nama Pengguna'}
                                 placeholderTextColor={'#4E5A64'}
-                                onChangeText={(text) => setState(state => ({...state, mb_username: text}))}
+                                onChangeText={(text) => setState(state => ({ ...state, mb_username: text }))}
                             />
-                    </View>
-                ) : null
-            }
+                        </View>
+                    ) : null
+                }
 
-{/* input email yg sesuai dengan yg ditampilkan */}
+                {/* input email yg sesuai dengan yg ditampilkan */}
 
-                        {state.showEmail == true ? 
-                            (
-                            <View>
-                                <Loader loading={state.loading}/>
-                                    <Text style={styles.hideEmail}>{hideEmail(state.mb_email)}</Text>
-                                        <TextInput
-                                            style={styles.textInput}
-                                            placeholder={'Email'}
-                                            placeholderTextColor={'#4E5A64'}
-                                            value={state.confirmEmail}
-                                            onChangeText={(text) => setState(state => ({...state, confirmEmail: text}))}
-                                        />
-                                </View>
-                        ) : null
-                    }
-
-         {/* Masukan password baru */}
-
-        
-                {state.resetPassword == true ? 
+                {state.showEmail == true ?
                     (
-                    <View>
-                        <Loader loading={state.loading}/>
+                        <View>
+                            <Loader loading={state.loading} />
+                            <Text style={styles.hideEmail}>{hideEmail(state.mb_email)}</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={'Email'}
+                                placeholderTextColor={'#4E5A64'}
+                                value={state.confirmEmail}
+                                onChangeText={(text) => setState(state => ({ ...state, confirmEmail: text }))}
+                            />
+                        </View>
+                    ) : null
+                }
+
+                {/* Masukan password baru */}
+
+
+                {state.resetPassword == true ?
+                    (
+                        <View>
+                            <Loader loading={state.loading} />
                             <Text style={styles.txtPassword}>Masukkan Password</Text>
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholder={'Password Baru'}
-                                    placeholderTextColor={'#4E5A64'}
-                                    secureTextEntry={state.secureTextEntry}
-                                    onChangeText={(text) => passlength(text)}
-                                />
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={'Password Baru'}
+                                placeholderTextColor={'#4E5A64'}
+                                secureTextEntry={state.secureTextEntry}
+                                onChangeText={(text) => passlength(text)}
+                            />
 
-                                <Pressable style={styles.presableShow1} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-                                    <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
-                                </Pressable>
+                            <Pressable style={styles.presableShow1} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+                                <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+                            </Pressable>
 
-                                {state.valPass === true ? (
-                                    <Text style={styles.msgError}>
-                                        *Masukan kata sandi minimal 6 karakter
-                                    </Text>
-                                ) : null}
-                    </View>
-                ) : null
-            }
-                { state.getUsername == true ? (
+                            {state.valPass === true ? (
+                                <Text style={styles.msgError}>
+                                    *Masukan kata sandi minimal 6 karakter
+                                </Text>
+                            ) : null}
+                        </View>
+                    ) : null
+                }
+                {state.getUsername == true ? (
                     <Pressable style={styles.btnKirim} onPress={() => fetchUser()}>
                         <Text style={styles.txtKirim}>Kirim</Text>
                     </Pressable>
                 )
-                : state.showEmail == true ? (
-                    <Pressable style={styles.btnKirim} onPress={() => verifyEmail()}>
-                        <Text style={styles.txtKirim}>Verifikasi</Text>
-                    </Pressable>
-                )
-                : state.resetPassword == true ? (
-                    // <>
-                    //     {state.btnReset == true ? (
+                    : state.showEmail == true ? (
+                        <Pressable style={styles.btnKirim} onPress={() => verifyEmail()}>
+                            <Text style={styles.txtKirim}>Verifikasi</Text>
+                        </Pressable>
+                    )
+                        : state.resetPassword == true ? (
+                            // <>
+                            //     {state.btnReset == true ? (
                             <Pressable style={styles.btnKirim} onPress={() => updatePass()}>
                                 <Text style={styles.txtKirim}>Ubah Password</Text>
                             </Pressable>
-                    //     ) : null
-                    // }
-                    // </>
-                ) :null
-            }
-                    
-                
+                            //     ) : null
+                            // }
+                            // </>
+                        ) : null
+                }
+
+
             </View>
         </View>
     );
@@ -359,12 +359,20 @@ const styles = StyleSheet.create({
         tintColor: '#4E5A64'
     },
     textInput: {
-        borderWidth: 0.5,
         height: toDp(48),
         backgroundColor: '#FFFFFF',
         paddingHorizontal: toDp(8),
         borderRadius: toDp(10),
-        marginTop: toDp(8)
+        marginTop: toDp(8),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     msgError: {
         color: 'red',
@@ -372,12 +380,12 @@ const styles = StyleSheet.create({
         left: 0,
         position: 'relative',
     },
-    hideEmail:{
-        color:'#000000',
+    hideEmail: {
+        color: '#000000',
         fontWeight: 'bold',
-        fontSize:toDp(17),
-        textAlign:'center'
-      },
+        fontSize: toDp(17),
+        textAlign: 'center'
+    },
 });
 
 export default Lupapassword;

@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: '#F9F8F8',
     width: toDp(335),
-    height: toDp(110),
+    height: toDp(130),
     borderRadius: toDp(10),
     marginBottom: toDp(10),
     marginTop: toDp(5), 
@@ -341,7 +341,8 @@ const styles = StyleSheet.create({
     color: '#F83308'
   },
   viewAlamat: {
-    bottom:toDp(5)
+    bottom:toDp(5),
+    width:toDp(250)
   }
 });
 

@@ -34,24 +34,25 @@ const Editalamat = (props) => {
     adr_mb_id: '',
     adr_address: '',
     adr_cty_id: '',
-    tmp_hp:'',
-    tmp_address:'',
-    tmp_cty_name:'',
-    tmp_cty_id:'',
-    tmp_name:''
+    tmp_hp: '',
+    tmp_address: '',
+    tmp_cty_name: '',
+    tmp_cty_id: '',
+    tmp_name: ''
   })
 
   useEffect(() => {
-    setState(state => ({ ...state,
+    setState(state => ({
+      ...state,
       tmp_hp: props.navigation.state.params.phone,
-      tmp_address:props.navigation.state.params.adrress ,
+      tmp_address: props.navigation.state.params.adrress,
       tmp_cty_name: props.navigation.state.params.cty_name,
       tmp_cty_id: props.navigation.state.params.cty_id,
       tmp_name: props.navigation.state.params.adr_name,
 
     }))
-    console.log("HP--->"+ props.navigation.state.params.phone);
-    console.log("NAMA--->"+ props.navigation.state.params.adr_name);
+    console.log("HP--->" + props.navigation.state.params.phone);
+    console.log("NAMA--->" + props.navigation.state.params.adr_name);
 
     city()
   }, [])
@@ -65,10 +66,10 @@ const Editalamat = (props) => {
         // handle success
         //alert(JSON.stringify(result))
         let data = result.data.data.map(doc => {
-              return {
-                cty_id: doc.cty_id,
-                cty_name: doc.cty_name
-              }
+          return {
+            cty_id: doc.cty_id,
+            cty_name: doc.cty_name
+          }
         })
 
         //setState(state => ({ ...state, cityname: result.data.data }))
@@ -164,10 +165,10 @@ const Editalamat = (props) => {
       adr_mb_id: state.adr_mb_id,
       adr_address: state.tmp_address,
       adr_cty_id: state.tmp_cty_id,
-      adr_hp : state.tmp_hp,
-      adr_name : state.tmp_name
+      adr_hp: state.tmp_hp,
+      adr_name: state.tmp_name
     }
-    console.log('Body Alamat====> '+ JSON.stringify(body));
+    console.log('Body Alamat====> ' + JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
     const adr_id = props.navigation.state.params.adr_id
@@ -211,26 +212,26 @@ const Editalamat = (props) => {
           <TextInput
             top={toDp(4)}
             width={toDp(335)}
-            height={toDp(40)}
-            borderRadius={toDp(15)}
+            height={toDp(48)}
+            borderRadius={toDp(10)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Nama'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.tmp_name}
             onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
           />
           <TextInput
             top={toDp(6)}
             width={toDp(335)}
-            height={toDp(40)}
-            borderRadius={toDp(15)}
+            height={toDp(48)}
+            borderRadius={toDp(10)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Nomer HP'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.tmp_hp}
             onChangeText={(text) => setState(state => ({ ...state, tmp_hp: text }))}
           />
@@ -242,9 +243,9 @@ const Editalamat = (props) => {
         <SafeAreaView>
           <SelectDropdown
             buttonStyle={styles.dropdown}
-            buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+            buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
             rowTextStyle={{ fontSize: toDp(12) }}
-            dropdownStyle={{ borderRadius: toDp(7) }}
+            dropdownStyle={{ borderRadius: toDp(10) }}
             rowStyle={{ height: toDp(35), padding: toDp(5) }}
             defaultButtonText={'Pilih Kota atau Kabupaten'}
             defaultValue={{
@@ -253,7 +254,7 @@ const Editalamat = (props) => {
             }}
             data={state.cityname}
             onSelect={(selectedItem, index) => {
-              console.log(selectedItem.cty_name+selectedItem.cty_id)
+              console.log(selectedItem.cty_name + selectedItem.cty_id)
               setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
@@ -275,44 +276,22 @@ const Editalamat = (props) => {
           <TextInput
             top={toDp(6)}
             width={toDp(335)}
-            height={toDp(40)}
-            borderRadius={toDp(15)}
+            height={toDp(48)}
+            borderRadius={toDp(10)}
             backgroundColor={'white'}
             autoCapitalize={'none'}
             style={styles.textInput}
             placeholder={'Tuliskan Detail Jalan'}
-            placeholderTextColor={'grey'}
+            placeholderTextColor={'#4E5A64'}
             value={state.tmp_address}
             onChangeText={(text) => setState(state => ({ ...state, tmp_address: text }))}
           />
-          {/* <TextInput
-                        left={toDp(3)}
-                        top={toDp(8)}
-                        width={toDp(335)}
-                        height={toDp(40)}
-                        borderRadius={toDp(15)}
-                        backgroundColor={'white'}
-                        autoCapitalize={'none'}
-                        style={styles.textInput}
-                        placeholder={'Patokan'}
-                        placeholderTextColor={'grey'}
-                        // value={state.username}
-                        // onChangeText={(text) => setState(state => ({...state, username: text })) }
-                    /> */}
         </SafeAreaView>
       </View>
 
-      <Pressable style={{ backgroundColor: 'yellow', borderRadius: toDp(20), height: toDp(40), width: toDp(335) }} onPress={() => editAlamat()}>
+      <Pressable style={{ borderRadius: toDp(10), height: toDp(48), width: toDp(335) }} onPress={() => editAlamat()}>
         <View style={styles.searchSection}>
           <Text style={{ color: 'white' }}>Simpan</Text>
-          {/* <Image style={styles.searchIcon} source={allLogo.icsearch} /> */}
-          {/* <TextInput
-                        style={styles.input}
-                        placeholder="Cari Lokasi"
-                        underlineColorAndroid="transparent"
-                        placeholderTextColor="white"
-                        onChangeText={(text)=>this.props.onFilter}
-                    /> */}
         </View>
       </Pressable>
 
@@ -348,9 +327,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(40),
-    borderRadius: toDp(20),
-    marginBottom: toDp(10)
+    height: toDp(48),
+    borderRadius: toDp(10),
+    marginTop: toDp(25)
   },
   searchIcon: {
     resizeMode: 'contain',
@@ -394,7 +373,8 @@ const styles = StyleSheet.create({
   txtAlamat: {
     fontWeight: 'bold',
     right: toDp(145),
-    top: toDp(20)
+    top: toDp(45),
+    marginBottom: toDp(25)
   },
   inputAlamat: {
     top: toDp(30),
@@ -404,12 +384,20 @@ const styles = StyleSheet.create({
     borderRadius: toDp(20)
   },
   dropdown: {
-    height: toDp(38),
-    borderRadius: toDp(20),
+    height: toDp(48),
+    borderRadius: toDp(10),
     width: toDp(335),
-    top: toDp(4),
+    marginBottom: toDp(7),
     backgroundColor: 'white',
-    borderWidth: toDp(0.5)
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   contentMap: {
     backgroundColor: 'white',
@@ -419,7 +407,17 @@ const styles = StyleSheet.create({
     bottom: toDp(5)
   },
   textInput: {
-    borderWidth: toDp(0.5),
+    paddingHorizontal: toDp(10),
+    marginBottom: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   }
 });
 
