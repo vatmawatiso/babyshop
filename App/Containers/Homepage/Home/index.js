@@ -326,21 +326,21 @@ const Home = (props) => {
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Toko{'\n'}Bangunan</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Jasatukang')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: '#E6E6E6' }}>
               <Image source={allLogo.worker} style={styles.icon} />
             </View>
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Jasa{'\n'}Tukang</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Konsultan')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: '#E6E6E6' }}>
               <Image source={allLogo.arsitek} style={styles.icon} />
             </View>
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Konsultan{'\n'}Arsitek</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Donasi')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: '#E6E6E6' }}>
               <Image source={allLogo.donation} style={styles.icon} />
             </View>

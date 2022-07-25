@@ -319,8 +319,8 @@ const Checkout = (props) => {
         // setState(state => ({...state, loading: true }))
         axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
-                // console.log('jasa kirim  ' + JSON.stringify(result));
-                setState(state => ({ ...state, datas: result.data.data }))
+                console.log('jasa kirim  ' + JSON.stringify(result));
+                // setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
                 //console.log(err)

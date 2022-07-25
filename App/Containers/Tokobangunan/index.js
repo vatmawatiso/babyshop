@@ -149,17 +149,17 @@ const Tokobangunan = (props) => {
               <Text style={{ fontSize: toDp(12) }}>Longtitude</Text>
             </View>
             <View>
-              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_name}</Text>
-              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_phone}</Text>
-              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_address} {item.cty_name}</Text>
-              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_long}</Text>
-              <Text  style={{fontSize:toDp(12)}}> : {item.rtl_lat}</Text>
+              <Text style={{ fontSize: toDp(12) }}> : {item.rtl_name}</Text>
+              <Text style={{ fontSize: toDp(12) }}> : {item.rtl_phone}</Text>
+              <Text style={{ fontSize: toDp(12) }}> : {item.rtl_address} {item.cty_name}</Text>
+              <Text style={{ fontSize: toDp(12) }}> : {item.rtl_long}</Text>
+              <Text style={{ fontSize: toDp(12) }}> : {item.rtl_lat}</Text>
             </View>
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={{right:toDp(50), top:toDp(30)}}>
-        <Text>Buka</Text>
+      <TouchableOpacity style={styles.btnBuka}>
+        <Image source={allLogo.iclineblack} style={styles.iclineright} />
       </TouchableOpacity>
     </View>
   )
@@ -195,16 +195,34 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // backgroundColor: 'red'
   },
+  iclineright: {
+    width:toDp(18),
+    height:toDp(18),
+    tintColor:'#F83308'
+  },
+  btnBuka: {
+    backgroundColor: '#F8f9f9',
+    width: toDp(28),
+    height: toDp(28),
+    right:toDp(30),
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#2A334B',
+    // borderWidth:0.5,
+    alignItems:'center',
+    backgroundColor: '#fcd4c7',
+    justifyContent: 'center',
+    borderRadius: toDp(20),
+  },
   body: {
     flexDirection: 'row',
     backgroundColor: '#f8f9f9',
     width: toDp(335),
     height: toDp(110),
     borderRadius: toDp(10),
-    borderBottomWidth:10,
-    borderBottomColor:'#2A334B',
+    borderBottomWidth: 5,
+    borderBottomColor: '#2A334B',
     top: toDp(10),
-    marginTop: toDp(5), 
+    marginTop: toDp(5),
     alignItems: 'center',
     marginHorizontal: toDp(12),
     justifyContent: 'space-between',

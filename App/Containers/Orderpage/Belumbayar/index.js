@@ -117,11 +117,15 @@ const Belumbayar = (props) => {
     }
 
     const Lihatdetail = (data) => {
-        let detailOrder = data;
-        AsyncStorage.setItem('setDetail', JSON.stringify(detailOrder))
-        console.log('setDetail ===> ' + JSON.stringify(detailOrder));
+        let odr = data;
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+        setState(state => ({ ...state, 
+            odr_id: odr.id
+        }))
+        console.log('setDetail ===> ' + JSON.stringify(odr));
+        console.log('odr id ===> ' + JSON.stringify(state.odr_id));
 
-        NavigatorService.navigate('Orderdetail')
+        NavigatorService.navigate('Orderdetail', {odr_id: state.odr_id})
 
     }
 

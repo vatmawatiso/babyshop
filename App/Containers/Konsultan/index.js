@@ -9,6 +9,7 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
+  TouchableOpacity,
   ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
@@ -203,9 +204,13 @@ const Konsultan = (props) => {
           </View>
         </View>
 
-        <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('underConstruction')}>
+        <TouchableOpacity style={styles.btnBuka}>
+          <Image source={allLogo.Chat1} style={styles.iclineright} />
+        </TouchableOpacity>
+
+        {/* <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('underConstruction')}>
           <Text style={styles.txtKontak}>Kontak</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
 
     </View>
@@ -245,12 +250,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%'
   },
+  iclineright: {
+    width:toDp(30),
+    height:toDp(30),
+    tintColor:'#F83308'
+  },
+  btnBuka: {
+    backgroundColor: '#F8f9f9',
+    width: toDp(28),
+    height: toDp(28),
+    right:toDp(10),
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#2A334B',
+    // borderWidth:0.5,
+    alignItems:'center',
+    backgroundColor: '#fcd4c7',
+    justifyContent: 'center',
+    borderRadius: toDp(20),
+  },
   body: {
     flexDirection: 'row',
     backgroundColor: '#F9F8F8',
     width: toDp(335),
     height: toDp(100),
     borderRadius: toDp(10),
+    borderBottomWidth: 5,
+    borderBottomColor: '#2A334B',
     justifyContent: 'space-between',
     alignItems: 'center',
     shadowColor: "#000",

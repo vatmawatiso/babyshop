@@ -9,6 +9,7 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
+  TouchableOpacity,
   ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
@@ -49,105 +50,6 @@ const Jasatukang = (props) => {
       })
   }
 
-  // const DATA = [
-  //     {
-  //       id: '1',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '2',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '3',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '4',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '5',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '6',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '7',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '8',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '9',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '10',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },  {
-  //       id: '11',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '12',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '13',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 500.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //     {
-  //       id: '14',
-  //       nama: 'Vatmawati',
-  //       telepon: '083141520987',
-  //       harga: 'Rp 100.000',
-  //       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-  //     },
-  //   ]
 
   const renderTukang = (item, index) => (
     <View style={{ width: toDp(335), borderRadius: toDp(8), marginTop: toDp(5), justifyContent: 'center', alignItems: 'center', marginHorizontal: 12 }}>
@@ -177,9 +79,12 @@ const Jasatukang = (props) => {
             </View>
           </View>
         </View>
-        <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('Chat')}>
+        <TouchableOpacity style={styles.btnBuka}>
+        <Image source={allLogo.iclineblack} style={styles.iclineright} />
+      </TouchableOpacity>
+        {/* <Pressable style={styles.btnKontak} onPress={() => NavigatorService.navigate('Chat')}>
           <Text style={styles.txtKontak}>Kontak</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
       {/* <View style={{margin:1}}></View> */}
 
@@ -220,11 +125,32 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // top:toDp(30)
   },
+  iclineright: {
+    width:toDp(18),
+    height:toDp(18),
+    tintColor:'#F83308'
+  },
+  btnBuka: {
+    backgroundColor: '#F8f9f9',
+    width: toDp(28),
+    height: toDp(28),
+    right:toDp(10),
+    top:toDp(25),
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#2A334B',
+    // borderWidth:0.5,
+    alignItems:'center',
+    backgroundColor: '#fcd4c7',
+    justifyContent: 'center',
+    borderRadius: toDp(20),
+  },
   body: {
     flexDirection:'row', 
     backgroundColor:'#F9F8F8', 
     width:toDp(335), 
     height:toDp(80), 
+    borderBottomWidth: 5,
+    borderBottomColor: '#2A334B',
     borderRadius:toDp(10), 
     top:toDp(10),
     justifyContent:'space-between',
