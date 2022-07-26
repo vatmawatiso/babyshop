@@ -59,10 +59,6 @@ const Sudahdibayar = (props) => {
         console.log('cek content ' + (content));
         axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' + rtl + '/' + content)
             .then(result => {
-                //hendle success
-
-                // let simpan = result.data.data;
-
 
                 if (content == 'Dikirim') {
                     NavigatorService.navigate('Sedangdikirim')
@@ -72,27 +68,8 @@ const Sudahdibayar = (props) => {
                     NavigatorService.navigate('Dibatalkan')
                 }
 
-
-                // setState(state => ({ ...state, loading: false }))
-
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
-                console.log('cek ===> ' + JSON.stringify(state.datas));
-                // let dataorder = state.datas;
-
-                if (state.datas < 0) {
-                    alert('Gagal simpan async storage!')
-                  } else {
-                    AsyncStorage.setItem('setOrderdetail', JSON.stringify(state.datas))
-
-                    console.log('HASIL DETAIL ORDER ==> : ', state.datas)
-                  }
-
-                //
-                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
-                // console.log('data order ===> ' + JSON.stringify(result.data.order));
-                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
-                // console.log('data item ===> ' + JSON.stringify(result.data.item));
 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
@@ -101,13 +78,14 @@ const Sudahdibayar = (props) => {
     }
 
     
-  const selectProduk = () => {
-    let rtl = props.retail_id;
-    let content = props.con;
-    NavigatorService.navigate('Detailorderan', { rtl, content })
-    console.log('cekcok ', (rtl));
-    console.log('cekcokcok ', (content));
-  }
+
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+
+        NavigatorService.navigate('Detailorderan', {odr_id: id})
+
+    }
 
     return (
         <View style={styles.container}>
@@ -139,7 +117,7 @@ const Sudahdibayar = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => selectProduk()}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat

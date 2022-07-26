@@ -56,7 +56,7 @@ const Donasi = (props) => {
                     <View style={{ flexDirection: 'column', }}>
                         <View>
                             <SafeAreaView>
-                                <Text style={[styles.txtDonasi, {marginTop: toDp(-5)}]}>Kerjasama Dengan</Text>
+                                <Text style={[styles.txtDonasi, { marginTop: toDp(-5) }]}>Kerjasama Dengan</Text>
                                 <SelectDropdown
                                     buttonStyle={styles.dropdown}
                                     buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
@@ -290,13 +290,13 @@ const Donasi = (props) => {
                             </SafeAreaView>
                         </View>
                         <View style={{ bottom: 0, width: '100%', position: 'relative', marginTop: toDp(30) }}>
-                        <Pressable style={styles.btnDonasi} onPress={createThreeButtonAlert}>
-                            <Text style={styles.txtDonasikan}>Donasikan</Text>
-                        </Pressable>
-                    </View>
+                            <Pressable style={styles.btnDonasi} onPress={createThreeButtonAlert}>
+                                <Text style={styles.txtDonasikan}>Donasikan</Text>
+                            </Pressable>
+                        </View>
                     </View>
                     {/* </ScrollView> */}
-                
+
                 </View>
             </ScrollView>
 
@@ -330,16 +330,24 @@ const styles = StyleSheet.create({
         marginBottom: toDp(2),
         alignItems: 'center',
         marginHorizontal: toDp(12),
-        backgroundColor: '#FFF', 
+        backgroundColor: '#FFF',
         marginBottom: toDp(20)
     },
     textInput: {
         marginTop: toDp(5),
         width: toDp(70),
         height: toDp(48),
-        borderWidth: toDp(0.5),
         fontSize: toDp(12),
-        textAlign: 'center'
+        textAlign: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     txtDonasi: {
         marginTop: toDp(10),
@@ -351,8 +359,16 @@ const styles = StyleSheet.create({
         width: toDp(335),
         top: toDp(4),
         backgroundColor: 'white',
-        borderWidth: toDp(0.5),
-        marginTop: toDp(5)
+        marginTop: toDp(5),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     dropdown1: {
         height: toDp(48),
@@ -360,8 +376,16 @@ const styles = StyleSheet.create({
         width: toDp(150),
         top: toDp(4),
         backgroundColor: 'white',
-        borderWidth: toDp(0.5),
-        marginTop: toDp(5)
+        marginTop: toDp(5),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     btnDonasi: {
         backgroundColor: '#2A334B',

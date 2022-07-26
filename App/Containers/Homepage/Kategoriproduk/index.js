@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
     marginLeft: toDp(8),
     backgroundColor: '#2B324C',
     height: toDp(48),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

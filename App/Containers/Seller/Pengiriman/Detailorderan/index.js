@@ -21,115 +21,105 @@ import NumberFormat from 'react-number-format';
 import axios from 'axios';
 
 const Detailorderan = (props) => {
-    const DATA = [
-        {
-            id: '2938492',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Selesai',
-            produk: 'Gerobak Pasir',
-            harga: 'Rp 500.000',
-            jumlah: '2',
-            total: 'Rp 800.0000',
-            konfirmasi: 'Dibatalkan Pembeli',
-            pembayaran: 'BCA',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
-
-    const Pengiriman = [
-        {
-            id: '1',
-            kurir: 'Rudi Prakasa',
-            NoResi: '8344389479234',
-        },
-    ]
-
-    const Address = [
-        {
-            id: '1',
-            nama: 'Vatmawati',
-            telepon: '083141520987',
-            alamat: 'Jl KiSulaiman Kota Cirebon'
-        },
-    ]
 
     const [state, setState] = useState({
+        datas: [],
+        odr_id: '',
+        retail_id: '',
         retail_name: '',
+        total_bayar: '',
+        qtyall: '',
         prd_name: '',
-        dataOrder: []
+        price: '',
+        odr_expired: '',
+        odr_status: '',
+        thumbnail: '',
+        status: '',
+        shipping: '',
+        adr_name: '',
+        address: '',
+        adr_hp: '',
+        payment: '',
+        ongkir: '',
     })
 
-
     useEffect(() => {
-        //*Bagian Update
-        getOrder()
+        AsyncStorage.getItem('setDetail').then(response => {
+            //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+
+            let data = JSON.parse(response);
+            //const val = JSON.stringify(data);
+
+            console.log('setDetail ==> ' + JSON.stringify(data));
+
+            setState(state => ({
+                ...state,
+                odr_id: data.id,
+                retail_id: data.retail_id,
+                retail_name: data.retail_name,
+                total_bayar: data.total_bayar,
+                subtotal: data.subtotal,
+                qtyall: data.qtyall,
+                prd_name: data.items[0]?.prd_name,
+                price: data.items[0]?.price,
+                odr_expired: data.items[0]?.odr_expired,
+                odr_status: data.items[0]?.odr_status,
+                thumbnail: data.items[0]?.thumbnail
+            }))
+
+            // console.log('ODR ID ' + JSON.stringify(state.odr_id));
+            // console.log('retail ID ' + JSON.stringify(state.retail_id));
+            // console.log('retail name ' + JSON.stringify(state.retail_name));
+            // console.log('total bayar ' + JSON.stringify(state.total_bayar));
+            // console.log('qty all ' + JSON.stringify(state.qtyall));
+            // console.log('prd name ' + JSON.stringify(state.prd_name));
+            // console.log('price ' + JSON.stringify(state.price));
+            // console.log('expired ' + JSON.stringify(state.odr_expired));
+            // console.log('status ' + JSON.stringify(state.odr_status));
+            // console.log('thumbnail ' + JSON.stringify(state.thumbnail));
+
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+        getOdt()
     }, [])
 
-    const getOrder = () => {
-        let rtl = props.retail_id;
-        let content = props.con;
-        console.log('cek rtl id ' + (rtl));
-        console.log('cek content ' + (content));
-        axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' + rtl + '/' + content)
+    const getOdt = () => {
+        let odrid = props.navigation.state.params.odr_id;
+        console.log('odrid ', odrid);
+        axios.get('https://market.pondok-huda.com/dev/react/order/odt/' + odrid)
             .then(result => {
 
-                console.log('full ===> ' + JSON.stringify(result.data.data));
-                setState(state => ({ ...state, datas: result.data.data }))
+                let data = result.data.data;
+                console.log('ODt ===> ' + JSON.stringify(data));
+                setState(state => ({
+                    ...state,
+                    status: data[0]?.status,
+                    shipping: data[0]?.shipping,
+                    adr_name: data[0]?.adr_name,
+                    address: data[0]?.address,
+                    adr_hp: data[0]?.adr_hp,
+                    payment: data[0]?.payment,
+                    ongkir: data[0]?.ongkir
 
-                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
-                // console.log('data order ===> ' + JSON.stringify(result.data.order));
-                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
-                // console.log('data item ===> ' + JSON.stringify(result.data.item));
+                }))
+                console.log('shipp ', state.status)
 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
+
             })
     }
 
-
-
-    const ListToko = (item, index) => (
-        <View style={[styles.body, { backgroundColor: '#fff', height: toDp(220), }]}>
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-                <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20) }}>{item.diproses}</Text>
-
-                <View style={styles.OrderDetail}>
-                    <Text style={styles.txtOrder}>{item.retail_name}</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(10) }}>
-                        {/* <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} /> */}
-                        <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>jdaksdadsj</Text>
-                        {/* <Text style={{ top: toDp(80), right: toDp(10) }}>{DATA[0].jumlah}x</Text> */}
-                    </View>
-                    <NumberFormat
-                        // value={item.items[0]?.price}
-                        displayType={'text'}
-                        thousandSeparator={'.'}
-                        decimalSeparator={','}
-                        prefix={'Rp. '}
-                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                    />
-                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(20), margin: toDp(5) }}>
-                        <Text style={styles.txtCard}> Produk</Text>
-                        {/* <Text style={styles.txtCard}>{DATA[0].total}</Text> */}
-                        <NumberFormat
-                            value={item.subtotal}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                    </View>
-                </View>
-
-
-            </ScrollView>
-
-        </View>
-    )
+    const displayName = (payment) => {
+        let count = '';
+        let nama = '';
+        count = payment.split(' ' || '-');
+        nama = count.slice(0, 2,).join(' ');
+        return nama
+      }
 
     return (
         <View style={styles.container}>
@@ -137,97 +127,114 @@ const Detailorderan = (props) => {
                 title={'Pesanan Sayaaa'}
                 onPress={() => props.navigation.goBack()}
             />
-            <FlatList style={{ width: '100%', }}
-                data={state.datas}
-                renderItem={({ item, index }) => (
-                    <View style={{ marginTop: toDp(20) }}>
-                        <View style={styles.information}>
-                            <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                            <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
+
+            {/* BAGIAN PRODUK */}
+            <ScrollView>
+                <View style={styles.body}>
+                    <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), bottom: toDp(5) }}>{state.status}</Text>
+
+                    <View style={styles.OrderDetail}>
+                        <Text style={styles.txtOrder}>{state.retail_name}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(10) }}>
+                            <Image source={{ uri: state.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} />
+                            <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>{state.prd_name}</Text>
+                            <Text style={{ top: toDp(80), right: toDp(10) }}>x{state.qtyall}</Text>
+                        </View>
+                        <NumberFormat
+                            value={state.price}
+                            displayType={'text'}
+                            thousandSeparator={'.'}
+                            decimalSeparator={','}
+                            prefix={'Rp. '}
+                            renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        />
+                        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(25), width: toDp(314), right:toDp(10)}} />
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(20), margin: toDp(5) }}>
+                            <Text style={styles.txtCard}>{state.qtyall} Produk</Text>
+                            {/* <Text style={styles.txtCard}>{DATA[0].total}</Text> */}
+                            <NumberFormat
+                                value={state.total_bayar}
+                                displayType={'text'}
+                                thousandSeparator={'.'}
+                                decimalSeparator={','}
+                                prefix={'Rp. '}
+                                renderText={formattedValue => <Text style={{ color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            />
                         </View>
                     </View>
-                )}
-                ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
-            />
 
-            <ScrollView contentContainerStyle={styles.contentContainer1}>
-
-                <View style={styles.flatcontent}>
-                    <FlatList style={{ width: '100%' }}
-                        data={state.state.datas}
-                        renderItem={({ item, index }) => {
-                            return (
-                                ListToko(item, index)
-                            )
-                        }}
-                        ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
-                    />
                 </View>
 
-                <Text style={{ fontWeight: 'bold', left: toDp(22), bottom: toDp(110) }}>Rincian Pembayaran</Text>
+                {/* BAGIAN ALAMAT PENGIRIMAN */}
 
-                <View style={styles.PaymentDetails}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(10), }}>
-                        <Text style={{ right: toDp(10) }}>Metode Pembayaran</Text>
-                        <Text>{DATA[0].pembayaran}</Text>
+                <View>
+                    <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), }}>Info Pengiriman</Text>
+                    <View style={styles.viewPengiriman}>
+                        <View>
+                            <Text style={{ padding: toDp(2) }}>Kurir</Text>
+                            <Text style={{ padding: toDp(2) }}>No Resi</Text>
+                            <Text style={{ padding: toDp(2) }}>Alamat</Text>
+                            <Text style={{ padding: toDp(2) }}></Text>
+                            <Text style={{ padding: toDp(2) }}></Text>
+                        </View>
+                        <View style={{ marginRight: toDp(50) }}>
+                            <Text style={{ padding: toDp(2) }}>: {state.shipping}</Text>
+                            <Text style={{ padding: toDp(2) }}>: -</Text>
+                            <Text style={{ padding: toDp(2) }}>: {state.adr_name}</Text>
+                            <Text style={{ padding: toDp(2) }}>  {state.adr_hp}</Text>
+                            <Text style={{ padding: toDp(2) }}>  {state.address}</Text>
+                        </View>
                     </View>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(10), }}>
-                        <Text style={{ right: toDp(10) }}>Sub Total Produk</Text>
-                        <NumberFormat
-                            value={700000}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                    </View>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(10), }}>
-                        <Text style={{ right: toDp(10) }}>Sub Total Diskon</Text>
-                        <NumberFormat
-                            value={50000}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                    </View>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(10), }}>
-                        <Text style={{ right: toDp(10) }}>Biaya Penanganan</Text>
-                        <NumberFormat
-                            value={50000}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                    </View>
-
-                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', right: toDp(10), width: toDp(314), bottom: toDp(0) }} />
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(10), }}>
-                        <Text style={{ right: toDp(10), fontWeight: 'bold', color: '#f83308' }}>Total Pembayaran</Text>
-                        <NumberFormat
-                            value={800000}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                    </View>
                 </View>
-                {/* </ScrollView> */}
 
 
+                {/* BAGIAN DETAIL HARGA */}
+
+                <View>
+                    <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20) }}>Rincian Pembayaran</Text>
+                    <View style={styles.viewPembayaran}>
+                        <View>
+                            <Text style={{ padding: toDp(5) }}>Metode Pembayaran</Text>
+                            <Text style={{ padding: toDp(5) }}>Sub Total Produk</Text>
+                            <Text style={{ padding: toDp(5) }}>Ongkos Kirim</Text>
+                            <Text></Text>
+                            <Text style={{ padding: toDp(5), bottom:toDp(5), fontWeight: 'bold', color: '#f83308' }}>Total Pembayaran</Text>
+                        </View>
+                        <View style={{ marginLeft: toDp(50) }}>
+                            <Text style={{ padding: toDp(5) }}>{displayName(state.payment)}</Text>
+                            <NumberFormat
+                                value={state.price * state.qtyall}
+                                displayType={'text'}
+                                thousandSeparator={'.'}
+                                decimalSeparator={','}
+                                prefix={'Rp. '}
+                                renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            />
+                            <NumberFormat
+                                value={state.ongkir}
+                                displayType={'text'}
+                                thousandSeparator={'.'}
+                                decimalSeparator={','}
+                                prefix={'Rp. '}
+                                renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            />
+                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', right: toDp(208), width: toDp(314), marginTop: toDp(5) }} />
+                            <NumberFormat
+                                value={state.total_bayar}
+                                displayType={'text'}
+                                thousandSeparator={'.'}
+                                decimalSeparator={','}
+                                prefix={'Rp. '}
+                                renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold', padding: toDp(5), top:toDp(6) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            />
+                        </View>
+
+                    </View>
+
+                </View>
             </ScrollView>
-
-
         </View>
     )
 }
@@ -236,6 +243,53 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff'
+    },
+    viewPembayaran: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: toDp(25),
+        margin: toDp(5),
+        paddingHorizontal: toDp(20),
+        paddingTop: toDp(10),
+        backgroundColor: '#F8F9F9',
+        width: toDp(314),
+        height: toDp(150),
+        borderRadius: toDp(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+    },
+    viewPengiriman: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: toDp(25),
+        margin: toDp(5),
+        paddingHorizontal: toDp(20),
+        paddingTop: toDp(10),
+        backgroundColor: '#F8F9F9',
+        width: toDp(314),
+        height: toDp(150),
+        borderRadius: toDp(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+    },
+    body: {
+        backgroundColor: '#fff', 
+        height: toDp(220), 
+        top: toDp(15)
     },
     flatcontent: {
         width: '100%',

@@ -144,6 +144,13 @@ const Orderdetail = (props) => {
             })
     }
 
+    const displayName = (payment) => {
+        let count = '';
+        let nama = '';
+        count = payment.split(' ' || '-');
+        nama = count.slice(0, 2,).join(' ');
+        return nama
+      }
 
     return (
         <View style={styles.container}>
@@ -154,7 +161,7 @@ const Orderdetail = (props) => {
 
             {/* BAGIAN PRODUK */}
             <ScrollView>
-                <View style={[styles.body, { backgroundColor: '#fff', height: toDp(220), top: toDp(15) }]}>
+                <View style={styles.body}>
                     <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), bottom: toDp(5) }}>{state.odr_status}</Text>
 
                     <View style={styles.OrderDetail}>
@@ -227,7 +234,7 @@ const Orderdetail = (props) => {
                             <Text style={{ padding: toDp(5), bottom:toDp(5), fontWeight: 'bold', color: '#f83308' }}>Total Pembayaran</Text>
                         </View>
                         <View style={{ marginLeft: toDp(50) }}>
-                            <Text style={{ padding: toDp(5) }}>{state.payment}</Text>
+                            <Text style={{ padding: toDp(5) }}>{displayName(state.payment)}</Text>
                             <NumberFormat
                                 value={state.price * state.qtyall}
                                 displayType={'text'}
@@ -246,7 +253,7 @@ const Orderdetail = (props) => {
                             />
                             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', right: toDp(219), width: toDp(314), marginTop: toDp(5) }} />
                             <NumberFormat
-                                value={800000}
+                                value={state.total_bayar}
                                 displayType={'text'}
                                 thousandSeparator={'.'}
                                 decimalSeparator={','}
@@ -309,6 +316,11 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+    },
+    body: {
+        backgroundColor: '#fff', 
+        height: toDp(220), 
+        top: toDp(15)
     },
     flatcontent: {
         width: '100%',

@@ -106,7 +106,10 @@ const Belumbayar = (props) => {
                 }else if (content == 'Dibatalkan'){
                     NavigatorService.navigate('Dibatalkan')
                 }
+
                 console.log('full ===> ' + JSON.stringify(result.data.data));
+
+                
                 setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
@@ -116,16 +119,11 @@ const Belumbayar = (props) => {
             })
     }
 
-    const Lihatdetail = (data) => {
+    const Lihatdetail = (data, id) => {
         let odr = data;
         AsyncStorage.setItem('setDetail', JSON.stringify(odr))
-        setState(state => ({ ...state, 
-            odr_id: odr.id
-        }))
-        console.log('setDetail ===> ' + JSON.stringify(odr));
-        console.log('odr id ===> ' + JSON.stringify(state.odr_id));
 
-        NavigatorService.navigate('Orderdetail', {odr_id: state.odr_id})
+        NavigatorService.navigate('Orderdetail', {odr_id: id})
 
     }
 
@@ -160,7 +158,7 @@ const Belumbayar = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item)}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat

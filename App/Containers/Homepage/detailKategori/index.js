@@ -55,62 +55,14 @@ const detailKategori = (props) => {
         setState(state => ({ ...state, loading: false }))
       })
   }
-
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-      title: 'Semen',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-      title: 'Batu Bata',
-      harga: 'Rp. 50.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d723',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d724',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    }, {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
-      title: 'Semen',
-      harga: 'Rp. 80.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f636',
-      title: 'Batu Bata',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-  ]
+  
+  const displayName = (retail) => {
+    let count = '';
+    let nama = '';
+    count = retail.split(' ' || '-');
+    nama = count.slice(0, 2,).join(' ');
+    return nama
+  }
 
   const renderItem = (item, index) => (
     <Pressable onPress={() => alert('Produk : ' + index)}>
@@ -118,7 +70,7 @@ const detailKategori = (props) => {
         <View style={styles.txtProduct}>
           <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
           <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
-          <Text style={styles.textproduct}>Stok: {item.stock}</Text>
+          <Text style={{ fontSize:toDp(12), right:toDp(1), fontWeight:'bold' }}>{displayName(item.retail)}</Text>
           <NumberFormat
             value={item.price}
             displayType={'text'}
@@ -127,9 +79,18 @@ const detailKategori = (props) => {
             prefix={'Rp. '}
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          <Text style={styles.dariKota}>{item.retailaddres}</Text>
-          <Text style={styles.dariKota}>Kondisi : {item.retail.substr(0, 5)}</Text>
-          <Text style={styles.dariKota}>Toko    : {item.kondisi}</Text>
+
+          <View style={{ flexDirection: 'row', marginLeft: toDp(10), marginTop:toDp(7)}}>
+            <View>
+              <Text style={{ fontSize:toDp(12), right:toDp(9) }}>Stok</Text>
+              <Text style={{ fontSize:toDp(12), right:toDp(9) }}>Kondisi</Text>
+            </View>
+            <View>
+              <Text style={{ fontSize:toDp(12), right:toDp(9) }}> : {item.stock}</Text>
+              <Text style={{ fontSize:toDp(12), right:toDp(9) }}> : {item.kondisi}</Text>
+            </View>
+          </View>
+
         </ View>
       </ View>
     </Pressable>
@@ -199,7 +160,7 @@ const styles = StyleSheet.create({
     bottom: toDp(150),
     width: toDp(335),
     height: toDp(45),
-    borderRadius: toDp(8),
+    borderRadius: toDp(10),
   },
   btnHome: {
     marginHorizontal: toDp(20)
@@ -224,7 +185,7 @@ const styles = StyleSheet.create({
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius: toDp(10),
-    height: toDp(251),
+    height: toDp(230),
     right: toDp(2),
     shadowColor: "#000",
     shadowOffset: {

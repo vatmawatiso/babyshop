@@ -201,7 +201,7 @@ const TambahAlamat = (props) => {
           </View>
 
           <Text style={styles.txtAlamat}>Alamat</Text>
-          <View style={[styles.inputAlamat, { top: toDp(45) }]}>
+          <View style={styles.inputAlamat}>
             <SafeAreaView>
               <SelectDropdown
                 buttonStyle={styles.dropdown}
@@ -257,13 +257,13 @@ const TambahAlamat = (props) => {
                 style={styles.input}
                 placeholder="Cari Lokasi"
                 underlineColorAndroid="transparent"
-                placeholderTextColor="white"
+                placeholderTextColor="#4E5A64"
                 onChangeText={(text) => this.props.onFilter}
               />
             </View>
           </Pressable>
 
-          <View style={[styles.contentMap, { marginTop: toDp(40) }]}>
+          <View style={[styles.contentMap, { marginTop: toDp(60) }]}>
             <View style={[styles.wrapper, { margin: toDp(10) }]}>
               <MapView style={styles.map} initialRegion={{
                 latitude: -7.7926359,
@@ -279,7 +279,7 @@ const TambahAlamat = (props) => {
             </View>
           </View>
 
-          <Pressable style={styles.searchSection} onPress={() => InputAlamat()}>
+          <Pressable style={styles.btnSimpan} onPress={() => InputAlamat()}>
             <Text style={{ color: 'white' }}>Simpan</Text>
           </Pressable>
           <View style={{ marginBottom: toDp(80) }}></View>
@@ -294,8 +294,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  searchSection: {
-    top: toDp(40),
+  btnSimpan: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -303,18 +302,47 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(48),
     borderRadius: toDp(10),
-    marginBottom: toDp(10)
+    marginTop: toDp(25),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
+  },
+  searchSection: {
+    top: toDp(50),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    width: toDp(335),
+    height: toDp(48),
+    borderRadius: toDp(10),
+    marginBottom: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   searchIcon: {
     resizeMode: 'contain',
-    tintColor: 'white',
+    tintColor: '#4E5A64',
     width: toDp(20),
     height: toDp(20),
     zIndex: 3,
-    padding: toDp(8),
+    padding: toDp(10),
     position: 'absolute',
     left: toDp(15),
-    top: Platform.OS === 'ios' ? toDp(11) : toDp(11)
+    top: Platform.OS === 'ios' ? toDp(13) : toDp(13)
   },
   input: {
     flex: 1,
@@ -347,10 +375,10 @@ const styles = StyleSheet.create({
   txtAlamat: {
     fontWeight: 'bold',
     right: toDp(145),
-    top: toDp(60)
+    top: toDp(45)
   },
   inputAlamat: {
-    top: toDp(30),
+    top: toDp(50),
     // backgroundColor:'#C4C4C4',
     width: toDp(316),
     height: toDp(130),
@@ -382,7 +410,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     right: toDp(9),
-    paddingHorizontal: toDp(18),
+    paddingHorizontal: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
