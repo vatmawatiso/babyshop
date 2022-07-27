@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     borderWidth: toDp(0.5),
     borderRadius: toDp(10),
     padding: toDp(8),
-    borderColor: '#E6E6E6'
+    borderColor: 'grey'
   },
   imgToko: {
     height: toDp(28),
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     borderWidth: toDp(0.5),
     borderRadius: toDp(10),
     padding: toDp(8),
-    borderColor: '#E6E6E6'
+    borderColor: 'grey'
   },
   imgProduk: {
     height: toDp(28),
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     borderWidth: toDp(0.5),
     borderRadius: toDp(10),
     padding: toDp(3),
-    borderColor: '#E6E6E6'
+    borderColor: 'grey'
   },
   imgKategori: {
     height: toDp(38),

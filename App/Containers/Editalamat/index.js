@@ -248,7 +248,7 @@ const Editalamat = (props) => {
                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
                 dropdownStyle={{ borderRadius: toDp(10) }}
-                rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kota atau Kabupaten'}
                 defaultValue={{
                   cty_id: state.tmp_cty_id,
@@ -291,7 +291,7 @@ const Editalamat = (props) => {
             </SafeAreaView>
           </View>
 
-          <Pressable>
+          <Pressable style={{ height: toDp(50), top: toDp(22), }}>
             <View style={styles.searchSection}>
               <Image style={styles.searchIcon} source={allLogo.icsearch} />
               <TextInput
@@ -304,7 +304,7 @@ const Editalamat = (props) => {
             </View>
           </Pressable>
 
-          <View style={[styles.contentMap, { marginTop: toDp(25) }]}>
+          <View style={[styles.contentMap, { marginTop: toDp(40) }]}>
             <View style={[styles.wrapper, { margin: toDp(10) }]}>
               <MapView style={styles.map} initialRegion={{
                 latitude: -7.7926359,
@@ -319,7 +319,7 @@ const Editalamat = (props) => {
               </MapView>
             </View>
           </View>
-          <Pressable style={styles.btnSimpan} onPress={() => InputAlamat()}>
+          <Pressable style={styles.btnSimpan} onPress={() => editAlamat()}>
             <Text style={{ color: 'white' }}>Simpan</Text>
           </Pressable>
           <View style={{ marginBottom: toDp(80) }}></View>
@@ -362,7 +362,6 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(48),
     borderRadius: toDp(10),
-    marginTop: toDp(25),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -446,7 +445,16 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(200),
     borderRadius: toDp(20),
-    bottom: toDp(5)
+    bottom: toDp(5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   textInput: {
     paddingHorizontal: toDp(10),

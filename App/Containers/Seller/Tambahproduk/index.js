@@ -409,7 +409,7 @@ const Tambahproduk = (props) => {
                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
                 dropdownStyle={{ borderRadius: toDp(7) }}
-                rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kategori'}
                 data={state.kategori}
                 onSelect={(selectedItem, index) => {
@@ -441,7 +441,7 @@ const Tambahproduk = (props) => {
                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
                 dropdownStyle={{ borderRadius: toDp(7) }}
-                rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kondisi'}
                 data={state.kondisi}
                 onSelect={(selectedItem, index) => {

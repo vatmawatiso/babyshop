@@ -7,7 +7,8 @@ import {
   Alert,
   ImageBackground,
   Pressable,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -16,7 +17,6 @@ import NavigatorService from '@NavigatorService'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from 'axios';
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Settingtoko = (props) => {
   const [src, setSrc] = useState(null);
@@ -27,7 +27,7 @@ const Settingtoko = (props) => {
     mb_id: '',
     mb_name: '',
     mb_phone: '',
-    id_retail:'',
+    id_retail: '',
     loading: false,
     adr_mb_id: '',
   })
@@ -52,7 +52,7 @@ const Settingtoko = (props) => {
         picture: data.value.picture,
         retail_id: data.retail_id,
       }))
-       console.log('RTL ID '+ JSON.stringify(state.retail_id));
+      console.log('RTL ID ' + JSON.stringify(state.retail_id));
       //  console.log('name '+ JSON.stringify(state.mb_name));
 
     }).catch(err => {
@@ -107,6 +107,40 @@ const Settingtoko = (props) => {
       />
 
       <View style={styles.content}>
+
+        <View style={{ padding: toDp(20), }}>
+          <View>
+            <TouchableOpacity style={{ marginBottom: toDp(10), height: toDp(40) }} onPress={() => NavigatorService.navigate('underConstruction')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: toDp(10) }}>
+                <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), alignItems: 'center', padding: toDp(8), borderColor: 'grey', }}>
+                  <Image source={allLogo.kategori} style={{ width: toDp(24), height: toDp(24), resizeMode: 'contain', tintColor: '#ea421e', }} />
+                </View>
+                <Text style={{ marginLeft: toDp(15) }}>Catatan Toko</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ marginBottom: toDp(10), height: toDp(40) }} onPress={() => NavigatorService.navigate('Alamattoko', { adr_mb_id: state.mb_id })}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: toDp(10) }}>
+                <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), alignItems: 'center', padding: toDp(8), borderColor: 'grey', }}>
+                  <Image source={allLogo.location} style={{ width: toDp(24), height: toDp(24), resizeMode: 'contain', tintColor: '#ea421e', }} />
+                </View>
+                <Text style={{ marginLeft: toDp(15) }}>Alamat Toko</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ marginBottom: toDp(10), height: toDp(40) }}  onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.id_retail })}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: toDp(10) }}>
+                <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), alignItems: 'center', padding: toDp(8), borderColor: 'grey', }}>
+                  <Image source={allLogo.kirim} style={{ width: toDp(24), height: toDp(24), resizeMode: 'contain', tintColor: '#ea421e', }} />
+                </View>
+                <Text style={{ marginLeft: toDp(15) }}>Layanan Jasa Kirim</Text>
+              </View>
+            </TouchableOpacity>
+
+
+          </View>
+        </View>
+{/* 
         <View style={styles.viewProfiltoko}>
           <Image source={allLogo.store} style={styles.store} />
           <Text style={styles.txtProfiltoko}>Profil Toko</Text>
@@ -132,7 +166,7 @@ const Settingtoko = (props) => {
           <TouchableOpacity onPress={() => NavigatorService.navigate('Layananjasa', { id_retail: state.id_retail })}>
             <Text style={styles.txtLayananjasa}>Layanan Jasa</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
       </View>
 
@@ -198,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     top: toDp(20),
     width: toDp(335),
-    height: toDp(190),
+    height: toDp(180),
     borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {

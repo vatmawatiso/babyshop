@@ -284,8 +284,7 @@ const Editprofil = (props) => {
           <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
             <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30), right: toDp(15) }} />
           </Pressable>
-          <Pressable onPress={() => toggleModal()}>
-            <Image style={styles.icEdit} source={allLogo.icedit} />
+          <Pressable style={{height:toDp(60), width:toDp(70), left:toDp(120)}} onPress={() => toggleModal()}>
             <Image style={styles.imgProfil} source={state.picture ? { uri: state.picture } :
               require('../../Assets/img/tzuyu.jpg')} />
             {/* <Text style={styles.nama}>{state.mb_name}</Text> */}
@@ -349,7 +348,7 @@ const Editprofil = (props) => {
           buttonTextStyle={{ fontSize: toDp(13), color: '#4E5A64', }}
           rowTextStyle={{ fontSize: toDp(13) }}
           dropdownStyle={{ borderRadius: toDp(10) }}
-          rowStyle={{ height: toDp(50), padding: toDp(5) }}
+          rowStyle={{ height: toDp(48), padding: toDp(5) }}
           placeholderTextColor={'#4E5A64'}
           defaultButtonText={'Pilih Tipe User'}
           defaultValue={state.mb_type}
@@ -429,7 +428,6 @@ const styles = StyleSheet.create({
     height: toDp(70),
     width: toDp(70),
     borderRadius: toDp(40),
-    left: toDp(120),
     bottom: toDp(10),
   },
   nama: {
@@ -502,9 +500,7 @@ const styles = StyleSheet.create({
     width: toDp(30),
     height: toDp(30),
     position: 'absolute',
-    zIndex: 5,
-    left: '55%',
-    top: '55%'
+    backgroundColor:'cyan'
   },
   modal: {
     marginVertical: '50%',

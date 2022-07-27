@@ -61,8 +61,8 @@ const Donasi = (props) => {
                                     buttonStyle={styles.dropdown}
                                     buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                     rowTextStyle={{ fontSize: toDp(12) }}
-                                    dropdownStyle={{ borderRadius: toDp(7) }}
-                                    rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                    dropdownStyle={{ borderRadius: toDp(10) }}
+                                    rowStyle={{ height: toDp(48), padding: toDp(5),  }}
                                     defaultButtonText={'Pilih Kerjasama'}
                                     data={countries}
                                     onSelect={(selectedItem, index) => {
@@ -89,8 +89,8 @@ const Donasi = (props) => {
                                     buttonStyle={styles.dropdown}
                                     buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                     rowTextStyle={{ fontSize: toDp(12) }}
-                                    dropdownStyle={{ borderRadius: toDp(7) }}
-                                    rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                    dropdownStyle={{ borderRadius: toDp(10) }}
+                                    rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                     defaultButtonText={'Pilih Penerima'}
                                     data={countries}
                                     onSelect={(selectedItem, index) => {
@@ -117,8 +117,8 @@ const Donasi = (props) => {
                                     buttonStyle={styles.dropdown}
                                     buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                     rowTextStyle={{ fontSize: toDp(12) }}
-                                    dropdownStyle={{ borderRadius: toDp(7) }}
-                                    rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                    dropdownStyle={{ borderRadius: toDp(10) }}
+                                    rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                     defaultButtonText={'Bentuk Bangunan Yang Didonasikan'}
                                     data={countries}
                                     onSelect={(selectedItem, index) => {
@@ -150,8 +150,8 @@ const Donasi = (props) => {
                                                 buttonStyle={styles.dropdown1}
                                                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                                 rowTextStyle={{ fontSize: toDp(12) }}
-                                                dropdownStyle={{ borderRadius: toDp(7) }}
-                                                rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                                dropdownStyle={{ borderRadius: toDp(10) }}
+                                                rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                                 defaultButtonText={'Bentuk Bangunan Yang Didonasikan'}
                                                 data={countries}
                                                 onSelect={(selectedItem, index) => {
@@ -177,8 +177,8 @@ const Donasi = (props) => {
                                                 buttonStyle={styles.dropdown1}
                                                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                                 rowTextStyle={{ fontSize: toDp(12) }}
-                                                dropdownStyle={{ borderRadius: toDp(7) }}
-                                                rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                                dropdownStyle={{ borderRadius: toDp(10) }}
+                                                rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                                 defaultButtonText={'Bentuk Bangunan Yang Didonasikan'}
                                                 data={countries}
                                                 onSelect={(selectedItem, index) => {
@@ -205,7 +205,7 @@ const Donasi = (props) => {
                                             <TextInput
                                                 top={toDp(6)}
                                                 width={toDp(335)}
-                                                height={toDp(40)}
+                                                height={toDp(48)}
                                                 borderRadius={toDp(10)}
                                                 backgroundColor={'white'}
                                                 autoCapitalize={'none'}
@@ -218,7 +218,7 @@ const Donasi = (props) => {
                                             <TextInput
                                                 top={toDp(6)}
                                                 width={toDp(335)}
-                                                height={toDp(40)}
+                                                height={toDp(48)}
                                                 borderRadius={toDp(10)}
                                                 backgroundColor={'white'}
                                                 autoCapitalize={'none'}
@@ -236,8 +236,8 @@ const Donasi = (props) => {
                                     buttonStyle={styles.dropdown}
                                     buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                     rowTextStyle={{ fontSize: toDp(12) }}
-                                    dropdownStyle={{ borderRadius: toDp(7) }}
-                                    rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                    dropdownStyle={{ borderRadius: toDp(10) }}
+                                    rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                     defaultButtonText={'Pilih Jasa Pengiriman'}
                                     data={countries}
                                     onSelect={(selectedItem, index) => {
@@ -264,8 +264,8 @@ const Donasi = (props) => {
                                     buttonStyle={styles.dropdown}
                                     buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                                     rowTextStyle={{ fontSize: toDp(12) }}
-                                    dropdownStyle={{ borderRadius: toDp(7) }}
-                                    rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                                    dropdownStyle={{ borderRadius: toDp(10) }}
+                                    rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                     defaultButtonText={'Pilih Jasa'}
                                     data={countries}
                                     onSelect={(selectedItem, index) => {

@@ -165,7 +165,7 @@ const TambahAlamat = (props) => {
         onPress={() => props.navigation.goBack()}
       />
       <ScrollView style={{ height: '100%', }}>
-        <View style={{ hei: '100%', alignItems: 'center' }}>
+        <View style={{ height: '100%', alignItems: 'center' }}>
           <Text style={styles.txtContact}>Kontak</Text>
           <View style={styles.content}>
             <SafeAreaView>
@@ -208,7 +208,7 @@ const TambahAlamat = (props) => {
                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
                 dropdownStyle={{ borderRadius: toDp(10) }}
-                rowStyle={{ height: toDp(35), padding: toDp(5) }}
+                rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kota atau Kabupaten'}
                 data={state.cityname}
                 onSelect={(selectedItem, index) => {

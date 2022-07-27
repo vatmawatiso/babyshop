@@ -408,19 +408,19 @@ const Login = (props) => {
           <Text style={styles.textSignup}>Daftar</Text>
         </Pressable>
 
-        <View style={[styles.rowFooter, { position: 'absolute', width: '100%' }]}>
+        <View style={styles.rowFooter}>
           <Text style={styles.textDont}>Atau Masuk Dengan</Text>
           <Pressable style={styles.pressableClick} onPress={() => googleSignin()}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icGoogle} style={styles.icon} />
-              <Text style={{ fontSize: toDp(12.5), top: toDp(15), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
+              <Text style={{ fontSize: toDp(12), top: toDp(15), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
             </View>
           </Pressable>
 
           <Pressable style={styles.pressableClick1} onPress={() => onFbLogin()}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icFacebook} style={styles.icon} />
-              <Text style={{ fontSize: toDp(12.5), top: toDp(15), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
+              <Text style={{ fontSize: toDp(12), top: toDp(12), fontWeight: 'bold', color: 'white', }}>Masuk Dengan Facebook</Text>
             </View>
           </Pressable>
         </View>
@@ -442,13 +442,13 @@ const styles = StyleSheet.create({
     padding: toDp(2), 
     height: toDp(48), 
     backgroundColor: 'white', 
-    width: toDp(180), 
+    width: toDp(185), 
     borderRadius: toDp(10),
-     marginBottom: toDp(5)
+     marginBottom: toDp(10),
   },
   pressableClick1: {
     padding: toDp(2), 
-    width: toDp(180), 
+    width: toDp(185), 
     height: toDp(48), 
     backgroundColor: '#3B5998', 
     borderRadius: toDp(10)
@@ -572,13 +572,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: toDp(110),
-    marginLeft: toDp(30)
+    marginLeft: toDp(30),
+    position: 'absolute', 
+    width: '100%',
   },
   icon: {
     width: toDp(25),
     height: toDp(25),
     marginHorizontal: toDp(5),
-    top: toDp(7)
+    top: toDp(7),
   },
   textCreate: {
     textAlign: 'right'

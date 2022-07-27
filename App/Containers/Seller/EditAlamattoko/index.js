@@ -182,7 +182,7 @@ const EditAlamattoko = (props) => {
           alert('Berhasil Mengubah Alamat')
           console.log('HASIL ALAMAT ==> : ', response)
           setState(state => ({ ...state, loading: false }))
-          NavigatorService.navigate('Alamatoko', { adr_mb_id: state.mb_id });
+          NavigatorService.navigate('Alamattoko', { adr_mb_id: state.mb_id });
 
         } else {
           alert('Ubah Alamat Gagal!')
@@ -206,110 +206,125 @@ const EditAlamattoko = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <Text style={styles.txtContact}>Kontak</Text>
-      <View style={styles.content}>
-        <SafeAreaView>
-          <TextInput
-            top={toDp(4)}
-            width={toDp(335)}
-            height={toDp(48)}
-            borderRadius={toDp(10)}
-            backgroundColor={'#FFFFFF'}
-            autoCapitalize={'none'}
-            style={styles.textInput}
-            placeholder={'Nama'}
-            placeholderTextColor={'#4E5A64'}
-            value={state.tmp_name}
-            onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
-          />
-          <TextInput
-            top={toDp(16)}
-            width={toDp(335)}
-            height={toDp(48)}
-            borderRadius={toDp(10)}
-            backgroundColor={'#FFFFFF'}
-            autoCapitalize={'none'}
-            style={styles.textInput}
-            placeholder={'Nomer HP'}
-            placeholderTextColor={'#4E5A64'}
-            value={state.tmp_hp}
-            onChangeText={(text) => setState(state => ({ ...state, tmp_hp: text }))}
-          />
-        </SafeAreaView>
-      </View>
+      <ScrollView style={{ height: '100%', }}>
+        <View style={{ hei: '100%', alignItems: 'center' }}>
+          <Text style={styles.txtContact}>Kontak</Text>
+          <View style={styles.content}>
+            <SafeAreaView>
+              <TextInput
+                top={toDp(4)}
+                width={toDp(335)}
+                height={toDp(48)}
+                borderRadius={toDp(10)}
+                backgroundColor={'#FFFFFF'}
+                autoCapitalize={'none'}
+                style={styles.textInput}
+                placeholder={'Nama'}
+                placeholderTextColor={'#4E5A64'}
+                value={state.tmp_name}
+                onChangeText={(text) => setState(state => ({ ...state, tmp_name: text }))}
+              />
+              <TextInput
+                top={toDp(16)}
+                width={toDp(335)}
+                height={toDp(48)}
+                borderRadius={toDp(10)}
+                backgroundColor={'#FFFFFF'}
+                autoCapitalize={'none'}
+                style={styles.textInput}
+                placeholder={'Nomer HP'}
+                placeholderTextColor={'#4E5A64'}
+                value={state.tmp_hp}
+                onChangeText={(text) => setState(state => ({ ...state, tmp_hp: text }))}
+              />
+            </SafeAreaView>
+          </View>
 
-      <Text style={styles.txtAlamat}>Alamat</Text>
-      <View style={styles.inputAlamat}>
-        <SafeAreaView>
-          <SelectDropdown
-            buttonStyle={styles.dropdown}
-            buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
-            rowTextStyle={{ fontSize: toDp(12) }}
-            dropdownStyle={{ borderRadius: toDp(10) }}
-            rowStyle={{ height: toDp(35), padding: toDp(5) }}
-            defaultButtonText={'Pilih Kota atau Kabupaten'}
-            defaultValue={{
-              cty_id: state.tmp_cty_id,
-              cty_name: state.tmp_cty_name
-            }}
-            data={state.cityname}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem.cty_name + selectedItem.cty_id)
-              setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem.cty_name;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item.cty_name;
-            }}
-            renderDropdownIcon={(isOpened) => {
-              return (
-                <FontAwesome
-                  name={isOpened ? "chevron-up" : "chevron-down"}
-                  color={"#444"}
-                  size={12}
-                />
-              );
-            }}
-          />
-          <TextInput
-            top={toDp(35)}
-            width={toDp(335)}
-            height={toDp(48)}
-            borderRadius={toDp(10)}
-            backgroundColor={'white'}
-            autoCapitalize={'none'}
-            style={styles.textInput}
-            placeholder={'Tuliskan Detail Jalan'}
-            placeholderTextColor={'#4E5A64'}
-            value={state.tmp_address}
-            onChangeText={(text) => setState(state => ({ ...state, tmp_address: text }))}
-          />
-        </SafeAreaView>
-      </View>
+          <Text style={styles.txtAlamat}>Alamat</Text>
+          <View style={styles.inputAlamat}>
+            <SafeAreaView>
+              <SelectDropdown
+                buttonStyle={styles.dropdown}
+                buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
+                rowTextStyle={{ fontSize: toDp(12) }}
+                dropdownStyle={{ borderRadius: toDp(10) }}
+                rowStyle={{ height: toDp(48), padding: toDp(5) }}
+                defaultButtonText={'Pilih Kota atau Kabupaten'}
+                defaultValue={{
+                  cty_id: state.tmp_cty_id,
+                  cty_name: state.tmp_cty_name
+                }}
+                data={state.cityname}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem.cty_name + selectedItem.cty_id)
+                  setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem.cty_name;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item.cty_name;
+                }}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <FontAwesome
+                      name={isOpened ? "chevron-up" : "chevron-down"}
+                      color={"#444"}
+                      size={12}
+                    />
+                  );
+                }}
+              />
+              <TextInput
+                top={toDp(35)}
+                width={toDp(335)}
+                height={toDp(48)}
+                borderRadius={toDp(10)}
+                backgroundColor={'white'}
+                autoCapitalize={'none'}
+                style={styles.textInput}
+                placeholder={'Tuliskan Detail Jalan'}
+                placeholderTextColor={'#4E5A64'}
+                value={state.tmp_address}
+                onChangeText={(text) => setState(state => ({ ...state, tmp_address: text }))}
+              />
+            </SafeAreaView>
+          </View>
 
-      <Pressable style={{ borderRadius: toDp(10), height: toDp(48), width: toDp(335) }} onPress={() => editAlamat()}>
-        <View style={styles.searchSection}>
-          <Text style={{ color: 'white' }}>Simpan</Text>
+          <Pressable style={{ height: toDp(50), top: toDp(44) }}>
+            <View style={styles.searchSection}>
+              <Image style={styles.searchIcon} source={allLogo.icsearch} />
+              <TextInput
+                style={styles.input}
+                placeholder="Cari Lokasi"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#4E5A64"
+                onChangeText={(text) => this.props.onFilter}
+              />
+            </View>
+          </Pressable>
+
+          <View style={[styles.contentMap, { marginTop: toDp(10) }]}>
+            <View style={[styles.wrapper, { margin: toDp(10) }]}>
+              <MapView style={styles.map} initialRegion={{
+                latitude: -7.7926359,
+                longitude: 110.3636856,
+                latitudeDelta: 0.009,
+                longitudeDelta: 0.009
+              }}>
+                <Marker coordinate={{
+                  latitude: -7.792396730376516,
+                  longitude: 110.36580990952797
+                }} />
+              </MapView>
+            </View>
+          </View>
+          <Pressable style={styles.btnSimpan} onPress={() => editAlamat()}>
+            <Text style={{ color: 'white' }}>Simpan</Text>
+          </Pressable>
+          <View style={{ marginBottom: toDp(80) }}></View>
         </View>
-      </Pressable>
-
-      <View style={[styles.contentMap, { marginTop: toDp(50) }]}>
-        <View style={[styles.wrapper, { margin: toDp(10) }]}>
-          <MapView style={styles.map} initialRegion={{
-            latitude: -7.7926359,
-            longitude: 110.3636856,
-            latitudeDelta: 0.009,
-            longitudeDelta: 0.009
-          }}>
-            <Marker coordinate={{
-              latitude: -7.792396730376516,
-              longitude: 110.36580990952797
-            }} />
-          </MapView>
-        </View>
-      </View>
+      </ScrollView>
 
     </View>
   );
@@ -321,7 +336,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  searchSection: {
+  btnSimpan: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -329,11 +344,38 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(48),
     borderRadius: toDp(10),
-    marginTop: toDp(40)
+    marginTop: toDp(25),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
+  },
+  searchSection: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    width: toDp(335),
+    height: toDp(48),
+    borderRadius: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   searchIcon: {
     resizeMode: 'contain',
-    tintColor: 'white',
+    tintColor: '#4E5A64',
     width: toDp(20),
     height: toDp(20),
     zIndex: 3,
@@ -403,7 +445,16 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(200),
     borderRadius: toDp(10),
-    bottom: toDp(5)
+    bottom: toDp(5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   textInput: {
     padding: toDp(5),
