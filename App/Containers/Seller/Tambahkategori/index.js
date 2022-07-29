@@ -15,6 +15,7 @@ import { Card } from "react-native-paper";
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import axios from 'axios';
+import { svr } from "../../../Configs/apikey";
 
 const Tambahkategori = (props) => {
   const [src, setSrc] = useState(null);
@@ -34,7 +35,8 @@ const Tambahkategori = (props) => {
     console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/category/', body)
+    axios.post(svr.url+'category/'+svr.api,body)
+    // axios.post('https://market.pondok-huda.com/dev/react/category/', body)
       .then(result => {
 
         console.log('-----KATEGOTI=====>' + JSON.stringify(result.data));

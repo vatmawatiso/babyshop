@@ -22,6 +22,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { BottomNavigation } from "react-native-paper";
 import axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -38,7 +39,8 @@ const detailKategori = (props) => {
 
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
-    axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
+    axios.get(svr.url+'product/category/'+kid+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
       .then(result => {
         if (result.data.status == 200) {
           //hendle success

@@ -18,6 +18,7 @@ import NavigatorService from '@NavigatorService'
 import axios from "axios";
 import { RadioButton } from 'react-native-paper';
 import { typeParameterDeclaration } from "@babel/types";
+import { svr } from "../../Configs/apikey";
 
 const Pembayaran = (props) => {
 
@@ -30,7 +31,8 @@ const Pembayaran = (props) => {
   }, [])
 
   const getPayment = () => {
-    axios.get('https://market.pondok-huda.com/dev/react/payment/')
+    axios.get(svr.url+'payment/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/payment/')
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))
@@ -44,14 +46,6 @@ const Pembayaran = (props) => {
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
-  const Address = [
-    {
-      id: '1',
-      nama: 'Vatmawati',
-      telepon: '083141520987',
-      alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
-    },
-  ]
   const DATA = [
     {
       id: '1',

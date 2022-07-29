@@ -16,26 +16,11 @@ import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
+import { svr } from "../../../../Configs/apikey";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Sedangdikirim = (props) => {
-
-    const DATA = [
-        {
-            id: '2',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Belum Bayar',
-            produk: 'Gerobak Pasir',
-            harga: 'Rp 500.000',
-            jumlah: '2',
-            total: 'Rp 800.0000',
-            bataswaktu: '13 Januari 2022',
-            metodePembayaran: 'Bank Mandiri',
-            konfirmasi: 'Dibatalkan Pembeli',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
 
     const [state, setState] = useState({
         datas: [],
@@ -57,7 +42,8 @@ const Sedangdikirim = (props) => {
         let content = props.con;
         console.log('cek rtl id ' + (rtl));
         console.log('cek content ' + (content));
-        axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
+        axios.get(svr.url+'order/getrtl/'+rtl+'/'+content+'/'+svr.api)
+        // axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
             .then(result => {
                 //hendle success
                 console.log('full ===> ' + JSON.stringify(result.data.data));

@@ -21,6 +21,20 @@ import axios from 'axios';
 import CheckBox from '@react-native-community/checkbox';
 import { ScrollView } from 'react-native-gesture-handler';
 import { sha1 } from 'react-native-sha1';
+import { svr } from '../../Configs/apikey';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {
+  LoginButton,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager
+} from 'react-native-fbsdk';
+
 const Register = (props) => {
 
   const tipeUser = ["Client", "Seller"]
@@ -37,9 +51,19 @@ const Register = (props) => {
     valName: false,
     valMail: false,
     valPass: false,
+    GUser: []
   })
   const [isSelected, setSelection] = useState(false)
   const [isDisable, setDisable] = useState(true)
+
+  useEffect(() => {
+    AsyncStorage.setItem('login', '')
+    GoogleSignin.configure({
+      // offlineAccess: true,
+      webClientId: '1074872779717-2qkssa1l8pbq24ki9jikge5869o6tamh.apps.googleusercontent.com',
+      // androidClientId: '1074872779717-t4sfanhv7h7uqb0mirs960oa5dqjotkv.apps.googleusercontent.com',
+    });
+  }, [])
 
   const RegisterMember = async (value) => {
     const body = {
@@ -52,7 +76,8 @@ const Register = (props) => {
     }
 
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/registrasi-member', body)
+    axios.post(svr.url + 'registrasi-member/' + svr.api, body)
+      // axios.post('https://market.pondok-huda.com/dev/react/registrasi-member', body)
       .then(result => {
         //console.log('hasil --------------> : '+ JSON.stringify(result.data))
         if (result.data.status == 201) {
@@ -67,6 +92,35 @@ const Register = (props) => {
         alert('Registrasi Gagal, coba lagi nanti')
         setState(state => ({ ...state, loading: false }))
       })
+  }
+
+  const passlength = (pass) => {
+    const psw = pass;
+
+    if (psw.length >= 6) {
+      setState(state => ({ ...state, valPass: false }));
+      Shaone(pass);
+
+    } else {
+      setState(state => ({ ...state, valPass: true }))
+
+    }
+  }
+
+  const validateMail = (text) => {
+
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(text) === false) {
+      setState(state => ({ ...state, valMail: true }))
+      setState(state => ({ ...state, email: text }))
+
+      return false;
+    }
+    else {
+      setState(state => ({ ...state, email: text }))
+      setState(state => ({ ...state, valMail: false }))
+
+    }
   }
 
   const Shaone = (pass) => {
@@ -113,20 +167,222 @@ const Register = (props) => {
 
     RegisterMember()
   }
-  const passlength = (pass) => {
-    const psw = pass;
 
-    if (psw.length >= 6) {
-      setState(state => ({ ...state, valPass: false }));
-      Shaone(pass);
+  // google sign up 
+  const googleSignup = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('User Infor =>', userInfo)
+      // setUser(userInfo)
+      const ugDatas = JSON.stringify(userInfo);
+      const newData = JSON.parse(ugDatas);
+      state.GUser.push({ userInfo });
+      //NavigatorService.navigate('Homepage')
 
-    } else {
-      setState(state => ({ ...state, valPass: true }))
+      let body = {
+        mb_name: newData.user.name,
+        mb_email: newData.user.email,
+        mb_phone: '',
+        mb_type: 'client',
+        mb_password: '',
+        mb_username: newData.user.email,
+        picture: newData.user.photo
+      }
 
+      let datas = [];
+      datas.push({
+        id: newData.user.id,
+        value: {
+          mb_name: newData.user.name,
+          mb_phone: '',
+          mb_type: '',
+          password: '',
+          mb_username: newData.user.email,
+          mb_picture: newData.user.photo,
+          mb_email: newData.user.email
+        }
+      })
+
+      console.log('user log =>', ugDatas);
+      //console.log('user body =>', body);
+
+      if (state.GUser.length > 0) {
+        // cek login ada ngga
+        cekGLogin(newData.user.email, body, datas, newData.user.id, 'google')
+      }
+    } catch (error) {
+      console.log('errorssss =>', error.message);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled login');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Sign In Proccess');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play service not available');
+      } else {
+        console.log('Erorr ' + error.code)
+      }
+    }
+  };
+
+  // cek Glogin
+  const cekGLogin = (email, body, dataus, id, login) => {
+    const data = {
+      mb_email: email
+    }
+    setState(state => ({ ...state, loading: true }))
+    axios.post('https://market.pondok-huda.com/dev/react/login-member/sosmed', data)
+      .then(response => {
+        console.log('response cek login =>', response)
+        if (response.data.status == 200) {
+          const datas = {
+            id: response.data.data[0].mb_id,
+            value: response.data.data[0]
+          }
+          if (datas.value.length === 0) {
+            registrasiUser(body, id, dataus, login);
+          } else {
+            console.log('data regerted =>', datas);
+            AsyncStorage.setItem('member', JSON.stringify(datas))
+            AsyncStorage.setItem('uid', datas.id);
+            if (login == 'google') {
+              AsyncStorage.setItem('login', 'google')
+              setTimeout(function () {
+                NavigatorService.reset('Homepage', { login: 'google' });
+              }, 1000);
+            } else {
+              AsyncStorage.setItem('login', 'facebook')
+              setTimeout(function () {
+                NavigatorService.reset('Homepage', { login: 'facebook' });
+              }, 1000);
+            }
+          }
+          setState(state => ({ ...state, loading: false }))
+        } else if (response.data.status == 404) {
+          setState(state => ({ ...state, loading: false }))
+          registrasiUser(body, id, dataus, login)
+        } else if (response.data.status == 500) {
+          alert('error server')
+          console.log('error server', response)
+          setState(state => ({ ...state, loading: false }))
+        }
+      }).catch(error => {
+        console.log('error =>', error)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+  // kalo data dari g login dan fb login ga ada maka dimasukin ke registrasiUser
+  const registrasiUser = (body, id, datas, login) => {
+    setState(state => ({ ...state, loading: true }))
+    // console.log('body'+ JSON.stringify(body))
+    axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/', body)
+      .then(response => {
+        console.log('response =>', id)
+        // console.log('response resgiter =>', datas);
+        if (response.data.status == 201) {
+          console.log('register =>', response.data)
+          AsyncStorage.setItem('member', JSON.stringify(response.data))
+          AsyncStorage.setItem('uid', JSON.stringify(response.data.id))
+          // AsyncStorage.setItem('member', JSON.stringify(response.value))
+          // AsyncStorage.setItem('uid', JSON.stringify(response.value.mb_id))
+          if (login == 'google') {
+            AsyncStorage.setItem('login', 'google')
+            NavigatorService.reset('Homepage', { login: 'google' });
+          } else if (login === 'facebook') {
+            AsyncStorage.setItem('login', 'facebook')
+            NavigatorService.reset('Homepage', { login: 'facebook' });
+          }
+          setState(state => ({ ...state, loading: false }))
+        } else {
+          alert('Registrasi Gagal, Nama Pengguna atau Email Telah Digunakan')
+          setState(state => ({ ...state, loading: false }))
+        }
+      }).catch(error => {
+        alert('Gagal Coba Lagi Nanti')
+        console.log('error register =>', error)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
+  // facebook login
+  const fbLogin = (resCallback) => {
+    return LoginManager.logInWithPermissions(['email', 'public_profile'])
+      .then(
+        response => {
+          if (response.declinedPermissions && response.declinedPermissions.includes("email")) {
+            resCallback({ message: "email is required" })
+          }
+
+          if (response.isCancelled) {
+            console.log('Cancelled')
+          } else {
+            const infoRequest = new GraphRequest(
+              '/me?fields=email,name,picture',
+              null,
+              resCallback
+            );
+            new GraphRequestManager().addRequest(infoRequest).start()
+          }
+        },
+        function (error) {
+          console.log('error =>', error)
+        }
+      )
+  }
+
+  // login facebook
+  const onFbLogin = async () => {
+    setState(state => ({ ...state, linkLogin: '' }))
+    try {
+      setState(state => ({ ...state, linkLogin: 'facebook' }))
+      await fbLogin(_responseInfoCallBack)
+    } catch (error) {
+      console.log('error onfbLogin =>', error)
     }
   }
 
+  // response info callback dari fb login
+  const _responseInfoCallBack = async (error, response) => {
+    if (error) {
+      console.log('error response =>', error)
+      return;
+    } else {
+      const userData = response
+      console.log('response userData =>', userData)
 
+      state.GUser.push({ userData });
+      let datas = [];
+      datas.push({
+        mb_id: response.id,
+        value: [{
+          mb_name: response.name,
+          mb_phone: '',
+          picture: response.picture.data.url,
+          mb_email: response.email
+        }]
+      })
+      let body = {
+        mb_name: response.name,
+        mb_email: response.email,
+        mb_phone: '',
+        mb_username: response.email,
+        picture: response.picture.data.url
+      }
+      if (state.GUser.length > 0) {
+        setState(state => ({ ...state, linkLogin: 'facebook' }))
+        console.log('guser length: ', state.GUser.length)
+        console.log('data fb login', datas)
+
+        cekGLogin(response.email, body, datas, response.id, 'facebook')
+        const data = await AccessToken.getCurrentAccessToken();
+
+        if (!data) {
+          throw ('Something wrong obtaining access token')
+        }
+      }
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -134,7 +390,7 @@ const Register = (props) => {
         <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
         <Text style={styles.title}>Buat Akun</Text>
 
-        <View style={{ marginTop: toDp(-18), marginLeft:toDp(10) }}>
+        <View style={{ marginTop: toDp(-18), marginLeft: toDp(10) }}>
           <Text style={styles.textName}>Nama</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
@@ -214,7 +470,7 @@ const Register = (props) => {
               value={state.password}
               onChangeText={(password) => passlength(password)}
             />
-             <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
+            <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
               <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
             </Pressable>
             {state.valPass === true ? (
@@ -237,8 +493,8 @@ const Register = (props) => {
             style={styles.pressableLogin}>
             <Text style={styles.textLogin}>Masuk</Text>
           </Pressable>
-          <TouchableOpacity disabled={isDisable} style={[styles.pressableSignup, { backgroundColor: isDisable==true ?  '#4E5A64' : '#A7661B'} ]}
-                     onPress={() => validateInput()}>
+          <TouchableOpacity disabled={isDisable} style={[styles.pressableSignup, { backgroundColor: isDisable == true ? '#4E5A64' : '#A7661B' }]}
+            onPress={() => validateInput()}>
             <Text style={styles.textLogin}>Daftar</Text>
           </TouchableOpacity>
         </View>
@@ -268,7 +524,7 @@ const Register = (props) => {
             style={styles.checkbox}
           />
           <Pressable style={{ padding: 5, marginLeft: toDp(-10), height: toDp(48), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Terms')}>
-            <Text style={{padding: 4, fontSize: 12, color: '#FFFFFF' }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
+            <Text style={{ padding: 4, fontSize: 12, color: '#FFFFFF' }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -372,7 +628,7 @@ const styles = StyleSheet.create({
   viewRow: {
     paddingLeft: toDp(168),
     flexDirection: 'row',
-    marginLeft:toDp(10)
+    marginLeft: toDp(10)
   },
   textForgot: {
     color: 'white',

@@ -20,6 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 const cartCheckout = (props) => {
     const [selectedItems, setSelectedItems] = useState([]);
@@ -147,7 +148,8 @@ const cartCheckout = (props) => {
     const getAlumember = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let idember = uids;
-            axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+            axios.get(svr.url+'addres/?alus='+idember+'/'+svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
                 .then(result => {
                     let oid = result.data;
                     console.log('oid = ' + oid.data.length);
@@ -220,7 +222,8 @@ const cartCheckout = (props) => {
     const getCartProduk = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let aid = uids;
-            axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + aid)
+            axios.get(svr.url+'cart/?mb_id='+aid+'/'+svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + aid)
                 .then(response => {
                     if (response.data.status == 200) {
                         console.log('response produk cart =>', JSON.stringify(response))
@@ -297,7 +300,8 @@ const cartCheckout = (props) => {
 
     const getJasa = (rtl, i) => {
         setState(state => ({ ...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + rtl)
+        axios.get(svr.url+'ship-retail/retail/'+rtl+'/'+svr.api)
+        // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + rtl)
             .then(result => {
                 console.log('jasa kirim  ', result);
                 let { datas } = state;
@@ -326,7 +330,8 @@ const cartCheckout = (props) => {
 
         setState(state => ({ ...state, loading: true }))
         //console.log('https://market.pondok-huda.com/dev/react/order/cart/'+state.id)
-        axios.post('https://market.pondok-huda.com/dev/react/order/cart/fromcart', body)
+        axios.post(svr.url+'order/cart/fromcart/'+svr.api,body)
+        // axios.post('https://market.pondok-huda.com/dev/react/order/cart/fromcart', body)
             .then(response => {
 
                 console.log('CEK URL ===>' + JSON.stringify(response.data));

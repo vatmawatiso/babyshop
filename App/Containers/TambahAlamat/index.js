@@ -18,6 +18,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
+import { svr } from "../../Configs/apikey";
 
 const TambahAlamat = (props) => {
 
@@ -66,7 +67,8 @@ const TambahAlamat = (props) => {
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/city/')
+    axios.get(svr.url+'city/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/city/')
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
@@ -85,7 +87,8 @@ const TambahAlamat = (props) => {
 
   const refresh = () => {
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/' + state.mb_id)
+    axios.get(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/' + state.mb_id)
       .then(result => {
         if (result.data.status == 200) {
           const datas = {
@@ -131,7 +134,8 @@ const TambahAlamat = (props) => {
     // console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
+    axios.post(svr.url+'addres/'+svr.api,body)
+    // axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
       .then(response => {
 
         console.log('Post alamat ' + JSON.stringify(response));
@@ -250,7 +254,7 @@ const TambahAlamat = (props) => {
             </SafeAreaView>
           </View>
 
-          <Pressable>
+          <Pressable style={{ height: toDp(50), top: toDp(44) }}>
             <View style={styles.searchSection}>
               <Image style={styles.searchIcon} source={allLogo.icsearch} />
               <TextInput
@@ -263,7 +267,7 @@ const TambahAlamat = (props) => {
             </View>
           </Pressable>
 
-          <View style={[styles.contentMap, { marginTop: toDp(60) }]}>
+          <View style={styles.contentMap}>
             <View style={[styles.wrapper, { margin: toDp(10) }]}>
               <MapView style={styles.map} initialRegion={{
                 latitude: -7.7926359,
@@ -314,7 +318,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   searchSection: {
-    top: toDp(50),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -322,7 +325,6 @@ const styles = StyleSheet.create({
     width: toDp(335),
     height: toDp(48),
     borderRadius: toDp(10),
-    marginBottom: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -405,8 +407,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: toDp(335),
     height: toDp(200),
-    borderRadius: toDp(20),
-    bottom: toDp(5)
+    borderRadius: toDp(10),
+    bottom: toDp(5),
+    marginTop: toDp(60),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   textInput: {
     right: toDp(9),

@@ -18,6 +18,7 @@ import { toDp } from '@percentageToDP';
 import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
+import { svr } from "../../../Configs/apikey";
 
 
 const Alamattoko = (props) => {
@@ -129,7 +130,8 @@ const Alamattoko = (props) => {
   const getAlamatClient = () => {
     let mb_id = props.navigation.state.params.adr_mb_id;
     console.log('Let mb_id ===> ', mb_id)
-    axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
+    axios.get(svr.url+'addres/member/'+mb_id+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
       .then(result => {
         //hendle success
         if (result.data.status == 200) {
@@ -145,7 +147,8 @@ const Alamattoko = (props) => {
 
   const deleteAlamat = (adr_id) => {
     // const adr = props.navigation.state.params.adr_id
-    axios.delete('https://market.pondok-huda.com/dev/react/addres/'+adr_id)
+    axios.delete(svr.url+'addres/'+adr_id+'/'+svr.api)
+    // axios.delete('https://market.pondok-huda.com/dev/react/addres/'+adr_id)
     .then(response => {
       console.log('Alamat '+ JSON.stringify(response));
       if(response.data.status === 200 ){
@@ -162,15 +165,6 @@ const Alamattoko = (props) => {
     })
   }
  
-
-  const Address = [
-    {
-      id: '1',
-      nama: 'Vatmawati',
-      telepon: '083141520987',
-      alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
-    },
-  ]
 
   const displayName = (cty_name) =>{
     let count = '';

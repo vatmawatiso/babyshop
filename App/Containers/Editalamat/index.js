@@ -19,6 +19,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
+import { svr } from "../../Configs/apikey";
 
 
 const Editalamat = (props) => {
@@ -61,7 +62,8 @@ const Editalamat = (props) => {
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/city/')
+    axios.get(svr.url+'city/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/city/')
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
@@ -125,7 +127,8 @@ const Editalamat = (props) => {
 
   const refresh = () => {
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/' + state.mb_id)
+    axios.get(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
       .then(result => {
         if (result.data.status == 200) {
           const datas = {
@@ -173,7 +176,8 @@ const Editalamat = (props) => {
     setState(state => ({ ...state, loading: true }))
     const adr_id = props.navigation.state.params.adr_id
     console.log('Let adr_id ===> ', adr_id)
-    axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
+    axios.post(svr.url+'addres/'+adr_id+'/'+svr.api,body)
+    // axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
       .then(response => {
 
         console.log('-----ALAMAT=====>', JSON.stringify(body));

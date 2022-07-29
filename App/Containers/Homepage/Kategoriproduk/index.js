@@ -23,6 +23,7 @@ import Search from '@Search'
 import NavigatorService from '@NavigatorService'
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../../Configs/apikey";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get('window')
 
@@ -75,7 +76,8 @@ const Kategoriproduk = () => {
 
   const dataCat = () => {
     setState(state => ({ ...state, loading: true }))
-    Axios.get('https://market.pondok-huda.com/dev/react/category/')
+    Axios.get(svr.url+'category/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         if (result.data.status == 200) {
           console.log('result kategori =>', result)
@@ -94,7 +96,8 @@ const Kategoriproduk = () => {
 
   // get produk yg kotak2 besar
   const produk = () => {
-    Axios.get('https://market.pondok-huda.com/dev/react/product/')
+    Axios.get(svr.url+'product/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/product/')
       .then(result => {
         console.log('result', result);
         getCurrentWsh()
@@ -109,8 +112,8 @@ const Kategoriproduk = () => {
   const getCurrentWsh = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
-
-      Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
+      Axios.get(svr.url+'wishlist/oid/'+idmb+'/'+svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
         .then(result => {
           console.log('current Wishlish---->' + idmb);
           let oid = result.data;
@@ -142,7 +145,8 @@ const Kategoriproduk = () => {
         ws_prd_id: id
       }
       console.log('data -----=>', body);
-      Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      Axios.post(svr.url+'wishlist/'+svr.api,body)
+      // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
         .then(response => {
           console.log('wishlist -----=>', response.data);
 
@@ -167,7 +171,8 @@ const Kategoriproduk = () => {
       if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
         console.log('unloved' + id + '/' + ws_mb_id);
         console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
-        Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
+        Axios.delete(svr.url+'wishlist/delete/'+ws_mb_id+'/'+id+'/'+svr.api)
+        // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
           .then(response => {
             console.log('response =>', response.data.status)
             if (response.data.status == 200) {

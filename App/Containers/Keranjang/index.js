@@ -29,6 +29,7 @@ import { color } from "react-native-reanimated";
 import { ScrollView } from "react-native-gesture-handler";
 import NumberFormat from 'react-number-format';
 import Axios from "axios";
+import { svr } from "../../Configs/apikey";
 
 const Keranjang = (props) => {
   //// NOTE:
@@ -67,7 +68,8 @@ const Keranjang = (props) => {
   // get data produk di keranjang
   const getCart = () => {
     let mid = props.navigation.state.params.id
-    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+    Axios.get(svr.url+'cart/member/'+mid+'/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('response get cart' + JSON.stringify(response))
         if (response.data.status == 200) {
@@ -114,7 +116,8 @@ const Keranjang = (props) => {
   const getCartrRefresh = () => {
     //setState(state => ({ ...state, dataCart: []}))
     let mid = props.navigation.state.params.id
-    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+    Axios.get(svr.url+'cart/member/'+mid+'/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('response get cart', JSON.stringify(response))
         if (response.data.status == 200) {
@@ -155,7 +158,8 @@ const Keranjang = (props) => {
   // refresh total price barang2 yg ada di keranjang
   const refreshTotalPrice = () => {
     let mid = props.navigation.state.params.id
-    Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+    Axios.get(svr.url+'cart/member/'+mid+'/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('total', response.data)
         if (response.data.status == 200) {
@@ -172,7 +176,8 @@ const Keranjang = (props) => {
   // deleete keranjang
   const delCart = (cid, pid) => {
     console.log('Cart Id =>', cid + pid)
-    Axios.delete('https://market.pondok-huda.com/dev/react/cart/delete/' + cid + '/' + pid)
+    Axios.delete(svr.url+'cart/delete/'+cid+'/'+pid+'/'+svr.api)
+    // Axios.delete('https://market.pondok-huda.com/dev/react/cart/delete/' + cid + '/' + pid)
       .then(response => {
         console.log('response =>', response);
         if (response.data.status == 200) {
@@ -190,7 +195,8 @@ const Keranjang = (props) => {
   // delete all data cart
   const delCartAll = (id) => {
     console.log('Cart Id =>', id)
-    Axios.delete('https://market.pondok-huda.com/dev/react/cart/delall/' + id)
+    Axios.delete(svr.url+'cart/delall/'+id+'/'+svr.api)
+    // Axios.delete('https://market.pondok-huda.com/dev/react/cart/delall/' + id)
       .then(response => {
         console.log('response =>', response);
         if (response.data.status == 200) {
@@ -239,7 +245,8 @@ const Keranjang = (props) => {
       crt_id: crt_id
     }
     console.log('------>>', crd_id + '  |  ' + crd_qty + '  |  ' + prd_id + '  |  ' + crt_id + '  |  ' + value + '  |  ' + i)
-    Axios.post('https://market.pondok-huda.com/dev/react/cart/' + crd_id + '/', datas)
+    Axios.post(svr.url+'cart/'+crd_id+'/'+svr.api,datas)
+    // Axios.post('https://market.pondok-huda.com/dev/react/cart/' + crd_id + '/', datas)
       .then(response => {
         console.log('response data=>', datas)
 

@@ -19,6 +19,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
+import { svr } from "../../Configs/apikey";
 
 const Tokobangunan = (props) => {
 
@@ -31,7 +32,8 @@ const Tokobangunan = (props) => {
   }, [])
 
   const Tokobangunan = () => {
-    axios.get('https://market.pondok-huda.com/dev/react/retail/')
+    axios.get(svr.url+'retail/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/retail/')
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))

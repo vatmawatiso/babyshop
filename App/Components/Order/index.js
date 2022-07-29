@@ -40,7 +40,7 @@ class Order extends Component {
           >
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                <Image source={allLogo.icarrow} style={styles.icBack} />
+                <Image source={allLogo.Left} style={styles.icBack} />
               </TouchableOpacity>
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
@@ -120,12 +120,10 @@ const styles = StyleSheet.create({
     tintColor:'black'
   },
   icBack: {
-    marginHorizontal: toDp(8),
-    width: toDp(24),
-    height: toDp(24),
+    width: toDp(38),
+    height: toDp(38),
     resizeMode: 'contain',
     tintColor: 'black',
-    rotation: toDp(180)
   },
   title: {
     color: 'black',

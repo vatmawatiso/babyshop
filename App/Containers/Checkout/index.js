@@ -20,6 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 const Checkout = (props) => {
 
@@ -192,7 +193,8 @@ const Checkout = (props) => {
     const getAlumember = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let idember = uids;
-            axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+            axios.get(svr.url+'addres/?alus='+idember+'/'+svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
                 .then(result => {
                     let oid = result.data;
                     console.log('oid = ' + oid.data.length);
@@ -317,7 +319,8 @@ const Checkout = (props) => {
 
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
+        axios.get(svr.url+'ship-retail/retail/'+state.retail+'/'+svr.api)
+        // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
                 console.log('jasa kirim  ' + JSON.stringify(result));
                 // setState(state => ({ ...state, datas: result.data.data }))
@@ -350,7 +353,8 @@ const Checkout = (props) => {
         console.log('BODY' + JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        axios.post('https://market.pondok-huda.com/dev/react/order/', body)
+        axios.post(svr.url+'order/'+svr.api,body)
+        // axios.post('https://market.pondok-huda.com/dev/react/order/', body)
             .then(result => {
                 console.log('Cek Result----------->' + JSON.stringify(result));
                 if (result.data.status == 201) {

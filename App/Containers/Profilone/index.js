@@ -23,6 +23,7 @@ import Loader from '@Loader'
 import Axios from "axios";
 import { LoginManager } from "react-native-fbsdk";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { svr } from "../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -119,10 +120,11 @@ const Profilone = (props) => {
   const getRetail = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idm = uids;
-    Axios.get('https://market.pondok-huda.com/dev/react/retail/?mb_id='+ idm)
+      Axios.get(svr.url+'retail/member/'+idm+'/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/retail/?mb_id='+ idm)
       .then(result => {
-        // console.log('cek result ===> '+ JSON.stringify(result));
-          setState(state => ({ ...state, retail_sts : result.data.data[0].rtl_status })) 
+        console.log('cek result ===> '+ JSON.stringify(result.data.data[0].rtl_status));
+          setState(state => ({ ...state, retail_sts : result.data.data[0].rtl_status})) 
 
       }).catch(err => {
         //console.log(err)
@@ -165,8 +167,10 @@ const getStatus = () => {
   const getAlumember = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idember = uids;
-      Axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+      Axios.get(svr.url+'addres/alus/'+idember+'/'+svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
         .then(result => {
+          // console.log('cek alus ===> '+ JSON.stringify(result));
           let oid = result.data;
           console.log('oid = ' + oid.data.length);
 
@@ -438,12 +442,12 @@ const getStatus = () => {
                 <Text style={{ fontSize: toDp(13), }}>Belum Bayar</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ marginHorizontal: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikemas' })}>
+              <TouchableOpacity style={{ marginHorizontal: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikemas', mb_id: state.mb_id  })}>
                 <Image source={allLogo.kemas} style={styles.icon} />
                 <Text style={{ fontSize: toDp(13) }}>Dikemas</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ marginHorizontal: toDp(10), left: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikirim' })}>
+              <TouchableOpacity style={{ marginHorizontal: toDp(10), left: toDp(10) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Dikirim', mb_id: state.mb_id  })}>
                 <Image source={allLogo.kirim} style={{ width: toDp(38), height: toDp(38), left: toDp(2) }} />
                 <Text style={{ fontSize: toDp(13) }}>Dikirim</Text>
               </TouchableOpacity>

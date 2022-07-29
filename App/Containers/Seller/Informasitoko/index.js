@@ -16,6 +16,7 @@ import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
 import { TextInput } from "react-native-gesture-handler";
+import { svr } from "../../../Configs/apikey";
 
 const Informasitoko = (props) => {
   const [src, setSrc] = useState(null);
@@ -61,7 +62,7 @@ const Informasitoko = (props) => {
         picture: data.value.picture,
         id_retail: data.retail_id,
       }))
-      console.log('cek state member----------->' + JSON.stringify(state.id_retail));
+      console.log('cek state member----------->' + JSON.stringify(data.id_retail));
 
 
     }).catch(err => {
@@ -107,7 +108,8 @@ const Informasitoko = (props) => {
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail)
+    axios.get(svr.url+'retail/'+state.id_retail+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail)
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))

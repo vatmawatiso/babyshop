@@ -23,6 +23,7 @@ import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 
 const { width, height } = Dimensions.get('window')
@@ -68,7 +69,8 @@ const Produk = (props) => {
 
   const getProdukDetailbyId = () => {
     let pid = props.navigation.state.params.value
-    Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+    Axios.get(svr.url+'product/'+pid+'/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
 
         console.log('PRODUK =====>' + JSON.stringify(response));
@@ -113,7 +115,8 @@ const Produk = (props) => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
       let pid = props.navigation.state.params.value
-      Axios.get('https://market.pondok-huda.com/dev/react/wishlist/get/' + idmb + '/' + pid)
+      Axios.get(svr.api+'wishlist/get/'+idmb+'/'+pid+'/'+svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/get/' + idmb + '/' + pid)
         .then(result => {
           console.log('current Wishlish---->' + JSON.stringify(result.data.data));
           let oid = result.data;
@@ -143,8 +146,8 @@ const Produk = (props) => {
       ws_rtl_id: retail,
       ws_prd_id: pid
     }
-
-    Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+    Axios.post(svr.url+'wishlist/'+svr.api,body)
+    // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
       .then(response => {
         console.log('wishlist -----=>', response.data);
 
@@ -168,7 +171,8 @@ const Produk = (props) => {
     // if(selectItems.length>0){
     //     if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
     console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' + idprd + '/' + state.id)
-    Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + state.id + '/' + idprd)
+    Axios.delete(svr.url+'wishlist/delete/'+state.id+'/'+idprd+'/'+svr.api)
+    // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + state.id + '/' + idprd)
       .then(response => {
         console.log('response-unlike =>', response.data)
         if (response.data.status == 200) {
@@ -208,8 +212,8 @@ const Produk = (props) => {
       alert('Melampaui stok!')
       setState(state => ({ ...state, loading: false}))
     }else{     
-
-    Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
+      Axios.post(svr.url+'cart/'+svr.api,body)
+    // Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
       .then(response => {
         if (response.data.status == 201) {
           // console.log('response =>' + JSON.stringify(response))

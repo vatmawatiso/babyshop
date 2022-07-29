@@ -20,6 +20,7 @@ import MapView, { Marker } from 'react-native-maps';
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 import { validatePathConfig } from "@react-navigation/native";
+import { svr } from "../../../Configs/apikey";
 
 
 const Tambahalamatseller = (props) => {
@@ -42,7 +43,8 @@ const Tambahalamatseller = (props) => {
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/city/')
+    axios.get(svr.url+'city/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/city/')
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
@@ -84,7 +86,8 @@ const Tambahalamatseller = (props) => {
 
   const refresh = () => {
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/' + state.mb_id)
+    axios.get(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/MB000000033/' + state.mb_id)
       .then(result => {
         if (result.data.status == 200) {
           const datas = {
@@ -130,7 +133,8 @@ const Tambahalamatseller = (props) => {
     // console.log('Body Alamat====> '+ JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
+    axios.post(svr.url+'addres/'+svr.api,body)
+    // axios.post('https://market.pondok-huda.com/dev/react/addres/', body)
       .then(response => {
 
         console.log('-----ALAMAT=====>' + JSON.stringify(response.data.status));

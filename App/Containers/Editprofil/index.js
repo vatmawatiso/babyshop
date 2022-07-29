@@ -20,6 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Linking } from "react-native";
 import Modal from "react-native-modal";
 import axios from 'axios';
+import { svr } from "../../Configs/apikey";
 
 const Editprofil = (props) => {
 
@@ -100,7 +101,8 @@ const Editprofil = (props) => {
       mb_type: state.mb_type,
       picture: ''
     }
-    axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/', body)
+    axios.post(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api,body)
+    // axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/', body)
       .then(result => {
         if (result.data.status == 200) {
           console.log('result update' + JSON.stringify(result));
@@ -116,7 +118,8 @@ const Editprofil = (props) => {
 
   const refresh = async () => {
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/')
+    axios.get(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/')
       .then(result => {
         console.log('mb_id refresh' + state.mb_id)
         if (result.data.status == 200) {
@@ -192,7 +195,8 @@ const Editprofil = (props) => {
       type: 'image/jpg'
     })
     console.log('THIS => ', imageDta);
-    fetch('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/',
+    fetch(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api,
+    // fetch('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id + '/',
       {
         headers: {
           'Accept': 'application/json',

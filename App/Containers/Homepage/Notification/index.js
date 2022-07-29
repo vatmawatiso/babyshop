@@ -15,6 +15,7 @@ import { toDp } from '@percentageToDP';
 import  Header  from '@Header'
 import { Card } from "react-native-paper";
 import Axios from "axios";
+import { svr } from "../../../Configs/apikey";
  
 const Notification = (props) => {
 
@@ -30,7 +31,8 @@ const Notification = (props) => {
 
   const getNotif = () => {
     setState(state => ({...state, loading: true}));
-    Axios.get('https://market.pondok-huda.com/dev/react/notifikasi/')
+    Axios.get(svr.url+'notifikasi/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/notifikasi/')
     .then(result => {
       console.log('result notif =>', result)
       if(result.data.status == 200){

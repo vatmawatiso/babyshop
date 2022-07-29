@@ -17,7 +17,10 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import Axios from 'axios';
+import { svr } from '../../Configs/apikey';
+
 const { width, height } = Dimensions.get('window')
+
 const Cari = () => {
   const [filtered, setFiltered] = useState([]);
   const [masterData, setmasterData] = useState([]);
@@ -53,7 +56,8 @@ const Cari = () => {
  
 // ambil adata produknya
 const getProduk = () => {
-  Axios.get('https://market.pondok-huda.com/dev/react/product/')
+  Axios.get(svr.url+'product/'+svr.api)
+  // Axios.get('https://market.pondok-huda.com/dev/react/product/')
     .then(result => {
       console.log('result', result);
       // setState(state => ({...state, dataSearch: result.data.data}))
@@ -71,8 +75,8 @@ const getProduk = () => {
     const getCurrentWsh =  () =>{
       AsyncStorage.getItem('uid').then(uids => {
         let idmb = uids;
- 
-          Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/'+idmb)
+        Axios.get(svr.url+'wishlist/oid/'+idmb+'/'+svr.api)
+          // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/'+idmb)
             .then(result => {
               console.log('current Wishlish---->'+state.id);
               let oid = result.data;
@@ -105,7 +109,8 @@ const getProduk = () => {
               ws_prd_id: id
           }
           console.log('data -----=>', body);
-              Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+          Axios.post(svr.url+'wishlist/'+svr.api,body)
+              // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
               .then(response => {
                 console.log('wishlist -----=>', response.data);
  
@@ -131,7 +136,8 @@ const getProduk = () => {
       if(selectItems.length>0){
           if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
           console.log('unloved');
-            Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/'+ws_mb_id+'/'+id)
+          Axios.delete(svr.url+'wishlist/delete/'+ws_mb_id+'/'+id+'/'+svr.api)
+            // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/'+ws_mb_id+'/'+id)
             .then(response => {
               console.log('response =>', response)
               if(response.data.status == 200) {

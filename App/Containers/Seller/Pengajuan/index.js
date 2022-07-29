@@ -18,6 +18,7 @@ import { TextInput } from "react-native-gesture-handler";
 import axios from 'axios';
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { svr } from "../../../Configs/apikey";
 
 const Pengajuan = (props) => {
     const [src, setSrc] = useState(null);
@@ -59,7 +60,8 @@ const Pengajuan = (props) => {
 
     const city = () => {
         // setState(state => ({...state, loading: true }))
-        axios.get('https://market.pondok-huda.com/dev/react/city/')
+        axios.get(svr.url+'city/'+svr.api)
+        // axios.get('https://market.pondok-huda.com/dev/react/city/')
             .then(result => {
                 // handle success
                 //alert(JSON.stringify(result))
@@ -128,7 +130,8 @@ const Pengajuan = (props) => {
         console.log('CEK BODY ===> ' + JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        axios.post('https://market.pondok-huda.com/dev/react/retail/', body)
+        axios.post(svr.url+'retail/'+svr.api,body)
+        // axios.post('https://market.pondok-huda.com/dev/react/retail/', body)
             .then(response => {
 
                 console.log('CEK URL ===>' + JSON.stringify(response.data.status));

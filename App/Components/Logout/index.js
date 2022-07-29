@@ -59,7 +59,7 @@ class Logout extends Component {
           >
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                <Image source={allLogo.icarrow} style={styles.icBack} />
+                <Image source={allLogo.Left} style={styles.icBack} />
               </TouchableOpacity>
               <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(145) }]}>{title(this.props.title)}</Text>
               
@@ -122,23 +122,11 @@ const styles = StyleSheet.create({
   touchHeader: {
     padding: toDp(4),
   },
-  cart: {
-    left: toDp(100),
-    width: toDp(32),
-    height: toDp(32)
-  },
-  nav: {
-    left: toDp(100),
-    width: toDp(28),
-    height: toDp(28),
-  },
   icBack: {
-    marginHorizontal: toDp(8),
-    width: toDp(24),
-    height: toDp(24),
+    width: toDp(38),
+    height: toDp(38),
     resizeMode: 'contain',
-    tintColor: 'black',
-    rotation: toDp(180)
+    tintColor: 'black'
   },
   title: {
     color: 'black',

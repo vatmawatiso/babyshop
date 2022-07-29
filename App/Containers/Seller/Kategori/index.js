@@ -17,15 +17,17 @@ import BackHeader from '@BackHeader'
 import Profiltoko from '@Profiltoko'
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
+import { svr } from "../../../Configs/apikey";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Kategori = (props) => {
   const [src, setSrc] = useState(null);
 
   const [state, setState] = useState({
-    mb_id:'',
+    mb_id: '',
     picture: '../../../Assets/img/tzuyu.jpg',
     mb_name: '',
-    mb_type:'',
+    mb_type: '',
     mb_phone: '',
     mb_email: '',
     datas: [],
@@ -33,7 +35,7 @@ const Kategori = (props) => {
     isError: false,
     modalVisible: false,
     option: {
-      width:750,
+      width: 750,
       height: 750,
       cropping: true,
     }
@@ -58,7 +60,7 @@ const Kategori = (props) => {
         picture: data.value.pictures,
         retail_id: data.retail_id,
       }))
-      console.log('RTL_ID '+ JSON.stringify(state.retail_id));
+      console.log('RTL_ID ' + JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)
@@ -72,7 +74,7 @@ const Kategori = (props) => {
       nama: 'TB Jaya Abadi Bandung',
       memberUser: 'Member Classic',
       pengikutUser: 'Pengikut (100)',
-      mengikutiUser : 'Mengikuti (4)',
+      mengikutiUser: 'Mengikuti (4)',
       type: 'Pembeli',
       image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
     },
@@ -87,7 +89,8 @@ const Kategori = (props) => {
 
   const category = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/category/')
+    axios.get(svr.url + 'category/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, datas: result.data.data }))
@@ -102,22 +105,23 @@ const Kategori = (props) => {
   }
 
   const getKategori = (value, ctg_id, ctg_name) => {
-    NavigatorService.navigate('Detailkategori', {value, ctg_id: ctg_id, ctg_name: ctg_name})
-}
+    NavigatorService.navigate('Detailkategori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
+  }
 
 
   const ListKategori = (item, index, onPress) => {
     return (
-      <View style={{ marginTop: toDp(0), width: '100%' }}>
-        <View style={{ flexDirection: 'row', marginHorizontal: toDp(0), height: toDp(50), alignItems: 'center', justifyContent: 'space-between' }}>
+      <View style={{ marginTop: toDp(0), width: '100%', right: toDp(4), marginBottom: toDp(10), }}>
+        <View style={styles.viewKategori}>
           <TouchableOpacity style={styles.btnKategori} onPress={() => onPress()}>
-            <View style={{ right: toDp(0) }}>
-              <Text style={{ fontSize: toDp(13), left: toDp(0) }}>{item.ctg_name}</Text>
+            <View style={styles.viewKate}>
+              <Text style={{ fontSize: toDp(13), marginLeft: toDp(20), }}>{item.ctg_name}</Text>
             </View>
           </TouchableOpacity>
-          <Image source={allLogo.iclineright} style={styles.iclineright} />
+          <View style={styles.viewBuka}>
+            <Image source={allLogo.iclineblack} style={styles.iclineright} />
+          </View>
         </View>
-        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0), width: toDp(330), left: toDp(2.5) }} />
       </View>
     )
   }
@@ -131,41 +135,10 @@ const Kategori = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      {/* <View style={styles.bodyProfil}>
-        <View style={styles.profil1}>
-          <Image source={state.picture ? { uri: state.picture } :
-            require('../../../Assets/img/tzuyu.jpg')}
-            style={styles.imgProfil} />
-          <View style={{ marginLeft: toDp(80) }}>
-            <Text style={styles.txtProfil1}>{state.mb_name}</Text>
-          </View>
-        </View>
-
-        <Text style={styles.txtMember}>{DATA[0].memberUser}</Text>
-
-        <View style={styles.profil2}>
-          <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
-          <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
-        </View>
-
-        <View style={styles.profil3}>
-          <Pressable style={styles.btnPembayaran}>
-            <Image source={allLogo.wallet} style={styles.wallet} />
-            <Text style={styles.txtPembayaran}>Pembayaran</Text>
-          </Pressable>
-
-          <Pressable style={styles.btnPengiriman} onPress={() => NavigatorService.navigate('Pengiriman')} >
-            <Image source={allLogo.store} style={styles.store} />
-            <Text style={styles.txtPengiriman}>Pengiriman</Text>
-          </Pressable>
-
-        </View>
-      </View> */}
-
       <View style={styles.BodyKategori}>
-        <View style={{ top: toDp(10), justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ top: toDp(10), }}>
 
-          <View style={{ marginTop: toDp(0) }}>
+          <View>
             <FlatList
               numColumns={1}
               data={state.datas}
@@ -174,7 +147,7 @@ const Kategori = (props) => {
                   ListKategori(item, index, () => getKategori(value, item.ctg_id, item.ctg_name))
                 )
               }}
-              ListFooterComponent={() => <View style={{ height: toDp(60), width: toDp(335) }} />}
+              ListFooterComponent={() => <View style={{ height: toDp(180), }} />}
             />
           </View>
         </View>
@@ -195,97 +168,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
-  bodyProfil: {
-    backgroundColor:'#2A334B',
-    width:toDp(335),
-    height:toDp(116),
-    borderRadius:toDp(10),
-    top:toDp(10),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      
-      elevation: 2,
-  },
-  imgProfil: {
-    height: toDp(50),
-    width: toDp(50),
-    top: toDp(25),
-    left: toDp(25),
-    borderRadius: toDp(10)
-  },
-  profil1: {
-    flexDirection:'row',
-    right:20
-    
-  },
-  profil2: {
-    flexDirection:'row',
-    justifyContent:'center',
-    right:toDp(40),
-  },
-  txtProfil1: {
-    // marginLeft:toDp(25),
-    marginTop:toDp(20),
-    fontSize:toDp(13),
-    color:'white'
-  }, 
-  txtMember: {
-    textAlign:'center',
-    right:toDp(45),
-    fontSize:toDp(12),
-    color:'white'
-  },
-  txtMengikuti: {
-    left:toDp(10),
-    fontSize:toDp(12),
-    color:'white'
-  },
-  txtPengikut: {
-    fontSize:toDp(12),
-    color:'white'
-  },
-  profil3: {
-    alignItems:'flex-end',
-  },
-  btnPembayaran: {
-    bottom:toDp(60),
-    width:toDp(120),
-    height:toDp(25)
-  },
-  btnPengiriman: {
-    bottom:toDp(40),
-    width:toDp(120),
-    height:toDp(25),
-  },
-  txtPembayaran: {
-    bottom:toDp(20),
-    left:toDp(30),
-    color:'white'
-  },
-  txtPengiriman: {
-    bottom:toDp(20),
-    left:toDp(30),
-    color:'white'
-  },
-  title: {
-    color: 'black',
-    fontSize: toDp(14),
-    marginLeft: toDp(8),
-
-  },
-  BodyKategori: {
-    width: toDp(335),
-    height: toDp(470),
+  viewKate: {
+    width: toDp(314),
+    height: toDp(48),
+    justifyContent: 'center',
     borderRadius: toDp(10),
-    backgroundColor:'#f8f9f9',
-    top: toDp(20),
-    flexDirection: 'column',
+  },
+  viewKategori: {
+    flexDirection: 'row', 
+    marginHorizontal: toDp(0), 
+    height: toDp(50), 
+    alignItems: 'center', 
     justifyContent: 'space-between',
+    backgroundColor:'white', 
+    borderRadius:toDp(10),    
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2
+  },
+  viewBuka: {
+    backgroundColor: '#F8f9f9',
+    width: toDp(20),
+    height: toDp(20),
+    right: toDp(30),
+    alignItems: 'center',
+    backgroundColor: '#fcd4c7',
+    justifyContent: 'center',
+    borderRadius: toDp(20),
+  },
+  bodyProfil: {
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(116),
+    borderRadius: toDp(10),
+    top: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -296,16 +218,112 @@ const styles = StyleSheet.create({
 
     elevation: 2,
   },
+  imgProfil: {
+    height: toDp(50),
+    width: toDp(50),
+    top: toDp(25),
+    left: toDp(25),
+    borderRadius: toDp(10)
+  },
+  profil1: {
+    flexDirection: 'row',
+    right: 20
+
+  },
+  profil2: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    right: toDp(40),
+  },
+  txtProfil1: {
+    // marginLeft:toDp(25),
+    marginTop: toDp(20),
+    fontSize: toDp(13),
+    color: 'white'
+  },
+  txtMember: {
+    textAlign: 'center',
+    right: toDp(45),
+    fontSize: toDp(12),
+    color: 'white'
+  },
+  txtMengikuti: {
+    left: toDp(10),
+    fontSize: toDp(12),
+    color: 'white'
+  },
+  txtPengikut: {
+    fontSize: toDp(12),
+    color: 'white'
+  },
+  profil3: {
+    alignItems: 'flex-end',
+  },
+  btnPembayaran: {
+    bottom: toDp(60),
+    width: toDp(120),
+    height: toDp(25)
+  },
+  btnPengiriman: {
+    bottom: toDp(40),
+    width: toDp(120),
+    height: toDp(25),
+  },
+  txtPembayaran: {
+    bottom: toDp(20),
+    left: toDp(30),
+    color: 'white'
+  },
+  txtPengiriman: {
+    bottom: toDp(20),
+    left: toDp(30),
+    color: 'white'
+  },
+  title: {
+    color: 'black',
+    fontSize: toDp(14),
+    marginLeft: toDp(8),
+
+  },
+  // BodyKategori: {
+  //   width: toDp(335),
+  //   height: toDp(470),
+  //   borderRadius: toDp(10),
+  //   backgroundColor:'#f8f9f9',
+  //   top: toDp(20),
+  //   flexDirection: 'column',
+  //   justifyContent: 'space-between',
+  //   shadowColor: "#000",
+  //   shadowOffset: {
+  //     width: 0,
+  //     height: 1,
+  //   },
+  //   shadowOpacity: 0.20,
+  //   shadowRadius: 1.41,
+
+  //   elevation: 2,
+  // },
   btnKategori: {
     left: toDp(15),
     width: toDp(310),
-    height: toDp(40),
-    justifyContent: 'center'
+    height: toDp(48),
+    borderRadius:toDp(10),
+    justifyContent: 'center',
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+
+    // elevation: 2,
+    // backgroundColor:'yellow'
   },
   iclineright: {
-    width: toDp(10),
-    height: toDp(15),
-    right: toDp(10)
+    width: toDp(13),
+    height: toDp(13),
+    tintColor: '#F83308',
   },
   button: {
     flexDirection: 'row',
@@ -324,16 +342,16 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   store: {
-    width: toDp(24), 
-    height: toDp(24), 
+    width: toDp(24),
+    height: toDp(24),
     resizeMode: 'contain',
-    tintColor:'#f83308'
+    tintColor: '#f83308'
   },
   wallet: {
-    width: toDp(24), 
-    height: toDp(24), 
+    width: toDp(24),
+    height: toDp(24),
     resizeMode: 'contain',
-    tintColor:'#f83308'
+    tintColor: '#f83308'
   }
 });
 

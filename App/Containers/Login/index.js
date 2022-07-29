@@ -121,7 +121,8 @@ const Login = (props) => {
       mb_email: email
     }
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/login-member/sosmed', data)
+    axios.post(svr.url+'login-member/sosmed/'+svr.api,data)
+    // axios.post('http://192.168.43.234/dev/react/login-member/sosmed/7J54SR2X7F56VPOP3WXFYBLI171P68C53WNSSPQQ6/', data)
       .then(response => {
         console.log('response cek login =>', response)
         if (response.data.status == 200) {
@@ -166,7 +167,8 @@ const Login = (props) => {
   const registrasiUser = (body, id, datas, login) => {
     setState(state => ({ ...state, loading: true }))
     // console.log('body'+ JSON.stringify(body))
-    axios.post('https://market.pondok-huda.com/dev/react/registrasi-member/', body)
+    axios.post(svr.url+'registrasi-member/'+svr.api,body)
+    // axios.post('http://192.168.43.234/dev/react/registrasi-member/7J54SR2X7F56VPOP3WXFYBLI171P68C53WNSSPQQ6/', body)
       .then(response => {
         console.log('response =>', id)
         // console.log('response resgiter =>', datas);
@@ -286,7 +288,8 @@ const Login = (props) => {
     console.log('BODY' + JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/login-member/', body)
+    axios.post(svr.url+'login-member/'+svr.api,body)
+    // axios.post('http://192.168.43.234/dev/react/login-member/7J54SR2X7F56VPOP3WXFYBLI171P68C53WNSSPQQ6/', body)
       .then(result => {
         console.log('Cek Result----------->' + JSON.stringify(result));
         if (result.data.status == 200) {
@@ -393,7 +396,7 @@ const Login = (props) => {
           <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
         </Pressable>
       </View>
-      <Pressable style={{ left: toDp(115), top: toDp(10) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+      <Pressable style={{ left: toDp(112), top: toDp(10) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
         <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
       </Pressable>
 

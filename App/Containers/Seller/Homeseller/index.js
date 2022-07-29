@@ -192,7 +192,7 @@ const Homeseller = (props) => {
 
 
         <View style={styles.viewBtnhomeseller}>
-          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Informasitoko')}>
+          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Informasitoko', {retail_id: state.retail_id})}>
             <View style={styles.viewBtntoko}>
               <Image source={allLogo.store2} style={styles.imgToko} />
             </View>

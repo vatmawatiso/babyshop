@@ -17,6 +17,7 @@ import NavigatorService from '@NavigatorService'
 import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
+import { svr } from "../../../Configs/apikey";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -56,8 +57,8 @@ const Dikemas = (props) => {
     const getOrder = () => {
         let mb = props.mbid;
         let content = props.con;
-
-        axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+        axios.get(svr.url+'order/getodr/'+mb+'/'+content+'/'+svr.api)
+        // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {
                 //hendle success
                 console.log('full ===> ' + JSON.stringify(result.data.data));

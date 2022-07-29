@@ -19,39 +19,9 @@ import Order from '@Order'
 import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
+import { svr } from "../../../Configs/apikey";
 
 const Orderdetail = (props) => {
-    const DATA = [
-        {
-            id: '2938492',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Selesai',
-            produk: 'Gerobak Pasir',
-            harga: 'Rp 500.000',
-            jumlah: '2',
-            total: 'Rp 800.0000',
-            konfirmasi: 'Dibatalkan Pembeli',
-            pembayaran: 'BCA',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
-
-    const Pengiriman = [
-        {
-            id: '1',
-            kurir: 'Rudi Prakasa',
-            NoResi: '8344389479234',
-        },
-    ]
-
-    const Address = [
-        {
-            id: '1',
-            nama: 'Vatmawati',
-            telepon: '083141520987',
-            alamat: 'Jl KiSulaiman Kota Cirebon'
-        },
-    ]
 
     const [state, setState] = useState({
         datas: [],
@@ -119,7 +89,8 @@ const Orderdetail = (props) => {
     const getOdt = () => {
         let odrid = props.navigation.state.params.odr_id;
         console.log('odrid ', odrid);
-        axios.get('https://market.pondok-huda.com/dev/react/order/odt/' + odrid)
+        axios.get(svr.url+'order/odt/'+odrid+'/'+svr.api)
+        // axios.get('https://market.pondok-huda.com/dev/react/order/odt/' + odrid)
             .then(result => {
 
                 let data = result.data.data;

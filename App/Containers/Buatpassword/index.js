@@ -18,6 +18,7 @@ import NavigatorService from '@NavigatorService';
 import Loader from '@Loader'
 import axios from "axios";
 import { sha1 } from "react-native-sha1";
+import { svr } from "../../Configs/apikey";
 
 const Buatpassword = (props) => {
 
@@ -73,7 +74,8 @@ const Buatpassword = (props) => {
         const data = {
             mb_username: mb_username
         }
-        axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', data)
+        axios.post(svr.url+'forgot-password/'+svr.api,data)
+        // axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', data)
             .then(result => {
                 console.log('result1 =>', result)
                 if (result.data.status == 200) {
@@ -171,7 +173,8 @@ const Buatpassword = (props) => {
             id: state.mb_id,
             mb_password: state.mb_password,
         }
-        axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', body)
+        axios.post(svr.url+'forgot-password/'+svr.api,body)
+        // axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', body)
             .then(result => {
                 console.log('result ----------->', result);
                 if (result.data.status == 200) {

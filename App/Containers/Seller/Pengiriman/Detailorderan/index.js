@@ -19,6 +19,7 @@ import Order from '@Order'
 import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
+import { svr } from "../../../../Configs/apikey";
 
 const Detailorderan = (props) => {
 
@@ -88,7 +89,8 @@ const Detailorderan = (props) => {
     const getOdt = () => {
         let odrid = props.navigation.state.params.odr_id;
         console.log('odrid ', odrid);
-        axios.get('https://market.pondok-huda.com/dev/react/order/odt/' + odrid)
+        // axios.get('https://market.pondok-huda.com/dev/react/order/odt/' + odrid)
+        axios.get(svr.url+'order/odt/'+odrid+'/'+svr.api)
             .then(result => {
 
                 let data = result.data.data;

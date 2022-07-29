@@ -17,6 +17,7 @@ import NavigatorService from '@NavigatorService'
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from 'axios';
+import { svr } from "../../../Configs/apikey";
 
 const Settingtoko = (props) => {
   const [src, setSrc] = useState(null);
@@ -33,27 +34,27 @@ const Settingtoko = (props) => {
   })
 
   useEffect(() => {
-
+    
     AsyncStorage.getItem('member').then(response => {
-      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+      // console.log('Profil----------->'+ JSON.stringify(response));
 
       let data = JSON.parse(response);
-      //const val = JSON.stringify(data);
+      // const val = JSON.stringify(data);
 
-      // console.log('Homeseller ==> '+ JSON.stringify(data));
+      // console.log('Profilefiks----------->' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
-        id: data.mb_id,
+        mb_id: data.mb_id,
         mb_name: data.value.mb_name,
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
         mb_type: data.value.mb_type,
         picture: data.value.picture,
-        retail_id: data.retail_id,
+        id_retail: data.retail_id,
       }))
-      console.log('RTL ID ' + JSON.stringify(state.retail_id));
-      //  console.log('name '+ JSON.stringify(state.mb_name));
+      console.log('id retail ' + JSON.stringify(state.id_retail));
+      // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {
       console.log('err', err)
@@ -83,7 +84,8 @@ const Settingtoko = (props) => {
 
   const getJasa = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/shipping/')
+    axios.get(svr.url+'shipping/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/shipping/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, datas: result.data.data }))

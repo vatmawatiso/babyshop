@@ -20,6 +20,7 @@ import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../../Configs/apikey";
 
 const Layananjasa = (props) => {
   const [src, setSrc] = useState(null);
@@ -72,7 +73,8 @@ const Layananjasa = (props) => {
 
   const InputpayJasa = async (body) => {
     setState(state => ({ ...state, loading: true }))
-    axios.post('https://market.pondok-huda.com/dev/react/ship-retail/', body)
+    axios.post(svr.url+'ship-retail/'+svr.api,body)
+    // axios.post('https://market.pondok-huda.com/dev/react/ship-retail/', body)
       .then(result => {
         if (result.data.status == 200) {
           setState(state => ({ ...state, loading: false }))
@@ -94,7 +96,8 @@ const Layananjasa = (props) => {
 
   const getJasa = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/shipping/')
+    axios.get(svr.url+'shipping/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/shipping/')
       .then(result => {
         // handle success
         // console.log('get jasa');
@@ -113,7 +116,8 @@ const Layananjasa = (props) => {
   const getMyJasa = () => {
     let rtl_id = props.navigation.state.params.id_retail;
     console.log('cek rtl_id' + rtl_id);
-    axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + rtl_id)
+    axios.get(svr.url+'ship-retail/retail/'+rtl_id+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + rtl_id)
       .then(result => {
         if (result.data.status == 200) {
           // handle success
@@ -207,6 +211,11 @@ const Layananjasa = (props) => {
               placeholder={'Masukan harga'}
               placeholderTextColor={'#4E5A64'}
               multiline={false}
+              value={
+
+                state.textInputs[index]
+
+              }
               onChangeText={text => {
                 let { textInputs } = state;
                 textInputs[index] = text;
@@ -236,11 +245,7 @@ const Layananjasa = (props) => {
                 }
 
               }}
-              value={
-
-                state.textInputs[index]
-
-              }
+              
             />
           </View>
 
@@ -371,15 +376,15 @@ const styles = StyleSheet.create({
     height: toDp(80),
     right: toDp(8),
     backgroundColor: '#f8f9f9',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
 
-    elevation: 3,
+    // elevation: 3,
   },
   courier: {
     backgroundColor: '#C4C4C4',

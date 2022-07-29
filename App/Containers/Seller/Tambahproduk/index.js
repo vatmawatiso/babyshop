@@ -21,6 +21,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import ImagePicker from 'react-native-image-crop-picker'
 import { Linking } from "react-native";
 import axios from 'axios';
+import { svr } from "../../../Configs/apikey";
 // import { Modal } from "react-native-paper";
 
 const Tambahproduk = (props) => {
@@ -104,7 +105,8 @@ const Tambahproduk = (props) => {
 
   const category = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/category/')
+    axios.get(svr.url+'category/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, kategori: result.data.data }))
@@ -127,7 +129,8 @@ const Tambahproduk = (props) => {
 
   const getKondisi = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
+    axios.get(svr.url+'kondisi/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, kondisi: result.data.data }))
@@ -196,7 +199,8 @@ const Tambahproduk = (props) => {
     });
     console.log('---INI----->' + JSON.stringify(state.fileUri.path));
     await axios({
-      url: 'https://market.pondok-huda.com/dev/react/product/',
+      url: svr.url+'product/'+svr.api,
+      // url: 'https://market.pondok-huda.com/dev/react/product/',
       method: 'POST',
       data: formData,
       headers: {
@@ -236,7 +240,8 @@ const Tambahproduk = (props) => {
       type: 'image/jpg'
     })
     console.log('THIS => ', imageDta);
-    fetch('https://market.pondok-huda.com/dev/react/product',
+    fetch(svr.url+'product/'+svr.api,
+    // fetch('https://market.pondok-huda.com/dev/react/product',
       {
         headers: {
           'Accept': 'application/json',
@@ -485,7 +490,7 @@ const Tambahproduk = (props) => {
         <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
           <View style={styles.viewModal}>
             <Pressable style={styles.modalClose} onPress={() => setModalVisible(!modalVisible)}>
-              <Image source={allLogo.icSilang} style={{ height: toDp(20), width: toDp(20) }} />
+              <Image source={allLogo.iccross} style={{ height: toDp(20), width: toDp(20), right: toDp(10) }} />
             </Pressable>
             <View style={styles.viewJudul}>
               <Text style={styles.txtJudul}>Tambah Foto Produk</Text>

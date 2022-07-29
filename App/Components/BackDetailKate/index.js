@@ -38,7 +38,7 @@ class BackDetailKate extends Component {
 
         <View style={styles.searchSection}>
           <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-              <Image source={allLogo.icarrow} style={styles.icBack} />
+              <Image source={allLogo.Left} style={styles.icBack} />
           </TouchableOpacity>
           <Image style={styles.searchIcon} source={allLogo.icsearch} />
           <TextInput
@@ -100,12 +100,10 @@ const styles = StyleSheet.create({
     marginHorizontal:toDp(30),
   },
   icBack: {
-    width: toDp(24),
-    height: toDp(24),
+    width: toDp(38),
+    height: toDp(38),
     resizeMode: 'contain',
     tintColor: 'black',
-    rotation:toDp(180),
-    right:toDp(45)
   },
   title: {
     color: 'white',

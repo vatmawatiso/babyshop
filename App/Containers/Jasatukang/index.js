@@ -20,6 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 const Jasatukang = (props) => {
 
@@ -34,7 +35,8 @@ const Jasatukang = (props) => {
 
   const tukang = () => {
     setState(state => ({ ...state, loading: true }))
-    Axios.get('https://market.pondok-huda.com/dev/react/handyman/')
+    Axios.get(svr.url+'handyman/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/handyman/')
       .then(result => {
         if (result.data.status == 200) {
           console.log('result tukang =>', result)

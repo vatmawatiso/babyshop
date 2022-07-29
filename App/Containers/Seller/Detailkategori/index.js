@@ -24,6 +24,7 @@ import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import { BottomNavigation } from "react-native-paper";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -76,7 +77,8 @@ const Detailkategori = (props) => {
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
     console.log('kid ', (kid))
-    axios.get('https://market.pondok-huda.com/dev/react/product/getct/'+state.retail_id+'/'+kid)
+    axios.get(svr.url+'product/getct/'+state.retail_id+'/'+kid+'/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/product/getct/'+state.retail_id+'/'+kid)
       .then(result => {
         console.log('Detail Kategori '+ JSON.stringify(result.data));
         if (result.data.status == 200) {
@@ -94,62 +96,6 @@ const Detailkategori = (props) => {
         setState(state => ({ ...state, loading: false }))
       })
   }
-
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-      title: 'Semen',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-      title: 'Batu Bata',
-      harga: 'Rp. 50.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d723',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d724',
-      title: 'Paku',
-      harga: 'Rp. 10.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SALW-0003-00023/d01cbe3d-4827-473b-98db-8812a08066b3.jpg'
-    }, {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba5',
-      title: 'Semen',
-      harga: 'Rp. 80.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static.bmdstatic.com/pk/product/large/609a573e90d3d.jpg'
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f636',
-      title: 'Batu Bata',
-      harga: 'Rp. 100.000',
-      dariKota: 'Kab. Cirebon',
-      bintang: '4',
-      terjual: '| Terjual 50',
-      image: 'https://static-siplah.blibli.com/data/images/SNUI-0001-00041/b7e0b435-8780-4c32-87f2-75c7e760e823.jpg'
-    },
-  ]
 
   const RenderItem = (item, index) => (
     <Pressable onPress={() => alert('Produk : ' + index)}>

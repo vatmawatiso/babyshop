@@ -18,6 +18,7 @@ import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
 import ImagePicker from 'react-native-image-crop-picker'
 import axios from 'axios';
+import { svr } from "../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -86,7 +87,8 @@ const Successorder = (props) => {
 
     const getJasa = () => {
       // setState(state => ({...state, loading: true }))
-      axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
+      axios.get(svr.url+'ship-retail/retail/'+state.retail+'/'+svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
           .then(result => {
               // console.log('jasa kirim  ' + JSON.stringify(result));
               setState(state => ({ ...state, datas: result.data.data }))

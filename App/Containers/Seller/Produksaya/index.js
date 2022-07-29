@@ -23,6 +23,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { BottomNavigation } from "react-native-paper";
 import axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -74,7 +75,8 @@ const Produksaya = (props) => {
   const Produkbangunan = () => {
     let retail = props.navigation.state.params.retail_id;
     console.log(retail);
-    axios.get('https://market.pondok-huda.com/dev/react/product/retail/' + retail)
+    // axios.get('https://market.pondok-huda.com/dev/react/product/retail/' + retail)
+    axios.get(svr.url+'product/retail/'+retail+'/'+svr.api)
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))

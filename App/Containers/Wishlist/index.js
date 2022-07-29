@@ -20,6 +20,7 @@ import Header from '@Header'
 import Axios from "axios";
 import NavigatorService from '@NavigatorService'
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -55,8 +56,8 @@ const Wishlist = (props) => {
   }, [state.mb_id])
 
   const getWish = () => {
-
-    Axios.get('https://market.pondok-huda.com/dev/react/wishlist/?mb_id=' + state.mb_id)
+    Axios.get(svr.url+'wishlist/member/'+state.mb_id+'/'+svr.api)
+    // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/?mb_id=' + state.mb_id)
       .then(result => {
         console.log('get Wishlist', result.data);
         // getCurrentWsh()
@@ -80,7 +81,8 @@ const Wishlist = (props) => {
         ws_prd_id: id
       }
       console.log('data -----=>', body);
-      Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      Axios.post(svr.url+'wishlist/'+svr.api,body)
+      // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
         .then(response => {
           console.log('wishlist -----=>' + JSON.stringify(response.data));
 
@@ -104,7 +106,8 @@ const Wishlist = (props) => {
     // if(selectItems.length>0){
     //     if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
     console.log('response-unlike => ' + wsid)
-    Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delwishlist/' + wsid)
+    Axios.delete(svr.url+'wishlist/delwishlist/'+wsid+'/'+svr.api)
+    // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delwishlist/' + wsid)
       .then(response => {
         console.log('response-unlike =>', response.data)
         if (response.data.status == 200) {

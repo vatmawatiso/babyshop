@@ -20,6 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavigatorService from '@NavigatorService'
 import axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 const Konsultan = (props) => {
 
@@ -35,7 +36,8 @@ const Konsultan = (props) => {
 
   const arsitek = () => {
     setState(state => ({ ...state, loading: true }))
-    axios.get('https://market.pondok-huda.com/dev/react/architect/')
+    axios.get(svr.url+'architect/'+svr.api)
+    // axios.get('https://market.pondok-huda.com/dev/react/architect/')
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))
