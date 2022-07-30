@@ -71,6 +71,8 @@ import Sudahdibatalkan from "../Containers/Seller/Pengiriman/Sudahdibatalkan";
 import cartCheckout from "../Containers/cartCheckout";
 import Terms from "../Containers/Terms";
 import SuccessorderCart from "../Containers/SuccessorderCart";
+import profilToko from "../Containers/profilToko";
+import kategoriProDariCilent from "../Containers/kategoriProDariCilen";
 
 
 const AppNavigator = createStackNavigator(
@@ -145,6 +147,8 @@ const AppNavigator = createStackNavigator(
     Terms : { screen: Terms},
     SuccessorderCart: { screen: SuccessorderCart},
     Tambahalamatseller: { screen: Tambahalamatseller},
+    profilToko : { screen: profilToko},
+    kategoriProDariCilent: { screen: kategoriProDariCilent},
     
     
   },

@@ -76,7 +76,7 @@ const Produksaya = (props) => {
     let retail = props.navigation.state.params.retail_id;
     console.log(retail);
     // axios.get('https://market.pondok-huda.com/dev/react/product/retail/' + retail)
-    axios.get(svr.url+'product/retail/'+retail+'/'+svr.api)
+    axios.get(svr.url + 'product/retail/' + retail + '/' + svr.api)
       .then(result => {
         //hendle success
         setState(state => ({ ...state, datas: result.data.data }))
@@ -98,30 +98,34 @@ const Produksaya = (props) => {
   }
 
   const renderItem = (item, index) => (
-    <Pressable>
-      <View style={styles.card}>
+    <View style={styles.card}>
+      <Pressable>
         <View style={styles.txtProduct}>
-          <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
-          <Text style={styles.textproduct}>{displayName(item.product_name)}</Text>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
+            <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: toDp(10) }}>
+            <View style={{ justifyContent: 'center', width: '70%' }}>
+              <Text style={styles.textproduct}>{item.product_name}</Text>
+            </View>
+          </View>
           <NumberFormat
             value={item.price}
             displayType={'text'}
             thousandSeparator={'.'}
             decimalSeparator={','}
             prefix={'Rp. '}
-            renderText={formattedValue => <Text style={{color: '#F83308', fontWeight: '800', top:toDp(20)}}>{formattedValue}</Text>} // <--- Don't forget this!
+            renderText={formattedValue => <Text style={{ top: toDp(15), left: toDp(20), fontSize: toDp(12), color: '#F83308', fontWeight: '800'  }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-
-          <Text style={styles.dariKota}>TB    : {item.retail}</Text>
-          <Text style={styles.dariKota}>Stok : {item.stock}</Text>
-          <Text style={styles.dariKota}>kondisi : {item.kondisi}</Text>
-          <Text style={styles.dariKota}>Stok : {item.category}</Text>
-          {/* <Image source={allLogo.icstar} style={styles.star} /> */}
-          {/* <Text style={styles.bintang}>{item.lainnya.rating}</Text>
+          <Image source={allLogo.address} style={styles.address} />
+          <Text style={styles.dariKota}>{item.retailaddres}</Text>
+          {/* <Image source={allLogo.icstar} style={styles.star} />
+          <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text> */}
         </ View>
-      </ View>
-    </Pressable>
+      </Pressable>
+    </ View>
+
   );
 
   const CardProduct = () => {
@@ -208,13 +212,15 @@ const styles = StyleSheet.create({
     marginHorizontal: toDp(20),
   },
   card: {
-    backgroundColor: '#f8f9f9',
-    padding: toDp(25),
+    backgroundColor: '#FFF',
+    top: toDp(3),
     marginVertical: toDp(5),
-    marginHorizontal: toDp(16),
+    marginHorizontal: toDp(5),
+    // right: 5,
     borderRadius: toDp(10),
-    height: toDp(260),
-    right: toDp(2),
+    minHeight: toDp(221),
+    // right: toDp(2),
+    width: '47%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -226,24 +232,27 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   bintang: {
-    bottom: toDp(5),
-    left: toDp(15)
+    bottom: toDp(17),
+    left: toDp(20)
   },
   terjual: {
-    bottom: toDp(25),
-    left: toDp(28)
+    bottom: toDp(37),
+    left: toDp(33)
   },
   address: {
-    top: toDp(23)
+    top: toDp(19),
+    width: toDp(15),
+    height: toDp(15)
   },
   star: {
-    top: toDp(10),
-    right: toDp(0)
+    bottom: toDp(3),
+    left: toDp(2)
   },
   dariKota: {
-    top: toDp(20),
-    left: toDp(0),
-    width:toDp(100)
+    bottom: toDp(0),
+    left: toDp(20),
+    fontSize: 12,
+    textAlign: 'center'
   },
   textproduct: {
     fontWeight: 'bold',
@@ -251,9 +260,8 @@ const styles = StyleSheet.create({
     top: toDp(20)
   },
   txtProduct: {
-    width: '100%',
-    // backgroundColor:'red',
-    bottom: toDp(20)
+    borderRadius: toDp(10),
+    padding: toDp(20)
   },
   imgProduct: {
     width: toDp(100),

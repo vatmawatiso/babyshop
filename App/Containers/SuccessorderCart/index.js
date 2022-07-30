@@ -18,7 +18,6 @@ import  Back  from '@Back'
 import NavigatorService from '@NavigatorService'
 import Axios from "axios";
 import NumberFormat from "react-number-format";
-import { svr } from "../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -73,8 +72,7 @@ const SuccessorderCart = (props) => {
      const getOrder = () => {
       AsyncStorage.getItem('uid').then(uids => {
           let aid = uids;
-          Axios.get(svr.url+'order/getodr/'+aid+'/'+'Belum%20Dibayar'+'/'+svr.api)
-          // Axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + aid+'/'+'Belum%20Dibayar/')
+          Axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + aid+'/'+'Belum%20Dibayar/')
           .then(response => {
             console.log('response => ', response.data);
             if (response.data.status == 200){
@@ -115,7 +113,6 @@ const SuccessorderCart = (props) => {
     );
   
 }
-
 const styles = StyleSheet.create({
   container: {
     justifyContent:'center',

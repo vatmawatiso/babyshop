@@ -113,14 +113,15 @@ const Kategori = (props) => {
     return (
       <View style={{ marginTop: toDp(0), width: '100%', right: toDp(4), marginBottom: toDp(10), }}>
         <View style={styles.viewKategori}>
+
+          <View style={styles.viewKate}>
+            <Text style={{ fontSize: toDp(13), marginLeft: toDp(20), }}>{item.ctg_name}</Text>
+          </View>
           <TouchableOpacity style={styles.btnKategori} onPress={() => onPress()}>
-            <View style={styles.viewKate}>
-              <Text style={{ fontSize: toDp(13), marginLeft: toDp(20), }}>{item.ctg_name}</Text>
+            <View style={styles.viewBuka}>
+              <Image source={allLogo.iclineblack} style={styles.iclineright} />
             </View>
           </TouchableOpacity>
-          <View style={styles.viewBuka}>
-            <Image source={allLogo.iclineblack} style={styles.iclineright} />
-          </View>
         </View>
       </View>
     )
@@ -175,13 +176,13 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10),
   },
   viewKategori: {
-    flexDirection: 'row', 
-    marginHorizontal: toDp(0), 
-    height: toDp(50), 
-    alignItems: 'center', 
+    flexDirection: 'row',
+    marginHorizontal: toDp(0),
+    height: toDp(50),
+    alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor:'white', 
-    borderRadius:toDp(10),    
+    backgroundColor: 'white',
+    borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -196,7 +197,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8f9f9',
     width: toDp(20),
     height: toDp(20),
-    right: toDp(30),
     alignItems: 'center',
     backgroundColor: '#fcd4c7',
     justifyContent: 'center',
@@ -304,11 +304,9 @@ const styles = StyleSheet.create({
   //   elevation: 2,
   // },
   btnKategori: {
-    left: toDp(15),
-    width: toDp(310),
-    height: toDp(48),
-    borderRadius:toDp(10),
+    borderRadius: toDp(10),
     justifyContent: 'center',
+    right:toDp(15),
     // shadowColor: "#000",
     // shadowOffset: {
     //   width: 0,

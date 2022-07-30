@@ -9,7 +9,8 @@ import {
   Pressable,
   Platform,
   AsynStorage,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -502,14 +503,14 @@ const Register = (props) => {
 
         <Text style={styles.textDont}>Atau Masuk Dengan</Text>
         <View style={styles.rowFooter}>
-          <Pressable style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(48), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
+          <Pressable onPress={() => isDisable==true? alert('Silahkan Setujui S&K') : googleSignup()} style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(48), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icGoogle} style={styles.icon} />
               <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
             </View>
           </Pressable>
 
-          <Pressable style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(48), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
+          <Pressable onPress={()=> isDisable==true? alert('Silahkan Setujui S&K') : onFbLogin()} style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(48), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
             <View style={{ flexDirection: 'row' }}>
               <Image source={allLogo.icFacebook} style={styles.icon} />
               <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>

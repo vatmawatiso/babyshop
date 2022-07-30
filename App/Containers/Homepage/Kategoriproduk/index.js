@@ -76,8 +76,8 @@ const Kategoriproduk = () => {
 
   const dataCat = () => {
     setState(state => ({ ...state, loading: true }))
-    Axios.get(svr.url+'category/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/category/')
+    Axios.get(svr.url + 'category/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         if (result.data.status == 200) {
           console.log('result kategori =>', result)
@@ -96,8 +96,8 @@ const Kategoriproduk = () => {
 
   // get produk yg kotak2 besar
   const produk = () => {
-    Axios.get(svr.url+'product/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/product/')
+    Axios.get(svr.url + 'product/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/product/')
       .then(result => {
         console.log('result', result);
         getCurrentWsh()
@@ -112,8 +112,8 @@ const Kategoriproduk = () => {
   const getCurrentWsh = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
-      Axios.get(svr.url+'wishlist/oid/'+idmb+'/'+svr.api)
-      // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
+      Axios.get(svr.url + 'wishlist/oid/' + idmb + '/' + svr.api)
+        // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
         .then(result => {
           console.log('current Wishlish---->' + idmb);
           let oid = result.data;
@@ -145,8 +145,8 @@ const Kategoriproduk = () => {
         ws_prd_id: id
       }
       console.log('data -----=>', body);
-      Axios.post(svr.url+'wishlist/'+svr.api,body)
-      // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      Axios.post(svr.url + 'wishlist/' + svr.api, body)
+        // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
         .then(response => {
           console.log('wishlist -----=>', response.data);
 
@@ -171,8 +171,8 @@ const Kategoriproduk = () => {
       if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
         console.log('unloved' + id + '/' + ws_mb_id);
         console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
-        Axios.delete(svr.url+'wishlist/delete/'+ws_mb_id+'/'+id+'/'+svr.api)
-        // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
+        Axios.delete(svr.url + 'wishlist/delete/' + ws_mb_id + '/' + id + '/' + svr.api)
+          // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
           .then(response => {
             console.log('response =>', response.data.status)
             if (response.data.status == 200) {
@@ -219,9 +219,13 @@ const Kategoriproduk = () => {
     <View style={styles.card}>
       <Pressable onPress={() => onPressProduk()}>
         <View style={styles.txtProduct}>
-          <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
+            <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: toDp(10) }}>
+            <View style={{ justifyContent: 'center', width: '70%' }}>
+              <Text style={styles.textproduct}>{item.product_name}</Text>
+            </View>
             <View>
               {
                 selected == false ?
@@ -244,8 +248,8 @@ const Kategoriproduk = () => {
             prefix={'Rp. '}
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          <Image source={allLogo.icaddress} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres.substr(0, 12)}</Text>
+          <Image source={allLogo.address} style={styles.address} />
+          <Text style={styles.dariKota}>{item.retailaddres}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
@@ -326,21 +330,21 @@ const Kategoriproduk = () => {
         </View>
         <View style={styles.contentVocher}>
           <Pressable style={{ left: toDp(65), top: toDp(15) }} onPress={() => alert('coba')}>
-            <View style={[styles.vocher, { height: toDp(103) }]}>
+            <View style={[styles.vocher, {minHeight: toDp(95)}]}>
               <Image source={allLogo.diskon} style={styles.imgVocher} />
               <Text style={styles.titleVocher}>Diskon</Text>
             </View>
           </Pressable>
 
           <Pressable style={{ left: toDp(65), top: toDp(15) }} onPress={() => alert('coba')}>
-            <View style={styles.vocher}>
+            <View style={[styles.vocher, {minHeight: toDp(95)}]}>
               <Image source={allLogo.cashback} style={styles.imgVocher} />
               <Text style={styles.titleVocher}>Casback</Text>
             </View>
           </Pressable>
 
           <Pressable style={{ left: toDp(65), top: toDp(15) }} onPress={() => alert('coba')}>
-            <View style={styles.vocher}>
+            <View style={[styles.vocher, {minHeight: toDp(95)}]}>
               <Image source={allLogo.gratisongkir} style={styles.imgVocher} />
               <Text style={styles.titleVocher}>Gratis Ongkir</Text>
             </View>
@@ -483,8 +487,10 @@ const styles = StyleSheet.create({
   },
   contentVocher: {
     flexDirection: 'row',
-    right: toDp(59),
-    bottom: toDp(20)
+    right: toDp(65),
+    bottom: toDp(20),
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   },
   vocher: {
     // top: toDp(10),
@@ -514,13 +520,15 @@ const styles = StyleSheet.create({
     marginTop: toDp(20)
   },
   card: {
-    backgroundColor: 'white',
-    padding: toDp(25),
+    backgroundColor: '#FFF',
+    top: toDp(10),
+    padding: toDp(0),
     marginVertical: toDp(5),
-    marginHorizontal: toDp(16),
+    // marginHorizontal: toDp(16),
     borderRadius: toDp(10),
-    height: toDp(251),
-    right: toDp(17),
+    minHeight: toDp(221),
+    // right: toDp(2),
+    width: '48%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -533,32 +541,32 @@ const styles = StyleSheet.create({
   },
   bintang: {
     bottom: toDp(17),
-    left: toDp(15)
+    left: toDp(20)
   },
   terjual: {
     bottom: toDp(37),
-    left: toDp(28)
+    left: toDp(33)
   },
   address: {
-    bottom: toDp(-4)
+    top: toDp(7),
+    width:toDp(15),
+    height:toDp(15)
   },
   star: {
     bottom: toDp(3),
-    right: toDp(0)
+    left: toDp(2)
   },
   dariKota: {
     bottom: toDp(10),
-    left: toDp(15)
+    left: toDp(20)
   },
   textproduct: {
     fontWeight: 'bold',
     fontSize: toDp(12)
   },
   txtProduct: {
-    width: '100%',
-    backgroundColor: 'white',
-    marginTop: toDp(-16),
-    marginBottom: toDp(50)
+    borderRadius: toDp(10),
+    padding: toDp(20)
   },
   imgProduct: {
     width: toDp(100),

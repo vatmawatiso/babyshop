@@ -61,7 +61,7 @@ const Lupapassword = (props) => {
         const data = {
             mb_username: mb_username
         }
-        axios.post(svr.url+'forgot-password/'+svr.api,data)
+        axios.post(svr.url+'forgotpassword/'+svr.api,data)
         // axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', data)
             .then(result => {
                 console.log('result1 =>', result)
@@ -87,7 +87,7 @@ const Lupapassword = (props) => {
                     setState(state => ({ ...state, loading: false }))
                 }
             }).catch(error => {
-                console.log('error1 =>', error)
+                console.log('error post username =>', error)
                 alert('Gagal Menerima Data dari Server')
                 setState(state => ({ ...state, loading: false }))
             })
@@ -165,7 +165,7 @@ const Lupapassword = (props) => {
             mb_password: state.mb_password,
         }
         setState(state => ({ ...state, loading: true }))
-        axios.post(svr.url+'forgot-password/'+svr.api,body)
+        axios.post(svr.url+'forgotpassword/'+svr.api,body)
         // axios.post('http://market.pondok-huda.com/dev/react/forgot-password/', body)
             .then(result => {
                 console.log('result ----------->', result);

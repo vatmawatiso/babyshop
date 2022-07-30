@@ -109,7 +109,8 @@ const allLogo = {
   delete: require('./img/delete.png'),
   udc: require('./img/udc.png'),
   empty: require('./img/cartempty.png'),
-  Left: require('./img/Left.png')
+  Left: require('./img/Left.png'),
+  address: require('./img/address.png')
 
 
 

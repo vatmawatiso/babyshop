@@ -222,7 +222,7 @@ const cartCheckout = (props) => {
     const getCartProduk = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let aid = uids;
-            axios.get(svr.url+'cart/?mb_id='+aid+'/'+svr.api)
+            axios.get(svr.url+'cart/member/'+aid+'/'+svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + aid)
                 .then(response => {
                     if (response.data.status == 200) {
@@ -354,8 +354,8 @@ const cartCheckout = (props) => {
                 }
 
             }).catch(err => {
-                // console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                console.log(svr.url+'order/cart/fromcart/'+svr.api,body)
+                alert('Gagal menerima data dari server!' +svr.url+'order/cart/fromcart/'+svr.api,body )
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -364,92 +364,6 @@ const cartCheckout = (props) => {
         let hasil = data.map(item => parseInt(item)).reduce((prev, curr) => prev + curr, 0)
         return hasil
     }
-    // const RenderItem = (item, index) => {
-    //     return (
-    //         <View style={styles.renderItem} key={index}>
-    //             <View style={styles.cartProduk}>
-    //                 <View style={{ marginTop: 15, backgroundColor: '#f8f9f9', height: 200, borderRadius: 10, shadowColor: "#000",
-    //                                 shadowOffset: {
-    //                                     width: 0,
-    //                                     height: 2,
-    //                                 },
-    //                                 shadowOpacity: 0.25,
-    //                                 shadowRadius: 3.84,
-
-    //                                 elevation: 5, }}>
-    //                     <Text style={styles.textRetailName}>{item.retail_name}</Text>
-    //                     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-    //                         <Image source={{ uri: item.items[0].thumbnail }} style={styles.imageThumb} />
-                        
-    //                     <View style={{flexDirection: 'column'}}>
-    //                     <Text style={styles.txtPrd}>{item.items[0].prd_name}</Text>
-    //                     <NumberFormat
-    //                         value={item.subtotal}
-    //                         displayType={'text'}
-    //                         thousandSeparator={'.'}
-    //                         decimalSeparator={','}
-    //                         prefix={'Rp. '}
-    //                         renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-    //                     />
-    //                     </View>
-    //                     </View>
-    //                     {/* line separate */}
-    //                     {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
-    //                     <SelectDropdown
-    //                         key={index}
-    //                         defaultValue={state.shpName}
-    //                         buttonStyle={styles.dropdown}
-    //                         buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
-    //                         rowTextStyle={{ fontSize: toDp(12) }}
-    //                         dropdownStyle={{ borderRadius: toDp(7) }}
-    //                         rowStyle={{ height: toDp(30), padding: toDp(5) }}
-    //                         defaultButtonText={'Pilih Jasa Pengiriman'}
-    //                         data={state.datas[index] == '' || state.datas[index] == null ? '' : state.datas[index]}
-    //                         onSelect={(selectedItem, i) => {
-    //                             console.log('cek drop ', selectedItem.shp_id, i)
-
-    //                             let { shpPrice } = state;
-    //                             shpPrice[index] = selectedItem.shr_jasa;
-    //                             setState(state => ({
-    //                                 ...state,
-    //                                 shpPrice
-    //                             }))
-    //                             let { shp_id } = state;
-    //                             shp_id[index] = selectedItem.shp_id;
-    //                             setState(state => ({
-    //                                 ...state,
-    //                                 shp_id
-    //                             }))
-    //                             console.log('argghhhh', state.shp_id)
-    //                             let { shpName } = state;
-    //                             shpName[index] = selectedItem.shp_name;
-    //                             setState(state => ({
-    //                                 ...state,
-    //                                 shpName
-    //                             }))
-    //                         }}
-    //                         buttonTextAfterSelection={(selectedItem, index) => {
-
-    //                             return selectedItem.shp_name;
-    //                         }}
-    //                         rowTextForSelection={(item, index) => {
-    //                             return item.shp_name;
-    //                         }}
-    //                         renderDropdownIcon={(isOpened) => {
-    //                             return (
-    //                                 <FontAwesome
-    //                                     name={isOpened ? "chevron-up" : "chevron-down"}
-    //                                     color={"#444"}
-    //                                     size={12}
-    //                                 />
-    //                             );
-    //                         }}
-    //                     />
-    //                 </View>
-    //             </View>
-    //         </View>
-    //     )
-    // }
 
     const perProduk = (item, index, idCart, inc) => {
         let qtyyy = item.qty;
@@ -476,56 +390,7 @@ const cartCheckout = (props) => {
                     </View>
                     {/* line separate */}
                     {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
-                    <SelectDropdown
-                        key={inc}
-                        defaultValue={state.shpName}
-                        buttonStyle={styles.dropdown}
-                        buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
-                        rowTextStyle={{ fontSize: toDp(12) }}
-                        dropdownStyle={{ borderRadius: toDp(7) }}
-                        rowStyle={{ height: toDp(48), padding: toDp(5) }}
-                        defaultButtonText={'Pilih Jasa Pengiriman'}
-                        data={state.datas[inc] == '' || state.datas[inc] == null ? '' : state.datas[inc]}
-                        onSelect={(selectedItem, i) => {
-                            console.log('cek drop ', selectedItem.shp_id, i)
-
-                            let { shpPrice } = state;
-                            shpPrice[inc] = selectedItem.shr_jasa;
-                            setState(state => ({
-                                ...state,
-                                shpPrice
-                            }))
-                            let { shp_id } = state;
-                            shp_id[inc] = selectedItem.shp_id;
-                            setState(state => ({
-                                ...state,
-                                shp_id
-                            }))
-                            console.log('argghhhh', state.shp_id)
-                            let { shpName } = state;
-                            shpName[inc] = selectedItem.shp_name;
-                            setState(state => ({
-                                ...state,
-                                shpName
-                            }))
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-
-                            return selectedItem.shp_name;
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item.shp_name;
-                        }}
-                        renderDropdownIcon={(isOpened) => {
-                            return (
-                                <FontAwesome
-                                    name={isOpened ? "chevron-up" : "chevron-down"}
-                                    color={"#444"}
-                                    size={12}
-                                />
-                            );
-                        }}
-                    />
+                   
                 </View>
         )
     }
@@ -566,6 +431,56 @@ const cartCheckout = (props) => {
                         ListFooterComponent={() => <View style={{ height: toDp(0) }} />}
                     />
                     {/* akhir dari per produk */}
+                    <SelectDropdown
+                        key={i}
+                        defaultValue={state.shpName}
+                        buttonStyle={styles.dropdown}
+                        buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
+                        rowTextStyle={{ fontSize: toDp(12) }}
+                        dropdownStyle={{ borderRadius: toDp(7) }}
+                        rowStyle={{ height: toDp(48), padding: toDp(5) }}
+                        defaultButtonText={'Pilih Jasa Pengiriman'}
+                        data={state.datas[i] == '' || state.datas[i] == null ? '' : state.datas[i]}
+                        onSelect={(selectedItem, itm) => {
+                            console.log('cek drop ', selectedItem.shp_id, itm)
+
+                            let { shpPrice } = state;
+                            shpPrice[i] = selectedItem.shr_jasa;
+                            setState(state => ({
+                                ...state,
+                                shpPrice
+                            }))
+                            let { shp_id } = state;
+                            shp_id[i] = selectedItem.shp_id;
+                            setState(state => ({
+                                ...state,
+                                shp_id
+                            }))
+                            console.log('argghhhh', state.shp_id)
+                            let { shpName } = state;
+                            shpName[i] = selectedItem.shp_name;
+                            setState(state => ({
+                                ...state,
+                                shpName
+                            }))
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+
+                            return selectedItem.shp_name;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item.shp_name;
+                        }}
+                        renderDropdownIcon={(isOpened) => {
+                            return (
+                                <FontAwesome
+                                    name={isOpened ? "chevron-up" : "chevron-down"}
+                                    color={"#444"}
+                                    size={12}
+                                />
+                            );
+                        }}
+                    />
                 </View>
             </View>
         )

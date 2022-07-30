@@ -288,11 +288,11 @@ const Homeseller = (props) => {
         <View style={styles.footer}>
           <Pressable style={[styles.presable, { backgroundColor: state.content === 'home' ? '#234D6C' : '#2A334B' }]} onPress={() => setState(state => ({ ...state, content: 'Homeseller' }))}>
             <Image source={allLogo.ichome} style={styles.ichome} />
-            <Text style={styles.txtBtnmenu}>Beranda</Text>
+            <Text style={styles.txtBeranda}>Beranda</Text>
           </Pressable>
           <Pressable style={[styles.presable, { backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('Tambahproduk')} >
             <Image source={allLogo.Plus} style={styles.icplus} />
-            <Text style={styles.txtBtnmenu}>Tambah</Text>
+            <Text style={styles.txtBtnmenu}>Tambah Produk</Text>
           </Pressable>
           <Pressable style={[styles.presable, { backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('underConstruction')} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
@@ -319,11 +319,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     width: '100%'
   },
+  txtBeranda: {
+    color: 'white', 
+    fontSize: toDp(13), 
+    marginHorizontal: toDp(8), 
+    bottom: toDp(5),
+    width:toDp(100),
+  },
   txtBtnmenu: {
     color: 'white', 
     fontSize: toDp(13), 
     marginHorizontal: toDp(8), 
-    bottom: toDp(5)
+    bottom: toDp(5),
+    width:toDp(100),
+    right:toDp(20)
   },
   txtBtnchat: {
     color: 'white', 

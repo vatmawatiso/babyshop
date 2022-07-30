@@ -35,7 +35,7 @@ const Home = (props) => {
     id: '',
     arrayUsers: [],
     arrayData: [],
-    lainnya:'',
+    lainnya: '',
     arrayRetail: [],
     dataWish: [],
     loading: false,
@@ -50,163 +50,164 @@ const Home = (props) => {
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
     listRetail()
- 
- 
+
+
     // get id pengguna
     AsyncStorage.getItem('uid').then(uids => {
       let ids = uids;
-      setState(state => ({...state,
-       id_member: ids
+      setState(state => ({
+        ...state,
+        id_member: ids
       }))
     }).catch(err => {
       console.log('err', err)
     })
- 
-    return(()=>{
+
+    return (() => {
       produk()
     })
- 
-      console.log('loooo');
-      props.navigation.addListener(
-            'didFocus',
-            payload => {
-                alert('load')
-            }
-      );
- 
+
+    console.log('loooo');
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        alert('load')
+      }
+    );
+
   }, [state.id_member])
- 
- 
- 
-  const displayName = (product_name) =>{
+
+
+
+  const displayName = (product_name) => {
     let count = '';
-    let nama  = '';
+    let nama = '';
     count = product_name.split(' ' || '-');
-    nama  = count.slice(0, 2).join(' ');
+    nama = count.slice(0, 2).join(' ');
     return nama
-}
- 
+  }
+
   // get produk yg kotak2 besar
   const produk = () => {
-    Axios.get(svr.url+'product/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/product/')
+    Axios.get(svr.url + 'product/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/product/')
       .then(result => {
         console.log('get produk', result);
         getCurrentWsh()
-        setState(state => ({...state, arrayData: result.data.data }))
- 
+        setState(state => ({ ...state, arrayData: result.data.data }))
+
         // console.log('result2 =>', result.data.data)
       }).catch(error => {
         alert('Gagal Coba Lagi Nanti')
         console.log('error produk =>', error)
       })
   }
- 
-    // get nama toko
-    const listRetail = () => {
-      Axios.get(svr.url+'retail/'+svr.api)
+
+  // get nama toko
+  const listRetail = () => {
+    Axios.get(svr.url + 'retail/' + svr.api)
       // Axios.get('https://market.pondok-huda.com/dev/react/retail/')
+      .then(result => {
+        // console.log('get retail', result);
+        setState(state => ({ ...state, arrayRetail: result.data.data }))
+        // console.log('result2 =>', result.data.data)
+
+      }).catch(error => {
+        console.log('error retail =>', error)
+      })
+  }
+
+  //get current wishlist datas
+  const getCurrentWsh = () => {
+    AsyncStorage.getItem('uid').then(uids => {
+      let idmb = uids;
+      Axios.get(svr.url + 'wishlist/oid/' + idmb + '/' + svr.api)
+        // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/'+idmb)
         .then(result => {
-          // console.log('get retail', result);
-          setState(state => ({...state, arrayRetail: result.data.data}))
-          // console.log('result2 =>', result.data.data)
- 
+          console.log('current Wishlish---->' + idmb);
+          let oid = result.data;
+          if (oid.data?.length > 0) {
+            //console.log('length--------> '+oid.data?.length);
+            //setState(state => ({...state, curWishlist: result.data.data}))
+            setSelectedItems(result.data.data)
+          } else {
+            //console.log('null--------> '+oid.data?.length);
+            setSelectedItems([])
+          }
+
+          //console.log('result2 =>', result.data.data)
         }).catch(error => {
-          console.log('error retail =>',error)
+          console.log('error get current wish =>', error)
         })
-    }
- 
-    //get current wishlist datas
-    const getCurrentWsh =  () =>{
-      AsyncStorage.getItem('uid').then(uids => {
-        let idmb = uids;
-        Axios.get(svr.url+'wishlist/oid/'+idmb+'/'+svr.api)
-          // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/'+idmb)
-            .then(result => {
-              console.log('current Wishlish---->'+idmb);
-              // let oid = result.data;
-              // if(oid.data?.length>0){
-              //   //console.log('length--------> '+oid.data?.length);
-              //   //setState(state => ({...state, curWishlist: result.data.data}))
-              //   setSelectedItems(result.data.data)
-              // }else{
-              //   //console.log('null--------> '+oid.data?.length);
-              //   setSelectedItems([])
-              // }
- 
-              //console.log('result2 =>', result.data.data)
-            }).catch(error => {
-              console.log('error get current wish =>',svr.url+'wishlist/oid/'+idmb+'/'+svr.api)
-            })
- 
-    }).catch (err => {
-       console.log(err);
+
+    }).catch(err => {
+      console.log(err);
     })
   }
- 
-    // memasukan produk ke wishlist
-    const selectItems = (id, retail, index) => {
- 
-      if((selectedItems.ws_prd_id != state.arrayData[index]?.prd_id) && (selectedItems.ws_mb_id != state.id_member)){
-        const body = {
-          ws_mb_id: state.id_member,
-          ws_rtl_id: retail,
-          ws_prd_id: id
+
+  // memasukan produk ke wishlist
+  const selectItems = (id, retail, index) => {
+
+    if ((selectedItems.ws_prd_id != state.arrayData[index]?.prd_id) && (selectedItems.ws_mb_id != state.id_member)) {
+      const body = {
+        ws_mb_id: state.id_member,
+        ws_rtl_id: retail,
+        ws_prd_id: id
       }
       console.log('data -----=>', body);
-      Axios.post(svr.url+'wishlist/'+svr.api,body)
-          // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      Axios.post(svr.url + 'wishlist/' + svr.api, body)
+        // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+        .then(response => {
+          console.log('wishlist -----=>', response);
+
+          if (response.data.status == 201) {
+            //alert('Produk telah masuk ke wishlist anda!')
+            //console.log('wishlist2 =>', response)
+            setSelectedItems([...selectedItems, body])
+          } else {
+            alert('Gagal menambahkan ke wishlist anda!')
+            console.log('Wishlish gagal =>', response)
+          }
+        }).catch(error => {
+          console.log('error wishlist =>', error)
+        })
+    }
+
+  };
+
+  // unlike produk
+  const deSelectItems = (id, retail, ws_mb_id) => {
+    if (selectItems.length > 0) {
+      if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
+        //console.log('unloved'+id+'/'+ws_mb_id);
+        Axios.delete(svr.url + 'wishlist/delete/' + ws_mb_id + '/' + id + '/' + svr.api)
+          // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/'+ws_mb_id+'/'+id)
           .then(response => {
-            console.log('wishlist -----=>', response);
- 
-            if(response.data.status == 201) {
-              //alert('Produk telah masuk ke wishlist anda!')
-              //console.log('wishlist2 =>', response)
-              setSelectedItems([...selectedItems, body])
+            console.log('response =>', response.data.status)
+            if (response.data.status == 200) {
+              const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
+              const arr3 = selectedItems.filter(arraylst);
+              return setSelectedItems(arr3);
             } else {
-              alert('Gagal menambahkan ke wishlist anda!')
-              console.log('Wishlish gagal =>', response)
+              console.log('response =>', response)
             }
           }).catch(error => {
-            console.log('error wishlist =>', error)
-        })
-      }
- 
-    };
- 
-    // unlike produk
-    const deSelectItems = (id, retail, ws_mb_id) => {
-      if(selectItems.length>0){
-          if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
-          //console.log('unloved'+id+'/'+ws_mb_id);
-          Axios.delete(svr.url+'wishlist/delete/'+ws_mb_id+'/'+id+'/'+svr.api)
-            // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/'+ws_mb_id+'/'+id)
-            .then(response => {
-              console.log('response =>', response.data.status)
-              if(response.data.status == 200) {
-                const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
-                const arr3 = selectedItems.filter(arraylst);
-                return setSelectedItems(arr3);
-              } else {
-                console.log('response =>', response)
-              }
-            }).catch(error => {
-              console.log('error =>', error)
-            })
-          }
-        }
-    }
- 
-    // filter button
-    const getSelected = ( id , ws_mb_id) => {
-      if(selectItems.length>0){
-        if(selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i=> i.ws_mb_id === ws_mb_id)) {
-          return true
-        } else {
-          return false
-        }
+            console.log('error =>', error)
+          })
       }
     }
+  }
+
+  // filter button
+  const getSelected = (id, ws_mb_id) => {
+    if (selectItems.length > 0) {
+      if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id === ws_mb_id)) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 
 
   const renderItemExpore = (item, index) => {
@@ -240,11 +241,15 @@ const Home = (props) => {
   const RenderItem = ({ item, index, onPress, selected, unLike, onPressProduk }) => (
     // <Pressable onPress={()=> alert('Produk : '+index)}>
     <View style={styles.card}>
-      <Pressable style={{ backgroundColor: 'red' }} onPress={() => onPressProduk()}>
+      <Pressable onPress={() => onPressProduk()}>
         <View style={styles.txtProduct}>
-          <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
+            <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: toDp(10) }}>
+            <View style={{ justifyContent: 'center', width: '70%' }}>
+              <Text style={styles.textproduct}>{item.product_name}</Text>
+            </View>
             <View>
               {
                 selected == false ?
@@ -266,8 +271,8 @@ const Home = (props) => {
             prefix={'Rp. '}
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          <Image source={allLogo.icaddress} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres.substr(0, 15)}</Text>
+          <Image source={allLogo.address} style={styles.address} />
+          <Text style={styles.dariKota}>{item.retailaddres}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
@@ -332,21 +337,21 @@ const Home = (props) => {
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Toko{'\n'}Bangunan</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Jasatukang')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: 'grey' }}>
               <Image source={allLogo.worker} style={styles.icon} />
             </View>
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Jasa{'\n'}Tukang</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Konsultan')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: 'grey' }}>
               <Image source={allLogo.arsitek} style={styles.icon} />
             </View>
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Konsultan{'\n'}Arsitek</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Donasi')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: 'grey' }}>
               <Image source={allLogo.donation} style={styles.icon} />
             </View>
@@ -384,13 +389,15 @@ const styles = StyleSheet.create({
     fontSize: toDp(10),
   },
   card: {
-    backgroundColor: 'white',
-    padding: toDp(25),
+    backgroundColor: '#FFF',
+    top: toDp(10),
+    padding: toDp(0),
     marginVertical: toDp(5),
-    marginHorizontal: toDp(16),
+    // marginHorizontal: toDp(16),
     borderRadius: toDp(10),
-    height: toDp(251),
-    right: toDp(17),
+    minHeight: toDp(221),
+    // right: toDp(2),
+    width: '48%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -403,30 +410,32 @@ const styles = StyleSheet.create({
   },
   bintang: {
     bottom: toDp(17),
-    left: toDp(15)
+    left: toDp(20)
   },
   terjual: {
     bottom: toDp(37),
-    left: toDp(28)
+    left: toDp(33)
   },
   address: {
-    bottom: toDp(-4)
+    top: toDp(7),
+    width:toDp(15),
+    height:toDp(15)
   },
   star: {
     bottom: toDp(3),
-    right: toDp(0)
+    left: toDp(2)
   },
   dariKota: {
     bottom: toDp(10),
-    left: toDp(15)
+    left: toDp(20)
   },
   textproduct: {
     fontWeight: 'bold',
     fontSize: toDp(12)
   },
   txtProduct: {
-    width: '100%',
-    backgroundColor: 'white'
+    borderRadius: toDp(10),
+    padding: toDp(20)
   },
   imgProduct: {
     width: toDp(100),
