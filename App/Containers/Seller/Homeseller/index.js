@@ -221,7 +221,7 @@ const Homeseller = (props) => {
                 <Image source={allLogo.iclineright} style={styles.iclineright} />
               </View>
             </Pressable>
-            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('underConstruction')} >
+            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual')} >
               <View style={styles.viewSaldo}>
                 <Text style={styles.txtSaldo}>Saldo</Text>
                 <NumberFormat
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     marginHorizontal: toDp(8), 
     bottom: toDp(5),
     width:toDp(100),
-    right:toDp(20)
+    right:toDp(22)
   },
   txtBtnchat: {
     color: 'white', 
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: toDp(350),
     height: toDp(70),
-    top: toDp(15)
+    top: toDp(15), marginLeft:toDp(3)
   },
   viewBtntoko: {
     borderWidth: toDp(0.5),

@@ -81,10 +81,10 @@ const profilToko = (props) => {
     // get produk berdasarkan id retail 
     const produkRetail = () => {
         let rid = props.navigation.state.params.id
-        Axios.get(svr.url+'product/retail/'+rid+'/'+svr.api)
-        // Axios.get('https://market.pondok-huda.com/dev/react/product/?rtl_id=' + rid)
+        Axios.get(svr.url + 'product/retail/' + rid + '/' + svr.api)
+            // Axios.get('https://market.pondok-huda.com/dev/react/product/?rtl_id=' + rid)
             .then(result => {
-                if (result.data.status == 200){
+                if (result.data.status == 200) {
                     console.log('result', JSON.stringify(result));
                     getCurrentWsh()
                     setState(state => ({
@@ -97,7 +97,7 @@ const profilToko = (props) => {
                     alert('Produk Belum Ditambahkan')
                     NavigatorService.navigate('Tokobangunan')
                 }
-                
+
             }).catch(error => {
                 console.log(error)
             })
@@ -106,8 +106,8 @@ const profilToko = (props) => {
     // get kategori masih diambil dari semua 
     const getCategori = () => {
         // setState(state => ({...state, loading: true }))
-        Axios.get(svr.url+'category/'+svr.api)
-        // Axios.get('https://market.pondok-huda.com/dev/react/category/')
+        Axios.get(svr.url + 'category/' + svr.api)
+            // Axios.get('https://market.pondok-huda.com/dev/react/category/')
             .then(result => {
                 // handle success
                 setState(state => ({ ...state, dataCat: result.data.data }))
@@ -130,8 +130,8 @@ const profilToko = (props) => {
             let idmb = uids;
 
             // Axios.get(svr.url+'wishlist/oid/'+idmb+'/'+svr.api,data)
-            Axios.get(svr.url+'wishlist/oid/'+idmb+'/'+svr.api)
-            // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
+            Axios.get(svr.url + 'wishlist/oid/' + idmb + '/' + svr.api)
+                // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
                 .then(result => {
                     console.log('current Wishlish---->' + state.id_member);
                     let oid = result.data;
@@ -164,8 +164,8 @@ const profilToko = (props) => {
                 ws_prd_id: id
             }
             console.log('data -----=>', body);
-            Axios.post(svr.url+'wishlist/'+svr.api,body)
-            // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+            Axios.post(svr.url + 'wishlist/' + svr.api, body)
+                // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
                 .then(response => {
                     console.log('wishlist -----=>', response.data);
 
@@ -189,7 +189,7 @@ const profilToko = (props) => {
         if (selectItems.length > 0) {
             if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
                 //console.log('unloved'+id+'/'+ws_mb_id);
-                Axios.delete(svr.url+'/wishlist/delete/'+ws_mb_id +'/'+id+'/'+svr.api)
+                Axios.delete(svr.url + '/wishlist/delete/' + ws_mb_id + '/' + id + '/' + svr.api)
                     .then(response => {
                         console.log('response =>', response.data.status)
                         if (response.data.status == 200) {
@@ -229,7 +229,7 @@ const profilToko = (props) => {
                 <View style={styles.txtProduct}>
                     <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={styles.textproduct}>{item.product_name.substr(0,8)}</Text>
+                        <Text style={styles.textproduct}>{item.product_name.substr(0, 8)}</Text>
                         <View>
                             {
                                 selected == false ?
@@ -251,8 +251,8 @@ const profilToko = (props) => {
                         prefix={'Rp. '}
                         renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
                     />
-                    <Text style={styles.bintang}>{item.retailaddres.substr(0,12)}</Text>
-                    <Text style={styles.dariKota}>{item.retail.substr(0,12)}</Text>
+                    <Text style={styles.bintang}>{item.retailaddres.substr(0, 12)}</Text>
+                    <Text style={styles.dariKota}>{item.retail.substr(0, 12)}</Text>
                 </ View>
             </Pressable>
         </ View>
@@ -304,7 +304,7 @@ const profilToko = (props) => {
                                     ListKategori(item, index, () => NavigatorService.navigate('kategoriProDariCilent', { ctg_id: item.ctg_id, rid2, id: state.id }))
                                 )
                             }}
-                            ListFooterComponent={() => <View style={{ height:toDp(180), width: toDp(335) }} />}
+                            ListFooterComponent={() => <View style={{ height: toDp(180), width: toDp(335) }} />}
                         />
                     </View>
                 </View>
@@ -315,17 +315,19 @@ const profilToko = (props) => {
     const ListKategori = (item, index, onPress) => {
         return (
             <View style={{ marginTop: toDp(0), width: '100%', right: toDp(4), marginBottom: toDp(10), }}>
-            <View style={styles.viewKategori}>
-              <TouchableOpacity style={styles.btnKategori} onPress={() => onPress()}>
-                <View style={styles.viewKate}>
-                  <Text style={{ fontSize: toDp(13), marginLeft: toDp(20), }}>{item.ctg_name}</Text>
+                <View style={styles.viewKategori}>
+
+                    <View style={styles.viewKate}>
+                        <Text style={{ fontSize: toDp(13), marginLeft: toDp(20), }}>{item.ctg_name}</Text>
+                    </View>
+
+                    <TouchableOpacity style={{backgroundColor:'#fff', right:toDp(10)}} onPress={() => onPress()}>
+                        <View style={styles.viewBuka}>
+                            <Image source={allLogo.iclineblack} style={styles.iclineright} />
+                        </View>
+                    </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-              <View style={styles.viewBuka}>
-                <Image source={allLogo.iclineblack} style={styles.iclineright} />
-              </View>
             </View>
-          </View>
 
             // <View style={{ marginTop: toDp(0), width: '100%' }}>
             //     <View style={{ flexDirection: 'row', marginHorizontal: toDp(0), height: toDp(50), alignItems: 'center', justifyContent: 'space-between' }}>
@@ -467,7 +469,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8f9f9',
         width: toDp(20),
         height: toDp(20),
-        right: toDp(30),
+        // right: toDp(30),
         alignItems: 'center',
         backgroundColor: '#fcd4c7',
         justifyContent: 'center',
@@ -549,19 +551,19 @@ const styles = StyleSheet.create({
         width: toDp(335),
         height: toDp(470),
         borderRadius: toDp(10),
-        backgroundColor: '#f8f9f9',
+        backgroundColor: '#FFF',
         top: toDp(20),
         flexDirection: 'column',
         justifyContent: 'space-between',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.20,
+        // shadowRadius: 1.41,
 
-        elevation: 2,
+        // elevation: 2,
     },
     card: {
         backgroundColor: 'white',
@@ -595,7 +597,7 @@ const styles = StyleSheet.create({
         left: toDp(5),
         width: toDp(310),
         height: toDp(48),
-        borderRadius:toDp(10),
+        borderRadius: toDp(10),
         justifyContent: 'center',
     },
     icwallet: {
@@ -651,22 +653,22 @@ const styles = StyleSheet.create({
         borderRadius: toDp(10),
         padding: toDp(3),
         borderColor: '#E6E6E6',
-            flexDirection: 'row', 
-            marginHorizontal: toDp(0), 
-            height: toDp(50), 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            backgroundColor:'white', 
-            borderRadius:toDp(10),    
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-        
-            elevation: 2
+        flexDirection: 'row',
+        marginHorizontal: toDp(0),
+        height: toDp(50),
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'white',
+        borderRadius: toDp(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2
     },
     viewKategori2: {
         borderWidth: toDp(2),

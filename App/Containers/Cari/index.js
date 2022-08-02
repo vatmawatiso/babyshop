@@ -17,9 +17,8 @@ import {
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService';
-import NumberFormat from 'react-number-format';
 import Axios from 'axios';
-import { svr } from '../../Configs/apikey';
+import NumberFormat from 'react-number-format';
 const { width, height } = Dimensions.get('window')
 const Cari = () => {
   const [filtered, setFiltered] = useState([]);
@@ -52,7 +51,7 @@ const Cari = () => {
 
     return (() => {
       // if (state.key != '') {
-      getProduk(state.key)
+      getProduk()
       // }
 
     })
@@ -68,8 +67,7 @@ const Cari = () => {
 
   // ambil adata produknya
   const getProduk = () => {
-    Axios.get(svr.url + 'product/' + state.key + '/' + svr.api)
-      // Axios.get('https://market.pondok-huda.com/dev/react/product/?prd_name=' + state.key)
+    Axios.get('https://market.pondok-huda.com/dev/react/product/')
       .then(result => {
         console.log('result', result);
         // setState(state => ({...state, dataSearch: result.data.data}))
@@ -90,8 +88,8 @@ const Cari = () => {
   const getCurrentWsh = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
-      Axios.get(svr.url + 'wishlist/oid/' + idmb + '/' + svr.api)
-        // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
+
+      Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
         .then(result => {
           console.log('current Wishlish---->' + state.id_member);
           let oid = result.data;
@@ -124,8 +122,7 @@ const Cari = () => {
         ws_prd_id: id
       }
       console.log('data -----=>', body);
-      Axios.post(svr.url + 'wishlist/' + svr.api, body)
-        // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
         .then(response => {
           console.log('wishlist -----=>', response.data);
 
@@ -151,8 +148,7 @@ const Cari = () => {
     if (selectItems.length > 0) {
       if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
         console.log('unloved');
-        Axios.delete(svr.url + 'wishlist/delete/' + ws_mb_id + '/' + id + '/' + svr.api)
-          // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
+        Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
           .then(response => {
             console.log('response =>', response)
             if (response.data.status == 200) {
@@ -190,19 +186,19 @@ const Cari = () => {
   const searchFilter = (text) => {
     if (text) {
       const newData = masterData.filter((item) => {
-        const itemData = item.product_name ?
-          item.product_name.toLowerCase()
+        const itemData = `${item.product_name} ${item.category}` ?
+          `${item.product_name.toLowerCase()} ${item.category.toLowerCase()}`
           : ''.toLowerCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
       setFiltered(newData);
       setSearch(text);
-      setState(state => ({ ...state, key: text }))
+      // setState(state => ({ ...state, key: text }))
     } else {
       setFiltered(masterData)
       setSearch(text);
-      setState(state => ({ ...state, key: text }))
+      // setState(state => ({ ...state, key: text }))
     }
   }
 
@@ -232,19 +228,24 @@ const Cari = () => {
               }
             </View>
           </View>
+          {/* <Text style={styles.harga}>{item.price}</Text> */}
           <NumberFormat
             value={item.price}
             displayType={'text'}
             thousandSeparator={'.'}
             decimalSeparator={','}
             prefix={'Rp. '}
-            renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
+          <Text style={styles.harga}>{item.retail_name}</Text>
           <Image source={allLogo.icaddress} style={styles.address} />
           <Text style={styles.dariKota}>{item.retailaddres}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
-          <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
+          <View style={{flexDirection: 'row', top: 25, right: 30}}>
+            <Text style={styles.terjual}>Terjual</Text>
+            <Text style={styles.terjual}>{item.lainnya.terjual}</Text>
+          </View>
         </ View>
       </Pressable>
     </ View>
@@ -253,10 +254,13 @@ const Cari = () => {
 
   return (
     <View style={styles.container}>
+      <Pressable onPress={() => props.navigation.goBack()}>
+        <Image source={allLogo.Left} style={styles.icBack} />
+      </Pressable>
       <Image style={styles.icSearch} source={require('../../Assets/img/ic_search.png')} />
       <TextInput
         style={styles.textInput}
-        placeholder="Search"
+        placeholder="Pencarian..."
         value={search}
         placeholderTextColor='white'
         onChangeText={(text) => searchFilter(text)}
@@ -314,15 +318,28 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: toDp(2),
     marginTop: toDp(18),
-    right: toDp(315),
+    right: toDp(270),
     tintColor: '#fff'
+  },
+  icBack: {
+    width: toDp(38),
+    height: toDp(38),
+    resizeMode: 'contain',
+    tintColor: 'black',
+    // backgroundColor:'cyan',
+    marginHorizontal: toDp(0),
+    position: 'absolute',
+    zIndex: 3,
+    right: toDp(133),
+    top: toDp(10)
   },
   textInput: {
     backgroundColor: '#2A334B',
-    width: '98%',
+    left: 18,
+    width: '82%',
     paddingLeft: toDp(50),
     marginTop: toDp(5),
-    borderRadius: toDp(10),
+    borderRadius: toDp(15),
     height: 50,
     fontSize: 15,
     // fontWeight: 'bold',
@@ -336,8 +353,8 @@ const styles = StyleSheet.create({
     padding: toDp(0),
     marginVertical: toDp(5),
     // marginHorizontal: toDp(16),
-    borderRadius: toDp(10),
-    minHeight: toDp(221),
+    borderRadius: toDp(20),
+    minHeight: toDp(220),
     // right: toDp(2),
     width: '48%',
     shadowColor: "#000",
@@ -356,17 +373,18 @@ const styles = StyleSheet.create({
   },
   terjual: {
     bottom: toDp(37),
-    left: toDp(28)
+    left: toDp(28),
+    marginRight: 5
   },
   address: {
-   top:toDp(5)
+    bottom: toDp(-4)
   },
   star: {
     bottom: toDp(3),
     right: toDp(0)
   },
   dariKota: {
-    bottom: toDp(8),
+    bottom: toDp(6),
     left: toDp(15)
   },
   textproduct: {
@@ -375,7 +393,7 @@ const styles = StyleSheet.create({
   },
   txtProduct: {
 
-    borderRadius: toDp(10),
+    borderRadius: toDp(20),
     padding: toDp(20)
   },
   imgProduct: {

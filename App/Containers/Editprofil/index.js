@@ -285,8 +285,8 @@ const Editprofil = (props) => {
       />
       <View style={styles.content}>
         <View style={styles.profil}>
-          <Pressable style={{ alignItems: 'flex-end', left: toDp(300), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
-            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30), right: toDp(15) }} />
+          <Pressable style={{ alignItems: 'flex-end', left: toDp(280), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+            <Image source={allLogo.icpassword} style={{ width: toDp(30), height: toDp(30),  }} />
           </Pressable>
           <Pressable style={{height:toDp(60), width:toDp(70), left:toDp(120)}} onPress={() => toggleModal()}>
             <Image style={styles.imgProfil} source={state.picture ? { uri: state.picture } :

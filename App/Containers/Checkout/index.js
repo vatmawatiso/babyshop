@@ -21,6 +21,8 @@ import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
+// import CryptoJS from "crypto-js";
+// import fetch from "node-fetch";
 
 const Checkout = (props) => {
 
@@ -147,7 +149,7 @@ const Checkout = (props) => {
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
 
-            // console.log('Profilefiks----------->' + JSON.stringify(data));
+            console.log('Profilefiks----------->' + JSON.stringify(data));
 
             setState(state => ({
                 ...state,
@@ -193,8 +195,8 @@ const Checkout = (props) => {
     const getAlumember = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let idember = uids;
-            axios.get(svr.url+'addres/?alus='+idember+'/'+svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+            axios.get(svr.url + 'addres/alus/' + idember + '/' + svr.api)
+                // axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
                 .then(result => {
                     let oid = result.data;
                     console.log('oid = ' + oid.data.length);
@@ -319,11 +321,11 @@ const Checkout = (props) => {
 
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
-        axios.get(svr.url+'ship-retail/retail/'+state.retail+'/'+svr.api)
-        // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
+        axios.get(svr.url + 'ship-retail/retail/' + state.retail + '/' + svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
                 console.log('jasa kirim  ' + JSON.stringify(result));
-                // setState(state => ({ ...state, datas: result.data.data }))
+                setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
                 //console.log(err)
@@ -333,7 +335,58 @@ const Checkout = (props) => {
     }
 
 
-    //post data order
+
+
+    // const formData = new FormData();
+    // formData.append('name', state.mb_name);
+    // formData.append('phone', state.mb_phone);
+    // formData.append('email', state.mb_email);
+    // formData.append('amount', state.totalll);
+    // formData.append('notifyUrl', 'https://mywebsite.com');
+    // formData.append('expired', '24');
+    // formData.append('expiredType', 'hours');
+    // formData.append('comments', 'null');
+    // formData.append('referenceId', 'null');
+    // formData.append('paymentMethod', 'va');
+    // formData.append('paymentChannel', 'nul');
+    // formData.append('product[]', state.product_name);
+    // formData.append('qty[]', state.qty);
+    // formData.append('price[]', state.price);
+    // formData.append('weight[]', 'null');
+    // formData.append('width[]', 'null');
+    // formData.append('height[]', 'null');
+    // formData.append('length[]', 'null');
+    // formData.append('deliveryArea', 'null');
+    // formData.append('deliveryAddress', state.adr_id);
+
+    // const config = {
+    //     method: 'post',
+    //     url: 'https://sandbox.ipaymu.com/api/v2/payment/direct',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'signature': '[object Object]',
+    //         'va': '1179000899',
+    //         'timestamp': '20191209155701',
+    //         ...formData.getHeaders()
+    //     },
+    //     formData: formData
+    // };
+
+    //     // generate signature
+    //     let bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
+    //     let stringtosign = "POST:" + payment.va + ":" + bodyEncrypt + ":" + payment.apikey;
+    //     let signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, payment.apikey));
+
+    // axios(config)
+    //     .then(function (response) {
+    //         console.log(JSON.stringify(response.formData));
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
+
+
+    //post data order BINA
 
     const postProduk = async () => {
         const body = {
@@ -353,8 +406,8 @@ const Checkout = (props) => {
         console.log('BODY' + JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        axios.post(svr.url+'order/'+svr.api,body)
-        // axios.post('https://market.pondok-huda.com/dev/react/order/', body)
+        axios.post(svr.url + 'order/' + svr.api, body)
+            // axios.post('https://market.pondok-huda.com/dev/react/order/', body)
             .then(result => {
                 console.log('Cek Result----------->' + JSON.stringify(result));
                 if (result.data.status == 201) {
@@ -368,9 +421,9 @@ const Checkout = (props) => {
                         alert('Tidak ditemukan data order!')
                     } else {
                         //save Async Storage
-                        console.log('cek async '+ JSON.stringify(datas));
+                        console.log('cek async ' + JSON.stringify(datas));
                         AsyncStorage.setItem('setOrder', JSON.stringify(datas))
-                      
+
 
                     }
 
@@ -405,7 +458,7 @@ const Checkout = (props) => {
                                     <Image source={allLogo.location} style={styles.iclocation} />
                                     <Text style={styles.txtAlamat}>Alamat Pengiriman</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', bottom: toDp(10),  justifyContent: 'space-between'}}>
+                                <View style={{ flexDirection: 'row', bottom: toDp(10), justifyContent: 'space-between' }}>
                                     <View style={styles.isiAddress}>
                                         {state.alu_stats == true &&
                                             <>
@@ -416,7 +469,7 @@ const Checkout = (props) => {
                                         <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
 
                                     </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', right: toDp(10), top: toDp(15)}}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', right: toDp(10), top: toDp(15) }}>
                                         <Image source={allLogo.iclineblack} style={styles.icaddress} />
                                     </View>
                                 </View>
@@ -427,7 +480,7 @@ const Checkout = (props) => {
                             <Text style={styles.txtTB}>{state.retail_name}</Text>
 
                             <View style={styles.OrderDetail}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(5)}}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(5) }}>
                                     <Image source={{ uri: state.thumbnail }} style={{ marginLeft: toDp(10), width: toDp(100), height: toDp(100) }} />
                                 </View>
                                 <View style={{ alignSelf: 'center', bottom: toDp(80), flexDirection: 'column', width: toDp(200), left: toDp(50) }}>
@@ -463,8 +516,8 @@ const Checkout = (props) => {
                                             buttonStyle={styles.dropdown}
                                             buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
                                             rowTextStyle={{ fontSize: toDp(12) }}
-                                            dropdownStyle={{ borderRadius: toDp(7) }}
-                                            rowStyle={{ height: toDp(30), padding: toDp(5) }}
+                                            dropdownStyle={{ borderRadius: toDp(10) }}
+                                            rowStyle={{ height: toDp(48), padding: toDp(5) }}
                                             defaultButtonText={'Pilih Jasa Pengiriman'}
                                             data={state.datas}
                                             onSelect={(selectedItem, index) => {
@@ -543,7 +596,7 @@ const Checkout = (props) => {
                                     <Text style={styles.txtTotPem}>Total Pembayaran</Text>
                                     {/* <Text style={styles.txtTotPem1}>Rp 800.000</Text> */}
                                     <NumberFormat
-                                        value={parseInt(state.shp_harga+parseInt(state.price))}
+                                        value={parseInt(state.shp_harga + parseInt(state.price))}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}

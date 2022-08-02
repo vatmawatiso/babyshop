@@ -33,11 +33,11 @@ const Saldopenjual = (props) => {
         <View style={{flexDirection:'row'}}>
             <Pressable style={styles.btnSaldo}>
                 <Image source={allLogo.icatm} style={styles.icatm} />
-                <Text style={{bottom:toDp(5), color:'#2A334B'}}>Penarikan Uang</Text>
+                <Text style={{bottom:toDp(5),}}>Penarikan Uang</Text>
             </Pressable>
             <Pressable style={styles.btnHarga}>
                 <Image source={allLogo.ictransaksi} style={styles.ictransaksi} />
-                <Text style={{bottom:toDp(5), color:'#2A334B'}}>Riwayat Transaksi</Text>
+                <Text style={{bottom:toDp(5),}}>Riwayat Transaksi</Text>
             </Pressable>
         </View>
 
@@ -119,13 +119,13 @@ icatm: {
     width:toDp(19),
     height:toDp(20.58),
     bottom:toDp(8),
-    tintColor:'#2A334B'
+    tintColor:'#F83308'
 },
 ictransaksi:{
     width:toDp(19),
     height:toDp(20),
     bottom:toDp(8),
-    tintColor:'#2A334B'
+    tintColor:'#F83308'
 }
 });
 

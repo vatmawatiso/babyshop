@@ -197,7 +197,7 @@ const Tambahproduk = (props) => {
         name: "product-" + state.prd_name + "-" + makeRandom(21) + "-" + i + "-.jpg",
       });
     });
-    console.log('---INI----->' + JSON.stringify(state.fileUri.path));
+    console.log('---INI----->' + JSON.stringify(formData));
     await axios({
       url: svr.url+'product/'+svr.api,
       // url: 'https://market.pondok-huda.com/dev/react/product/',
@@ -207,13 +207,13 @@ const Tambahproduk = (props) => {
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
       }
-    })
-    alert('berhasil tambah produk')
-      .then(function (response) {
+    }).then(function (response) {
+        alert('berhasil tambah produk')
         console.log("response :", response.data);
         setState(state => ({ ...state, tmb_image: false }))
-      })
-      .catch(function (error) {
+
+
+    }).catch(function (error) {
         console.log("error up", error)
         setState(state => ({ ...state, tmb_image: false }))
 
@@ -229,7 +229,7 @@ const Tambahproduk = (props) => {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', error.message);
         }
-      })
+    })
   }
 
   const upImageToServer = (imagePath) => {
@@ -266,9 +266,29 @@ const Tambahproduk = (props) => {
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
-      setState(state => ({ ...state, fileUri: response.path }))
-      //InputProduk(response)
-      console.log(response)
+      if(response.size > 154557){
+        alert('Ukuran foto melebihi 1,5 mb')
+      } else {
+          //InputProduk(response)
+        let jum = state.images.length;
+        let { images } = state;
+        images[jum] = {
+                        uri: response.path,
+                        width: response.width,
+                        height: response.height,
+                        mime: response.mime,
+                      };
+                      setState(state => ({
+                        ...state,
+                        images
+                    }))
+      }
+
+      if(state.fileUri==''){
+        setState(state => ({ ...state, fileUri: response, tmb_image: true }))
+      }
+   
+      console.log('cekcok', (response.size))
     }).catch(err => {
       console.log(err)
       if (err == 'Error: Required permission missing' || err == 'User did not grant camera permission.') {
@@ -296,7 +316,20 @@ const Tambahproduk = (props) => {
       if (state.tmb_image == false) {
         setState(state => ({ ...state, fileUri: response[0], tmb_image: true }))
         console.log('path -- >' + JSON.stringify(response[0].path));
-      } else {
+
+        setState(state => ({
+          ...state,
+          images: response.map((i) => {
+            console.log('received image', i);
+            return {
+              uri: i.path,
+              width: i.width,
+              height: i.height,
+              mime: i.mime,
+            };
+          }),
+        }));
+      }else{
         setState(state => ({
           ...state,
           images: response.map((i) => {
@@ -332,10 +365,22 @@ const Tambahproduk = (props) => {
 
   const renderFileUri = () => {
     if (state.fileUri != '') {
-      return <Image
-        source={{ uri: state.fileUri.path }}
-        style={styles.images}
-      />
+      console.log('images -- >' + JSON.stringify(state.images.length));
+      console.log('this images -- >' + JSON.stringify(state.images));
+      return (
+        <>
+        {state.images.map(v =>{
+
+           return(
+             <Image
+                 source={{ uri: v.uri}}
+                 style={styles.images}
+             />
+           )
+        })}
+
+        </>
+      )
     } else {
       return <Image
         source={allLogo.iccamera}
@@ -357,13 +402,15 @@ const Tambahproduk = (props) => {
       <View style={styles.bodyInputProduk}>
         <ScrollView>
           <View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
-              <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
-                <Text style={styles.txtFoto}>Tambah Foto</Text>
-              </TouchableOpacity>
-              {renderFileUri()}
-            </View>
-            <View>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+                <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
+                  <Text style={styles.txtFoto}>Tambah Foto</Text>
+                </TouchableOpacity>
+                {renderFileUri()}
+              </View>
+            </ScrollView>
+            <View style={{marginTop:toDp(20)}}>
               <Text style={styles.txtFormInput}>Nama Product</Text>
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
@@ -413,7 +460,7 @@ const Tambahproduk = (props) => {
                 buttonStyle={styles.dropdown}
                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
-                dropdownStyle={{ borderRadius: toDp(7) }}
+                dropdownStyle={{ borderRadius: toDp(10) }}
                 rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kategori'}
                 data={state.kategori}
@@ -445,7 +492,7 @@ const Tambahproduk = (props) => {
                 buttonStyle={styles.dropdown1}
                 buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                 rowTextStyle={{ fontSize: toDp(12) }}
-                dropdownStyle={{ borderRadius: toDp(7) }}
+                dropdownStyle={{ borderRadius: toDp(10) }}
                 rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kondisi'}
                 data={state.kondisi}
@@ -528,7 +575,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9f9',
     width: toDp(335),
     height: toDp(490),
-    borderRadius: toDp(8),
+    borderRadius: toDp(10),
     top: toDp(10),
     left: toDp(12),
     shadowColor: "#000",
@@ -548,10 +595,10 @@ const styles = StyleSheet.create({
   btnSimpan: {
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(42),
+    height: toDp(48),
     justifyContent: 'center',
-    borderRadius: toDp(8),
-    bottom: toDp(5),
+    borderRadius: toDp(10),
+    bottom: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -590,7 +637,7 @@ const styles = StyleSheet.create({
     margin: toDp(8),
     height: toDp(53),
     width: toDp(59),
-    borderRadius: toDp(5),
+    borderRadius: toDp(10),
     justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {
@@ -640,7 +687,7 @@ const styles = StyleSheet.create({
     width: toDp(320),
     height: toDp(48),
     justifyContent: 'center',
-    borderRadius: toDp(8),
+    borderRadius: toDp(10),
     bottom: toDp(65),
     left: toDp(8),
     shadowColor: "#000",
@@ -658,20 +705,6 @@ const styles = StyleSheet.create({
     height: toDp(12.8),
     left: toDp(300),
     bottom: toDp(13)
-  },
-  txtOngkir: {
-    margin: toDp(3),
-    bottom: toDp(30)
-  },
-  btnOngkir: {
-    backgroundColor: '#FFFFFF',
-    width: toDp(320),
-    height: toDp(39),
-    justifyContent: 'center',
-    borderRadius: toDp(8),
-    bottom: toDp(60),
-    left: toDp(8),
-    borderWidth: toDp(0.5),
   },
   dropdown: {
     height: toDp(48),
@@ -708,7 +741,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    
+
     elevation: 2,
   },
   // modalBuka: {
@@ -722,7 +755,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: '#fff',
     height: toDp(200),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
     // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -761,7 +794,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: toDp(48),
     width: toDp(80),
-    borderRadius: toDp(20)
+    borderRadius: toDp(10)
   },
   txtButon: {
     fontSize: toDp(14),
@@ -775,7 +808,7 @@ const styles = StyleSheet.create({
     height: toDp(53),
     width: toDp(58),
     borderRadius: toDp(10),
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     justifyContent: 'center',
     borderWidth: 0.5,
   }

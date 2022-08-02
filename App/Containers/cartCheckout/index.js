@@ -437,7 +437,7 @@ const cartCheckout = (props) => {
                         buttonStyle={styles.dropdown}
                         buttonTextStyle={{ fontSize: toDp(12), color: 'grey' }}
                         rowTextStyle={{ fontSize: toDp(12) }}
-                        dropdownStyle={{ borderRadius: toDp(7) }}
+                        dropdownStyle={{ borderRadius: toDp(10) }}
                         rowStyle={{ height: toDp(48), padding: toDp(5) }}
                         defaultButtonText={'Pilih Jasa Pengiriman'}
                         data={state.datas[i] == '' || state.datas[i] == null ? '' : state.datas[i]}
