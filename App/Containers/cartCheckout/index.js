@@ -148,8 +148,8 @@ const cartCheckout = (props) => {
     const getAlumember = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let idember = uids;
-            axios.get(svr.url+'addres/?alus='+idember+'/'+svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
+            axios.get(svr.url + 'addres/?alus=' + idember + '/' + svr.api)
+                // axios.get('https://market.pondok-huda.com/dev/react/addres/?alus=' + idember)
                 .then(result => {
                     let oid = result.data;
                     console.log('oid = ' + oid.data.length);
@@ -222,8 +222,8 @@ const cartCheckout = (props) => {
     const getCartProduk = () => {
         AsyncStorage.getItem('uid').then(uids => {
             let aid = uids;
-            axios.get(svr.url+'cart/member/'+aid+'/'+svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + aid)
+            axios.get(svr.url + 'cart/member/' + aid + '/' + svr.api)
+                // axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + aid)
                 .then(response => {
                     if (response.data.status == 200) {
                         console.log('response produk cart =>', JSON.stringify(response))
@@ -300,8 +300,8 @@ const cartCheckout = (props) => {
 
     const getJasa = (rtl, i) => {
         setState(state => ({ ...state, loading: true }))
-        axios.get(svr.url+'ship-retail/retail/'+rtl+'/'+svr.api)
-        // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + rtl)
+        axios.get(svr.url + 'ship-retail/retail/' + rtl + '/' + svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + rtl)
             .then(result => {
                 console.log('jasa kirim  ', result);
                 let { datas } = state;
@@ -330,8 +330,8 @@ const cartCheckout = (props) => {
 
         setState(state => ({ ...state, loading: true }))
         //console.log('https://market.pondok-huda.com/dev/react/order/cart/'+state.id)
-        axios.post(svr.url+'order/cart/fromcart/'+svr.api,body)
-        // axios.post('https://market.pondok-huda.com/dev/react/order/cart/fromcart', body)
+        axios.post(svr.url + 'order/cart/fromcart/' + svr.api, body)
+            // axios.post('https://market.pondok-huda.com/dev/react/order/cart/fromcart', body)
             .then(response => {
 
                 console.log('CEK URL ===>' + JSON.stringify(response.data));
@@ -354,8 +354,8 @@ const cartCheckout = (props) => {
                 }
 
             }).catch(err => {
-                console.log(svr.url+'order/cart/fromcart/'+svr.api,body)
-                alert('Gagal menerima data dari server!' +svr.url+'order/cart/fromcart/'+svr.api,body )
+                console.log(svr.url + 'order/cart/fromcart/' + svr.api, body)
+                alert('Gagal menerima data dari server!' + svr.url + 'order/cart/fromcart/' + svr.api, body)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -370,28 +370,28 @@ const cartCheckout = (props) => {
         let priceee = item.price;
         var hasilll = parseInt(qtyyy) * parseInt(priceee)
         return (
-                <View style={styles.cartProduk}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <View style={{ marginLeft: toDp(12) }}>
-                            <Image source={{ uri: item.thumbnail }} style={styles.imageThumb} />
-                        </View>
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{item.qty} {item.prd_name.substr(0, 25)}</Text>
-                            <NumberFormat
-                                value={hasilll}
-                                displayType={'text'}
-                                thousandSeparator={'.'}
-                                decimalSeparator={','}
-                                prefix={'Rp. '}
-                                renderText={formattedValue => <Text style={{ bottom: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                            />
-                            
-                        </View>
+            <View style={styles.cartProduk}>
+                <View style={{ flexDirection: 'row', margin: toDp(15) }}>
+                    <View style={{ marginLeft: toDp(0) }}>
+                        <Image source={{ uri: item.thumbnail }} style={styles.imageThumb} />
                     </View>
-                    {/* line separate */}
-                    {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
-                   
+                    <View style={{ flexDirection: 'column', marginLeft: toDp(10) }}>
+                        <Text style={{ fontSize: toDp(14), fontWeight: 'bold' }}>{item.qty} {item.prd_name.substr(0, 25)}</Text>
+                        <NumberFormat
+                            value={hasilll}
+                            displayType={'text'}
+                            thousandSeparator={'.'}
+                            decimalSeparator={','}
+                            prefix={'Rp. '}
+                            renderText={formattedValue => <Text style={{ top: toDp(0), left: toDp(0), fontSize: toDp(12), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        />
+
+                    </View>
                 </View>
+                {/* line separate */}
+                {/* <View style={{width: '85%', height: '2%', backgroundColor: 'grey'}}/> */}
+
+            </View>
         )
     }
 
@@ -400,13 +400,13 @@ const cartCheckout = (props) => {
             <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }} key={i}>
                 <View style={styles.orderCartone}>
                     {/*Identitas produk*/}
-                    <View style={{ width: '100%', height: toDp(20) }}>
+                    <View style={{ width: '100%', height: toDp(20), bottom: toDp(10) }}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ fontWeight: 'bold', marginLeft: toDp(15), top: toDp(6) }}>{itm.retail_name}</Text>
+                            <Text style={{ fontWeight: 'bold', marginLeft: toDp(5), top: toDp(6) }}>{itm.retail_name}</Text>
                         </View>
 
                     </View>
-                    <View style={{position: 'absolute', zIndex: 3, left: '50%', top: '35%'}}>
+                    <View style={{ position: 'absolute', zIndex: 3, left: '50%', top: '35%' }}>
                         {/* <NumberFormat
                             value={itm.subtotal}
                             displayType={'text'}
@@ -420,7 +420,17 @@ const cartCheckout = (props) => {
 
                     {/* end Identitas produk*/}
                     {/* flat list per produk */}
-                    <FlatList style={{ width: toDp(335), top: toDp(10), marginBottom: toDp(70) }}
+                    <FlatList style={{
+                        width: toDp(335), marginBottom: toDp(70), backgroundColor: '#F8F9F9', borderRadius: toDp(10), shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+
+                        elevation: 2,
+                    }}
                         data={itm.items}
                         renderItem={({ item, index }) => {
                             return (
@@ -497,7 +507,7 @@ const cartCheckout = (props) => {
                         )
                     }}
                     keyExtractor={(item) => item.retail_id}
-                    // ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+                // ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
 
                 />
             </View>
@@ -537,11 +547,11 @@ const cartCheckout = (props) => {
                             </Pressable>
                         </View>
                         {/* <View style={{ marginTop: toDp(10), marginBottom: toDp(90) }}> */}
-                            <CardCartProduk />
-                            {/* <Text>==> {JSON.stringify(state.shp_id)}</Text> */}
+                        <CardCartProduk />
+                        {/* <Text>==> {JSON.stringify(state.shp_id)}</Text> */}
                         {/* </View> */}
 
-                        <View>
+                        <View style={{ bottom: toDp(50) }}>
                             <View style={styles.bodyPayment}>
                                 <Pressable onPress={() => NavigatorService.navigate('Pembayaran')}>
                                     <View style={styles.payment}>
@@ -595,9 +605,9 @@ const cartCheckout = (props) => {
                     </View>
 
                     <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(48), }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Pressable style={styles.btn} onPress={() => postProduk()}>
-                                <Text style={{ textAlign: 'center', top: toDp(17), color: 'white' }}>Buat Pesanan</Text>
+                                <Text style={{ textAlign: 'center', top: toDp(14), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -615,11 +625,19 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         height: toDp(48),
-        borderRadius: toDp(15),
+        borderRadius: toDp(10),
+        bottom: toDp(60),
         width: toDp(335),
-        top: toDp(4),
         backgroundColor: '#f9f8f8',
-        borderWidth: toDp(0.5)
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     Address: {
         top: toDp(15),
@@ -834,7 +852,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         borderRadius: toDp(15),
         width: toDp(335),
-        height: toDp(48)
+        height: toDp(48),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     flatcontent: {
         width: '100%',

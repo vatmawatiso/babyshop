@@ -68,8 +68,8 @@ const Keranjang = (props) => {
   // get data produk di keranjang
   const getCart = () => {
     let mid = props.navigation.state.params.id
-    Axios.get(svr.url+'cart/member/'+mid+'/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+    Axios.get(svr.url + 'cart/member/' + mid + '/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('response get cart' + JSON.stringify(response))
         if (response.data.status == 200) {
@@ -116,8 +116,8 @@ const Keranjang = (props) => {
   const getCartrRefresh = () => {
     //setState(state => ({ ...state, dataCart: []}))
     let mid = props.navigation.state.params.id
-    Axios.get(svr.url+'cart/member/'+mid+'/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+    Axios.get(svr.url + 'cart/member/' + mid + '/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('response get cart', JSON.stringify(response))
         if (response.data.status == 200) {
@@ -158,8 +158,8 @@ const Keranjang = (props) => {
   // refresh total price barang2 yg ada di keranjang
   const refreshTotalPrice = () => {
     let mid = props.navigation.state.params.id
-    Axios.get(svr.url+'cart/member/'+mid+'/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
+    Axios.get(svr.url + 'cart/member/' + mid + '/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/cart/?mb_id=' + mid)
       .then(response => {
         console.log('total', response.data)
         if (response.data.status == 200) {
@@ -176,8 +176,8 @@ const Keranjang = (props) => {
   // deleete keranjang
   const delCart = (cid, pid) => {
     console.log('Cart Id =>', cid + pid)
-    Axios.delete(svr.url+'cart/delete/'+cid+'/'+pid+'/'+svr.api)
-    // Axios.delete('https://market.pondok-huda.com/dev/react/cart/delete/' + cid + '/' + pid)
+    Axios.delete(svr.url + 'cart/delete/' + cid + '/' + pid + '/' + svr.api)
+      // Axios.delete('https://market.pondok-huda.com/dev/react/cart/delete/' + cid + '/' + pid)
       .then(response => {
         console.log('response =>', response);
         if (response.data.status == 200) {
@@ -195,8 +195,8 @@ const Keranjang = (props) => {
   // delete all data cart
   const delCartAll = (id) => {
     console.log('Cart Id =>', id)
-    Axios.delete(svr.url+'cart/delall/'+id+'/'+svr.api)
-    // Axios.delete('https://market.pondok-huda.com/dev/react/cart/delall/' + id)
+    Axios.delete(svr.url + 'cart/delall/' + id + '/' + svr.api)
+      // Axios.delete('https://market.pondok-huda.com/dev/react/cart/delall/' + id)
       .then(response => {
         console.log('response =>', response);
         if (response.data.status == 200) {
@@ -245,8 +245,8 @@ const Keranjang = (props) => {
       crt_id: crt_id
     }
     console.log('------>>', crd_id + '  |  ' + crd_qty + '  |  ' + prd_id + '  |  ' + crt_id + '  |  ' + value + '  |  ' + i)
-    Axios.post(svr.url+'cart/'+crd_id+'/'+svr.api,datas)
-    // Axios.post('https://market.pondok-huda.com/dev/react/cart/' + crd_id + '/', datas)
+    Axios.post(svr.url + 'cart/' + crd_id + '/' + svr.api, datas)
+      // Axios.post('https://market.pondok-huda.com/dev/react/cart/' + crd_id + '/', datas)
       .then(response => {
         console.log('response data=>', datas)
 
@@ -267,7 +267,7 @@ const Keranjang = (props) => {
   const perProduk = (item, index, idcart, inc) => {
     return (
       <>
-        <View style={{ flexDirection: 'row', marginTop: toDp(10), marginBottom: toDp(4), backgroundColor: '#fff', borderRadius: 10, padding: toDp(12), width: toDp(315) }}>
+        <View style={styles.perProduk}>
           <View style={{ marginLeft: toDp(12) }}>
             <Image source={{ uri: item.thumbnail }} style={styles.imgProduk} />
           </View>
@@ -389,7 +389,7 @@ const Keranjang = (props) => {
     return (
       <View style={styles.chooseAll}>
         <Pressable style={styles.delete} onPress={() => delAlert(item[0].id)}>
-          <Text style={{ fontWeight: 'bold', color:'#fff' }}>Hapus</Text>
+          <Text style={{ fontWeight: 'bold', color: '#fff' }}>Hapus</Text>
         </Pressable>
       </View>
     )
@@ -449,6 +449,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
+  },
+  perProduk: {
+    flexDirection: 'row',
+    marginTop: toDp(10),
+    marginBottom: toDp(4),
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: toDp(12),
+    width: toDp(315),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
+
   },
   dropdown: {
     height: toDp(25),
@@ -514,7 +533,16 @@ const styles = StyleSheet.create({
     borderRadius: toDp(10),
     width: toDp(335),
     paddingBottom: toDp(10),
-    backgroundColor: '#ccc'
+    backgroundColor: '#ccc',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
   },
   txtp: {
     fontSize: toDp(25),
@@ -550,9 +578,19 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: toDp(10),
-    width: toDp(160),
+    borderBottomLeftRadius:toDp(10),
+    borderTopLeftRadius:toDp(10),
+    width: toDp(170),
     height: toDp(50),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
     // right:toDp(12)
   },
   buttonPay: {
@@ -562,6 +600,15 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: toDp(10),
     width: '50%',
     height: toDp(50),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
     // left:toDp(8)
   },
   txtTotal: {

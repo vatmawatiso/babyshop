@@ -45,103 +45,11 @@ const Tokobangunan = (props) => {
       })
   }
 
-  const DATA = [
-    {
-      id: '1',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Bandung',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '2',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Bandungbae',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '3',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Bandung',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '4',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Bandung',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '5',
-      nama: 'TB Jaya sukses',
-      telepon: '083141520987',
-      alamat: 'Bali',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '6',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Indramayu',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '7',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Majalengka',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '8',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Kuningan',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '9',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Bogor',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '10',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Cirebon',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    }, {
-      id: '11',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Jakarta',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-    {
-      id: '12',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Banten',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    }, {
-      id: '13',
-      nama: 'TB Jaya Abadi',
-      telepon: '083141520987',
-      alamat: 'Tasikmalaya',
-      image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    },
-  ]
-
   const ListToko = (item, index) => (
     <View style={styles.body}>
       <TouchableOpacity style={{ width: toDp(330) }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
-          <Image source={{ uri: DATA[0].image }} style={styles.imgKontak} />
+          <Image source={allLogo.roof} style={styles.imgKontak} />
           <View style={{ flexDirection: 'row', marginLeft: toDp(10) }}>
             <View>
               <Text style={{ fontSize: toDp(12) }}>Nama</Text>
@@ -249,9 +157,10 @@ const styles = StyleSheet.create({
     marginBottom: toDp(45)
   },
   imgKontak: {
-    height: toDp(50),
+    height: toDp(38),
     width: toDp(50),
-    borderRadius: toDp(20),
+    borderRadius: toDp(10),
+    tintColor:'#F83308',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

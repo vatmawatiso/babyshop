@@ -137,7 +137,7 @@ const Sudahdibayar = (props) => {
                                 <View style={{ alignItems: 'flex-end', margin: toDp(5), bottom: toDp(5) }}>
                                     {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
                                     <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
-                                        <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
+                                        <Text style={styles.txtButtonPay}>Dikemas</Text>
                                     </Pressable>
                                 </View>
                             </View>
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
 
         backgroundColor: '#f3f3f3',
         padding: toDp(15),
+        height:toDp(235),
         borderRadius: toDp(10),
         width: width - 30,
         borderColor: "thistle",
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         borderRadius: toDp(10),
         width: toDp(97),
-        height: toDp(34),
+        height: toDp(48),
         fontSize: toDp(11),
         justifyContent: 'center',
         bottom: toDp(8),

@@ -20,7 +20,7 @@ import NavigatorService from '@NavigatorService';
 import Axios from 'axios';
 import NumberFormat from 'react-number-format';
 const { width, height } = Dimensions.get('window')
-const Cari = () => {
+const Cari = (props) => {
   const [filtered, setFiltered] = useState([]);
   const [masterData, setmasterData] = useState([]);
   const [search, setSearch] = useState('');
@@ -242,7 +242,7 @@ const Cari = () => {
           <Text style={styles.dariKota}>{item.retailaddres}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
-          <View style={{flexDirection: 'row', top: 25, right: 30}}>
+          <View style={{ flexDirection: 'row', top: 25, right: 30 }}>
             <Text style={styles.terjual}>Terjual</Text>
             <Text style={styles.terjual}>{item.lainnya.terjual}</Text>
           </View>
@@ -254,9 +254,6 @@ const Cari = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => props.navigation.goBack()}>
-        <Image source={allLogo.Left} style={styles.icBack} />
-      </Pressable>
       <Image style={styles.icSearch} source={require('../../Assets/img/ic_search.png')} />
       <TextInput
         style={styles.textInput}
@@ -266,6 +263,9 @@ const Cari = () => {
         onChangeText={(text) => searchFilter(text)}
 
       />
+      <TouchableOpacity style={styles.icBack} onPress={() => props.navigation.goBack()}>
+        <Image source={allLogo.Left} style={{width:toDp(38), height:toDp(38)}} />
+      </TouchableOpacity>
       <View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
         {/* <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 20, }}> List of data</Text> */}
 
@@ -326,12 +326,11 @@ const styles = StyleSheet.create({
     height: toDp(38),
     resizeMode: 'contain',
     tintColor: 'black',
-    // backgroundColor:'cyan',
-    marginHorizontal: toDp(0),
-    position: 'absolute',
-    zIndex: 3,
-    right: toDp(133),
-    top: toDp(10)
+    marginHorizontal: toDp(8),
+    // position: 'absolute',
+    // zIndex: 3,
+    right: toDp(150),
+    bottom: 44
   },
   textInput: {
     backgroundColor: '#2A334B',

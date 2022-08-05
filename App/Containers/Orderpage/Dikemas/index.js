@@ -124,10 +124,10 @@ const Dikemas = (props) => {
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5), bottom: toDp(5) }}>
-                                    <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text>
-                                    <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
+                                    <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran} (Dicek Otomatis)</Text>
+                                    {/* <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
                                         <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
-                                    </Pressable>
+                                    </Pressable> */}
                                 </View>
                             </View>
 
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-
+        height:toDp(235),
         backgroundColor: '#f3f3f3',
         padding: toDp(15),
         borderRadius: toDp(10),

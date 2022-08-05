@@ -304,7 +304,7 @@ const profilToko = (props) => {
                                     ListKategori(item, index, () => NavigatorService.navigate('kategoriProDariCilent', { ctg_id: item.ctg_id, rid2, id: state.id }))
                                 )
                             }}
-                            ListFooterComponent={() => <View style={{ height: toDp(180), width: toDp(335) }} />}
+                            ListFooterComponent={() => <View style={{ height: toDp(180), width: toDp(320) }} />}
                         />
                     </View>
                 </View>
@@ -314,7 +314,7 @@ const profilToko = (props) => {
 
     const ListKategori = (item, index, onPress) => {
         return (
-            <View style={{ marginTop: toDp(0), width: '100%', right: toDp(4), marginBottom: toDp(10), }}>
+            <View style={{ marginTop: toDp(0), width: '100%', marginBottom: toDp(10), }}>
                 <View style={styles.viewKategori}>
 
                     <View style={styles.viewKate}>

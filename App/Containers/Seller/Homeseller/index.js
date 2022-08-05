@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
   hargaSaldo: {
     color: '#F83308',
     fontWeight: '800',
-    marginRight: toDp(5)
+    marginRight: toDp(15)
   },
   garis: {
     borderWidth: toDp(0.5), 

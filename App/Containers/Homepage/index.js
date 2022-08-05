@@ -60,8 +60,8 @@ const Homepage = () => {
        onWish={() => NavigatorService.navigate('Wishlist')}
        />
       
-      <Image source={allLogo.iccart} style={styles.cart} />
-        <Image source={allLogo.icnav} style={styles.nav} />
+      {/* <Image source={allLogo.cart} style={styles.cart} /> */}
+        {/* <Image source={allLogo.icnav} style={styles.nav} /> */}
       <View style={styles.content}>
         {
           state.content == 'home' ?
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '10deg' }],
   },
   cart: {
-    padding: toDp(1),
-    top: toDp(-45),
-    left: toDp(260) 
+    width: toDp(30),
+    height: toDp(30),
+    tintColor: '#fff'
   },
   nav: {
     padding: toDp(1),

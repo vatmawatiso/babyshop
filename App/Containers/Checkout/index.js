@@ -6,7 +6,7 @@ import {
     Image,
     Alert,
     TextInput,
-
+    BackHandler,
     Pressable,
     ScrollView,
     AsyncStorage,
@@ -21,36 +21,11 @@ import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
+// import { payment } from "../../Configs/payment";
 // import CryptoJS from "crypto-js";
 // import fetch from "node-fetch";
 
 const Checkout = (props) => {
-
-    const DATA = [
-        {
-            id: '2938492',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Dikemas',
-            produk: 'Gerobak Pasir',
-            harga: 'Rp 500.000',
-            jumlah: '2',
-            total: 'Rp 800.0000',
-            bataswaktu: '13 Januari 2022',
-            diterima: '15-18 januari 2022',
-            metodePembayaran: 'Bank Mandiri',
-            konfirmasi: 'Dibatalkan Pembeli',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
-
-    const Address = [
-        {
-            id: '1',
-            nama: 'Vatmawati',
-            telepon: '083141520987',
-            alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
-        },
-    ]
 
     const [selectedItems, setSelectedItems] = useState([]);
     const [stAlu, setAllu] = useState(0);
@@ -76,19 +51,22 @@ const Checkout = (props) => {
         id: '',
         shp_id: '',
         shp_name: '',
-        shp_harga: '',
+        shp_harga: 0,
         shr_jasa: '',
         id_retail: '',
         product_name: '',
         prd_id: '',
         retail: '',
         retail_name: '',
-        price: '',
+        price: 0,
         totalll: '',
         thumbnail: '',
+        Code: '',
         alu_stats: false,
         loading: false,
         modalVisible: false,
+        methodeName: 'Pilih Pembayaran',
+        adminfee: 0,
         option: {
             width: 750,
             height: 750,
@@ -182,14 +160,96 @@ const Checkout = (props) => {
             'didFocus',
             payload => {
                 loatAlamatU()
+                paymentMethode()
 
                 // getRetail()  // untuk reload data terbaru retail
             }
         );
         getJasa()
         totalPro()
+        // paym()
 
     }, [stAlu])
+
+    useEffect(() => {
+        const backAction = () => {
+            Alert.alert('Konfirmasi', 'Batalkan transaksi?', [
+                {
+                    text: 'Tidak',
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: 'Ya Batalkan', onPress: () => BackGo() }
+            ]);
+            return true;
+
+        };
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [])
+
+    const paymentMethode = () => {
+
+        AsyncStorage.getItem('paymentMethode').then(response => {
+            let data = JSON.parse(response);
+            if (data == '' || data == null) {
+                setState(state => ({
+                    ...state,
+                    methodeName: 'Pilih Pembayaran',
+                    adminfee: parseInt(0)
+                }))
+            } else {
+                setState(state => ({
+                    ...state,
+                    methodeName: data.name,
+                    adminfee: parseInt(data.fee)
+                }))
+            }
+
+            console.log('code : ' + data.code + ' | Fee :' + data.fee + ' | methode : ' + data.name);
+
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+    }
+
+    const backActions = () => {
+        Alert.alert('Konfirmasi', 'Batalkan transaksi?', [
+            {
+                text: 'Tidak',
+                onPress: () => null,
+                style: "cancel"
+            },
+            { text: 'Ya Batalkan', onPress: () => BackGo() }
+        ]);
+        return true;
+
+    };
+
+    const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backActions
+    );
+
+    const BackGo = () => {
+        try {
+            AsyncStorage.removeItem('paymentMethode');
+            console.log('ya');
+            props.navigation.goBack();
+            return true;
+
+        }
+        catch (exception) {
+
+            console.log('gagal');
+            return false;
+        }
+    }
 
 
     const getAlumember = () => {
@@ -265,15 +325,6 @@ const Checkout = (props) => {
         }
     }
 
-    //mencari total harga
-
-    // useEffect(() => {
-    //     getJasa()
-    //     totalPro()
-
-
-    // },[])
-
     const totalPro = () => {
 
         AsyncStorage.getItem('setProduk').then(response => {
@@ -336,56 +387,6 @@ const Checkout = (props) => {
 
 
 
-
-    // const formData = new FormData();
-    // formData.append('name', state.mb_name);
-    // formData.append('phone', state.mb_phone);
-    // formData.append('email', state.mb_email);
-    // formData.append('amount', state.totalll);
-    // formData.append('notifyUrl', 'https://mywebsite.com');
-    // formData.append('expired', '24');
-    // formData.append('expiredType', 'hours');
-    // formData.append('comments', 'null');
-    // formData.append('referenceId', 'null');
-    // formData.append('paymentMethod', 'va');
-    // formData.append('paymentChannel', 'nul');
-    // formData.append('product[]', state.product_name);
-    // formData.append('qty[]', state.qty);
-    // formData.append('price[]', state.price);
-    // formData.append('weight[]', 'null');
-    // formData.append('width[]', 'null');
-    // formData.append('height[]', 'null');
-    // formData.append('length[]', 'null');
-    // formData.append('deliveryArea', 'null');
-    // formData.append('deliveryAddress', state.adr_id);
-
-    // const config = {
-    //     method: 'post',
-    //     url: 'https://sandbox.ipaymu.com/api/v2/payment/direct',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'signature': '[object Object]',
-    //         'va': '1179000899',
-    //         'timestamp': '20191209155701',
-    //         ...formData.getHeaders()
-    //     },
-    //     formData: formData
-    // };
-
-    //     // generate signature
-    //     let bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
-    //     let stringtosign = "POST:" + payment.va + ":" + bodyEncrypt + ":" + payment.apikey;
-    //     let signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, payment.apikey));
-
-    // axios(config)
-    //     .then(function (response) {
-    //         console.log(JSON.stringify(response.formData));
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
-
-
     //post data order BINA
 
     const postProduk = async () => {
@@ -442,12 +443,87 @@ const Checkout = (props) => {
             })
     }
 
+    const postPayment = async () => {
+    const data = {
+        'name': state.mb_name,
+        'phone': state.mb_phone,
+        'email': state.mb_email,
+        'amount': state.totalll,
+        'notifyUrl': 'https://mywebsite.com',
+        'expired': '24',
+        'expiredType': 'hours',
+        'comments': 'null',
+        'referenceId': 'null',
+        'paymentMethod': state.methodeName,
+        'paymentChannel': state.adminfee,
+        'product[]': state.product_name,
+        'qty[]': state.qty,
+        'price[]': state.price,
+        'weight[]': 'null',
+        'width[]': 'null',
+        'height[]': 'null',
+        'length[]': 'null',
+        'deliveryArea': 'null',
+        'deliveryAddress': state.adr_id,
+    }
+    console.log('body post payment = '+ JSON.stringify(data))
+
+    const headers = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'signature': signature,
+          'va': payment.va,
+          'timestamp': newDte
+        }
+      }
+    // https://sandbox.ipaymu.com/api/v2/payment/direct
+    axios.post(payment.url + 'payment/direct', data, headers)
+        .then(result => {
+            console.log('cek result = '+ JSON.stringify(result));
+
+            if (result.data.status == 200) {
+
+                const datas = {
+                    value: result.data.data,
+                }
+                console.log('DATAS' + JSON.stringify(datas));
+
+                if (datas.value == 0) {
+                    alert('Tidak ditemukan data order!')
+                } else {
+                    //save Async Storage
+                    console.log('cek async ' + JSON.stringify(datas));
+                    AsyncStorage.setItem('orderPayment', JSON.stringify(datas))
+
+
+                }
+
+                // NavigatorService.navigate('Successorder');
+                setState(state => ({ ...state, loading: false }))
+
+            } else if (result.data.status == 500) {
+                alert('Internal server error!')
+                setState(state => ({ ...state, loading: false }))
+            }
+
+    })
+    .catch(err => {
+        console.log(err)
+        alert('Gagal menerima data dari server!')
+        setState(state => ({ ...state, loading: false }))
+    })
+
+    }
+
+}
+
 
     return (
         <View style={styles.container}>
             <Header
                 title={'Checkout'}
-                onPress={() => props.navigation.goBack()}
+                onPress={() => backActions()}
             />
             <ScrollView>
                 <View style={{ flex: 1 }}>
@@ -557,10 +633,16 @@ const Checkout = (props) => {
 
                         <View>
                             <View style={styles.bodyPayment}>
-                                <Pressable onPress={() => NavigatorService.navigate('underConstruction')}>
+                                <Pressable onPress={() => NavigatorService.navigate('Pembayaran', { from: 'belilangsung' })}>
                                     <View style={styles.payment}>
                                         <Text style={styles.txtPayment}>Metode Pembayaran</Text>
-                                        <Text style={styles.txtTransfer}>Transfer Bank</Text>
+                                        <Text style={styles.txtTransfer}>
+                                            {state.methodeName != '' ?
+                                                state.methodeName
+                                                :
+                                                'Pilih Pembayaran'
+                                            }
+                                        </Text>
                                         <Image source={allLogo.iclineblack} style={styles.iclineblack2} />
                                     </View>
                                 </Pressable>
@@ -569,7 +651,7 @@ const Checkout = (props) => {
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtSubTot}>Subtotal Untuk Produk</Text>
                                     <NumberFormat
-                                        value={state.price}
+                                        value={parseInt(state.price)}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
@@ -580,7 +662,7 @@ const Checkout = (props) => {
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtSubPeng}>Subtotal Pengiriman</Text>
                                     <NumberFormat
-                                        value={state.shp_harga}
+                                        value={parseInt(state.shp_harga)}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
@@ -588,15 +670,22 @@ const Checkout = (props) => {
                                         renderText={formattedValue => <Text style={{ fontSize: toDp(12), }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
                                 </View>
-                                {/* <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
-                                    <Text style={styles.txtBiayaPen}>Biaya Penanganan</Text>
-                                    <Text style={styles.txtBiayaPen}>Rp 50.000</Text>
-                                </View> */}
+                                <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
+                                    <Text style={styles.txtBiayaPen}>Biaya Admin</Text>
+                                    <NumberFormat
+                                        value={parseInt(state.adminfee)}
+                                        displayType={'text'}
+                                        thousandSeparator={'.'}
+                                        decimalSeparator={','}
+                                        prefix={'Rp. '}
+                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12),  }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                    />
+                                </View>
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtTotPem}>Total Pembayaran</Text>
                                     {/* <Text style={styles.txtTotPem1}>Rp 800.000</Text> */}
                                     <NumberFormat
-                                        value={parseInt(state.shp_harga + parseInt(state.price))}
+                                        value={parseInt(state.shp_harga + parseInt(state.adminfee)+parseInt(state.price))}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
@@ -609,9 +698,9 @@ const Checkout = (props) => {
                     </View>
 
                     <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(40), }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(48), }}>
                             <Pressable style={styles.btn} onPress={() => postProduk()}>
-                                <Text style={{ textAlign: 'center', top: toDp(10), color: 'white' }}>Buat Pesanan</Text>
+                                <Text style={{ textAlign: 'center', top: toDp(13), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -633,12 +722,20 @@ const styles = StyleSheet.create({
         top: toDp(10)
     },
     dropdown: {
-        height: toDp(25),
+        height: toDp(48),
         borderRadius: toDp(10),
         width: toDp(320),
         top: toDp(4),
         backgroundColor: '#f9f8f8',
-        borderWidth: toDp(0.5)
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     },
     Address: {
         top: toDp(15),
@@ -722,7 +819,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f8f8',
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(100),
+        height: toDp(120),
         bottom: toDp(5),
         shadowColor: "#000",
         shadowOffset: {
@@ -792,7 +889,7 @@ const styles = StyleSheet.create({
         top: toDp(5),
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(125),
+        height: toDp(145),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -815,7 +912,7 @@ const styles = StyleSheet.create({
     txtTransfer: {
         margin: toDp(4),
         fontSize: toDp(12),
-        left: toDp(50)
+        left: toDp(10)
     },
     iclineblack2: {
         width: toDp(10),
@@ -855,7 +952,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(40)
+        height: toDp(48),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
     }
 });
 

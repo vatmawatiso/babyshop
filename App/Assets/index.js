@@ -110,7 +110,21 @@ const allLogo = {
   udc: require('./img/udc.png'),
   empty: require('./img/cartempty.png'),
   Left: require('./img/Left.png'),
-  address: require('./img/address.png')
+  address: require('./img/address.png'),
+  roof: require('./img/roof.png'),
+  bca: require('./img/bca.png'),
+  bni: require('./img/bni.png'),
+  bri: require('./img/bri.png'),
+  bsi: require('./img/bsi.png'),
+  cimb: require('./img/cimb.png'),
+  mandiri: require('./img/mandiri.png'),
+  muamalat: require('./img/muamalat.png'),
+  permata: require('./img/permata.png'),
+  alfamart: require('./img/alfamart.png'),
+  indomart: require('./img/indomart.png'),
+  arta: require('./img/arta.png'),
+  akulaku: require('./img/akulaku.png'),
+  qris: require('./img/qris.png'),
 
 
 

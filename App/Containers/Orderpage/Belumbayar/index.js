@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-
+        height:toDp(235),
         backgroundColor: '#f3f3f3',
         padding: toDp(15),
         borderRadius: toDp(10),
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         borderRadius: toDp(10),
         width: toDp(97),
-        height: toDp(34),
+        height: toDp(48),
         fontSize: toDp(11),
         justifyContent: 'center',
         bottom: toDp(8),
