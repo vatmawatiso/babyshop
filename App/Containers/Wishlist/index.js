@@ -141,7 +141,7 @@ const Wishlist = (props) => {
                       </TouchableOpacity> */}
 
             <TouchableOpacity onPress={() => unLike()} key={index}>
-              <Image source={allLogo.heart} style={{ width: toDp(25), height: toDp(24), left: toDp(90) }} />
+              <Image source={allLogo.hati} style={{ width: toDp(20), height: toDp(18), left: toDp(90) }} />
             </TouchableOpacity>
 
           </View>

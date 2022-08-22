@@ -125,6 +125,9 @@ const allLogo = {
   arta: require('./img/arta.png'),
   akulaku: require('./img/akulaku.png'),
   qris: require('./img/qris.png'),
+  arrowright: require('./img/arrowright.png'),
+  hati: require('./img/hati.png'),
+  reset_password: require('./img/reset_password.png'),
 
 
 

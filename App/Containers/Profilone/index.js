@@ -388,7 +388,7 @@ const getStatus = () => {
           <Pressable style={{ width: toDp(60), height: toDp(20), left:toDp(180), top:toDp(10)}} onPress={() => NavigatorService.navigate('Editprofil')}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ marginRight: toDp(5), color: 'white', fontSize: toDp(12), }}>{text}</Text>
-                <Image source={allLogo.icline} style={styles.icline} />
+                <Image source={allLogo.arrowright} style={styles.icline} />
               </View>
             </Pressable>
           </View>
@@ -430,7 +430,7 @@ const getStatus = () => {
               <TouchableOpacity style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai', mb_id: state.mb_id })}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
                   <Text style={styles.txtRiwayat}>Lihat Riwayat Pesanan</Text>
-                  <Image source={allLogo.iclineright} style={styles.iclineright1} />
+                  <Image source={allLogo.arrowright} style={styles.iclineright1} />
                 </View>
               </TouchableOpacity>
             </View>
@@ -476,7 +476,7 @@ const getStatus = () => {
                     <Text style={styles.txtAddress}>{state.alu_name} {state.alu_phone}{"\n"}{state.alu_adress} {state.alu_city}</Text>
                 </View>
                 <View style={{ justifyContent: 'flex-start', alignItems: 'center', right: toDp(10)}}>
-                  <Image source={allLogo.iclineright} style={styles.iclineright} />
+                  <Image source={allLogo.arrowright} style={styles.iclineright} />
                 </View>
               </View>
             </TouchableOpacity>
@@ -613,6 +613,7 @@ const styles = StyleSheet.create({
   icline: {
     height: toDp(12),
     width: toDp(8),
+    tintColor:'#FFF'
   },
   icorders: {
     width: toDp(23),
@@ -649,14 +650,14 @@ const styles = StyleSheet.create({
   },
   iclineright1: {
     margin: toDp(10),
-    width: toDp(10),
-    height: toDp(14.8),
+    width: toDp(8),
+    height: toDp(14),
     right: toDp(-10),
     bottom: toDp(2),
   },
   iclineright: {
-    width: toDp(10),
-    height: toDp(14.8),
+    width: toDp(8),
+    height: toDp(14),
     marginLeft: toDp(24),
   },
   txtPengiriman: {

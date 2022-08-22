@@ -254,11 +254,11 @@ const Home = (props) => {
               {
                 selected == false ?
                   <TouchableOpacity onPress={() => onPress()} key={index}>
-                    <Image source={allLogo.icwishlist} style={{ width: toDp(20), height: toDp(20) }} />
+                    <Image source={allLogo.love} style={{ width: toDp(30), height: toDp(30), tintColor:'black', marginLeft:toDp(13) }} />
                   </TouchableOpacity>
                   :
                   <TouchableOpacity onPress={unLike} key={index}>
-                    <Image source={allLogo.heart} style={{ width: toDp(20), height: toDp(20) }} />
+                    <Image source={allLogo.hati} style={{ width: toDp(20), height: toDp(18) }} />
                   </TouchableOpacity>
               }
             </View>
@@ -351,7 +351,7 @@ const Home = (props) => {
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Konsultan{'\n'}Arsitek</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Donasi')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: 'grey' }}>
               <Image source={allLogo.donation} style={styles.icon} />
             </View>

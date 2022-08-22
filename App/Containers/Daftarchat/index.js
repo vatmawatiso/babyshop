@@ -21,12 +21,12 @@ import LinearGradient from 'react-native-linear-gradient'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import Header from "@Header"
 import axios from "axios";
-import { svr } from "../../../Configs/apikey";
+import { svr } from "../../Configs/apikey";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 const { width, height } = Dimensions.get('window')
 
-const DaftarChat = (props) => {
+const Daftarchat = (props) => {
 
   // const today = new Date();
   // const yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24);
@@ -50,32 +50,6 @@ const DaftarChat = (props) => {
   });
 
   useEffect(() => {
-
-    AsyncStorage.getItem('member').then(response => {
-      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
-
-      let data = JSON.parse(response);
-      //const val = JSON.stringify(data);
-
-      console.log('Homeseller ==> '+ JSON.stringify(data));
-
-      setState(state => ({
-        ...state,
-        id: data.mb_id,
-        mb_name: data.value.mb_name,
-        mb_email: data.value.mb_email,
-        mb_phone: data.value.mb_phone,
-        mb_type: data.value.mb_type,
-        picture: data.value.picture,
-        retail_id: data.retail_id,
-      }))
-       console.log('RTL ID '+ JSON.stringify(state.retail_id));
-
-    }).catch(err => {
-      console.log('err', err)
-    })
-
-
     AsyncStorage.getItem('uid').then(uids => {
       let ids = uids;
       setState(state => ({
@@ -95,32 +69,22 @@ const DaftarChat = (props) => {
       console.log('chatid = ', state.chat_id);
     });
 
-    AsyncStorage.getItem('senderid').then(send => {
-      let pengirim = send;
-      setState(state => ({
-        ...state,
-        sender_id: pengirim
-      }))
-      console.log('sender id = ', state.sender_id);
-    });
-
     getChat()
   }, [])
 
   const getChat = () => {
-    let idr = props.navigation.state.params.retail_id;
-    console.log('idm = ', idr);
-    // http://localhost/publish/react/chat/penjual/RTL00000002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARV
-    axios.get(svr.url + 'chat/penjual/' + idr + '/' + svr.api)
+    let idm = props.navigation.state.params.id;
+    console.log('idm = ', idm);
+    // http://localhost/publish/react/chat/pembeli/MB000000003/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
+    axios.get(svr.url + 'chat/pembeli/' + idm + '/' + svr.api)
       .then(result => {
-        console.log('cek chat = ' + JSON.stringify(result.data));
-        // console.log('cek chat id = ' + JSON.stringify(result.data.data[0].chat_id));
+        console.log('cek chat = ' + JSON.stringify(result.data.data));
+        console.log('cek chat id = ' + JSON.stringify(result.data.data[0].chat_id));
 
+
+        setState(state => ({ ...state, listChat: result.data.data }))
         AsyncStorage.setItem('chat', JSON.stringify(result.data.data[0]))
         AsyncStorage.setItem('chatid', JSON.stringify(result.data.data[0].chat_id))
-        AsyncStorage.setItem('senderid', JSON.stringify(result.data.data[0].sender_id))
-        setState(state => ({ ...state, listChat: result.data.data }))
-
     
       })
       .catch(err => {
@@ -131,11 +95,10 @@ const DaftarChat = (props) => {
 
   const RenderItem = (item, index) => (
     <Pressable style={styles.btnChat}
-    onPress={() => NavigatorService.navigate('Chatseller', {
+    onPress={() => NavigatorService.navigate('Chat', {
       id: item.chat_id,
       sender_id: item.sender_id,
-      sender: item.sender,
-      rtl: item.id
+      sender: item.sender
     })}>
       <View style={styles.product}>
         <Grid>
@@ -287,8 +250,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: toDp(13),
     fontFamily: 'Poppins-Regular',
-    marginRight: toDp(55),
-    bottom: toDp(5)
+    marginRight: toDp(20),
+    bottom: toDp(10)
   },
   txt: {
     width: toDp(200),
@@ -327,4 +290,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default DaftarChat;
+export default Daftarchat;

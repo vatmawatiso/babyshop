@@ -8,7 +8,7 @@ import {
   TextInput,
   SafeAreaView,
   Pressable,
-  ScrollView, 
+  ScrollView,
   FlatList,
   AsyncStorage
 } from "react-native";
@@ -31,7 +31,6 @@ const Pembayaran = (props) => {
 
   const [state, setState] = useState({
     datas: [],
-    bank:'',
   })
 
   let i = state.datas;
@@ -70,13 +69,14 @@ const Pembayaran = (props) => {
     axios.post(payment.url + 'payment-method-list', data, headers)
       .then(response => {
         console.log('PYAMENT LIST = ' + JSON.stringify(response.data.Data));
-        console.log('BANK = ' + JSON.stringify(response.data.Data[0]?.Channels[0]?.Code));
-        console.log('DESKRIPSI = ' + JSON.stringify(response.data.Data[0].Channels[0].Description));
-        console.log('PAYMENT INTRUKSI = ' + JSON.stringify(response.data.Data[0].Channels[0].PaymentIntrucionsDoc));
+        console.log('Code = ' + JSON.stringify(response.data.Data[0]?.Code));
+        // console.log('BANK = ' + JSON.stringify(response.data.Data[0]?.Channels[0]?.Code));
+        // console.log('DESKRIPSI = ' + JSON.stringify(response.data.Data[0].Channels[0].Description));
+        // console.log('PAYMENT INTRUKSI = ' + JSON.stringify(response.data.Data[0].Channels[0].PaymentIntrucionsDoc));
 
-        console.log('Transaksi Fee = ' + JSON.stringify(response.data.Data[0].Channels[0].TransactionFee?.ActualFee));
-        console.log('ActualFeeType = ' + JSON.stringify(response.data.Data[0].Channels[0].TransactionFee?.ActualFeeType));
-        console.log('AdditionalFee = ' + JSON.stringify(response.data.Data[0].Channels[0].TransactionFee?.AdditionalFee));
+        // console.log('Transaksi Fee = ' + JSON.stringify(response.data.Data[0].Channels[0].TransactionFee?.ActualFee));
+        // console.log('ActualFeeType = ' + JSON.stringify(response.data.Data[0].Channels[0].TransactionFee?.ActualFeeType));
+        // console.log('AdditionalFee = ' + JSON.stringify(response.data.Data[0].Channels[0].TransactionFee?.AdditionalFee));
 
         setState(state => ({ ...state, datas: response.data.Data }))
 
@@ -91,56 +91,56 @@ const Pembayaran = (props) => {
 
 
 
-  const iconBank = (val) =>{
+  const iconBank = (val) => {
     let logo = '';
-    if(val=='bag'){
+    if (val == 'bag') {
       logo = allLogo.arta
-    }else if(val=='bca'){
+    } else if (val == 'bca') {
       logo = allLogo.bca
-    }else if(val=='bni'){
+    } else if (val == 'bni') {
       logo = allLogo.bni
-    }else if(val=='cimb'){
+    } else if (val == 'cimb') {
       logo = allLogo.cimb
-    }else if(val=='mandiri'){
+    } else if (val == 'mandiri') {
       logo = allLogo.mandiri
-    }else if(val=='bmi'){
+    } else if (val == 'bmi') {
       logo = allLogo.muamalat
-    }else if(val=='bri'){
+    } else if (val == 'bri') {
       logo = allLogo.bri
-    }else if(val=='bsi'){
+    } else if (val == 'bsi') {
       logo = allLogo.bsi
-    }else if(val=='permata'){
+    } else if (val == 'permata') {
       logo = allLogo.permata
-    }else if(val=='alfamart'){
+    } else if (val == 'alfamart') {
       logo = allLogo.alfamart
-    }else if(val=='indomaret'){
+    } else if (val == 'indomaret') {
       logo = allLogo.indomart
-    }else if (val=='rpx'){
+    } else if (val == 'rpx') {
       logo = allLogo.arta
-    }else if(val=='akulaku'){
+    } else if (val == 'akulaku') {
       logo = allLogo.akulaku
-    }else if(val=='qris'){
+    } else if (val == 'qris') {
       logo = allLogo.qris
     }
     return logo;
   }
 
 
-  const listVa = (item, i) => {
+  const listVa = (item, i, pymtMethode) => {
     let name = '';
-    if(item.Description=='VA BAG') {
+    if (item.Description == 'VA BAG') {
       name = 'VA Bank Artha Graha'
-    }else{
+    } else {
       name = item.Description
     }
     return (
-      <Pressable  onPress={()=> sendBack(item.Code, item.TransactionFee.ActualFee, name, props.navigation.state.params.from)}>
+      <Pressable onPress={() => sendBack(pymtMethode, item.Code, item.TransactionFee.ActualFee, name, props.navigation.state.params.from)}>
         <View style={styles.viewlistVa}>
           <View style={{ flexDirection: 'row', marginLeft: toDp(10) }}>
             <View style={{ width: toDp(30), height: toDp(30), marginRight: toDp(12), }}>
               <Image source={iconBank(item.Code)} style={{ width: 70, height: 40, borderColor: '#000', marginTop: toDp(10) }} />
             </View>
-            <Text style={{marginLeft:toDp(50), marginTop:toDp(5)}}>
+            <Text style={{ marginLeft: toDp(50), marginTop: toDp(5) }}>
               {
                 item.Description == 'VA BAG' ? 'Bank Artha Graha' : name
               }
@@ -159,24 +159,24 @@ const Pembayaran = (props) => {
     )
   }
 
-  const listPayment = (item, i) => {
+  const listPayment = (item, i, pymtMethode) => {
     let name = '';
-    if(item.Description=='Alfamart/Alfamidi') {
+    if (item.Description == 'Alfamart/Alfamidi') {
       name = 'Alfamart/Alfamidi'
-    }else{
+    } else {
       name = item.Description
     }
     return (
-      <Pressable  onPress={()=> sendBack(item.Code, item.TransactionFee.ActualFee, name, props.navigation.state.params.from)}>
+      <Pressable onPress={() => sendBack(pymtMethode, item.Code, item.TransactionFee.ActualFee, name, props.navigation.state.params.from)}>
         <View style={styles.viewlistVa}>
 
           <View style={{ flexDirection: 'row', marginLeft: toDp(10) }}>
             <View style={{ width: toDp(30), height: toDp(30), marginRight: toDp(12) }}>
               <Image source={iconBank(item.Code)} style={{ width: 70, height: 40, borderColor: '#000', marginTop: toDp(10) }} />
             </View>
-            <Text  style={{marginLeft:toDp(50), marginTop:toDp(5)}}>
+            <Text style={{ marginLeft: toDp(50), marginTop: toDp(5) }}>
               {
-                item.Description == 'qris' ? 'QRIS' : name
+                item.Description == 'qris' ? 'QRIS' : item.Description
               }
             </Text>
           </View>
@@ -193,12 +193,13 @@ const Pembayaran = (props) => {
     )
   }
 
-  const ListBank = (i, index) => {
+  const ListBank = (a, index) => {
     return (
-      <View style={{ backgroundColor: '#fff', top:toDp(0) }}>
-        <Text style={{ fontSize: 18, marginBottom: 0, marginTop: toDp(2), marginLeft: toDp(0) }}>{i.Description}</Text>
+      <View style={{ backgroundColor: '#fff', top: toDp(0) }}>
+        <Text style={{ fontSize: 18, marginBottom: 0, marginTop: toDp(2), marginLeft: toDp(0) }}>{a.Description}</Text>
+        {/* <Text>{i.Code}</Text> */}
 
-        {i.Code == 'va' ?
+        {a.Code == 'va' ?
           <View>
             <Collapse style={{ backgroundColor: '#fff', top: 5 }}>
               <CollapseHeader>
@@ -219,11 +220,11 @@ const Pembayaran = (props) => {
               </CollapseHeader>
               <CollapseBody>
                 <FlatList
-                  data={i.Channels}
+                  data={a.Channels}
                   renderItem={({ item, i }) => {
 
                     return (
-                      listVa(item, i, () => selectPayment(item.Code),)
+                      listVa(item, i, a.Code)
                     )
 
                   }}
@@ -254,11 +255,11 @@ const Pembayaran = (props) => {
               </CollapseHeader>
               <CollapseBody>
                 <FlatList
-                  data={i.PaymentMethod}
+                  data={a.PaymentMethod}
                   renderItem={({ item, i }) => {
 
                     return (
-                      listPayment(item, i)
+                      listPayment(item, i, a.Code)
                     )
 
                   }}
@@ -275,18 +276,39 @@ const Pembayaran = (props) => {
     )
   }
 
-  const sendBack = (code, fee, name, to) => {
-    if(to=='belilangsung'){
-      let data = {
-         code_payment : code,
-         name : name,
-         fee : fee
-      }
-       AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
-       NavigatorService.navigate('Checkout');
-       console.log('Pembayaran : '+ code+' | '+ fee + ' | '+ name);
-    }else{
- 
+  // const sendBack = (methode, code, fee, name, to) => {
+  //   let data = {
+  //      methode : methode,
+  //      payment_channel : code,
+  //      name : name,
+  //      fee : fee
+  //   }
+  //   if(to=='belilangsung'){
+  //        AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
+  //        NavigatorService.navigate('Checkout');
+  //        console.log('Pembayaran : ', data);
+
+  //   }else{
+  //        AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
+  //        NavigatorService.navigate('cartCheckout');
+
+  //   }
+
+  const sendBack = (methode, code, fee, name, to) => {
+    let data = {
+      methode: methode,
+      code_payment: code,
+      name: name,
+      fee: fee
+    }
+    if (to == 'belilangsung') {
+      AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
+      NavigatorService.navigate('Checkout');
+      console.log('Pembayaran : ' + code + '  | ' + methode + '| ' + fee + ' | ' + name);
+    } else  {
+      AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
+      NavigatorService.navigate('cartCheckout');
+      console.log('Pembayaran cart : ' + code + '  | ' + methode + '| ' + fee + ' | ' + name);
     }
   }
 
@@ -311,14 +333,15 @@ const Pembayaran = (props) => {
           keyExtractor={(item) => item.Code}
           ListFooterComponent={() => <View style={{ height: 100, width: 100, }} />}
         />
-      </Card>
 
-      <View style={{ position: 'relative', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor:'cyan' }}>
+    
+
+      <View style={{ position: 'relative', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor: 'cyan' }}>
         <Pressable style={[styles.btnKonfirm, { width: toDp(335) }]} onPress={() => NavigatorService.navigate('Infopembayaran')}>
           <Text style={styles.txtKonfirm}>Konfirmasi</Text>
         </Pressable>
       </View>
-
+      </Card>
     </View>
   );
 

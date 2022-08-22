@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#2A334B',
     width: toDp(335),
-    height: toDp(130),
+    height: toDp(150),
     borderRadius: toDp(10),
     top: toDp(20),
     flexDirection: 'column'
@@ -264,6 +264,7 @@ const styles = StyleSheet.create({
     // borderRadius: toDp(10),
     borderBottomRightRadius: toDp(10),
     borderBottomLeftRadius: toDp(10),
+    bottom:toDp(13),
     justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {

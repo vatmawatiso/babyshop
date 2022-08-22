@@ -73,6 +73,8 @@ import Terms from "../Containers/Terms";
 import SuccessorderCart from "../Containers/SuccessorderCart";
 import profilToko from "../Containers/profilToko";
 import kategoriProDariCilent from "../Containers/kategoriProDariCilen";
+import Daftarchat from "../Containers/Daftarchat";
+import Chatseller from "../Containers/Seller/Chatseller";
 
 
 const AppNavigator = createStackNavigator(
@@ -149,7 +151,8 @@ const AppNavigator = createStackNavigator(
     Tambahalamatseller: { screen: Tambahalamatseller},
     profilToko : { screen: profilToko},
     kategoriProDariCilent: { screen: kategoriProDariCilent},
-    
+    Daftarchat: { screen: Daftarchat},
+    Chatseller: { screen: Chatseller},
     
   },
   {

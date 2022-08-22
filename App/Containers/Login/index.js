@@ -312,6 +312,7 @@ const Login = (props) => {
             AsyncStorage.setItem('member', JSON.stringify(datas))
 
             AsyncStorage.setItem('uid', datas.id)
+            AsyncStorage.setItem('rtlid', datas.retail_id)
 
           }
 

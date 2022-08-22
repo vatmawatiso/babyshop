@@ -67,7 +67,7 @@ const detailKategori = (props) => {
   }
 
   const renderItem = (item, index) => (
-    <Pressable onPress={() => alert('Produk : ' + index)}>
+    <Pressable>
       <View style={styles.card}>
         <View style={styles.txtProduct}>
           <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />

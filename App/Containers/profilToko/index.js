@@ -234,11 +234,11 @@ const profilToko = (props) => {
                             {
                                 selected == false ?
                                     <TouchableOpacity onPress={() => onPress()} key={index}>
-                                        <Image source={allLogo.icwishlist} style={{ width: toDp(20), height: toDp(20) }} />
+                                        <Image source={allLogo.love} style={{  width: toDp(30), height: toDp(30), tintColor:'black', left:toDp(13) }} />
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity onPress={unLike} key={index}>
-                                        <Image source={allLogo.heart} style={{ width: toDp(20), height: toDp(20) }} />
+                                        <Image source={allLogo.hati} style={{ width: toDp(20), height: toDp(18) }} />
                                     </TouchableOpacity>
                             }
                         </View>

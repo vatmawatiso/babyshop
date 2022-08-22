@@ -21,9 +21,8 @@ import NavigatorService from '@NavigatorService'
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
-// import { payment } from "../../Configs/payment";
-// import CryptoJS from "crypto-js";
-// import fetch from "node-fetch";
+import { payment } from "../../Configs/payment";
+import CryptoJS from "crypto-js";
 
 const Checkout = (props) => {
 
@@ -71,7 +70,10 @@ const Checkout = (props) => {
             width: 750,
             height: 750,
             cropping: true,
-        }
+        },
+        totalPrice: 0,
+        chanelsMethode: '',
+        methodeCode: '',
     })
 
     //get PRODUK
@@ -80,8 +82,6 @@ const Checkout = (props) => {
         //getProdukbyId()
         // get id pengguna
         AsyncStorage.getItem('setProduk').then(response => {
-            // console.log('CEK PRODUK ----------->' + JSON.stringify(response));
-
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
 
@@ -100,12 +100,12 @@ const Checkout = (props) => {
             }))
 
             // console.log('CEK STATE ASYNC STORAGE nama retail ---->' + JSON.stringify(state.retail_name));
-            console.log('nama produk --->' + JSON.stringify(state.product_name));
-            console.log('harga produk ---->' + JSON.stringify(state.price));
-            // console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
-            console.log('ID RETAIL ---->' + JSON.stringify(state.retail));
-            console.log('ID PRODUK ---->' + JSON.stringify(state.prd_id));
-            console.log('BERAT PRODUK ---->' + JSON.stringify(state.berat));
+            // console.log('nama produk --->' + JSON.stringify(state.product_name));
+            // console.log('harga produk ---->' + JSON.stringify(state.price));
+            // // console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
+            // console.log('ID RETAIL ---->' + JSON.stringify(state.retail));
+            // console.log('ID PRODUK ---->' + JSON.stringify(state.prd_id));
+            // console.log('BERAT PRODUK ---->' + JSON.stringify(state.berat));
 
 
         }).catch(err => {
@@ -122,12 +122,10 @@ const Checkout = (props) => {
     useEffect(() => {
 
         AsyncStorage.getItem('member').then(response => {
-            // console.log('Profil----------->'+ JSON.stringify(response));
-
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
 
-            console.log('Profilefiks----------->' + JSON.stringify(data));
+            // console.log('Profilefiks----------->' + JSON.stringify(data));
 
             setState(state => ({
                 ...state,
@@ -167,9 +165,9 @@ const Checkout = (props) => {
         );
         getJasa()
         totalPro()
-        // paym()
 
     }, [stAlu])
+
 
     useEffect(() => {
         const backAction = () => {
@@ -192,31 +190,38 @@ const Checkout = (props) => {
         return () => backHandler.remove();
     }, [])
 
+
     const paymentMethode = () => {
 
         AsyncStorage.getItem('paymentMethode').then(response => {
             let data = JSON.parse(response);
+            console.log('cek async pay = ', data);
             if (data == '' || data == null) {
                 setState(state => ({
                     ...state,
                     methodeName: 'Pilih Pembayaran',
                     adminfee: parseInt(0)
                 }))
+                console.log('cek  = ', adminfee);
             } else {
                 setState(state => ({
                     ...state,
+                    // chanelsMethode: data.payment_channel,
+                    chanelsMethode: data.code_payment,
+                    methodeCode: data.methode,
                     methodeName: data.name,
                     adminfee: parseInt(data.fee)
                 }))
             }
 
-            console.log('code : ' + data.code + ' | Fee :' + data.fee + ' | methode : ' + data.name);
+            console.log('code : ' + data.methode + ' | ' + data.code_payment + ' | Fee :' + data.fee + ' | methode : ' + data.name);
 
         }).catch(err => {
             console.log('err', err)
         })
 
     }
+
 
     const backActions = () => {
         Alert.alert('Konfirmasi', 'Batalkan transaksi?', [
@@ -235,6 +240,7 @@ const Checkout = (props) => {
         "hardwareBackPress",
         backActions
     );
+
 
     const BackGo = () => {
         try {
@@ -290,6 +296,7 @@ const Checkout = (props) => {
         })
     }
 
+
     const loatAlamatU = async () => {
         try {
 
@@ -325,6 +332,7 @@ const Checkout = (props) => {
         }
     }
 
+
     const totalPro = () => {
 
         AsyncStorage.getItem('setProduk').then(response => {
@@ -335,14 +343,14 @@ const Checkout = (props) => {
                 price: total.data[0].price,
 
             }))
-            console.log('CEK harga produk ---->' + JSON.stringify(state.price));
-            console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
+            // console.log('CEK harga produk ---->' + JSON.stringify(state.price));
+            // console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
             let priceProduk = state.price;
             let priceJasa = state.shp_harga;
             let dor = typeof (priceProduk);
             let der = typeof (priceJasa);
-            console.log('tipe data produk ' + JSON.stringify(dor));
-            console.log('tipe data jasa ' + JSON.stringify(der));
+            // console.log('tipe data produk ' + JSON.stringify(dor));
+            // console.log('tipe data jasa ' + JSON.stringify(der));
             let jumlah = Number(priceProduk) + Number(priceJasa);
 
             console.log('hasil total ' + JSON.stringify(jumlah))
@@ -362,7 +370,7 @@ const Checkout = (props) => {
                 adr_id: data?.id,
 
             }))
-            console.log('set adr_id ' + JSON.stringify(state.adr_id));
+            // console.log('set adr_id ' + JSON.stringify(state.adr_id));
 
         })
     }
@@ -372,6 +380,8 @@ const Checkout = (props) => {
 
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
+        // let retailID = props.navigation.state.params.value;
+        // console.log(svr.url+'ship-retail/retail/'+retailID+'/'+svr.api);
         axios.get(svr.url + 'ship-retail/retail/' + state.retail + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
@@ -425,99 +435,178 @@ const Checkout = (props) => {
                         console.log('cek async ' + JSON.stringify(datas));
                         AsyncStorage.setItem('setOrder', JSON.stringify(datas))
 
+                        postPayment(result.data.odr_id)
+
 
                     }
-
-                    NavigatorService.navigate('Successorder');
-                    setState(state => ({ ...state, loading: false }))
+                    // postPayment()
+                    // NavigatorService.navigate('Successorder');
+                    // setState(state => ({ ...state, loading: false }))
 
                 } else if (result.data.status == 500) {
                     alert('Internal server error!')
                     setState(state => ({ ...state, loading: false }))
+                    return false;
                 }
             })
             .catch(err => {
                 console.log(err)
                 alert('Gagal menerima data dari server!')
                 setState(state => ({ ...state, loading: false }))
+                return false;
             })
     }
 
-    const postPayment = async () => {
-    const data = {
-        'name': state.mb_name,
-        'phone': state.mb_phone,
-        'email': state.mb_email,
-        'amount': state.totalll,
-        'notifyUrl': 'https://mywebsite.com',
-        'expired': '24',
-        'expiredType': 'hours',
-        'comments': 'null',
-        'referenceId': 'null',
-        'paymentMethod': state.methodeName,
-        'paymentChannel': state.adminfee,
-        'product[]': state.product_name,
-        'qty[]': state.qty,
-        'price[]': state.price,
-        'weight[]': 'null',
-        'width[]': 'null',
-        'height[]': 'null',
-        'length[]': 'null',
-        'deliveryArea': 'null',
-        'deliveryAddress': state.adr_id,
-    }
-    console.log('body post payment = '+ JSON.stringify(data))
 
-    const headers = {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'signature': signature,
-          'va': payment.va,
-          'timestamp': newDte
+    const pad2 = (n) => { return n < 10 ? '0' + n : n }
+
+    const postPayment = (id) => {
+
+        // generate time
+        var date = new Date();
+        var newDte = date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours()) + pad2(date.getMinutes()) + pad2(date.getSeconds());
+
+        let total = parseInt(state.shp_harga) + parseInt(state.adminfee) + parseInt(state.price);
+
+        var body = {
+            name: state.mb_name,
+            phone: state.mb_phone,
+            email: state.mb_email,
+            amount: total,
+            notifyUrl: "https://market.pondok-huda.com/publish/react/notifycheckout/76a9b349329fd3e650942abb594ddb60",
+            comments: "cek",
+            referenceId: "1",
+            paymentMethod: state.methodeCode,
+            paymentChannel: state.chanelsMethode,
+
         }
-      }
-    // https://sandbox.ipaymu.com/api/v2/payment/direct
-    axios.post(payment.url + 'payment/direct', data, headers)
-        .then(result => {
-            console.log('cek result = '+ JSON.stringify(result));
 
-            if (result.data.status == 200) {
 
-                const datas = {
-                    value: result.data.data,
+
+        //generate signature
+        var bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
+        var stringtosign = "POST:" + payment.va + ":" + bodyEncrypt + ":" + payment.apikey;
+        var signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, payment.apikey));
+        console.log('date', stringtosign);
+
+        const headers = {
+            headers: {
+                Accept: 'application/json', 'Content-Type': 'application/json',
+                signature: signature,
+                va: payment.va,
+                timestamp: newDte
+            },
+        }
+
+
+        console.log('body post payment = ' + JSON.stringify(body))
+        // https://sandbox.ipaymu.com/api/v2/payment/direct
+        axios.post(payment.url + 'payment/direct', body, headers)
+            .then(result => {
+                console.log('cek result Payment = ' + JSON.stringify(result.data.Data));
+
+                if (result.data.Status == 200) {
+                    console.log('RESPONSE IPAYMU ----->= ' + JSON.stringify(result));
+
+                    // TAMBAHAN BARU
+                    let res = result.data.Data;
+                    let data = {
+                        "odr_id": id ,
+                        "SessionId": res.SessionId,
+                        "TransactionId": res.TransactionId,
+                        "ReferenceId": res.ReferenceId,
+                        "Via": res.Via,
+                        "Channel": res.Channel,
+                        "PaymentNo": res.PaymentNo,
+                        "PaymentName": res.PaymentName,
+                        "SubTotal": res.SubTotal,
+                        "Total": res.Total,
+                        "Fee": res.Fee,
+                        "Expired": res.Expired,
+                        "QrString": res.QrString,
+                        "QrImage": res.QrImage,
+                        "QrTemplate": res.QrTemplate,
+                        "Note": res.Note
                 }
-                console.log('DATAS' + JSON.stringify(datas));
+     
+                postTransaksi(data);
+                NavigatorService.reset('Infopembayaran', {data: response.data.Data})
+                return true;
+              }else{
+                console.log('Ipaymu ststus ----> ', response.data.Status);
+                return false;
+              }
 
-                if (datas.value == 0) {
-                    alert('Tidak ditemukan data order!')
-                } else {
-                    //save Async Storage
-                    console.log('cek async ' + JSON.stringify(datas));
-                    AsyncStorage.setItem('orderPayment', JSON.stringify(datas))
-
-
-                }
-
-                // NavigatorService.navigate('Successorder');
+            })
+            .catch(err => {
+                return false;
+                console.log('cek error payment = ', (err))
                 setState(state => ({ ...state, loading: false }))
-
-            } else if (result.data.status == 500) {
-                alert('Internal server error!')
-                setState(state => ({ ...state, loading: false }))
-            }
-
-    })
-    .catch(err => {
-        console.log(err)
-        alert('Gagal menerima data dari server!')
-        setState(state => ({ ...state, loading: false }))
-    })
+            })
 
     }
 
-}
+    const postTransaksi = (data) => {
+        // axios.post('http://localhost/publish/react/checkout/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG')
+        axios.post(svr.url + 'checkout/ipy/' + state.mb_id + '/' + svr.api, data)
+            .then(response => {
+                console.log('cek response = ' + JSON.stringify(response));
+                if (response.data.status === 201) {
+                    console.log('RESPONSE CHECKOUT IPY = ' + JSON.stringify(response.data));
+                } else {
+                    console.log('Ipaymu status = ', response.data);
+                }
+            }).catch(error => {
+                console.log('error response ==> ', error.response.data);
+            });
+    }
 
+
+
+    const TotalsPrice = (A, B, C) => {
+        let total = (parseInt(state.shp_harga) + parseInt(state.adminfee) + parseInt(state.price));
+
+
+        return (
+            <>
+                <NumberFormat
+                    value={total == 0 ? C : total}
+                    displayType={'text'}
+                    thousandSeparator={'.'}
+                    decimalSeparator={','}
+                    prefix={'Rp. '}
+                    renderText={formattedValue => <Text style={{ fontSize: toDp(12), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+                />
+            </>
+        )
+    }
+
+    const AllPost = (MetodeBayar, Ongkir) => {
+        if (MetodeBayar == '' || MetodeBayar == 'Undefined') {
+            alert("Pilih Metode Pembayaran!");
+        } else if (Ongkir == '0' || Ongkir == 0 || Ongkir == 'Undefined') {
+            alert("Pilih Metode Pengiriman!");
+        } else if(state.shr_jasa.trim() == ''){
+            alert('Pilih jasa pengiriman!')
+            return;
+        }else {
+            postProduk()
+        }
+
+    }
+
+    // const validateInput = () => {
+    //     if (state.shr_jasa.trim() == '') {
+    //       alert('Pilih jasa pengiriman!')
+    //       return;
+    //     }
+    //     if (state.methodeName.trim() == '') {
+    //       alert('Pilih metode pembaaran!')
+    //       return;
+    //     }
+    
+    //     postProduk()
+    //   }
 
     return (
         <View style={styles.container}>
@@ -546,7 +635,7 @@ const Checkout = (props) => {
 
                                     </View>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', right: toDp(10), top: toDp(15) }}>
-                                        <Image source={allLogo.iclineblack} style={styles.icaddress} />
+                                        <Image source={allLogo.arrowright} style={styles.icaddress} />
                                     </View>
                                 </View>
                             </Pressable>
@@ -581,7 +670,7 @@ const Checkout = (props) => {
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Image source={allLogo.icvoucher} style={styles.icvoucher} />
                                         <Text style={styles.voucher}>Klaim Voucher</Text>
-                                        <Image source={allLogo.iclineblack} style={styles.iclineblack} />
+                                        <Image source={allLogo.arrowright} style={styles.iclineblack} />
                                     </View>
                                 </Pressable>
                                 {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} /> */}
@@ -634,16 +723,22 @@ const Checkout = (props) => {
                         <View>
                             <View style={styles.bodyPayment}>
                                 <Pressable onPress={() => NavigatorService.navigate('Pembayaran', { from: 'belilangsung' })}>
-                                    <View style={styles.payment}>
-                                        <Text style={styles.txtPayment}>Metode Pembayaran</Text>
-                                        <Text style={styles.txtTransfer}>
-                                            {state.methodeName != '' ?
-                                                state.methodeName
-                                                :
-                                                'Pilih Pembayaran'
-                                            }
-                                        </Text>
-                                        <Image source={allLogo.iclineblack} style={styles.iclineblack2} />
+                                    <View style={styles.paymentV}>
+                                        <View style={{ textAlign: 'flex-end', width: '40%', justifyContent: 'center' }}>
+                                            <Text style={styles.txtPayment}>Metode Pembayaran</Text>
+                                        </View>
+                                        <View style={{ alignItems: 'flex-end', width: '55%', justifyContent: 'center' }}>
+                                            <Text style={styles.txtTransfer}>
+                                                {state.methodeName != '' ?
+                                                    state.methodeName
+                                                    :
+                                                    'Pilih Pembayaran'
+                                                }
+                                            </Text>
+                                        </View>
+                                        <View style={{ alignItems: 'flex-end', width: '5%', justifyContent: 'center' }}>
+                                            <Image source={allLogo.arrowright} style={styles.iclineblack2} />
+                                        </View>
                                     </View>
                                 </Pressable>
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
@@ -678,20 +773,13 @@ const Checkout = (props) => {
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
                                         prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12),  }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
                                 </View>
                                 <View style={{ flexDirection: 'row', margin: toDp(4), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtTotPem}>Total Pembayaran</Text>
                                     {/* <Text style={styles.txtTotPem1}>Rp 800.000</Text> */}
-                                    <NumberFormat
-                                        value={parseInt(state.shp_harga + parseInt(state.adminfee)+parseInt(state.price))}
-                                        displayType={'text'}
-                                        thousandSeparator={'.'}
-                                        decimalSeparator={','}
-                                        prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                    />
+                                    {TotalsPrice(state.shp_harga, state.adminfee, state.price)}
                                 </View>
                             </View>
                         </View>
@@ -699,7 +787,7 @@ const Checkout = (props) => {
 
                     <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(48), }}>
-                            <Pressable style={styles.btn} onPress={() => postProduk()}>
+                            <Pressable style={styles.btn} onPress={() => AllPost(state.methodeCode, TotalsPrice(state.shp_harga,state.adminfee, state.price))}>
                                 <Text style={{ textAlign: 'center', top: toDp(13), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
@@ -716,6 +804,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // backgroundColor: 'red',
         flex: 1
+    },
+    paymentV: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        height: toDp(40),
+        paddingHorizontal: toDp(4),
     },
     viewAlamat: {
         marginBottom: toDp(40),
@@ -773,6 +867,7 @@ const styles = StyleSheet.create({
     },
     icaddress1: {
         top: toDp(10),
+
     },
     txtAddress: {
         top: toDp(15),
@@ -790,8 +885,8 @@ const styles = StyleSheet.create({
         top: toDp(5)
     },
     icaddress: {
-        width: toDp(12),
-        height: toDp(12),
+        width: toDp(8),
+        height: toDp(14),
         marginLeft: toDp(24),
     },
     txtTB: {
@@ -859,14 +954,14 @@ const styles = StyleSheet.create({
         left: toDp(90)
     },
     iclineblack: {
-        width: toDp(10),
-        height: toDp(10),
+        width: toDp(8),
+        height: toDp(14),
         margin: toDp(4),
-        top: toDp(2)
+        top: toDp(0)
     },
     iclineblack1: {
-        width: toDp(10),
-        height: toDp(10),
+        width: toDp(8),
+        height: toDp(14),
         margin: toDp(4),
         bottom: toDp(45),
         left: toDp(317)
@@ -889,53 +984,49 @@ const styles = StyleSheet.create({
         top: toDp(5),
         borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(145),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 1,
         },
         shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+        shadowRadius: 3,
 
         elevation: 2,
     },
-    payment: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
     txtPayment: {
-        margin: toDp(4),
-        marginLeft: toDp(10),
-        fontSize: toDp(12)
+        margin: 0,
+        fontSize: toDp(12),
+        right:toDp(3)
     },
     txtTransfer: {
-        margin: toDp(4),
+        margin: 0,
         fontSize: toDp(12),
-        left: toDp(10)
+
     },
     iclineblack2: {
-        width: toDp(10),
-        height: toDp(10),
-        top: toDp(5),
-        margin: toDp(4)
+        width: toDp(8),
+        height: toDp(14),
+        top: toDp(2),
+        margin: toDp(4),
+        left:toDp(5)
     },
     txtSubTot: {
         fontSize: toDp(12),
-        marginLeft: toDp(6),
+        right: toDp(3),
     },
     txtSubPeng: {
         fontSize: toDp(12),
-        marginLeft: toDp(6),
+     right: toDp(3),
     },
     txtBiayaPen: {
         fontSize: toDp(12),
-        marginLeft: toDp(6),
+     right: toDp(3),
     },
     txtTotPem: {
         fontSize: toDp(13),
         fontWeight: 'bold',
-        marginLeft: toDp(6),
+     right: toDp(3),
     },
     txtTotPem1: {
         fontSize: toDp(13),

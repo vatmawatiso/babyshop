@@ -47,7 +47,7 @@ const Tokobangunan = (props) => {
 
   const ListToko = (item, index) => (
     <View style={styles.body}>
-      <TouchableOpacity style={{ width: toDp(330) }} >
+      <Pressable style={{ width: toDp(330) }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: toDp(10) }}>
           <Image source={allLogo.roof} style={styles.imgKontak} />
           <View style={{ flexDirection: 'row', marginLeft: toDp(10) }}>
@@ -67,7 +67,7 @@ const Tokobangunan = (props) => {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </Pressable>
       <TouchableOpacity style={styles.btnBuka} onPress={() => NavigatorService.navigate('profilToko', {id: item.rtl_id, rtl_name: item.rtl_name, rtl_addres: item.rtl_addres})}>
         <Image source={allLogo.iclineblack} style={styles.iclineright} />
       </TouchableOpacity>

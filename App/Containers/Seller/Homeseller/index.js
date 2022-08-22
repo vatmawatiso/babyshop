@@ -22,6 +22,7 @@ import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -35,8 +36,8 @@ const Homeseller = (props) => {
     mb_type: '',
     mb_phone: '',
     mb_email: '',
-    id_retail:'',
-    // rtl_id:'',
+    id_retail: '',
+    rtl_id:'',
     modalVisible: false,
     option: {
       width: 750,
@@ -52,7 +53,7 @@ const Homeseller = (props) => {
       let data = JSON.parse(response);
       //const val = JSON.stringify(data);
 
-      console.log('Homeseller ==> '+ JSON.stringify(data));
+      console.log('Homeseller ==> ' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -64,7 +65,7 @@ const Homeseller = (props) => {
         picture: data.value.picture,
         retail_id: data.retail_id,
       }))
-       console.log('RTL ID '+ JSON.stringify(state.retail_id));
+      // console.log('RTL ID ' + JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)
@@ -80,6 +81,18 @@ const Homeseller = (props) => {
       console.log('err', err)
     })
 
+    
+    AsyncStorage.getItem('rtlid').then(rtlid => {
+      let rtl = rtlid;
+      setState(state => ({
+        ...state,
+        rtl_id: rtl
+      }))
+      console.log('cek rtl id = ', state.rtl_id)
+    }).catch(err => {
+      console.log('err', err)
+    })
+
   }, [])
 
   const refresh = async () => {
@@ -90,7 +103,7 @@ const Homeseller = (props) => {
         let data = JSON.parse(response);
         //const val = JSON.stringify(data);
 
-        console.log('Profilseller ------->'+ JSON.stringify(response));
+        // console.log('Profilseller ------->' + JSON.stringify(response));
 
         setState(state => ({
           ...state,
@@ -100,7 +113,7 @@ const Homeseller = (props) => {
           mb_phone: data.value.mb_phone,
           mb_type: data.value.mb_type,
           picture: data.value.picture,
-          
+
         }))
 
       }).catch(err => {
@@ -171,7 +184,7 @@ const Homeseller = (props) => {
             <Pressable style={styles.btnProfile} onPress={() => NavigatorService.navigate('Editprofil')}>
               <View style={styles.viewBtnprofil}>
                 <Text style={styles.txtEditprofil}>Edit Profil</Text>
-                <Image source={allLogo.iclineright} style={styles.iclineright} />
+                <Image source={allLogo.arrowright} style={styles.iclineright} />
               </View>
             </Pressable>
           </View>
@@ -192,13 +205,13 @@ const Homeseller = (props) => {
 
 
         <View style={styles.viewBtnhomeseller}>
-          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Informasitoko', {retail_id: state.retail_id})}>
+          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Informasitoko', { retail_id: state.retail_id })}>
             <View style={styles.viewBtntoko}>
               <Image source={allLogo.store2} style={styles.imgToko} />
             </View>
             <Text style={styles.textIcon}>Toko Saya</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya', {retail_id: state.retail_id})}>
+          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya', { retail_id: state.retail_id })}>
             <View style={styles.viewProduk}>
               <Image source={allLogo.product} style={styles.imgProduk} />
             </View>
@@ -218,7 +231,7 @@ const Homeseller = (props) => {
             <Pressable style={styles.btnSkortoko} onPress={() => NavigatorService.navigate('underConstruction')}>
               <View style={styles.BodySaldo}>
                 <Text style={styles.txtSkor}>Skor Toko</Text>
-                <Image source={allLogo.iclineright} style={styles.iclineright} />
+                <Image source={allLogo.arrowright} style={styles.iclineright1} />
               </View>
             </Pressable>
             <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual')} >
@@ -294,7 +307,7 @@ const Homeseller = (props) => {
             <Image source={allLogo.Plus} style={styles.icplus} />
             <Text style={styles.txtBtnmenu}>Tambah Produk</Text>
           </Pressable>
-          <Pressable style={[styles.presable, { backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('underConstruction')} >
+          <Pressable style={[styles.presable, { backgroundColor: state.content === 'chat' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('DaftarChat', { retail_id: state.retail_id })} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
             <Text style={styles.txtBtnchat}>Chat</Text>
           </Pressable>
@@ -313,33 +326,33 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   viewMenu: {
-    position: 'absolute', 
-    bottom: 0, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '100%'
   },
   txtBeranda: {
-    color: 'white', 
-    fontSize: toDp(13), 
-    marginHorizontal: toDp(8), 
+    color: 'white',
+    fontSize: toDp(13),
+    marginHorizontal: toDp(8),
     bottom: toDp(5),
-    width:toDp(100),
+    width: toDp(100),
   },
   txtBtnmenu: {
-    color: 'white', 
-    fontSize: toDp(13), 
-    marginHorizontal: toDp(8), 
+    color: 'white',
+    fontSize: toDp(13),
+    marginHorizontal: toDp(8),
     bottom: toDp(5),
-    width:toDp(100),
-    right:toDp(22)
+    width: toDp(100),
+    right: toDp(22)
   },
   txtBtnchat: {
-    color: 'white', 
-    fontSize: toDp(13), 
-    right: toDp(3), 
-    marginHorizontal: toDp(10), 
-    left: toDp(1), 
+    color: 'white',
+    fontSize: toDp(13),
+    right: toDp(3),
+    marginHorizontal: toDp(10),
+    left: toDp(1),
     bottom: toDp(5)
   },
   viewBodyProfil: {
@@ -359,7 +372,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: toDp(350),
     height: toDp(70),
-    top: toDp(15), marginLeft:toDp(3)
+    top: toDp(15), marginLeft: toDp(3)
   },
   viewBtntoko: {
     borderWidth: toDp(0.5),
@@ -431,40 +444,40 @@ const styles = StyleSheet.create({
     marginRight: toDp(15)
   },
   garis: {
-    borderWidth: toDp(0.5), 
-    borderColor: 'grey', 
+    borderWidth: toDp(0.5),
+    borderColor: 'grey',
     bottom: toDp(10)
   },
   btnPenjualan: {
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     bottom: toDp(10)
   },
   viewSet: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     justifyContent: 'space-between'
   },
   imgViewset: {
-    bottom: toDp(10), 
-    width: toDp(28), 
-    height: toDp(28), 
+    bottom: toDp(10),
+    width: toDp(28),
+    height: toDp(28),
     resizeMode: 'contain'
   },
-  btnPesanan:{
+  btnPesanan: {
     height: toDp(30),
     height: toDp(30)
   },
-  viewIcon1:{
-    flexDirection: 'row', 
-    margin: toDp(10), 
+  viewIcon1: {
+    flexDirection: 'row',
+    margin: toDp(10),
     top: toDp(10)
   },
   viewIcon2: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     margin: toDp(10)
   },
   txtIcon1: {
-    padding: toDp(5), 
+    padding: toDp(5),
     bottom: toDp(10)
   },
   txtIcon2: {
@@ -475,45 +488,45 @@ const styles = StyleSheet.create({
     margin: toDp(10)
   },
   btnUlasan: {
-    width: toDp(335), 
-    height: toDp(30), 
+    width: toDp(335),
+    height: toDp(30),
     bottom: toDp(5)
   },
   imgUlasan: {
-    bottom: toDp(20), 
-    width: toDp(28), 
+    bottom: toDp(20),
+    width: toDp(28),
     height: toDp(28)
   },
   btnDiskusi: {
-    width: toDp(335), 
-    height: toDp(30), 
+    width: toDp(335),
+    height: toDp(30),
     top: toDp(10)
   },
   imgDiskusi: {
-    bottom: toDp(10), 
-    width: toDp(28), 
-    height: toDp(28), 
+    bottom: toDp(10),
+    width: toDp(28),
+    height: toDp(28),
     resizeMode: 'contain'
   },
   btnKomplain: {
-    width: toDp(335), 
-    height: toDp(35), 
+    width: toDp(335),
+    height: toDp(35),
     top: toDp(15)
   },
   imgKomplain: {
-    bottom: toDp(5), 
-    width: toDp(28), 
-    height: toDp(28), 
+    bottom: toDp(5),
+    width: toDp(28),
+    height: toDp(28),
     resizeMode: 'contain'
   },
   txtKomplain: {
-    padding: toDp(5), 
+    padding: toDp(5),
     bottom: toDp(6)
   },
   iclineright: {
     width: toDp(8),
     height: toDp(14),
-    left: toDp(5), tintColor: 'white'
+    left: toDp(8), tintColor: 'white'
   },
   bodyProfil: {
     backgroundColor: '#2A334B',
@@ -642,9 +655,10 @@ const styles = StyleSheet.create({
     margin: toDp(10),
   },
   iclineright1: {
-    margin: toDp(10),
-    width: toDp(10),
-    height: toDp(15),
+    margin: toDp(5),
+    width: toDp(8),
+    height: toDp(14),
+    tintColor: 'black'
   },
   icchat: {
     width: toDp(30),

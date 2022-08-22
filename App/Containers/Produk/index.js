@@ -24,6 +24,7 @@ import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
+import { convertAbsoluteToRem } from "native-base/lib/typescript/theme/tools";
 
 
 const { width, height } = Dimensions.get('window')
@@ -45,6 +46,7 @@ const Produk = (props) => {
     loading: false,
     loading: true,
     selected: false,
+    id_produk:''
   })
 
   useEffect(() => {
@@ -60,6 +62,17 @@ const Produk = (props) => {
       console.log('err', err)
     })
 
+    AsyncStorage.getItem('idProduk').then(idProduk => {
+      let idp = idProduk;
+      setState(state => ({
+        ...state,
+        id_produk: idp
+      }))
+      console.log('idp = ', state.id_produk)
+    }).catch(err => {
+      console.log('err', err)
+    })
+
     return (() => {
       getProdukDetailbyId()
     })
@@ -68,7 +81,7 @@ const Produk = (props) => {
 
 
   const getProdukDetailbyId = () => {
-    let pid = props.navigation.state.params.value
+    let pid = props.navigation.state.params.value;
     Axios.get(svr.url+'product/'+pid+'/'+svr.api)
     // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
@@ -80,6 +93,7 @@ const Produk = (props) => {
           console.log('CHECKOUT===>' + JSON.stringify(response.data));
 
           AsyncStorage.setItem('setProduk', JSON.stringify(response.data))
+          AsyncStorage.setItem('idProduk', JSON.stringify(response.data.data[0].id))
 
           // NavigatorService.navigate('Checkout');s
 
@@ -390,13 +404,20 @@ const Produk = (props) => {
     console.log('cek', (value));
   }
 
+    // (ketika klik tombol chat)
+
+    const selectChat = (value, id) => {
+      NavigatorService.navigate('Chat', { value, id: id })
+      console.log('cek chat', (value));
+    }
+
 
   const renderFooter = (item) => {
     return (
 
       <View style={styles.footer}>
         <View style={styles.btnMenu}>
-          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('underConstruction')}>
+          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
             <Image source={allLogo.Chat1} style={styles.icchat} />
           </TouchableOpacity>
           <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat, item[0].id, item[0].product_name, item[0].price)}>
