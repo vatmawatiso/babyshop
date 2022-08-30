@@ -530,7 +530,7 @@ const Checkout = (props) => {
                 }
      
                 postTransaksi(data);
-                NavigatorService.reset('Infopembayaran', {data: response.data.Data})
+                // NavigatorService.reset('Infopembayaran', {data: response.data.Data})
                 return true;
               }else{
                 console.log('Ipaymu ststus ----> ', response.data.Status);
@@ -553,6 +553,8 @@ const Checkout = (props) => {
                 console.log('cek response = ' + JSON.stringify(response));
                 if (response.data.status === 201) {
                     console.log('RESPONSE CHECKOUT IPY = ' + JSON.stringify(response.data));
+                    // AsyncStorage.setItem('setCheckout', JSON.stringify(response.data))
+                    NavigatorService.reset('Infopembayaran', {data: data})
                 } else {
                     console.log('Ipaymu status = ', response.data);
                 }
@@ -595,18 +597,6 @@ const Checkout = (props) => {
 
     }
 
-    // const validateInput = () => {
-    //     if (state.shr_jasa.trim() == '') {
-    //       alert('Pilih jasa pengiriman!')
-    //       return;
-    //     }
-    //     if (state.methodeName.trim() == '') {
-    //       alert('Pilih metode pembaaran!')
-    //       return;
-    //     }
-    
-    //     postProduk()
-    //   }
 
     return (
         <View style={styles.container}>

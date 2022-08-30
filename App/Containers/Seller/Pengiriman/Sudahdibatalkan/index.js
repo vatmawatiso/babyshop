@@ -9,7 +9,9 @@ import {
     Pressable,
     AsyncStorage,
     Dimensions,
-    FlatList
+    FlatList,
+    ScrollView,
+    RefreshControl
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -22,6 +24,7 @@ const height = Dimensions.get('window').height;
 
 const Sudahdibatalkan = (props) => {
 
+    const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
         datas: [],
         order: '',
@@ -42,17 +45,41 @@ const Sudahdibatalkan = (props) => {
         let content = props.con;
         console.log('cek rtl id ' + (rtl));
         console.log('cek content ' + (content));
-        axios.get(svr.url+'order/getrtl/'+rtl+'/'+content+'/'+svr.api)
-        // axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
+        axios.get(svr.url + 'order/getrtl/' + rtl + '/' + content + '/' + svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
             .then(result => {
                 //hendle success
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
-                //
-                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
-                // console.log('data order ===> ' + JSON.stringify(result.data.order));
-                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
-                // console.log('data item ===> ' + JSON.stringify(result.data.item));
+                refresh()
+
+            }).catch(err => {
+                alert('Gagal menerima data dari server!' + err)
+                setState(state => ({ ...state, loading: false }))
+            })
+    }
+
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+
+        NavigatorService.navigate('Detailorderan', { odr_id: id })
+
+    }
+
+
+    //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
+    const refresh = async () => {
+        let rtl = props.retail_id;
+        let content = props.con;
+        // console.log('cek rtl id ' + (rtl));
+        // console.log('cek content ' + (content));
+        setState(state => ({ ...state, datas: '' }))
+        // https://market.pondok-huda.com/dev/react/order/getrtl/RTL00000001/Dikemas/
+        axios.get(svr.url + 'order/getrtl/' + rtl + '/' + content + '/' + svr.api)
+            .then(result => {
+                console.log('full ===> ' + JSON.stringify(result.data.data));
+                setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
@@ -63,65 +90,72 @@ const Sudahdibatalkan = (props) => {
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
-            <FlatList style={{ width: '100%', }}
-                data={state.datas}
-                renderItem={({ item, index }) => (
-                    <View style={{ marginTop: toDp(20) }}>
-                        <View style={styles.information}>
-                            <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                            <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
-                        </View>
-                        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
+            <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={refresh}
+                    />}
+            >
+                <FlatList style={{ width: '100%', }}
+                    data={state.datas}
+                    renderItem={({ item, index }) => (
+                        <View style={{ marginTop: toDp(20) }}>
+                            <View style={styles.information}>
+                                <Text style={styles.txtInformation1}>{item.retail_name}</Text>
+                                <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
+                            </View>
+                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
 
-                        <View style={{ alignItems: 'center', top: toDp(10) }}>
-                            <View style={styles.OrderDetail}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
-                                    <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width:toDp(180) }}>{item.items[0]?.prd_name}</Text>
-                                    {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
-                                </View>
-                                <NumberFormat
-                                    value={item.items[0]?.price}
-                                    displayType={'text'}
-                                    thousandSeparator={'.'}
-                                    decimalSeparator={','}
-                                    prefix={'Rp. '}
-                                    renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                />
-                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
-
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('Orderdetail')}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                        <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
-                                        <NumberFormat
-                                            value={item.total_bayar}
-                                            displayType={'text'}
-                                            thousandSeparator={'.'}
-                                            decimalSeparator={','}
-                                            prefix={'Rp. '}
-                                            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                        />
-                                        {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
-                                        <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                            <View style={{ alignItems: 'center', top: toDp(10) }}>
+                                <View style={styles.OrderDetail}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
+                                        <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                        {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
                                     </View>
-                                </Pressable>
-                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
+                                    <NumberFormat
+                                        value={item.items[0]?.price}
+                                        displayType={'text'}
+                                        thousandSeparator={'.'}
+                                        decimalSeparator={','}
+                                        prefix={'Rp. '}
+                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                    />
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <View style={{ alignItems:'flex-end', margin: toDp(5), bottom: toDp(5) }}>
-                                    {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
-                                    {/* <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
+                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
+                                            <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
+                                            <NumberFormat
+                                                value={item.total_bayar}
+                                                displayType={'text'}
+                                                thousandSeparator={'.'}
+                                                decimalSeparator={','}
+                                                prefix={'Rp. '}
+                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                            />
+                                            {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
+                                            <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                        </View>
+                                    </Pressable>
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
+
+                                    <View style={{ alignItems: 'flex-end', margin: toDp(5), bottom: toDp(5) }}>
+                                        {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
+                                        {/* <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
                                         <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
                                     </Pressable> */}
+                                    </View>
                                 </View>
+
+
                             </View>
-
-
                         </View>
-                    </View>
-                )}
-                ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
-            />
-
+                    )}
+                    ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+                />
+            </ScrollView>
 
         </View>
     )
@@ -157,7 +191,7 @@ const styles = StyleSheet.create({
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-        height:toDp(235),
+        height: toDp(235),
         backgroundColor: '#f3f3f3',
         padding: toDp(15),
         borderRadius: toDp(10),
@@ -176,7 +210,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         borderRadius: toDp(10),
         width: toDp(97),
-        height: toDp(34),
+        height: toDp(48),
         fontSize: toDp(11),
         justifyContent: 'center',
         bottom: toDp(8),

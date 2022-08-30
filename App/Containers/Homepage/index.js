@@ -80,7 +80,7 @@ const Homepage = () => {
           <Image source={allLogo.iccategory} style={styles.icon} />
           <Text style={{color:'white', fontSize:toDp(11)}}>Kategori</Text>
         </Pressable>
-        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('underConstruction')}>
+        <Pressable style={[styles.presable, {backgroundColor: state.content === 'Notification' ? '#234D6C' : '#2A334B'}]} onPress={() => NavigatorService.navigate('Notification', {id: state.id})}>
           <Image source={allLogo.icnotification} style={styles.icon} />
           <Text style={{color:'white', fontSize:toDp(11)}}>Notifikasi</Text>
         </Pressable>

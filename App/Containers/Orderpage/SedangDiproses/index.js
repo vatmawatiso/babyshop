@@ -25,23 +25,23 @@ import { svr } from "../../../Configs/apikey";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Belumbayar = (props) => {
+const SedangDiproses = (props) => {
 
-    // const DATA = [
-    //     {
-    //         id: '2',
-    //         tb: 'Jaya Abadi Bandung',
-    //         diproses: 'Belum Bayar',
-    //         produk: 'Gerobak Pasir',
-    //         harga: '500000',
-    //         jumlah: '2',
-    //         total: '800000',
-    //         bataswaktu: '13 Januari 2022',
-    //         metodePembayaran: 'Bank Mandiri',
-    //         konfirmasi: 'Dibatalkan Pembeli',
-    //         image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-    //     },
-    // ]
+    const DATA = [
+        {
+            id: '2',
+            tb: 'Jaya Abadi Bandung',
+            diproses: 'Belum Bayar',
+            produk: 'Gerobak Pasir',
+            harga: '500000',
+            jumlah: '2',
+            total: '800000',
+            bataswaktu: '13 Januari 2022',
+            metodePembayaran: 'Bank Mandiri',
+            konfirmasi: 'Dibatalkan Pembeli',
+            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+        },
+    ]
 
     const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
@@ -51,50 +51,10 @@ const Belumbayar = (props) => {
         item: '',
         mb_id: '',
         odr_id: '',
-        buttonStts: 'Dibatalkan',
-        pesan_nf: 'Pesanan dibatalkan',
-        jenis_nf: 'Transaksi',
-        status: '0'
+
     })
 
-
-
     useEffect(() => {
-        AsyncStorage.getItem('member').then(response => {
-            // console.log('Profil----------->'+ JSON.stringify(response));
-
-            let data = JSON.parse(response);
-            // const val = JSON.stringify(data);
-
-            // console.log('Profilefiks----------->' + JSON.stringify(data));
-
-            setState(state => ({
-                ...state,
-                mb_id: data.mb_id,
-                mb_name: data.value.mb_name,
-                mb_email: data.value.mb_email,
-                mb_phone: data.value.mb_phone,
-                mb_type: data.value.mb_type,
-                picture: data.value.picture,
-                id_retail: data.retail_id,
-            }))
-            console.log('MB ID ' + JSON.stringify(state.id_retail));
-            // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
-
-        }).catch(err => {
-            console.log('err', err)
-        })
-
-        AsyncStorage.getItem('uid').then(uids => {
-            let ids = uids;
-            setState(state => ({
-                ...state,
-                mb_id: ids
-            }))
-        }).catch(err => {
-            console.log('err', err)
-        })
-
         //*Bagian Update
         getOrder()
     }, [])
@@ -106,18 +66,6 @@ const Belumbayar = (props) => {
             // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {
                 //hendle success
-                if (content == 'Dikemas') {
-                    NavigatorService.navigate('Dikemas')
-                } else if (content == 'Diproses') {
-                    NavigatorService.navigate('SedangDiproses')
-                } else if (content == 'Dikirim') {
-                    NavigatorService.navigate('Dikirim')
-                } else if (content == 'Selesai') {
-                    NavigatorService.navigate('Selesai')
-                } else if (content == 'Dibatalkan') {
-                    NavigatorService.navigate('Dibatalkan')
-                }
-
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
                 refresh()
@@ -125,7 +73,6 @@ const Belumbayar = (props) => {
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
-
             })
     }
 
@@ -137,58 +84,6 @@ const Belumbayar = (props) => {
 
         NavigatorService.navigate('Orderdetail', { odr_id: id })
 
-    }
-
-    //POST STATUS ORDER
-    const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
-        const body = {
-            odr_status: state.buttonStts,
-            pesan_nf: state.pesan_nf,
-            id_tujuan: odr_mb_id,
-            jenis_nf: state.jenis_nf,
-            asal_nf: retail_id,
-            status: state.status
-        }
-        console.log('cek body = ', JSON.stringify(body));
-
-        setState(state => ({ ...state, loading: true }))
-        let id_odr = id;
-        axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
-            .then(response => {
-                console.log('Response = ' + JSON.stringify(response.data));
-                const STATUS = {
-                    odr_id: id,
-                    retail_id: retail_id,
-                    retail_name: retail_name,
-                    total_bayar: total_bayar,
-                    odr_status: odr_status,
-                    subtotal: subtotal
-                }
-                if (response.data.status == 200) {
-                    alert('Berhasil ubah status order!')
-                    refresh()
-
-                    if (Object.keys(STATUS).length === 0) {
-                        alert('Status yang dimasukkan salah!')
-                    } else {
-                        // save Async storage
-                        console.log('LOG STATUS ===> ' + JSON.stringify(STATUS));
-                        AsyncStorage.setItem('setStatusPro', JSON.stringify(STATUS))
-
-                    }
-                    console.log('HASIL = ', response.data);
-                    setState(state => ({ ...state, loading: false }))
-                } else {
-                    alert('Gagal Ubah Status!')
-                    console.log('HASIL = ', response.data.status);
-                    setState(state => ({ ...state, loading: false }))
-                }
-
-            }).catch(err => {
-                alert('Gagal menerima data dari server!')
-                setState(state => ({ ...state, loading: false }))
-                console.log(' tec erorr = ' + JSON.stringify(response.data))
-            })
     }
 
 
@@ -213,7 +108,6 @@ const Belumbayar = (props) => {
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
-
             <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
                 refreshControl={
                     <RefreshControl
@@ -266,15 +160,10 @@ const Belumbayar = (props) => {
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5), bottom: toDp(5) }}>
-                                        <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
-                                            <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
-                                        </Pressable>
-                                        <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
-                                            <Text style={styles.txtButtonPay}>Dibatalkan</Text>
-                                        </Pressable>
+                                        <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran} (Dicek Otomatis)</Text>
+                                        {/* <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
+                                        <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
+                                    </Pressable> */}
                                     </View>
                                 </View>
 
@@ -284,8 +173,8 @@ const Belumbayar = (props) => {
                     )}
                     ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
                 />
-
             </ScrollView>
+
         </View>
     )
 }
@@ -294,7 +183,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         top: toDp(0),
-        // backgroundColor:'cyan'
+
     },
     content: {
         flexDirection: 'row',
@@ -320,7 +209,7 @@ const styles = StyleSheet.create({
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-        height: toDp(280),
+        height: toDp(235),
         backgroundColor: '#f3f3f3',
         padding: toDp(15),
         borderRadius: toDp(10),
@@ -339,7 +228,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         borderRadius: toDp(10),
         width: toDp(97),
-        height: toDp(48),
+        height: toDp(34),
         fontSize: toDp(11),
         justifyContent: 'center',
         bottom: toDp(8),
@@ -351,4 +240,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Belumbayar;
+export default SedangDiproses;

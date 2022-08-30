@@ -7,7 +7,8 @@ import {
   StatusBar,
   ImageBackground,
   Pressable,
-  Dimensions
+  Dimensions,
+  ScrollView,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -34,43 +35,44 @@ const Pengiriman = (props) => {
         title={'Pesanan Saya'}
         onPress={() => props.navigation.goBack()}
       />
-      <View style={{alignItems:'center'}}>
-        <View style={{ top:toDp(20) }}>
-          <View style={styles.body}> 
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Terima Pesanan</Text>
-            </Pressable>
-            {/* <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
-              <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black', left: toDp(2) }]}>Diproses</Text>
-            </Pressable> */}
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Sedang Dikirim</Text>
-            </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
-              <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
-            </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left: toDp(7) }]}>Dibatalkan</Text>
-            </Pressable>
+      <View style={{ alignItems: 'center'}}>
+        <ScrollView horizontal={true} >
+          <View style={{ top: toDp(20) }}>
+            <View style={styles.body}>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Terima Pesanan</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Diproses')}>
+                <Text style={[styles.txtOrder, { color: con === 'Diproses' ? '#6495ED' : 'black', left: toDp(2) }]}>Diproses</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Dikirim</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
+                <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left: toDp(7) }]}>Dibatalkan</Text>
+              </Pressable>
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <View style={{ borderWidth: toDp(0.5), width: toDp(380), borderColor: 'grey', bottom: toDp(8), alignItems: 'center', justifyContent: 'center' }} />
+            </View>
           </View>
-          <View style={{ alignItems: 'center' }}>
-            <View style={{ borderWidth: toDp(0.5), width: toDp(335), borderColor: 'grey', bottom: toDp(8), alignItems: 'center', justifyContent: 'center' }} />
-          </View>
-        </View>
-
-          {/*Bagian Update*/}
-          <View style={styles.content}>
+        </ScrollView>
+        {/*Bagian Update*/}
+        <View style={styles.content}>
           {
-              con == 'Dikemas' ?
-              <Sudahdibayar retail_id={retail_id} con={con}/>
-              // : con == 'Belum Dibayar' ?
-              //   <Diproses retail_id={retail_id} con={con}/>
+            con == 'Dikemas' ?
+              <Sudahdibayar retail_id={retail_id} con={con} />
+              : con == 'Diproses' ?
+                <Diproses retail_id={retail_id} con={con} />
                 : con == 'Dikirim' ?
-                  <Sedangdikirim retail_id={retail_id} con={con}/>
+                  <Sedangdikirim retail_id={retail_id} con={con} />
                   : con == 'Selesai' ?
-                    <Diterima retail_id={retail_id} con={con}/>
+                    <Diterima retail_id={retail_id} con={con} />
                     :
-                    <Sudahdibatalkan retail_id={retail_id} con={con}/>
+                    <Sudahdibatalkan retail_id={retail_id} con={con} />
           }
         </View>
       </View>
@@ -81,7 +83,7 @@ const Pengiriman = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
     backgroundColor: 'white',
     alignItems: 'center',
   },
@@ -101,22 +103,20 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   content: {
-    flex: 1,
-    width: '100%'
+
+    width: '100%',
+    height: height
   },
   body: {
     backgroundColor: 'white',
     flexDirection: 'row',
-    marginTop: toDp(10),
-    right: toDp(3),
-    alignItems: 'center', 
+    marginHorizontal:toDp(10)
   },
   presable: {
     flex: 0,
     justifyContent: 'space-between',
     margin: toDp(7),
-    height: toDp(19),
-    marginHorizontal:toDp(6)
+    height: toDp(19)
   },
   icon: {
     width: toDp(31),
@@ -131,8 +131,7 @@ const styles = StyleSheet.create({
     marginLeft: toDp(16)
   },
   txtOrder: {
-    bottom: toDp(5),
-    marginHorizontal: toDp(-4)
+    bottom: 5
   }
 });
 

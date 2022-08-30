@@ -90,7 +90,7 @@ const Detailorderan = (props) => {
         let odrid = props.navigation.state.params.odr_id;
         console.log('odrid ', odrid);
         // axios.get('https://market.pondok-huda.com/dev/react/order/odt/' + odrid)
-        axios.get(svr.url+'order/odt/'+odrid+'/'+svr.api)
+        axios.get(svr.url + 'order/odt/' + odrid + '/' + svr.api)
             .then(result => {
 
                 let data = result.data.data;
@@ -121,12 +121,12 @@ const Detailorderan = (props) => {
         count = payment.split(' ' || '-');
         nama = count.slice(0, 2,).join(' ');
         return nama
-      }
+    }
 
     return (
         <View style={styles.container}>
             <Order
-                title={'Pesanan Sayaaa'}
+                title={'Detail Order'}
                 onPress={() => props.navigation.goBack()}
             />
 
@@ -136,11 +136,11 @@ const Detailorderan = (props) => {
                     <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), bottom: toDp(5) }}>{state.status}</Text>
 
                     <View style={styles.OrderDetail}>
-                        <Text style={styles.txtOrder}>{state.retail_name}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(10) }}>
+                        <Text style={{ bottom: 5 }}>{state.retail_name}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(0) }}>
                             <Image source={{ uri: state.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} />
                             <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>{state.prd_name}</Text>
-                            <Text style={{ top: toDp(80), right: toDp(10) }}>x{state.qtyall}</Text>
+                            <Text style={{ top: toDp(105), right: toDp(10) }}>x{state.qtyall}</Text>
                         </View>
                         <NumberFormat
                             value={state.price}
@@ -148,11 +148,11 @@ const Detailorderan = (props) => {
                             thousandSeparator={'.'}
                             decimalSeparator={','}
                             prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                            renderText={formattedValue => <Text style={{ bottom: toDp(70), left: toDp(128), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
                         />
-                        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(25), width: toDp(314), right:toDp(10)}} />
+                        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(5), width: toDp(314), right: toDp(10) }} />
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(20), margin: toDp(5) }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(0), margin: toDp(5) }}>
                             <Text style={styles.txtCard}>{state.qtyall} Produk</Text>
                             {/* <Text style={styles.txtCard}>{DATA[0].total}</Text> */}
                             <NumberFormat
@@ -170,22 +170,24 @@ const Detailorderan = (props) => {
 
                 {/* BAGIAN ALAMAT PENGIRIMAN */}
 
-                <View>
+                <View style={{ marginTop: toDp(40) }}>
                     <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), }}>Info Pengiriman</Text>
-                    <View style={styles.viewPengiriman}>
-                        <View>
-                            <Text style={{ padding: toDp(2) }}>Kurir</Text>
-                            <Text style={{ padding: toDp(2) }}>No Resi</Text>
-                            <Text style={{ padding: toDp(2) }}>Alamat</Text>
-                            <Text style={{ padding: toDp(2) }}></Text>
-                            <Text style={{ padding: toDp(2) }}></Text>
-                        </View>
-                        <View style={{ marginRight: toDp(50) }}>
-                            <Text style={{ padding: toDp(2) }}>: {state.shipping}</Text>
-                            <Text style={{ padding: toDp(2) }}>: -</Text>
-                            <Text style={{ padding: toDp(2) }}>: {state.adr_name}</Text>
-                            <Text style={{ padding: toDp(2) }}>  {state.adr_hp}</Text>
-                            <Text style={{ padding: toDp(2) }}>  {state.address}</Text>
+                    <View style={{ top: toDp(10) }}>
+                        <View style={styles.viewPengiriman}>
+                            <View>
+                                <Text style={{ padding: toDp(2) }}>Kurir</Text>
+                                <Text style={{ padding: toDp(2) }}>No Resi</Text>
+                                <Text style={{ padding: toDp(2) }}>Alamat</Text>
+                                <Text style={{ padding: toDp(2) }}></Text>
+                                <Text style={{ padding: toDp(2) }}></Text>
+                            </View>
+                            <View style={{ marginRight: toDp(50) }}>
+                                <Text style={{ padding: toDp(2) }}>: {state.shipping}</Text>
+                                <Text style={{ padding: toDp(2) }}>: -</Text>
+                                <Text style={{ padding: toDp(2) }}>: {state.adr_name}</Text>
+                                <Text style={{ padding: toDp(2) }}>  {state.adr_hp}</Text>
+                                <Text style={{ padding: toDp(2) }}>  {state.address}</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -194,45 +196,47 @@ const Detailorderan = (props) => {
 
                 {/* BAGIAN DETAIL HARGA */}
 
-                <View>
+                <View style={{ marginTop: toDp(20) }}>
                     <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20) }}>Rincian Pembayaran</Text>
-                    <View style={styles.viewPembayaran}>
-                        <View>
-                            <Text style={{ padding: toDp(5) }}>Metode Pembayaran</Text>
-                            <Text style={{ padding: toDp(5) }}>Sub Total Produk</Text>
-                            <Text style={{ padding: toDp(5) }}>Ongkos Kirim</Text>
-                            <Text></Text>
-                            <Text style={{ padding: toDp(5), bottom:toDp(5), fontWeight: 'bold', color: '#f83308' }}>Total Pembayaran</Text>
-                        </View>
-                        <View style={{ marginLeft: toDp(50) }}>
-                            <Text style={{ padding: toDp(5) }}>{displayName(state.payment)}</Text>
-                            <NumberFormat
-                                value={state.price * state.qtyall}
-                                displayType={'text'}
-                                thousandSeparator={'.'}
-                                decimalSeparator={','}
-                                prefix={'Rp. '}
-                                renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                            />
-                            <NumberFormat
-                                value={state.ongkir}
-                                displayType={'text'}
-                                thousandSeparator={'.'}
-                                decimalSeparator={','}
-                                prefix={'Rp. '}
-                                renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                            />
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', right: toDp(208), width: toDp(314), marginTop: toDp(5) }} />
-                            <NumberFormat
-                                value={state.total_bayar}
-                                displayType={'text'}
-                                thousandSeparator={'.'}
-                                decimalSeparator={','}
-                                prefix={'Rp. '}
-                                renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold', padding: toDp(5), top:toDp(6) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                            />
-                        </View>
+                    <View style={{marginTop:toDp(10)}}>
+                        <View style={styles.viewPembayaran}>
+                            <View>
+                                <Text style={{ padding: toDp(5) }}>Metode Pembayaran</Text>
+                                <Text style={{ padding: toDp(5) }}>Sub Total Produk</Text>
+                                <Text style={{ padding: toDp(5) }}>Ongkos Kirim</Text>
+                                <Text></Text>
+                                <Text style={{ padding: toDp(5), bottom: toDp(5), fontWeight: 'bold', color: '#f83308' }}>Total Pembayaran</Text>
+                            </View>
+                            <View style={{ marginLeft: toDp(50) }}>
+                                <Text style={{ padding: toDp(5) }}>{displayName(state.payment)}</Text>
+                                <NumberFormat
+                                    value={state.price * state.qtyall}
+                                    displayType={'text'}
+                                    thousandSeparator={'.'}
+                                    decimalSeparator={','}
+                                    prefix={'Rp. '}
+                                    renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                />
+                                <NumberFormat
+                                    value={state.ongkir}
+                                    displayType={'text'}
+                                    thousandSeparator={'.'}
+                                    decimalSeparator={','}
+                                    prefix={'Rp. '}
+                                    renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                />
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', right: toDp(208), width: toDp(314), marginTop: toDp(10) }} />
+                                <NumberFormat
+                                    value={state.total_bayar}
+                                    displayType={'text'}
+                                    thousandSeparator={'.'}
+                                    decimalSeparator={','}
+                                    prefix={'Rp. '}
+                                    renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold', padding: toDp(5), top: toDp(3) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                />
+                            </View>
 
+                        </View>
                     </View>
 
                 </View>
@@ -289,8 +293,8 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     body: {
-        backgroundColor: '#fff', 
-        height: toDp(220), 
+        backgroundColor: '#fff',
+        height: toDp(220),
         top: toDp(15)
     },
     flatcontent: {
@@ -329,9 +333,9 @@ const styles = StyleSheet.create({
         padding: toDp(10),
         borderRadius: toDp(10),
         width: toDp(314),
-        height: toDp(180),
+        height: toDp(200),
         left: toDp(23),
-        bottom: toDp(0),
+        marginTop: toDp(10),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

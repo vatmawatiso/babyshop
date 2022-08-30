@@ -37,6 +37,7 @@ const Homeseller = (props) => {
     mb_phone: '',
     mb_email: '',
     id_retail: '',
+    odr_mb_id:'',
     rtl_id:'',
     modalVisible: false,
     option: {
@@ -66,7 +67,6 @@ const Homeseller = (props) => {
         retail_id: data.retail_id,
       }))
       // console.log('RTL ID ' + JSON.stringify(state.retail_id));
-
     }).catch(err => {
       console.log('err', err)
     })

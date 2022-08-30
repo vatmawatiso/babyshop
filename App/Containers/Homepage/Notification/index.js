@@ -8,7 +8,8 @@ import {
   StatusBar,
   ImageBackground,
   Pressable,
-  FlatList
+  FlatList,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -25,14 +26,27 @@ const Notification = (props) => {
   })
 
   useEffect(() => {
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+
     getNotif()
   }, [])
 
 
   const getNotif = () => {
+    let mbid = props.navigation.state.params.id;
+    console.log('mbid = ', mbid)
     setState(state => ({...state, loading: true}));
-    Axios.get(svr.url+'notifikasi/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/notifikasi/')
+    Axios.get(svr.url+'notifikasi/member/'+mbid+'/'+svr.api)
+    // https://market.pondok-huda.com/publish/react/notifikasi/member/MB000000001/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
     .then(result => {
       console.log('result notif =>', result)
       if(result.data.status == 200){

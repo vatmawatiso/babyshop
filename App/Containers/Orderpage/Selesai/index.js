@@ -9,7 +9,10 @@ import {
     Pressable,
     FlatList,
     AsyncStorage,
-    TouchableOpacity, Dimensions
+    TouchableOpacity,
+    Dimensions,
+    RefreshControl,
+    ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -18,27 +21,29 @@ import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import { svr } from "../../../Configs/apikey";
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Selesai = (props) => {
 
-    const DATA = [
-        {
-            id: '2',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Belum Bayar',
-            produk: 'Gerobak Pasir',
-            harga: '500000',
-            jumlah: '2',
-            total: '800000',
-            bataswaktu: '13 Januari 2022',
-            metodePembayaran: 'Bank Mandiri',
-            konfirmasi: 'Dibatalkan Pembeli',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
+    // const DATA = [
+    //     {
+    //         id: '2',
+    //         tb: 'Jaya Abadi Bandung',
+    //         diproses: 'Belum Bayar',
+    //         produk: 'Gerobak Pasir',
+    //         harga: '500000',
+    //         jumlah: '2',
+    //         total: '800000',
+    //         bataswaktu: '13 Januari 2022',
+    //         metodePembayaran: 'Bank Mandiri',
+    //         konfirmasi: 'Dibatalkan Pembeli',
+    //         image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
+    //     },
+    // ]
 
+    // const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
         datas: [],
         order: '',
@@ -57,17 +62,13 @@ const Selesai = (props) => {
     const getOrder = () => {
         let mb = props.mbid;
         let content = props.con;
-        axios.get(svr.url+'order/getodr/'+mb+'/'+content+'/'+svr.api)
-        // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+        axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {
                 //hendle success
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
-                //
-                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
-                // console.log('data order ===> ' + JSON.stringify(result.data.order));
-                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
-                // console.log('data item ===> ' + JSON.stringify(result.data.item));
+                // refresh()
 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
@@ -75,10 +76,44 @@ const Selesai = (props) => {
             })
     }
 
+    //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+
+        NavigatorService.navigate('Orderdetail', { odr_id: id })
+
+    }
+
+
+    //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
+    // const refresh = async () => {
+    //     let mb = props.mbid;
+    //     let content = props.con;
+    //     axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
+    //         // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+    //         .then(result => {
+    //             console.log('full ===> ' + JSON.stringify(result.data.data));
+    //             setState(state => ({ ...state, datas: result.data.data }))
+
+    //         }).catch(err => {
+    //             alert('Gagal menerima data dari server!' + err)
+    //             setState(state => ({ ...state, loading: false }))
+
+    //         })
+    // }
+
 
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
+            {/* <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={refresh}
+                    />}
+            > */}
             <FlatList style={{ width: '100%', }}
                 data={state.datas}
                 renderItem={({ item, index }) => (
@@ -93,7 +128,7 @@ const Selesai = (props) => {
                             <View style={styles.OrderDetail}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
-                                    <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width:toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                    <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
                                     {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
                                 </View>
                                 <NumberFormat
@@ -106,7 +141,7 @@ const Selesai = (props) => {
                                 />
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('underConstruction')}>
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
                                         <NumberFormat
@@ -124,7 +159,7 @@ const Selesai = (props) => {
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5), bottom: toDp(5) }}>
-                                    <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text>
+                                    <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}</Text>
                                     <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
                                         <Text style={styles.txtButtonPay}>Nilai</Text>
                                     </Pressable>
@@ -138,7 +173,7 @@ const Selesai = (props) => {
                 ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
             />
 
-
+            {/* </ScrollView> */}
         </View>
     )
 }
@@ -146,7 +181,7 @@ const Selesai = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        top: toDp(10),
+        top: toDp(0),
 
     },
     content: {
@@ -173,7 +208,7 @@ const styles = StyleSheet.create({
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-        height:toDp(235),
+        height: toDp(235),
         backgroundColor: '#f3f3f3',
         padding: toDp(15),
         borderRadius: toDp(10),

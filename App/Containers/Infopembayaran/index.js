@@ -7,7 +7,9 @@ import {
   Alert,
   ImageBackground,
   Pressable,
-  Systrace,ToastAndroid
+  Systrace, 
+  ToastAndroid,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -33,36 +35,46 @@ const Infopembayaran = (props) => {
     "Total": 224500,
     "Fee": 3500,
     "Expired": "2022-08-08 14:46:00",
-    "Note":"", //terdapat note jika pembayaran via alfamart ,indomart
+    "Note": "", //terdapat note jika pembayaran via alfamart ,indomart
     //terdapat params berikiut jika pembayaran via QRIS
     "QrString": "00020101021226670016COM.NOBUBANK.WWW01189360050300000488870214041800000314060303UMI51440014ID.CO.QRIS.WWW0215ID20200814001730303UMI52045499530336054063385005802ID5920PT GMJ GLOBAL ENERGY6008Denpasar610515811627101140809000002181005192022080909330215053061920220809093302150530703A01630462DC",
     "QrImage": "https://sandbox.ipaymu.com/qr/71541",
     "QrTemplate": "https://sandbox.ipaymu.com/qr/template/71541"
   }
 
-  const copy = (val)=>{
+//   useEffect((data) => {
+    
+//     let datac = data;
+//     console.log('cek data checkout = ', datac)
+
+// }, [])
+
+
+  const copy = (val) => {
     let data = '';
     let textFinal = val.replace(/\s/g, '');
     data = Clipboard.setString(textFinal)
     getcopy()
   }
-  const getcopy = async() =>{
+  const getcopy = async () => {
     let text = await Clipboard.getString();
     let textFinal = text.replace(/\s/g, '');
     showToast()
   }
 
+
+
   const showToast = () => {
     ToastAndroid.show("Berhasil disalin", ToastAndroid.SHORT);
   };
 
-  const QRcode = (val) =>{
-    return(
-      <View style={{padding:toDp(8),alignItems:'center', marginVertical:toDp(12), backgroundColor:'#f3f3f3', borderRadius:toDp(5)}}>
-      <QRCode
-        size={150}
-        value={val}
-      />
+  const QRcode = (val) => {
+    return (
+      <View style={{ padding: toDp(8), alignItems: 'center', marginVertical: toDp(12), backgroundColor: '#f3f3f3', borderRadius: toDp(5) }}>
+        <QRCode
+          size={150}
+          value={val}
+        />
       </View>
     )
   }
@@ -83,46 +95,48 @@ const Infopembayaran = (props) => {
             thousandSeparator={'.'}
             decimalSeparator={','}
             prefix={'Rp. '}
-            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '600', marginBottom: toDp(15),
-            fontSize: toDp(20) }}>{formattedValue}</Text>} // <--- Don't forget this!
+            renderText={formattedValue => <Text style={{
+              color: '#F83308', fontWeight: '600', marginBottom: toDp(15),
+              fontSize: toDp(20)
+            }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
           <Text style={styles.txtKet}>Bayaran Pesanan Sesuai Jumlah di atas</Text>
         </View>
         <View style={styles.bodyBank}>
-          <View style={{ flexDirection: 'row', margin: toDp(10), padding:toDp(4), height:30, justifyContent:'space-between', alignItems:'center' }}>
+          <View style={{ flexDirection: 'row', margin: toDp(10), padding: toDp(4), height: 30, justifyContent: 'space-between', alignItems: 'center' }}>
             {/*Image nya di sesuaikan*/}
-            <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/213px-Bank_Mandiri_logo_2016.svg.png'}} style={{width:60, height:18}}/>
+            <Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/213px-Bank_Mandiri_logo_2016.svg.png' }} style={{ width: 60, height: 18 }} />
             <Text style={styles.txtBank}>Bank {DATA.Channel} (Dicek Otomatis)</Text>
 
           </View>
-          <View style={{padding:toDp(10)}}>
-          {DATA.Channel=='QRIS' ?
-              <View style={{alignItems:'center'}}>
+          <View style={{ padding: toDp(10) }}>
+            {DATA.Channel == 'QRIS' ?
+              <View style={{ alignItems: 'center' }}>
                 {QRcode(DATA.QrString)}
                 <Text style={styles.txtNokers}>{DATA.PaymentName}</Text>
                 <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
-                <Text style={{fontSize:toDp(17), fontWeight:'bold',color:'#FF3939'}}>{DATA.Expired}</Text>
+                <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{DATA.Expired}</Text>
               </View>
-          :
-            <View>
-              <Text style={styles.txtRekening}>Penerima</Text>
-              <Text style={styles.txtNokers}>{DATA.PaymentName}</Text>
-              <Text style={styles.txtRekening}>No Virtual Account</Text>
-              <Pressable onPress={() => copy(DATA.PaymentNo)}>
-                <Text style={styles.txtNoker}>{DATA.PaymentNo}</Text>
-              </Pressable>
-              <Text style={styles.txtKetNoker}>Salin No. Rekening diatas untuk melakukan pembayaran</Text>
-              <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
-              <Text style={{fontSize:toDp(17), fontWeight:'bold',color:'#FF3939'}}>{DATA.Expired}</Text>
-              {DATA.Channel=='ALFAMART' || DATA.Channel=='INDOMART' ?
+              :
+              <View>
+                <Text style={styles.txtRekening}>Penerima</Text>
+                <Text style={styles.txtNokers}>{DATA.PaymentName}</Text>
+                <Text style={styles.txtRekening}>No Virtual Account</Text>
+                <Pressable onPress={() => copy(DATA.PaymentNo)}>
+                  <Text style={styles.txtNoker}>{DATA.PaymentNo}</Text>
+                </Pressable>
+                <Text style={styles.txtKetNoker}>Salin No. Rekening diatas untuk melakukan pembayaran</Text>
+                <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
+                <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{DATA.Expired}</Text>
+                {DATA.Channel == 'ALFAMART' || DATA.Channel == 'INDOMART' ?
                   <>
                     <Text style={styles.txtKetNoker}>{DATA.Note}</Text>
                   </>
                   :
                   <></>
-              }
-            </View>
-          }
+                }
+              </View>
+            }
 
 
 
@@ -149,7 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     padding: toDp(20),
     width: toDp(335),
-    marginBottom:toDp(10),
+    marginBottom: toDp(10),
     left: toDp(12),
     borderRadius: toDp(10),
     shadowColor: "#B8B8B8",
@@ -163,8 +177,8 @@ const styles = StyleSheet.create({
     elevation: 15,
   },
   txtTotal: {
-    marginBottom:toDp(5),
-    fontSize:toDp(15),
+    marginBottom: toDp(5),
+    fontSize: toDp(15),
   },
   txtHarga: {
     margin: toDp(10),
@@ -181,7 +195,7 @@ const styles = StyleSheet.create({
     width: toDp(335),
     left: toDp(12),
     top: toDp(10),
-    padding:toDp(15),
+    padding: toDp(15),
     borderRadius: toDp(10),
     shadowColor: "#B8B8B8",
     shadowOffset: {
@@ -208,10 +222,10 @@ const styles = StyleSheet.create({
   txtNokers: {
     fontSize: toDp(15),
     color: '#FF8716',
-    marginBottom:toDp(15)
+    marginBottom: toDp(15)
   },
   txtKetNoker: {
-    marginTop:toDp(8),
+    marginTop: toDp(8),
     fontSize: toDp(12),
     color: '#44474E'
   },

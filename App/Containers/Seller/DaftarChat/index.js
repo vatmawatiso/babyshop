@@ -57,7 +57,7 @@ const DaftarChat = (props) => {
       let data = JSON.parse(response);
       //const val = JSON.stringify(data);
 
-      console.log('Homeseller ==> '+ JSON.stringify(data));
+      console.log('Homeseller ==> ' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -69,7 +69,7 @@ const DaftarChat = (props) => {
         picture: data.value.picture,
         retail_id: data.retail_id,
       }))
-       console.log('RTL ID '+ JSON.stringify(state.retail_id));
+      console.log('RTL ID ' + JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)
@@ -85,7 +85,7 @@ const DaftarChat = (props) => {
       console.log('uid = ', state.uid);
     });
 
-        
+
     AsyncStorage.getItem('chatid').then(chatid => {
       let idc = chatid;
       setState(state => ({
@@ -113,15 +113,15 @@ const DaftarChat = (props) => {
     // http://localhost/publish/react/chat/penjual/RTL00000002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARV
     axios.get(svr.url + 'chat/penjual/' + idr + '/' + svr.api)
       .then(result => {
-        console.log('cek chat = ' + JSON.stringify(result.data));
+        console.log('cek chat = ' + JSON.stringify(result));
         // console.log('cek chat id = ' + JSON.stringify(result.data.data[0].chat_id));
-
+        setState(state => ({ ...state, listChat: result.data.data }))
         AsyncStorage.setItem('chat', JSON.stringify(result.data.data[0]))
         AsyncStorage.setItem('chatid', JSON.stringify(result.data.data[0].chat_id))
         AsyncStorage.setItem('senderid', JSON.stringify(result.data.data[0].sender_id))
-        setState(state => ({ ...state, listChat: result.data.data }))
 
-    
+
+
       })
       .catch(err => {
         ToastAndroid.show(err.message, ToastAndroid.SHORT)
@@ -130,13 +130,14 @@ const DaftarChat = (props) => {
 
 
   const RenderItem = (item, index) => (
+
     <Pressable style={styles.btnChat}
-    onPress={() => NavigatorService.navigate('Chatseller', {
-      id: item.chat_id,
-      sender_id: item.sender_id,
-      sender: item.sender,
-      rtl: item.id
-    })}>
+      onPress={() => NavigatorService.navigate('Chatseller', {
+        id: item.chat_id,
+        sender_id: item.sender_id,
+        sender: item.sender,
+        rtl: item.id
+      })}>
       <View style={styles.product}>
         <Grid>
           <Col>
@@ -152,8 +153,8 @@ const DaftarChat = (props) => {
           </Col>
           <Col>
             <Row style={{ marginLeft: toDp(60) }}>
-              <View style={{right:toDp(50), top:toDp(50)}}>
-                <Text style={{fontSize:toDp(10), width:toDp(100), color:'grey'}}>{item.waktu}</Text>
+              <View style={{ right: toDp(50), top: toDp(50) }}>
+                <Text style={{ fontSize: toDp(10), width: toDp(100), color: 'grey' }}>{item.waktu}</Text>
               </View>
               <View>
                 <Text>{item.jumlah}</Text>
@@ -186,7 +187,7 @@ const DaftarChat = (props) => {
 
   const Chats = () => {
     return (
-      <FlatList style={{ backgroundColor: '#FFF', minHeight: toDp(100), width: width, right:42 }}
+      <FlatList style={{ backgroundColor: '#FFF', minHeight: toDp(100), width: width, right: 42 }}
         showsVerticalScrollIndicator={false}
 
 
@@ -231,8 +232,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     width: toDp(315),
     borderRadius: toDp(10),
-    marginLeft:toDp(40),
-    left:toDp(3),
+    marginLeft: toDp(40),
+    left: toDp(3),
     marginTop: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: toDp(10),
     width: toDp(315),
-    left:toDp(0),
+    left: toDp(0),
     height: toDp(70),
     flexDirection: 'row',
 

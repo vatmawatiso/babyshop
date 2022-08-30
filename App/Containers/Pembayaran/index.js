@@ -276,23 +276,6 @@ const Pembayaran = (props) => {
     )
   }
 
-  // const sendBack = (methode, code, fee, name, to) => {
-  //   let data = {
-  //      methode : methode,
-  //      payment_channel : code,
-  //      name : name,
-  //      fee : fee
-  //   }
-  //   if(to=='belilangsung'){
-  //        AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
-  //        NavigatorService.navigate('Checkout');
-  //        console.log('Pembayaran : ', data);
-
-  //   }else{
-  //        AsyncStorage.setItem('paymentMethode', JSON.stringify(data))
-  //        NavigatorService.navigate('cartCheckout');
-
-  //   }
 
   const sendBack = (methode, code, fee, name, to) => {
     let data = {
@@ -336,11 +319,11 @@ const Pembayaran = (props) => {
 
     
 
-      <View style={{ position: 'relative', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor: 'cyan' }}>
+      {/* <View style={{ position: 'relative', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor: 'cyan' }}>
         <Pressable style={[styles.btnKonfirm, { width: toDp(335) }]} onPress={() => NavigatorService.navigate('Infopembayaran')}>
           <Text style={styles.txtKonfirm}>Konfirmasi</Text>
         </Pressable>
-      </View>
+      </View> */}
       </Card>
     </View>
   );

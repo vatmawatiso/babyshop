@@ -9,7 +9,8 @@ import {
   Pressable,
   AsyncStorage,
   ToastAndroid,
-  ScrollView
+  ScrollView,
+  FlatList
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -29,7 +30,7 @@ const Chatseller = (props) => {
 
 
   const [state, setState] = useState({
-    uid: '',
+    id: '',
     listChat: '',
     mb_id: '',
     chat_text: '',
@@ -37,44 +38,48 @@ const Chatseller = (props) => {
     sender_id: '',
     sender: '',
     isi_text: '',
-    rtl_id:''
+    rtl_id: '',
+    produk: [],
+    idpr: [],
   });
 
   useEffect(() => {
 
-    // AsyncStorage.getItem('member').then(response => {
-    //   //console.log('Profilseller=======>'+ JSON.stringify(responponse));
-
-    //   let data = JSON.parse(response);
-    //   //const val = JSON.stringify(data);
-
-    //   console.log('Homeseller ==> ',(data));
-
-    //   setState(state => ({
-    //     ...state,
-    //     id: data.mb_id,
-    //     mb_name: data.value.mb_name,
-    //     mb_email: data.value.mb_email,
-    //     mb_phone: data.value.mb_phone,
-    //     mb_type: data.value.mb_type,
-    //     picture: data.value.picture,
-    //     retail_id: data.retail_id,
-    //   }))
-    //    console.log('RTL ID '+ JSON.stringify(state.retail_id));
-
-    // }).catch(err => {
-    //   console.log('err', err)
-    // })
-
-
+    // get id pengguna
     AsyncStorage.getItem('uid').then(uids => {
       let ids = uids;
       setState(state => ({
         ...state,
-        uid: ids
+        id: ids
       }))
-      console.log('uid = ', state.uid);
-    });
+      console.log('uid', state.id)
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    AsyncStorage.getItem('member').then(response => {
+      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+
+      let data = JSON.parse(response);
+      //const val = JSON.stringify(data);
+
+      console.log('Homeseller ==> ', (data));
+
+      setState(state => ({
+        ...state,
+        id: data.mb_id,
+        mb_name: data.value.mb_name,
+        mb_email: data.value.mb_email,
+        mb_phone: data.value.mb_phone,
+        mb_type: data.value.mb_type,
+        picture: data.value.picture,
+        retail_id: data.retail_id,
+      }))
+      console.log('RTL ID ' + JSON.stringify(state.retail_id));
+
+    }).catch(err => {
+      console.log('err', err)
+    })
 
     //chat_id
 
@@ -110,7 +115,7 @@ const Chatseller = (props) => {
       console.log('sender id = ', state.sender_id);
     });
 
-        
+
     AsyncStorage.getItem('rtlid').then(rtlid => {
       let rtl = rtlid;
       setState(state => ({
@@ -126,168 +131,324 @@ const Chatseller = (props) => {
     getChat()
 
     setInterval(() => {
-      getChat()
+      // getChat()
     }, 1000);
   }, [])
+
+  const getProdukChat = (idp, i) => {
+    // let idp = props.navigation.state.params.id;
+    axios.get(svr.url + 'product/' + idp + '/' + svr.api)
+      .then(response => {
+        console.log('hasil produk per id', response.data)
+        setState(state => ({ ...state, detail: response.data.detail }))
+        // update
+        let { produk } = state;
+        produk[i] = response.data.data[0];
+        setState(state => ({
+          ...state,
+          produk
+        }))
+      }).catch(error => {
+        ToastAndroid.show(error.message, ToastAndroid.SHORT)
+        console.log('errorrrrrr', error)
+      })
+  }
+
 
   const getChat = () => {
     let chat_id = props.navigation.state.params.id;
     // https://market.pondok-huda.com/publish/react/chat/content/CH00003/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
     axios.get(svr.url + 'chat/content/' + chat_id + '/' + svr.api)
-      .then(result => {
-        console.log('cek chat isi = ' + JSON.stringify(result));
-        setChat(result.data.data)
-      })
-      .catch(err => {
+      .then(response => {
+        console.log('cek chat isi = ', response);
+        const datas = {
+          idCht: response.data.data.chat_id,
+          value: response.data.data
+        }
+        if (datas.value.length === 0) {
+          alert('chat kosong')
+        } else {
+
+          console.log('prd id', response.data.data)
+          setChat(response.data.data)
+        }
+
+        // update
+        const prdid = response.data.data.map((val, i) => {
+          console.log('>>>>>', JSON.stringify(val.prd_id));
+          if (val.prd_id != '') {
+            let { idpr } = state;
+            idpr[i] = val.prd_id;
+            setState(state => ({
+              ...state,
+              idpr
+            }))
+          }
+        })
+        // update
+        state.idpr.map((va, i) => {
+          getProdukChat(va, i)
+        })
+      }).catch(err => {
         ToastAndroid.show(err.message, ToastAndroid.SHORT)
+        console.log('errorrrr', err)
       })
   }
 
 
   const sendChat = () => {
+    let send_id = props.navigation.state.params.sender_id;
     if (isiChat.trim().length === 0) {
       ToastAndroid.show("Tidak dapat mengirimkan pesan kosong.", ToastAndroid.SHORT)
     } else {
       const body = {
-        "pengirim_id": state.sender_id,
+        "pengirim_id": send_id,
         "penerima": state.rtl_id,
         "pesan": isiChat,
-        "current_uid": state.uid
+        "current_uid": state.id,
+        "prd_id": "",
+        "product_name": "",
+        "price": "",
+        "retailaddres": "",
+        "thumbnail": "",
+        "from": "chat"
       };
-      console.log('cek body = ' ,(state.sender_id));
+      console.log('cek body sender id = ', (state.sender_id));
 
       // https://market.pondok-huda.com/publish/react/chat/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
       axios.post(svr.url + 'chat/' + svr.api, body)
         .then(result => {
+          console.log('Hasil =', result)
           setIsiChat('')
-          console.log('Hasil =', result.data)
+
         })
         .catch(err => {
           console.log(err)
           ToastAndroid.show("Terjadi masalah saat mengirimkan pesan, Silahkan coba lagi!", ToastAndroid.SHORT)
         })
-      }
     }
+  }
 
+  const renderProduk = (item) => {
+    // update
     return (
-      <View style={styles.container}>
-        <Header
-          title={'Chat'}
-          onPress={() => props.navigation.goBack()}
-        />
+      <View style={styles.viewProduk}>
+        <View style={styles.card}>
+          <Pressable onPress={() => alert('hbd yesung')}>
+            <View style={styles.txtProduct}>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Image source={{ uri: item?.thumbnail }} style={styles.imgProduct} />
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ justifyContent: 'center', width: '70%' }}>
+                  <Text style={styles.textproduct}>{item?.product_name}</Text>
+                </View>
+              </View>
+              <NumberFormat
+                value={item?.price}
+                displayType={'text'}
+                thousandSeparator={'.'}
+                decimalSeparator={','}
+                prefix={'Rp. '}
+                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+              />
+              <Image source={allLogo.address} style={styles.address} />
+              <Text style={styles.dariKota}>{item?.retailaddres}</Text>
+              {/* <Image source={allLogo.icstar} style={styles.star} /> */}
+              {/* <Text style={styles.bintang}>{item[0].lainnya.rating}</Text>
+              <Text style={styles.terjual}>| Terjual {item[0].lainnya.terjual}</Text> */}
+            </ View>
+          </Pressable>
+        </ View>
+      </View>
 
-        <ScrollView ref={scrollViewRef}
-          onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
-          <View style={styles.BodyChat}>
+    )
+  }
 
-            {chat.map((data, index) => {
-              return (
-                <View style={[styles.cardchat, { backgroundColor: data.stat == 'open' ? 'white' : 'grey', right: data.stat == 'open' ? '0%' : '-30%' }]}>
-                  <View style={{ minHeight: toDp(30), }}>
-                    <Text style={{ fontSize: 12, color: data.stat == 'open' ? '#787878' : 'white' }}>{data.pesan}</Text>
-                  </View>
-                  <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
-                    <Text style={{ fontSize: 10, color: data.stat == 'open' ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{data.waktu}</Text>
+  return (
+    <View style={styles.container}>
+      <Header
+        title={'Chat'}
+        onPress={() => props.navigation.goBack()}
+      />
+      {/*update*/}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        numColumns={1}
+        data={chat}
+        renderItem={({ item, index }) => {
+          return (
+            item.from == state.id ? (
+              <View>
+                {item.prd_id != '' ?
+                  renderProduk(state.produk[index])
+                  : <View></View>
+                }
+                <View style={{ alignItems: 'flex-end' }}>
+                  <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B', }]}>
+                    <View>
+                      <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
+                    </View>
+                    <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
+                      <Text style={{ fontSize: 10, color: item.from != state.id ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
+                    </View>
                   </View>
                 </View>
-              )
-            })}
+              </View>
+            ) : (
 
-          </View>
-        </ScrollView>
+              <View style={{ alignItems: 'flex-start' }}>
+                <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B', }]}>
+                  <View>
+                    <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
+                  </View>
+                  <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
+                    <Text style={{ fontSize: 10, color: item.from != state.id ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
+                  </View>
+                </View>
+              </View>
+            )
+          )
+        }}
+        ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
+      />
 
-        <View style={{ backgroundColor: '#f8f9f9', marginTop: toDp(0), flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={styles.content}>
-            <TextInput
-              style={[styles.textInput]}
-              placeholder={'Tulis pesan'}
-              placeholderTextColor={'#000'}
-              value={isiChat}
-              multiline={true}
-              onChangeText={(value) => setIsiChat(value)}
-            />
-            <Pressable style={styles.presableShow}>
-              <Image source={allLogo.icfolder} style={styles.icfolder} />
-            </Pressable>
-          </View>
-          <Pressable style={styles.btnKirim} onPress={() => sendChat()}>
-            <Image source={allLogo.icvector} />
+      <View style={{ backgroundColor: '#f8f9f9', marginTop: toDp(0), flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={styles.content}>
+          <TextInput
+            style={[styles.textInput]}
+            placeholder={'Tulis pesan'}
+            placeholderTextColor={'#787878'}
+            value={isiChat}
+            multiline={true}
+            onChangeText={(value) => setIsiChat(value)}
+          />
+          <Pressable style={styles.presableShow}>
+            <Image source={allLogo.icfolder} style={styles.icfolder} />
           </Pressable>
         </View>
+        <Pressable style={styles.btnKirim} onPress={() => sendChat()}>
+          <Image source={allLogo.icvector} />
+        </Pressable>
       </View>
-    )
-  };
+    </View>
+  )
+};
 
-  const styles = StyleSheet.create({
-    container: {
+const styles = StyleSheet.create({
+  container: {
 
-      flex: 1,
-    },
-    BodyChat: {
-      flex: 1,
-      top: toDp(0),
-      padding: toDp(15),
-      backgroundColor: '#F8f9f9',
+    flex: 1,
+  },
+  BodyChat: {
+    flex: 1,
+    top: toDp(0),
+    padding: toDp(15),
+    backgroundColor: '#F8f9f9',
 
+  },
+  cardchat: {
+    width: '70%', padding: toDp(8), borderRadius: toDp(8), marginBottom: toDp(15)
+  },
+  icfolder: {
+    marginRight: toDp(10),
+    width: toDp(28),
+    height: toDp(22),
+    tintColor: 'white',
+    bottom: toDp(5)
+  },
+  content: {
+    top: toDp(0),
+  },
+  textInput: {
+    width: toDp(270),
+    height: toDp(48),
+    color: 'grey',
+    backgroundColor: '#f8f9f9',
+    paddingHorizontal: toDp(8),
+    borderRadius: toDp(10),
+    marginHorizontal: toDp(10),
+    bottom: toDp(5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    cardchat: {
-      width: '70%', padding: toDp(8), borderRadius: toDp(8), marginBottom: toDp(15)
-    },
-    icfolder: {
-      marginRight: toDp(10),
-      width: toDp(28),
-      height: toDp(22),
-      tintColor: 'white',
-      bottom: toDp(5)
-    },
-    content: {
-      top: toDp(0),
-    },
-    textInput: {
-      width: toDp(270),
-      height: toDp(48),
-      color: 'grey',
-      backgroundColor: '#f8f9f9',
-      paddingHorizontal: toDp(8),
-      borderRadius: toDp(10),
-      marginHorizontal: toDp(10),
-      bottom: toDp(5),
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
-      elevation: 3,
+    elevation: 3,
+  },
+  presableShow: {
+    padding: toDp(4),
+    position: 'absolute',
+    // backgroundColor:'cyan',
+    bottom: Platform.OS === 'ios' ? toDp(5) : toDp(5),
+    left: Platform.OS === 'ios' ? toDp(235) : toDp(235),
+  },
+  btnKirim: {
+    backgroundColor: '#2A334B',
+    bottom: toDp(5),
+    width: toDp(58),
+    height: toDp(48),
+    marginRight: toDp(10),
+    borderRadius: toDp(10),
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    presableShow: {
-      padding: toDp(4),
-      position: 'absolute',
-      // backgroundColor:'cyan',
-      bottom: Platform.OS === 'ios' ? toDp(5) : toDp(5),
-      left: Platform.OS === 'ios' ? toDp(235) : toDp(235),
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 3,
+  },
+  viewProduk: {
+    marginBottom: 15,
+    flexDirection: 'row-reverse'
+  },
+  card: {
+    backgroundColor: '#FFF',
+    borderRadius: toDp(10),
+    minHeight: toDp(221),
+    height: toDp(221),
+    width: '48%',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    btnKirim: {
-      backgroundColor: '#2A334B',
-      bottom: toDp(5),
-      width: toDp(58),
-      height: toDp(48),
-      marginRight: toDp(10),
-      borderRadius: toDp(10),
-      justifyContent: 'center',
-      alignItems: 'center',
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  txtProduct: {
+    borderRadius: toDp(10),
+    padding: toDp(20)
+  },
+  imgProduct: {
+    width: toDp(100),
+    height: toDp(100)
+  },
+  textproduct: {
+    fontWeight: 'bold',
+    fontSize: toDp(12)
+  },
+  address: {
+    top: toDp(7),
+    width: toDp(15),
+    height: toDp(15)
+  },
+  star: {
+    bottom: toDp(3),
+    left: toDp(2)
+  },
+  dariKota: {
+    bottom: toDp(10),
+    left: toDp(20)
+  },
+});
 
-      elevation: 3,
-    }
-  });
-
-  export default Chatseller;
+export default Chatseller;

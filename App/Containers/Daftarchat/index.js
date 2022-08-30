@@ -73,18 +73,18 @@ const Daftarchat = (props) => {
   }, [])
 
   const getChat = () => {
-    let idm = props.navigation.state.params.id;
+    let idm = props.navigation.state.params.uiid;
     console.log('idm = ', idm);
     // http://localhost/publish/react/chat/pembeli/MB000000003/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
     axios.get(svr.url + 'chat/pembeli/' + idm + '/' + svr.api)
       .then(result => {
-        console.log('cek chat = ' + JSON.stringify(result.data.data));
-        console.log('cek chat id = ' + JSON.stringify(result.data.data[0].chat_id));
+        console.log('cek chat = ', result);
+        console.log('cek chat id = ', (result.data.data[0].chat_id));
 
 
         setState(state => ({ ...state, listChat: result.data.data }))
         AsyncStorage.setItem('chat', JSON.stringify(result.data.data[0]))
-        AsyncStorage.setItem('chatid', JSON.stringify(result.data.data[0].chat_id))
+        AsyncStorage.setItem('chatid', (result.data.data.chat_id))
     
       })
       .catch(err => {
@@ -96,9 +96,9 @@ const Daftarchat = (props) => {
   const RenderItem = (item, index) => (
     <Pressable style={styles.btnChat}
     onPress={() => NavigatorService.navigate('Chat', {
-      id: item.chat_id,
-      sender_id: item.sender_id,
-      sender: item.sender
+      ciid: item.chat_id,
+      rtl_id: item.rtl_id,
+      id: item.id
     })}>
       <View style={styles.product}>
         <Grid>

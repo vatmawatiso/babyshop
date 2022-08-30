@@ -101,8 +101,6 @@ const Alamat = (props) => {
 
   //=======> POST Alamat Utama <=======//
 
-
-
   const alamatUtama = async (idm, adr_address, adr_cty_id, adr_mb_name, adr_mb_phone, adr_name) => {
     const body = {
       adr_mb_id: state.mb_id,

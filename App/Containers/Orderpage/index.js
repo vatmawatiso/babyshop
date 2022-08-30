@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar,
   ImageBackground,
-  Pressable,Dimensions
+  Pressable, Dimensions
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -19,14 +19,16 @@ import Dikemas from './Dikemas'
 import Dikirim from './Dikirim'
 import Dibatalkan from "./Dibatalkan";
 import Selesai from './Selesai'
-const width= Dimensions.get('window').width;
-const height= Dimensions.get('window').height;
+import { ScrollView } from "react-native-gesture-handler";
+import SedangDiproses from "./SedangDiproses";
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const Orderpage = (props) => {
 
   const [con, setCon] = useState(props.navigation.state.params.content);
   const [mb_id, setMb] = useState(props.navigation.state.params.mb_id);
-  
+
   return (
     <View style={styles.container}>
       <Order
@@ -35,56 +37,63 @@ const Orderpage = (props) => {
         onChat={() => NavigatorService.navigate('underConstruction')}
       />
 
-      <View style={{alignItems:'center'}}>
-        <View style={{top:toDp(20)}}>
-        {/*Bagian Update*/}
-          <View style={styles.body}>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
-              <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>
-            </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Dikemas</Text>
-            </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black' }]}>Dikirim</Text>
-            </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
-              <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black' }]}>Selesai</Text>
-            </Pressable>
-            <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
-              <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black' }]}>Dibatalkan</Text>
-            </Pressable>
+      {/* <ScrollView  horizontal={true} > */}
+      <View style={{ alignItems: 'center' }}>
+        <ScrollView horizontal={true} >
+          <View style={{ top: toDp(20),}}>
+            {/*Bagian Update*/}
+            <View style={styles.body}>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Belum Dibayar')}>
+                <Text style={[styles.txtOrder, { color: con === 'Belum Dibayar' ? '#6495ED' : 'black' }]}>Belum Bayar</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Diproses')}>
+                <Text style={[styles.txtOrder, { color: con === 'Diproses' ? '#6495ED' : 'black' }]}>Diproses</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Dikemas</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black' }]}>Dikirim</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
+                <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black' }]}>Selesai</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black' }]}>Dibatalkan</Text>
+              </Pressable>
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <View style={{ borderWidth: toDp(0.5), width: toDp(395), borderColor: 'grey', bottom: toDp(8), alignItems: 'center', justifyContent: 'center', }} />
+            </View>
           </View>
-          <View style={{alignItems:'center'}}>
-            <View style={{borderWidth:toDp(0.5), width:toDp(335), borderColor:'grey', bottom:toDp(8), alignItems:'center', justifyContent:'center'}} />
-          </View>
-        </View>
-        
+        </ScrollView>
         {/*Bagian Update*/}
         <View style={styles.content}>
           {
             con == 'Belum Dibayar' ?
-              <Belumbayar mbid={mb_id} con={con}/>
-              : con == 'Dikemas' ?
-                <Dikemas mbid={mb_id} con={con}/>
-                : con == 'Dikirim' ?
-                  <Dikirim mbid={mb_id} con={con}/>
-                  : con == 'Selesai' ?
-                    <Selesai mbid={mb_id} con={con}/>
-                    :
-                    <Dibatalkan mbid={mb_id} con={con}/>
+              <Belumbayar mbid={mb_id} con={con} />
+             : con == 'Diproses' ?
+              <SedangDiproses mbid={mb_id} con={con} />
+                : con == 'Dikemas' ?
+                  <Dikemas mbid={mb_id} con={con} />
+                  : con == 'Dikirim' ?
+                    <Dikirim mbid={mb_id} con={con} />
+                    : con == 'Selesai' ?
+                      <Selesai mbid={mb_id} con={con} />
+                      :
+                      <Dibatalkan mbid={mb_id} con={con} />
           }
         </View>
 
       </View>
-
+      {/* </ScrollView> */}
     </View>
   )
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
     backgroundColor: 'white',
     alignItems: 'center',
   },
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
   content: {
 
     width: '100%',
-    height:height
+    height: height
   },
   body: {
     backgroundColor: 'white',
@@ -116,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 0,
     justifyContent: 'space-between',
     margin: toDp(7),
-    height:toDp(19)
+    height: toDp(19)
   },
   icon: {
     width: toDp(31),
@@ -130,8 +139,8 @@ const styles = StyleSheet.create({
     marginTop: toDp(80),
     marginLeft: toDp(16)
   },
-  txtOrder:{
-    bottom:5
+  txtOrder: {
+    bottom: 5
   }
 });
 

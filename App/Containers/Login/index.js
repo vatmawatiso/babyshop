@@ -397,7 +397,7 @@ const Login = (props) => {
           <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
         </Pressable>
       </View>
-      <Pressable style={{ left: toDp(112), top: toDp(10) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+      <Pressable style={{ left: toDp(112), top: toDp(10), }} onPress={() => NavigatorService.navigate('Lupapassword')}>
         <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
       </Pressable>
 
@@ -528,6 +528,7 @@ const styles = StyleSheet.create({
   },
   viewRow: {
     paddingLeft: toDp(168),
+    marginTop:toDp(30),
     justifyContent: 'space-around'
   },
   textForgot: {
@@ -537,10 +538,11 @@ const styles = StyleSheet.create({
     bottom: toDp(2)
   },
   pressableLogin: {
-    width: toDp(75),
-    height: toDp(70),
-    paddingTop: toDp(20),
-    left: toDp(30)
+    width: toDp(89),
+    height: toDp(50),
+    paddingTop: toDp(0),
+    left: toDp(30),
+    // backgroundColor:'cyan'
   },
   textLogin: {
     color: 'white',
@@ -554,7 +556,8 @@ const styles = StyleSheet.create({
   },
   pressableSignup: {
     right: toDp(200),
-    bottom: toDp(50)
+    bottom: toDp(50),
+    // backgroundColor:'cyan'
   },
   textSignup: {
     color: 'white',
