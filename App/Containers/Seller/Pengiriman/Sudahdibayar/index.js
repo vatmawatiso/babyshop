@@ -54,23 +54,19 @@ const Sudahdibayar = (props) => {
         console.log('cek content ' + (content));
         // axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' + rtl + '/' + content)
         axios.get(svr.url+'order/getrtl/' + rtl + '/' + content+ '/'+svr.api)
-            .then(result => {
-
-              
-                if (content == 'Diproses') {
-                    NavigatorService.navigate('Diproses')
-                } else if (content == 'Dikirim') {
-                    NavigatorService.navigate('Sedangdikirim')
-                } else if (content == 'Selesai') {
-                    NavigatorService.navigate('Selesai')
-                } else if (content == 'Dibatalkan') {
-                    NavigatorService.navigate('Dibatalkan')
-                }
-
-
+            .then(result => {         
+                // if (content == 'Diproses') {
+                //     NavigatorService.navigate('Diproses')
+                // } else if (content == 'Dikirim') {
+                //     NavigatorService.navigate('Sedangdikirim')
+                // } else if (content == 'Selesai') {
+                //     NavigatorService.navigate('Selesai')
+                // } else if (content == 'Dibatalkan') {
+                //     NavigatorService.navigate('Dibatalkan')
+                // }
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
-                refresh()
+                // refresh()
                 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
@@ -86,7 +82,6 @@ const Sudahdibayar = (props) => {
         NavigatorService.navigate('Detailorderan', { odr_id: id })
 
     }
-
 
     //POST STATUS ORDER
     const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
@@ -166,9 +161,6 @@ const Sudahdibayar = (props) => {
             setState(state => ({ ...state, loading: false }))
           })
     }
-
-
-
 
 
     return (

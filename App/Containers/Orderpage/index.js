@@ -34,7 +34,7 @@ const Orderpage = (props) => {
       <Order
         title={'Pesanan Saya'}
         onPress={() => props.navigation.goBack()}
-        onChat={() => NavigatorService.navigate('underConstruction')}
+        onChat={() => navigate('Daftarchat')}
       />
 
       {/* <ScrollView  horizontal={true} > */}

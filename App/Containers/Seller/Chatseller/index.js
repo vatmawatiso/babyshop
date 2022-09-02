@@ -20,6 +20,7 @@ import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import { svr } from "../../../Configs/apikey";
+import NumberFormat from "react-number-format";
 
 const Chatseller = (props) => {
   const [src, setSrc] = useState(null);
@@ -67,7 +68,7 @@ const Chatseller = (props) => {
 
       setState(state => ({
         ...state,
-        id: data.mb_id,
+        mb_id: data.mb_id,
         mb_name: data.value.mb_name,
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
@@ -131,7 +132,7 @@ const Chatseller = (props) => {
     getChat()
 
     setInterval(() => {
-      // getChat()
+      getChat()
     }, 1000);
   }, [])
 
@@ -171,24 +172,25 @@ const Chatseller = (props) => {
 
           console.log('prd id', response.data.data)
           setChat(response.data.data)
-        }
 
-        // update
-        const prdid = response.data.data.map((val, i) => {
-          console.log('>>>>>', JSON.stringify(val.prd_id));
-          if (val.prd_id != '') {
-            let { idpr } = state;
-            idpr[i] = val.prd_id;
-            setState(state => ({
-              ...state,
-              idpr
-            }))
-          }
-        })
-        // update
-        state.idpr.map((va, i) => {
-          getProdukChat(va, i)
-        })
+
+          // update
+          const prdid = response.data.data.map((val, i) => {
+            console.log('>>>>>', JSON.stringify(val.prd_id));
+            if (val.prd_id != '') {
+              let { idpr } = state;
+              idpr[i] = val.prd_id;
+              setState(state => ({
+                ...state,
+                idpr
+              }))
+            }
+          })
+          // update
+          state.idpr.map((va, i) => {
+            getProdukChat(va, i)
+          })
+        }
       }).catch(err => {
         ToastAndroid.show(err.message, ToastAndroid.SHORT)
         console.log('errorrrr', err)
@@ -198,12 +200,13 @@ const Chatseller = (props) => {
 
   const sendChat = () => {
     let send_id = props.navigation.state.params.sender_id;
+    let chat_id = props.navigation.state.params.id;
     if (isiChat.trim().length === 0) {
       ToastAndroid.show("Tidak dapat mengirimkan pesan kosong.", ToastAndroid.SHORT)
     } else {
       const body = {
-        "pengirim_id": send_id,
-        "penerima": state.rtl_id,
+        "pengirim_id": state.rtl_id ,
+        "penerima": send_id,
         "pesan": isiChat,
         "current_uid": state.id,
         "prd_id": "",
@@ -211,15 +214,17 @@ const Chatseller = (props) => {
         "price": "",
         "retailaddres": "",
         "thumbnail": "",
-        "from": "chat"
+        "from": "chat",
+        "chat_id": chat_id
       };
-      console.log('cek body sender id = ', (state.sender_id));
+      console.log('cek body sender id = ', (state.id));
 
       // https://market.pondok-huda.com/publish/react/chat/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
-      axios.post(svr.url + 'chat/' + svr.api, body)
+      axios.post(svr.url + 'chat/'+chat_id+ '/' + svr.api, body)
         .then(result => {
           console.log('Hasil =', result)
           setIsiChat('')
+          getChat()
 
         })
         .catch(err => {
@@ -229,8 +234,8 @@ const Chatseller = (props) => {
     }
   }
 
+  // update 
   const renderProduk = (item) => {
-    // update
     return (
       <View style={styles.viewProduk}>
         <View style={styles.card}>
@@ -238,30 +243,26 @@ const Chatseller = (props) => {
             <View style={styles.txtProduct}>
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Image source={{ uri: item?.thumbnail }} style={styles.imgProduct} />
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <View style={{ justifyContent: 'center', width: '70%' }}>
-                  <Text style={styles.textproduct}>{item?.product_name}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <View style={{ justifyContent: 'center', width: '70%' }}>
+                    <Text style={styles.textproduct}>{item?.product_name}</Text>
+                  </View>
                 </View>
+                <NumberFormat
+                  value={item?.price}
+                  displayType={'text'}
+                  thousandSeparator={'.'}
+                  decimalSeparator={','}
+                  prefix={'Rp. '}
+                  renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>}
+                />
+                <Image source={allLogo.address} style={styles.address} />
+                <Text style={styles.dariKota}>{item?.retailaddres}</Text>
               </View>
-              <NumberFormat
-                value={item?.price}
-                displayType={'text'}
-                thousandSeparator={'.'}
-                decimalSeparator={','}
-                prefix={'Rp. '}
-                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-              />
-              <Image source={allLogo.address} style={styles.address} />
-              <Text style={styles.dariKota}>{item?.retailaddres}</Text>
-              {/* <Image source={allLogo.icstar} style={styles.star} /> */}
-              {/* <Text style={styles.bintang}>{item[0].lainnya.rating}</Text>
-              <Text style={styles.terjual}>| Terjual {item[0].lainnya.terjual}</Text> */}
-            </ View>
+            </View>
           </Pressable>
-        </ View>
+        </View>
       </View>
-
     )
   }
 
@@ -271,21 +272,22 @@ const Chatseller = (props) => {
         title={'Chat'}
         onPress={() => props.navigation.goBack()}
       />
-      {/*update*/}
+      {/* update */}
+
       <FlatList
         showsVerticalScrollIndicator={false}
         numColumns={1}
         data={chat}
         renderItem={({ item, index }) => {
           return (
-            item.from == state.id ? (
-              <View>
+            item.from === state.id ? (
+              <View style={{left: 8}}>
                 {item.prd_id != '' ?
                   renderProduk(state.produk[index])
                   : <View></View>
                 }
-                <View style={{ alignItems: 'flex-end' }}>
-                  <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B', }]}>
+                <View style={{ alignItems: 'flex-end', right: 14 }}>
+                  <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A3348' }]}>
                     <View>
                       <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
                     </View>
@@ -296,14 +298,19 @@ const Chatseller = (props) => {
                 </View>
               </View>
             ) : (
-
-              <View style={{ alignItems: 'flex-start' }}>
-                <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B', }]}>
-                  <View>
-                    <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
-                  </View>
-                  <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
-                    <Text style={{ fontSize: 10, color: item.from != state.id ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
+              <View style={{left: 8}}>
+                 {item.prd_id != '' ?
+                  renderProduk(state.produk[index])
+                  : <View></View>
+                }
+                <View style={{ alignItems: 'flex-start' }}>
+                  <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B' }]}>
+                    <View>
+                      <Text style={{ fontSize: 13, color: item.from != state.id ? 'black' : 'white' }}>{item.pesan}</Text>
+                    </View>
+                    <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
+                      <Text style={{ fontSize: 10, color: item.from != state.id ? 'black' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
+                    </View>
                   </View>
                 </View>
               </View>
@@ -407,14 +414,14 @@ const styles = StyleSheet.create({
   },
   viewProduk: {
     marginBottom: 15,
-    flexDirection: 'row-reverse'
+    flexDirection: 'row'
   },
   card: {
     backgroundColor: '#FFF',
     borderRadius: toDp(10),
     minHeight: toDp(221),
     height: toDp(221),
-    width: '48%',
+    width: '45%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -426,7 +433,7 @@ const styles = StyleSheet.create({
   },
   txtProduct: {
     borderRadius: toDp(10),
-    padding: toDp(20)
+    padding: toDp(10)
   },
   imgProduct: {
     width: toDp(100),
@@ -439,7 +446,8 @@ const styles = StyleSheet.create({
   address: {
     top: toDp(7),
     width: toDp(15),
-    height: toDp(15)
+    height: toDp(15),
+    right: '25%'
   },
   star: {
     bottom: toDp(3),

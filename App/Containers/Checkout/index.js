@@ -553,7 +553,6 @@ const Checkout = (props) => {
                 console.log('cek response = ' + JSON.stringify(response));
                 if (response.data.status === 201) {
                     console.log('RESPONSE CHECKOUT IPY = ' + JSON.stringify(response.data));
-                    // AsyncStorage.setItem('setCheckout', JSON.stringify(response.data))
                     NavigatorService.reset('Infopembayaran', {data: data})
                 } else {
                     console.log('Ipaymu status = ', response.data);

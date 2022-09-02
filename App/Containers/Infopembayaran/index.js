@@ -7,9 +7,10 @@ import {
   Alert,
   ImageBackground,
   Pressable,
-  Systrace, 
+  Systrace,
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  BackHandler
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -19,6 +20,9 @@ import NavigatorService from '@NavigatorService'
 import NumberFormat from 'react-number-format';
 import Clipboard from '@react-native-clipboard/clipboard';
 import QRCode from 'react-native-qrcode-svg';
+import { svr } from "../../Configs/apikey";
+import { payment } from "../../Configs/payment";
+import axios from "axios";
 
 const Infopembayaran = (props) => {
   const [src, setSrc] = useState(null);
@@ -42,12 +46,121 @@ const Infopembayaran = (props) => {
     "QrTemplate": "https://sandbox.ipaymu.com/qr/template/71541"
   }
 
-//   useEffect((data) => {
-    
-//     let datac = data;
-//     console.log('cek data checkout = ', datac)
+  const [state, setState] = useState({
+    mb_id: '',
+    Via: '',
+    Channel: '',
+    PaymentNo: '',
+    PaymentName: '',
+    Total: '',
+    Fee: '',
+    Expired: '',
+    QrString: '',
+    QrImage: '',
+    QrTemplate: '',
+  })
 
-// }, [])
+
+  //AMBIL DATA YANG DILEMPAT HALAMAN CHECKOUT
+  useEffect(() => {
+
+    let data = props.navigation.state.params.data;
+    let from = props.navigation.state.params.from;
+    // let dataPayment = JSON.parse(data);
+
+    console.log('set Checkout ----------->' + JSON.stringify(data));
+
+    setState(state => ({
+      ...state,
+      odr_id: data.odr_id,
+      Via: data.Via,
+      Channel: data.Channel,
+      PaymentNo: data.PaymentNo,
+      PaymentName: data.PaymentName,
+      Total: data.Total,
+      Fee: data.Fee,
+      Expired: data.Expired,
+      QrString: data.QrString,
+      QrImage: data.QrImage,
+      QrTemplate: data.QrTemplate,
+    }))
+    console.log('Channel ---->' + JSON.stringify(state.Channel));
+
+
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({
+        ...state,
+        mb_id: ids
+      }))
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    const backAction = () => {
+      BackGo(from)
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+
+
+  }, [])
+
+  const BackGo = (val) => {
+    if (val == 'Orderpage') {
+      NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id })
+    } else {
+      NavigatorService.reset('Homepage')
+    }
+
+  }
+
+
+  //GET LOGO BANK
+  const iconBank = (v) => {
+    let val = '';
+    if (v){ v = v.toLowerCase();
+        val=v;
+    }else {console.log("string doesn't exist, look into it")}
+
+
+    let logo = '';
+    if (val == 'bag') {
+      logo = allLogo.arta
+    } else if (val == 'bca') {
+      logo = allLogo.bca
+    } else if (val == 'bni') {
+      logo = allLogo.bni
+    } else if (val == 'cimb') {
+      logo = allLogo.cimb
+    } else if (val == 'mandiri') {
+      logo = allLogo.mandiri
+    } else if (val == 'bmi') {
+      logo = allLogo.muamalat
+    } else if (val == 'bri') {
+      logo = allLogo.bri
+    } else if (val == 'bsi') {
+      logo = allLogo.bsi
+    } else if (val == 'permata') {
+      logo = allLogo.permata
+    } else if (val == 'alfamart') {
+      logo = allLogo.alfamart
+    } else if (val == 'indomaret') {
+      logo = allLogo.indomart
+    } else if (val == 'rpx') {
+      logo = allLogo.arta
+    } else if (val == 'akulaku') {
+      logo = allLogo.akulaku
+    } else if (val == 'qris') {
+      logo = allLogo.qris
+    }
+    return logo;
+  }
 
 
   const copy = (val) => {
@@ -78,11 +191,12 @@ const Infopembayaran = (props) => {
       </View>
     )
   }
+
   return (
     <View style={styles.container}>
       <Back
         title={'Info Pembayaran'}
-        onPress={() => props.navigation.goBack()}
+        onPress={() => BackGo(props.navigation.state.params.from)}
       />
       <View style={{ marginTop: toDp(10) }}>
         <View style={styles.bodyBayar}>
@@ -90,7 +204,7 @@ const Infopembayaran = (props) => {
           {/* <Text style={styles.txtHarga}>Rp {DATA[0].total}</Text> */}
 
           <NumberFormat
-            value={DATA.Total}
+            value={state.Total}
             displayType={'text'}
             thousandSeparator={'.'}
             decimalSeparator={','}
@@ -105,30 +219,30 @@ const Infopembayaran = (props) => {
         <View style={styles.bodyBank}>
           <View style={{ flexDirection: 'row', margin: toDp(10), padding: toDp(4), height: 30, justifyContent: 'space-between', alignItems: 'center' }}>
             {/*Image nya di sesuaikan*/}
-            <Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/213px-Bank_Mandiri_logo_2016.svg.png' }} style={{ width: 60, height: 18 }} />
-            <Text style={styles.txtBank}>Bank {DATA.Channel} (Dicek Otomatis)</Text>
+            <Image source={iconBank(state.Channel)} style={{ width: 60, height: 18 }} />
+            <Text style={styles.txtBank}>Bank {state.Channel} (Dicek Otomatis)</Text>
 
           </View>
           <View style={{ padding: toDp(10) }}>
-            {DATA.Channel == 'QRIS' ?
+            {state.Channel == 'QRIS' ?
               <View style={{ alignItems: 'center' }}>
-                {QRcode(DATA.QrString)}
-                <Text style={styles.txtNokers}>{DATA.PaymentName}</Text>
+                {QRcode(state.QrString)}
+                <Text style={styles.txtNokers}>{state.PaymentName}</Text>
                 <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
-                <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{DATA.Expired}</Text>
+                <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{state.Expired}</Text>
               </View>
               :
               <View>
                 <Text style={styles.txtRekening}>Penerima</Text>
-                <Text style={styles.txtNokers}>{DATA.PaymentName}</Text>
+                <Text style={styles.txtNokers}>{state.PaymentName}</Text>
                 <Text style={styles.txtRekening}>No Virtual Account</Text>
-                <Pressable onPress={() => copy(DATA.PaymentNo)}>
-                  <Text style={styles.txtNoker}>{DATA.PaymentNo}</Text>
+                <Pressable onPress={() => copy(state.PaymentNo)}>
+                  <Text style={styles.txtNoker}>{state.PaymentNo}</Text>
                 </Pressable>
                 <Text style={styles.txtKetNoker}>Salin No. Rekening diatas untuk melakukan pembayaran</Text>
                 <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
-                <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{DATA.Expired}</Text>
-                {DATA.Channel == 'ALFAMART' || DATA.Channel == 'INDOMART' ?
+                <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{state.Expired}</Text>
+                {state.Channel == 'ALFAMART' || state.Channel == 'INDOMART' ?
                   <>
                     <Text style={styles.txtKetNoker}>{DATA.Note}</Text>
                   </>
@@ -144,10 +258,15 @@ const Infopembayaran = (props) => {
           </View>
         </View>
       </View>
-      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Successorder')}>
-          <Text style={styles.txtBayar}>Bayar Sekarang</Text>
-        </Pressable>
+      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', }}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Homepage', { content: 'Home' })}>
+            <Text style={styles.txtBayar}>Beranda</Text>
+          </Pressable>
+          <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id })}>
+            <Text style={styles.txtBayar}>Cek Status</Text>
+          </Pressable>
+        </View>
       </View>
 
     </View>
@@ -232,10 +351,11 @@ const styles = StyleSheet.create({
   btnBayar: {
     backgroundColor: '#2A334B',
     borderRadius: toDp(10),
-    width: toDp(335),
-    height: toDp(40),
+    width: toDp(163),
+    height: toDp(48),
     justifyContent: 'center',
     bottom: toDp(15),
+    marginHorizontal: toDp(5),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

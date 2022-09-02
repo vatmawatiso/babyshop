@@ -10,6 +10,7 @@ import {
   Alert,
   ImageBackground,
   Pressable,
+  RefreshControl,
   ScrollView,
   AsyncStorage
 } from "react-native";
@@ -23,6 +24,7 @@ import { svr } from "../../Configs/apikey";
 
 const Alamat = (props) => {
 
+  const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
     datas: [],
     adr_mb_id: '',
@@ -84,12 +86,13 @@ const Alamat = (props) => {
   const getAlamatClient = () => {
     let mb_id = props.navigation.state.params.adr_mb_id;
     console.log('Let mb_id ===> ', mb_id)
-    axios.get(svr.url+'addres/member/'+mb_id+'/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
+    axios.get(svr.url + 'addres/member/' + mb_id + '/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
       .then(result => {
         //hendle success
         if (result.data.status == 200) {
           setState(state => ({ ...state, datas: result.data.data }))
+          refresh()
           console.log('Toko Bangunan FIKS ===> ', result.data.data)
         }
 
@@ -109,8 +112,8 @@ const Alamat = (props) => {
 
     setState(state => ({ ...state, loading: true }))
     let id = idm;
-    axios.post(svr.url+'addres/getone/'+idm+'/'+svr.api,body)
-    // axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=' + idm, body)
+    axios.post(svr.url + 'addres/getone/' + idm + '/' + svr.api, body)
+      // axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=' + idm, body)
       .then(response => {
 
         console.log('-----ALAMAT UTAMA=====>', response.data);
@@ -156,8 +159,8 @@ const Alamat = (props) => {
 
   const deleteAlamat = (adr_id) => {
     // const adr = props.navigation.state.params.adr_id
-    axios.delete(svr.url+'addres/'+adr_id+'/'+svr.api)
-    // axios.delete('https://market.pondok-huda.com/dev/react/addres/' + adr_id)
+    axios.delete(svr.url + 'addres/' + adr_id + '/' + svr.api)
+      // axios.delete('https://market.pondok-huda.com/dev/react/addres/' + adr_id)
       .then(response => {
         console.log('Alamat ' + JSON.stringify(response));
         if (response.data.status === 200) {
@@ -174,14 +177,26 @@ const Alamat = (props) => {
       })
   }
 
-  const Address = [
-    {
-      id: '1',
-      nama: 'Vatmawati',
-      telepon: '083141520987',
-      alamat: 'Jl KiSulaiman Kota Cirebon Jawa Barat '
-    },
-  ]
+
+  //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
+  const refresh = async () => {
+    let mb_id = props.navigation.state.params.adr_mb_id;
+    console.log('Let mb_id ===> ', mb_id)
+    axios.get(svr.url + 'addres/member/' + mb_id + '/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/addres/?mb_id=' + mb_id)
+      .then(result => {
+        //hendle success
+        if (result.data.status == 200) {
+          setState(state => ({ ...state, datas: result.data.data }))
+          console.log('Toko Bangunan FIKS ===> ', result.data.data)
+        }
+
+      }).catch(err => {
+        alert('Gagal menerima data dari server!' + err)
+        setState(state => ({ ...state, loading: false }))
+      })
+  }
+
 
   const displayName = (cty_name) => {
     let count = '';
@@ -225,29 +240,37 @@ const Alamat = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10) }}>
-        <Pressable style={{width:toDp(335), height: toDp(48)}} onPress={() => NavigatorService.navigate('TambahAlamat')}>
-          <View style={styles.btnAddress}>
-            <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
-            <Image source={allLogo.icplus} style={styles.icplus} />
-          </View>
-        </Pressable>
-      </View>
+      <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refresh}
+          />}
+      >
+
+        <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10) }}>
+          <Pressable style={{ width: toDp(335), height: toDp(48) }} onPress={() => NavigatorService.navigate('TambahAlamat')}>
+            <View style={styles.btnAddress}>
+              <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
+              <Image source={allLogo.icplus} style={styles.icplus} />
+            </View>
+          </Pressable>
+        </View>
 
 
-      <View style={styles.flatcontent}>
-        <FlatList style={{ width: '100%', marginTop: toDp(0) }}
-          data={state.datas}
-          renderItem={({ item, index }) => {
-            return (
-              ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_id, item.cty_name, item.adr_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
-            )
-          }}
-          ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
-        />
-      </View>
+        <View style={styles.flatcontent}>
+          <FlatList style={{ width: '100%', marginTop: toDp(0) }}
+            data={state.datas}
+            renderItem={({ item, index }) => {
+              return (
+                ListAlamatClient(item, index, () => selectAlamat(item.adr_id, item.adr_hp, item.adr_address, item.cty_id, item.cty_name, item.adr_name), () => alamatUtama(item.adr_id, item.adr_address, item.cty_name, item.mb_name, item.adr_hp))
+              )
+            }}
+            ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+          />
+        </View>
 
-
+      </ScrollView>
 
     </View>
   );
@@ -335,7 +358,7 @@ const styles = StyleSheet.create({
     height: toDp(15),
     top: toDp(15),
     right: toDp(10),
-    tintColor:'#F83308'
+    tintColor: '#F83308'
   },
   txtBtnAddress: {
     top: toDp(15),

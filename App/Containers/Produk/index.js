@@ -18,13 +18,9 @@ import Header from '@Header'
 import NavigatorService from '@NavigatorService'
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LinearGradient from 'react-native-linear-gradient'
-import CollapsibleView from "@eliav2/react-native-collapsible-view";
-import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
-import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
-import { convertAbsoluteToRem } from "native-base/lib/typescript/theme/tools";
 
 
 const { width, height } = Dimensions.get('window')
@@ -32,6 +28,7 @@ const { width, height } = Dimensions.get('window')
 const Produk = (props) => {
 
   const [selectedItems, setSelectedItems] = useState([]);
+  const [idcat, setIdCat] = useState('');
   const [state, setState] = useState({
     id: '',
     arrayUsers: [],
@@ -46,7 +43,7 @@ const Produk = (props) => {
     loading: false,
     loading: true,
     selected: false,
-    id_produk:''
+    id_produk: ''
   })
 
   useEffect(() => {
@@ -82,8 +79,8 @@ const Produk = (props) => {
 
   const getProdukDetailbyId = () => {
     let pid = props.navigation.state.params.value;
-    Axios.get(svr.url+'product/'+pid+'/'+svr.api)
-    // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+    Axios.get(svr.url + 'product/' + pid + '/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
 
         console.log('PRODUK =====>' + JSON.stringify(response));
@@ -129,8 +126,8 @@ const Produk = (props) => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
       let pid = props.navigation.state.params.value
-      Axios.get(svr.api+'wishlist/get/'+idmb+'/'+pid+'/'+svr.api)
-      // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/get/' + idmb + '/' + pid)
+      Axios.get(svr.api + 'wishlist/get/' + idmb + '/' + pid + '/' + svr.api)
+        // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/get/' + idmb + '/' + pid)
         .then(result => {
           console.log('current Wishlish---->' + JSON.stringify(result.data.data));
           let oid = result.data;
@@ -160,8 +157,8 @@ const Produk = (props) => {
       ws_rtl_id: retail,
       ws_prd_id: pid
     }
-    Axios.post(svr.url+'wishlist/'+svr.api,body)
-    // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+    Axios.post(svr.url + 'wishlist/' + svr.api, body)
+      // Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
       .then(response => {
         console.log('wishlist -----=>', response.data);
 
@@ -185,8 +182,8 @@ const Produk = (props) => {
     // if(selectItems.length>0){
     //     if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
     console.log('https://market.pondok-huda.com/dev/react/wishlist/delete/' + idprd + '/' + state.id)
-    Axios.delete(svr.url+'wishlist/delete/'+state.id+'/'+idprd+'/'+svr.api)
-    // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + state.id + '/' + idprd)
+    Axios.delete(svr.url + 'wishlist/delete/' + state.id + '/' + idprd + '/' + svr.api)
+      // Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + state.id + '/' + idprd)
       .then(response => {
         console.log('response-unlike =>', response.data)
         if (response.data.status == 200) {
@@ -224,33 +221,65 @@ const Produk = (props) => {
     console.log('crddd ', crdQ)
     if (crdQ > stok1) {
       alert('Melampaui stok!')
-      setState(state => ({ ...state, loading: false}))
-    }else{     
-      Axios.post(svr.url+'cart/'+svr.api,body)
-    // Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
-      .then(response => {
-        if (response.data.status == 201) {
-          // console.log('response =>' + JSON.stringify(response))
-          alert('Berhasil Memasukan Barang Ke Keranjang')
-          setState(state => ({ ...state, loading: false }))
-          NavigatorService.navigate('Keranjang', { id: state.id })
+      setState(state => ({ ...state, loading: false }))
+    } else {
+      Axios.post(svr.url + 'cart/' + svr.api, body)
+        // Axios.post('https://market.pondok-huda.com/dev/react/cart/', body)
+        .then(response => {
+          if (response.data.status == 201) {
+            // console.log('response =>' + JSON.stringify(response))
+            alert('Berhasil Memasukan Barang Ke Keranjang')
+            setState(state => ({ ...state, loading: false }))
+            NavigatorService.navigate('Keranjang', { id: state.id })
 
-        } else if (response.data.status == 200) {
-          console.log('body', body)
-          alert('Berhasil Memasukan Barang Ke Keranjang')
-          setState(state => ({ ...state, loading: false }))
+          } else if (response.data.status == 200) {
+            console.log('body', body)
+            alert('Berhasil Memasukan Barang Ke Keranjang')
+            setState(state => ({ ...state, loading: false }))
 
-        }else {
-          console.log('response =>', response)
-          alert('Gagal Menambahkan Barang Ke Keranjang')
+          } else {
+            console.log('response =>', response)
+            alert('Gagal Menambahkan Barang Ke Keranjang')
+            setState(state => ({ ...state, loading: false }))
+          }
+        }).catch(error => {
+          console.log('error =>', error)
           setState(state => ({ ...state, loading: false }))
-        }
-      }).catch(error => {
-        console.log('error =>', error)
-        setState(state => ({ ...state, loading: false }))
-      })
+        })
     }
 
+  }
+
+
+  const sendChat = (id_prd, id_rtl, rtl_name, prd_name, prd_price, rtl_addres, thumbnail) => {
+    const body = {
+      "pengirim_id": state.id,
+      "penerima": id_rtl,
+      "current_uid": state.id,
+      "prd_id": id_prd,
+      "product_name": prd_name,
+      "price": prd_price,
+      "retailaddres": rtl_addres,
+      "thumbnail": thumbnail,
+      "pesan": "Apakah produk ini ready ?",
+      "from": 'produk'
+    }
+    console.log('cek body = ', body);
+    Axios.post(svr.url + 'chat/' + svr.api, body)
+      .then(result => {
+        console.log('result', result)
+        if (result.data.status === 201) {
+          console.log('cekkk hasil =', result.data.chat_id)
+          setState(state => ({ ...state, idcat: result.data.chat_id }))
+          // console.log('cek chat id', state.idcat)
+          NavigatorService.navigate('Chat', { id: id_prd, rtl_id: id_rtl, rtl_name: rtl_name, ciid: result.data.chat_id })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        ToastAndroid.show("Terjadi masalah saat mengirimkan pesan, Silahkan coba lagi!", ToastAndroid.SHORT)
+      })
+    // }
   }
 
 
@@ -338,17 +367,17 @@ const Produk = (props) => {
                 <Text> : -</Text>
                 <Text> : {item[0]?.retailaddres}</Text>
                 <TextInput
-                      keyboardType="numeric"
-                      autoCapitalize={'none'}
-                      style={styles.textInput}
-                      placeholder={'Jumlah'}
-                      placeholderTextColor={'grey'}
-                      value={state.qty}
-                      onChangeText={(qty) => setState(state => ({ ...state, qty }))}
-                    />
+                  keyboardType="numeric"
+                  autoCapitalize={'none'}
+                  style={styles.textInput}
+                  placeholder={'Jumlah'}
+                  placeholderTextColor={'grey'}
+                  value={state.qty}
+                  onChangeText={(qty) => setState(state => ({ ...state, qty }))}
+                />
               </View>
             </View>
-{/* 
+            {/* 
             <Collapse style={{ top: toDp(15), left: toDp(50), marginBottom: toDp(10) }}>
               <CollapseHeader>
                 <View style={{ alignItems: 'center', right: toDp(55) }}>
@@ -404,12 +433,12 @@ const Produk = (props) => {
     console.log('cek', (value));
   }
 
-    // (ketika klik tombol chat)
+  // (ketika klik tombol chat)
 
-    const selectChat = (value, id) => {
-      NavigatorService.navigate('Chat', { value, id: id })
-      console.log('cek chat', (value));
-    }
+  const selectChat = (value, id) => {
+    NavigatorService.navigate('Chat', { value, id: id })
+    console.log('cek chat', (value));
+  }
 
 
   const renderFooter = (item) => {
@@ -417,7 +446,7 @@ const Produk = (props) => {
 
       <View style={styles.footer}>
         <View style={styles.btnMenu}>
-          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => NavigatorService.navigate('Chat')}>
+          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => sendChat(item[0].id, item[0].retail, item[0].retail_name, item[0].product_name, item[0].price, item[0].retailaddres, item[0].thumbnail )} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
           </TouchableOpacity>
           <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat, item[0].id, item[0].product_name, item[0].price)}>
@@ -489,7 +518,7 @@ const styles = StyleSheet.create({
   },
   btnCheckout: {
     right: toDp(30),
-    left: toDp(0),    
+    left: toDp(0),
     borderColor: 'white',
     width: toDp(150),
     height: toDp(48),

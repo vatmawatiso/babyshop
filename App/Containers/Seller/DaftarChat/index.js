@@ -268,8 +268,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: toDp(50),
     height: toDp(50),
-    top: toDp(5),
+    top: toDp(10),
     borderRadius: toDp(25),
+    marginLeft:toDp(10),
     tintColor: 'black'
   },
   product: {

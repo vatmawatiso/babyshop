@@ -103,10 +103,9 @@ const Sudahdibatalkan = (props) => {
                         <View style={{ marginTop: toDp(20) }}>
                             <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                                <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
+                                <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.odr_status}</Text>
                             </View>
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
-
+                           
                             <View style={{ alignItems: 'center', top: toDp(10) }}>
                                 <View style={styles.OrderDetail}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -120,20 +119,20 @@ const Sudahdibatalkan = (props) => {
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
                                         prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                                     <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                            <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
+                                            <Text style={{fontWeight: 'bold', fontSize: toDp(13), width: toDp(100)}}>Total : {item.items[0]?.qty} Produk</Text>
                                             <NumberFormat
                                                 value={item.total_bayar}
                                                 displayType={'text'}
                                                 thousandSeparator={'.'}
                                                 decimalSeparator={','}
                                                 prefix={'Rp. '}
-                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
                                             />
                                             {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
@@ -164,8 +163,8 @@ const Sudahdibatalkan = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        top: toDp(10),
-
+        top: toDp(0),
+        width: width,
     },
     content: {
         flexDirection: 'row',
@@ -187,37 +186,47 @@ const styles = StyleSheet.create({
     },
     txtInformation1: {
         fontWeight: 'bold',
-        marginBottom: toDp(5)
+        marginBottom: toDp(5),
+        marginLeft: toDp(15)
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-        height: toDp(235),
-        backgroundColor: '#f3f3f3',
+
+        backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
         width: width - 30,
-        shadowColor: "#000",
+        shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 0,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.0,
+        shadowRadius: 0,
 
-        elevation: 3,
+        elevation: 15,
     },
     buttonPay: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(10),
-        width: toDp(97),
+        borderRadius: toDp(8),
+        width: toDp(120),
         height: toDp(48),
-        fontSize: toDp(11),
+        fontSize: toDp(18),
         justifyContent: 'center',
         bottom: toDp(8),
     },
+    paynow: {
+        backgroundColor: '#2A334B',
+        borderRadius: toDp(5),
+        width: toDp(120),
+        height: toDp(30),
+        fontSize: toDp(18),
+        justifyContent: 'center',
+        marginBottom: toDp(5)
+    },
     txtButtonPay: {
         color: 'white',
-        fontSize: toDp(12),
+        fontSize: toDp(13),
         textAlign: 'center'
     }
 });

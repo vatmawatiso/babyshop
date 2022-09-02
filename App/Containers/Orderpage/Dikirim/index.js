@@ -27,22 +27,6 @@ const height = Dimensions.get('window').height;
 
 const Dikirim = (props) => {
 
-    const DATA = [
-        {
-            id: '2',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Belum Bayar',
-            produk: 'Gerobak Pasir',
-            harga: '500000',
-            jumlah: '2',
-            total: '800000',
-            bataswaktu: '13 Januari 2022',
-            metodePembayaran: 'Bank Mandiri',
-            konfirmasi: 'Dibatalkan Pembeli',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
-
     const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
         datas: [],
@@ -51,10 +35,38 @@ const Dikirim = (props) => {
         item: '',
         mb_id: '',
         odr_id: '',
+        buttonStts: 'Selesai',
+        pesan_nf: 'Pesanan sudah diterima',
+        jenis_nf: 'Transaksi',
+        status: '0'
 
     })
 
     useEffect(() => {
+
+        AsyncStorage.getItem('member').then(response => {
+            //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+      
+            let data = JSON.parse(response);
+            //const val = JSON.stringify(data);
+      
+            console.log('Homeseller ==> ' + JSON.stringify(data));
+      
+            setState(state => ({
+              ...state,
+              id: data.mb_id,
+              mb_name: data.value.mb_name,
+              mb_email: data.value.mb_email,
+              mb_phone: data.value.mb_phone,
+              mb_type: data.value.mb_type,
+              picture: data.value.picture,
+              retail_id: data.retail_id,
+            }))
+            console.log('RTL ID ' + JSON.stringify(state.retail_id));
+          }).catch(err => {
+            console.log('err', err)
+          })
+
         //*Bagian Update
         getOrder()
     }, [])
@@ -73,6 +85,127 @@ const Dikirim = (props) => {
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
+            })
+    }
+
+
+    //ALERT KONFIRMASI TERIMA PESANAN
+    const konfirmPesanan = (item) =>
+    // console.log('cek item = '+ JSON.stringify (item));
+        Alert.alert(
+            "Konfirmasi pesanan anda!",
+            "Pesanan anda sudah sampai?",
+            [
+                // {
+                //   text: "Ask me later",
+                //   onPress: () => console.log("Ask me later pressed")
+                // },
+                {
+                    text: "Belum sampai!",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Sudah diterima!", onPress: () => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal) }
+            ]
+        );
+
+    //POST STATUS ORDER
+    const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
+        const body = {
+            odr_status: state.buttonStts,
+            pesan_nf: state.pesan_nf,
+            id_tujuan: odr_mb_id,
+            jenis_nf: state.jenis_nf,
+            asal_nf: retail_id,
+            status: state.status
+        }
+        console.log('cek body post status order = ', JSON.stringify(body));
+
+        setState(state => ({ ...state, loading: true }))
+        let id_odr = id;
+        axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
+            .then(response => {
+                console.log('Response = ' + JSON.stringify(response.data));
+                const STATUS = {
+                    odr_id: id,
+                    retail_id: retail_id,
+                    retail_name: retail_name,
+                    total_bayar: total_bayar,
+                    odr_status: odr_status,
+                    subtotal: subtotal
+                }
+                if (response.data.status == 200) {
+                    alert('Berhasil ubah status order!')
+                    refresh()
+
+                    if (Object.keys(STATUS).length === 0) {
+                        alert('Status yang dimasukkan salah!')
+                    } else {
+                        // save Async storage
+                        console.log('LOG STATUS ===> ' + JSON.stringify(STATUS));
+                        AsyncStorage.setItem('setStatusPro', JSON.stringify(STATUS))
+                    }
+
+                    console.log('HASIL = ', response.data);
+                    setState(state => ({ ...state, loading: false }))
+                    postSaldo(retail_id, id)
+                } else {
+                    alert('Gagal Ubah Status!')
+                    console.log('HASIL = ', response.data.status);
+                    setState(state => ({ ...state, loading: false }))
+                }
+
+            }).catch(err => {
+                alert('Gagal menerima data dari server!')
+                setState(state => ({ ...state, loading: false }))
+                console.log(' tec erorr = ' + JSON.stringify(response.data))
+            })
+    }
+
+
+    //POST SALDO KONFRIMASI TERIMA PESANAN
+    const postSaldo = async (retail_id, id) => {
+        // let id_odr = id;
+        // console.log('cek odr_id = ', id_odr);
+        const body = {
+            rs_odr_id: id,
+            rtl_id: retail_id
+        }
+        console.log('cek body saldo = ', JSON.stringify(body));
+
+        setState(state => ({ ...state, loading: true }))
+        // https://market.pondok-huda.com/publish/react/transaksi/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
+        axios.post(svr.url + 'transaksi/' + svr.api, body)
+            .then(response => {
+                console.log('Response = ' + JSON.stringify(response.data));
+                const SALDO = {
+                    rs_odr_id: rs_odr_id,
+                    rtl_id: retail_id,
+                }
+                if (response.data.status == 201) {
+                    alert('Berhasil tambah saldo!')
+
+                    if (Object.keys(SALDO).length === 0) {
+                        alert('Terjadi kesalahan!')
+                    } else {
+                        // save Async storage
+                        console.log('LOG SALDO ===> ' + JSON.stringify(SALDO));
+                        AsyncStorage.setItem('setSaldo', JSON.stringify(SALDO))
+
+                    }
+
+                    console.log('HASIL = ', response.data);
+                    setState(state => ({ ...state, loading: false }))
+                } else {
+                    alert('Gagal tambah saldo!')
+                    console.log('HASIL = ', response.data.status);
+                    setState(state => ({ ...state, loading: false }))
+                }
+
+            }).catch(err => {
+                alert('Gagal menerima data dari server!')
+                setState(state => ({ ...state, loading: false }))
+                console.log(' tec erorr = ' + JSON.stringify(response.data))
             })
     }
 
@@ -119,9 +252,8 @@ const Dikirim = (props) => {
                         <View style={{ marginTop: toDp(20) }}>
                             <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                                <Text style={{ color: '#6495ED' }}>{item.items[0]?.odr_status}</Text>
+                                <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
                             </View>
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
 
                             <View style={{ alignItems: 'center', top: toDp(10) }}>
                                 <View style={styles.OrderDetail}>
@@ -136,32 +268,36 @@ const Dikirim = (props) => {
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
                                         prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                                     <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                            <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
+                                            <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
                                             <NumberFormat
                                                 value={item.total_bayar}
                                                 displayType={'text'}
                                                 thousandSeparator={'.'}
                                                 decimalSeparator={','}
                                                 prefix={'Rp. '}
-                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
                                             />
                                             {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                         </View>
                                     </Pressable>
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
-
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5), bottom: toDp(5) }}>
-                                        <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text>
-                                        <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
-                                            <Text style={styles.txtButtonPay}>Pesanan Diterima</Text>
-                                        </Pressable>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5) }}>
+                                        <View>
+                                            <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
+                                            <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
+                                            <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
+                                                <Text style={styles.txtButtonPay}>Pesanan Diterima</Text>
+                                            </Pressable>
+                                        </View>
                                     </View>
                                 </View>
 
@@ -181,7 +317,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         top: toDp(0),
-
+        width: width,
     },
     content: {
         flexDirection: 'row',
@@ -203,37 +339,47 @@ const styles = StyleSheet.create({
     },
     txtInformation1: {
         fontWeight: 'bold',
-        marginBottom: toDp(5)
+        marginBottom: toDp(5),
+        marginLeft: toDp(15)
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
-        height: toDp(235),
-        backgroundColor: '#f3f3f3',
+
+        backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
         width: width - 30,
-        shadowColor: "#000",
+        shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 0,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.0,
+        shadowRadius: 0,
 
-        elevation: 3,
+        elevation: 15,
     },
     buttonPay: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(10),
-        width: toDp(97),
+        borderRadius: toDp(8),
+        width: toDp(120),
         height: toDp(48),
-        fontSize: toDp(11),
+        fontSize: toDp(18),
         justifyContent: 'center',
         bottom: toDp(8),
     },
+    paynow: {
+        backgroundColor: '#2A334B',
+        borderRadius: toDp(5),
+        width: toDp(120),
+        height: toDp(30),
+        fontSize: toDp(18),
+        justifyContent: 'center',
+        marginBottom: toDp(5)
+    },
     txtButtonPay: {
         color: 'white',
-        fontSize: toDp(12),
+        fontSize: toDp(13),
         textAlign: 'center'
     }
 });

@@ -175,8 +175,6 @@ const cartCheckout = (props) => {
         return () => backHandler.remove();
     }, [])
 
-    const pad2 = (n) => { return n < 10 ? '0' + n : n }
-
     const paymentMethode = () => {
 
         AsyncStorage.getItem('paymentMethode').then(response => {
@@ -430,7 +428,7 @@ const cartCheckout = (props) => {
             // axios.post('https://market.pondok-huda.com/dev/react/order/cart/fromcart', body)
             .then(response => {
 
-                console.log('CEK URL ===>' + JSON.stringify(response.data));
+                console.log('Cek Result ===>' + JSON.stringify(response.data));
 
                 if (response.data.status == 201) {
                     const datas = {
@@ -444,27 +442,26 @@ const cartCheckout = (props) => {
                         //save Async Storage
                         console.log('DATA ADA ===>', datas);
                         AsyncStorage.setItem('setOrder Data Array', JSON.stringify(datas))
+                       
                         postToPaymentgateway(response.data.odr_id)
                     }
 
                     //NavigatorService.navigate('SuccessorderCart')
-
-                    console.log('DATA Hasil Order ===>' + JSON.stringify(response.data));
-
-
-                    setState(state => ({ ...state, loading: false }))
+                    // console.log('DATA Hasil Order ===>' + JSON.stringify(response.data));
+                    // setState(state => ({ ...state, loading: false }))
 
                 } else {
-                    alert('Gagal order!')
+                    alert('Internal server error!')
                     setState(state => ({ ...state, loading: false }))
-
                     console.log('CEK ERROR ===>' + JSON.stringify(response.data));
+                    return false;
                 }
 
             }).catch(err => {
-                // console.log(err)
+                console.log(err)
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
+                return false;
             })
     }
 
@@ -612,6 +609,9 @@ const cartCheckout = (props) => {
         )
     }
 
+    
+    const pad2 = (n) => { return n < 10 ? '0' + n : n }
+
     const postToPaymentgateway = (id) => {
         // generate time
         var date = new Date();
@@ -621,7 +621,7 @@ const cartCheckout = (props) => {
 
         var body = {
             name: state.mb_name,
-            phone: "0895558785124",
+            phone: state.mb_phone,
             email: state.mb_email,
             amount: total,
             paymentMethod: state.methodeCode,
@@ -636,9 +636,9 @@ const cartCheckout = (props) => {
         var bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
         var stringtosign = "POST:" + payment.va + ":" + bodyEncrypt + ":" + payment.apikey;
         var signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, payment.apikey));
+        console.log('date', stringtosign);
 
         var headers = {
-
             headers: {
                 Accept: 'application/json', 'Content-Type': 'application/json',
                 signature: signature,
@@ -647,13 +647,16 @@ const cartCheckout = (props) => {
             },
 
         }
-        console.log('body', JSON.stringify(body));
+        console.log('body post payment = ', JSON.stringify(body));
         axios.post('https://sandbox.ipaymu.com/api/v2/payment/direct', body, headers)
             .then(response => {
-                if (response.data.Status == 200) {
-                    console.log('RESPONSE IPAYMU ----->= ' + JSON.stringify(response.data));
-                    let res = response.data.Data;
+                console.log('cek result Payment = ' + JSON.stringify(response.data.Data))
 
+                if (response.data.Status == 200) {
+                    console.log('RESPONSE IPAYMU ----->= ' + JSON.stringify(response));
+                   
+                    //TAMABAHAN BARU
+                    let res = response.data.Data;
                     let data = {
                         "odr_id": id,
                         "SessionId": res.SessionId,
@@ -674,19 +677,39 @@ const cartCheckout = (props) => {
                     }
 
                     postTransaksi(data);
-                    NavigatorService.reset('Infopembayaran', { data: response.data.Data })
+                    // NavigatorService.reset('Infopembayaran', { data: response.data.Data })
                     return true;
                 } else {
                     console.log('Ipaymu ststus ----> ', response.data.Status);
                     return false;
                 }
             })
-            .catch(error => {
+            .catch(err => {
                 return false;
-                console.log('----->', error.response.data);
+                console.log('cek error payment = ', (err))
+                setState(state => ({ ...state, loading: false }))
             });
 
     }
+
+
+    const postTransaksi = (data) => {
+        axios.post(svr.url + 'checkout/ipy/' + state.mb_id + '/' + svr.api, data)
+            .then(response => {
+                if (response.data.status == 201) {
+                    console.log('RESPONSE CHECKOUT IPY ----->= ' + JSON.stringify(response.data));
+                    NavigatorService.reset('Infopembayaran', {data: data})
+
+                } else {
+                    console.log('Ipaymu status = ', response.data);
+
+                }
+            })
+            .catch(error => {
+                console.log('error response ==> ', error.response.data);
+            });
+    }
+    
 
     const TotalsPrice = (A, B, C) => {
         let total = (parseInt(A) + parseInt(state.adminfee) + parseInt(state.total));
@@ -700,54 +723,23 @@ const cartCheckout = (props) => {
                     thousandSeparator={'.'}
                     decimalSeparator={','}
                     prefix={'Rp. '}
-                    renderText={formattedValue => <Text style={{ fontSize: toDp(12), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+                    renderText={formattedValue => <Text style={{ fontSize: toDp(13), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
                 />
             </>
         )
     }
 
-    const postTransaksi = (data) => {
-        axios.post(svr.url + 'checkout/ipy/' + state.mb_id + '/' + svr.api, data)
-            .then(response => {
-                if (response.data.status == 201) {
-                    console.log('RESPONSE CHECKOUT----->= ' + JSON.stringify(response.data));
 
-                } else {
-                    console.log('CHECKOUT ststus ----> ', response.data);
-
-                }
-            })
-            .catch(error => {
-                console.log('ERR CHECKOUT----->', error.response.data);
-            });
-    }
-
-    const PostAll = (MetodeBayar, Ongkir) => {
+    const AllPost = (MetodeBayar, Ongkir) => {
         if (MetodeBayar == '' || MetodeBayar == 'Undefined') {
             alert("Pilih Metode Pembayaran!");
         } else if (Ongkir == '0' || Ongkir == 0 || Ongkir == 'Undefined') {
             alert("Pilih Metode Pengiriman!");
-        } else if (state.shr_jasa.trim() == '') {
-            alert('Pilih jasa pengiriman!')
-            return;
-        } else {
+        }else {
             postProduk()
         }
 
     }
-
-    // const validateInput = () => {
-    //     if (state.shr_jasa.trim() == '') {
-    //       alert('Pilih jasa pengiriman!')
-    //       return;
-    //     }
-    //     if (state.methodeName.trim() == '') {
-    //       alert('Pilih metode pembaaran!')
-    //       return;
-    //     }
-    
-    //     postProduk()
-    //   }
 
     return (
         <View style={styles.container}>
@@ -840,21 +832,13 @@ const cartCheckout = (props) => {
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
                                         prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
                                 </View>
                                 <View style={{ flexDirection: 'row', margin: toDp(5), justifyContent: 'space-between' }}>
                                     <Text style={styles.txtTotPem}>Total Pembayaran</Text>
                                     {/* <Text style={styles.txtTotPem1}>Rp 800.000</Text> */}
                                     {TotalsPrice(getTotaljasa(state.shpPrice), state.adminfee, state.total)}
-                                    {/*<NumberFormat
-                                        value={state.shpPrice == '' || state.shpPrice == null ? 'Rp. 0' : getTotaljasa(state.shpPrice) + parseInt(state.total)}
-                                        displayType={'text'}
-                                        thousandSeparator={'.'}
-                                        decimalSeparator={','}
-                                        prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ fontSize: toDp(12), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                    />*/}
                                 </View>
                             </View>
                         </View>
@@ -862,8 +846,8 @@ const cartCheckout = (props) => {
 
                     <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(48), }}>
-                            <Pressable style={styles.btn} onPress={() => PostAll(state.methodeCode, getTotaljasa(state.shpPrice))}>
-                                <Text style={{ textAlign: 'center', top: toDp(17), color: 'white' }}>Buat Pesanan</Text>
+                            <Pressable style={styles.btn} onPress={() => AllPost(state.methodeCode, getTotaljasa(state.shpPrice))}>
+                                <Text style={{ textAlign: 'center', color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -1122,9 +1106,10 @@ const styles = StyleSheet.create({
     },
     btn: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(15),
+        borderRadius: toDp(10),
         width: toDp(335),
-        height: toDp(48)
+        height: toDp(48),
+        justifyContent:'center'
     },
     flatcontent: {
         width: '100%',

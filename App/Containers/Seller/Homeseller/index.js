@@ -234,7 +234,7 @@ const Homeseller = (props) => {
                 <Image source={allLogo.arrowright} style={styles.iclineright1} />
               </View>
             </Pressable>
-            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual')} >
+            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual', { retail_id: state.retail_id })} >
               <View style={styles.viewSaldo}>
                 <Text style={styles.txtSaldo}>Saldo</Text>
                 <NumberFormat

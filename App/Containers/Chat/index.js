@@ -102,7 +102,7 @@ const Chat = (props) => {
     getChat()
 
     setInterval(() => {
-      // getChat()
+      getChat()
     }, 1000);
   }, [])
 
@@ -113,9 +113,10 @@ const Chat = (props) => {
         console.log('hasil produk per id', response.data)
         setState(state => ({ ...state, detail: response.data.detail }))
         // update
-        let {produk} = state;
+        let { produk } = state;
         produk[i] = response.data.data[0];
-        setState(state => ({...state,
+        setState(state => ({
+          ...state,
           produk
         }))
       }).catch(error => {
@@ -126,7 +127,7 @@ const Chat = (props) => {
 
   const getChat = () => {
     // ini props dari halaman daftar chat
-    let chid = props.navigation.state.params.ciid; 
+    let chid = props.navigation.state.params.ciid;
     // 
     axios.get(svr.url + 'chat/content/' + chid + '/' + svr.api)
       .then(response => {
@@ -139,18 +140,18 @@ const Chat = (props) => {
         if (datas.value.length === 0) {
           alert('chat kosong')
         } else {
-         
+
           console.log('prd id', response.data.data)
           setChat(response.data.data)
         }
-// updatae
+        // updatae
         const prdid = response.data.data.map((val, i) => {
           console.log('>>>>', JSON.stringify(val.prd_id));
-          if(val.prd_id != '') {
-            let {idpr} = state;
+          if (val.prd_id != '') {
+            let { idpr } = state;
             idpr[i] = val.prd_id;
             setState(state => ({
-              ...state, 
+              ...state,
               idpr
             }))
           }
@@ -170,6 +171,7 @@ const Chat = (props) => {
   const sendChat = () => {
     let idp = props.navigation.state.params.id;
     let rid = props.navigation.state.params.rtl_id;
+    let chid = props.navigation.state.params.ciid;
     if (isiChat.trim().length === 0) {
       ToastAndroid.show("Tidak dapat mengirimkan pesan kosong.", ToastAndroid.SHORT)
     } else {
@@ -179,10 +181,11 @@ const Chat = (props) => {
         "pesan": isiChat,
         "current_uid": state.id,
         "prd_id": idp,
-        "from": "chat"
+        "from": "chat",
+        "chat_id": chid
       }
       console.log('cek body = ', body);
-      axios.post(svr.url + 'chat/' + svr.api, body)
+      axios.post(svr.url + 'chat/' + chid + '/' + svr.api, body)
         .then(result => {
           console.log('result', result)
           if (result.data.status === 201) {
@@ -248,55 +251,56 @@ const Chat = (props) => {
         onPress={() => props.navigation.goBack()}
       />
       <View style={styles.BodyChat}>
- 
- <View style={{ bottom: 10 }}>
-   <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{rnm}</Text>
- </View>
-     {/*update*/ }
-     <FlatList
-           showsVerticalScrollIndicator={false}
-           numColumns={1}
-           data={chat}
-           renderItem={({ item, index }) =>{
-           return(
-             item.from == state.id ? (
-               <View>
-                 {item.prd_id != '' ?
 
-                       renderProduk(state.produk[index])
+        <View style={{ bottom: 10 }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{rnm}</Text>
+        </View>
+        {/*update*/}
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          numColumns={1}
+          data={chat}
+          renderItem={({ item, index }) => {
+            return (
+              item.from == state.id ? (
+                <View>
+                  {item.prd_id != '' ?
 
-                   :<View></View>
-                 }
-                 <View style={{alignItems:'flex-end'}}>
-                   <View style={[styles.cardchat, {backgroundColor: item.from != state.id ? 'white' : '#2A334B',}]}>
-                     <View>
-                       <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
-                     </View>
-                     <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
-                       <Text style={{ fontSize: 10, color: item.from != state.id ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
-                     </View>
-                   </View>
-                 </View>
-               </View>
-             ):(
+                    renderProduk(state.produk[index])
 
-               <View style={{alignItems:'flex-start'}}>
-                 <View style={[styles.cardchat, {backgroundColor: item.from != state.id ? 'white' : '#2A334B',  }]}>
-                   <View>
-                     <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
-                   </View>
-                   <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
-                     <Text style={{ fontSize: 10, color: item.from != state.id ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
-                   </View>
-                 </View>
-               </View>
-             )
-           )}}
-           ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
-     />
+                    : <View></View>
+                  }
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B', }]}>
+                      <View>
+                        <Text style={{ fontSize: 13, color: item.from != state.id ? '#787878' : 'white' }}>{item.pesan}</Text>
+                      </View>
+                      <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
+                        <Text style={{ fontSize: 10, color: item.from != state.id ? '#B3B3B3' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              ) : (
+
+                <View style={{ alignItems: 'flex-start' }}>
+                  <View style={[styles.cardchat, { backgroundColor: item.from != state.id ? 'white' : '#2A334B', }]}>
+                    <View>
+                      <Text style={{ fontSize: 13, color: item.from != state.id ? 'black' : 'white' }}>{item.pesan}</Text>
+                    </View>
+                    <View style={{ backgroundColor: 'red', marginBottom: 12 }}>
+                      <Text style={{ fontSize: 10, color: item.from != state.id ? 'black' : 'white', position: 'absolute', right: 0 }}>{item.waktu}</Text>
+                    </View>
+                  </View>
+                </View>
+              )
+            )
+          }}
+          ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
+        />
 
 
-</View>
+      </View>
       <View style={{ backgroundColor: '#F0F2FF', marginTop: toDp(0), flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={styles.content}>
           <TextInput

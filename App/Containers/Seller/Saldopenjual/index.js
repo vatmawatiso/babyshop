@@ -6,40 +6,109 @@ import {
   Image,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import  BackHeader  from '@BackHeader'
+import BackHeader from '@BackHeader'
 import NavigatorService from '@NavigatorService'
 import { TextInput } from "react-native-gesture-handler";
+import axios from "axios";
+import { svr } from "../../../Configs/apikey";
+import NumberFormat from 'react-number-format';
+
 
 const Saldopenjual = (props) => {
-  const [src, setSrc]=useState(null);
+  const [src, setSrc] = useState(null);
+  const [state, setState] = useState({
+    mb_id: '',
+    retail_id: '',
+    saldo:'',
+  });
+
+
+  useEffect(() => {
+    AsyncStorage.getItem('member').then(response => {
+      //console.log('Profilseller=======>'+ JSON.stringify(responponse));
+
+      let data = JSON.parse(response);
+      //const val = JSON.stringify(data);
+
+      console.log('Homeseller ==> ' + JSON.stringify(data));
+
+      // setState(state => ({
+      //   ...state,
+      //   id: data.mb_id,
+      //   mb_name: data.value.mb_name,
+      //   mb_email: data.value.mb_email,
+      //   mb_phone: data.value.mb_phone,
+      //   mb_type: data.value.mb_type,
+      //   picture: data.value.picture,
+      //   retail_id: data.retail_id,
+      // }))
+      // console.log('RTL ID ' + JSON.stringify(state.retail_id));
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
+    getSaldo()
+
+  }, [])
+
+
+  const getSaldo = () => {
+  let rtlid = props.navigation.state.params.retail_id;
+    axios.get(svr.url + 'transaksi/getsaldo/' + rtlid + '/' + svr.api)
+        .then(response => {
+            console.log('cek response = ' + JSON.stringify(response));
+            if (response.data.status === 200) {
+                console.log('RESPONSE GET SALDO = ' + JSON.stringify(response.data.data[0].saldo));
+                setState(state => ({ ...state, 
+                  si_id: response.data.data,
+                  saldo: response.data.data[0].saldo
+
+                 }))
+              
+            } else {
+                console.log('Ipaymu status = ', response.data);
+            }
+        }).catch(error => {
+            console.log('error response ==> ', error.response.data);
+        });
+}
 
   return (
     <View style={styles.container}>
 
-        <BackHeader
-          title={'Saldo Penjual'}
-          onPress={() => props.navigation.goBack()}
+      <BackHeader
+        title={'Saldo Penjual'}
+        onPress={() => props.navigation.goBack()}
+      />
+
+      <View style={styles.bodySaldo}>
+        <Text style={styles.txtSaldo}>Saldo Anda</Text>
+        <NumberFormat
+          value={state.saldo}
+          displayType={'text'}
+          thousandSeparator={'.'}
+          decimalSeparator={','}
+          prefix={'Rp. '}
+          renderText={formattedValue => <Text style={styles.txtHarga}>{formattedValue}</Text>} // <--- Don't forget this!
         />
+      </View>
 
-        <View style={styles.bodySaldo}>
-            <Text style={styles.txtSaldo}>Saldo Anda</Text>
-            <Text style={styles.txtHarga}>Rp 0</Text>
-        </View>
-
-        <View style={{flexDirection:'row'}}>
-            <Pressable style={styles.btnSaldo}>
-                <Image source={allLogo.icatm} style={styles.icatm} />
-                <Text style={{bottom:toDp(5),}}>Penarikan Uang</Text>
-            </Pressable>
-            <Pressable style={styles.btnHarga}>
-                <Image source={allLogo.ictransaksi} style={styles.ictransaksi} />
-                <Text style={{bottom:toDp(5),}}>Riwayat Transaksi</Text>
-            </Pressable>
-        </View>
+      <View style={{ flexDirection: 'row' }}>
+        <Pressable style={styles.btnSaldo}>
+          <Image source={allLogo.icatm} style={styles.icatm} />
+          <Text style={{ bottom: toDp(5), }}>Penarikan Uang</Text>
+        </Pressable>
+        <Pressable style={styles.btnHarga}>
+          <Image source={allLogo.ictransaksi} style={styles.ictransaksi} />
+          <Text style={{ bottom: toDp(5), }}>Riwayat Transaksi</Text>
+        </Pressable>
+      </View>
 
     </View>
   )
@@ -50,83 +119,83 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bodySaldo: {
-    backgroundColor:'#2A334B',
-    width:toDp(335),
-    height:toDp(100),
-    top:toDp(10),
-    borderRadius:toDp(8),
-    justifyContent:'center',
-    alignItems:'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(100),
+    top: toDp(10),
+    borderRadius: toDp(8),
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-        elevation: 2,
+    elevation: 2,
   },
   txtSaldo: {
-      fontSize:toDp(15),
-      bottom:toDp(8),
-      color:'white'
+    fontSize: toDp(15),
+    bottom: toDp(8),
+    color: 'white'
   },
   txtHarga: {
-      fontSize:toDp(25),
-      color:'#F83308'
+    fontSize: toDp(25),
+    color: '#F83308'
   },
   btnSaldo: {
-      backgroundColor:'#f8f9f9',
-      marginHorizontal:toDp(5),
-      width:toDp(160),
-      right:toDp(5),
-      top:toDp(20),
-      borderRadius:toDp(8),
-      height:toDp(55),
-      justifyContent:'flex-end',
-      alignItems:'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    backgroundColor: '#f8f9f9',
+    marginHorizontal: toDp(5),
+    width: toDp(160),
+    right: toDp(5),
+    top: toDp(20),
+    borderRadius: toDp(8),
+    height: toDp(55),
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-        elevation: 2,
+    elevation: 2,
 
   },
   btnHarga: {
-    backgroundColor:'#f8f9f9',
-    width:toDp(160),
-    top:toDp(20),
-    borderRadius:toDp(8),
-    height:toDp(55),
-    justifyContent:'flex-end',
-    alignItems:'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    backgroundColor: '#f8f9f9',
+    width: toDp(160),
+    top: toDp(20),
+    borderRadius: toDp(8),
+    height: toDp(55),
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-        elevation: 2,
-},
-icatm: {
-    width:toDp(19),
-    height:toDp(20.58),
-    bottom:toDp(8),
-    tintColor:'#F83308'
-},
-ictransaksi:{
-    width:toDp(19),
-    height:toDp(20),
-    bottom:toDp(8),
-    tintColor:'#F83308'
-}
+    elevation: 2,
+  },
+  icatm: {
+    width: toDp(19),
+    height: toDp(20.58),
+    bottom: toDp(8),
+    tintColor: '#F83308'
+  },
+  ictransaksi: {
+    width: toDp(19),
+    height: toDp(20),
+    bottom: toDp(8),
+    tintColor: '#F83308'
+  }
 });
 
 export default Saldopenjual;
