@@ -5,6 +5,7 @@ import {BackHandler,
         Text, 
         View, 
         Image, 
+        TextInput,
         Alert, 
         Platform, 
         TouchableOpacity, 
@@ -18,18 +19,15 @@ import { toDp } from '@percentageToDP'
 import NavigatorService from '@NavigatorService'
 
 let { width, height } = Dimensions.get('window')
-
-
-
 const title = (text) => {
-  let newText = text.substr(0,13);
+  let newText = text.substr(0,12);
 
   return(
-    <Text>{newText}</Text>
+    <Text style={{fontSize:toDp(16)}}>{newText}</Text>
   )
 }
 
-class NonCart extends Component {
+class Unduh extends Component {
 
   render() {
     return (
@@ -44,12 +42,11 @@ class NonCart extends Component {
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.Left} style={styles.icBack} />
               </TouchableOpacity>
-
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(18), width: toDp(130) }]}>{title(this.props.title)}</Text>
+              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20), width: toDp(105) }]}>{title(this.props.title)}</Text>
               
               <View style={styles.icheader}>
-                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onDownload}>
-                  <Image source={allLogo.icunduh} style={styles.nav} />
+                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onChat}>
+                  <Image source={allLogo.icunduh} style={styles.chat} />
                 </TouchableOpacity>
               </View>
 
@@ -74,11 +71,23 @@ class NonCart extends Component {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    // bottom: toDp(50)
+    // bottom: toDp(50),
   },
   icheader: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
+  input: {
+    // paddingTop: 5,
+    // paddingRight: 5,
+    // paddingBottom: 5,
+    backgroundColor: '#2A334B',UnduhRadius: toDp(25),
+    paddingLeft:toDp(35),
+    width:toDp(130),
+    height:toDp(40),
+    right:toDp(20),
+    color:'#FFF',
+    fontSize:toDp(12)
+},
   header: {
     width,
     //height: 'auto',
@@ -102,10 +111,12 @@ const styles = StyleSheet.create({
   touchHeader: {
     padding: toDp(4),
   },
-  nav: {
-    left: toDp(120),
-    width: toDp(20),
-    height: toDp(18),
+  chat: {
+    top:toDp(1),
+    width: toDp(40),
+    height: toDp(40),
+    left:toDp(135),
+    tintColor:'black'
   },
   icBack: {
     width: toDp(38),
@@ -115,11 +126,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: toDp(18),
+    fontSize: toDp(20),
     marginLeft: toDp(8),
 
   },
 })
 
 
-export default NonCart
+export default Unduh

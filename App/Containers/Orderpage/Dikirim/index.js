@@ -54,7 +54,7 @@ const Dikirim = (props) => {
       
             setState(state => ({
               ...state,
-              id: data.mb_id,
+              mb_id: data.value.mb_id,
               mb_name: data.value.mb_name,
               mb_email: data.value.mb_email,
               mb_phone: data.value.mb_phone,
@@ -62,7 +62,7 @@ const Dikirim = (props) => {
               picture: data.value.picture,
               retail_id: data.retail_id,
             }))
-            console.log('RTL ID ' + JSON.stringify(state.retail_id));
+            console.log('MB ID ' + JSON.stringify(state.mb_id));
           }).catch(err => {
             console.log('err', err)
           })
@@ -90,7 +90,7 @@ const Dikirim = (props) => {
 
 
     //ALERT KONFIRMASI TERIMA PESANAN
-    const konfirmPesanan = (item) =>
+    const konfirmPesanan = (mb_id, item) =>
     // console.log('cek item = '+ JSON.stringify (item));
         Alert.alert(
             "Konfirmasi pesanan anda!",
@@ -105,16 +105,16 @@ const Dikirim = (props) => {
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                 },
-                { text: "Sudah diterima!", onPress: () => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal) }
+                { text: "Sudah diterima!", onPress: () => ubahStatus(mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.items[0].odr_status, item.subtotal, item.qtyall) }
             ]
         );
 
     //POST STATUS ORDER
-    const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
+    const ubahStatus = async (mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
         const body = {
             odr_status: state.buttonStts,
             pesan_nf: state.pesan_nf,
-            id_tujuan: odr_mb_id,
+            id_tujuan: mb_id,
             jenis_nf: state.jenis_nf,
             asal_nf: retail_id,
             status: state.status
@@ -123,6 +123,7 @@ const Dikirim = (props) => {
 
         setState(state => ({ ...state, loading: true }))
         let id_odr = id;
+        console.log('cekkkk = ', id_odr)
         axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
             .then(response => {
                 console.log('Response = ' + JSON.stringify(response.data));
@@ -131,8 +132,9 @@ const Dikirim = (props) => {
                     retail_id: retail_id,
                     retail_name: retail_name,
                     total_bayar: total_bayar,
-                    odr_status: odr_status,
-                    subtotal: subtotal
+                    odr_status: odr_status, //belum dapet
+                    subtotal: subtotal,
+                    qtyall: qtyall
                 }
                 if (response.data.status == 200) {
                     alert('Berhasil ubah status order!')
@@ -166,7 +168,8 @@ const Dikirim = (props) => {
     //POST SALDO KONFRIMASI TERIMA PESANAN
     const postSaldo = async (retail_id, id) => {
         // let id_odr = id;
-        // console.log('cek odr_id = ', id_odr);
+        console.log('cek rtl id = ', retail_id);
+                console.log('cek id = ', id);
         const body = {
             rs_odr_id: id,
             rtl_id: retail_id
@@ -179,7 +182,7 @@ const Dikirim = (props) => {
             .then(response => {
                 console.log('Response = ' + JSON.stringify(response.data));
                 const SALDO = {
-                    rs_odr_id: rs_odr_id,
+                    rs_odr_id: response.data.rs_odr_id,
                     rtl_id: retail_id,
                 }
                 if (response.data.status == 201) {
@@ -294,7 +297,7 @@ const Dikirim = (props) => {
                                             <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-                                            <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
+                                            <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(state.mb_id, item)}>
                                                 <Text style={styles.txtButtonPay}>Pesanan Diterima</Text>
                                             </Pressable>
                                         </View>

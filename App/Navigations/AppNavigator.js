@@ -76,6 +76,12 @@ import kategoriProDariCilent from "../Containers/kategoriProDariCilen";
 import Daftarchat from "../Containers/Daftarchat";
 import Chatseller from "../Containers/Seller/Chatseller";
 import SedangDiproses from "../Containers/Orderpage/SedangDiproses";
+import Invoice from "../Containers/Orderpage/Invoice";
+import PenarikanSaldo from "../Containers/Seller/PenarikanSaldo";
+import Tambahrekening from "../Containers/Seller/Tambahrekening";
+import Editrekening from "../Containers/Seller/Editrekening";
+import Rekeningtoko from "../Containers/Seller/Rekeningtoko";
+import RiwayatTransaksi from "../Containers/Seller/RiwayatTransaksi";
 
 
 
@@ -156,6 +162,12 @@ const AppNavigator = createStackNavigator(
     Daftarchat: { screen: Daftarchat},
     Chatseller: { screen: Chatseller},
     SedangDiproses: { screen: SedangDiproses},
+    Invoice: { screen: Invoice},
+    PenarikanSaldo: { screen: PenarikanSaldo},
+    Tambahrekening: { screen: Tambahrekening},
+    Editrekening: { screen: Editrekening},
+    Rekeningtoko: { screen: Rekeningtoko},
+    RiwayatTransaksi: { screen: RiwayatTransaksi},
 
     
   },

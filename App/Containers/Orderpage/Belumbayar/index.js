@@ -113,16 +113,6 @@ const Belumbayar = (props) => {
             })
     }
 
-
-    //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
-    const Lihatdetail = (data, id) => {
-        let odr = data;
-        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
-
-        NavigatorService.navigate('Orderdetail', { odr_id: id })
-
-    }
-
     //POST STATUS ORDER
     const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
         const body = {
@@ -194,6 +184,16 @@ const Belumbayar = (props) => {
     }
 
 
+    //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        AsyncStorage.setItem('Invoice', JSON.stringify(odr))
+
+        NavigatorService.navigate('Invoice', { odr_id: id })
+
+    }
+
+
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
@@ -211,7 +211,7 @@ const Belumbayar = (props) => {
                         <View style={{ marginTop: toDp(20) }}>
                             <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                                <Text style={{ color: '#6495ED', marginRight:toDp(13), marginBottom:toDp(5) }}>{item.items[0]?.odr_status}</Text>
+                                <Text style={{ color: '#6495ED', marginRight: toDp(13), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
                             </View>
                             {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0), width:335, marginLeft:15 }} /> */}
 
@@ -223,9 +223,14 @@ const Belumbayar = (props) => {
                                         {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
 
                                         <View style={{ left: toDp(10), }}>
-                                            <Pressable style={styles.paynow} onPress={() => NavigatorService.navigate('Infopembayaran', { data: item, from: 'Orderpage' })}>
-                                                <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
-                                            </Pressable>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                                <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
+                                                    <Text style={styles.txtButtonPay}>Invoice</Text>
+                                                </Pressable>
+                                                <Pressable style={styles.paynow} onPress={() => NavigatorService.navigate('Infopembayaran', { data: item, from: 'Orderpage' })}>
+                                                    <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
+                                                </Pressable>
+                                            </View>
                                             <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
                                             <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
                                             <NumberFormat
@@ -296,7 +301,7 @@ const styles = StyleSheet.create({
     txtInformation1: {
         fontWeight: 'bold',
         marginBottom: toDp(5),
-        marginLeft:toDp(15)
+        marginLeft: toDp(15)
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
@@ -327,7 +332,16 @@ const styles = StyleSheet.create({
     paynow: {
         backgroundColor: '#2A334B',
         borderRadius: toDp(5),
-        width: toDp(120),
+        width: toDp(110),
+        height: toDp(30),
+        fontSize: toDp(18),
+        justifyContent: 'center',
+        marginBottom: toDp(5)
+    },
+    invoice: {
+        backgroundColor: '#1C9846',
+        borderRadius: toDp(5),
+        width: toDp(60),
         height: toDp(30),
         fontSize: toDp(18),
         justifyContent: 'center',

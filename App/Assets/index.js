@@ -128,7 +128,10 @@ const allLogo = {
   arrowright: require('./img/arrowright.png'),
   hati: require('./img/hati.png'),
   reset_password: require('./img/reset_password.png'),
-
+  icunduh: require('./img/unduh.png'),
+  rekening: require('./img/rekening.png'),
+  cash: require('./img/cash.png'),
+  edit: require('./img/edit.png'),
 
 
 }

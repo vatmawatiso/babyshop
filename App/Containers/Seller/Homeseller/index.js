@@ -58,7 +58,7 @@ const Homeseller = (props) => {
 
       setState(state => ({
         ...state,
-        id: data.mb_id,
+        mb_id: data.value.mb_id,
         mb_name: data.value.mb_name,
         mb_email: data.value.mb_email,
         mb_phone: data.value.mb_phone,
@@ -234,7 +234,7 @@ const Homeseller = (props) => {
                 <Image source={allLogo.arrowright} style={styles.iclineright1} />
               </View>
             </Pressable>
-            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual', { retail_id: state.retail_id })} >
+            <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual', { retail_id: state.retail_id, mb_id: state.mb_id })} >
               <View style={styles.viewSaldo}>
                 <Text style={styles.txtSaldo}>Saldo</Text>
                 <NumberFormat
