@@ -699,10 +699,8 @@ const cartCheckout = (props) => {
                 if (response.data.status == 201) {
                     console.log('RESPONSE CHECKOUT IPY ----->= ' + JSON.stringify(response.data));
                     NavigatorService.reset('Infopembayaran', {data: data})
-
                 } else {
                     console.log('Ipaymu status = ', response.data);
-
                 }
             })
             .catch(error => {

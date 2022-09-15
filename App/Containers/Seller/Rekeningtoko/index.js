@@ -52,15 +52,23 @@ const Rekeningtoko = (props) => {
             // axios.get('https://market.pondok-huda.com/dev/react/category/')
             .then(result => {
                 // handle success
-                console.log('get rekening = >', JSON.stringify(result.data));
-                setState(state => ({
-                    ...state,
-                    dataBank: result.data.data,
-                    nama: result.data.data[0].nama,
-                    methode: result.data.data.pay_name
-                }))
-                console.log('get BANK = >', state.dataBank);
-                // alert(JSON.stringify(result.data));
+                if (result.data.status === 201) {
+                    console.log('get rekening = >', JSON.stringify(result.data));
+                    setState(state => ({
+                        ...state,
+                        dataBank: result.data.data,
+                        nama: result.data.data[0].nama,
+                        methode: result.data.data.pay_name
+                    }))
+                    refresh()
+                    console.log('get BANK = >', state.dataBank);
+
+                } else if (result.data.status === 404) {
+                    setState(state => ({ ...state, loading: false }))
+                }else if (result.data.status === 500) {
+                    alert('Maaf, Terjadi kesalahan pada server!')
+                    setState(state => ({ ...state, loading: false }))
+                }
 
             }).catch(err => {
                 //console.log(err)
@@ -120,15 +128,15 @@ const Rekeningtoko = (props) => {
         return logo;
     }
 
-   
+
     //HIDE UNTUK NOREK
     const hideRek = (text) => {
-        // const num = text.length;
-        // console.log('cek num = ', num);
-        let nomer_rek = text
-        console.log('isi = ', text);
+        const num = text.length;
+        console.log('cek num = ', num);
+        // let nomer_rek = text
+        // console.log('isi = ', text);
         let hiddenRekening = "";
-        for (let i = 0; i < nomer_rek.length; i++) {
+        for (let i = 0; i < num; i++) {
             if (i > 2) {
                 hiddenRekening += "*";
             } else {
@@ -137,28 +145,48 @@ const Rekeningtoko = (props) => {
         }
         return hiddenRekening;
     }
-    
+
+    //ALERT KONFIRMASI TERIMA PESANAN
+    const konfirmDelete = (item) =>
+        // console.log('cek item = '+ JSON.stringify (item));
+        Alert.alert(
+            "Konfirmasi hapus!",
+            "Yakin ingin hapus rekening?",
+            [
+                // {
+                //   text: "Ask me later",
+                //   onPress: () => console.log("Ask me later pressed")
+                // },
+                {
+                    text: "Tidak!",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Hapus Rekening!", onPress: () => deleteRekening(item.rk_id) }
+            ]
+        );
+
 
     //DELETE REKENING
-    const deleteAlamat = (rk_id) => {
+    const deleteRekening = (rk_id) => {
         // const adr = props.navigation.state.params.adr_id
         // https://market.pondok-huda.com/publish/react/rekening/RK000000003/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
         axios.delete(svr.url + 'rekening/' + rk_id + '/' + svr.api)
-          .then(response => {
-            console.log('Alamat ' + JSON.stringify(response));
-            if (response.data.status === 201) {
-              console.log(response);
-              alert('Berhasil menghapus rekening')
-              refresh()
-              setState(state => ({ ...state, datas: response.data.data }))
-            } else if (response.data.status === 500) {
-              alert('gagal')
-              console.log(response)
-            }
-          }).catch(error => {
-            console.log(error)
-          })
-      }
+            .then(response => {
+                console.log('Alamat ' + JSON.stringify(response));
+                if (response.data.status === 201) {
+                    console.log(response);
+                    alert('Berhasil menghapus rekening')
+                    refresh()
+                    setState(state => ({ ...state, datas: response.data.data }))
+                } else if (response.data.status === 500) {
+                    alert('gagal')
+                    console.log(response)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+    }
 
     //NAVIGATE KE EDIT REKENING
     const selectRekening = (nama, pay_id, pay_name, rk_id, rk_mb_id, nomer_rek, retail_id) => {
@@ -180,7 +208,7 @@ const Rekeningtoko = (props) => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.btndelete} onPress={() => deleteAlamat(item.rk_id)}>
+            <TouchableOpacity style={styles.btndelete} onPress={() => konfirmDelete(item)}>
                 <Image source={allLogo.delete} style={styles.imgdelete} />
             </TouchableOpacity>
         </View>
@@ -237,12 +265,12 @@ const styles = StyleSheet.create({
         height: toDp(25),
         alignSelf: 'flex-end',
         bottom: toDp(10)
-      },
+    },
     imgdelete: {
         width: toDp(20),
         height: toDp(22),
         tintColor: '#F83308'
-      },
+    },
     btnEditRek: {
         backgroundColor: '#FFF',
         width: toDp(335),

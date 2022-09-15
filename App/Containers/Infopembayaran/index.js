@@ -47,17 +47,8 @@ const Infopembayaran = (props) => {
   }
 
   const [state, setState] = useState({
-    mb_id: '',
-    Via: '',
-    Channel: '',
-    PaymentNo: '',
-    PaymentName: '',
-    Total: '',
-    Fee: '',
-    Expired: '',
-    QrString: '',
-    QrImage: '',
-    QrTemplate: '',
+    infoPembayaran: '',
+    mb_id:''
   })
 
 
@@ -66,25 +57,10 @@ const Infopembayaran = (props) => {
 
     let data = props.navigation.state.params.data;
     let from = props.navigation.state.params.from;
-    // let dataPayment = JSON.parse(data);
+    setState(state => ({ ...state, infoPembayaran: data}))
+    console.log('CALBAKK--->', JSON.stringify(from));
 
     console.log('set Checkout ----------->' + JSON.stringify(data));
-
-    setState(state => ({
-      ...state,
-      odr_id: data.odr_id,
-      Via: data.Via,
-      Channel: data.Channel,
-      PaymentNo: data.PaymentNo,
-      PaymentName: data.PaymentName,
-      Total: data.Total,
-      Fee: data.Fee,
-      Expired: data.Expired,
-      QrString: data.QrString,
-      QrImage: data.QrImage,
-      QrTemplate: data.QrTemplate,
-    }))
-    console.log('Channel ---->' + JSON.stringify(state.Channel));
 
 
     AsyncStorage.getItem('uid').then(uids => {
@@ -204,7 +180,7 @@ const Infopembayaran = (props) => {
           {/* <Text style={styles.txtHarga}>Rp {DATA[0].total}</Text> */}
 
           <NumberFormat
-            value={state.Total}
+            value={state.infoPembayaran.Total}
             displayType={'text'}
             thousandSeparator={'.'}
             decimalSeparator={','}
@@ -219,32 +195,32 @@ const Infopembayaran = (props) => {
         <View style={styles.bodyBank}>
           <View style={{ flexDirection: 'row', margin: toDp(10), padding: toDp(4), height: 30, justifyContent: 'space-between', alignItems: 'center' }}>
             {/*Image nya di sesuaikan*/}
-            <Image source={iconBank(state.Channel)} style={{ width: 60, height: 18 }} />
-            <Text style={styles.txtBank}>Bank {state.Channel} (Dicek Otomatis)</Text>
+            <Image source={iconBank(state.infoPembayaran.Channel)} style={{ width: 60, height: 18 }} />
+            <Text style={styles.txtBank}>Bank {state.infoPembayaran.Channel} (Dicek Otomatis)</Text>
 
           </View>
           <View style={{ padding: toDp(10) }}>
-            {state.Channel == 'QRIS' ?
+            {state.infoPembayaran.Channel == 'QRIS' ?
               <View style={{ alignItems: 'center' }}>
-                {QRcode(state.QrString)}
-                <Text style={styles.txtNokers}>{state.PaymentName}</Text>
+                {QRcode(state.infoPembayaran.QrString)}
+                <Text style={styles.txtNokers}>{state.infoPembayaran.PaymentName}</Text>
                 <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
                 <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{state.Expired}</Text>
               </View>
               :
               <View>
                 <Text style={styles.txtRekening}>Penerima</Text>
-                <Text style={styles.txtNokers}>{state.PaymentName}</Text>
+                <Text style={styles.txtNokers}>{state.infoPembayaran.PaymentName}</Text>
                 <Text style={styles.txtRekening}>No Virtual Account</Text>
-                <Pressable onPress={() => copy(state.PaymentNo)}>
-                  <Text style={styles.txtNoker}>{state.PaymentNo}</Text>
+                <Pressable onPress={() => copy(state.infoPembayaran.PaymentNo)}>
+                  <Text style={styles.txtNoker}>{state.infoPembayaran.PaymentNo}</Text>
                 </Pressable>
                 <Text style={styles.txtKetNoker}>Salin No. Rekening diatas untuk melakukan pembayaran</Text>
                 <Text style={styles.txtKetNoker}>Lakukan pembayaran sebelum : </Text>
                 <Text style={{ fontSize: toDp(17), fontWeight: 'bold', color: '#FF3939' }}>{state.Expired}</Text>
-                {state.Channel == 'ALFAMART' || state.Channel == 'INDOMART' ?
+                {state.infoPembayaran.Channel == 'ALFAMART' || state.infoPembayaran.Channel == 'INDOMART' ?
                   <>
-                    <Text style={styles.txtKetNoker}>{DATA.Note}</Text>
+                    <Text style={styles.txtKetNoker}>{state.infoPembayaran.Note}</Text>
                   </>
                   :
                   <></>
@@ -260,9 +236,6 @@ const Infopembayaran = (props) => {
       </View>
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', }}>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-          <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Homepage', { content: 'Home' })}>
-            <Text style={styles.txtBayar}>Beranda</Text>
-          </Pressable>
           <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id })}>
             <Text style={styles.txtBayar}>Cek Status</Text>
           </Pressable>
@@ -351,7 +324,7 @@ const styles = StyleSheet.create({
   btnBayar: {
     backgroundColor: '#2A334B',
     borderRadius: toDp(10),
-    width: toDp(163),
+    width: toDp(335),
     height: toDp(48),
     justifyContent: 'center',
     bottom: toDp(15),

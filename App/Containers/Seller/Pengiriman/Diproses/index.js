@@ -157,65 +157,67 @@ const Diproses = (props) => {
                         onRefresh={refresh}
                     />}
             > */}
-                <FlatList style={{ width: '100%', }}
-                    data={state.datas}
-                    renderItem={({ item, index }) => (
-                        <View style={{ marginTop: toDp(20) }}>
-                            <View style={styles.information}>
+            <FlatList style={{ width: '100%', }}
+                data={state.datas}
+                renderItem={({ item, index }) => (
+                    <View style={{ marginTop: toDp(15) }}>
+                        {/* <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
                                 <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.odr_status}</Text>
-                            </View>
+                            </View> */}
 
-                            <View style={{ alignItems: 'center', top: toDp(10) }}>
-                                <View style={styles.OrderDetail}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
-                                        <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
-                                        {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
-                                    </View>
+                        <View style={{ alignItems: 'center', top: toDp(0) }}>
+                            <View style={styles.OrderDetail}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
+
+
+                                    <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
+                                    <Text style={{ top: toDp(20), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
                                     <NumberFormat
                                         value={item.items[0]?.price}
                                         displayType={'text'}
                                         thousandSeparator={'.'}
                                         decimalSeparator={','}
                                         prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        renderText={formattedValue => <Text style={{ top: toDp(20), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
                                     />
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
-
-                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                            <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
-                                            <NumberFormat
-                                                value={item.total_bayar}
-                                                displayType={'text'}
-                                                thousandSeparator={'.'}
-                                                decimalSeparator={','}
-                                                prefix={'Rp. '}
-                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                            />
-                                            {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
-                                            <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
-                                        </View>
-                                    </Pressable>
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
-
-                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5) }}>
-                                        <View style={{ marginTop: toDp(10),  }}>
-                                            <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
-                                                <Text style={styles.txtButtonPay}>Dikirim</Text>
-                                            </Pressable>
-                                        </View>
-
-                                    </View>
                                 </View>
 
+                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
+                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
+                                        <NumberFormat
+                                            value={item.total_bayar}
+                                            displayType={'text'}
+                                            thousandSeparator={'.'}
+                                            decimalSeparator={','}
+                                            prefix={'Rp. '}
+                                            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        />
+                                        <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                    </View>
+                                </Pressable> */}
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+
+                                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(10) }}>
+                                    <View style={{ marginTop: toDp(10), }}>
+                                        <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
+                                            <Text style={styles.txtButtonPay}>Dikirim</Text>
+                                        </Pressable>
+                                    </View>
+
+                                </View>
                             </View>
+
+
                         </View>
-                    )}
-                    ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
-                />
+                    </View>
+                )}
+                ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+            />
             {/* </ScrollView> */}
 
         </View>

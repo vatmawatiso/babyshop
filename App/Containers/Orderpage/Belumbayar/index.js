@@ -86,8 +86,8 @@ const Belumbayar = (props) => {
     const getOrder = () => {
         let mb = props.mbid;
         let content = props.con;
-        axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+        console.log(svr.url + 'order/trxodr/' + mb + '/' + content + '/' + svr.api);
+        axios.get(svr.url + 'order/trxodr/' + mb + '/' + content + '/' + svr.api)
             .then(result => {
                 //hendle success
                 // if (content == 'Dikemas') {
@@ -208,33 +208,30 @@ const Belumbayar = (props) => {
                 <FlatList style={{ width: '100%', }}
                     data={state.datas}
                     renderItem={({ item, index }) => (
-                        <View style={{ marginTop: toDp(20) }}>
-                            <View style={styles.information}>
+                        <View style={{ marginTop: toDp(15) }}>
+                            {/* <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                                <Text style={{ color: '#6495ED', marginRight: toDp(13), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
-                            </View>
+                                <Text style={{ color: '#6495ED', marginRight: toDp(13), marginBottom: toDp(5) }}>{item.status}</Text>
+                            </View> */}
                             {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0), width:335, marginLeft:15 }} /> */}
 
-                            <View style={{ alignItems: 'center', top: toDp(5) }}>
+                            <View style={{ alignItems: 'center', top: toDp(0) }}>
                                 <View style={styles.OrderDetail}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120, borderRadius: 8 }} />
+                                        <Image source={{ uri: item.prd_thumbnail }} style={{ width: 120, height: 120, borderRadius: 8 }} />
 
-                                        {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
+                                        {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.qty}x</Text> */}
 
                                         <View style={{ left: toDp(10), }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
-                                                    <Text style={styles.txtButtonPay}>Invoice</Text>
-                                                </Pressable>
-                                                <Pressable style={styles.paynow} onPress={() => NavigatorService.navigate('Infopembayaran', { data: item, from: 'Orderpage' })}>
+                                                <Pressable style={styles.paynow} onPress={() => NavigatorService.navigate('Infopembayaran', {data: item, from:'Orderpage'})}>
                                                     <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
                                                 </Pressable>
                                             </View>
-                                            <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                            <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.odd_prd_name}</Text>
                                             <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
                                             <NumberFormat
-                                                value={item.total_bayar}
+                                                value={item.Total}
                                                 displayType={'text'}
                                                 thousandSeparator={'.'}
                                                 decimalSeparator={','}
@@ -249,7 +246,7 @@ const Belumbayar = (props) => {
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
                                         <View>
                                             <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
-                                            <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
+                                            <Text style={{ fontSize: toDp(12), }}>{item.Expired}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
 
@@ -332,11 +329,12 @@ const styles = StyleSheet.create({
     paynow: {
         backgroundColor: '#2A334B',
         borderRadius: toDp(5),
-        width: toDp(110),
+        width: toDp(120),
         height: toDp(30),
         fontSize: toDp(18),
         justifyContent: 'center',
-        marginBottom: toDp(5)
+        marginBottom: toDp(5),
+        marginRight:toDp(57)
     },
     invoice: {
         backgroundColor: '#1C9846',

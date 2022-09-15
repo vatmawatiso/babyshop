@@ -39,11 +39,11 @@ const Pengiriman = (props) => {
         <ScrollView horizontal={true} >
           <View style={{ top: toDp(20) }}>
             <View style={styles.body}>
-              <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
-                <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Terima Pesanan</Text>
-              </Pressable>
               <Pressable style={[styles.presable]} onPress={() => setCon('Diproses')}>
-                <Text style={[styles.txtOrder, { color: con === 'Diproses' ? '#6495ED' : 'black', left: toDp(2) }]}>Diproses</Text>
+                <Text style={[styles.txtOrder, { color: con === 'Diproses' ? '#6495ED' : 'black' }]}>Diproses</Text>
+              </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
+                <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black', left: toDp(2) }]}>Dikemas</Text>
               </Pressable>
               <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
                 <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Dikirim</Text>
@@ -63,9 +63,9 @@ const Pengiriman = (props) => {
         {/*Bagian Update*/}
         <View style={styles.content}>
           {
-            con == 'Dikemas' ?
+            con == 'Diproses' ?
               <Sudahdibayar retail_id={retail_id} con={con} />
-              : con == 'Diproses' ?
+              : con == 'Dikemas' ?
                 <Diproses retail_id={retail_id} con={con} />
                 : con == 'Dikirim' ?
                   <Sedangdikirim retail_id={retail_id} con={con} />

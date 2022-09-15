@@ -107,13 +107,13 @@ const Dibatalkan = (props) => {
                 <FlatList style={{ width: '100%', }}
                     data={state.datas}
                     renderItem={({ item, index }) => (
-                        <View style={{ marginTop: toDp(20) }}>
-                            <View style={styles.information}>
+                        <View style={{ marginTop: toDp(15) }}>
+                            {/* <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
                                 <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
-                            </View>
+                            </View> */}
 
-                            <View style={{ alignItems: 'center', top: toDp(10) }}>
+                            <View style={{ alignItems: 'center', top: toDp(0) }}>
                                 <View style={styles.OrderDetail}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />

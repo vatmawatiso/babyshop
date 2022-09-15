@@ -85,7 +85,7 @@ const Tambahrekening = (props) => {
     //POST NO REKENING
     const postRekening = async () => {
         const body = {
-            nama: state.mb_name,
+            nama: state.nama,
             nomer_rek: state.nomer_rek,
             pay_id: state.rk_pay_id,
             rk_mb_id: state.mb_id
@@ -102,7 +102,7 @@ const Tambahrekening = (props) => {
 
                 if (result.data.status == 201) {
                     alert('Sukses tambah rekening!')
-                    NavigatorService.navigate('Rekeningtoko')
+                    NavigatorService.navigate('Rekeningtoko', {rk_mb_id: state.mb_id})
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
                     //NavigatorService.navigation('Alamattoko');
@@ -131,6 +131,19 @@ const Tambahrekening = (props) => {
 
             <View>
                 <View style={styles.bodyKategori}>
+                    <View style={{ marginTop: toDp(5) }}>
+                        <Text style={styles.txtKategori}>Nama</Text>
+                        <SafeAreaView style={{ alignItems: 'center' }}>
+                            <TextInput autoCapitalize={'none'}
+                                style={styles.textInput}
+                                placeholder={'Masukkan Nama'}
+                                keyboardType={'numeric'}
+                                placeholderTextColor={'#4E5A64'}
+                                value={state.nama}
+                                onChangeText={(text) => setState(state => ({ ...state, nama: text }))}
+                            />
+                        </SafeAreaView>
+                    </View>
                     <View>
                         <Text style={styles.txtKategori}>Pilih Bank</Text>
                         <SafeAreaView style={{ alignItems: 'center' }}>
@@ -210,7 +223,7 @@ const styles = StyleSheet.create({
     bodyKategori: {
         backgroundColor: '#FFF',
         width: toDp(335),
-        height: toDp(190),
+        height: toDp(290),
         borderRadius: toDp(10),
         top: toDp(15),
         left: toDp(12),

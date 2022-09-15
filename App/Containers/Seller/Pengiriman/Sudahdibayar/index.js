@@ -35,10 +35,10 @@ const Sudahdibayar = (props) => {
         rtl_id: '',
         odr_id: '',
         odr_mb_id: '',
-        buttonStts: 'Diproses',
+        buttonStts: 'Dikemas',
         pesan_nf: 'Barang sedang diproses oleh pihak Toko Bangunan',
         jenis_nf: 'Notifikasi status order diproses',
-        status:'0'
+        status: '0'
     })
 
     useEffect(() => {
@@ -53,8 +53,8 @@ const Sudahdibayar = (props) => {
         console.log('cek rtl id ' + (rtl));
         console.log('cek content ' + (content));
         // axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' + rtl + '/' + content)
-        axios.get(svr.url+'order/getrtl/' + rtl + '/' + content+ '/'+svr.api)
-            .then(result => {         
+        axios.get(svr.url + 'order/getrtl/' + rtl + '/' + content + '/' + svr.api)
+            .then(result => {
                 // if (content == 'Diproses') {
                 //     NavigatorService.navigate('Diproses')
                 // } else if (content == 'Dikirim') {
@@ -67,7 +67,7 @@ const Sudahdibayar = (props) => {
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
                 // refresh()
-                
+
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
@@ -147,19 +147,19 @@ const Sudahdibayar = (props) => {
         let content = props.con;
         // console.log('cek rtl id ' + (rtl));
         // console.log('cek content ' + (content));
-        setState(state => ({ ...state, datas:'' }))
+        setState(state => ({ ...state, datas: '' }))
         // https://market.pondok-huda.com/dev/react/order/getrtl/RTL00000001/Dikemas/
-        axios.get(svr.url+'order/getrtl/'+rtl+'/'+content+'/'+svr.api)
-          .then(result => {
-            console.log('full ===> ' + JSON.stringify(result.data.data));
-            
-            AsyncStorage.setItem('setgetOrder', JSON.stringify(result.data.data))
-            setState(state => ({ ...state, datas: result.data.data }))
-    
-          }).catch(err => {
-            alert('Gagal menerima data dari server!' + err)
-            setState(state => ({ ...state, loading: false }))
-          })
+        axios.get(svr.url + 'order/getrtl/' + rtl + '/' + content + '/' + svr.api)
+            .then(result => {
+                console.log('full ===> ' + JSON.stringify(result.data.data));
+
+                AsyncStorage.setItem('setgetOrder', JSON.stringify(result.data.data))
+                setState(state => ({ ...state, datas: result.data.data }))
+
+            }).catch(err => {
+                alert('Gagal menerima data dari server!' + err)
+                setState(state => ({ ...state, loading: false }))
+            })
     }
 
 
@@ -177,28 +177,32 @@ const Sudahdibayar = (props) => {
                 <FlatList style={{ width: '100%', }}
                     data={state.datas}
                     renderItem={({ item, index }) => (
-                        <View style={{ marginTop: toDp(20) }}>
-                            <View style={styles.information}>
+                        <View style={{ marginTop: toDp(15) }}>
+                            {/* <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
                                 <Text style={{ color: '#6495ED' }}>{item.odr_status}</Text>
                             </View>
-                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} />
+                            <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(0) }} /> */}
 
-                            <View style={{ alignItems: 'center', top: toDp(10) }}>
+                            <View style={{ alignItems: 'center', top: toDp(0) }}>
                                 <View style={styles.OrderDetail}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} />
-                                        <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
-                                        {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
+
+                                        <View style={{ left: toDp(10), }}>
+                                            <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                            <Text style={{ top: toDp(20), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
+                                            <NumberFormat
+                                                value={item.items[0]?.price}
+                                                displayType={'text'}
+                                                thousandSeparator={'.'}
+                                                decimalSeparator={','}
+                                                prefix={'Rp. '}
+                                                renderText={formattedValue => <Text style={{ top: toDp(20), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                            />
+                                        </View>
                                     </View>
-                                    <NumberFormat
-                                        value={item.items[0]?.price}
-                                        displayType={'text'}
-                                        thousandSeparator={'.'}
-                                        decimalSeparator={','}
-                                        prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                    />
+{/* 
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                                     <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
@@ -212,16 +216,15 @@ const Sudahdibayar = (props) => {
                                                 prefix={'Rp. '}
                                                 renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
                                             />
-                                            {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
-                                            <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                         </View>
-                                    </Pressable>
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
+                                    </Pressable> */}
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
 
-                                    <View style={{ alignItems: 'flex-end', margin: toDp(5), bottom: toDp(5) }}>
+                                    <View style={{ alignItems: 'flex-end', margin: toDp(5), top: toDp(10) }}>
                                         {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
                                         <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
-                                            <Text style={styles.txtButtonPay}>{item.odr_status}</Text>
+                                            <Text style={styles.txtButtonPay}>Dikemas</Text>
                                         </Pressable>
                                     </View>
                                 </View>
@@ -241,8 +244,8 @@ const Sudahdibayar = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        top: toDp(10),
-
+        top: toDp(0),
+        width: width,
     },
     content: {
         flexDirection: 'row',
@@ -264,39 +267,38 @@ const styles = StyleSheet.create({
     },
     txtInformation1: {
         fontWeight: 'bold',
-        marginBottom: toDp(5)
+        marginBottom: toDp(5),
+        marginLeft: toDp(15)
     },
     OrderDetail: {
         // backgroundColor: '#F9F8F8',
 
-        backgroundColor: '#f3f3f3',
+        backgroundColor: '#FFF',
         padding: toDp(15),
-        height: toDp(235),
         borderRadius: toDp(10),
         width: width - 30,
-        borderColor: "thistle",
-        shadowColor: "#000",
+        shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 0,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.0,
+        shadowRadius: 0,
 
-        elevation: 3,
+        elevation: 15,
     },
     buttonPay: {
         backgroundColor: '#2A334B',
-        borderRadius: toDp(10),
-        width: toDp(97),
+        borderRadius: toDp(8),
+        width: toDp(120),
         height: toDp(48),
-        fontSize: toDp(11),
+        fontSize: toDp(18),
         justifyContent: 'center',
         bottom: toDp(8),
     },
     txtButtonPay: {
         color: 'white',
-        fontSize: toDp(12),
+        fontSize: toDp(13),
         textAlign: 'center'
     }
 });

@@ -58,25 +58,6 @@ const Saldopenjual = (props) => {
       console.log('err', err)
     })
 
-    // //untuk ambil retail name dilempar ke button
-    // AsyncStorage.getItem('setTrans').then(response => {
-    //   //console.log('Profilseller=======>'+ JSON.stringify(responponse));
-
-    //   let data = JSON.parse(response);
-    //   //const val = JSON.stringify(data);
-
-    //   console.log('Transaksi ==> ' + JSON.stringify(data));
-
-    //   setState(state => ({
-    //     ...state,
-    //     rtl_name: data.data.rtl_name,
-    //   }))
-    //   console.log('RTL name ' + JSON.stringify(state.rtl_name));
-
-    // }).catch(err => {
-    //   console.log('err', err)
-    // })
-
     getSaldo()
     getRekening()
 
@@ -112,7 +93,7 @@ const Saldopenjual = (props) => {
         if (response.data.status === 200) {
 
           console.log('RESPONSE GET SALDO = ' + JSON.stringify(response.data));
-          AsyncStorage.setItem('setTrans', JSON.stringify(response.data))
+       
           setState(state => ({
             ...state,
             si_id: response.data.data,

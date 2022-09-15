@@ -30,7 +30,7 @@ const Editrekening = (props) => {
         pay_name: '',
         rk_id: '',
         rk_mb_id: '',
-        nomer_rek:'',
+        nomer_rek: '',
         dataBank: [],
         rek_pay_id: '',
         rek_pay_name: '',
@@ -39,14 +39,14 @@ const Editrekening = (props) => {
 
     useEffect(() => {
         setState(state => ({
-          ...state,
-          nama: props.navigation.state.params.nama,
-          pay_id: props.navigation.state.params.pay_id,
-          pay_name: props.navigation.state.params.pay_name,
-          rk_id: props.navigation.state.params.rk_id,
-          rk_mb_id: props.navigation.state.params.rk_mb_id,
-          nomer_rek: props.navigation.state.params.nomer_rek,
-    
+            ...state,
+            nama: props.navigation.state.params.nama,
+            pay_id: props.navigation.state.params.pay_id,
+            pay_name: props.navigation.state.params.pay_name,
+            rk_id: props.navigation.state.params.rk_id,
+            rk_mb_id: props.navigation.state.params.rk_mb_id,
+            nomer_rek: props.navigation.state.params.nomer_rek,
+
         }))
         console.log("nama--->" + props.navigation.state.params.nama);
         console.log("payname--->" + props.navigation.state.params.pay_id);
@@ -55,10 +55,10 @@ const Editrekening = (props) => {
         console.log("nama--->" + props.navigation.state.params.rk_mb_id);
         console.log("norek--->" + props.navigation.state.params.nomer_rek);
 
-      }, [])
+    }, [])
 
 
-      useEffect(() => {
+    useEffect(() => {
 
         AsyncStorage.getItem('member').then(response => {
             //console.log('Profilseller=======>'+ JSON.stringify(responponse));
@@ -87,13 +87,13 @@ const Editrekening = (props) => {
     }, [])
 
 
-      const getBank = () => {
+    const getBank = () => {
         // setState(state => ({...state, loading: true }))
         // https://market.pondok-huda.com/publish/react/payment/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
         axios.get(svr.url + 'payment/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/category/')
             .then(result => {
-              
+
                 let data = result.data.data.map(doc => {
                     return {
                         pay_id: doc.pay_id,
@@ -115,7 +115,7 @@ const Editrekening = (props) => {
     //EDIT REKENING
     const Editrek = async () => {
         const body = {
-            nama: state.mb_name,
+            nama: state.nama,
             nomer_rek: state.nomer_rek,
             pay_id: state.pay_id,
             rk_mb_id: state.mb_id
@@ -124,14 +124,14 @@ const Editrekening = (props) => {
 
         setState(state => ({ ...state, loading: true }))
         // https://market.pondok-huda.com/publish/react/rekening/RK000000001/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
-        axios.post(svr.url + 'rekening/' + state.rk_id +'/'+ svr.api, body)
+        axios.post(svr.url + 'rekening/' + state.rk_id + '/' + svr.api, body)
             .then(result => {
 
                 console.log('cek result = ' + JSON.stringify(result));
 
                 if (result.data.status == 201) {
                     alert('Sukses edit rekening!')
-                    NavigatorService.navigate('Rekeningtoko')
+                    NavigatorService.navigate('Rekeningtoko', {rk_mb_id: state.mb_id})
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
                     //NavigatorService.navigation('Alamattoko');
@@ -151,18 +151,18 @@ const Editrekening = (props) => {
 
 
     //hide belum selesai
-    const hideRek= (text)=> {
+    const hideRek = (text) => {
         let nomer_rek = text
         let hiddenRekening = "";
         for (let i = 0; i < nomer_rek.length; i++) {
-          if (i > 2 && i< nomer_rek.indexOf("8") ) {
-            hiddenRekening += "*";
-          } else {
-            hiddenRekening += nomer_rek[i];
-          }
+            if (i > 2 && i < nomer_rek.indexOf("8")) {
+                hiddenRekening += "*";
+            } else {
+                hiddenRekening += nomer_rek[i];
+            }
         }
         return hiddenRekening;
-     }
+    }
 
 
 
@@ -179,6 +179,19 @@ const Editrekening = (props) => {
 
             <View>
                 <View style={styles.bodyKategori}>
+                    <View style={{ marginTop: toDp(5) }}>
+                        <Text style={styles.txtKategori}>Nama</Text>
+                        <SafeAreaView style={{ alignItems: 'center' }}>
+                            <TextInput autoCapitalize={'none'}
+                                style={styles.textInput}
+                                placeholder={'Masukkan Nama'}
+                                keyboardType={'numeric'}
+                                placeholderTextColor={'#4E5A64'}
+                                value={state.nama}
+                                onChangeText={(text) => setState(state => ({ ...state, nama: text }))}
+                            />
+                        </SafeAreaView>
+                    </View>
                     <View>
                         <Text style={styles.txtKategori}>Pilih Bank</Text>
                         <SafeAreaView style={{ alignItems: 'center' }}>
@@ -192,7 +205,7 @@ const Editrekening = (props) => {
                                 defaultValue={{
                                     pay_id: state.pay_id,
                                     pay_name: state.pay_name
-                                  }}
+                                }}
                                 data={state.dataBank}
                                 onSelect={(selectedItem, index) => {
                                     console.log(selectedItem.pay_id, index)
@@ -262,7 +275,7 @@ const styles = StyleSheet.create({
     bodyKategori: {
         backgroundColor: '#FFF',
         width: toDp(335),
-        height: toDp(190),
+        height: toDp(290),
         borderRadius: toDp(10),
         top: toDp(15),
         left: toDp(12),

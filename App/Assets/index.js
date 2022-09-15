@@ -133,7 +133,6 @@ const allLogo = {
   cash: require('./img/cash.png'),
   edit: require('./img/edit.png'),
 
-
 }
 
 export { allLogo }

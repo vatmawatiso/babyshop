@@ -37,8 +37,8 @@ const Homeseller = (props) => {
     mb_phone: '',
     mb_email: '',
     id_retail: '',
-    odr_mb_id:'',
-    rtl_id:'',
+    odr_mb_id: '',
+    rtl_id: '',
     modalVisible: false,
     option: {
       width: 750,
@@ -81,7 +81,7 @@ const Homeseller = (props) => {
       console.log('err', err)
     })
 
-    
+
     AsyncStorage.getItem('rtlid').then(rtlid => {
       let rtl = rtlid;
       setState(state => ({
@@ -145,8 +145,6 @@ const Homeseller = (props) => {
   }
 
 
-
-
   return (
     <View style={styles.container}>
       <Logout
@@ -162,23 +160,14 @@ const Homeseller = (props) => {
           />}
       >
         <View style={styles.bodyProfil}>
-          <View style={styles.viewBodyProfil}>
-            <View>
-              <Image source={state.picture ? { uri: state.picture } :
-                require('../../../Assets/img/tzuyu.jpg')}
-                style={styles.imgProfil} />
-            </View>
-            <View>
-              <Text style={styles.txtProfil1}>{state.mb_name}</Text>
-            </View>
+          {/* <View style={styles.viewBodyProfil}> */}
+          <View style={{ flexDirection: 'column', left: toDp(120), bottom: toDp(15) }}>
+            <Image source={state.picture ? { uri: state.picture } :
+              require('../../../Assets/img/tzuyu.jpg')}
+              style={styles.imgProfil} />
+            <Text style={styles.txtProfil1}>{state.mb_name}</Text>
           </View>
-
-          {/* <Text style={styles.txtMember}>{DATA[0].memberUser}</Text> */}
-
-          {/* <View style={styles.profil2}>
-            <Text style={styles.txtPengikut}>{DATA[0].pengikutUser}</Text>
-            <Text style={styles.txtMengikuti}>{DATA[0].mengikutiUser}</Text>
-          </View> */}
+          {/* </View> */}
 
           <View style={styles.viewBtnEdit}>
             <Pressable style={styles.btnProfile} onPress={() => NavigatorService.navigate('Editprofil')}>
@@ -236,15 +225,8 @@ const Homeseller = (props) => {
             </Pressable>
             <Pressable style={styles.btnSaldo} onPress={() => NavigatorService.navigate('Saldopenjual', { retail_id: state.retail_id, mb_id: state.mb_id })} >
               <View style={styles.viewSaldo}>
-                <Text style={styles.txtSaldo}>Saldo</Text>
-                <NumberFormat
-                  value={0}
-                  displayType={'text'}
-                  thousandSeparator={'.'}
-                  decimalSeparator={','}
-                  prefix={'Rp. '}
-                  renderText={formattedValue => <Text style={styles.hargaSaldo}>{formattedValue}</Text>} // <--- Don't forget this!
-                />
+                <Text style={styles.txtSaldo}>Saldo Toko</Text>
+                <Image source={allLogo.arrowright} style={styles.iclineright1} />
               </View>
             </Pressable>
 
@@ -257,7 +239,7 @@ const Homeseller = (props) => {
             <View style={styles.garis} />
 
             <View style={styles.viewSet}>
-              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Dikemas', retail_id: state.retail_id })} >
+              <TouchableOpacity style={styles.btnPesanan} onPress={() => NavigatorService.navigate('Pengiriman', { content: 'Diproses', retail_id: state.retail_id })} >
                 <View style={styles.viewIcon2}>
                   <Image source={allLogo.bag} style={styles.imgViewset} />
                   <Text style={styles.txtIcon1}>Pesanan Baru</Text>
@@ -323,7 +305,7 @@ const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   viewMenu: {
     position: 'absolute',
@@ -433,7 +415,8 @@ const styles = StyleSheet.create({
   },
   viewSaldo: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginRight: toDp(10)
   },
   txtSaldo: {
     marginLeft: toDp(10)
@@ -549,8 +532,8 @@ const styles = StyleSheet.create({
     height: toDp(50),
     width: toDp(50),
     top: toDp(25),
-    left: toDp(35),
-    borderRadius: toDp(25)
+    left: toDp(15),
+    borderRadius: toDp(20)
   },
   profil1: {
     flexDirection: 'row',
@@ -562,11 +545,15 @@ const styles = StyleSheet.create({
     right: toDp(40),
   },
   txtProfil1: {
-    // marginLeft:toDp(25),
-    marginTop: toDp(25),
-    left: toDp(50),
-    fontSize: toDp(13),
-    color: 'white'
+    color: 'white',
+    top: toDp(32),
+    left: toDp(0),
+    right: toDp(0),
+    fontSize: toDp(12),
+    width: toDp(80),
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
   },
   txtMember: {
     textAlign: 'center',
@@ -611,7 +598,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'yellow',
     width: toDp(75),
     left: toDp(175),
-    bottom: toDp(75)
+    bottom: toDp(85)
   },
   Body: {
     backgroundColor: '#F9F8F8',
@@ -718,6 +705,7 @@ const styles = StyleSheet.create({
     width: toDp(150),
     height: toDp(48),
     alignItems: 'flex-end',
+    marginTop: toDp(30)
 
   },
   store: {

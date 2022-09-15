@@ -80,9 +80,9 @@ const Invoice = (props) => {
           <View style={styles.menus}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: toDp(15), width: toDp(340) }}>
               <Image source={allLogo.icbina} style={{ width: toDp(130), height: toDp(50), tintColor: 'black' }}></Image>
-              <View style={{ alignItems: 'flex-start', marginRight: toDp(96) }}>
+              <View style={{ alignItems: 'flex-start', marginRight: toDp(0) }}>
                 <Text style={{ fontSize: toDp(14), fontWeight: 'bold' }}>INVOICE</Text>
-                <Text style={{ color: '#F83308', fontSize: toDp(14) }}>{item.TransactionId}</Text>
+                <Text style={{ color: '#F83308', fontSize: toDp(13) }}>{item.nomer_transaksi}</Text>
               </View>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: toDp(20), width: toDp(340) }}>

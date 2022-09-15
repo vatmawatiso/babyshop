@@ -79,9 +79,9 @@ const Dikemas = (props) => {
     //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
     const Lihatdetail = (data, id) => {
         let odr = data;
-        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+        AsyncStorage.setItem('Invoice', JSON.stringify(odr))
 
-        NavigatorService.navigate('Orderdetail', { odr_id: id })
+        NavigatorService.navigate('Invoice', { odr_id: id })
 
     }
 
@@ -106,38 +106,38 @@ const Dikemas = (props) => {
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
-            <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={refresh}
-                    />}
-            >
-                <FlatList style={{ width: '100%', }}
-                    data={state.datas}
-                    renderItem={({ item, index }) => (
-                        <View style={{ marginTop: toDp(20) }}>
-                            <View style={styles.information}>
+            <FlatList style={{ width: '100%', }}
+                data={state.datas}
+                renderItem={({ item, index }) => (
+                    <View style={{ marginTop: toDp(15) }}>
+                        {/* <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
                                 <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
-                            </View>
+                            </View> */}
 
-                            <View style={{ alignItems: 'center', top: toDp(10) }}>
-                                <View style={styles.OrderDetail}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
-                                        <Text style={{ top: toDp(10), left: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
-                                        {/* <Text style={{ top: toDp(80), right: toDp(60) }}>{item.items[0]?.qty}x</Text> */}
+                        <View style={{ alignItems: 'center', top: toDp(0) }}>
+                            <View style={styles.OrderDetail}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
+
+                                    <View style={{ left: toDp(10), }}>
+                                        <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
+                                            <Text style={styles.txtButtonPay}>Invoice</Text>
+                                        </Pressable>
+                                        <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                        <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
+                                        <NumberFormat
+                                            value={item.items[0]?.price}
+                                            displayType={'text'}
+                                            thousandSeparator={'.'}
+                                            decimalSeparator={','}
+                                            prefix={'Rp. '}
+                                            renderText={formattedValue => <Text style={{ top: toDp(10), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        />
                                     </View>
-                                    <NumberFormat
-                                        value={item.items[0]?.price}
-                                        displayType={'text'}
-                                        thousandSeparator={'.'}
-                                        decimalSeparator={','}
-                                        prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ bottom: toDp(50), left: toDp(128), fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                    />
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
+                                </View>
+
+                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                                     <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
@@ -150,33 +150,30 @@ const Dikemas = (props) => {
                                                 prefix={'Rp. '}
                                                 renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
                                             />
-                                            {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                         </View>
-                                    </Pressable>
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(15) }} />
+                                    </Pressable> */}
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5) }}>
-                                        <View>
-                                            <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
-                                            <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
-                                        </View>
-                                        {/* <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
+                                    <View>
+                                        <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
+                                        <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
+                                    </View>
+                                    {/* <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
                                         <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
                                             <Text style={styles.txtButtonPay}>Nilai</Text>
                                         </Pressable>
                                     </View> */}
-                                    </View>
                                 </View>
-
-
                             </View>
-                        </View>
-                    )}
-                    ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
-                />
 
-            </ScrollView>
+
+                        </View>
+                    </View>
+                )}
+                ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+            />
         </View>
     )
 }

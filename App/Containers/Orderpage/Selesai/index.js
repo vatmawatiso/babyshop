@@ -21,6 +21,7 @@ import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import { svr } from "../../../Configs/apikey";
+import { sub } from "react-native-reanimated";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -35,7 +36,6 @@ const Selesai = (props) => {
         item: '',
         mb_id: '',
         odr_id: '',
-
     })
 
     useEffect(() => {
@@ -69,6 +69,14 @@ const Selesai = (props) => {
 
     }
 
+    const Komen = (id, retail_id, retail_name, prd_name, thumbnail, subtotal, qtyall) => {
+        console.log('cek props = ', prd_name)
+        console.log('cek props = ', thumbnail)
+        console.log('cek props = ', subtotal)
+        console.log('cek props = ', qtyall)
+        NavigatorService.navigate('Nilaiorder', { id: id, retail_id: retail_id, retail_name: retail_name, prd_name: prd_name, thumbnail: thumbnail, subtotal: subtotal, qtyall: qtyall })
+      }
+
 
     return (
         <View style={styles.container}>
@@ -77,13 +85,9 @@ const Selesai = (props) => {
             <FlatList style={{ width: '100%', }}
                 data={state.datas}
                 renderItem={({ item, index }) => (
-                    <View style={{ marginTop: toDp(20) }}>
-                        <View style={styles.information}>
-                            <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                            <Text style={{ color: '#6495ED', marginRight: toDp(15), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
-                        </View>
+                    <View style={{ marginTop: toDp(15) }}>
 
-                        <View style={{ alignItems: 'center', top: toDp(10) }}>
+                        <View style={{ alignItems: 'center', top: toDp(0) }}>
                             <View style={styles.OrderDetail}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
@@ -106,23 +110,6 @@ const Selesai = (props) => {
 
                                 </View>
 
-                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} /> */}
-
-                                {/* <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                        <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
-                                        <NumberFormat
-                                            value={item.total_bayar}
-                                            displayType={'text'}
-                                            thousandSeparator={'.'}
-                                            decimalSeparator={','}
-                                            prefix={'Rp. '}
-                                            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                        /> */}
-                                {/* <Text style={{ left: toDp(65) }}>{DATA[0].total}</Text> */}
-                                {/* <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} /> */}
-                                {/* </View> */}
-                                {/* </Pressable> */}
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
@@ -131,7 +118,7 @@ const Selesai = (props) => {
                                         <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
+                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall)}>
                                             <Text style={styles.txtButtonPay}>Nilai</Text>
                                         </Pressable>
                                     </View>

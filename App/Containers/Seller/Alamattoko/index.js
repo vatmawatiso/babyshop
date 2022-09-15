@@ -36,53 +36,6 @@ const Alamattoko = (props) => {
     adr_name: ''
   })
 
-  //   AsyncStorage.getItem('member').then(response => {
-  //     // console.log('Profil----------->'+ JSON.stringify(response));
-
-  //     let data = JSON.parse(response);
-  //     // const val = JSON.stringify(data);
-
-  //     // console.log('Profilefiks----------->' + JSON.stringify(data));
-
-  //     setState(state => ({
-  //       ...state,
-  //       mb_id: data.mb_id,
-  //       mb_name: data.value.mb_name,
-  //       mb_email: data.value.mb_email,
-  //       mb_phone: data.value.mb_phone,
-  //       mb_type: data.value.mb_type,
-  //       picture: data.value.picture,
-  //       id_retail: data.retail_id,
-  //     }))
-  //     console.log('MB ID ' + JSON.stringify(state.mb_id));
-  //     // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
-
-  //   }).catch(err => {
-  //     console.log('err', err)
-  //   })
-
-  //   AsyncStorage.getItem('uid').then(uids => {
-  //     let ids = uids;
-  //     setState(state => ({
-  //       ...state,
-  //       mb_id: ids
-  //     }))
-  //   }).catch(err => {
-  //     console.log('err', err)
-  //   })
-
-  //   getAlumember()
-
-  //     getAlamatClient()
-
-  //     props.navigation.addListener(
-  //          'didFocus',
-  //          payload => {
-  //              getAlamatClient()
-  //          }
-  //    );
-
-  // }, [stAlu])
 
   useEffect(() => {
 

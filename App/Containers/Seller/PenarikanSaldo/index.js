@@ -35,7 +35,9 @@ const PenarikanSaldo = (props) => {
         pay_name: '',
         tr_pay_id: '',
         tr_pay_name: '',
-        tr_rk_id: ''
+        tr_rk_id: '',
+        retail_id:'',
+        rtl_name:''
     })
 
 
@@ -63,24 +65,12 @@ const PenarikanSaldo = (props) => {
             console.log('err', err)
         })
 
-        //untuk ambil retail name dilempar ke button
-        AsyncStorage.getItem('setTrans').then(response => {
-            //console.log('Profilseller=======>'+ JSON.stringify(responponse));
-
-            let data = JSON.parse(response);
-            //const val = JSON.stringify(data);
-
-            console.log('Transaksi ==> ' + JSON.stringify(data));
-
-            setState(state => ({
-                ...state,
-                rtl_name: data.data.rtl_name,
-            }))
-            console.log('RTL name ' + JSON.stringify(state.rtl_name));
-
-        }).catch(err => {
-            console.log('err', err)
-        })
+        setState(state => ({
+            ...state,
+            retail_id: props.navigation.state.params.retail_id,
+            rtl_name: props.navigation.state.params.rtl_name,
+      
+          }))
 
         getBank()
     }, [])
@@ -114,13 +104,11 @@ const PenarikanSaldo = (props) => {
 
     //POST / PENARIKAN SALDO
     const tarikSaldo = async () => {
-        let rtlid = props.navigation.state.params.retail_id;
-        let rtlname = props.navigation.state.params.rtl_name;
         console.log('rtl id = ', rtlid);
         const body = {
-            ps_rtl_id: rtlid,
+            ps_rtl_id: state.retail_id,
             methode: state.tr_pay_name,
-            rtl_name: rtlname,
+            rtl_name: state.rtl_name,
             ps_saldo: value,
             ps_rekening: state.tr_rk_id
         }
