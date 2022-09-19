@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   bodySaldo: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(100),
     top: toDp(10),
     borderRadius: toDp(8),
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   btnSaldo: {
     backgroundColor: '#f8f9f9',
     marginHorizontal: toDp(5),
-    width: toDp(160),
+    width: toDp(170),
     right: toDp(5),
     top: toDp(20),
     borderRadius: toDp(8),

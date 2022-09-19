@@ -150,7 +150,7 @@ const PenarikanSaldo = (props) => {
                 onPress={() => props.navigation.goBack()}
             />
             <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(15) }}>
-                <Pressable style={{ width: toDp(335), height: toDp(48) }} onPress={() => NavigatorService.navigate('Rekeningtoko', { mb_id: state.mb_id, retail_id: state.retail_id, rtl_name: state.rtl_name })}>
+                <Pressable style={{ width: toDp(340), height: toDp(48) }} onPress={() => NavigatorService.navigate('Rekeningtoko', { mb_id: state.mb_id, retail_id: state.retail_id, rtl_name: state.rtl_name })}>
                     <View style={styles.btnAddress}>
                         <Image source={allLogo.rekening} style={styles.icplus} />
                         <Text style={styles.txtBtnAddress}>Rekening Anda</Text>
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     },
     btnEditRek: {
         backgroundColor: '#FFF',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(48),
         justifyContent: 'center',
         borderRadius: toDp(10),
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     },
     bodyFlat: {
         backgroundColor: '#F9F8F8',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(80),
         borderRadius: toDp(10),
         marginBottom: toDp(10),
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A334B',
         marginTop: toDp(50),
         height: toDp(48),
-        width: toDp(335),
+        width: toDp(340),
         borderRadius: toDp(10),
         marginBottom: toDp(10),
     },
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     },
     body: {
         backgroundColor: '#FFF',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(145),
         marginTop: toDp(15),
         borderRadius: toDp(10),
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     dropdown: {
         height: toDp(48),
         borderRadius: toDp(10),
-        width: toDp(335),
+        width: toDp(340),
         top: toDp(4),
         backgroundColor: 'white',
         marginTop: toDp(5),
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         flexDirection: 'row',
         // justifyContent: 'space-between',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10),
         shadowColor: "#000",

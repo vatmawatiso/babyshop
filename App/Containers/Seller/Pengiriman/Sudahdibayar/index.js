@@ -83,8 +83,29 @@ const Sudahdibayar = (props) => {
 
     }
 
+
+    //ALERT KONFIRMASI TERIMA PESANAN
+    const konfirmPesanan = (item) =>
+        // console.log('cek item = '+ JSON.stringify (item));
+        Alert.alert(
+            "Konfirmasi",
+            "Apakah pesanan ini akan dikemas?",
+            [
+                // {
+                //   text: "Ask me later",
+                //   onPress: () => console.log("Ask me later pressed")
+                // },
+                {
+                    text: "Batal",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Kemas Sekarang!", onPress: () => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal) }
+            ]
+        );
+
     //POST STATUS ORDER
-    const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
+    const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal) => {
         let rtl = props.retail_id;
         const body = {
             odr_status: state.buttonStts,
@@ -202,7 +223,7 @@ const Sudahdibayar = (props) => {
                                             />
                                         </View>
                                     </View>
-{/* 
+                                    {/* 
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                                     <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
@@ -223,8 +244,8 @@ const Sudahdibayar = (props) => {
 
                                     <View style={{ alignItems: 'flex-end', margin: toDp(5), top: toDp(10) }}>
                                         {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
-                                        <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
-                                            <Text style={styles.txtButtonPay}>Dikemas</Text>
+                                        <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
+                                            <Text style={styles.txtButtonPay}>Kemas</Text> 
                                         </Pressable>
                                     </View>
                                 </View>
@@ -276,7 +297,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,

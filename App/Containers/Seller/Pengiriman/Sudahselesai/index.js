@@ -7,41 +7,22 @@ import {
     TextInput,
     Alert,
     Pressable,
-    FlatList,
     AsyncStorage,
-    TouchableOpacity,
     Dimensions,
+    FlatList,
     RefreshControl,
     ScrollView
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService'
-import { Card } from "react-native-paper";
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
-import { svr } from "../../../Configs/apikey";
-
+import { svr } from "../../../../Configs/apikey";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Dikemas = (props) => {
-
-    const DATA = [
-        {
-            id: '2',
-            tb: 'Jaya Abadi Bandung',
-            diproses: 'Belum Bayar',
-            produk: 'Gerobak Pasir',
-            harga: '500000',
-            jumlah: '2',
-            total: '800000',
-            bataswaktu: '13 Januari 2022',
-            metodePembayaran: 'Bank Mandiri',
-            konfirmasi: 'Dibatalkan Pembeli',
-            image: 'https://img-9gag-fun.9cache.com/photo/a4QjKv6_700bwp.webp'
-        },
-    ]
+const Sudahselesai = (props) => {
 
     const [refreshing, setRefreshing] = useState(false);
     const [state, setState] = useState({
@@ -49,7 +30,7 @@ const Dikemas = (props) => {
         order: '',
         information: '',
         item: '',
-        mb_id: '',
+        rtl_id: '',
         odr_id: '',
 
     })
@@ -60,15 +41,21 @@ const Dikemas = (props) => {
     }, [])
 
     const getOrder = () => {
-        let mb = props.mbid;
+        let rtl = props.retail_id;
         let content = props.con;
-        axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+        console.log('cek rtl id ' + (rtl));
+        console.log('cek content ' + (content));
+        axios.get(svr.url + 'order/getrtl/' + rtl + '/' + content + '/' + svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/order/getrtl/' +rtl+ '/' + content)
             .then(result => {
                 //hendle success
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
                 refresh()
+                // console.log('ongkir ===> ' + JSON.stringify(result.data.data[0].items[0].price));
+                // console.log('data order ===> ' + JSON.stringify(result.data.order));
+                // console.log('data informasi ===> ' + JSON.stringify(result.data.information));
+                // console.log('data item ===> ' + JSON.stringify(result.data.item));
 
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
@@ -76,21 +63,25 @@ const Dikemas = (props) => {
             })
     }
 
-    //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
+
     const Lihatdetail = (data, id) => {
         let odr = data;
-        AsyncStorage.setItem('Invoice', JSON.stringify(odr))
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Invoice', { odr_id: id })
+        NavigatorService.navigate('Detailorderan', { odr_id: id })
 
     }
 
+
     //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
     const refresh = async () => {
-        let mb = props.mbid;
+        let rtl = props.retail_id;
         let content = props.con;
-        axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
+        // console.log('cek rtl id ' + (rtl));
+        // console.log('cek content ' + (content));
+        setState(state => ({ ...state, datas: '' }))
+        // https://market.pondok-huda.com/dev/react/order/getrtl/RTL00000001/Dikemas/
+        axios.get(svr.url + 'order/getrtl/' + rtl + '/' + content + '/' + svr.api)
             .then(result => {
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
@@ -98,46 +89,50 @@ const Dikemas = (props) => {
             }).catch(err => {
                 alert('Gagal menerima data dari server!' + err)
                 setState(state => ({ ...state, loading: false }))
-
             })
     }
-
 
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
-            <FlatList style={{ width: '100%', }}
-                data={state.datas}
-                renderItem={({ item, index }) => (
-                    <View style={{ marginTop: toDp(15) }}>
-                        {/* <View style={styles.information}>
+
+            <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={refresh}
+                    />}
+            >
+
+                <FlatList style={{ width: '100%', }}
+                    data={state.datas}
+                    renderItem={({ item, index }) => (
+                        <View style={{ marginTop: toDp(15) }}>
+                            {/* <View style={styles.information}>
                                 <Text style={styles.txtInformation1}>{item.retail_name}</Text>
-                                <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.items[0]?.odr_status}</Text>
+                                <Text style={{ color: '#6495ED', marginRight: toDp(16), marginBottom: toDp(5) }}>{item.odr_status}</Text>
                             </View> */}
 
-                        <View style={{ alignItems: 'center', top: toDp(0) }}>
-                            <View style={styles.OrderDetail}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
+                            <View style={{ alignItems: 'center', top: toDp(0) }}>
+                                <View style={styles.OrderDetail}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
 
-                                    <View style={{ left: toDp(10), }}>
-                                        <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
-                                            <Text style={styles.txtInvoice}>Invoice</Text>
-                                        </Pressable>
-                                        <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
-                                        <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
-                                        <NumberFormat
-                                            value={item.items[0]?.price}
-                                            displayType={'text'}
-                                            thousandSeparator={'.'}
-                                            decimalSeparator={','}
-                                            prefix={'Rp. '}
-                                            renderText={formattedValue => <Text style={{ top: toDp(10), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                        />
+                                        <View style={{ left: toDp(10) }}>
+                                            <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                            <Text style={{ top: toDp(20), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
+                                            <NumberFormat
+                                                value={item.items[0]?.price}
+                                                displayType={'text'}
+                                                thousandSeparator={'.'}
+                                                decimalSeparator={','}
+                                                prefix={'Rp. '}
+                                                renderText={formattedValue => <Text style={{ top: toDp(20), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                            />
+                                        </View>
                                     </View>
-                                </View>
 
-                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
+                                    {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
                                     <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
@@ -153,21 +148,26 @@ const Dikemas = (props) => {
                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                         </View>
                                     </Pressable> */}
-                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(10) }} />
 
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
-                                    <Pressable style={styles.buttonPay} >
-                                        <Text style={styles.txtButtonPay}>Pesanan sedang di kemas</Text>
-                                    </Pressable>
+                                    <View style={{ alignItems: 'center', margin: toDp(5), top:toDp(15) }}>
+                                        <View style={{ marginTop: toDp(10), }}>
+                                            <Pressable style={styles.buttonPay} >
+                                                <Text style={styles.txtButtonPay}>Pesanan sudah diterima pembeli</Text>
+                                            </Pressable>
+                                        </View>
+
+                                    </View>
                                 </View>
+
+
                             </View>
-
-
                         </View>
-                    </View>
-                )}
-                ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
-            />
+                    )}
+                    ListFooterComponent={() => <View style={{ height: toDp(120) }} />}
+                />
+            </ScrollView>
+
         </View>
     )
 }
@@ -177,20 +177,6 @@ const styles = StyleSheet.create({
         flex: 1,
         top: toDp(0),
         width: width,
-    },
-    invoice: {
-        backgroundColor: '#1C9846',
-        borderRadius: toDp(5),
-        width: toDp(70),
-        height: toDp(30),
-        fontSize: toDp(18),
-        justifyContent: 'center',
-        marginBottom: toDp(5)
-    },
-    txtInvoice: {
-        color: 'white',
-        fontSize: toDp(13),
-        textAlign: 'center'
     },
     content: {
         flexDirection: 'row',
@@ -240,6 +226,7 @@ const styles = StyleSheet.create({
         height: toDp(40),
         fontSize: toDp(18),
         justifyContent: 'center',
+        bottom: toDp(8),
     },
     paynow: {
         backgroundColor: '#2A334B',
@@ -257,4 +244,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Dikemas;
+export default Sudahselesai;

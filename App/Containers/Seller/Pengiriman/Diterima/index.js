@@ -150,10 +150,10 @@ const Diterima = (props) => {
                                     </Pressable> */}
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(10) }} />
 
-                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(15) }}>
+                                    <View style={{ alignItems: 'center', margin: toDp(5), top:toDp(15) }}>
                                         <View style={{ marginTop: toDp(10), }}>
                                             <Pressable style={styles.buttonPay} >
-                                                <Text style={styles.txtButtonPay}>Selesai</Text>
+                                                <Text style={styles.txtButtonPay}>Menunggu konfirmasi pembeli</Text>
                                             </Pressable>
                                         </View>
 
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,
@@ -219,10 +219,11 @@ const styles = StyleSheet.create({
         elevation: 15,
     },
     buttonPay: {
-        backgroundColor: '#2A334B',
+        backgroundColor: '#94dfb8',
         borderRadius: toDp(8),
-        width: toDp(120),
-        height: toDp(48),
+        marginRight:toDp(70),
+        width: toDp(230),
+        height: toDp(40),
         fontSize: toDp(18),
         justifyContent: 'center',
         bottom: toDp(8),
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
         marginBottom: toDp(5)
     },
     txtButtonPay: {
-        color: 'white',
+        color: 'black',
         fontSize: toDp(13),
         textAlign: 'center'
     }

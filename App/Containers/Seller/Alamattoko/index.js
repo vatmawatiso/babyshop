@@ -191,7 +191,7 @@ const Alamattoko = (props) => {
 
 
         <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: toDp(10) }}>
-          <Pressable style={{ width: toDp(335), height: toDp(48) }} onPress={() => NavigatorService.navigate('Tambahalamatseller')}>
+          <Pressable style={{ width: toDp(340), height: toDp(48) }} onPress={() => NavigatorService.navigate('Tambahalamatseller')}>
             <View style={styles.btnAddress}>
               <Text style={styles.txtBtnAddress}>Tambah Alamat Baru</Text>
               <Image source={allLogo.icplus} style={styles.icplus} />
@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: '#F9F8F8',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(130),
     borderRadius: toDp(10),
     marginBottom: toDp(10),
     marginTop: toDp(5),
-    marginHorizontal: toDp(12),
+    marginHorizontal: toDp(10),
     flexDirection: 'row',
     top: toDp(10),
     shadowColor: "#000",
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     shadowColor: "#000",

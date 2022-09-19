@@ -69,12 +69,12 @@ const Selesai = (props) => {
 
     }
 
-    const Komen = (id, retail_id, retail_name, prd_name, thumbnail, subtotal, qtyall) => {
+    const Komen = (id, retail_id, retail_name, prd_name, thumbnail, subtotal, qtyall, prd_id) => {
         console.log('cek props = ', prd_name)
         console.log('cek props = ', thumbnail)
         console.log('cek props = ', subtotal)
-        console.log('cek props = ', qtyall)
-        NavigatorService.navigate('Nilaiorder', { id: id, retail_id: retail_id, retail_name: retail_name, prd_name: prd_name, thumbnail: thumbnail, subtotal: subtotal, qtyall: qtyall })
+        console.log('cek props = ', prd_id)
+        NavigatorService.navigate('Nilaiorder', { id: id, retail_id: retail_id, retail_name: retail_name, prd_name: prd_name, thumbnail: thumbnail, subtotal: subtotal, qtyall: qtyall, prd_id: prd_id })
       }
 
 
@@ -112,13 +112,9 @@ const Selesai = (props) => {
 
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
-                                    <View>
-                                        <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
-                                        <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
-                                    </View>
+                                <View style={{ justifyContent: 'space-between',alignItems:'flex-end', margin: toDp(5), top: toDp(10) }}>
                                     <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall)}>
+                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall, item.items[0]?.prd_id )}>
                                             <Text style={styles.txtButtonPay}>Nilai</Text>
                                         </Pressable>
                                     </View>
@@ -180,7 +176,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,

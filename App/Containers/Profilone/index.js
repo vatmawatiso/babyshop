@@ -502,15 +502,15 @@ const getStatus = () => {
       <View style={{ justifyContent: 'flex-end', alignItems: 'center', height: toDp(100) }}>
         {
           state.login === 'google' ?
-            <TouchableOpacity style={{ backgroundColor:'#2A334B',width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutGoogle()}>
+            <TouchableOpacity style={{ backgroundColor:'#2A334B',width:toDp(340), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutGoogle()}>
               <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Google</Text>
             </TouchableOpacity>
           : state.login === 'facebook' ?
-            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutWithFacebook()}>
+            <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(340), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutWithFacebook()}>
               <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar Facebook</Text>
             </TouchableOpacity>
           :
-          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(335), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logout()}>
+          <TouchableOpacity style={{backgroundColor:'#2A334B', width:toDp(340), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logout()}>
             <Text style={{textAlign:'center',color:'white', fontSize:toDp(16)}}>Keluar</Text>
           </TouchableOpacity>
         }
@@ -537,7 +537,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'space-around', 
     height: toDp(116), 
-    width: toDp(335), 
+    width: toDp(340), 
     marginTop: toDp(25), 
     bottom: toDp(10), 
     borderRadius: toDp(10),shadowColor: "#000",
@@ -627,7 +627,7 @@ const styles = StyleSheet.create({
   },
   bodyProfil: {
     backgroundColor: '#F9F8F8',
-    width: toDp(330),
+    width: toDp(340),
     height: toDp(210),
     borderRadius: toDp(10),
     top: toDp(10),
@@ -687,7 +687,7 @@ const styles = StyleSheet.create({
   },
   viewJual: {
     backgroundColor: '#F9F8F8',
-    width: toDp(330),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     justifyContent: 'center',

@@ -285,8 +285,8 @@ const Editprofil = (props) => {
       />
       <View style={styles.content}>
         <View style={styles.profil}>
-          <Pressable style={{ alignItems: 'flex-end', left: toDp(280), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
-            <Image source={allLogo.reset_password} style={{ width: toDp(30), height: toDp(30),tintColor:'#FFF'  }} />
+          <Pressable style={{ alignItems: 'flex-end', left: toDp(295), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
+            <Image source={allLogo.reset_password} style={{ width: toDp(30), height: toDp(30), tintColor:'#FFF'  }} />
           </Pressable>
           <Pressable style={{height:toDp(60), width:toDp(70), left:toDp(120)}} onPress={() => toggleModal()}>
             <Image style={styles.imgProfil} source={state.picture ? { uri: state.picture } :
@@ -348,7 +348,7 @@ const Editprofil = (props) => {
           />
         </View>
         <SelectDropdown
-          buttonStyle={[styles.textInput, { bottom: toDp(10), right: toDp(6) }]}
+          buttonStyle={[styles.textInput, { bottom: toDp(10), right: toDp(8) }]}
           buttonTextStyle={{ fontSize: toDp(13), color: '#4E5A64', }}
           rowTextStyle={{ fontSize: toDp(13) }}
           dropdownStyle={{ borderRadius: toDp(10) }}
@@ -419,11 +419,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // top:toDp(50)
+    // backgroundColor:'cyan',
     alignItems: 'center'
   },
   content: {
     backgroundColor: '#2A334B',
-    width: toDp(320),
+    width: toDp(340),
     height: toDp(116),
     borderRadius: toDp(10),
     top: toDp(10)
@@ -455,7 +456,7 @@ const styles = StyleSheet.create({
   },
   buttonSave: {
     backgroundColor: '#2A334B',
-    width: toDp(320),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     bottom: toDp(15),
@@ -469,12 +470,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: '#FFFFFF',
-    width: toDp(320),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     bottom: toDp(15),
     marginBottom: toDp(-8),
-    right: toDp(8),
+    right: toDp(10),
     paddingHorizontal: toDp(10),
     shadowColor: "#000",
     shadowOffset: {

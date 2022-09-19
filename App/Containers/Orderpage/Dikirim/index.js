@@ -258,7 +258,7 @@ const Dikirim = (props) => {
 
                                     <View style={{ left: toDp(10), }}>
                                         <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
-                                            <Text style={styles.txtButtonPay}>Invoice</Text>
+                                            <Text style={styles.txtInvoice}>Invoice</Text>
                                         </Pressable>
                                         <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
                                         <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
@@ -291,11 +291,11 @@ const Dikirim = (props) => {
                                     </View>
                                 </Pressable> */}
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(10) }}>
-                                    <View>
+                                <View style={{ justifyContent: 'space-between', alignItems: 'flex-end', margin: toDp(5), top:toDp(10) }}>
+                                    {/* <View>
                                         <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
                                         <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
-                                    </View>
+                                    </View> */}
                                     <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
                                         <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(state.mb_id, item)}>
                                             <Text style={styles.txtButtonPay}>Pesanan Diterima</Text>
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,
@@ -388,6 +388,11 @@ const styles = StyleSheet.create({
         marginBottom: toDp(5)
     },
     txtButtonPay: {
+        color: 'white',
+        fontSize: toDp(13),
+        textAlign: 'center'
+    },
+    txtInvoice: {
         color: 'white',
         fontSize: toDp(13),
         textAlign: 'center'

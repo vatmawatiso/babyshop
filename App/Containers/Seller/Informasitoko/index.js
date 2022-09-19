@@ -32,7 +32,7 @@ const Informasitoko = (props) => {
     rtl_city: '',
     cty_name: '',
     cityname: [],
-    retail_id:'',
+    retail_id: '',
     modalVisible: false,
     option: {
       width: 750,
@@ -50,7 +50,7 @@ const Informasitoko = (props) => {
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
-      console.log('Member ----------->'+ JSON.stringify(data));
+      console.log('Member ----------->' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -108,18 +108,18 @@ const Informasitoko = (props) => {
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'retail/'+state.id_retail+'/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail)
+    axios.get(svr.url + 'retail/' + state.id_retail + '/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail)
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
-         console.log('CEK COK =====>' + JSON.stringify(result.data));
-         // console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].cty_name));
+        console.log('CEK COK =====>' + JSON.stringify(result.data));
+        // console.log('CEK COK =====>' + JSON.stringify(result.data.data[0].cty_name));
         let data = result.data.data[0];
         // console.log('CEK COK =====>' + JSON.stringify(data.cty_name));
 
         //setState(state => ({ ...state, cityname: result.data.data }))
-        setState(state => ({ ...state, cityname: result.data.data[0]}))
+        setState(state => ({ ...state, cityname: result.data.data[0] }))
         console.log('-----kotaaa=====>' + JSON.stringify(data.cty_name));
         console.log('-----retail=====>' + JSON.stringify(data.rtl_id));
         console.log('-----id kota=====>' + JSON.stringify(data.rtl_city));
@@ -132,7 +132,7 @@ const Informasitoko = (props) => {
       })
   }
 
-  const selectToko = ( rtl_city, cty_name) => {
+  const selectToko = (rtl_city, cty_name) => {
     console.log('DATA KOTA=====>' + JSON.stringify(cty_name));
     console.log('DATA ID KOTA=====>' + JSON.stringify(rtl_city));
     NavigatorService.navigate('Ubahtoko', { rtl_city: rtl_city, cty_name: cty_name })
@@ -144,7 +144,7 @@ const Informasitoko = (props) => {
   const render = (item) => {
     return (
       <View style={{ top: toDp(20) }}>
-        <TouchableOpacity style={styles.btnUbah} onPress={() => selectToko( item.rtl_city, item.cty_name)} >
+        <TouchableOpacity style={styles.btnUbah} onPress={() => selectToko(item.rtl_city, item.cty_name)} >
           <Text style={styles.txtUbah}>Ubah Toko</Text>
         </TouchableOpacity>
       </View>
@@ -161,9 +161,9 @@ const Informasitoko = (props) => {
 
       <View>
         <View style={styles.Tokosaya}>
-        <View style={styles.viewProfil}>
-          <Image source={state.picture ? { uri: state.picture } :
-            require('../../../Assets/img/tzuyu.jpg')} style={styles.imgProfil} />
+          <View style={styles.viewProfil}>
+            <Image source={state.picture ? { uri: state.picture } :
+              require('../../../Assets/img/tzuyu.jpg')} style={styles.imgProfil} />
             <Text style={styles.txtToko}>{state.mb_name}</Text>
           </View>
         </View>
@@ -187,18 +187,18 @@ const styles = StyleSheet.create({
     flex: 1
   },
   viewProfil: {
-    alignItems: 'center', 
-    bottom:toDp(10)
+    alignItems: 'center',
+    bottom: toDp(10)
   },
   imgProfil: {
     height: toDp(50),
     width: toDp(50),
     top: toDp(20),
     borderRadius: toDp(25),
-    marginBottom:toDp(5)
+    marginBottom: toDp(5)
   },
   viewSetting: {
-    bottom: toDp(15), 
+    bottom: toDp(15),
     left: toDp(20)
   },
   viewSet: {
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   Tokosaya: {
     flexDirection: 'row',
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(150),
     borderRadius: toDp(10),
     top: toDp(20),
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   btnUbah: {
     backgroundColor: '#f9f8f8',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     bottom: toDp(10),
@@ -259,12 +259,12 @@ const styles = StyleSheet.create({
   },
   btnSetting: {
     backgroundColor: '#f8f9f9',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     // borderRadius: toDp(10),
     borderBottomRightRadius: toDp(10),
     borderBottomLeftRadius: toDp(10),
-    bottom:toDp(13),
+    bottom: toDp(13),
     justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {

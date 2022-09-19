@@ -24,7 +24,7 @@ import axios from 'axios';
 import { svr } from "../../../Configs/apikey";
 // import { Modal } from "react-native-paper";
 
-const Tambahproduk = (props) => {
+const EditProduk = (props) => {
   const [src, setSrc] = useState(null);
 
   // const Katagori = ["Baja", "Beton", "Kayu", "Logam", "Material Komposit", "Pasir", "Pengikat", "Pintu", "Plastik", "Semen"]
@@ -93,6 +93,7 @@ const Tambahproduk = (props) => {
     })
 
     category()
+    getProdukDetailbyId()
 
   }, [])
 
@@ -144,6 +145,50 @@ const Tambahproduk = (props) => {
       })
   }
 
+  const getProdukDetailbyId = () => {
+    let pid = props.navigation.state.params.id;
+    axios.get(svr.url + 'product/' + pid + '/' + svr.api)
+      // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+      .then(response => {
+        console.log('PRODUK =====>', (response));
+        if (response.data.status == 200) {
+          // //save Async Storage
+          AsyncStorage.setItem('setProduk', JSON.stringify(response.data))
+          AsyncStorage.setItem('idProduk', JSON.stringify(response.data.data[0].id))
+          setState(state => ({ ...state, loading: false }))
+
+          let thumbnail = [{
+            thum: response.data.data[0]?.thumbnail
+          }]
+
+          let images_det = response.data.detail;
+          console.log('response 1 =>', (response.data.data))
+          if (images_det.length > 0) {
+
+          } else {
+
+          }
+          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, 
+                                         fotoProduk: images_det.images, thumbnails: thumbnail,
+                                         prd_name: response.data.data[0]?.product_name,
+                                         pdd_prd_id: response.data.data[0]?.id,
+                                         prd_stock: response.data.data[0]?.stock,
+                                         prd_price: response.data.data[0]?.price,
+                                         prd_thumbnail: response.data.data[0]?.thumbnail,
+                                         prd_rtl_id: response.data.data[0]?.retail,
+                                         prd_berat: response.data.data[0]?.berat,
+                                         ctg_name: response.data.data[0]?.category,
+                                        }))
+          console.log('stock', state.stoks)
+        } else {
+          console.log('response 2 =>', response)
+        }
+      }).catch(error => {
+        console.log('error => ', error)
+      })
+  }
+
+
   // ====> POST Tambah Produk Seller <====//
   const makeRandom = (length) => {
     let result = '';
@@ -155,34 +200,35 @@ const Tambahproduk = (props) => {
     }
     return result;
   }
-  const InputProduk = async () => {
+  const EditProduk = async () => {
+    let pid = props.navigation.state.params.id;
     const body = {
       prd_name: state.prd_name,
-      pdd_prd_id: state.pdd_prd_id,
+      // pdd_prd_id: state.pdd_prd_id,
       prd_stock: state.prd_stock,
       prd_price: state.prd_price,
       prd_thumbnail: state.prd_thumbnail,
       prd_ctg_id: state.prd_ctg_id,
       prd_rtl_id: state.id_retail,
       prd_berat: state.prd_berat,
-      prd_kd_id: state.prd_kd_id,
-      nama_kondisi: state.nama_kondisi,
-      ctg_name: state.ctg_name,
+      // prd_kd_id: state.prd_kd_id,
+      // nama_kondisi: state.nama_kondisi,
+      // ctg_name: state.ctg_name,
     }
-    // console.log('BODY == Produk===>' + JSON.stringify(body));
+    console.log('BODY == Produk===>' , body);
 
     setState(state => ({ ...state, loading: true }))
     const formData = new FormData();
     formData.append('prd_name', state.prd_name);
-    formData.append('pdd_prd_id', state.pdd_prd_id);
+    // formData.append('pdd_prd_id', state.pdd_prd_id);
     formData.append('prd_stock', state.prd_stock);
     formData.append('prd_price', state.prd_price);
     formData.append('prd_ctg_id', state.prd_ctg_id);
     formData.append('prd_rtl_id', state.id_retail);
     formData.append('prd_berat', state.prd_berat);
-    formData.append('prd_kd_id', state.prd_kd_id);
-    formData.append('nama_kondisi', state.nama_kondisi);
-    formData.append('ctg_name', state.ctg_name);
+    // formData.append('prd_kd_id', state.prd_kd_id);
+    // formData.append('nama_kondisi', state.nama_kondisi);
+    // formData.append('ctg_name', state.ctg_name);
     //formData.append("prd_thumbnail",state.fileUri);
     formData.append("prd_thumbnail", {
       uri: state.fileUri.path,
@@ -199,8 +245,8 @@ const Tambahproduk = (props) => {
     });
     console.log('---INI----->' + JSON.stringify(formData));
     await axios({
-      url: svr.url+'product/'+svr.api,
-      // url: 'https://market.pondok-huda.com/dev/react/product/',
+      url: svr.url+'product/'+pid+'/'+svr.api,
+      // https://market.pondok-huda.com/publish/react/product/PRD0002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
       method: 'POST',
       data: formData,
       headers: {
@@ -208,11 +254,15 @@ const Tambahproduk = (props) => {
         'Content-Type': 'multipart/form-data',
       }
     }).then(function (response) {
-        alert('berhasil tambah produk')
-        console.log("response :", response.data);
-        setState(state => ({ ...state, tmb_image: false }))
-
-
+        if(response.data.status == 200) {
+          alert('berhasil tambah produk')
+          console.log("response :", response);
+          setState(state => ({ ...state, tmb_image: false }))
+        } else if (response.data.status == 500) {
+          alert('gagal')
+          console.log("response :", response);
+          setState(state => ({ ...state, tmb_image: false }))
+        }
     }).catch(function (error) {
         console.log("error up", error)
         setState(state => ({ ...state, tmb_image: false }))
@@ -525,9 +575,9 @@ const Tambahproduk = (props) => {
       </View>
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <Text>{JSON.stringify(state.tmb_image)}</Text>
+        <Text style={{marginBottom: 10}}>{JSON.stringify(state.tmb_image)}</Text>
         <View style={styles.bodySimpan}>
-          <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
+          <Pressable style={styles.btnSimpan} onPress={() => EditProduk()}>
             <Text style={styles.txtSimpan}>Simpan</Text>
           </Pressable>
         </View>
@@ -573,11 +623,11 @@ const styles = StyleSheet.create({
   },
   bodyInputProduk: {
     backgroundColor: '#f8f9f9',
-    width: toDp(340),
+    width: toDp(335),
     height: toDp(490),
     borderRadius: toDp(10),
     top: toDp(10),
-    left: toDp(10),
+    left: toDp(12),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -589,12 +639,12 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   bodySimpan: {
-    width: toDp(340),
-    height: toDp(48),
+    width: toDp(335),
+    height: toDp(42),
   },
   btnSimpan: {
     backgroundColor: '#2A334B',
-    width: toDp(340),
+    width: toDp(335),
     height: toDp(48),
     justifyContent: 'center',
     borderRadius: toDp(10),
@@ -614,7 +664,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   textInput: {
-    width: toDp(325),
+    width: toDp(320),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
@@ -664,7 +714,7 @@ const styles = StyleSheet.create({
   dropdown: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(325),
+    width: toDp(319),
     left: toDp(8),
     backgroundColor: '#FFFFFF',
     bottom: toDp(93),
@@ -684,7 +734,7 @@ const styles = StyleSheet.create({
   },
   btnVariasi: {
     backgroundColor: '#FFFFFF',
-    width: toDp(325),
+    width: toDp(320),
     height: toDp(48),
     justifyContent: 'center',
     borderRadius: toDp(10),
@@ -814,4 +864,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Tambahproduk;
+export default EditProduk;

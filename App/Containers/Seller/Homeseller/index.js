@@ -471,7 +471,7 @@ const styles = StyleSheet.create({
     margin: toDp(10)
   },
   btnUlasan: {
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(30),
     bottom: toDp(5)
   },
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
     height: toDp(28)
   },
   btnDiskusi: {
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(30),
     top: toDp(10)
   },
@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   btnKomplain: {
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(35),
     top: toDp(15)
   },
@@ -513,10 +513,10 @@ const styles = StyleSheet.create({
   },
   bodyProfil: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(116),
     borderRadius: toDp(10),
-    left: toDp(12),
+    left: toDp(10),
     top: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -602,7 +602,7 @@ const styles = StyleSheet.create({
   },
   Body: {
     backgroundColor: '#F9F8F8',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(80),
     borderRadius: toDp(10),
     top: toDp(30),
@@ -623,7 +623,7 @@ const styles = StyleSheet.create({
   },
   Penjualan: {
     backgroundColor: '#F9F8F8',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(330),
     top: toDp(25),
     left: toDp(12),

@@ -201,7 +201,7 @@ const Layananjasa = (props) => {
 
   const ListJasa = (item, index) => {
     return (
-      <View style={{ width: toDp(316), left: toDp(20), borderRadius: toDp(10), marginBottom: toDp(20) }}>
+      <View style={{ width: toDp(340), left: toDp(20), borderRadius: toDp(10), marginBottom: toDp(20) }}>
         <View style={styles.viewBody}>
           <View>
             <Text>{item.shp_name}</Text>
@@ -314,11 +314,11 @@ const styles = StyleSheet.create({
   },
   btnJasa: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(42),
     borderRadius: toDp(10),
     top: toDp(210),
-    left: toDp(12),
+    left: toDp(10),
     justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {
@@ -371,10 +371,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     borderRadius: toDp(10),
-    width: toDp(335),
+    width: toDp(340),
     padding: toDp(5),
     height: toDp(80),
-    right: toDp(8),
+    right: toDp(10),
     backgroundColor: '#f8f9f9',
     // shadowColor: "#000",
     // shadowOffset: {
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
   },
   courier: {
     backgroundColor: '#C4C4C4',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(330),
     left: toDp(20),
     borderRadius: toDp(20),

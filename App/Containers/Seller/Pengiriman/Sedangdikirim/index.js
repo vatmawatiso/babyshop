@@ -76,6 +76,26 @@ const Sedangdikirim = (props) => {
 
     }
 
+        //ALERT KONFIRMASI TERIMA PESANAN
+        const konfirmPesanan = (item) =>
+        // console.log('cek item = '+ JSON.stringify (item));
+        Alert.alert(
+            "Konfirmasi",
+            "Apakah pesanan ini telah diterima pembeli?",
+            [
+                // {
+                //   text: "Ask me later",
+                //   onPress: () => console.log("Ask me later pressed")
+                // },
+                {
+                    text: "Belum",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Sudah Diterima!", onPress: () => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal) }
+            ]
+        );
+
     //POST STATUS ORDER
     const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
         const body = {
@@ -206,7 +226,7 @@ const Sedangdikirim = (props) => {
 
                                 <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(15) }}>
                                     <View style={{ marginTop: toDp(10), }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
+                                        <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
                                             <Text style={styles.txtButtonPay}>Diterima</Text>
                                         </Pressable>
                                     </View>
@@ -261,7 +281,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,

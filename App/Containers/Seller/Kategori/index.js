@@ -111,7 +111,7 @@ const Kategori = (props) => {
 
   const ListKategori = (item, index, onPress) => {
     return (
-      <View style={{ marginTop: toDp(0), width: '100%', right: toDp(4), marginBottom: toDp(10), }}>
+
         <View style={styles.viewKategori}>
 
           <View style={styles.viewKate}>
@@ -123,7 +123,6 @@ const Kategori = (props) => {
             </View>
           </TouchableOpacity>
         </View>
-      </View>
     )
   }
 
@@ -136,10 +135,8 @@ const Kategori = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={styles.BodyKategori}>
-        <View style={{ top: toDp(10), }}>
 
-          <View>
+          <View style={{width:toDp(340)}}>
             <FlatList
               numColumns={1}
               data={state.datas}
@@ -148,11 +145,9 @@ const Kategori = (props) => {
                   ListKategori(item, index, () => getKategori(value, item.ctg_id, item.ctg_name))
                 )
               }}
-              ListFooterComponent={() => <View style={{ height: toDp(180), }} />}
+              ListFooterComponent={() => <View style={{ height: toDp(180) }} />}
             />
           </View>
-        </View>
-      </View>
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         <Pressable style={styles.btnKonfirm} onPress={() => NavigatorService.navigate('Tambahkategori')}>
@@ -170,16 +165,18 @@ const styles = StyleSheet.create({
     flex: 1
   },
   viewKate: {
-    width: toDp(314),
+    width: toDp(310),
     height: toDp(48),
     justifyContent: 'center',
     borderRadius: toDp(10),
+    marginLeft:toDp(0)
   },
   viewKategori: {
     flexDirection: 'row',
     marginHorizontal: toDp(0),
     height: toDp(50),
     alignItems: 'center',
+    marginTop:toDp(10),
     justifyContent: 'space-between',
     backgroundColor: 'white',
     borderRadius: toDp(10),
@@ -204,7 +201,7 @@ const styles = StyleSheet.create({
   },
   bodyProfil: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(116),
     borderRadius: toDp(10),
     top: toDp(10),
@@ -285,24 +282,24 @@ const styles = StyleSheet.create({
     marginLeft: toDp(8),
 
   },
-  // BodyKategori: {
-  //   width: toDp(335),
-  //   height: toDp(470),
-  //   borderRadius: toDp(10),
-  //   backgroundColor:'#f8f9f9',
-  //   top: toDp(20),
-  //   flexDirection: 'column',
-  //   justifyContent: 'space-between',
-  //   shadowColor: "#000",
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 1,
-  //   },
-  //   shadowOpacity: 0.20,
-  //   shadowRadius: 1.41,
+  BodyKategori: {
+    width: toDp(340),
+    height: toDp(470),
+    borderRadius: toDp(10),
+    backgroundColor:'red',
+    top: toDp(20),
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
 
-  //   elevation: 2,
-  // },
+    elevation: 2,
+  },
   btnKategori: {
     borderRadius: toDp(10),
     justifyContent: 'center',
@@ -330,7 +327,7 @@ const styles = StyleSheet.create({
   btnKonfirm: {
     backgroundColor: '#2A334B',
     borderRadius: toDp(10),
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     justifyContent: 'center',
     bottom: toDp(5)

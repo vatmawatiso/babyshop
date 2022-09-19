@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: toDp(335),
+    width: toDp(340),
     marginTop: toDp(15),
     height: toDp(65),
     padding: toDp(10),
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
   },
   bodyTengah: {
     backgroundColor: '#FFF',
-    marginTop: toDp(20),
-    width: toDp(335),
+    marginTop: toDp(10),
+    width: toDp(340),
     height: toDp(100),
     borderRadius: toDp(10),
     flexDirection: 'row',
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: '#FFF',
     marginTop: toDp(20),
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(100),
     borderRadius: toDp(10),
     flexDirection: 'row',

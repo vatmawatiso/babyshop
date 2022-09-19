@@ -217,7 +217,7 @@ const EditAlamattoko = (props) => {
             <SafeAreaView>
               <TextInput
                 top={toDp(4)}
-                width={toDp(335)}
+                width={toDp(340)}
                 height={toDp(48)}
                 borderRadius={toDp(10)}
                 backgroundColor={'#FFFFFF'}
@@ -230,7 +230,7 @@ const EditAlamattoko = (props) => {
               />
               <TextInput
                 top={toDp(16)}
-                width={toDp(335)}
+                width={toDp(340)}
                 height={toDp(48)}
                 borderRadius={toDp(10)}
                 backgroundColor={'#FFFFFF'}
@@ -281,7 +281,7 @@ const EditAlamattoko = (props) => {
               />
               <TextInput
                 top={toDp(35)}
-                width={toDp(335)}
+                width={toDp(340)}
                 height={toDp(48)}
                 borderRadius={toDp(10)}
                 backgroundColor={'white'}
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     marginTop: toDp(25),
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     shadowColor: "#000",
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
   content: {
     top: toDp(15),
     // backgroundColor:'#C4C4C4',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(90),
     borderRadius: toDp(10)
   },
@@ -424,14 +424,14 @@ const styles = StyleSheet.create({
   inputAlamat: {
     top: toDp(30),
     // backgroundColor:'#C4C4C4',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(130),
     borderRadius: toDp(10)
   },
   dropdown: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(335),
+    width: toDp(340),
     top: toDp(23),
     backgroundColor: '#FFFFFF',
     shadowColor: "#000",
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
   },
   contentMap: {
     backgroundColor: 'white',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(200),
     borderRadius: toDp(10),
     bottom: toDp(5),
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     padding: toDp(5),
-    paddingHorizontal: toDp(18),
+    paddingHorizontal: toDp(13),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

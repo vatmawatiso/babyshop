@@ -74,6 +74,26 @@ const Diproses = (props) => {
 
     }
 
+    //ALERT KONFIRMASI TERIMA PESANAN
+    const konfirmPesanan = (item) =>
+        // console.log('cek item = '+ JSON.stringify (item));
+        Alert.alert(
+            "Konfirmasi",
+            "Yakin ingin mengirim pesanan ini? Kamu harus mengatur pengiriman segera!",
+            [
+                // {
+                //   text: "Ask me later",
+                //   onPress: () => console.log("Ask me later pressed")
+                // },
+                {
+                    text: "Nanti",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Kirim Sekarang!", onPress: () => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal) }
+            ]
+        );
+
     //POST STATUS ORDER
     const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
         const body = {
@@ -171,17 +191,18 @@ const Diproses = (props) => {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
 
-
-                                    <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
-                                    <Text style={{ top: toDp(20), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
-                                    <NumberFormat
-                                        value={item.items[0]?.price}
-                                        displayType={'text'}
-                                        thousandSeparator={'.'}
-                                        decimalSeparator={','}
-                                        prefix={'Rp. '}
-                                        renderText={formattedValue => <Text style={{ top: toDp(20), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                    />
+                                    <View style={{ left: toDp(10), }}>
+                                        <Text style={{ top: toDp(10), fontWeight: 'bold', fontSize: toDp(15), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
+                                        <Text style={{ top: toDp(20), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>Total : {item.qtyall} Produk</Text>
+                                        <NumberFormat
+                                            value={item.items[0]?.price}
+                                            displayType={'text'}
+                                            thousandSeparator={'.'}
+                                            decimalSeparator={','}
+                                            prefix={'Rp. '}
+                                            renderText={formattedValue => <Text style={{ top: toDp(20), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        />
+                                    </View>
                                 </View>
 
                                 {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
@@ -202,10 +223,10 @@ const Diproses = (props) => {
                                 </Pressable> */}
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
 
-                                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(10) }}>
+                                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
                                     <View style={{ marginTop: toDp(10), }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
-                                            <Text style={styles.txtButtonPay}>Dikirim</Text>
+                                        <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
+                                            <Text style={styles.txtButtonPay}>Kirim Sekarang</Text>
                                         </Pressable>
                                     </View>
 
@@ -259,7 +280,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,

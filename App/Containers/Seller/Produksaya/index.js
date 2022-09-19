@@ -99,7 +99,7 @@ const Produksaya = (props) => {
 
   const renderItem = (item, index) => (
     <View style={styles.card}>
-      <Pressable>
+      <Pressable onPress={() => NavigatorService.navigate('EditProduk', {id : item.id})}>
         <View style={styles.txtProduct}>
           <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
             <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />

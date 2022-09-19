@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F8F8',
     borderRadius: toDp(10),
     top: toDp(10),
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(490),
     shadowColor: "#000",
     shadowOffset: {
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     top: toDp(5),
   },
   textInput: {
-    width: toDp(320),
+    width: toDp(325),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   textInput1: {
-    width: toDp(320),
+    width: toDp(325),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
   },
   btnSimpan: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(20),
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     fontSize: toDp(14)
   },
   dropdown: {
-    width: toDp(320),
+    width: toDp(325),
     height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(10),

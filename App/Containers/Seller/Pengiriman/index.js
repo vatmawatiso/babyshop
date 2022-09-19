@@ -20,6 +20,7 @@ import Sudahdibayar from './Sudahdibayar'
 import Diproses from './Diproses'
 import Sedangdikirim from './Sedangdikirim'
 import Diterima from "./Diterima";
+import Sudahselesai from './Sudahselesai'
 import Sudahdibatalkan from './Sudahdibatalkan'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -35,7 +36,7 @@ const Pengiriman = (props) => {
         title={'Pesanan Saya'}
         onPress={() => props.navigation.goBack()}
       />
-      <View style={{ alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <ScrollView horizontal={true} >
           <View style={{ top: toDp(20) }}>
             <View style={styles.body}>
@@ -48,8 +49,11 @@ const Pengiriman = (props) => {
               <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
                 <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Dikirim</Text>
               </Pressable>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Diterima')}>
+                <Text style={[styles.txtOrder, { color: con === 'Diterima' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
+              </Pressable>
               <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
-                <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
+                <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(6) }]}>Selesai</Text>
               </Pressable>
               <Pressable style={[styles.presable]} onPress={() => setCon('Dibatalkan')}>
                 <Text style={[styles.txtOrder, { color: con === 'Dibatalkan' ? '#6495ED' : 'black', left: toDp(7) }]}>Dibatalkan</Text>
@@ -69,10 +73,12 @@ const Pengiriman = (props) => {
                 <Diproses retail_id={retail_id} con={con} />
                 : con == 'Dikirim' ?
                   <Sedangdikirim retail_id={retail_id} con={con} />
-                  : con == 'Selesai' ?
+                  : con == 'Diterima' ?
                     <Diterima retail_id={retail_id} con={con} />
-                    :
-                    <Sudahdibatalkan retail_id={retail_id} con={con} />
+                    : con == 'Selesai' ?
+                      <Sudahselesai retail_id={retail_id} con={con} />
+                      :
+                      <Sudahdibatalkan retail_id={retail_id} con={con} />
           }
         </View>
       </View>
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
     flexDirection: 'row',
-    marginHorizontal:toDp(10)
+    marginHorizontal: toDp(10)
   },
   presable: {
     flex: 0,

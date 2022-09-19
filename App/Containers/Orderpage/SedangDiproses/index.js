@@ -108,7 +108,7 @@ const SedangDiproses = (props) => {
     return (
         <View style={styles.container}>
             {/*Bagian Update*/}
-   
+
             <FlatList style={{ width: '100%', }}
                 data={state.datas}
                 renderItem={({ item, index }) => (
@@ -161,10 +161,9 @@ const SedangDiproses = (props) => {
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
-                                    <View>
-                                        <Text style={{ fontSize: toDp(18), fontWeight: 'bold' }}>Bayar sebelum :</Text>
-                                        <Text style={{ fontSize: toDp(12), }}>{item.items[0]?.odr_expired}</Text>
-                                    </View>
+                                    <Pressable style={styles.buttonPay} >
+                                        <Text style={styles.txtButtonPay}>Pesanan sedang di proses</Text>
+                                    </Pressable>
                                 </View>
                             </View>
 
@@ -184,6 +183,20 @@ const styles = StyleSheet.create({
         flex: 1,
         top: toDp(0),
         width: width,
+    },
+    buttonPay: {
+        backgroundColor: '#94dfb8',
+        borderRadius: toDp(8),
+        marginRight:toDp(70),
+        width: toDp(230),
+        height: toDp(40),
+        fontSize: toDp(18),
+        justifyContent: 'center',
+    },
+    txtButtonPay: {
+        color: 'black',
+        fontSize: toDp(13),
+        textAlign: 'center'
     },
     invoice: {
         backgroundColor: '#1C9846',
@@ -223,7 +236,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: toDp(15),
         borderRadius: toDp(10),
-        width: width - 30,
+        width: width - 20,
         shadowColor: "#B8B8B8",
         shadowOffset: {
             width: 0,
@@ -234,15 +247,6 @@ const styles = StyleSheet.create({
 
         elevation: 15,
     },
-    buttonPay: {
-        backgroundColor: '#2A334B',
-        borderRadius: toDp(8),
-        width: toDp(120),
-        height: toDp(48),
-        fontSize: toDp(18),
-        justifyContent: 'center',
-        bottom: toDp(8),
-    },
     paynow: {
         backgroundColor: '#2A334B',
         borderRadius: toDp(5),
@@ -252,10 +256,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: toDp(5)
     },
-    txtButtonPay: {
-        color: 'white',
-        fontSize: toDp(13),
-        textAlign: 'center'
-    }
 });
 export default SedangDiproses;

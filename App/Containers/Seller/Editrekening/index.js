@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     dropdown: {
         backgroundColor: 'white',
         borderRadius: toDp(10),
-        width: toDp(315),
+        width: toDp(325),
         height: toDp(48),
         margin: toDp(5),
         marginBottom: toDp(15),
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     },
     bodyKategori: {
         backgroundColor: '#FFF',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(290),
         borderRadius: toDp(10),
         top: toDp(15),
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: toDp(10),
         height: toDp(48),
-        width: toDp(315),
+        width: toDp(325),
         margin: toDp(5),
         paddingLeft: toDp(10),
         marginBottom: toDp(15),
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     },
     btnKategori: {
         backgroundColor: '#2A334B',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10),
         top: toDp(30),
