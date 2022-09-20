@@ -86,7 +86,7 @@ const Profilone = (props) => {
         picture: data.value.picture,
         id_retail: data.retail_id,
       }))
-      console.log('id retail ' + JSON.stringify(state.id_retail));
+      console.log('id retail ' + JSON.stringify(state.picture));
       // console.log('CEK MB_NAME ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {
@@ -427,9 +427,9 @@ const getStatus = () => {
                 </View>
               </Pressable>
 
-              <TouchableOpacity style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Selesai', mb_id: state.mb_id })}>
+              <TouchableOpacity style={{ height: toDp(40), width: toDp(170), top: toDp(5) }} onPress={() => NavigatorService.navigate('Ulasansaya', {mb_id: state.mb_id, mb_name: state.mb_name, picture: state.picture})}>
                 <View style={{ flexDirection: 'row', margin: toDp(10) }}>
-                  <Text style={styles.txtRiwayat}>Lihat Riwayat Pesanan</Text>
+                  <Text style={styles.txtRiwayat}>Lihat Ulasan Saya</Text>
                   <Image source={allLogo.arrowright} style={styles.iclineright1} />
                 </View>
               </TouchableOpacity>
@@ -652,7 +652,7 @@ const styles = StyleSheet.create({
     margin: toDp(10),
     width: toDp(8),
     height: toDp(14),
-    right: toDp(-10),
+    left: toDp(35),
     bottom: toDp(2),
   },
   iclineright: {
@@ -671,7 +671,7 @@ const styles = StyleSheet.create({
   },
   txtRiwayat: {
     top: toDp(5),
-    left: toDp(15),
+    left: toDp(35),
     color: '#F83308',
     fontSize: toDp(12)
   },

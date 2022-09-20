@@ -76,12 +76,21 @@ const Dikemas = (props) => {
             })
     }
 
-    //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
-    const Lihatdetail = (data, id) => {
+    //FUNGSI NAVIGATE KE HALAMAN INVOICEs
+    const lihatInvoice = (data, id) => {
         let odr = data;
         AsyncStorage.setItem('Invoice', JSON.stringify(odr))
 
         NavigatorService.navigate('Invoice', { odr_id: id })
+
+    }
+
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        console.log('cek data = ', data);
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+
+        NavigatorService.navigate('Orderdetail', {odr_id: id, data: data})
 
     }
 
@@ -121,7 +130,7 @@ const Dikemas = (props) => {
                                     <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
 
                                     <View style={{ left: toDp(10), }}>
-                                        <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
+                                        <Pressable style={styles.invoice} onPress={() => lihatInvoice(item, item.id)}>
                                             <Text style={styles.txtInvoice}>Invoice</Text>
                                         </Pressable>
                                         <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
@@ -137,22 +146,22 @@ const Dikemas = (props) => {
                                     </View>
                                 </View>
 
-                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                            <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
-                                            <NumberFormat
-                                                value={item.total_bayar}
-                                                displayType={'text'}
-                                                thousandSeparator={'.'}
-                                                decimalSeparator={','}
-                                                prefix={'Rp. '}
-                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                            />
-                                            <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
-                                        </View>
-                                    </Pressable> */}
+                                <Pressable style={{ top: toDp(5) }} onPress={() => Lihatdetail(item, item.id, item.data)}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
+                                        <NumberFormat
+                                            value={item.total_bayar}
+                                            displayType={'text'}
+                                            thousandSeparator={'.'}
+                                            decimalSeparator={','}
+                                            prefix={'Rp. '}
+                                            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        />
+                                        <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                    </View>
+                                </Pressable>
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
@@ -235,7 +244,7 @@ const styles = StyleSheet.create({
     buttonPay: {
         backgroundColor: '#94dfb8',
         borderRadius: toDp(8),
-        marginRight:toDp(70),
+        marginRight: toDp(70),
         width: toDp(230),
         height: toDp(40),
         fontSize: toDp(18),

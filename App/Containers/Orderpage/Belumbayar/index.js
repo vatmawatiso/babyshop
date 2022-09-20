@@ -184,12 +184,13 @@ const Belumbayar = (props) => {
     }
 
 
-    //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
-    const Lihatdetail = (data, id) => {
+    const Lihatdetail = (data, odr_id) => {
         let odr = data;
-        AsyncStorage.setItem('Invoice', JSON.stringify(odr))
+        console.log('cek data = ', data);
+        console.log('cek odr = ', odr_id);
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Invoice', { odr_id: id })
+        NavigatorService.navigate('Orderdetail', {odr_id: odr_id})
 
     }
 
@@ -224,7 +225,7 @@ const Belumbayar = (props) => {
 
                                         <View style={{ left: toDp(10), }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                <Pressable style={styles.paynow} onPress={() => NavigatorService.navigate('Infopembayaran', {data: item, from:'Orderpage'})}>
+                                                <Pressable style={styles.paynow} onPress={() => NavigatorService.navigate('Infopembayaran', { data: item, from: 'Orderpage' })}>
                                                     <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
                                                 </Pressable>
                                             </View>
@@ -240,6 +241,25 @@ const Belumbayar = (props) => {
                                             />
                                         </View>
                                     </View>
+
+
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
+
+                                    <Pressable style={{ top: toDp(5) }} onPress={() => Lihatdetail(item, item.odr_id)}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
+                                            <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.qtyall} Produk</Text>
+                                            <NumberFormat
+                                                value={item.Total}
+                                                displayType={'text'}
+                                                thousandSeparator={'.'}
+                                                decimalSeparator={','}
+                                                prefix={'Rp. '}
+                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                            />
+                                            <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                        </View>
+                                    </Pressable>
+
                                     <View style={{ borderWidth: toDp(0.5), borderColor: '#E5E5E5', top: toDp(5) }} />
 
 
@@ -334,7 +354,7 @@ const styles = StyleSheet.create({
         fontSize: toDp(18),
         justifyContent: 'center',
         marginBottom: toDp(5),
-        marginRight:toDp(57)
+        marginRight: toDp(57)
     },
     invoice: {
         backgroundColor: '#1C9846',

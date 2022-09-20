@@ -84,6 +84,7 @@ import Rekeningtoko from "../Containers/Seller/Rekeningtoko";
 import RiwayatTransaksi from "../Containers/Seller/RiwayatTransaksi";
 import Sudahselesai from "../Containers/Seller/Pengiriman/Sudahselesai";
 import EditProduk from "../Containers/Seller/EditProduk";
+import Ulasansaya from "../Containers/Ulasansaya";
 
 
 
@@ -172,6 +173,7 @@ const AppNavigator = createStackNavigator(
     RiwayatTransaksi: { screen: RiwayatTransaksi},
     Sudahselesai: { screen:Sudahselesai},
     EditProduk: { screen: EditProduk},
+    Ulasansaya: { screen: Ulasansaya},
 
     
   },

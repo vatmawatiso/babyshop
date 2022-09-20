@@ -57,13 +57,21 @@ const Nilaiorder = (props) => {
     qtyall: '',
     prd_id: '',
     komentar: '',
+    mb_id: '',
     Choosecamera: '',
-    fileUri: '',
+    Chooseimage: '',
+    Choosevideo: '',
+    komentar: '',
     options: {
+      cropping: true,
+      freeStyleCropEnabled: true,
       width: 750,
       height: 750,
-      cropping: true
-    }
+      compressImageQuality: 0.6,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720
+    },
+    mbid: ''
   })
   const [rating, setRating] = useState(0);
 
@@ -108,20 +116,13 @@ const Nilaiorder = (props) => {
     formData.append('ratting', rating);
     formData.append('km_mb_id', state.mb_id);
     formData.append("foto_km", {
-      uri: state.fileUri.path,
-      name: 'image-thumbnail-' + state.prd_name + '-' + '.jpg',
+      uri: state.Chooseimage.path,
+      name: 'IMCK-' + state.prd_id + '-' + makeRandom(12) + '.jpg',
       type: 'image/jpg'
     })
 
-    state.images.forEach((file, i) => {
-      formData.append('images[]', {
-        uri: file.uri,
-        type: 'image/jpeg',
-        name: "product-" + state.prd_name + "-" + makeRandom(21) + "-" + i + "-.jpg",
-      });
-    });
-
     console.log('formData = ' + JSON.stringify(formData));
+
     await axios({
       url: svr.url + 'komentar/' + svr.api,
       // https://market.pondok-huda.com/publish/react/komentar/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
@@ -132,79 +133,49 @@ const Nilaiorder = (props) => {
         'Content-Type': 'multipart/form-data',
       }
     }).then(function (response) {
-      alert('berhasil tambah komentar')
-      console.log("response :", response.data);
-      setState(state => ({ ...state, tmb_image: false }))
+      console.log('Response post ' + JSON.stringify(response.data));
+      //console.log('-----data=====>' + JSON.stringify(body));
+
+      if (response.status == 200) {
+        alert('Sukses kirim komentar!')
+        //NavigatorService.navigate('Alamattoko', {adr_mb_id : adr_mb_id})
+        props.navigation.goBack()
+        console.log('Response 200 ==> : ' + JSON.stringify(response.data))
+        setState(state => ({ ...state, loading: false }))
+        //NavigatorService.navigation('Alamattoko');
+
+      } else if (response.status == 201) {
+        alert('Order sudah diberi ulasan!')
+        NavigatorService.navigate('Ulasansaya')
+      } else {
+        alert('Gagal kirim komentar!')
+        setState(state => ({ ...state, loading: false }))
+        //console.log('-----COBA=====>'+ JSON.stringify(body));
+      }
 
 
     }).catch(function (error) {
-      console.log("error up", error)
-      setState(state => ({ ...state, tmb_image: false }))
-
-      if (error.response) {
-        // Request made and server responded
-        console.log('1. ', error.response);
-        console.log('2. ', error.response.status);
-        console.log('3. ', error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log('4.', error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
-      }
+      alert('Gagal menerima data dari server!' + err)
+      setState(state => ({ ...state, loading: false }))
     })
   }
 
-  // ImageResizer.createResizedImage(
-  //   path,
-  //   maxWidth,
-  //   maxHeight,
-  //   compressFormat,
-  //   quality,
-  //   rotation,
-  //   outputPath
-  // )
-  //   .then((response) => {
-  //     // response.uri is the URI of the new image that can now be displayed, uploaded...
-  //     // response.path is the path of the new image
-  //     // response.name is the name of the new image with the extension
-  //     // response.size is the size of the new image
-  //   })
-  //   .catch((err) => {
-  //     // Oops, something went wrong. Check that the filename is correct and
-  //     // inspect err to get more details.
-  //   });
+  const makeRandom = (length) => {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
+    return result;
+  }
 
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
-      //   upImageToServer(response)
-
-      if (response.size > 354557) {
-        alert('Ukuran foto melebihi 1,5 mb')
-      } else {
-        //InputProduk(response)
-        let jum = state.Choosecamera.length;
-        let { Choosecamera } = state;
-        Choosecamera[jum] = {
-          uri: response.path,
-          width: response.width,
-          height: response.height,
-          mime: response.mime,
-        };
-        setState(state => ({
-          ...state,
-          Choosecamera
-        }))
-      }
-
-      if (state.fileUri == '') {
-        setState(state => ({ ...state, fileUri: response, tmb_image: true }))
-      }
-
-      console.log('cek camera = ', response)
-      // setState(state => ({ ...state, Choosecamera: response }))
+      setState(state => ({ ...state, Chooseimage: response }))
+      console.log('THIS-IMG--->', response)
 
     }).catch(err => {
       console.log(err)
@@ -262,67 +233,79 @@ const Nilaiorder = (props) => {
         title={'Nilai Produk'}
         onPress={() => props.navigation.goBack()}
       />
+      <ScrollView>
 
-      <View style={styles.header}>
-        <Image source={{ uri: state.thumbnail }} style={styles.imgProduk} />
-        <View style={{ marginTop: toDp(0), marginLeft: toDp(10) }}>
-          <Text style={{ fontWeight: '800' }}>{state.retail_name}</Text>
-          <Text style={{ fontWeight: '800', width: toDp(200) }}>{state.prd_name}</Text>
-          <Text style={{ top: toDp(10), fontWeight: '800', fontSize: toDp(13), width: toDp(180) }}>Total : {state.qtyall} Produk</Text>
-          <NumberFormat
-            value={state.subtotal}
-            displayType={'text'}
-            thousandSeparator={'.'}
-            decimalSeparator={','}
-            prefix={'Rp. '}
-            renderText={formattedValue => <Text style={{ top: toDp(10), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+        <View style={styles.header}>
+          <Image source={{ uri: state.thumbnail }} style={styles.imgProduk} />
+          <View style={{ marginTop: toDp(0), marginLeft: toDp(10) }}>
+            <Text style={{ fontWeight: '800' }}>{state.retail_name}</Text>
+            <Text style={{ fontWeight: '800', width: toDp(200) }}>{state.prd_name}</Text>
+            <Text style={{ top: toDp(10), fontWeight: '800', fontSize: toDp(13), width: toDp(180) }}>Total : {state.qtyall} Produk</Text>
+            <NumberFormat
+              value={state.subtotal}
+              displayType={'text'}
+              thousandSeparator={'.'}
+              decimalSeparator={','}
+              prefix={'Rp. '}
+              renderText={formattedValue => <Text style={{ top: toDp(10), color: '#F83308', fontWeight: '800', }}>{formattedValue}</Text>} // <--- Don't forget this!
+            />
+          </View>
+        </View>
+
+        <View style={styles.body}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: toDp(10) }}>
+            <StarRating
+              rating={rating}
+              starSize={toDp(50)}
+              enableHalfStar={false}
+              onChange={setRating}
+            />
+          </View>
+          <Text style={styles.txtRating}>Tambahkan 50 karakter dengan foto dan video untuk{"\n"}memberikan komentar tentang produk yang anda beli</Text>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(20) }}>
+            <Pressable style={styles.btnCamera} onPress={() => camera()}>
+              <Image source={allLogo.iccamera} style={styles.iccamera} />
+              <Text style={styles.txtCamera}>Kamera</Text>
+            </Pressable>
+            <View>
+              {state.Chooseimage != '' ?
+                <>
+                  <Image source={{ uri: state.Chooseimage.path }} style={styles.images} />
+                </>
+                :
+                <>
+                  <Image source={allLogo.iccamera} style={styles.images} />
+                </>
+              }
+
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.Ulasan}>
+          <TextInput autoCapitalize={'none'}
+            top={toDp(4)}
+            width={toDp(340)}
+            height={toDp(140)}
+            borderRadius={toDp(10)}
+            multiline={true}
+            backgroundColor={'white'}
+            style={styles.textInput}
+            placeholder={'Komentar terkait pesanan anda. . .'}
+            placeholderTextColor={'#4E5A64'}
+            value={state.komentar}
+            onChangeText={(text) => setState(state => ({ ...state, komentar: text }))}
           />
         </View>
-      </View>
 
-      <View style={styles.body}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: toDp(10) }}>
-          <StarRating
-            rating={rating}
-            starSize={toDp(50)}
-            enableHalfStar={false}
-            onChange={setRating}
-          />
-        </View>
-        <Text style={styles.txtRating}>Tambahkan 50 karakter dengan foto dan video untuk{"\n"}memberikan komentar tentang produk yang anda beli</Text>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(20) }}>
-          <Pressable style={styles.btnCamera} onPress={() => camera()}>
-            <Image source={allLogo.iccamera} style={styles.iccamera} />
-            <Text style={styles.txtCamera}>Kamera</Text>
+        <View style={styles.btnUlasan} >
+          <Pressable style={styles.btnKirim} onPress={() => postKomen()}>
+            <Text style={styles.txtKirim}>Kirim Ulasan</Text>
           </Pressable>
-          {/* <Pressable style={styles.btnCamera} onPress={() => video()}>
-            <Image source={allLogo.icvideo} style={styles.icvideo} />
-            <Text style={styles.txtCamera}>Video</Text>
-          </Pressable> */}
         </View>
-      </View>
 
-      <View style={styles.Ulasan}>
-        <TextInput autoCapitalize={'none'}
-          top={toDp(4)}
-          width={toDp(340)}
-          height={toDp(140)}
-          borderRadius={toDp(10)}
-          backgroundColor={'white'}
-          style={styles.textInput}
-          placeholder={'Komentar terkait pesanan anda. . .'}
-          placeholderTextColor={'#4E5A64'}
-          value={state.komentar}
-          onChangeText={(text) => setState(state => ({ ...state, komentar: text }))}
-        />
-      </View>
-
-      <View style={styles.btnUlasan} >
-        <Pressable style={styles.btnKirim} onPress={() => postKomen()}>
-          <Text style={styles.txtKirim}>Kirim Ulasan</Text>
-        </Pressable>
-      </View>
+      </ScrollView>
     </View>
   );
 
@@ -333,10 +316,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  images: {
+    backgroundColor: 'white',
+    marginTop: toDp(0),
+    margin: toDp(8),
+    height: toDp(80),
+    width: toDp(90),
+    marginRight: toDp(20),
+    borderRadius: toDp(10),
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    borderWidth: 0.5,
+  },
   body: {
     backgroundColor: '#FFF',
     width: toDp(340),
-    height: toDp(170),
+    height: toDp(220),
     borderRadius: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -389,8 +384,8 @@ const styles = StyleSheet.create({
   btnCamera: {
     backgroundColor: '#F83308',
     borderRadius: toDp(10),
-    width: toDp(110),
-    height: toDp(48),
+    width: toDp(90),
+    height: toDp(80),
     marginHorizontal: toDp(20),
     borderRadius: toDp(8),
     justifyContent: 'center',
@@ -469,7 +464,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A334B',
     width: toDp(340),
     height: toDp(48),
-    marginTop: toDp(40),
+    marginTop: toDp(10),
     borderRadius: toDp(10),
     justifyContent: 'center'
   },

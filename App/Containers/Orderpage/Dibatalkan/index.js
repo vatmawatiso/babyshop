@@ -75,6 +75,16 @@ const Dibatalkan = (props) => {
             })
     }
 
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        console.log('cek data = ', data);
+        console.log('cek data = ', id);
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+
+        NavigatorService.navigate('Orderdetail', {odr_id: id, data: data})
+
+    }
+
 
     //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
     const refresh = async () => {
@@ -130,7 +140,7 @@ const Dibatalkan = (props) => {
                                     />
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => NavigatorService.navigate('underConstruction')}>
+                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                             <Text style={{fontWeight: 'bold', fontSize: toDp(13), width: toDp(100)}}>Total : {item.items[0]?.qty} Produk</Text>
                                             <NumberFormat

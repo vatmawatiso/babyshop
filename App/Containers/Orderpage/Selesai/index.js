@@ -61,11 +61,21 @@ const Selesai = (props) => {
     }
 
     //FUNGSI NAVIGATE KE HALAMAN DETAIL ORDER
-    const Lihatdetail = (data, id) => {
+    const lihatInvoice = (data, id) => {
         let odr = data;
         AsyncStorage.setItem('Invoice', JSON.stringify(odr))
 
         NavigatorService.navigate('Invoice', { odr_id: id })
+
+    }
+
+    const Lihatdetail = (data, id) => {
+        let odr = data;
+        console.log('cek data = ', data);
+        console.log('cek data = ', id);
+        AsyncStorage.setItem('setDetail', JSON.stringify(odr))
+
+        NavigatorService.navigate('Orderdetail', {odr_id: id, data: data})
 
     }
 
@@ -75,7 +85,7 @@ const Selesai = (props) => {
         console.log('cek props = ', subtotal)
         console.log('cek props = ', prd_id)
         NavigatorService.navigate('Nilaiorder', { id: id, retail_id: retail_id, retail_name: retail_name, prd_name: prd_name, thumbnail: thumbnail, subtotal: subtotal, qtyall: qtyall, prd_id: prd_id })
-      }
+    }
 
 
     return (
@@ -93,7 +103,7 @@ const Selesai = (props) => {
                                     <Image source={{ uri: item.items[0]?.thumbnail }} style={{ width: 120, height: 120 }} />
 
                                     <View style={{ left: toDp(10), }}>
-                                        <Pressable style={styles.invoice} onPress={() => Lihatdetail(item, item.id)}>
+                                        <Pressable style={styles.invoice} onPress={() => lihatInvoice(item, item.id)}>
                                             <Text style={styles.txtButtonPay}>Invoice</Text>
                                         </Pressable>
                                         <Text style={{ top: toDp(0), fontWeight: 'bold', fontSize: toDp(13), width: toDp(180) }}>{item.items[0]?.prd_name}</Text>
@@ -112,9 +122,26 @@ const Selesai = (props) => {
 
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                <View style={{ justifyContent: 'space-between',alignItems:'flex-end', margin: toDp(5), top: toDp(10) }}>
+                                <Pressable style={{ top: toDp(5) }} onPress={() => Lihatdetail(item, item.id)}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
+                                        <NumberFormat
+                                            value={item.total_bayar}
+                                            displayType={'text'}
+                                            thousandSeparator={'.'}
+                                            decimalSeparator={','}
+                                            prefix={'Rp. '}
+                                            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                        />
+                                        <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                    </View>
+                                </Pressable>
+
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
+
+                                <View style={{ justifyContent: 'space-between', alignItems: 'flex-end', margin: toDp(5), top: toDp(10) }}>
                                     <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall, item.items[0]?.prd_id )}>
+                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall, item.items[0]?.prd_id)}>
                                             <Text style={styles.txtButtonPay}>Nilai</Text>
                                         </Pressable>
                                     </View>
