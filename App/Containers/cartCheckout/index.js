@@ -11,7 +11,8 @@ import {
     ScrollView,
     AsyncStorage,
     BackHandler,
-    TouchableOpacity
+    TouchableOpacity,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -338,13 +339,15 @@ const cartCheckout = (props) => {
 
 
                     } else {
-                        alert('Gagal Mengambil data')
+                        // alert('Gagal Mengambil data')
+                        ToastAndroid.show("Gagal Mengambil data!", ToastAndroid.SHORT)
                         console.log('response produk cart =>', response)
                     }
                 }).catch(error => {
                     console.log('error =>', error)
                 })
         }).catch(error => {
+            ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
             console.log('error 2 =>', error)
         })
     }
@@ -408,7 +411,8 @@ const cartCheckout = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -437,7 +441,8 @@ const cartCheckout = (props) => {
 
 
                     if (datas.value == 0 || datas.value == '') {
-                        alert('Tidak ditemukan data order!')
+                        // alert('Tidak ditemukan data order!')
+                        ToastAndroid.show("Tidak ditemukan data order!", ToastAndroid.SHORT)
                     } else {
                         //save Async Storage
                         console.log('DATA ADA ===>', datas);
@@ -451,7 +456,8 @@ const cartCheckout = (props) => {
                     // setState(state => ({ ...state, loading: false }))
 
                 } else {
-                    alert('Internal server error!')
+                    // alert('Internal server error!')
+                    ToastAndroid.show("Internal server error!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                     console.log('CEK ERROR ===>' + JSON.stringify(response.data));
                     return false;
@@ -459,7 +465,8 @@ const cartCheckout = (props) => {
 
             }).catch(err => {
                 console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
                 return false;
             })

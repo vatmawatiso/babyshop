@@ -11,7 +11,8 @@ import {
     Dimensions,
     FlatList,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -36,7 +37,7 @@ const Sudahdibayar = (props) => {
         odr_id: '',
         odr_mb_id: '',
         buttonStts: 'Dikemas',
-        pesan_nf: 'Barang sedang diproses oleh pihak Toko Bangunan',
+        pesan_nf: 'Barang sedang dikemas oleh pihak Toko Bangunan',
         jenis_nf: 'Notifikasi status order diproses',
         status: '0'
     })
@@ -69,7 +70,8 @@ const Sudahdibayar = (props) => {
                 // refresh()
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -79,7 +81,7 @@ const Sudahdibayar = (props) => {
         let odr = data;
         AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Detailorderan', { odr_id: id })
+        NavigatorService.navigate('Detailorderan', { data: data , odr_id: id })
 
     }
 
@@ -132,11 +134,13 @@ const Sudahdibayar = (props) => {
                     subtotal: subtotal
                 }
                 if (response.data.status == 200) {
-                    alert('Berhasil Ubah Status!')
+                    // alert('Berhasil Ubah Status!')
+                    ToastAndroid.show("Berhasil Ubah Status!", ToastAndroid.SHORT)
                     refresh()
 
                     if (Object.keys(STATUS).length === 0) {
-                        alert('Nama Pengguna atau Kata Sandi Salah!')
+                        // alert('Nama Pengguna atau Kata Sandi Salah!')
+                        ToastAndroid.show("Gagal, tidak ditemukan data", ToastAndroid.SHORT)
                     } else {
                         //save Async Storage
                         console.log('LOG STATUS ===>' + JSON.stringify(STATUS));
@@ -149,14 +153,16 @@ const Sudahdibayar = (props) => {
                     setState(state => ({ ...state, loading: false }))
 
                 } else {
-                    alert('Gagal Ubah Status dan kirim notifikasi!')
+                    // alert('Gagal Ubah Status dan kirim notifikasi!')
+                    ToastAndroid.show("Gagal Ubah Status dan kirim notifikasi!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                     console.log('-----COBA=====>' + JSON.stringify(response.data));
                 }
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -178,7 +184,8 @@ const Sudahdibayar = (props) => {
                 setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -223,30 +230,32 @@ const Sudahdibayar = (props) => {
                                             />
                                         </View>
                                     </View>
-                                    {/* 
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
 
-                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
+
+                                    <Pressable style={{ top: toDp(7) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
-                                            <Text style={styles.txtCard}>{item.items[0]?.qty} Produk</Text>
+                                            <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
                                             <NumberFormat
                                                 value={item.total_bayar}
                                                 displayType={'text'}
                                                 thousandSeparator={'.'}
                                                 decimalSeparator={','}
                                                 prefix={'Rp. '}
-                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(65) }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', left: toDp(40) }}>{formattedValue}</Text>} // <--- Don't forget this!
                                             />
-                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
+                                            <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                         </View>
-                                    </Pressable> */}
-                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+                                    </Pressable>
 
-                                    <View style={{ alignItems: 'flex-end', margin: toDp(5), top: toDp(10) }}>
-                                        {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
-                                        <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
-                                            <Text style={styles.txtButtonPay}>Kemas</Text> 
-                                        </Pressable>
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(10) }} />
+
+                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
+                                        <View style={{ marginTop: toDp(10), }}>
+                                            <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
+                                                <Text style={styles.txtButtonPay}>Kemas</Text>
+                                            </Pressable>
+                                        </View>
                                     </View>
                                 </View>
 

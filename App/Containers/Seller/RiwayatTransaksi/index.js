@@ -10,7 +10,8 @@ import {
   AsyncStorage,
   RefreshControl,
   ScrollView,
-  FlatList
+  FlatList,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -76,6 +77,7 @@ const RiwayatTransaksi = (props) => {
         //  AsyncStorage.setItem('setTrans', JSON.stringify(state.jenis))
 
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error response ==> ', error.response.data);
       });
   }
@@ -132,7 +134,7 @@ const RiwayatTransaksi = (props) => {
     <View style={styles.container}>
 
       <BackHeader
-        title={'Saldo Penjual'}
+        title={'Riwayat Transaksi'}
         onPress={() => props.navigation.goBack()}
       />
 
@@ -165,9 +167,9 @@ const RiwayatTransaksi = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    height:'100%'
+    height:'100%',
     // height: 900,
-    // backgroundColor: 'cyan'
+    backgroundColor: 'white'
   },
   flatcontent: {
     alignItems: 'center',

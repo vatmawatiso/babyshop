@@ -13,6 +13,7 @@ import {
     AsyncStorage,
     SafeAreaView,
     TextInput,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -64,15 +65,18 @@ const Rekeningtoko = (props) => {
                     console.log('get BANK = >', state.dataBank);
 
                 } else if (result.data.status === 404) {
+                    ToastAndroid.show("Data tidak ditemukan!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                 }else if (result.data.status === 500) {
-                    alert('Maaf, Terjadi kesalahan pada server!')
+                    // alert('Maaf, Terjadi kesalahan pada server!')
+                    ToastAndroid.show("Maaf, Terjadi kesalahan pada server!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                 }
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -97,7 +101,8 @@ const Rekeningtoko = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -176,14 +181,17 @@ const Rekeningtoko = (props) => {
                 console.log('Alamat ' + JSON.stringify(response));
                 if (response.data.status === 201) {
                     console.log(response);
-                    alert('Berhasil menghapus rekening')
+                    // alert('Berhasil menghapus rekening')
+                    ToastAndroid.show("Berhasil menghapus rekening", ToastAndroid.SHORT)
                     refresh()
                     setState(state => ({ ...state, datas: response.data.data }))
                 } else if (response.data.status === 500) {
-                    alert('gagal')
+                    // alert('gagal')
+                    ToastAndroid.show("Gagal menghapus rekening", ToastAndroid.SHORT)
                     console.log(response)
                 }
             }).catch(error => {
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log(error)
             })
     }

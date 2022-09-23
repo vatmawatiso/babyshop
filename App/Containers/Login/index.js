@@ -8,7 +8,8 @@ import {
   TextInput,
   Pressable,
   Platform,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -187,11 +188,13 @@ const Login = (props) => {
           }
           setState(state => ({ ...state, loading: false }))
         } else {
-          alert('Registrasi Gagal, Nama Pengguna atau Email Telah Digunakan')
+          // alert('Registrasi Gagal, Nama Pengguna atau Email Telah Digunakan')
+          ToastAndroid.show("Registrasi Gagal, Nama Pengguna atau Email Telah Digunakan", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
         }
       }).catch(error => {
-        alert('Gagal Coba Lagi Nanti')
+        // alert('Gagal Coba Lagi Nanti')
+        ToastAndroid.show("Gagal Coba Lagi Nanti", ToastAndroid.SHORT)
         console.log('error register =>', error)
         setState(state => ({ ...state, loading: false }))
       })
@@ -304,7 +307,8 @@ const Login = (props) => {
           console.log('DATAS' + JSON.stringify(datas));
 
           if (datas.value.length === 0) {
-            alert('Nama Pengguna atau Kata Sandi Salah!')
+            // alert('Nama Pengguna atau Kata Sandi Salah!')
+            ToastAndroid.show("Nama Pengguna atau Kata Sandi Salah!", ToastAndroid.SHORT)
           } else {
             //save Async Storage
             console.log(JSON.stringify(datas));
@@ -320,14 +324,16 @@ const Login = (props) => {
           setState(state => ({ ...state, loading: false }))
 
         } else if (result.data.status == 404) {
-          alert('Pengguna tidak ditemukan!')
+          ToastAndroid.show("Pengguna tidak ditemukan!", ToastAndroid.SHORT)
+          // alert('Pengguna tidak ditemukan!')
           setState(state => ({ ...state, loading: false }))
         }
       })
 
       .catch(err => {
-        console.log(err)
-        alert('Gagal menerima data dari server!')
+        // console.log(err)
+        // alert('Gagal menerima data dari server!')
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }

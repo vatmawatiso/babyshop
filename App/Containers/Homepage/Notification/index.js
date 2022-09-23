@@ -54,10 +54,12 @@ const Notification = (props) => {
         setState(state => ({...state, loading: false}))
       } else if(result.status.data == 500){
         console.log('result notif 2 =>', result)
+        ToastAndroid.show("Gagal menampilkan notifikasi!", ToastAndroid.SHORT)
         setState(state => ({...state, loading: false}))
       }
     }).catch(error => {
       console.log('error notif =>', error)
+      ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
     })
   }
  
@@ -74,7 +76,7 @@ const Notification = (props) => {
   return (
     <View style={styles.container}>
         <Header
-          title={'Notification'}
+          title={'Notifikasi'}
           onPress={() => props.navigation.goBack()}
         />
  
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
   },
   Notification: {
     backgroundColor: '#F9F8F8',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(70),
     margin: toDp(1),
     padding: toDp(5),

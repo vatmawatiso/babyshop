@@ -9,7 +9,8 @@ import {
   Pressable,
   AsyncStorage,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -80,6 +81,7 @@ const Saldopenjual = (props) => {
 
 
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error response ==> ', error.response.data);
       });
   }
@@ -104,9 +106,11 @@ const Saldopenjual = (props) => {
 
         } else {
           alert('Saldo anda belum ada!')
+          ToastAndroid.show("Saldo anda belum ada!", ToastAndroid.SHORT)
           console.log('Ipaymu status = ', response.data);
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error response ==> ', error.response.data);
       });
   }
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     height: 900,
-    // backgroundColor: 'cyan'
+    backgroundColor: 'white'
   },
   bodySaldo: {
     backgroundColor: '#2A334B',

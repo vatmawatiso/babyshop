@@ -12,7 +12,8 @@ import {
   FlatList,
   AsyncStorage,
   LogBox,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -68,6 +69,7 @@ const Wishlist = (props) => {
         }
         //console.log('result2 =>', result.data.data)
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log(error)
       })
   }
@@ -88,13 +90,16 @@ const Wishlist = (props) => {
 
           if (response.data.status == 201) {
             //alert('Produk telah masuk ke wishlist anda!')
+            ToastAndroid.show("Produk telah masuk ke wishlist anda!", ToastAndroid.SHORT)
             //console.log('wishlist2 =>', response)
             setSelectedItems([...selectedItems, body])
           } else {
-            alert('Gagal menambahkan ke wishlist anda!')
+            // alert('Gagal menambahkan ke wishlist anda!')
+            ToastAndroid.show("Gagal menambahkan ke wishlist anda!", ToastAndroid.SHORT)
             console.log('Wishlish gagal =>', response)
           }
         }).catch(error => {
+          ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
           console.log('error wishlist =>', error)
         })
     }
@@ -111,13 +116,16 @@ const Wishlist = (props) => {
       .then(response => {
         console.log('response-unlike =>', response.data)
         if (response.data.status == 200) {
+          ToastAndroid.show("Berhasil unlike produk", ToastAndroid.SHORT)
           setState(state => ({ ...state, dataWish: [] }))
           getWish()
 
         } else {
+          ToastAndroid.show("Gagal unlike produk", ToastAndroid.SHORT)
           console.log('response =>', response)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error =>', error)
       })
     //   }

@@ -6,7 +6,8 @@ import {
   Image,
   Alert,
   Pressable,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -86,7 +87,8 @@ const Ubahtoko = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -208,7 +210,8 @@ const Ubahtoko = (props) => {
         console.log('CEK URL ===>' + JSON.stringify(response));
 
         if (response.data.status === 200) {
-          alert('Berhasil ubah toko!')
+          // alert('Berhasil ubah toko!')
+          ToastAndroid.show("Berhasil ubah toko!", ToastAndroid.SHORT)
 
           NavigatorService.navigate('Informasitoko')
 
@@ -217,7 +220,8 @@ const Ubahtoko = (props) => {
           setState(state => ({ ...state, loading: false }))
 
         } else {
-          alert('Gagal ubah toko!')
+          // alert('Gagal ubah toko!')
+          ToastAndroid.show("Gagal ubah toko!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
 
           console.log('CEK ERROR ===>' + JSON.stringify(response.data));
@@ -225,7 +229,8 @@ const Ubahtoko = (props) => {
 
       }).catch(err => {
         // console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -240,9 +245,11 @@ const Ubahtoko = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={styles.profilToko}>
-        <ScrollView>
-          <Image source={allLogo.icuser} style={styles.imgProfil} />
+      <View style={{flex: 1}}>
+      {/* <View style={styles.profilToko}> */}
+        {/* <ScrollView> */}
+        <View>
+        <Image source={allLogo.icuser} style={styles.imgProfil} />
           <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
             <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
             <Text style={{ fontSize: toDp(11) }}>Besar file maks. 2MB dengan format .JPG, JPEG atau PNG.</Text>
@@ -250,6 +257,8 @@ const Ubahtoko = (props) => {
               <Text style={{ color: '#0960A1' }}>Ganti Gambar</Text>
             </Pressable>
           </View>
+        </View>
+         
 
           <View style={{ margin: toDp(8), bottom: toDp(30) }}>
 
@@ -335,14 +344,17 @@ const Ubahtoko = (props) => {
               onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
             />
           </View>
-        </ScrollView>
-      </View>
+        {/* </ScrollView> */}
+      {/* </View> */}
       {state.bo_rtlid == true &&
         <Text>{state.retail_id}</Text>
       }
-      <Pressable style={styles.btnSimpan} onPress={() => inputUbahtoko()}>
+     </View>
+     <View style={styles.buttonSubmit}>
+     <Pressable style={styles.btnSimpan} onPress={() => inputUbahtoko()}>
         <Text style={styles.txtSimpan}>Simpan</Text>
       </Pressable>
+     </View>
 
     </View>
   )
@@ -351,6 +363,17 @@ const Ubahtoko = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: 'white',
+    flex: 1
+  },
+  buttonSubmit: {
+    width: '100%',
+    height: toDp(75),
+    flexDirection: 'row',
+    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: toDp(10)
   },
   imgProfil: {
     height: toDp(50),
@@ -383,6 +406,7 @@ const styles = StyleSheet.create({
   textInput: {
     width: toDp(325),
     height: toDp(48),
+    marginTop: toDp(5),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
     borderRadius: toDp(10),
@@ -403,8 +427,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
     borderRadius: toDp(10),
-    top: toDp(5),
-    marginTop: toDp(5),
+    top: toDp(3),
+    marginTop: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -444,6 +468,7 @@ const styles = StyleSheet.create({
     height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(10),
+    marginTop: toDp(5),
     backgroundColor: '#FFFFFF',
     marginBottom: toDp(5),
     shadowColor: "#000",

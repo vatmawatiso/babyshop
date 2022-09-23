@@ -140,11 +140,11 @@ const DaftarChat = (props) => {
       })}>
       <View style={styles.product}>
         <Grid>
-          <Col>
-            <Image source={allLogo.icuser} style={styles.imgProduk} />
+          <Col style={{width: 70}}>
+            <Image source={{uri: item.foto}} style={styles.imgProduk} />
           </Col>
           <Col>
-            <Row style={{ right: toDp(90), marginBottom: toDp(18) }}>
+            <Row style={{ marginBottom: toDp(18) }}>
               <View style={styles.textproduct}>
                 <Text style={styles.text}>{item.sender}</Text>
                 <Text style={styles.txt}>{item.pesan}</Text>
@@ -187,7 +187,7 @@ const DaftarChat = (props) => {
 
   const Chats = () => {
     return (
-      <FlatList style={{ backgroundColor: '#FFF', minHeight: toDp(100), width: width, right: 42 }}
+      <FlatList 
         showsVerticalScrollIndicator={false}
 
 
@@ -229,11 +229,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnChat: {
-    backgroundColor: '#FFF',
-    width: toDp(315),
+    backgroundColor: 'white',
+    width: toDp(340),
     borderRadius: toDp(10),
-    marginLeft: toDp(40),
-    left: toDp(3),
+    marginLeft: toDp(0),
+    // left: toDp(3),
     marginTop: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   menus: {
-    marginLeft: toDp(20),
     marginTop: toDp(-70)
   },
   all: {
@@ -264,33 +263,33 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     marginTop: toDp(0),
-    alignItems: 'center',
     justifyContent: 'center',
     width: toDp(50),
     height: toDp(50),
     top: toDp(10),
     borderRadius: toDp(25),
     marginLeft:toDp(10),
-    tintColor: 'black'
+    resizeMode: 'cover'
   },
   product: {
     marginTop: toDp(0),
-    backgroundColor: '#FFF',
+    backgroundColor: 'white',
     borderRadius: toDp(10),
-    width: toDp(315),
+    width: toDp(340),
     left: toDp(0),
     height: toDp(70),
     flexDirection: 'row',
 
   },
   text: {
+    width: toDp(100),
     color: '#005100',
     fontWeight: 'normal',
     textAlign: 'left',
     fontSize: toDp(13),
     fontFamily: 'Poppins-Regular',
-    marginRight: toDp(55),
-    bottom: toDp(5)
+    marginRight: toDp(0),
+    bottom: toDp(0)
   },
   txt: {
     width: toDp(200),
@@ -298,8 +297,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
     fontWeight: 'normal',
     textAlign: 'left',
-    marginLeft: toDp(30),
-    color: '#959595'
+    marginLeft: toDp(0),
+    color: '#959595',
   },
   time: {
     fontSize: toDp(11),
@@ -318,9 +317,9 @@ const styles = StyleSheet.create({
   },
   textproduct: {
     justifyContent: 'center',
-    alignItems: 'center',
-    left: toDp(10),
-    top: toDp(5)
+    alignItems: 'flex-start',
+    left: toDp(0),
+    top: toDp(0)
   },
   next: {
     marginTop: toDp(15),

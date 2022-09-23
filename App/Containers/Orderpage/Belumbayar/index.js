@@ -12,7 +12,8 @@ import {
     TouchableOpacity,
     Dimensions,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -38,7 +39,8 @@ const Belumbayar = (props) => {
         buttonStts: 'Dibatalkan',
         pesan_nf: 'Pesanan dibatalkan',
         jenis_nf: 'Transaksi',
-        status: '0'
+        status: '0',
+        from: ''
     })
 
 
@@ -82,6 +84,7 @@ const Belumbayar = (props) => {
         //*Bagian Update
         getOrder()
     }, [])
+    
 
     const getOrder = () => {
         let mb = props.mbid;
@@ -107,7 +110,8 @@ const Belumbayar = (props) => {
                 // refresh()
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
 
             })
@@ -139,11 +143,13 @@ const Belumbayar = (props) => {
                     subtotal: subtotal
                 }
                 if (response.data.status == 200) {
-                    alert('Berhasil ubah status order!')
+                    // alert('Berhasil ubah status order!')
+                    ToastAndroid.show("Berhasil ubah status order!", ToastAndroid.SHORT)
                     refresh()
 
                     if (Object.keys(STATUS).length === 0) {
-                        alert('Status yang dimasukkan salah!')
+                        // alert('Status yang dimasukkan salah!')
+                        ToastAndroid.show("Status yang dimasukkan salah!", ToastAndroid.SHORT)
                     } else {
                         // save Async storage
                         console.log('LOG STATUS ===> ' + JSON.stringify(STATUS));
@@ -153,13 +159,15 @@ const Belumbayar = (props) => {
                     console.log('HASIL = ', response.data);
                     setState(state => ({ ...state, loading: false }))
                 } else {
-                    alert('Gagal Ubah Status!')
+                    // alert('Gagal Ubah Status!')
+                    ToastAndroid.show("Gagal Ubah Status!", ToastAndroid.SHORT)
                     console.log('HASIL = ', response.data.status);
                     setState(state => ({ ...state, loading: false }))
                 }
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!')
+                // alert('Gagal menerima data dari server!')
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
                 console.log(' tec erorr = ' + JSON.stringify(response.data))
             })
@@ -177,7 +185,8 @@ const Belumbayar = (props) => {
                 setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
 
             })
@@ -186,11 +195,13 @@ const Belumbayar = (props) => {
 
     const Lihatdetail = (data, odr_id) => {
         let odr = data;
+        let from = props.con;
         console.log('cek data = ', data);
-        console.log('cek odr = ', odr_id);
+        console.log('cek from = ', from);
+        console.log('cek odr_id = ', odr_id);
         AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Orderdetail', {odr_id: odr_id})
+        NavigatorService.navigate('Orderdetail', {odr_id: odr_id, data: data, from: from})
 
     }
 
@@ -245,7 +256,7 @@ const Belumbayar = (props) => {
 
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                    <Pressable style={{ top: toDp(5) }} onPress={() => Lihatdetail(item, item.odr_id)}>
+                                    <Pressable style={{ top: toDp(5) }} onPress={() => Lihatdetail(item, item.odr_id, item.from)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                             <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.qtyall} Produk</Text>
                                             <NumberFormat

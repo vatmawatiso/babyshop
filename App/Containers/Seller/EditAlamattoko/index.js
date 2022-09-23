@@ -9,7 +9,8 @@ import {
   SafeAreaView,
   Pressable,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -81,7 +82,8 @@ const EditAlamattoko = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -136,7 +138,8 @@ const EditAlamattoko = (props) => {
             value: result.data.data[0]
           }
           if (datas.value.length === 0) {
-            alert('Tidak ada data!')
+            // alert('Tidak ada data!')
+            ToastAndroid.show("Tidak ada data!", ToastAndroid.SHORT)
           } else {
             //save Async Storage
             try {
@@ -149,14 +152,16 @@ const EditAlamattoko = (props) => {
           }
           setKontak(kontak => ({ ...kontak, loading: false }))
         } else if (result.data.status == 404) {
-          alert('Data tidak ditemukan!')
+          // alert('Data tidak ditemukan!')
+          ToastAndroid.show("Data tidak ditemukan!", ToastAndroid.SHORT)
           setKontak(kontak => ({ ...kontak, loading: false }))
         }
       })
 
       .catch(err => {
-        console.log(err)
-        alert('Gagal menerima data dari server!')
+        // console.log(err)
+        // alert('Gagal menerima data dari server!')
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -183,20 +188,23 @@ const EditAlamattoko = (props) => {
         console.log('-----ALAMAT=====>', JSON.stringify(response));
 
         if (response.data.status == 200) {
-          alert('Berhasil Mengubah Alamat')
+          // alert('Berhasil Mengubah Alamat')
+          ToastAndroid.show("Berhasil ubah Alamat!", ToastAndroid.SHORT)
           console.log('HASIL ALAMAT ==> : ', response)
           setState(state => ({ ...state, loading: false }))
           NavigatorService.navigate('Alamattoko', { adr_mb_id: state.mb_id });
 
         } else {
-          alert('Ubah Alamat Gagal!')
+          // alert('Ubah Alamat Gagal!')
+          ToastAndroid.show("Ubah Alamat Gagal!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
           console.log('-----COBA=====>' + JSON.stringify(response.data));
         }
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -209,8 +217,8 @@ const EditAlamattoko = (props) => {
         title={'Edit Alamat Toko'}
         onPress={() => props.navigation.goBack()}
       />
-
-      <ScrollView style={{ height: '100%', }}>
+<View style={{flex: 1}}>
+      {/* <ScrollView style={{ height: '100%', }}> */}
         <View style={{ hei: '100%', alignItems: 'center' }}>
           <Text style={styles.txtContact}>Kontak</Text>
           <View style={styles.content}>
@@ -295,7 +303,7 @@ const EditAlamattoko = (props) => {
             </SafeAreaView>
           </View>
 
-          <Pressable style={{ height: toDp(50), top: toDp(44) }}>
+          {/* <Pressable style={{ height: toDp(50), top: toDp(44) }}>
             <View style={styles.searchSection}>
               <Image style={styles.searchIcon} source={allLogo.icsearch} />
               <TextInput
@@ -322,13 +330,17 @@ const EditAlamattoko = (props) => {
                 }} />
               </MapView>
             </View>
+          </View> */}
           </View>
+</View>
+          
+          <View style={styles.buttonSubmit}>
           <Pressable style={styles.btnSimpan} onPress={() => editAlamat()}>
             <Text style={{ color: 'white' }}>Simpan</Text>
           </Pressable>
-          <View style={{ marginBottom: toDp(80) }}></View>
-        </View>
-      </ScrollView>
+          </View>
+        
+      {/* </ScrollView> */}
 
     </View>
   );
@@ -339,6 +351,17 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
+    backgroundColor: 'white'
+  },
+  buttonSubmit: {
+    width: '100%',
+    height: toDp(75),
+    flexDirection: 'row',
+    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: toDp(10)
   },
   btnSimpan: {
     flexDirection: 'row',

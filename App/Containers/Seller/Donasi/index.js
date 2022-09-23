@@ -11,7 +11,8 @@ import {
     Pressable,
     ScrollView,
     TouchableOpacity,
-    AsyncStorage
+    AsyncStorage,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -80,6 +81,7 @@ const Donasi = (props) => {
 
                 // console.log('result2 =>', result.data.data)
             }).catch(error => {
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log(error)
             })
     }
@@ -96,7 +98,8 @@ const Donasi = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -113,7 +116,8 @@ const Donasi = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -135,12 +139,15 @@ const Donasi = (props) => {
             .then(response => {
                 console.log('response donasi', response)
                 if (response.data.status == 201) {
-                    alert('Berhasil Donasi Silahkan melakukan pembayaran')
+                    // alert('Berhasil Donasi Silahkan melakukan pembayaran')
+                    ToastAndroid.show("Berhasil kirim donasi!", ToastAndroid.SHORT)
                     NavigatorService.reset('Homepage')
                 } else if (response.data.status == 500) {
-                    alert('Gagal Guys')
+                    // alert('Gagal Guys')
+                    ToastAndroid.show("Gagal kirim donasi!", ToastAndroid.SHORT)
                 }
             }).catch(error => {
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log('error guys', error)
             })
     }

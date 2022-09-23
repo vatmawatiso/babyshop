@@ -7,7 +7,8 @@ import {
   TextInput,
   Alert,
   Pressable,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -106,12 +107,15 @@ const Editprofil = (props) => {
       .then(result => {
         if (result.data.status == 200) {
           console.log('result update' + JSON.stringify(result));
-          alert('Berhasil mengubah profil');
+          // alert('Berhasil mengubah profil');
+          ToastAndroid.show("Berhasil ubah profil!", ToastAndroid.SHORT)
           refresh()
         } else if (result.data.status == 500) {
           console.log('gagal update', result)
+          ToastAndroid.show("Gagal ubah profil!", ToastAndroid.SHORT)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error update:', error)
       })
   }
@@ -130,7 +134,8 @@ const Editprofil = (props) => {
             type: result.data.data[0].mb_type
           }
           if (datas.value.length === 0) {
-            alert('not found users')
+            // alert('not found users')
+            ToastAndroid.show("not found users!", ToastAndroid.SHORT)
           } else {
             //save Async Storage
             try {
@@ -144,18 +149,21 @@ const Editprofil = (props) => {
           }
 
         } else if (result.data.status == 404) {
-          alert('Data tidak ditemukan!')
+          // alert('Data tidak ditemukan!')
+          ToastAndroid.show("Data tidak ditemukan!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
         } else if (result.data.status == 500) {
-          alert('terjadi kesalahan');
+          // alert('terjadi kesalahan');
+          ToastAndroid.show("Terjadi kesalahan!", ToastAndroid.SHORT)
         }
       }).catch(error => {
         console.log('error refresh =>', error)
       })
 
       .catch(err => {
-        console.log(err)
-        alert('Gagal menerima data dari server!')
+        // console.log(err)
+        // alert('Gagal menerima data dari server!')
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -212,9 +220,8 @@ const Editprofil = (props) => {
           refresh()
         }
       }).catch(err => {
-        // console.log(response)
-        console.log(err)
-        alert('Gagal menerima data dari server!')
+        // alert('Gagal menerima data dari server!')
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -288,7 +295,7 @@ const Editprofil = (props) => {
           <Pressable style={{ alignItems: 'flex-end', left: toDp(295), top: toDp(5), width: toDp(30) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
             <Image source={allLogo.reset_password} style={{ width: toDp(30), height: toDp(30), tintColor:'#FFF'  }} />
           </Pressable>
-          <Pressable style={{height:toDp(60), width:toDp(70), left:toDp(120)}} onPress={() => toggleModal()}>
+          <Pressable style={{height:toDp(60), width:toDp(70), left:toDp(130)}} onPress={() => toggleModal()}>
             <Image style={styles.imgProfil} source={state.picture ? { uri: state.picture } :
               require('../../Assets/img/tzuyu.jpg')} />
             {/* <Text style={styles.nama}>{state.mb_name}</Text> */}
@@ -419,7 +426,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // top:toDp(50)
-    // backgroundColor:'cyan',
+    backgroundColor:'white',
     alignItems: 'center'
   },
   content: {

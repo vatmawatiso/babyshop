@@ -12,7 +12,8 @@ import {
     TouchableOpacity,
     Dimensions,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -83,7 +84,8 @@ const Dikirim = (props) => {
                 refresh()
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -137,11 +139,13 @@ const Dikirim = (props) => {
                     qtyall: qtyall
                 }
                 if (response.data.status == 200) {
-                    alert('Berhasil ubah status order!')
+                    // alert('Berhasil ubah status order!')
+                    ToastAndroid.show("Berhasil ubah status order!", ToastAndroid.SHORT)
                     refresh()
 
                     if (Object.keys(STATUS).length === 0) {
-                        alert('Status yang dimasukkan salah!')
+                        // alert('Status yang dimasukkan salah!')
+                        ToastAndroid.show("Status yang dimasukkan salah!", ToastAndroid.SHORT)
                     } else {
                         // save Async storage
                         console.log('LOG STATUS ===> ' + JSON.stringify(STATUS));
@@ -152,13 +156,15 @@ const Dikirim = (props) => {
                     setState(state => ({ ...state, loading: false }))
                     postSaldo(retail_id, id)
                 } else {
-                    alert('Gagal Ubah Status!')
+                    // alert('Gagal Ubah Status!')
+                    ToastAndroid.show("Gagal Ubah Status!", ToastAndroid.SHORT)
                     console.log('HASIL = ', response.data.status);
                     setState(state => ({ ...state, loading: false }))
                 }
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!')
+                // alert('Gagal menerima data dari server!')
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
                 console.log(' tec erorr = ' + JSON.stringify(response.data))
             })
@@ -186,10 +192,12 @@ const Dikirim = (props) => {
                     rtl_id: retail_id,
                 }
                 if (response.data.status == 201) {
-                    alert('Berhasil tambah saldo!')
+                    // alert('Berhasil tambah saldo!')
+                    ToastAndroid.show("Berhasil tambah saldo!", ToastAndroid.SHORT)
 
                     if (Object.keys(SALDO).length === 0) {
-                        alert('Terjadi kesalahan!')
+                        // alert('Terjadi kesalahan!')
+                        ToastAndroid.show("Terjadi kesalahan!", ToastAndroid.SHORT)
                     } else {
                         // save Async storage
                         console.log('LOG SALDO ===> ' + JSON.stringify(SALDO));
@@ -200,13 +208,15 @@ const Dikirim = (props) => {
                     console.log('HASIL = ', response.data);
                     setState(state => ({ ...state, loading: false }))
                 } else {
-                    alert('Gagal tambah saldo!')
+                    // alert('Gagal tambah saldo!')
+                    ToastAndroid.show("Gagal tambah saldo!", ToastAndroid.SHORT)
                     console.log('HASIL = ', response.data.status);
                     setState(state => ({ ...state, loading: false }))
                 }
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!')
+                // alert('Gagal menerima data dari server!')
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
                 console.log(' tec erorr = ' + JSON.stringify(response.data))
             })
@@ -242,7 +252,8 @@ const Dikirim = (props) => {
                 setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
 
             })

@@ -36,7 +36,7 @@ const Diproses = (props) => {
         rtl_id: '',
         odr_id: '',
         buttonStts: 'Dikirim',
-        pesan_nf: 'Barang sedang diproses oleh pihak Toko Bangunan',
+        pesan_nf: 'Barang sedang dikirim oleh pihak Toko Bangunan',
         jenis_nf: 'Notifikasi status order diproses',
         status: '0'
     })
@@ -70,7 +70,7 @@ const Diproses = (props) => {
         let odr = data;
         AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Detailorderan', { odr_id: id })
+        NavigatorService.navigate('Detailorderan', { data: data , odr_id: id })
 
     }
 
@@ -205,9 +205,9 @@ const Diproses = (props) => {
                                     </View>
                                 </View>
 
-                                {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
+                                <Pressable style={{ top: toDp(7) }} onPress={() => Lihatdetail(item, item.id)}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                         <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
                                         <NumberFormat
@@ -220,8 +220,9 @@ const Diproses = (props) => {
                                         />
                                         <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                     </View>
-                                </Pressable> */}
-                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(10) }} />
+                                </Pressable>
+
+                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(10) }} />
 
                                 <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top: toDp(10) }}>
                                     <View style={{ marginTop: toDp(10), }}>

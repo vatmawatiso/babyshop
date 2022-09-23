@@ -9,7 +9,8 @@ import {
   Pressable,
   ScrollView,
   Modal,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -116,7 +117,8 @@ const EditProduk = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -140,7 +142,8 @@ const EditProduk = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -255,11 +258,13 @@ const EditProduk = (props) => {
       }
     }).then(function (response) {
         if(response.data.status == 200) {
-          alert('berhasil tambah produk')
+          // alert('berhasil tambah produk')
+          ToastAndroid.show("Berhasil ubah produk", ToastAndroid.SHORT)
           console.log("response :", response);
           setState(state => ({ ...state, tmb_image: false }))
         } else if (response.data.status == 500) {
-          alert('gagal')
+          // alert('gagal')
+          ToastAndroid.show("Gagal ubah produk", ToastAndroid.SHORT)
           console.log("response :", response);
           setState(state => ({ ...state, tmb_image: false }))
         }

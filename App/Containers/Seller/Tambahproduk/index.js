@@ -9,7 +9,8 @@ import {
   Pressable,
   ScrollView,
   Modal,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -115,7 +116,8 @@ const Tambahproduk = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -139,7 +141,8 @@ const Tambahproduk = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -209,6 +212,7 @@ const Tambahproduk = (props) => {
       }
     }).then(function (response) {
         alert('berhasil tambah produk')
+        ToastAndroid.show("Berhasil tambah produk", ToastAndroid.SHORT)
         console.log("response :", response.data);
         setState(state => ({ ...state, tmb_image: false }))
 
@@ -400,17 +404,17 @@ const Tambahproduk = (props) => {
       </View> */}
 
       <View style={styles.bodyInputProduk}>
-        <ScrollView>
+        {/* <ScrollView> */}
           <View>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
               <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
                 <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
                   <Text style={styles.txtFoto}>Tambah Foto</Text>
                 </TouchableOpacity>
                 {renderFileUri()}
               </View>
-            </ScrollView>
-            <View style={{marginTop:toDp(20)}}>
+            {/* </ScrollView> */}
+            <View style={{marginTop:toDp(20), marginRight: toDp(10)}}>
               <Text style={styles.txtFormInput}>Nama Product</Text>
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
@@ -521,7 +525,7 @@ const Tambahproduk = (props) => {
 
           </View>
 
-        </ScrollView>
+        {/* </ScrollView> */}
       </View>
 
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
@@ -566,27 +570,20 @@ const Tambahproduk = (props) => {
 const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   contentContainer: {
     paddingVertical: toDp(20)
   },
   bodyInputProduk: {
-    backgroundColor: '#f8f9f9',
+    backgroundColor: 'white',
     width: toDp(340),
     height: toDp(490),
     borderRadius: toDp(10),
     top: toDp(10),
-    left: toDp(10),
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
+    marginLeft: toDp(3)
 
-    elevation: 3,
   },
   bodySimpan: {
     width: toDp(340),
@@ -614,7 +611,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   textInput: {
-    width: toDp(325),
+    width: toDp(340),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
@@ -709,7 +706,7 @@ const styles = StyleSheet.create({
   dropdown: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(319),
+    width: toDp(340),
     left: toDp(8),
     backgroundColor: 'white',
     bottom: toDp(93),
@@ -730,7 +727,7 @@ const styles = StyleSheet.create({
   dropdown1: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(319),
+    width: toDp(340),
     left: toDp(8),
     backgroundColor: 'white',
     bottom: toDp(100),

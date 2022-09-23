@@ -13,7 +13,8 @@ import {
     ScrollView,
     RefreshControl,
     FlatList,
-    LogBox
+    LogBox,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -94,11 +95,13 @@ const profilToko = (props) => {
                     setState(state => ({ ...state, showPro: true }))
                     setState(state => ({ ...state, showCat: false }))
                 } else {
-                    alert('Produk Belum Ditambahkan')
+                    // alert('Produk Belum Ditambahkan')
+                    ToastAndroid.show("Produk Belum Ditambahkan", ToastAndroid.SHORT)
                     NavigatorService.navigate('Tokobangunan')
                 }
 
             }).catch(error => {
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log(error)
             })
     }
@@ -118,7 +121,8 @@ const profilToko = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -150,6 +154,7 @@ const profilToko = (props) => {
                 })
 
         }).catch(err => {
+            ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
             console.log(err);
         })
     }
@@ -171,13 +176,16 @@ const profilToko = (props) => {
 
                     if (response.data.status == 201) {
                         //alert('Produk telah masuk ke wishlist anda!')
+                        ToastAndroid.show("Produk telah masuk ke wishlist anda!!", ToastAndroid.SHORT)
                         //console.log('wishlist2 =>', response)
                         setSelectedItems([...selectedItems, body])
                     } else {
-                        alert('Gagal menambahkan ke wishlist anda!')
+                        // alert('Gagal menambahkan ke wishlist anda!')
+                        ToastAndroid.show("Gagal menambahkan ke wishlist anda!", ToastAndroid.SHORT)
                         console.log('Wishlish gagal =>', response)
                     }
                 }).catch(error => {
+                    ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                     console.log('error wishlist =>', error)
                 })
         }
@@ -193,13 +201,16 @@ const profilToko = (props) => {
                     .then(response => {
                         console.log('response =>', response.data.status)
                         if (response.data.status == 200) {
+                            ToastAndroid.show("Berhasil unlike produk!", ToastAndroid.SHORT)
                             const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
                             const arr3 = selectedItems.filter(arraylst);
                             return setSelectedItems(arr3);
                         } else {
+                            ToastAndroid.show("Gagal unlike produk!", ToastAndroid.SHORT)
                             console.log('response =>', response)
                         }
                     }).catch(error => {
+                        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                         console.log('error =>', error)
                     })
             }
@@ -548,7 +559,7 @@ const styles = StyleSheet.create({
         borderColor: '#f83308'
     },
     BodyKategori: {
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(470),
         borderRadius: toDp(10),
         backgroundColor: '#FFF',

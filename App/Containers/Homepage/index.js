@@ -8,13 +8,14 @@ import {
   StatusBar,
   ImageBackground,
   Pressable, 
-  AsyncStorage
+  AsyncStorage,
+  PermissionsAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 
 import NavigatorService from '@NavigatorService'
-
+import Geolocation from '@react-native-community/geolocation';
 import Home from './Home'
 import Kategoriproduk from './Kategoriproduk'
 import Notification from './Notification'
@@ -41,6 +42,7 @@ const Homepage = () => {
 
   const [text, setText] = useState('');
   const [src, setSrc]=useState(null);
+  let watchID: ?number = null;
   useEffect(() => {
     // get id pengguna
     AsyncStorage.getItem('uid').then(uids => {
@@ -51,7 +53,97 @@ const Homepage = () => {
       console.log('error', error)
     })
 
-  }, [])
+    requestLocationPermission();
+    return () => {
+      Geolocation.clearWatch(watchID);
+    };
+
+  }, [watchID])
+
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      getOneTimeLocation();
+      subscribeLocationLocation()
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'This App needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission is granted
+         getOneTimeLocation();
+         subscribeLocationLocation()
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  const getOneTimeLocation = () => {
+
+    Geolocation.getCurrentPosition(
+     //Will give you the current location
+     (position) => {
+       console.log('You are Here');
+
+       //getting the Longitude from the location json
+       const currentLongitude =
+         JSON.stringify(position.coords.longitude);
+
+       //getting the Latitude from the location json
+       const currentLatitude =
+         JSON.stringify(position.coords.latitude);
+
+       //Setting Longitude state
+       console.log('HERE LOCATION---->'+ currentLatitude + ','+ currentLongitude);
+     },
+     (error) => {
+       alert(error.message);
+     },
+     {
+       enableHighAccuracy: true,
+       timeout: 30000,
+       maximumAge: 1000
+     },
+   );
+ };
+
+ const subscribeLocationLocation = () => {
+  watchID = Geolocation.watchPosition(
+    (position) => {
+      //Will give you the location on location change
+
+     console.log('You are Here');
+      console.log(position);
+
+      //getting the Longitude from the location json
+      const currentLongitude =
+        JSON.stringify(position.coords.longitude);
+
+      //getting the Latitude from the location json
+      const currentLatitude =
+        JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        console.log('HERE LOCATION SUB---->'+ currentLatitude + ','+ currentLongitude);
+    },
+    (error) => {
+      alert(error.message);
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 1000,
+      timeout: 20000
+    },
+  );
+};
  
   return (
     <View style={styles.container}>

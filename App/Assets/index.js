@@ -132,6 +132,7 @@ const allLogo = {
   rekening: require('./img/rekening.png'),
   cash: require('./img/cash.png'),
   edit: require('./img/edit.png'),
+  noimage: require('./img/noimage.png'),
 
 }
 

@@ -13,6 +13,7 @@ import {
     AsyncStorage,
     SafeAreaView,
     TextInput,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -96,7 +97,8 @@ const PenarikanSaldo = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -123,21 +125,24 @@ const PenarikanSaldo = (props) => {
                 console.log('cek result = ' + JSON.stringify(result.data));
 
                 if (result.data.status == 201) {
-                    alert('Sukses tarik saldo!')
+                    // alert('Sukses tarik saldo!')
+                    ToastAndroid.show("Berhasil tarik saldo!", ToastAndroid.SHORT)
                     NavigatorService.navigate('Saldopenjual')
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
                     //NavigatorService.navigation('Alamattoko');
 
                 } else {
-                    alert('Gagal tarik saldo!')
+                    // alert('Gagal tarik saldo!')
+                    ToastAndroid.show("Gagal tarik saldo!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                     //console.log('-----COBA=====>'+ JSON.stringify(body));
                 }
 
             }).catch(err => {
                 console.log('cek error = ', err + result.data)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }

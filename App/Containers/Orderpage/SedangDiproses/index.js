@@ -71,7 +71,8 @@ const SedangDiproses = (props) => {
                 refresh()
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -108,7 +109,8 @@ const SedangDiproses = (props) => {
                 setState(state => ({ ...state, datas: result.data.data }))
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
 
             })

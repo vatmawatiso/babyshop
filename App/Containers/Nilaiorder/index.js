@@ -10,7 +10,8 @@ import {
   Pressable,
   Dimensions,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -23,6 +24,7 @@ import NumberFormat from 'react-number-format';
 import axios from "axios";
 import { svr } from "../../Configs/apikey";
 import ImageResizer from '@bam.tech/react-native-image-resizer';
+import { err } from "react-native-svg/lib/typescript/xml";
 
 const { width, height } = Dimensions.get('window')
 
@@ -97,7 +99,7 @@ const Nilaiorder = (props) => {
         ...state,
         mb_id: ids,
       }))
-      // console.log(ids)
+      console.log('cekcok =c', ids)
     }).catch(err => {
       console.log('err', err)
     })
@@ -134,28 +136,33 @@ const Nilaiorder = (props) => {
       }
     }).then(function (response) {
       console.log('Response post ' + JSON.stringify(response.data));
-      //console.log('-----data=====>' + JSON.stringify(body));
 
-      if (response.status == 200) {
-        alert('Sukses kirim komentar!')
-        //NavigatorService.navigate('Alamattoko', {adr_mb_id : adr_mb_id})
+      if (response.data.status == 201) {
+        ToastAndroid.show("Berhasil kirim komentar", ToastAndroid.SHORT)
+
         props.navigation.goBack()
         console.log('Response 200 ==> : ' + JSON.stringify(response.data))
         setState(state => ({ ...state, loading: false }))
         //NavigatorService.navigation('Alamattoko');
 
-      } else if (response.status == 201) {
-        alert('Order sudah diberi ulasan!')
-        NavigatorService.navigate('Ulasansaya')
-      } else {
-        alert('Gagal kirim komentar!')
+      } else if (response.data.status == 200) {
+        ToastAndroid.show("Order sudah diberi ulasan!", ToastAndroid.SHORT)
+        NavigatorService.navigate('Ulasansaya', {mb_id: state.mb_id})
+        
+      } else if (response.data.status == 500) {
+        ToastAndroid.show("Data tidak ditemukan!')!", ToastAndroid.SHORT)
+        setState(state => ({ ...state, loading: false }))
+
+      } else if (response.data.status == 404) {
+        ToastAndroid.show("Gagal kirim komentar!')!", ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
         //console.log('-----COBA=====>'+ JSON.stringify(body));
       }
 
 
     }).catch(function (error) {
-      alert('Gagal menerima data dari server!' + err)
+      // alert('Gagal menerima data dari server!' + error)
+      ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
       setState(state => ({ ...state, loading: false }))
     })
   }

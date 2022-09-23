@@ -256,7 +256,7 @@ const Homeseller = (props) => {
             <View style={{ borderWidth: toDp(0.5), borderColor: 'grey' }} />
 
             <View style={styles.bodyJual}>
-              <TouchableOpacity style={styles.btnUlasan} onPress={() => NavigatorService.navigate('underConstruction')} >
+              <TouchableOpacity style={styles.btnUlasan} onPress={() => NavigatorService.navigate('Ulasanpenjual', {retail_id: state.retail_id,})} >
                 <View style={styles.viewIcon1}>
                   <Image source={allLogo.star} style={styles.imgUlasan} />
                   <Text style={styles.txtIcon2}>ulasan</Text>
@@ -622,7 +622,7 @@ const styles = StyleSheet.create({
     marginRight: toDp(10)
   },
   Penjualan: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: 'white',
     width: toDp(340),
     height: toDp(330),
     top: toDp(25),

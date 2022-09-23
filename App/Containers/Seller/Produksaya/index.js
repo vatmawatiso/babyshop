@@ -83,7 +83,8 @@ const Produksaya = (props) => {
         console.log('Produk ===> ' + JSON.stringify(result.data.data));
 
       }).catch(err => {
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }

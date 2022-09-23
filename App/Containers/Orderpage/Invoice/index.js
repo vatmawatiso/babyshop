@@ -11,7 +11,8 @@ import {
   FlatList,
   AsyncStorage,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -53,15 +54,18 @@ const Invoice = (props) => {
         console.log('cek response  invoice = ' + JSON.stringify(response.data));
 
         if (response.data.status == 200) {
+          ToastAndroid.show("Berhasil menampilkan invoice", ToastAndroid.SHORT)
           console.log('response invoice =>' + JSON.stringify(response.data))
           setState(state => ({ ...state, datas: response.data.data }))
           setState(state => ({ ...state, loading: false }))
         } else if (response.data.status == 500) {
+          ToastAndroid.show("Gagal menampilkan invoice", ToastAndroid.SHORT)
           console.log('error')
           setState(state => ({ ...state, loading: false }))
         }
 
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error response ==> ', error);
       });
   }

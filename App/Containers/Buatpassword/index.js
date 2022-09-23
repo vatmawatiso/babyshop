@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
         // top:toDp(50),
         // justifyContent:'center',
         alignItems: 'center',
+        backgroundColor: 'white'
     },
     txtForget: {
         fontWeight: 'bold',

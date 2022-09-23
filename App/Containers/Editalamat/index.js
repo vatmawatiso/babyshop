@@ -9,7 +9,8 @@ import {
   SafeAreaView,
   Pressable,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -62,8 +63,8 @@ const Editalamat = (props) => {
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'city/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/city/')
+    axios.get(svr.url + 'city/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/city/')
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
@@ -81,7 +82,8 @@ const Editalamat = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -127,8 +129,8 @@ const Editalamat = (props) => {
 
   const refresh = () => {
     setState(state => ({ ...state, loading: true }))
-    axios.get(svr.url+'registrasi-member/'+state.mb_id+'/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
+    axios.get(svr.url + 'registrasi-member/' + state.mb_id + '/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/registrasi-member/' + state.mb_id)
       .then(result => {
         if (result.data.status == 200) {
           const datas = {
@@ -176,27 +178,30 @@ const Editalamat = (props) => {
     setState(state => ({ ...state, loading: true }))
     const adr_id = props.navigation.state.params.adr_id
     console.log('Let adr_id ===> ', adr_id)
-    axios.post(svr.url+'addres/'+adr_id+'/'+svr.api,body)
-    // axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
+    axios.post(svr.url + 'addres/' + adr_id + '/' + svr.api, body)
+      // axios.post('https://market.pondok-huda.com/dev/react/addres/' + adr_id + '/', body)
       .then(response => {
 
         console.log('-----ALAMAT=====>', JSON.stringify(body));
 
         if (response.data.status == 200) {
-          alert('Berhasil Mengubah Alamat')
+          // alert('Berhasil Mengubah Alamat')
+          ToastAndroid.show("Berhasil mengubah alamat!", ToastAndroid.SHORT)
           console.log('HASIL ALAMAT ==> : ', response)
           setState(state => ({ ...state, loading: false }))
           NavigatorService.navigate('Alamat');
 
         } else {
-          alert('Ubah Alamat Gagal!')
+          // alert('Ubah Alamat Gagal!')
+          ToastAndroid.show("Gagal mengubah alamat!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
           console.log('-----COBA=====>' + JSON.stringify(response.data));
         }
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -209,8 +214,8 @@ const Editalamat = (props) => {
         title={'Edit Alamat'}
         onPress={() => props.navigation.goBack()}
       />
-
-      <ScrollView style={{ height: '100%', }}>
+      <View style={{ flex: 1 }}>
+        {/* <ScrollView style={{ height: '100%', }}> */}
         <View style={{ hei: '100%', alignItems: 'center' }}>
           <Text style={styles.txtContact}>Kontak</Text>
           <View style={styles.content}>
@@ -295,7 +300,7 @@ const Editalamat = (props) => {
             </SafeAreaView>
           </View>
 
-          <Pressable style={{ height: toDp(50), top: toDp(22), }}>
+          {/* <Pressable style={{ height: toDp(50), top: toDp(22), }}>
             <View style={styles.searchSection}>
               <Image style={styles.searchIcon} source={allLogo.icsearch} />
               <TextInput
@@ -306,9 +311,9 @@ const Editalamat = (props) => {
                 onChangeText={(text) => this.props.onFilter}
               />
             </View>
-          </Pressable>
+          </Pressable> */}
 
-          <View style={[styles.contentMap, { marginTop: toDp(40) }]}>
+          {/* <View style={[styles.contentMap, { marginTop: toDp(40) }]}>
             <View style={[styles.wrapper, { margin: toDp(10) }]}>
               <MapView style={styles.map} initialRegion={{
                 latitude: -7.7926359,
@@ -322,13 +327,18 @@ const Editalamat = (props) => {
                 }} />
               </MapView>
             </View>
-          </View>
-          <Pressable style={styles.btnSimpan} onPress={() => editAlamat()}>
-            <Text style={{ color: 'white' }}>Simpan</Text>
-          </Pressable>
-          <View style={{ marginBottom: toDp(80) }}></View>
+          </View> */}
         </View>
-      </ScrollView>
+      </View>
+
+      <View style={styles.buttonSubmit}>
+        <Pressable style={styles.btnSimpan} onPress={() => editAlamat()}>
+          <Text style={{ color: 'white' }}>Simpan</Text>
+        </Pressable>
+      </View>
+
+
+      {/* </ScrollView> */}
     </View>
   );
 
@@ -338,6 +348,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
+    backgroundColor: 'white'
   },
   btnSimpan: {
     flexDirection: 'row',
@@ -472,7 +484,16 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 2,
-  }
+  },
+  buttonSubmit: {
+    width: '100%',
+    height: toDp(75),
+    flexDirection: 'row',
+    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: toDp(10)
+  },
 });
 
 export default Editalamat;

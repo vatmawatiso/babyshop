@@ -45,43 +45,21 @@ const Detailorderan = (props) => {
     })
 
     useEffect(() => {
-        AsyncStorage.getItem('setDetail').then(response => {
-            //console.log('Profilseller=======>'+ JSON.stringify(responponse));
-
-            let data = JSON.parse(response);
-            //const val = JSON.stringify(data);
-
-            console.log('setDetail ==> ' + JSON.stringify(data));
-
-            setState(state => ({
-                ...state,
-                odr_id: data.id,
-                retail_id: data.retail_id,
-                retail_name: data.retail_name,
-                total_bayar: data.total_bayar,
-                subtotal: data.subtotal,
-                qtyall: data.qtyall,
-                prd_name: data.items[0]?.prd_name,
-                price: data.items[0]?.price,
-                odr_expired: data.items[0]?.odr_expired,
-                odr_status: data.items[0]?.odr_status,
-                thumbnail: data.items[0]?.thumbnail
-            }))
-
-            // console.log('ODR ID ' + JSON.stringify(state.odr_id));
-            // console.log('retail ID ' + JSON.stringify(state.retail_id));
-            // console.log('retail name ' + JSON.stringify(state.retail_name));
-            // console.log('total bayar ' + JSON.stringify(state.total_bayar));
-            // console.log('qty all ' + JSON.stringify(state.qtyall));
-            // console.log('prd name ' + JSON.stringify(state.prd_name));
-            // console.log('price ' + JSON.stringify(state.price));
-            // console.log('expired ' + JSON.stringify(state.odr_expired));
-            // console.log('status ' + JSON.stringify(state.odr_status));
-            // console.log('thumbnail ' + JSON.stringify(state.thumbnail));
-
-        }).catch(err => {
-            console.log('err', err)
-        })
+        let dataOdr = props.navigation.state.params.data;
+        console.log('dataOdr = ', dataOdr)
+        setState(state => ({
+            ...state,
+            allqty: dataOdr.qtyall,
+            rtl_id: dataOdr.retail_id,
+            rtl_name: dataOdr.retail_name,
+            totalsub: dataOdr.subtotal,
+            totalall: dataOdr.total_bayar,
+            produk: dataOdr.items[0].prd_name,
+            qty: dataOdr.items[0].qty,
+            foto: dataOdr.items[0].thumbnail,
+            total: dataOdr.items[0].price
+        }))
+        console.log('kondisi lain = ', state.produk)
 
         getOdt()
     }, [])
@@ -115,14 +93,6 @@ const Detailorderan = (props) => {
             })
     }
 
-    const displayName = (payment) => {
-        let count = '';
-        let nama = '';
-        count = payment.split(' ' || '-');
-        nama = count.slice(0, 2,).join(' ');
-        return nama
-    }
-
     return (
         <View style={styles.container}>
             <Order
@@ -131,116 +101,90 @@ const Detailorderan = (props) => {
             />
 
             {/* BAGIAN PRODUK */}
-            <ScrollView>
-                <View style={styles.body}>
-                    <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), bottom: toDp(5) }}>{state.status}</Text>
+            <View style={{ paddingLeft: toDp(10), paddingTop: toDp(20) }}>
+                <Text style={{ marginBottom: toDp(10), fontSize: toDp(14), fontWeight: '800' }}>Detail Produk</Text>
 
-                    <View style={styles.OrderDetail}>
-                        <Text style={{ bottom: 5 }}>{state.retail_name}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', top: toDp(0) }}>
-                            <Image source={{ uri: state.thumbnail }} style={{ width: toDp(120), height: toDp(120) }} />
-                            <Text style={{ top: toDp(10), left: toDp(10), fontSize: toDp(13), width: toDp(170) }}>{state.prd_name}</Text>
-                            <Text style={{ top: toDp(105), right: toDp(10) }}>x{state.qtyall}</Text>
-                        </View>
-                        <NumberFormat
-                            value={state.price}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'Rp. '}
-                            renderText={formattedValue => <Text style={{ bottom: toDp(70), left: toDp(128), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
-                        />
-                        <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(5), width: toDp(314), right: toDp(10) }} />
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', bottom: toDp(0), margin: toDp(5) }}>
-                            <Text style={styles.txtCard}>{state.qtyall} Produk</Text>
-                            {/* <Text style={styles.txtCard}>{DATA[0].total}</Text> */}
+                <View style={styles.bodyy}>
+                    <Text>{state.rtl_name}</Text>
+                    <View style={{ flexDirection: 'row', paddingTop: toDp(5) }}>
+                        <Image source={{ uri: state.foto }} style={styles.imgProduk} />
+                        <View style={{ paddingLeft: toDp(10), marginTop: toDp(5) }}>
+                            <Text style={{ width: toDp(200) }}>{state.produk}</Text>
+                            <Text style={{ fontWeight: '800', top: toDp(15) }}>Total : {state.allqty} Produk</Text>
                             <NumberFormat
-                                value={state.total_bayar}
+                                value={state.totalall}
                                 displayType={'text'}
                                 thousandSeparator={'.'}
                                 decimalSeparator={','}
                                 prefix={'Rp. '}
-                                renderText={formattedValue => <Text style={{ color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                                renderText={formattedValue => <Text style={{ paddingTop: toDp(15), color: '#f83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
                             />
                         </View>
                     </View>
-
                 </View>
+            </View>
 
-                {/* BAGIAN ALAMAT PENGIRIMAN */}
-
-                <View style={{ marginTop: toDp(40) }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20), }}>Info Pengiriman</Text>
-                    <View style={{ top: toDp(10) }}>
-                        <View style={styles.viewPengiriman}>
-                            <View>
-                                <Text style={{ padding: toDp(2) }}>Kurir</Text>
-                                <Text style={{ padding: toDp(2) }}>No Resi</Text>
-                                <Text style={{ padding: toDp(2) }}>Alamat</Text>
-                                <Text style={{ padding: toDp(2) }}></Text>
-                                <Text style={{ padding: toDp(2) }}></Text>
-                            </View>
-                            <View style={{ marginRight: toDp(50) }}>
-                                <Text style={{ padding: toDp(2) }}>: {state.shipping}</Text>
-                                <Text style={{ padding: toDp(2) }}>: -</Text>
-                                <Text style={{ padding: toDp(2) }}>: {state.adr_name}</Text>
-                                <Text style={{ padding: toDp(2) }}>  {state.adr_hp}</Text>
-                                <Text style={{ padding: toDp(2) }}>  {state.address}</Text>
-                            </View>
-                        </View>
+            {/* BAGIAN INFO PENGIRIMAN */}
+            <View style={{ paddingLeft: toDp(10), paddingTop: toDp(20) }}>
+                <Text style={{ marginBottom: toDp(10), fontSize: toDp(14), fontWeight: '800' }}>Info Pengiriman</Text>
+                <View style={styles.bodyPengiriman}>
+                    <View>
+                        <Text style={{ marginBottom: toDp(5) }}>Nama</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>Jasa Pengiriman</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>Status</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>Telepon</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>Alamat</Text>
                     </View>
-
-                </View>
-
-
-                {/* BAGIAN DETAIL HARGA */}
-
-                <View style={{ marginTop: toDp(20) }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: toDp(13), marginHorizontal: toDp(20) }}>Rincian Pembayaran</Text>
-                    <View style={{marginTop:toDp(10)}}>
-                        <View style={styles.viewPembayaran}>
-                            <View>
-                                <Text style={{ padding: toDp(5) }}>Metode Pembayaran</Text>
-                                <Text style={{ padding: toDp(5) }}>Sub Total Produk</Text>
-                                <Text style={{ padding: toDp(5) }}>Ongkos Kirim</Text>
-                                <Text></Text>
-                                <Text style={{ padding: toDp(5), bottom: toDp(5), fontWeight: 'bold', color: '#f83308' }}>Total Pembayaran</Text>
-                            </View>
-                            <View style={{ marginLeft: toDp(50) }}>
-                                <Text style={{ padding: toDp(5) }}>{displayName(state.payment)}</Text>
-                                <NumberFormat
-                                    value={state.price * state.qtyall}
-                                    displayType={'text'}
-                                    thousandSeparator={'.'}
-                                    decimalSeparator={','}
-                                    prefix={'Rp. '}
-                                    renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                />
-                                <NumberFormat
-                                    value={state.ongkir}
-                                    displayType={'text'}
-                                    thousandSeparator={'.'}
-                                    decimalSeparator={','}
-                                    prefix={'Rp. '}
-                                    renderText={formattedValue => <Text style={{ color: '#f83308', padding: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                />
-                                <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', right: toDp(208), width: toDp(314), marginTop: toDp(10) }} />
-                                <NumberFormat
-                                    value={state.total_bayar}
-                                    displayType={'text'}
-                                    thousandSeparator={'.'}
-                                    decimalSeparator={','}
-                                    prefix={'Rp. '}
-                                    renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold', padding: toDp(5), top: toDp(3) }}>{formattedValue}</Text>} // <--- Don't forget this!
-                                />
-                            </View>
-
-                        </View>
+                    <View style={{ paddingRight: toDp(80) }}>
+                        <Text style={{ marginBottom: toDp(5) }}>        : {state.adr_name}</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>        : {state.shipping}</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>        : {state.status}</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>        : {state.adr_hp}</Text>
+                        <Text style={{ marginBottom: toDp(5) }}>        : {state.address}</Text>
                     </View>
-
                 </View>
-            </ScrollView>
+            </View>
+
+            {/* BAGIAN RINCIAN PEMBAYARAN */}
+            <View style={{ paddingLeft: toDp(10), paddingTop: toDp(20) }}>
+                <Text style={{ marginBottom: toDp(10), fontSize: toDp(14), fontWeight: '800' }}>Rincian Pembayaran</Text>
+                <View style={styles.bodyRincian}>
+                    <View>
+                        <Text>Metode Pembayaran</Text>
+                        <Text style={{ paddingTop: toDp(15) }}>Sub Total Produk</Text>
+                        <Text style={{ paddingTop: toDp(15) }}>Ongkos Kirim</Text>
+                        <Text style={{ paddingTop: toDp(15), fontWeight: '800' }}>Total Pembayaran</Text>
+                    </View>
+                    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                        <Text>{state.payment}</Text>
+                        <NumberFormat
+                            value={state.totalsub}
+                            displayType={'text'}
+                            thousandSeparator={'.'}
+                            decimalSeparator={','}
+                            prefix={'Rp. '}
+                            renderText={formattedValue => <Text style={{ paddingTop: toDp(15), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        />
+                        <NumberFormat
+                            value={state.ongkir}
+                            displayType={'text'}
+                            thousandSeparator={'.'}
+                            decimalSeparator={','}
+                            prefix={'Rp. '}
+                            renderText={formattedValue => <Text style={{ paddingTop: toDp(15), color: '#f83308' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        />
+                        <NumberFormat
+                            value={state.totalall}
+                            displayType={'text'}
+                            thousandSeparator={'.'}
+                            decimalSeparator={','}
+                            prefix={'Rp. '}
+                            renderText={formattedValue => <Text style={{ paddingTop: toDp(15), color: '#f83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        />
+                    </View>
+                </View>
+            </View>
+
         </View>
     )
 }
@@ -250,92 +194,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff'
     },
-    viewPembayaran: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginHorizontal: toDp(25),
-        margin: toDp(5),
-        paddingHorizontal: toDp(20),
-        paddingTop: toDp(10),
-        backgroundColor: '#F8F9F9',
-        width: toDp(314),
-        height: toDp(150),
+    bodyy: {
+        backgroundColor: '#FFF',
+        width: toDp(340),
         borderRadius: toDp(10),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
-    },
-    viewPengiriman: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginHorizontal: toDp(25),
-        margin: toDp(5),
-        paddingHorizontal: toDp(20),
-        paddingTop: toDp(10),
-        backgroundColor: '#F8F9F9',
-        width: toDp(314),
-        height: toDp(150),
-        borderRadius: toDp(10),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
-    },
-    body: {
-        backgroundColor: '#fff',
-        height: toDp(220),
-        top: toDp(15)
-    },
-    flatcontent: {
-        width: '100%',
-        alignItems: 'center',
-        // justifyContent: 'center',
-        marginTop: toDp(-20)
-    },
-    contentContainer: {
-        paddingVertical: toDp(0),
-    },
-    contentContainer1: {
-        paddingVertical: toDp(30),
-    },
-    content: {
-        flexDirection: 'row',
-    },
-    txtOrder: {
-        margin: toDp(7),
-        bottom: toDp(40),
-    },
-    information: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginHorizontal: toDp(10),
-        bottom: toDp(50),
-    },
-    txtOrder: {
-        fontWeight: 'bold',
-        fontSize: toDp(12),
-        left: toDp(8),
-        top: toDp(8)
-    },
-    OrderDetail: {
-        backgroundColor: '#F9F8F8',
         padding: toDp(10),
-        borderRadius: toDp(10),
-        width: toDp(314),
-        height: toDp(200),
-        left: toDp(23),
-        marginTop: toDp(10),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -344,50 +207,20 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
 
-        elevation: 5,
+        elevation: 2,
     },
-    buttonPay: {
-        backgroundColor: '#2A334B',
-        borderRadius: toDp(15),
-        width: toDp(97),
-        height: toDp(34),
-        fontSize: toDp(11),
-        justifyContent: 'center',
-        bottom: toDp(8),
+    imgProduk: {
+        height: toDp(80),
+        width: toDp(80),
+        marginTop: toDp(5),
     },
-    txtButtonPay: {
-        color: 'white',
-        fontSize: toDp(12),
-        textAlign: 'center'
-    },
-    ShippingInfo: {
-        backgroundColor: '#F9F8F8',
-        borderRadius: toDp(10),
-        width: toDp(314),
-        height: toDp(165),
-        left: toDp(23),
+    bodyPengiriman: {
+        flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingLeft: toDp(10),
-        bottom: toDp(20),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
-    },
-    PaymentDetails: {
-        backgroundColor: '#F9F8F8',
+        backgroundColor: '#FFF',
+        width: toDp(340),
         borderRadius: toDp(10),
-        bottom: toDp(100),
-        width: toDp(314),
-        height: toDp(195),
-        left: toDp(23),
-        justifyContent: 'space-between',
-        paddingLeft: toDp(10),
+        padding: toDp(10),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -396,8 +229,25 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
 
-        elevation: 5,
-    }
+        elevation: 2,
+    },
+    bodyRincian: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#FFF',
+        width: toDp(340),
+        borderRadius: toDp(10),
+        padding: toDp(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 2,
+    },
 });
 
 export default Detailorderan;

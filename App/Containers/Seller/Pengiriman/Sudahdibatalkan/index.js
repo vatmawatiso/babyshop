@@ -63,7 +63,7 @@ const Sudahdibatalkan = (props) => {
         let odr = data;
         AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Detailorderan', { odr_id: id })
+        NavigatorService.navigate('Detailorderan', { data: data, odr_id: id })
 
     }
 
@@ -125,9 +125,9 @@ const Sudahdibatalkan = (props) => {
                                         </View>
                                     </View>
 
-                                    {/* <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', bottom: toDp(20) }} />
+                                    <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(5) }} />
 
-                                    <Pressable style={{ bottom: toDp(18) }} onPress={() => Lihatdetail(item, item.id)}>
+                                    <Pressable style={{ top: toDp(7) }} onPress={() => Lihatdetail(item, item.id)}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: toDp(5) }}>
                                             <Text style={{ fontWeight: 'bold', fontSize: toDp(13), width: toDp(100) }}>Total : {item.items[0]?.qty} Produk</Text>
                                             <NumberFormat
@@ -140,14 +140,16 @@ const Sudahdibatalkan = (props) => {
                                             />
                                             <Image source={allLogo.iclineblack} style={{ width: toDp(10), height: toDp(12), top: toDp(5), right: toDp(0) }} />
                                         </View>
-                                    </Pressable> */}
+                                    </Pressable>
+
                                     <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(10) }} />
 
-                                    <View style={{ alignItems: 'flex-end', margin: toDp(5), bottom: toDp(5), top:toDp(15) }}>
-                                        {/* <Text style={{ fontSize: toDp(12), bottom: toDp(8) }}>Bayar sebelum {item.items[0]?.odr_expired}{"\n"}dengan {DATA[0].metodePembayaran}{"\n"}(Dicek Otomatis)</Text> */}
-                                        {/* <Pressable style={styles.buttonPay} onPress={() => NavigatorService.navigate('Pembayaran')}>
-                                        <Text style={styles.txtButtonPay}>Bayar Sekarang</Text>
-                                    </Pressable> */}
+                                    <View style={{ alignItems: 'flex-end', margin: toDp(5), bottom: toDp(5), top: toDp(15) }}>
+                                        <View style={{ marginTop: toDp(10), }}>
+                                            <Pressable style={styles.buttonPay} >
+                                                <Text style={styles.txtButtonPay}>Pesanan dibatalkan pembeli</Text>
+                                            </Pressable>
+                                        </View>
                                     </View>
                                 </View>
 
@@ -210,10 +212,11 @@ const styles = StyleSheet.create({
         elevation: 15,
     },
     buttonPay: {
-        backgroundColor: '#2A334B',
+        backgroundColor: '#94dfb8',
         borderRadius: toDp(8),
-        width: toDp(120),
-        height: toDp(48),
+        marginRight:toDp(70),
+        width: toDp(230),
+        height: toDp(40),
         fontSize: toDp(18),
         justifyContent: 'center',
         bottom: toDp(8),
@@ -228,7 +231,7 @@ const styles = StyleSheet.create({
         marginBottom: toDp(5)
     },
     txtButtonPay: {
-        color: 'white',
+        color: 'black',
         fontSize: toDp(13),
         textAlign: 'center'
     }

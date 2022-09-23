@@ -201,9 +201,9 @@ const Layananjasa = (props) => {
 
   const ListJasa = (item, index) => {
     return (
-      <View style={{ width: toDp(340), left: toDp(20), borderRadius: toDp(10), marginBottom: toDp(20) }}>
+      <View>
         <View style={styles.viewBody}>
-          <View>
+          <View style={{marginLeft: toDp(15)}}>
             <Text>{item.shp_name}</Text>
             <TextInput
               style={styles.textInput}
@@ -251,6 +251,7 @@ const Layananjasa = (props) => {
 
           <Switch
             thumbColor={'#f4f3f4'}
+            margin={20}
             trackColor={{ false: 'grey', true: '#6495ED' }}
             ios_backgroundColor='grey'
             //disable jika teks input 0 atau kosong
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent:'center',
     // alignItems: 'center',
-    // backgroundColor:'red'
+    backgroundColor:'white'
   },
   btnJasa: {
     backgroundColor: '#2A334B',
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: toDp(48),
-    width: toDp(130),
+    width: toDp(250),
     borderRadius: toDp(10),
     backgroundColor: '#FFFFFF',
     shadowColor: "#000",
@@ -372,22 +373,22 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: toDp(10),
     width: toDp(340),
-    padding: toDp(5),
     height: toDp(80),
-    right: toDp(10),
-    backgroundColor: '#f8f9f9',
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
+    backgroundColor: 'white',
+    marginLeft: toDp(10),
+    marginTop: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
-    // elevation: 3,
+    elevation: 3,
   },
   courier: {
-    backgroundColor: '#C4C4C4',
+    // backgroundColor: '#C4C4C4',
     width: toDp(340),
     height: toDp(330),
     left: toDp(20),

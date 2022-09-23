@@ -8,7 +8,8 @@ import {
   ImageBackground,
   Pressable,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -127,7 +128,8 @@ const Informasitoko = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!ss' + err)
+        // alert('Gagal menerima data dari server!ss' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -184,7 +186,8 @@ const Informasitoko = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   viewProfil: {
     alignItems: 'center',

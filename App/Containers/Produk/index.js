@@ -10,7 +10,8 @@ import {
   Alert,
   Pressable,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -117,6 +118,7 @@ const Produk = (props) => {
           console.log('response 2 =>', response)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error => ', error)
       })
   }
@@ -126,7 +128,8 @@ const Produk = (props) => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
       let pid = props.navigation.state.params.value
-      Axios.get(svr.api + 'wishlist/get/' + idmb + '/' + pid + '/' + svr.api)
+      console.log(svr.url + 'wishlist/get/' + idmb + '/' + pid + '/' + svr.api)
+      Axios.get(svr.url + 'wishlist/get/' + idmb + '/' + pid + '/' + svr.api)
         // Axios.get('https://market.pondok-huda.com/dev/react/wishlist/get/' + idmb + '/' + pid)
         .then(result => {
           console.log('current Wishlish---->' + JSON.stringify(result.data.data));
@@ -147,6 +150,7 @@ const Produk = (props) => {
         })
 
     }).catch(err => {
+      ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
       console.log(err);
     })
   }
@@ -164,14 +168,17 @@ const Produk = (props) => {
 
         if (response.data.status == 201) {
           //alert('Produk telah masuk ke wishlist anda!')
+          ToastAndroid.show("Produk telah masuk ke wishlist anda!", ToastAndroid.SHORT)
           setState(state => ({ ...state, selected: true }))
 
         } else {
           setState(state => ({ ...state, selected: false }))
-          alert('Gagal menambahkan ke wishlist anda!')
+          // alert('Gagal menambahkan ke wishlist anda!')
+          ToastAndroid.show("Gagal menambahkan ke wishlist anda!", ToastAndroid.SHORT)
           console.log('Wishlish gagal =>', response)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error wishlist =>', error)
       })
 
@@ -187,13 +194,16 @@ const Produk = (props) => {
       .then(response => {
         console.log('response-unlike =>', response.data)
         if (response.data.status == 200) {
+          ToastAndroid.show("Berhasil unlike produk!", ToastAndroid.SHORT)
           setState(state => ({ ...state, dataWish: [] }))
           getCurrentWsh()
 
         } else {
+          ToastAndroid.show("Gagal unlike produk!", ToastAndroid.SHORT)
           console.log('response =>', response)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error =>', error)
       })
     //   }
@@ -228,22 +238,26 @@ const Produk = (props) => {
         .then(response => {
           if (response.data.status == 201) {
             // console.log('response =>' + JSON.stringify(response))
-            alert('Berhasil Memasukan Barang Ke Keranjang')
+            // alert('Berhasil Memasukan Barang Ke Keranjang')
+            ToastAndroid.show("Berhasil Memasukan Barang Ke Keranjang", ToastAndroid.SHORT)
             setState(state => ({ ...state, loading: false }))
             NavigatorService.navigate('Keranjang', { id: state.id })
 
           } else if (response.data.status == 200) {
             console.log('body', body)
-            alert('Berhasil Memasukan Barang Ke Keranjang')
+            // alert('Berhasil Memasukan Barang Ke Keranjang')
+            ToastAndroid.show("Berhasil update Barang Ke Keranjang", ToastAndroid.SHORT)
             setState(state => ({ ...state, loading: false }))
 
           } else {
             console.log('response =>', response)
             alert('Gagal Menambahkan Barang Ke Keranjang')
+            ToastAndroid.show("Gagal Menambahkan Barang Ke Keranjang", ToastAndroid.SHORT)
             setState(state => ({ ...state, loading: false }))
           }
         }).catch(error => {
           console.log('error =>', error)
+          ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
         })
     }
@@ -318,7 +332,7 @@ const Produk = (props) => {
 
       <View style={styles.detailProduk}>
 
-        <View style={{ width: toDp(335), bottom: toDp(15), left: toDp(5) }}>
+        <View style={{ width: toDp(340), bottom: toDp(15), left: toDp(5) }}>
 
           <Text style={{ marginBottom: toDp(5), fontSize: toDp(15), fontWeight: 'bold' }}>{item[0]?.product_name}</Text>
           <Text style={{ marginBottom: toDp(5) }}>{item[0]?.retail_name}</Text>
@@ -341,7 +355,7 @@ const Produk = (props) => {
                 </TouchableOpacity>
                 :
                 <TouchableOpacity style={{ right: toDp(20), }} onPress={() => deSelectItems(item[0].id)}>
-                  <Image source={allLogo.heart} style={{ width: toDp(25), height: toDp(25), zIndex: 999, resizeMode: 'contain' }} />
+                  <Image source={allLogo.hati} style={{ width: toDp(25), height: toDp(25), zIndex: 999, resizeMode: 'contain' }} />
                 </TouchableOpacity>
               }
 
@@ -365,7 +379,7 @@ const Produk = (props) => {
                 <Text> : {item[0]?.berat}</Text>
                 <Text> : {item[0]?.kondisi}</Text>
                 <Text> : -</Text>
-                <Text> : {item[0]?.retailaddres}</Text>
+                <Text> : {item[0]?.retailaddres} || {item[0]?.jarak.substring(0,2)} KM</Text>
                 <TextInput
                   keyboardType="numeric"
                   autoCapitalize={'none'}
@@ -539,9 +553,10 @@ const styles = StyleSheet.create({
     width: toDp(100),
   },
   viewRenderExplore: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFF',
     width: '100%',
     height: toDp(200),
+    // left:toDp(5),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: toDp(16),
@@ -600,7 +615,7 @@ const styles = StyleSheet.create({
     bottom: toDp(10),
     backgroundColor: '#f8f9f9',
     height: toDp(470),
-    width: toDp(335),
+    width: toDp(340),
     borderRadius: toDp(10),
     left: toDp(13),
     shadowColor: "#000",
@@ -615,7 +630,7 @@ const styles = StyleSheet.create({
   },
   Ulasan: {
     backgroundColor: '#f8f9f9',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(47),
     borderRadius: toDp(10),
     flexDirection: 'row',
@@ -643,7 +658,7 @@ const styles = StyleSheet.create({
   btnMenu: {
     flexDirection: 'row',
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     justifyContent: 'space-between',

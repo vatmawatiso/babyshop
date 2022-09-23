@@ -11,7 +11,8 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -87,12 +88,14 @@ const Detailkategori = (props) => {
           setState(state => ({ ...state, datas: result.data.data }))
           setState(state => ({ ...state, loading: false }))
         } else if (result.data.status == 404) {
-          alert('Produk Belum Ditambahkan')
+          // alert('Produk Belum Ditambahkan')
+          ToastAndroid.show("Produk Belum Ditambahkan!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
         }
 
       }).catch(err => {
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }

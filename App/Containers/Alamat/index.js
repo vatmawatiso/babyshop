@@ -12,7 +12,8 @@ import {
   Pressable,
   RefreshControl,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -97,7 +98,8 @@ const Alamat = (props) => {
         }
 
       }).catch(err => {
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -127,10 +129,12 @@ const Alamat = (props) => {
         }
 
         if (response.data.status == 200) {
-          alert('Berhasil Menambahkan Alamat Utama')
+          // alert('Berhasil Menambahkan Alamat Utama')
+          ToastAndroid.show("Berhasil Menambahkan Alamat Utama!", ToastAndroid.SHORT)
 
           if (Object.keys(ALAMAT).length === 0) {
-            alert('Nama Pengguna atau Kata Sandi Salah!')
+            // alert('Nama Pengguna atau Kata Sandi Salah!')
+            ToastAndroid.show("Error!", ToastAndroid.SHORT)
           } else {
             //save Async Storage
             console.log('Jadikan Alamat Utama===>' + JSON.stringify(ALAMAT));
@@ -145,14 +149,16 @@ const Alamat = (props) => {
           setState(state => ({ ...state, loading: false }))
 
         } else {
-          alert('Gagal Tambah Alamat Utama!')
+          // alert('Gagal Tambah Alamat Utama!')
+          ToastAndroid.show("Gagal Tambah Alamat Utama!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
           console.log('-----COBA=====>' + JSON.stringify(response.data));
         }
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -165,14 +171,17 @@ const Alamat = (props) => {
         console.log('Alamat ' + JSON.stringify(response));
         if (response.data.status === 200) {
           console.log(response);
-          alert('Berhasil menghapus alamat')
+          // alert('Berhasil menghapus alamat')
+          ToastAndroid.show("Berhasil hapus alamat!", ToastAndroid.SHORT)
           refresh()
           setState(state => ({ ...state, datas: response.data.data }))
         } else if (response.data.status === 500) {
           alert('gagal')
+          ToastAndroid.show("Gagal hapus alamat!", ToastAndroid.SHORT)
           console.log(response)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log(error)
       })
   }
@@ -192,7 +201,8 @@ const Alamat = (props) => {
         }
 
       }).catch(err => {
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -302,7 +312,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'#2A334B'
   },
   body: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: 'white',
     width: toDp(335),
     height: toDp(130),
     borderRadius: toDp(10),
@@ -336,7 +346,7 @@ const styles = StyleSheet.create({
     top: toDp(5)
   },
   btnAddress: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: toDp(10),

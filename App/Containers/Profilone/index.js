@@ -11,7 +11,8 @@ import {
   AsyncStorage,
   Dimensions,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -127,8 +128,8 @@ const Profilone = (props) => {
           setState(state => ({ ...state, retail_sts : result.data.data[0].rtl_status})) 
 
       }).catch(err => {
-        //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!"+ err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   })
@@ -143,14 +144,17 @@ const getStatus = () => {
         NavigatorService.navigate('Homeseller')
 
       } else if (state.retail_sts === 'Rejected') {
-        alert('lakukan pengajuan ulang!')
+        // alert('lakukan pengajuan ulang!')
+        ToastAndroid.show("lakukan pengajuan ulang!", ToastAndroid.SHORT)
         NavigatorService.navigate('Pengajuan')
 
       } else if (state.retail_sts === 'Review') {
-        alert('Pengajuan sedang direview!')
+        // alert('Pengajuan sedang direview!')
+        ToastAndroid.show("Pengajuan sedang direview!", ToastAndroid.SHORT)
 
       } else if (state.retail_sts === 'null') {
-        alert('Buat pengajuan sekarang!')
+        // alert('Buat pengajuan sekarang!')
+        ToastAndroid.show("Buat pengajuan sekarang!", ToastAndroid.SHORT)
 
       }  else {
         setState(state => ({ ...state, loading: false }))
@@ -374,8 +378,9 @@ const getStatus = () => {
             onRefresh={refresh}
           />}
       > */}
+      
 
-      <View style={{ width: '100%', alignItems: 'center' }}>
+      <View style={{ width: '100%', alignItems: 'center', flex: 1 }}>
         <View style={styles.profil}>
           <View style={{flexDirection:'column', left:toDp(120), bottom:toDp(15)}}>
             <Image source={state.picture ? { uri: state.picture } :
@@ -494,12 +499,10 @@ const getStatus = () => {
             color="#FFFFFF"
           />
         </View>
-
-        
-
-
       </View>
-      <View style={{ justifyContent: 'flex-end', alignItems: 'center', height: toDp(100) }}>
+
+
+      <View style={styles.buttonSubmit}>
         {
           state.login === 'google' ?
             <TouchableOpacity style={{ backgroundColor:'#2A334B',width:toDp(340), alignItems:'center', height:toDp(48), borderRadius:toDp(10), justifyContent:'center'}} onPress={() => logoutGoogle()}>
@@ -531,6 +534,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white'
+  },
+  buttonSubmit: {
+    width: '100%',
+    height: toDp(75),
+    flexDirection: 'row',
+    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   profil: {
     backgroundColor: '#2A334B', 
@@ -626,7 +637,7 @@ const styles = StyleSheet.create({
     right:toDp(115)
   },
   bodyProfil: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: 'white',
     width: toDp(340),
     height: toDp(210),
     borderRadius: toDp(10),
@@ -686,7 +697,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   viewJual: {
-    backgroundColor: '#F9F8F8',
+    backgroundColor: 'white',
     width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),

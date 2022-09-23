@@ -10,7 +10,8 @@ import {
   SafeAreaView,
   Pressable,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -40,7 +41,8 @@ const Tokobangunan = (props) => {
         console.log('Toko Bangunan ===> ' + JSON.stringify(result.data.data));
 
       }).catch(err => {
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -100,10 +102,10 @@ const Tokobangunan = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    // backgroundColor: 'red'
+    backgroundColor: 'white'
   },
   iclineright: {
     width:toDp(18),
@@ -125,16 +127,16 @@ const styles = StyleSheet.create({
   },
   body: {
     flexDirection: 'row',
-    backgroundColor: '#f8f9f9',
-    width: toDp(335),
+    backgroundColor: '#fff',
+    width: toDp(340),
     height: toDp(110),
     borderRadius: toDp(10),
-    borderBottomWidth: 5,
-    borderBottomColor: '#2A334B',
+    // borderBottomWidth: 5,
+    // borderBottomColor: '#2A334B',
     top: toDp(10),
     marginTop: toDp(5),
     alignItems: 'center',
-    marginHorizontal: toDp(12),
+    marginHorizontal: toDp(10),
     justifyContent: 'space-between',
     marginBottom: toDp(2),
     shadowColor: "#000",

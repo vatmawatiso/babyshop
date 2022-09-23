@@ -9,7 +9,8 @@ import {
   Pressable,
   FlatList,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -99,7 +100,8 @@ const Kategori = (props) => {
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -162,7 +164,8 @@ const Kategori = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   viewKate: {
     width: toDp(310),

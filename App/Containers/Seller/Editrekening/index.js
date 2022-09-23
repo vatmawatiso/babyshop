@@ -10,6 +10,7 @@ import {
     SafeAreaView,
     TextInput,
     AsyncStorage,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -106,7 +107,8 @@ const Editrekening = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -130,7 +132,8 @@ const Editrekening = (props) => {
                 console.log('cek result = ' + JSON.stringify(result));
 
                 if (result.data.status == 201) {
-                    alert('Sukses edit rekening!')
+                    // alert('Sukses edit rekening!')
+                    ToastAndroid.show("Berhasil edit rekening!", ToastAndroid.SHORT)
                     NavigatorService.navigate('Rekeningtoko', {rk_mb_id: state.mb_id})
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
@@ -138,13 +141,15 @@ const Editrekening = (props) => {
 
                 } else {
                     alert('Gagal edit rekening!')
+                    ToastAndroid.show("Gagal edit rekening!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                     //console.log('-----COBA=====>'+ JSON.stringify(body));
                 }
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -254,6 +259,7 @@ const Editrekening = (props) => {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
+        backgroundColor: 'white'
     },
     dropdown: {
         backgroundColor: 'white',

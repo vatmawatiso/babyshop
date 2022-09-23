@@ -10,6 +10,7 @@ import {
     SafeAreaView,
     TextInput,
     AsyncStorage,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -76,7 +77,8 @@ const Tambahrekening = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -101,21 +103,24 @@ const Tambahrekening = (props) => {
                 console.log('cek result = ' + JSON.stringify(result.data));
 
                 if (result.data.status == 201) {
-                    alert('Sukses tambah rekening!')
+                    // alert('Sukses tambah rekening!')
+                    ToastAndroid.show("Berhasil tambah rekening!", ToastAndroid.SHORT)
                     NavigatorService.navigate('Rekeningtoko', {rk_mb_id: state.mb_id})
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
                     //NavigatorService.navigation('Alamattoko');
 
                 } else {
-                    alert('Gagal tambah rekening!')
+                    // alert('Gagal tambah rekening!')
+                    ToastAndroid.show("Gagal tambah rekening!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                     //console.log('-----COBA=====>'+ JSON.stringify(body));
                 }
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -202,6 +207,7 @@ const Tambahrekening = (props) => {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
+        backgroundColor: 'white'
     },
     dropdown: {
         backgroundColor: 'white',

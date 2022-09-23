@@ -11,7 +11,9 @@ import {
   Pressable,
   FlatList,
   ScrollView,
-  AsyncStorage, LogBox
+  AsyncStorage, 
+  LogBox,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -98,7 +100,8 @@ const Home = (props) => {
 
         // console.log('result2 =>', result.data.data)
       }).catch(error => {
-        alert('Gagal Coba Lagi Nanti')
+        // alert('Gagal Coba Lagi Nanti')
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error produk =>', error)
       })
   }
@@ -113,6 +116,7 @@ const Home = (props) => {
         // console.log('result2 =>', result.data.data)
 
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error retail =>', error)
       })
   }
@@ -138,9 +142,11 @@ const Home = (props) => {
           //console.log('result2 =>', result.data.data)
         }).catch(error => {
           console.log('error get current wish =>', error)
+          ToastAndroid.show("error get current wish!", ToastAndroid.SHORT)
         })
 
     }).catch(err => {
+      ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
       console.log(err);
     })
   }
@@ -162,13 +168,16 @@ const Home = (props) => {
 
           if (response.data.status == 201) {
             //alert('Produk telah masuk ke wishlist anda!')
+            ToastAndroid.show("roduk telah masuk ke wishlist anda!", ToastAndroid.SHORT)
             //console.log('wishlist2 =>', response)
             setSelectedItems([...selectedItems, body])
           } else {
-            alert('Gagal menambahkan ke wishlist anda!')
+            // alert('Gagal menambahkan ke wishlist anda!')
+            ToastAndroid.show("Gagal menambahkan ke wishlist anda!", ToastAndroid.SHORT)
             console.log('Wishlish gagal =>', response)
           }
         }).catch(error => {
+          ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
           console.log('error wishlist =>', error)
         })
     }
@@ -185,13 +194,16 @@ const Home = (props) => {
           .then(response => {
             console.log('response =>', response.data.status)
             if (response.data.status == 200) {
+              ToastAndroid.show("Berhasil unlike produk!", ToastAndroid.SHORT)
               const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
               const arr3 = selectedItems.filter(arraylst);
               return setSelectedItems(arr3);
             } else {
+              ToastAndroid.show("Gagal unlike produk!", ToastAndroid.SHORT)
               console.log('response =>', response)
             }
           }).catch(error => {
+            ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
             console.log('error =>', error)
           })
       }
@@ -272,7 +284,7 @@ const Home = (props) => {
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
           <Image source={allLogo.address} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres}</Text>
+          <Text style={styles.dariKota}>{item.retailaddres}{"\n"}{item.jarak.substring(0,2)} KM</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
@@ -351,7 +363,7 @@ const Home = (props) => {
             <Text style={[styles.textIcon, { textAlign: 'center', fontSize: toDp(12) }]}>Konsultan{'\n'}Arsitek</Text>
           </Pressable>
 
-          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('Donasi')}>
+          <Pressable style={styles.presable} onPress={() => NavigatorService.navigate('underConstruction')}>
             <View style={{ borderWidth: toDp(0.5), borderRadius: toDp(10), padding: toDp(3), borderColor: 'grey' }}>
               <Image source={allLogo.donation} style={styles.icon} />
             </View>
@@ -417,7 +429,7 @@ const styles = StyleSheet.create({
     left: toDp(33)
   },
   address: {
-    top: toDp(7),
+    top: toDp(8),
     width:toDp(15),
     height:toDp(15)
   },

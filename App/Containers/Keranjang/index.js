@@ -13,7 +13,8 @@ import {
   FlatList,
   TouchableOpacity,
   AsyncStorage,
-  TextInput
+  TextInput,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -103,11 +104,13 @@ const Keranjang = (props) => {
           NavigatorService.navigate('emptyCart')
           console.log('response', response)
         } else {
-          alert('Gagal Mengambil Data')
+          // alert('Gagal Mengambil Data')
+          ToastAndroid.show("Gagal Mengambil Data!", ToastAndroid.SHORT)
           console.log('response =>', response)
         }
       }).catch(error => {
         console.log('error', error)
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
       })
   }
 
@@ -147,10 +150,12 @@ const Keranjang = (props) => {
           NavigatorService.navigate('underConstruction')
           console.log('response', response)
         } else {
-          alert('Gagal Mengambil Data')
+          // alert('Gagal Mengambil Data')
+          ToastAndroid.show("Gagal Mengambil Data!", ToastAndroid.SHORT)
           console.log('response =>', response)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error', error)
       })
   }
@@ -166,9 +171,11 @@ const Keranjang = (props) => {
           setState(state => ({ ...state, totalCart: response.data }))
           getCartrRefresh()
         } else {
-          alert('gagal merefresh total produk')
+          // alert('gagal merefresh total produk')
+          ToastAndroid.show("Gagal refresh total produk!", ToastAndroid.SHORT)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error 1 =>', error)
       })
   }
@@ -181,13 +188,16 @@ const Keranjang = (props) => {
       .then(response => {
         console.log('response =>', response);
         if (response.data.status == 200) {
-          alert('Berhasil Menghapus Produk dari Keranjang')
+          // alert('Berhasil Menghapus Produk dari Keranjang')
+          ToastAndroid.show("Berhasil Menghapus Produk dari Keranjang!", ToastAndroid.SHORT)
           props.navigation.goBack();
           setState(state => ({ ...state, dataCart: response.data.data }))
         } else if (response.data.data == 500) {
-          alert('Gagal Menghapus Produk dari Keranjang')
+          // alert('Gagal Menghapus Produk dari Keranjang')
+          ToastAndroid.show("Gagal Menghapus Produk dari Keranjang!", ToastAndroid.SHORT)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error =>', error)
       })
   }
@@ -201,13 +211,16 @@ const Keranjang = (props) => {
         console.log('response =>', response);
         if (response.data.status == 200) {
           console.log('response hapus => ', response)
-          alert('Berhasil Menghapus Produk dari Keranjang')
+          // alert('Berhasil Menghapus Produk dari Keranjang')
+          ToastAndroid.show("Berhasil Menghapus Produk dari Keranjang!", ToastAndroid.SHORT)
           props.navigation.goBack();
           //setState(state => ({ ...state, dataCart: response.data.data }))
         } else if (response.data.data == 500) {
-          alert('Gagal Menghapus Produk dari Keranjang')
+          // alert('Gagal Menghapus Produk dari Keranjang')
+          ToastAndroid.show("Gagal Menghapus Produk dari Keranjang!", ToastAndroid.SHORT)
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error =>', error)
       })
   }
@@ -257,9 +270,11 @@ const Keranjang = (props) => {
           //alert('Berhasil Menambah QTY')
         } else {
           console.log('response =>', response.data)
-          alert('gagal')
+          ToastAndroid.show("Gagal, Ulangi lagi!", ToastAndroid.SHORT)
+          // alert('gagal')
         }
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log('error =>', error)
       })
   }

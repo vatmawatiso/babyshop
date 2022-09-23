@@ -10,7 +10,7 @@ import {
   AsyncStorage,
   ToastAndroid,
   ScrollView,
-  FlatList
+  FlatList,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -355,7 +355,19 @@ const styles = StyleSheet.create({
 
   },
   cardchat: {
-    width: '70%', padding: toDp(8), borderRadius: toDp(8), marginBottom: toDp(15)
+    width: '70%', 
+    padding: toDp(8), 
+    borderRadius: toDp(8), 
+    marginBottom: toDp(15),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 3,
   },
   icfolder: {
     marginRight: toDp(10),

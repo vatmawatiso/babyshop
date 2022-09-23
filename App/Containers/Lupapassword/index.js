@@ -9,7 +9,8 @@ import {
     SafeAreaView,
     Pressable,
     ScrollView,
-    AsyncStorage
+    AsyncStorage,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -73,7 +74,8 @@ const Lupapassword = (props) => {
                         email: result.data.data[0].mb_email
                     }
                     if (datas.value.length === 0) {
-                        alert('Nama Pengguna Tidak Ditemukan')
+                        // alert('Nama Pengguna Tidak Ditemukan')
+                        ToastAndroid.show("Nama Pengguna Tidak Ditemukan!", ToastAndroid.SHORT)
                     } else {
                         console.log('result3 =>', datas);
                         AsyncStorage.setItem('member', JSON.stringify(datas))
@@ -82,13 +84,15 @@ const Lupapassword = (props) => {
                     }
                     setState(state => ({ ...state, loading: false }))
                 } else if (result.data.status == 404) {
-                    alert('Pengguna Tidak Ditemukan')
+                    // alert('Pengguna Tidak Ditemukan')
+                    ToastAndroid.show("Pengguna Tidak Ditemukan!", ToastAndroid.SHORT)
                     console.log('result3 =>', result)
                     setState(state => ({ ...state, loading: false }))
                 }
             }).catch(error => {
                 console.log('error post username =>', error)
-                alert('Gagal Menerima Data dari Server')
+                // alert('Gagal Menerima Data dari Server')
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -154,7 +158,8 @@ const Lupapassword = (props) => {
             setState(state => ({ ...state, loading: false }))
         } else {
             setState(state => ({ ...state, loading: false }))
-            alert('Email yang Dimasukkan tidak Sesuai')
+            // alert('Email yang Dimasukkan tidak Sesuai')
+            ToastAndroid.show("Email yang Dimasukkan tidak Sesuai!", ToastAndroid.SHORT)
 
         }
     }
@@ -171,14 +176,17 @@ const Lupapassword = (props) => {
                 console.log('result ----------->', result);
                 if (result.data.status == 200) {
                     console.log('result update', result);
-                    alert('Berhasil mengubah password');
+                    // alert('Berhasil mengubah password');
+                    ToastAndroid.show("Berhasil mengubah password", ToastAndroid.SHORT)
                     NavigatorService.reset('Login')
                     setState(state => ({ ...state, loading: false }))
                 } else if (result.data.status == 500) {
                     console.log('gagal update', result)
+                    ToastAndroid.show("Gagal mengubah password", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                 }
             }).catch(error => {
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log('error update:', error)
             })
     }
@@ -313,6 +321,7 @@ const styles = StyleSheet.create({
         // top:toDp(50),
         // justifyContent:'center',
         alignItems: 'center',
+        backgroundColor: 'white'
     },
     txtForget: {
         fontWeight: 'bold',
@@ -331,7 +340,7 @@ const styles = StyleSheet.create({
     btnKirim: {
         backgroundColor: '#2A334B',
         top: toDp(40),
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10)
     },

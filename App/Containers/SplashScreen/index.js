@@ -35,11 +35,11 @@ const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <Image source={allLogo.icbina} style={styles.logo1} />
-      <Pressable
+      {/* <Pressable
         onPress={() => NavigatorService.reset('Login')}
         style={styles.buttonGet}>
         <Text style={styles.textGet}>Mulai</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   )
 };

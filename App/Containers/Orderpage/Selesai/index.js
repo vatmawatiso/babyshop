@@ -12,7 +12,8 @@ import {
     TouchableOpacity,
     Dimensions,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -55,7 +56,8 @@ const Selesai = (props) => {
                 // refresh()
 
             }).catch(err => {
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -75,7 +77,7 @@ const Selesai = (props) => {
         console.log('cek data = ', id);
         AsyncStorage.setItem('setDetail', JSON.stringify(odr))
 
-        NavigatorService.navigate('Orderdetail', {odr_id: id, data: data})
+        NavigatorService.navigate('Orderdetail', { odr_id: id, data: data })
 
     }
 
@@ -142,7 +144,16 @@ const Selesai = (props) => {
                                 <View style={{ justifyContent: 'space-between', alignItems: 'flex-end', margin: toDp(5), top: toDp(10) }}>
                                     <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
                                         <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall, item.items[0]?.prd_id)}>
-                                            <Text style={styles.txtButtonPay}>Nilai</Text>
+                                            {/* <Text style={styles.txtButtonPay}>Nilai</Text> */}
+                                            {item.id != '' ?
+                                                <>
+                                                    <Text style={styles.txtButtonPay}>Nilai</Text>
+                                                </>
+                                                :
+                                                <>
+                                                    <Text style={styles.txtButtonPay}>Lihat Ulasan</Text>
+                                                </>
+                                            }
                                         </Pressable>
                                     </View>
                                 </View>

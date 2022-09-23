@@ -12,7 +12,8 @@ import {
   FlatList,
   AsyncStorage,
   LogBox,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -86,10 +87,12 @@ const Kategoriproduk = () => {
           setState(state => ({ ...state, loading: false }))
         } else if (result.data.status == 500) {
           console.log('error')
+          ToastAndroid.show("Gagal menampilkan detail kategori!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
         }
       }).catch(error => {
         console.log('error kategori => ', error)
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -105,6 +108,7 @@ const Kategoriproduk = () => {
 
         console.log('result2 =>', result.data.data)
       }).catch(error => {
+        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
         console.log(error)
       })
   }
@@ -128,10 +132,12 @@ const Kategoriproduk = () => {
 
           //console.log('result2 =>', result.data.data)
         }).catch(error => {
+          ToastAndroid.show("Gagal" + error, ToastAndroid.SHORT)
           console.log(error)
         })
 
     }).catch(err => {
+      ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
       console.log(err);
     })
   }
@@ -152,13 +158,16 @@ const Kategoriproduk = () => {
 
           if (response.data.status == 201) {
             //alert('Produk telah masuk ke wishlist anda!')
+            ToastAndroid.show("Produk telah masuk ke wishlist anda!", ToastAndroid.SHORT)
             //console.log('wishlist2 =>', response)
             setSelectedItems([...selectedItems, body])
           } else {
-            alert('Gagal menambahkan ke wishlist anda!')
+            // alert('Gagal menambahkan ke wishlist anda!')
+            ToastAndroid.show("Gagal menambahkan ke wishlist anda!", ToastAndroid.SHORT)
             console.log('Wishlish gagal =>', response)
           }
         }).catch(error => {
+          ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
           console.log('error wishlist =>', error)
         })
     }
@@ -176,13 +185,16 @@ const Kategoriproduk = () => {
           .then(response => {
             console.log('response =>', response.data.status)
             if (response.data.status == 200) {
+              ToastAndroid.show("Berhasil unlike produk!", ToastAndroid.SHORT)
               const arraylst = d => d.ws_prd_id != id && d.ws_mb_id == ws_mb_id;
               const arr3 = selectedItems.filter(arraylst);
               return setSelectedItems(arr3);
             } else {
+              ToastAndroid.show("Gagal unlike produk!", ToastAndroid.SHORT)
               console.log('response =>', response)
             }
           }).catch(error => {
+            ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
             console.log('error =>', error)
           })
       }
@@ -249,7 +261,7 @@ const Kategoriproduk = () => {
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
           <Image source={allLogo.address} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres}</Text>
+          <Text style={styles.dariKota}>{item.retailaddres}{"\n"}{item.jarak.substring(0,2)} KM</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
@@ -289,6 +301,9 @@ const Kategoriproduk = () => {
   }
 
   const getKategori = (value, ctg_id, ctg_name) => {
+    console.log('cek log kategori = ', value);
+    console.log('cek log kategori = ', ctg_name);
+    console.log('cek log kategori = ', ctg_id);
     NavigatorService.navigate('detailKategori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
   }
 

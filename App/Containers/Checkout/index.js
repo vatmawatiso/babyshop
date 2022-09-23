@@ -10,7 +10,8 @@ import {
     Pressable,
     ScrollView,
     AsyncStorage,
-    TouchableOpacity
+    TouchableOpacity,
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -292,6 +293,7 @@ const Checkout = (props) => {
                     console.log(error)
                 })
         }).catch(err => {
+            ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
             console.log('err', err)
         })
     }
@@ -390,7 +392,8 @@ const Checkout = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -429,7 +432,8 @@ const Checkout = (props) => {
                     console.log('DATAS' + JSON.stringify(datas));
 
                     if (datas.value == 0) {
-                        alert('Tidak ditemukan data order!')
+                        // alert('Tidak ditemukan data order!')
+                        ToastAndroid.show("Tidak ditemukan data order!", ToastAndroid.SHORT)
                     } else {
                         //save Async Storage
                         console.log('cek async ' + JSON.stringify(datas));
@@ -444,14 +448,16 @@ const Checkout = (props) => {
                     // setState(state => ({ ...state, loading: false }))
 
                 } else if (result.data.status == 500) {
-                    alert('Internal server error!')
+                    // alert('Internal server error!')
+                    ToastAndroid.show("Internal server error!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
                     return false;
                 }
             })
             .catch(err => {
-                console.log(err)
-                alert('Gagal menerima data dari server!')
+                // console.log(err)
+                // alert('Gagal menerima data dari server!')
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
                 return false;
             })
@@ -553,11 +559,14 @@ const Checkout = (props) => {
                 console.log('cek response = ' + JSON.stringify(response));
                 if (response.data.status === 201) {
                     console.log('RESPONSE CHECKOUT IPY = ' + JSON.stringify(response.data));
+                    ToastAndroid.show("Berhasil checkout!", ToastAndroid.SHORT)
                     NavigatorService.reset('Infopembayaran', {data: data})
                 } else {
                     console.log('Ipaymu status = ', response.data);
+                    ToastAndroid.show("Gagal checkout!", ToastAndroid.SHORT)
                 }
             }).catch(error => {
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log('error response ==> ', error.response.data);
             });
     }
@@ -603,7 +612,7 @@ const Checkout = (props) => {
                 title={'Checkout'}
                 onPress={() => backActions()}
             />
-            <ScrollView>
+  
                 <View style={{ flex: 1 }}>
                     <View>
                         <View style={styles.viewAlamat}>
@@ -774,15 +783,16 @@ const Checkout = (props) => {
                         </View>
                     </View>
 
-                    <View style={{ marginTop: toDp(30), bottom: 10, position: 'relative' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: toDp(335), height: toDp(48), }}>
+                    </View>
+            
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: toDp(335), height: toDp(48), }}>
                             <Pressable style={styles.btn} onPress={() => AllPost(state.methodeCode, TotalsPrice(state.shp_harga,state.adminfee, state.price))}>
                                 <Text style={{ textAlign: 'center', top: toDp(13), color: 'white' }}>Buat Pesanan</Text>
                             </Pressable>
                         </View>
-                    </View>
-                </View>
-            </ScrollView>
+                    
+              
+            
         </View>
     );
 
@@ -1031,6 +1041,7 @@ const styles = StyleSheet.create({
     btn: {
         backgroundColor: '#2A334B',
         borderRadius: toDp(10),
+        marginBottom: toDp(10),
         width: toDp(335),
         height: toDp(48),
         shadowColor: "#000",

@@ -6,7 +6,8 @@ import {
   Image,
   Alert,
   ImageBackground,
-  Pressable
+  Pressable,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -42,21 +43,24 @@ const Tambahkategori = (props) => {
         console.log('-----KATEGOTI=====>' + JSON.stringify(result.data));
 
         if (result.data.status == 201) {
-          alert('Sukses tambah kategori!')
+          // alert('Sukses tambah kategori!')
+          ToastAndroid.show("Berhasil tambah kategori!", ToastAndroid.SHORT)
           NavigatorService.navigate('Kategori')
           console.log('HASIL KATEGORI ==> : ' + JSON.stringify(result.data))
           setState(state => ({ ...state, loading: false }))
           //NavigatorService.navigation('Alamattoko');
 
         } else {
-          alert('Gagal tambah kategori!')
+          // alert('Gagal tambah kategori!')
+          ToastAndroid.show("Gagal tambah kategori!", ToastAndroid.SHORT)
           setState(state => ({ ...state, loading: false }))
           //console.log('-----COBA=====>'+ JSON.stringify(body));
         }
 
       }).catch(err => {
         //console.log(err)
-        alert('Gagal menerima data dari server!' + err)
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
   }
@@ -91,6 +95,7 @@ const Tambahkategori = (props) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   bodyKategori: {
     backgroundColor: '#FFFFFF',

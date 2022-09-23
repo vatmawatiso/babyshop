@@ -18,11 +18,11 @@ import BackHeader from '@BackHeader'
 import Profiltoko from '@Profiltoko'
 import NavigatorService from '@NavigatorService'
 import axios from 'axios';
-import { svr } from "../../Configs/apikey";
+import { svr } from "../../../Configs/apikey";
 import StarRating from 'react-native-star-rating-widget';
 import NumberFormat from 'react-number-format';
 
-const Ulasansaya = (props) => {
+const Ulasanpenjual = (props) => {
     const [src, setSrc] = useState(null);
 
     const [state, setState] = useState({
@@ -32,12 +32,12 @@ const Ulasansaya = (props) => {
     })
 
     useEffect(() => {
-        setState(state => ({
-            ...state,
-            mb_name: props.navigation.state.params.mb_name,
-            pp: props.navigation.state.params.picture,
+        // setState(state => ({
+        //     ...state,
+        //     mb_name: props.navigation.state.params.mb_name,
+        //     pp: props.navigation.state.params.picture,
 
-        }))
+        // }))
         // console.log("HP--->" , props.navigation.state.params.pp);
         // console.log('foto pp = ', state.pp)
 
@@ -47,9 +47,10 @@ const Ulasansaya = (props) => {
 
 
     const getUlasan = () => {
-        const mbid = props.navigation.state.params.mb_id
-        //https://market.pondok-huda.com/publish/react/komentar/member/MB000000001/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
-        axios.get(svr.url + 'komentar/member/' + mbid + '/' + svr.api)
+        const rtlid = props.navigation.state.params.retail_id
+        console.log('cek rtl id = ', rtlid)
+        //https://market.pondok-huda.com/publish/react/komentar/retail/RTL00000002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
+        axios.get(svr.url + 'komentar/retail/' + rtlid + '/' + svr.api)
             .then(result => {
                 // handle success
                 setState(state => ({ ...state, datas: result.data.data }))
@@ -69,9 +70,9 @@ const Ulasansaya = (props) => {
 
             <View style={styles.body}>
                 <View style={{ flexDirection: 'row' }}>
-                    {state.pp != '' ?
+                    {item.picture != '' ?
                         <>
-                            <Image source={{ uri: state.pp }} style={styles.iccamera} />
+                            <Image source={{ uri: item.picture }} style={styles.iccamera} />
                         </>
                         :
                         <>
@@ -79,11 +80,12 @@ const Ulasansaya = (props) => {
                         </>
                     }
                     <View style={{ flexDirection: 'column', paddingLeft: toDp(10), marginBottom: toDp(5), bottom: toDp(3) }}>
-                        <Text>{state.mb_name}</Text>
+                        <Text>{item.mb_name}</Text>
                         <Text style={{ paddingTop: toDp(10), width: toDp(250) }}>{item.komentar}</Text>
+                        {/* <Image source={{ uri: item.foto_km }} style={styles.fotokm} /> */}
                         {item.foto_km != '' ?
                             <>
-                                <Image source={{ uri: item.foto_km }} style={styles.fotokm} />
+                                <Image  source={{ uri: item.foto_km }} style={styles.fotokm} />
                             </>
                             :
                             <>
@@ -125,7 +127,7 @@ const Ulasansaya = (props) => {
         <View style={styles.container}>
 
             <BackHeader
-                title={'Ulasan Saya'}
+                title={'Ulasan Toko'}
                 onPress={() => props.navigation.goBack()}
             />
 
@@ -143,12 +145,6 @@ const Ulasansaya = (props) => {
                 />
             </View>
 
-            {/* <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-                <Pressable style={styles.btnKonfirm} onPress={() => NavigatorService.navigate('Tambahkategori')}>
-                    <Text style={styles.txtKonfirm}>Tambah Kategori</Text>
-                </Pressable>
-            </View> */}
-
         </View>
     )
 };
@@ -156,7 +152,8 @@ const Ulasansaya = (props) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        backgroundColor: 'white'
     },
     iccamera: {
         width: toDp(21),
@@ -167,7 +164,7 @@ const styles = StyleSheet.create({
     },
     foto: {
         width: toDp(77),
-        height: toDp(69),
+        height: toDp(75),
         justifyContent: 'center',
         // backgroundColor: 'cyan',
         resizeMode: "cover",
@@ -185,7 +182,7 @@ const styles = StyleSheet.create({
     body: {
         paddingTop: toDp(20),
         paddingLeft: toDp(5),
-        backgroundColor: '#F9F8F8',
+        backgroundColor: 'white',
         width: toDp(340),
         height: toDp(300),
         borderRadius: toDp(10),
@@ -205,7 +202,7 @@ const styles = StyleSheet.create({
     bodyProduk: {
         paddingLeft: toDp(24), 
         flexDirection: 'row', 
-        backgroundColor: '#D0D6E9', 
+        backgroundColor: '#D0D6E4', 
         width: toDp(290), 
         height: toDp(95), 
         paddingLeft: toDp(5), 
@@ -216,4 +213,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Ulasansaya;
+export default Ulasanpenjual;
