@@ -506,7 +506,7 @@ const Tambahproduk = (props) => {
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem.nama_kondisi;
-                }} s
+                }} 
                 rowTextForSelection={(item, index) => {
                   return item.nama_kondisi;
                 }}
@@ -536,6 +536,8 @@ const Tambahproduk = (props) => {
           </Pressable>
         </View>
       </View>
+
+
       {/* Modal */}
       <View style={styles.modalBuka}>
         <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
@@ -579,15 +581,18 @@ const styles = StyleSheet.create({
   bodyInputProduk: {
     backgroundColor: 'white',
     width: toDp(340),
-    height: toDp(490),
+    height: toDp(560),
     borderRadius: toDp(10),
-    top: toDp(10),
+    // top: toDp(10),
+    marginBottom:40,
+    // backgroundColor:'green',
     marginLeft: toDp(3)
 
   },
   bodySimpan: {
     width: toDp(340),
     height: toDp(48),
+    // backgroundColor:'cyan'
   },
   btnSimpan: {
     backgroundColor: '#2A334B',
@@ -722,7 +727,7 @@ const styles = StyleSheet.create({
   },
   txtKondisi: {
     bottom: toDp(98),
-    margin: toDp(8)
+    margin: toDp(8),
   },
   dropdown1: {
     height: toDp(48),

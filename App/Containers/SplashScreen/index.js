@@ -24,7 +24,7 @@ const SplashScreen = () => {
         if(response == null) {
           NavigatorService.reset('Login')
         } else {
-          NavigatorService.reset('Homepage')
+          NavigatorService.reset('Beranda')
         }
       }).catch(err => {
         console.log('err', err)

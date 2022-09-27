@@ -372,14 +372,16 @@ const Produk = (props) => {
                 <Text>Kondisi</Text>
                 <Text>Warna</Text>
                 <Text>Dikirim dari</Text>
+                <Text>Jarak</Text>
                 <Text>Jumlah</Text>
               </View>
               <View>
                 <Text> : {item[0]?.stock}</Text>
                 <Text> : {item[0]?.berat}</Text>
                 <Text> : {item[0]?.kondisi}</Text>
-                <Text> : -</Text>
-                <Text> : {item[0]?.retailaddres} || {item[0]?.jarak.substring(0,2)} KM</Text>
+                <Text> : </Text>
+                <Text style={{width:toDp(200)}}> : {item[0]?.ctyname} {item[0]?.retailaddres}</Text>
+                <Text> : {item[0]?.jarak.substring(0,2)} KM</Text>
                 <TextInput
                   keyboardType="numeric"
                   autoCapitalize={'none'}

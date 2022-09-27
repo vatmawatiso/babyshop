@@ -261,7 +261,7 @@ const Kategoriproduk = () => {
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
           <Image source={allLogo.address} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres}{"\n"}{item.jarak.substring(0,2)} KM</Text>
+          <Text style={styles.dariKota}>{item.ctyname}, {item.jarak.substring(0,2)} KM</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>

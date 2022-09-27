@@ -90,7 +90,7 @@ const detailKategori = (props) => {
             <View style={{ flexDirection: 'column' }}>
               <View style={{ flexDirection: 'row' }}>
                 <Image source={allLogo.address} style={styles.address} />
-                <Text style={{marginLeft: toDp(10), marginTop: toDp(5)}}>{item.retailaddres.substring(0, 12)}{"\n"}{item.jarak.substring(0, 2)} KM</Text>
+                <Text style={{marginLeft: toDp(10), marginTop: toDp(5)}}>{item.ctyname}{"\n"}{item.jarak.substring(0, 2)} KM</Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Image source={allLogo.icstar} style={styles.star} />
