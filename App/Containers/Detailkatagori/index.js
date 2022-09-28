@@ -140,8 +140,8 @@ const Detailkatagori = (props) => {
     const detailKategori = (lat, long) => {
         const kid = props.navigation.state.params.ctg_id;
         console.log('cek kid = ', kid)
-        console.log(svr.url + 'product/category/' + kid +lat+'/'+long+'/'+ svr.api)
-        axios.get(svr.url + 'product/category/' + kid + lat + '/' + long + '/' + svr.api)
+        console.log(svr.url + 'product/category/' + kid + '/' +lat+'/'+long+'/'+ svr.api)
+        axios.get(svr.url + 'product/category/' + kid + '/' + lat + '/' + long + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
             .then(result => {
                 if (result.data.status == 200) {

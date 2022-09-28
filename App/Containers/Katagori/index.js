@@ -427,7 +427,7 @@ const Katagori = () => {
         console.log('cek log kategori = ', value);
         console.log('cek log kategori = ', ctg_name);
         console.log('cek log kategori = ', ctg_id);
-        NavigatorService.navigate('detailKategori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
+        NavigatorService.navigate('Detailkatagori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
     }
 
     const renderKategori = (item, index, onPress) => (

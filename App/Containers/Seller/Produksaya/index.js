@@ -7,11 +7,13 @@ import {
   Alert,
   ImageBackground,
   Pressable,
+  RefreshControl,
   ScrollView,
   Dimensions,
   FlatList,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -28,8 +30,9 @@ import { svr } from "../../../Configs/apikey";
 const { width, height } = Dimensions.get('window')
 
 const Produksaya = (props) => {
-  const [src, setSrc] = useState(null);
 
+  const [src, setSrc] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
   const [state, setState] = useState({
     datas: [],
   })
@@ -75,12 +78,20 @@ const Produksaya = (props) => {
   const Produkbangunan = () => {
     let retail = props.navigation.state.params.retail_id;
     console.log(retail);
-    // axios.get('https://market.pondok-huda.com/dev/react/product/retail/' + retail)
+    console.log(svr.url + 'product/retail/' + retail + '/' + svr.api)
     axios.get(svr.url + 'product/retail/' + retail + '/' + svr.api)
       .then(result => {
         //hendle success
-        setState(state => ({ ...state, datas: result.data.data }))
+
         console.log('Produk ===> ' + JSON.stringify(result.data.data));
+        if (result.data.status == 200) {
+          setState(state => ({ ...state, datas: result.data.data }))
+          refresh()
+        } else if (result.data.status == 500) {
+          ToastAndroid.show("Internal server error!", ToastAndroid.SHORT)
+        } else {
+          ToastAndroid.show("Data not found!", ToastAndroid.SHORT)
+        }
 
       }).catch(err => {
         // alert('Gagal menerima data dari server!' + err)
@@ -90,17 +101,34 @@ const Produksaya = (props) => {
   }
 
 
-  const displayName = (product_name) => {
-    let count = '';
-    let nama = '';
-    count = product_name.split(' ' || '-');
-    nama = count.slice(0, 0,).join(' ');
-    return nama
+  //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
+  const refresh = async () => {
+    let retail = props.navigation.state.params.retail_id;
+    console.log(retail);
+    console.log(svr.url + 'product/retail/' + retail + '/' + svr.api)
+    axios.get(svr.url + 'product/retail/' + retail + '/' + svr.api)
+      .then(result => {
+        //hendle success
+
+        console.log('Produk ===> ' + JSON.stringify(result.data.data));
+        if (result.data.status == 200) {
+          setState(state => ({ ...state, datas: result.data.data }))
+        } else if (result.data.status == 500) {
+          ToastAndroid.show("Internal server error!", ToastAndroid.SHORT)
+        } else {
+          ToastAndroid.show("Data not found!", ToastAndroid.SHORT)
+        }
+
+      }).catch(err => {
+        // alert('Gagal menerima data dari server!' + err)
+        ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
+        setState(state => ({ ...state, loading: false }))
+      })
   }
 
   const renderItem = (item, index) => (
     <View style={styles.card}>
-      <Pressable onPress={() => NavigatorService.navigate('EditProduk', {id : item.id})}>
+      <Pressable onPress={() => NavigatorService.navigate('EditProduk', { id: item.id })}>
         <View style={styles.txtProduct}>
           <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
             <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
@@ -116,13 +144,12 @@ const Produksaya = (props) => {
             thousandSeparator={'.'}
             decimalSeparator={','}
             prefix={'Rp. '}
-            renderText={formattedValue => <Text style={{ top: toDp(15), left: toDp(20), fontSize: toDp(12), color: '#F83308', fontWeight: '800'  }}>{formattedValue}</Text>} // <--- Don't forget this!
+            renderText={formattedValue => <Text style={{ top: toDp(15), left: toDp(20), fontSize: toDp(14), color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          <Image source={allLogo.address} style={styles.address} />
-          <Text style={styles.dariKota}>{item.retailaddres}</Text>
-          {/* <Image source={allLogo.icstar} style={styles.star} />
-          <Text style={styles.bintang}>{item.lainnya.rating}</Text>
-          <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text> */}
+          <View style={{ flexDirection: 'row', marginLeft: toDp(20), marginTop: toDp(5) }}>
+            <Image source={allLogo.address} style={styles.address} />
+            <Text style={{ marginTop: toDp(15), marginLeft: toDp(7) }}>{item.retailaddres}</Text>
+          </View>
         </ View>
       </Pressable>
     </ View>
@@ -158,10 +185,18 @@ const Produksaya = (props) => {
         title={'Produk Saya'}
         onPress={() => props.navigation.goBack()}
       />
+      <ScrollView vertical={true} style={{ width: '100%', height: '100%' }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refresh}
+          />}
+      >
 
-      <View style={{ bottom: toDp(60) }}>
-        <CardProduct />
-      </View>
+        <View style={{ bottom: toDp(60) }}>
+          <CardProduct />
+        </View>
+      </ScrollView>
 
       {/* <View style={[styles.bodyMenu, {justifyContent:'space-between', alignItems:'center'} ]}>
             <Pressable style={styles.btnHome}>
@@ -243,17 +278,11 @@ const styles = StyleSheet.create({
   address: {
     top: toDp(19),
     width: toDp(15),
-    height: toDp(15)
+    height: toDp(15),
   },
   star: {
     bottom: toDp(3),
     left: toDp(2)
-  },
-  dariKota: {
-    bottom: toDp(0),
-    left: toDp(20),
-    fontSize: 12,
-    textAlign: 'center'
   },
   textproduct: {
     fontWeight: 'bold',

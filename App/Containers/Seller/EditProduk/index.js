@@ -76,7 +76,7 @@ const EditProduk = (props) => {
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
-      console.log('Member ----------->' + JSON.stringify(data));
+      // console.log('Member ----------->' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -85,8 +85,8 @@ const EditProduk = (props) => {
         mb_phone: data.value.mb_phone,
         id_retail: data.retail_id,
       }))
-      console.log('cek state ----------->' + JSON.stringify(state.id_retail));
-      console.log('cek state ----------->' + JSON.stringify(state.mb_name));
+      // console.log('cek state ----------->' + JSON.stringify(state.id_retail));
+      // console.log('cek state ----------->' + JSON.stringify(state.mb_name));
 
 
     }).catch(err => {
@@ -112,7 +112,7 @@ const EditProduk = (props) => {
       .then(result => {
         // handle success
         setState(state => ({ ...state, kategori: result.data.data }))
-        console.log('----Katagori=====>' + JSON.stringify(result.data.data));
+        // console.log('----Katagori=====>' + JSON.stringify(result.data.data));
         // alert(JSON.stringify(result.data));
 
       }).catch(err => {
@@ -137,7 +137,7 @@ const EditProduk = (props) => {
       .then(result => {
         // handle success
         setState(state => ({ ...state, kondisi: result.data.data }))
-        console.log('----Kondisi=====>' + JSON.stringify(result.data.data));
+        // console.log('----Kondisi=====>' + JSON.stringify(result.data.data));
         // alert(JSON.stringify(result.data));
 
       }).catch(err => {
@@ -150,6 +150,7 @@ const EditProduk = (props) => {
 
   const getProdukDetailbyId = () => {
     let pid = props.navigation.state.params.id;
+    console.log(svr.url + 'product/' + pid + '/' + svr.api)
     axios.get(svr.url + 'product/' + pid + '/' + svr.api)
       // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
@@ -182,7 +183,7 @@ const EditProduk = (props) => {
                                          prd_berat: response.data.data[0]?.berat,
                                          ctg_name: response.data.data[0]?.category,
                                         }))
-          console.log('stock', state.stoks)
+          console.log('prd name', state.prd_name)
         } else {
           console.log('response 2 =>', response)
         }
@@ -262,6 +263,7 @@ const EditProduk = (props) => {
           ToastAndroid.show("Berhasil ubah produk", ToastAndroid.SHORT)
           console.log("response :", response);
           setState(state => ({ ...state, tmb_image: false }))
+          NavigatorService.navigate('Produksaya')
         } else if (response.data.status == 500) {
           // alert('gagal')
           ToastAndroid.show("Gagal ubah produk", ToastAndroid.SHORT)
@@ -447,7 +449,7 @@ const EditProduk = (props) => {
   return (
     <View style={styles.container}>
       <BackHeader
-        title={'Tambah Produk'}
+        title={'Edit Produk'}
         onPress={() => props.navigation.goBack()}
       />
       {/* <View style={{flex:1}}>

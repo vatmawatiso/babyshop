@@ -11,7 +11,8 @@ import {
   Pressable,
   ScrollView,
   AsyncStorage,
-  ToastAndroid
+  ToastAndroid,
+  PermissionsAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -22,6 +23,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
+import Geolocation from '@react-native-community/geolocation';
 
 
 const { width, height } = Dimensions.get('window')
@@ -30,6 +32,7 @@ const Produk = (props) => {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [idcat, setIdCat] = useState('');
+  let watchID: ?number = null;
   const [state, setState] = useState({
     id: '',
     arrayUsers: [],
@@ -46,6 +49,108 @@ const Produk = (props) => {
     selected: false,
     id_produk: ''
   })
+
+
+  useEffect(() => {
+
+    requestLocationPermission();
+    return () => {
+        Geolocation.clearWatch(watchID);
+    };
+
+}, [watchID])
+
+
+const requestLocationPermission = async () => {
+  if (Platform.OS === 'ios') {
+      getOneTimeLocation();
+      subscribeLocationLocation()
+  } else {
+      try {
+          const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                  title: 'Location Access Required',
+                  message: 'This App needs to Access your location',
+              },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              //To Check, If Permission is granted
+              getOneTimeLocation();
+              subscribeLocationLocation()
+          } else {
+              alert('Permission Denied');
+          }
+      } catch (err) {
+          console.log(err);
+      }
+  }
+}
+
+const getOneTimeLocation = () => {
+
+  Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+          console.log('You are Here');
+
+          //getting the Longitude from the location json
+          const currentLongitude =
+              JSON.stringify(position.coords.longitude);
+
+          //getting the Latitude from the location json
+          const currentLatitude =
+              JSON.stringify(position.coords.latitude);
+
+          //Setting Longitude state
+          console.log('HERE LOCATION---->' + currentLatitude + ',' + currentLongitude);
+          let lat = JSON.parse(currentLatitude);
+          let long = JSON.parse(currentLongitude);
+          console.log('latitude ', lat);
+          console.log('longtitude ', long);
+          getProdukDetailbyId(lat, long)
+
+      },
+      (error) => {
+          alert(error.message);
+      },
+      {
+          enableHighAccuracy: true,
+          timeout: 30000,
+          maximumAge: 1000
+      },
+  );
+};
+
+const subscribeLocationLocation = () => {
+  watchID = Geolocation.watchPosition(
+      (position) => {
+          //Will give you the location on location change
+
+          console.log('You are Here');
+          console.log(position);
+
+          //getting the Longitude from the location json
+          const currentLongitude =
+              JSON.stringify(position.coords.longitude);
+
+          //getting the Latitude from the location json
+          const currentLatitude =
+              JSON.stringify(position.coords.latitude);
+
+          //Setting Longitude state
+          console.log('HERE LOCATION SUB---->' + currentLatitude + ',' + currentLongitude);
+      },
+      (error) => {
+          alert(error.message);
+      },
+      {
+          enableHighAccuracy: true,
+          maximumAge: 1000,
+          timeout: 20000
+      },
+  );
+};
 
   useEffect(() => {
     //getProdukbyId()
@@ -78,9 +183,10 @@ const Produk = (props) => {
   }, [state.id])
 
 
-  const getProdukDetailbyId = () => {
+  const getProdukDetailbyId = (lat, long) => {
     let pid = props.navigation.state.params.value;
-    Axios.get(svr.url + 'product/' + pid + '/' + svr.api)
+    console.log(svr.url + 'product/' + pid + '/' +lat+'/'+long+'/'+ svr.api)
+    Axios.get(svr.url + 'product/' + pid + '/' +lat+'/'+long+'/'+ svr.api)
       // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
 
