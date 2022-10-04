@@ -107,6 +107,8 @@ const Kategori = (props) => {
   }
 
   const getKategori = (value, ctg_id, ctg_name) => {
+    console.log('cekcok = ', ctg_id);
+    console.log('cekcok = ', ctg_name);
     NavigatorService.navigate('Detailkategori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
   }
 

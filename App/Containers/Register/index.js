@@ -249,12 +249,12 @@ const Register = (props) => {
             if (login == 'google') {
               AsyncStorage.setItem('login', 'google')
               setTimeout(function () {
-                NavigatorService.reset('Homepage', { login: 'google' });
+                NavigatorService.reset('Beranda', { login: 'google' });
               }, 1000);
             } else {
               AsyncStorage.setItem('login', 'facebook')
               setTimeout(function () {
-                NavigatorService.reset('Homepage', { login: 'facebook' });
+                NavigatorService.reset('Beranda', { login: 'facebook' });
               }, 1000);
             }
           }
@@ -289,10 +289,10 @@ const Register = (props) => {
           // AsyncStorage.setItem('uid', JSON.stringify(response.value.mb_id))
           if (login == 'google') {
             AsyncStorage.setItem('login', 'google')
-            NavigatorService.reset('Homepage', { login: 'google' });
+            NavigatorService.reset('Beranda', { login: 'google' });
           } else if (login === 'facebook') {
             AsyncStorage.setItem('login', 'facebook')
-            NavigatorService.reset('Homepage', { login: 'facebook' });
+            NavigatorService.reset('Beranda', { login: 'facebook' });
           }
           setState(state => ({ ...state, loading: false }))
         } else {
@@ -387,11 +387,11 @@ const Register = (props) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
-        <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
-        <Text style={styles.title}>Buat Akun</Text>
 
-        <View style={{ marginTop: toDp(-18), marginLeft: toDp(10) }}>
+        <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
+        <Text style={styles.title}>Buat Akun Baru</Text>
+        <ScrollView vertical={true} contentContainerStyle={styles.contentContainer}>
+        <View style={{ marginTop: toDp(-18), marginLeft: toDp(0) }}>
           <Text style={styles.textName}>Nama</Text>
           <TextInput autoCapitalize={'none'}
             style={styles.textInput}
@@ -484,11 +484,20 @@ const Register = (props) => {
         </View>
 
 
-        {/* <Pressable style={{ left: toDp(260), bottom: toDp(20) }} onPress={() => NavigatorService.navigate('Lupapassword')}>
-          <Text style={styles.textForgot}>Lupa Kata Sandi</Text>
-        </Pressable> */}
+        <View style={styles.signInWith}>
+          <TouchableOpacity style={[styles.btnSignInWith, { width: toDp(90), height: toDp(48), paddingLeft: toDp(25), backgroundColor: '#516675', }]} onPress={() => NavigatorService.navigate('Login')}>
+            <View>
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: toDp(15), right: toDp(3) }}>Masuk</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={isDisable} style={[styles.btnSignInWith, { borderRadius: toDp(10), width: toDp(90), height: toDp(48), backgroundColor: isDisable == true ? '#4E5A64' : '#A7661B' }]} onPress={() => validateInput()}>
+            <View>
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: toDp(15), left: toDp(24) }}>Daftar</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-        <View style={styles.viewRow}>
+        {/* <View style={styles.viewRow}>
           <Pressable
             onPress={() => NavigatorService.navigate('Login')}
             style={styles.pressableLogin}>
@@ -498,36 +507,39 @@ const Register = (props) => {
             onPress={() => validateInput()}>
             <Text style={styles.textLogin}>Daftar</Text>
           </TouchableOpacity>
+        </View> */}
+
+
+        <View style={{marginTop:toDp(30)}}>
+          <Text style={styles.textDont}>Atau Masuk Dengan</Text>
+          <View style={styles.rowFooter}>
+            <Pressable onPress={() => isDisable == true ? alert('Silahkan Setujui S&K') : googleSignup()} style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(48), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
+              <View style={{ flexDirection: 'row' }}>
+                <Image source={allLogo.icGoogle} style={styles.icon} />
+                <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
+              </View>
+            </Pressable>
+
+            <Pressable onPress={() => isDisable == true ? alert('Silahkan Setujui S&K') : onFbLogin()} style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(48), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
+              <View style={{ flexDirection: 'row' }}>
+                <Image source={allLogo.icFacebook} style={styles.icon} />
+                <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
+              </View>
+            </Pressable>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(50) }}>
+            <CheckBox
+              value={isSelected}
+              onValueChange={(val) => toggleAgree(val)}
+              style={styles.checkbox}
+            />
+            <Pressable style={{ padding: 5, marginLeft: toDp(-10), height: toDp(48), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Terms')}>
+              <Text style={{ padding: 4, fontSize: 12, color: '#FFFFFF' }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
+            </Pressable>
+          </View>
         </View>
 
-
-        <Text style={styles.textDont}>Atau Masuk Dengan</Text>
-        <View style={styles.rowFooter}>
-          <Pressable onPress={() => isDisable==true? alert('Silahkan Setujui S&K') : googleSignup()} style={[styles.pressableClick, { padding: toDp(2), backgroundColor: 'white', width: toDp(180), height: toDp(48), borderRadius: toDp(10), marginBottom: toDp(5) }]}>
-            <View style={{ flexDirection: 'row' }}>
-              <Image source={allLogo.icGoogle} style={styles.icon} />
-              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold' }}>Masuk Dengan Google</Text>
-            </View>
-          </Pressable>
-
-          <Pressable onPress={()=> isDisable==true? alert('Silahkan Setujui S&K') : onFbLogin()} style={[styles.pressableClick, { padding: toDp(2), width: toDp(180), height: toDp(48), backgroundColor: '#3B5998', borderRadius: toDp(10) }]}>
-            <View style={{ flexDirection: 'row' }}>
-              <Image source={allLogo.icFacebook} style={styles.icon} />
-              <Text style={{ fontSize: toDp(12.5), top: toDp(10), fontWeight: 'bold', color: 'white' }}>Masuk Dengan Facebook</Text>
-            </View>
-          </Pressable>
-        </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
-          <CheckBox
-            value={isSelected}
-            onValueChange={(val) => toggleAgree(val)}
-            style={styles.checkbox}
-          />
-          <Pressable style={{ padding: 5, marginLeft: toDp(-10), height: toDp(48), justifyContent: 'center' }} onPress={() => NavigatorService.navigate('Terms')}>
-            <Text style={{ padding: 4, fontSize: 12, color: '#FFFFFF' }}>Saya setuju dengan Syarat & Ketentuan yang berlaku</Text>
-          </Pressable>
-        </View>
       </ScrollView>
     </View>
   )
@@ -539,6 +551,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2A334B',
     paddingTop: toDp(32),
+  },
+  signInWith: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: toDp(27)
+  },
+  btnSignInWith: {
+    width: toDp(139),
+    height: toDp(48),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: toDp(8),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4
   },
   contentContainer: {
     paddingVertical: toDp(50),
@@ -561,10 +595,9 @@ const styles = StyleSheet.create({
   title: {
     color: 'white',
     fontWeight: 'bold',
-    bottom: toDp(30),
-    paddingBottom: toDp(13),
-    fontSize: toDp(18),
-    textAlign: 'center'
+    fontSize: toDp(23),
+    textAlign: 'center',
+    marginTop:toDp(40)
   },
   desc: {
     fontSize: toDp(13),
@@ -576,7 +609,8 @@ const styles = StyleSheet.create({
     width: toDp(155),
     height: toDp(55),
     marginRight: toDp(100),
-    paddingTop: toDp(20)
+    paddingTop: toDp(20),
+    fontWeight:'800'
   },
   viewContent: {
     zIndex: 2,
@@ -596,9 +630,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textInput: {
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
+    color:'#4E5A64',
     paddingHorizontal: toDp(8),
     borderRadius: toDp(10),
     marginBottom: toDp(-20),

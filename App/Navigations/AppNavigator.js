@@ -89,8 +89,8 @@ import Ulasanpenjual from "../Containers/Seller/Ulasanpenjual";
 import Beranda from "../Containers/Beranda";
 import Katagori from "../Containers/Katagori";
 import Detailkatagori from "../Containers/Detailkatagori";
-
-
+import A from "../Containers/A";
+import Map from "../Containers/Amap";
 
 const AppNavigator = createStackNavigator(
   {
@@ -182,13 +182,14 @@ const AppNavigator = createStackNavigator(
     Beranda: { screen: Beranda},
     Katagori: { screen: Katagori},
     Detailkatagori: { screen: Detailkatagori},
+    A: { screen: A},
+    Map: { screen: Map},
 
-    
   },
   {
     headerMode: 'none',
     initialRouteName: 'SplashScreen'
-  
+
   }
 );
 

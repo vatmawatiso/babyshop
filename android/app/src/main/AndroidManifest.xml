@@ -34,8 +34,11 @@
         </intent-filter>
       </activity>
     
+    
+   <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB8bzMjDh15io61gq0FiI6rFLy5iTR0n_k"/>
+
    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCT79fEDmZdBBLRDGxjREJn8mwD8AKLZ8Q"/>
+     <!-- <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCT79fEDmZdBBLRDGxjREJn8mwD8AKLZ8Q"/> -->
     
     
     </application>

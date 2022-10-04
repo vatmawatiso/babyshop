@@ -78,6 +78,7 @@ const Detailkategori = (props) => {
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
     console.log('kid ', (kid))
+    console.log(svr.url+'product/getct/'+state.retail_id+'/'+kid+'/'+svr.api)
     axios.get(svr.url+'product/getct/'+state.retail_id+'/'+kid+'/'+svr.api)
     // axios.get('https://market.pondok-huda.com/dev/react/product/getct/'+state.retail_id+'/'+kid)
       .then(result => {

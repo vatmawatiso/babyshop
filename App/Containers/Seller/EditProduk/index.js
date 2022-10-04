@@ -76,7 +76,7 @@ const EditProduk = (props) => {
       let data = JSON.parse(response);
       // const val = JSON.stringify(data);
 
-      // console.log('Member ----------->' + JSON.stringify(data));
+      console.log('Member ----------->' + JSON.stringify(data));
 
       setState(state => ({
         ...state,
@@ -85,8 +85,8 @@ const EditProduk = (props) => {
         mb_phone: data.value.mb_phone,
         id_retail: data.retail_id,
       }))
-      // console.log('cek state ----------->' + JSON.stringify(state.id_retail));
-      // console.log('cek state ----------->' + JSON.stringify(state.mb_name));
+      console.log('cek state ----------->' + JSON.stringify(state.id_retail));
+      console.log('cek state ----------->' + JSON.stringify(state.mb_name));
 
 
     }).catch(err => {
@@ -107,12 +107,12 @@ const EditProduk = (props) => {
 
   const category = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'category/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/category/')
+    axios.get(svr.url + 'category/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, kategori: result.data.data }))
-        // console.log('----Katagori=====>' + JSON.stringify(result.data.data));
+        console.log('----Katagori=====>' + JSON.stringify(result.data.data));
         // alert(JSON.stringify(result.data));
 
       }).catch(err => {
@@ -132,12 +132,12 @@ const EditProduk = (props) => {
 
   const getKondisi = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'kondisi/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
+    axios.get(svr.url + 'kondisi/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, kondisi: result.data.data }))
-        // console.log('----Kondisi=====>' + JSON.stringify(result.data.data));
+        console.log('----Kondisi=====>' + JSON.stringify(result.data.data));
         // alert(JSON.stringify(result.data));
 
       }).catch(err => {
@@ -150,7 +150,6 @@ const EditProduk = (props) => {
 
   const getProdukDetailbyId = () => {
     let pid = props.navigation.state.params.id;
-    console.log(svr.url + 'product/' + pid + '/' + svr.api)
     axios.get(svr.url + 'product/' + pid + '/' + svr.api)
       // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
@@ -172,18 +171,19 @@ const EditProduk = (props) => {
           } else {
 
           }
-          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, 
-                                         fotoProduk: images_det.images, thumbnails: thumbnail,
-                                         prd_name: response.data.data[0]?.product_name,
-                                         pdd_prd_id: response.data.data[0]?.id,
-                                         prd_stock: response.data.data[0]?.stock,
-                                         prd_price: response.data.data[0]?.price,
-                                         prd_thumbnail: response.data.data[0]?.thumbnail,
-                                         prd_rtl_id: response.data.data[0]?.retail,
-                                         prd_berat: response.data.data[0]?.berat,
-                                         ctg_name: response.data.data[0]?.category,
-                                        }))
-          console.log('prd name', state.prd_name)
+          setState(state => ({
+            ...state, produk: response.data.data, detail: response.data.detail,
+            fotoProduk: images_det.images, thumbnails: thumbnail,
+            prd_name: response.data.data[0]?.product_name,
+            pdd_prd_id: response.data.data[0]?.id,
+            prd_stock: response.data.data[0]?.stock,
+            prd_price: response.data.data[0]?.price,
+            prd_thumbnail: response.data.data[0]?.thumbnail,
+            prd_rtl_id: response.data.data[0]?.retail,
+            prd_berat: response.data.data[0]?.berat,
+            ctg_name: response.data.data[0]?.category,
+          }))
+          console.log('stock', state.stoks)
         } else {
           console.log('response 2 =>', response)
         }
@@ -219,7 +219,7 @@ const EditProduk = (props) => {
       // nama_kondisi: state.nama_kondisi,
       // ctg_name: state.ctg_name,
     }
-    console.log('BODY == Produk===>' , body);
+    console.log('BODY == Produk===>', body);
 
     setState(state => ({ ...state, loading: true }))
     const formData = new FormData();
@@ -249,7 +249,7 @@ const EditProduk = (props) => {
     });
     console.log('---INI----->' + JSON.stringify(formData));
     await axios({
-      url: svr.url+'product/'+pid+'/'+svr.api,
+      url: svr.url + 'product/' + pid + '/' + svr.api,
       // https://market.pondok-huda.com/publish/react/product/PRD0002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
       method: 'POST',
       data: formData,
@@ -258,34 +258,34 @@ const EditProduk = (props) => {
         'Content-Type': 'multipart/form-data',
       }
     }).then(function (response) {
-        if(response.data.status == 200) {
-          // alert('berhasil tambah produk')
-          ToastAndroid.show("Berhasil ubah produk", ToastAndroid.SHORT)
-          console.log("response :", response);
-          setState(state => ({ ...state, tmb_image: false }))
-          NavigatorService.navigate('Produksaya')
-        } else if (response.data.status == 500) {
-          // alert('gagal')
-          ToastAndroid.show("Gagal ubah produk", ToastAndroid.SHORT)
-          console.log("response :", response);
-          setState(state => ({ ...state, tmb_image: false }))
-        }
-    }).catch(function (error) {
-        console.log("error up", error)
+      if (response.data.status == 200) {
+        // alert('berhasil tambah produk')
+        ToastAndroid.show("Berhasil ubah produk", ToastAndroid.SHORT)
+        console.log("response :", response);
         setState(state => ({ ...state, tmb_image: false }))
+        NavigatorService.navigate('Produksaya')
+      } else if (response.data.status == 500) {
+        // alert('gagal')
+        ToastAndroid.show("Gagal ubah produk", ToastAndroid.SHORT)
+        console.log("response :", response);
+        setState(state => ({ ...state, tmb_image: false }))
+      }
+    }).catch(function (error) {
+      console.log("error up", error)
+      setState(state => ({ ...state, tmb_image: false }))
 
-        if (error.response) {
-          // Request made and server responded
-          console.log('1. ', error.response);
-          console.log('2. ', error.response.status);
-          console.log('3. ', error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log('4.', error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
+      if (error.response) {
+        // Request made and server responded
+        console.log('1. ', error.response);
+        console.log('2. ', error.response.status);
+        console.log('3. ', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('4.', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
     })
   }
 
@@ -297,8 +297,8 @@ const EditProduk = (props) => {
       type: 'image/jpg'
     })
     console.log('THIS => ', imageDta);
-    fetch(svr.url+'product/'+svr.api,
-    // fetch('https://market.pondok-huda.com/dev/react/product',
+    fetch(svr.url + 'product/' + svr.api,
+      // fetch('https://market.pondok-huda.com/dev/react/product',
       {
         headers: {
           'Accept': 'application/json',
@@ -323,28 +323,28 @@ const EditProduk = (props) => {
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
-      if(response.size > 154557){
+      if (response.size > 154557) {
         alert('Ukuran foto melebihi 1,5 mb')
       } else {
-          //InputProduk(response)
+        //InputProduk(response)
         let jum = state.images.length;
         let { images } = state;
         images[jum] = {
-                        uri: response.path,
-                        width: response.width,
-                        height: response.height,
-                        mime: response.mime,
-                      };
-                      setState(state => ({
-                        ...state,
-                        images
-                    }))
+          uri: response.path,
+          width: response.width,
+          height: response.height,
+          mime: response.mime,
+        };
+        setState(state => ({
+          ...state,
+          images
+        }))
       }
 
-      if(state.fileUri==''){
+      if (state.fileUri == '') {
         setState(state => ({ ...state, fileUri: response, tmb_image: true }))
       }
-   
+
       console.log('cekcok', (response.size))
     }).catch(err => {
       console.log(err)
@@ -386,7 +386,7 @@ const EditProduk = (props) => {
             };
           }),
         }));
-      }else{
+      } else {
         setState(state => ({
           ...state,
           images: response.map((i) => {
@@ -426,15 +426,15 @@ const EditProduk = (props) => {
       console.log('this images -- >' + JSON.stringify(state.images));
       return (
         <>
-        {state.images.map(v =>{
+          {state.images.map(v => {
 
-           return(
-             <Image
-                 source={{ uri: v.uri}}
-                 style={styles.images}
-             />
-           )
-        })}
+            return (
+              <Image
+                source={{ uri: v.uri }}
+                style={styles.images}
+              />
+            )
+          })}
 
         </>
       )
@@ -455,19 +455,19 @@ const EditProduk = (props) => {
       {/* <View style={{flex:1}}>
 
       </View> */}
+      <ScrollView>
+        <View style={styles.bodyInputProduk}>
 
-      <View style={styles.bodyInputProduk}>
-        <ScrollView>
           <View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
                   <Text style={styles.txtFoto}>Tambah Foto</Text>
                 </TouchableOpacity>
                 {renderFileUri()}
               </View>
             </ScrollView>
-            <View style={{marginTop:toDp(20)}}>
+            <View style={{ marginTop: toDp(20) }}>
               <Text style={styles.txtFormInput}>Nama Product</Text>
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
@@ -578,17 +578,20 @@ const EditProduk = (props) => {
 
           </View>
 
-        </ScrollView>
-      </View>
 
-      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <Text style={{marginBottom: 10}}>{JSON.stringify(state.tmb_image)}</Text>
+        </View>
+      </ScrollView>
+
+      <View style={{ marginBottom: 20, alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: toDp(26), backgroundColor: 'white', paddingVertical: 20,height:toDp(0) }}>
+        <Text style={{ marginBottom: 0, }}>{JSON.stringify(state.tmb_image)}</Text>
         <View style={styles.bodySimpan}>
           <Pressable style={styles.btnSimpan} onPress={() => EditProduk()}>
             <Text style={styles.txtSimpan}>Simpan</Text>
           </Pressable>
         </View>
       </View>
+      
+
       {/* Modal */}
       <View style={styles.modalBuka}>
         <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
@@ -623,39 +626,35 @@ const EditProduk = (props) => {
 const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   contentContainer: {
     paddingVertical: toDp(20)
   },
   bodyInputProduk: {
-    backgroundColor: '#f8f9f9',
-    width: toDp(335),
-    height: toDp(490),
+    backgroundColor: 'white',
+    width: toDp(340),
+    height: toDp(560),
     borderRadius: toDp(10),
-    top: toDp(10),
-    left: toDp(12),
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
-
-    elevation: 3,
+    // top: toDp(10),
+    marginBottom: 40,
+    // backgroundColor:'green',
+    marginLeft: toDp(3)
   },
   bodySimpan: {
     width: toDp(335),
-    height: toDp(42),
+    height: toDp(48),
+    marginRight:toDp(6),
+    // backgroundColor:'red'
   },
   btnSimpan: {
     backgroundColor: '#2A334B',
-    width: toDp(335),
+    width: toDp(340),
     height: toDp(48),
     justifyContent: 'center',
     borderRadius: toDp(10),
-    bottom: toDp(10),
+    // bottom: toDp(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -671,7 +670,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   textInput: {
-    width: toDp(320),
+    width: toDp(340),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(8),
@@ -721,7 +720,7 @@ const styles = StyleSheet.create({
   dropdown: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(319),
+    width: toDp(325),
     left: toDp(8),
     backgroundColor: '#FFFFFF',
     bottom: toDp(93),
@@ -766,7 +765,7 @@ const styles = StyleSheet.create({
   dropdown: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(319),
+    width: toDp(340),
     left: toDp(8),
     backgroundColor: 'white',
     bottom: toDp(93),
@@ -787,7 +786,7 @@ const styles = StyleSheet.create({
   dropdown1: {
     height: toDp(48),
     borderRadius: toDp(10),
-    width: toDp(319),
+    width: toDp(340),
     left: toDp(8),
     backgroundColor: 'white',
     bottom: toDp(100),

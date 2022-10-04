@@ -31,7 +31,7 @@ import { svr } from "../../Configs/apikey";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 const { width, height } = Dimensions.get('window');
 
-const Beranda = () => {
+const Beranda = (props) => {
 
     const [wish, setWish] = useState([])
     const [pid, setPid] = useState('MB000000032')
@@ -53,7 +53,14 @@ const Beranda = () => {
         ws_prd_id: '',
         id_retail: 'RTL000001',
         curWishlist: [],
-        isHide: ''
+        isHide: '',
+        latitude: '',
+        longitude: '',
+        latlongName: '',
+        lat: [],
+        long: [],
+        inArea: 'false',
+        inMessage: ''
     })
 
     useEffect(() => {
@@ -66,107 +73,17 @@ const Beranda = () => {
             console.log('error', error)
         })
 
-        requestLocationPermission();
-        return () => {
-            Geolocation.clearWatch(watchID);
-        };
 
-    }, [watchID])
-
-
-
-    const requestLocationPermission = async () => {
-        if (Platform.OS === 'ios') {
-            getOneTimeLocation();
-            subscribeLocationLocation()
-        } else {
-            try {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                    {
-                        title: 'Location Access Required',
-                        message: 'This App needs to Access your location',
-                    },
-                );
-                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                    //To Check, If Permission is granted
-                    getOneTimeLocation();
-                    subscribeLocationLocation()
-                } else {
-                    alert('Permission Denied');
-                }
-            } catch (err) {
-                console.log(err);
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+              produk()
+              setKordinat()
             }
-        }
-    }
+          );
 
-    const getOneTimeLocation = () => {
-
-        Geolocation.getCurrentPosition(
-            //Will give you the current location
-            (position) => {
-                console.log('You are Here');
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //Setting Longitude state
-                console.log('HERE LOCATION---->' + currentLatitude + ',' + currentLongitude);
-                let lat = JSON.parse(currentLatitude);
-                let long = JSON.parse(currentLongitude);
-                console.log('latitude ', lat);
-                console.log('longtitude ', long);
-                produk(lat, long)
-
-            },
-            (error) => {
-                alert(error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 30000,
-                maximumAge: 1000
-            },
-        );
-    };
-
-    const subscribeLocationLocation = () => {
-        watchID = Geolocation.watchPosition(
-            (position) => {
-                //Will give you the location on location change
-
-                console.log('You are Here');
-                console.log(position);
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //Setting Longitude state
-                console.log('HERE LOCATION SUB---->' + currentLatitude + ',' + currentLongitude);
-            },
-            (error) => {
-                alert(error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                maximumAge: 1000,
-                timeout: 20000
-            },
-        );
-    };
-
-
+       
+    }, [])
 
     useEffect(() => {
         LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
@@ -188,6 +105,7 @@ const Beranda = () => {
             produk()
         })
 
+
         console.log('loooo');
         props.navigation.addListener(
             'didFocus',
@@ -199,10 +117,11 @@ const Beranda = () => {
     }, [state.id_member])
 
 
+
     // get produk yg kotak2 besar
-    const produk = (lat, long) => {
-        console.log(svr.url + 'product/' + lat + '/' + long + '/' + svr.api);
-        Axios.get(svr.url + 'product/' + lat + '/' + long + '/' + svr.api)
+    const produk = () => {
+        console.log('cekkkkkkk = ', svr.url + 'product/' + state.latitude + '/' + state.longitude + '/' + svr.api);
+        Axios.get(svr.url + 'product/' + state.latitude + '/' + state.longitude + '/' + svr.api)
             // Axios.get('https://market.pondok-huda.com/dev/react/product/')
             .then(result => {
                 console.log('get produk', result);
@@ -210,15 +129,27 @@ const Beranda = () => {
                 if (result.data.status == 200) {
                     getCurrentWsh()
                     setState(state => ({ ...state, arrayData: result.data.data }))
-                }else if(result.data.status == 500){
+                    //This Modif
+                    setState(state => ({ ...state, inArea: 'true' }))
+
+                } else if (result.data.status == 500) {
+                    //This Modif
+                    setState(state => ({ ...state, inArea: '500' }))
+                    setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
                     ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
-                }else {
+
+                } else {
+                    //This Modif
+                    setState(state => ({ ...state, inArea: 'false' }))
+                    setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
                     ToastAndroid.show("Data not found", ToastAndroid.SHORT)
-                } 
+                }
 
                 // console.log('result2 =>', result.data.data)
             }).catch(error => {
-                // alert('Gagal Coba Lagi Nanti')
+                //This Modif, pesan inMessage silahkan ganti
+                setState(state => ({ ...state, inArea: '500' }))
+                setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
                 ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log('error produk =>', error)
             })
@@ -454,6 +385,37 @@ const Beranda = () => {
     }
 
 
+    const setKordinat = () => {
+
+        AsyncStorage.getItem('kordinat').then(response => {
+            let data = JSON.parse(response);
+            // console.log('cek lat = ', data);
+            // console.log('cek lat = ', data.latitude);
+            // console.log('cek long = ', data.longitude);
+            if (data.latitude == '' && data.latitude == null || data.longitude == '' && data.longitude == null) {
+                setState(state => ({
+                    ...state,
+                    latlongName: 'Atur Lokasi'
+                }))
+
+            } else {
+                setState(state => ({
+                    ...state,
+                    latitude: data.latitude,
+                    longitude: data.longitude
+                }))
+                console.log('cek  = ', state.latitude);
+            }
+
+            // console.log('cek kordinat bener apa gak : ' + data.latitude + ' | ' + data.longitude);
+
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+    }
+
+
 
 
     return (
@@ -463,7 +425,25 @@ const Beranda = () => {
                 onWish={() => NavigatorService.navigate('Wishlist')}
             />
 
+
             <ScrollView style={styles.ScrollView}>
+                <View style={{ alignItems: 'center', marginTop: toDp(10), }}>
+                    <TouchableOpacity style={styles.btnLokasi} onPress={() => NavigatorService.navigate('Map')}>
+                        <Image source={allLogo.map} style={styles.ikon} />
+                        <View>
+                            <Text style={{ marginTop: toDp(5), marginLeft: toDp(15), fontSize: toDp(11) }}>Lokasi kamu</Text>
+                            <Text style={{ marginLeft: toDp(15), marginTop: toDp(3), fontWeight: '800' }}>
+                                {state.latitude != '' || state.longitude != '' ?
+                                    state.latitude
+                                    :
+                                    'Atur Lokasi'
+                                }
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+
                 <View style={{ width: '100%', height: toDp(230), marginTop: toDp(-5), backgroundColor: 'white' }}>
                     <Carousel
                         layout={"default"}
@@ -513,9 +493,25 @@ const Beranda = () => {
                     : null
                 }
 
+                {/* //This Modif */}
 
 
-                <CardProduct />
+                {state.inArea == 'true' ?
+                    <CardProduct />
+
+                    : state.inArea == 'false' ?
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text>{state.inMessage}</Text>
+                        </View>
+                        :
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text>{state.inMessage}</Text>
+                        </View>
+                }
+
+
+
+
             </ScrollView>
 
 
@@ -528,7 +524,7 @@ const Beranda = () => {
                     <Image source={allLogo.ichome} style={styles.iconik} />
                     <Text style={{ color: 'white', fontSize: toDp(11) }}>Beranda</Text>
                 </Pressable>
-                <Pressable style={styles.btnmenu} onPress={() => NavigatorService.navigate('Katagori')}>
+                <Pressable style={styles.btnmenu} onPress={() => NavigatorService.navigate('Katagori', {latitude: state.latitude, longitude: state.longitude})}>
                     <Image source={allLogo.iccategory} style={styles.iconik} />
                     <Text style={{ color: 'white', fontSize: toDp(11) }}>Kategori</Text>
                 </Pressable >
@@ -553,6 +549,31 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         // backgroundColor: color.back,
+    },
+    btnLokasi: {
+        backgroundColor: 'white',
+        width: toDp(335),
+        height: toDp(60),
+        flexDirection: 'row',
+        borderRadius: toDp(10),
+        marginBottom: toDp(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 3,
+    },
+    ikon: {
+        height: toDp(28),
+        width: toDp(28),
+        marginTop: toDp(15),
+        marginLeft: toDp(10),
+        resizeMode: 'contain',
+        tintColor: '#f83308'
     },
     iconik: {
         width: toDp(28),

@@ -12,7 +12,8 @@ import {
     FlatList,
     TouchableOpacity,
     ToastAndroid,
-    PermissionsAndroid
+    PermissionsAndroid,
+    AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -34,7 +35,39 @@ const Detailkatagori = (props) => {
     let watchID: ?number = null;
     const [state, setState] = useState({
         datas: [],
+        inArea: 'false',
+        inMessage: ''
     })
+
+
+    useEffect(() => {
+        // get id pengguna
+        AsyncStorage.getItem('uid').then(uids => {
+            let ids = uids;
+            setState(state => ({
+                ...state,
+                id: ids
+            }))
+            console.log('iddddd', state.id)
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+        return (() => {
+
+            detailKategori()
+        })
+
+        console.log('loooo');
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                alert('load')
+            }
+        );
+
+    }, [state.id])
+
 
     useEffect(() => {
         requestLocationPermission();
@@ -42,13 +75,13 @@ const Detailkatagori = (props) => {
             Geolocation.clearWatch(watchID);
         };
 
-        detailKategori()
+        // detailKategori()
     }, [watchID])
 
 
     const requestLocationPermission = async () => {
         if (Platform.OS === 'ios') {
-            getOneTimeLocation();
+            // getOneTimeLocation();
             subscribeLocationLocation()
         } else {
             try {
@@ -61,7 +94,7 @@ const Detailkatagori = (props) => {
                 );
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     //To Check, If Permission is granted
-                    getOneTimeLocation();
+                    // getOneTimeLocation();
                     subscribeLocationLocation()
                 } else {
                     alert('Permission Denied');
@@ -89,6 +122,7 @@ const Detailkatagori = (props) => {
 
                 //Setting Longitude state
                 console.log('HERE LOCATION---->' + currentLatitude + ',' + currentLongitude);
+
                 let lat = JSON.parse(currentLatitude);
                 let long = JSON.parse(currentLongitude);
                 console.log('latitude ', lat);
@@ -123,8 +157,13 @@ const Detailkatagori = (props) => {
                 const currentLatitude =
                     JSON.stringify(position.coords.latitude);
 
-                //Setting Longitude state
+                //This Modif
                 console.log('HERE LOCATION SUB---->' + currentLatitude + ',' + currentLongitude);
+                if (currentLongitude != '' && currentLatitude != '') {
+                    detailKategori(currentLatitude, currentLongitude)
+
+                }
+                setState(state => ({ ...state, inMessage: 'Sedang memuat data...' }))
             },
             (error) => {
                 alert(error.message);
@@ -137,10 +176,13 @@ const Detailkatagori = (props) => {
         );
     };
 
+
+
+
     const detailKategori = (lat, long) => {
         const kid = props.navigation.state.params.ctg_id;
         console.log('cek kid = ', kid)
-        console.log(svr.url + 'product/category/' + kid + '/' +lat+'/'+long+'/'+ svr.api)
+        console.log(svr.url + 'product/category/' + kid + '/' + lat + '/' + long + '/' + svr.api)
         axios.get(svr.url + 'product/category/' + kid + '/' + lat + '/' + long + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
             .then(result => {
@@ -148,19 +190,28 @@ const Detailkatagori = (props) => {
                     //hendle success
                     console.log('Produk Bangunan ===> ', result);
                     setState(state => ({ ...state, datas: result.data.data }))
-                    // setState(state => ({ ...state, loading: false }))
+                    //This Modif
+                    setState(state => ({ ...state, inArea: 'true' }))
+
                 } else if (result.data.status == 500) {
-                    // alert('Produk Belum Ditambahkan')
+                    //This Modif
+                    setState(state => ({ ...state, inArea: '500' }))
+                    setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
                     ToastAndroid.show("Produk Belum Ditambahkan!", ToastAndroid.SHORT)
-                    setState(state => ({ ...state, loading: false }))
+
                 } else {
+                    //This Modif
+                    setState(state => ({ ...state, inArea: 'false' }))
+                    setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
                     ToastAndroid.show("Data not found!", ToastAndroid.SHORT)
                 }
 
             }).catch(err => {
-                // alert('Gagal menerima data dari server!' + err)
+                //This Modif
+                setState(state => ({ ...state, inArea: '500' }))
+                setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
                 ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
-                setState(state => ({ ...state, loading: false }))
+
             })
     }
 
@@ -250,7 +301,19 @@ const Detailkatagori = (props) => {
             />
 
             <View style={{ bottom: toDp(20) }}>
-                <CardProduct />
+                {/* //This Modif */}
+                {state.inArea == 'true' ?
+                    <CardProduct />
+
+                    : state.inArea == 'false' ?
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text>{state.inMessage}</Text>
+                        </View>
+                        :
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text>{state.inMessage}</Text>
+                        </View>
+                }
             </View>
 
         </View>

@@ -106,8 +106,8 @@ const Tambahproduk = (props) => {
 
   const category = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'category/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/category/')
+    axios.get(svr.url + 'category/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/category/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, kategori: result.data.data }))
@@ -131,8 +131,8 @@ const Tambahproduk = (props) => {
 
   const getKondisi = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'kondisi/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
+    axios.get(svr.url + 'kondisi/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/kondisi/')
       .then(result => {
         // handle success
         setState(state => ({ ...state, kondisi: result.data.data }))
@@ -202,7 +202,7 @@ const Tambahproduk = (props) => {
     });
     console.log('---INI----->' + JSON.stringify(formData));
     await axios({
-      url: svr.url+'product/'+svr.api,
+      url: svr.url + 'product/' + svr.api,
       // url: 'https://market.pondok-huda.com/dev/react/product/',
       method: 'POST',
       data: formData,
@@ -211,28 +211,28 @@ const Tambahproduk = (props) => {
         'Content-Type': 'multipart/form-data',
       }
     }).then(function (response) {
-        alert('berhasil tambah produk')
-        ToastAndroid.show("Berhasil tambah produk", ToastAndroid.SHORT)
-        console.log("response :", response.data);
-        setState(state => ({ ...state, tmb_image: false }))
+      alert('berhasil tambah produk')
+      ToastAndroid.show("Berhasil tambah produk", ToastAndroid.SHORT)
+      console.log("response :", response.data);
+      setState(state => ({ ...state, tmb_image: false }))
 
 
     }).catch(function (error) {
-        console.log("error up", error)
-        setState(state => ({ ...state, tmb_image: false }))
+      console.log("error up", error)
+      setState(state => ({ ...state, tmb_image: false }))
 
-        if (error.response) {
-          // Request made and server responded
-          console.log('1. ', error.response);
-          console.log('2. ', error.response.status);
-          console.log('3. ', error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log('4.', error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
+      if (error.response) {
+        // Request made and server responded
+        console.log('1. ', error.response);
+        console.log('2. ', error.response.status);
+        console.log('3. ', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('4.', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
     })
   }
 
@@ -244,8 +244,8 @@ const Tambahproduk = (props) => {
       type: 'image/jpg'
     })
     console.log('THIS => ', imageDta);
-    fetch(svr.url+'product/'+svr.api,
-    // fetch('https://market.pondok-huda.com/dev/react/product',
+    fetch(svr.url + 'product/' + svr.api,
+      // fetch('https://market.pondok-huda.com/dev/react/product',
       {
         headers: {
           'Accept': 'application/json',
@@ -270,28 +270,28 @@ const Tambahproduk = (props) => {
 
   const camera = () => {
     ImagePicker.openCamera(state.options).then(response => {
-      if(response.size > 154557){
+      if (response.size > 154557) {
         alert('Ukuran foto melebihi 1,5 mb')
       } else {
-          //InputProduk(response)
+        //InputProduk(response)
         let jum = state.images.length;
         let { images } = state;
         images[jum] = {
-                        uri: response.path,
-                        width: response.width,
-                        height: response.height,
-                        mime: response.mime,
-                      };
-                      setState(state => ({
-                        ...state,
-                        images
-                    }))
+          uri: response.path,
+          width: response.width,
+          height: response.height,
+          mime: response.mime,
+        };
+        setState(state => ({
+          ...state,
+          images
+        }))
       }
 
-      if(state.fileUri==''){
+      if (state.fileUri == '') {
         setState(state => ({ ...state, fileUri: response, tmb_image: true }))
       }
-   
+
       console.log('cekcok', (response.size))
     }).catch(err => {
       console.log(err)
@@ -333,7 +333,7 @@ const Tambahproduk = (props) => {
             };
           }),
         }));
-      }else{
+      } else {
         setState(state => ({
           ...state,
           images: response.map((i) => {
@@ -373,15 +373,15 @@ const Tambahproduk = (props) => {
       console.log('this images -- >' + JSON.stringify(state.images));
       return (
         <>
-        {state.images.map(v =>{
+          {state.images.map(v => {
 
-           return(
-             <Image
-                 source={{ uri: v.uri}}
-                 style={styles.images}
-             />
-           )
-        })}
+            return (
+              <Image
+                source={{ uri: v.uri }}
+                style={styles.images}
+              />
+            )
+          })}
 
         </>
       )
@@ -402,19 +402,19 @@ const Tambahproduk = (props) => {
       {/* <View style={{flex:1}}>
 
       </View> */}
+      <ScrollView>
+        <View style={styles.bodyInputProduk}>
 
-      <View style={styles.bodyInputProduk}>
-        {/* <ScrollView> */}
           <View>
             {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
-                <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
-                  <Text style={styles.txtFoto}>Tambah Foto</Text>
-                </TouchableOpacity>
-                {renderFileUri()}
-              </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <TouchableOpacity style={[styles.btnFoto, { left: 0 }]} onPress={() => setModalVisible(true)}>
+                <Text style={styles.txtFoto}>Tambah Foto</Text>
+              </TouchableOpacity>
+              {renderFileUri()}
+            </View>
             {/* </ScrollView> */}
-            <View style={{marginTop:toDp(20), marginRight: toDp(10)}}>
+            <View style={{ marginTop: toDp(20), marginRight: toDp(10) }}>
               <Text style={styles.txtFormInput}>Nama Product</Text>
               <TextInput autoCapitalize={'none'}
                 style={styles.textInput}
@@ -506,7 +506,7 @@ const Tambahproduk = (props) => {
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem.nama_kondisi;
-                }} 
+                }}
                 rowTextForSelection={(item, index) => {
                   return item.nama_kondisi;
                 }}
@@ -525,45 +525,45 @@ const Tambahproduk = (props) => {
 
           </View>
 
-        {/* </ScrollView> */}
-      </View>
 
-      <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-        <Text>{JSON.stringify(state.tmb_image)}</Text>
-        <View style={styles.bodySimpan}>
-          <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
-            <Text style={styles.txtSimpan}>Simpan</Text>
-          </Pressable>
         </View>
-      </View>
 
-
-      {/* Modal */}
-      <View style={styles.modalBuka}>
-        <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
-          <View style={styles.viewModal}>
-            <Pressable style={styles.modalClose} onPress={() => setModalVisible(!modalVisible)}>
-              <Image source={allLogo.iccross} style={{ height: toDp(20), width: toDp(20), right: toDp(10) }} />
+        <View style={{ bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: toDp(26), backgroundColor: 'white', paddingVertical: 20, }}>
+          <Text>{JSON.stringify(state.tmb_image)}</Text>
+          <View style={styles.bodySimpan}>
+            <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
+              <Text style={styles.txtSimpan}>Simpan</Text>
             </Pressable>
-            <View style={styles.viewJudul}>
-              <Text style={styles.txtJudul}>Tambah Foto Produk</Text>
-            </View>
-            {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
-            <View style={styles.viewBtn}>
-              <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => camera()}>
-                <Text style={styles.txtButon}>Kamera</Text>
-              </Pressable>
-              <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => gallery()}>
-                <Text style={styles.txtButon}>Galeri</Text>
-              </Pressable>
-            </View>
           </View>
-        </Modal>
-      </View>
-
-      {/* end modal */}
+        </View>
 
 
+        {/* Modal */}
+        <View style={styles.modalBuka}>
+          <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
+            <View style={styles.viewModal}>
+              <Pressable style={styles.modalClose} onPress={() => setModalVisible(!modalVisible)}>
+                <Image source={allLogo.iccross} style={{ height: toDp(20), width: toDp(20), right: toDp(10) }} />
+              </Pressable>
+              <View style={styles.viewJudul}>
+                <Text style={styles.txtJudul}>Tambah Foto Produk</Text>
+              </View>
+              {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
+              <View style={styles.viewBtn}>
+                <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => camera()}>
+                  <Text style={styles.txtButon}>Kamera</Text>
+                </Pressable>
+                <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => gallery()}>
+                  <Text style={styles.txtButon}>Galeri</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+
+        {/* end modal */}
+
+      </ScrollView>
 
     </View>
   )
@@ -584,7 +584,7 @@ const styles = StyleSheet.create({
     height: toDp(560),
     borderRadius: toDp(10),
     // top: toDp(10),
-    marginBottom:40,
+    marginBottom: 40,
     // backgroundColor:'green',
     marginLeft: toDp(3)
 

@@ -38,7 +38,7 @@ const Ubahtoko = (props) => {
     cty_name: '',
     datas: [],
     mb_id: '',
-    mb_name:'',
+    mb_name: '',
     rtl_name: '',
     rtl_mb_id: '',
     rtl_phone: '',
@@ -55,21 +55,22 @@ const Ubahtoko = (props) => {
   //GET CITY
 
   useEffect(() => {
-    setState(state => ({ ...state,
+    setState(state => ({
+      ...state,
       tmp_cty_name: props.navigation.state.params.cty_name,
       tmp_cty_id: props.navigation.state.params.rtl_city,
 
     }))
-    console.log("CITY ---> "+ props.navigation.state.params.rtl_city);
-    console.log("NAMA ---> "+ props.navigation.state.params.cty_name);
+    console.log("CITY ---> " + props.navigation.state.params.rtl_city);
+    console.log("NAMA ---> " + props.navigation.state.params.cty_name);
 
     city()
   }, [])
 
   const city = () => {
     // setState(state => ({...state, loading: true }))
-    axios.get(svr.url+'city/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/city/')
+    axios.get(svr.url + 'city/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/city/')
       .then(result => {
         // handle success
         //alert(JSON.stringify(result))
@@ -136,8 +137,8 @@ const Ubahtoko = (props) => {
 
     setState(state => ({ ...state, loading: true }))
     // let id = rtl_id;
-    axios.get(svr.url+'retail/'+state.id_retail+'/'+svr.api)
-    // axios.get('https://market.pondok-huda.com/dev/react/retail/' + state.id_retail)
+    axios.get(svr.url + 'retail/' + state.id_retail + '/' + svr.api)
+      // axios.get('https://market.pondok-huda.com/dev/react/retail/' + state.id_retail)
       .then(result => {
 
         console.log('CEK RETAIL UBAH TOKO====> ' + JSON.stringify(result));
@@ -157,7 +158,7 @@ const Ubahtoko = (props) => {
               rtl_status: doc.rtl_status,
             }
           })
-          console.log('CEK Retail Seller =>'+ JSON.stringify(the_data))
+          console.log('CEK Retail Seller =>' + JSON.stringify(the_data))
 
           setState(state => ({
             ...state,
@@ -173,8 +174,8 @@ const Ubahtoko = (props) => {
             rtl_id: the_data[0]?.rtl_id
           }))
           // alert('CEK Profil Seller =>'+ JSON.stringify(the_data))
-              console.log('rtl name =>'+ JSON.stringify(state.rtl_name))
-              console.log('cty name =>'+ JSON.stringify(state.rtl_city))
+          console.log('rtl name =>' + JSON.stringify(state.rtl_name))
+          console.log('cty name =>' + JSON.stringify(state.rtl_city))
 
 
         } else if (result.data.status == 500) {
@@ -203,8 +204,8 @@ const Ubahtoko = (props) => {
     console.log('CEK BODY ===> ' + JSON.stringify(body));
 
     setState(state => ({ ...state, loading: true }))
-    axios.post(svr.url+'retail/'+state.id_retail+'/'+svr.api,body)
-    // axios.post('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail, body)
+    axios.post(svr.url + 'retail/' + state.id_retail + '/' + svr.api, body)
+      // axios.post('https://market.pondok-huda.com/dev/react/retail/'+ state.id_retail, body)
       .then(response => {
 
         console.log('CEK URL ===>' + JSON.stringify(response));
@@ -245,20 +246,21 @@ const Ubahtoko = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={{flex: 1}}>
-      {/* <View style={styles.profilToko}> */}
-        {/* <ScrollView> */}
-        <View>
-        <Image source={allLogo.icuser} style={styles.imgProfil} />
-          <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
-            <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
-            <Text style={{ fontSize: toDp(11) }}>Besar file maks. 2MB dengan format .JPG, JPEG atau PNG.</Text>
-            <Pressable style={styles.btnGanti}>
-              <Text style={{ color: '#0960A1' }}>Ganti Gambar</Text>
-            </Pressable>
+      <ScrollView>
+        <View style={{ flex: 1 }}>
+          {/* <View style={styles.profilToko}> */}
+          {/* <ScrollView> */}
+          <View>
+            <Image source={allLogo.icuser} style={styles.imgProfil} />
+            <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
+              <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
+              <Text style={{ fontSize: toDp(11) }}>Besar file maks. 2MB dengan format .JPG, JPEG atau PNG.</Text>
+              <Pressable style={styles.btnGanti}>
+                <Text style={{ color: '#0960A1' }}>Ganti Gambar</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-         
+
 
           <View style={{ margin: toDp(8), bottom: toDp(30) }}>
 
@@ -308,7 +310,7 @@ const Ubahtoko = (props) => {
               onSelect={(selectedItem, index) => {
                 // console.log(selectedItem.cty_id, index)
                 // setState(state => ({ ...state, rtl_city: selectedItem.cty_id })) 
-                console.log(selectedItem.cty_name+selectedItem.cty_id)
+                console.log(selectedItem.cty_name + selectedItem.cty_id)
                 setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
                 console.log(state.tmp_cty_id);
               }}
@@ -344,17 +346,19 @@ const Ubahtoko = (props) => {
               onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
             />
           </View>
-        {/* </ScrollView> */}
-      {/* </View> */}
-      {state.bo_rtlid == true &&
-        <Text>{state.retail_id}</Text>
-      }
-     </View>
-     <View style={styles.buttonSubmit}>
-     <Pressable style={styles.btnSimpan} onPress={() => inputUbahtoko()}>
-        <Text style={styles.txtSimpan}>Simpan</Text>
-      </Pressable>
-     </View>
+          {/* </ScrollView> */}
+          {/* </View> */}
+          {state.bo_rtlid == true &&
+            <Text>{state.retail_id}</Text>
+          }
+        </View>
+      </ScrollView>
+
+      <View style={styles.buttonSubmit}>
+        <Pressable style={styles.btnSimpan} onPress={() => inputUbahtoko()}>
+          <Text style={styles.txtSimpan}>Simpan</Text>
+        </Pressable>
+      </View>
 
     </View>
   )
@@ -368,12 +372,13 @@ const styles = StyleSheet.create({
   },
   buttonSubmit: {
     width: '100%',
-    height: toDp(75),
+    // height: toDp(30),
     flexDirection: 'row',
     shadowColor: "#000",
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: toDp(10)
+    marginBottom: toDp(10),
+    // backgroundColor:'cyan'
   },
   imgProfil: {
     height: toDp(50),
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
     top: toDp(20),
     left: toDp(15),
     borderRadius: toDp(25),
-    tintColor:'black'
+    tintColor: 'black'
   },
   profilToko: {
     backgroundColor: '#F9F8F8',
@@ -404,7 +409,7 @@ const styles = StyleSheet.create({
     top: toDp(5),
   },
   textInput: {
-    width: toDp(325),
+    width: toDp(340),
     height: toDp(48),
     marginTop: toDp(5),
     backgroundColor: '#FFFFFF',
@@ -422,7 +427,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   textInput1: {
-    width: toDp(325),
+    width: toDp(340),
     height: toDp(48),
     backgroundColor: '#FFFFFF',
     paddingHorizontal: toDp(15),
@@ -455,7 +460,7 @@ const styles = StyleSheet.create({
     width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
-    top: toDp(20),
+    top: toDp(0),
     justifyContent: 'center'
   },
   txtSimpan: {

@@ -30,7 +30,7 @@ import { svr } from "../../Configs/apikey";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get('window')
 
-const Katagori = () => {
+const Katagori = (props) => {
     const [selectedItems, setSelectedItems] = useState([]);
     let watchID: ?number = null;
     const [state, setState] = useState({
@@ -43,118 +43,25 @@ const Katagori = () => {
         loading: false,
         sChip: '',
         id: '',
-        icHide: ''
+        icHide: '',
+        inArea: 'false',
+        inMessage: '',
+        lat: '',
+        long: ''
     })
 
 
-    useEffect(() => {
-        // get id pengguna
-        AsyncStorage.getItem('uid').then(uids => {
-            let ids = uids;
-            setState(state => ({ ...state, id: ids }))
-            console.log('id', state.id)
-        }).catch(error => {
-            console.log('error', error)
-        })
-
-        requestLocationPermission();
-        return () => {
-            Geolocation.clearWatch(watchID);
-        };
-
-    }, [watchID])
+    // useEffect(() => {
+    //     setState(state => ({
+    //         ...state,
+    //         lat: props.navigation.state.params.latitude,
+    //         long: props.navigation.state.params.longitude,
+      
+    //       }))
+    //       console.log("LAT--->" + props.navigation.state.params.lat);
 
 
-    const requestLocationPermission = async () => {
-        if (Platform.OS === 'ios') {
-            getOneTimeLocation();
-            subscribeLocationLocation()
-        } else {
-            try {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                    {
-                        title: 'Location Access Required',
-                        message: 'This App needs to Access your location',
-                    },
-                );
-                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                    //To Check, If Permission is granted
-                    getOneTimeLocation();
-                    subscribeLocationLocation()
-                } else {
-                    alert('Permission Denied');
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    }
-
-    const getOneTimeLocation = () => {
-
-        Geolocation.getCurrentPosition(
-            //Will give you the current location
-            (position) => {
-                console.log('You are Here');
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //Setting Longitude state
-                console.log('HERE LOCATION---->' + currentLatitude + ',' + currentLongitude);
-                let lat = JSON.parse(currentLatitude);
-                let long = JSON.parse(currentLongitude);
-                console.log('latitude ', lat);
-                console.log('longtitude ', long);
-                produk(lat, long)
-
-            },
-            (error) => {
-                alert(error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 30000,
-                maximumAge: 1000
-            },
-        );
-    };
-
-    const subscribeLocationLocation = () => {
-        watchID = Geolocation.watchPosition(
-            (position) => {
-                //Will give you the location on location change
-
-                console.log('You are Here');
-                console.log(position);
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //Setting Longitude state
-                console.log('HERE LOCATION SUB---->' + currentLatitude + ',' + currentLongitude);
-            },
-            (error) => {
-                alert(error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                maximumAge: 1000,
-                timeout: 20000
-            },
-        );
-    };
+    // }, [])
 
 
     useEffect(() => {
@@ -213,24 +120,41 @@ const Katagori = () => {
     }
 
     // get produk yg kotak2 besar
-    const produk = (lat, long) => {
-        console.log(svr.url + 'product/' + lat + '/' + long + '/' + svr.api);
-        Axios.get(svr.url + 'product/'+ lat +'/'+ long +'/'+ svr.api)
+    const produk = () => {
+        let lat = props.navigation.state.params.latitude;
+        let long = props.navigation.state.params.longitude;
+        console.log(lat)
+        console.log(long)
+        console.log('cek url 2 = ', svr.url + 'product/' + state.lat + '/' + state.long + '/' + svr.api);
+        Axios.get(svr.url + 'product/' + lat + '/' + long + '/' + svr.api)
             // Axios.get('https://market.pondok-huda.com/dev/react/product/')
             .then(result => {
                 console.log('result', result.data.data);
-     
-                if (result.data.status == 200){
+
+                if (result.data.status == 200) {
                     getCurrentWsh()
                     setState(state => ({ ...state, dataProduk: result.data.data }))
+                    //This Modif
+                    setState(state => ({ ...state, inArea: 'true' }))
+
                 } else if (result.data.status == 500) {
+                    //This Modif
+                    setState(state => ({ ...state, inArea: '500' }))
+                    setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
                     ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+
                 } else {
+                    //This Modif
+                    setState(state => ({ ...state, inArea: 'false' }))
+                    setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
                     ToastAndroid.show("Data not found", ToastAndroid.SHORT)
                 }
 
                 // console.log('result2 =>', result.data.data)
             }).catch(error => {
+                //This Modif
+                setState(state => ({ ...state, inArea: '500' }))
+                setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
                 ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
                 console.log(error)
             })
@@ -427,7 +351,7 @@ const Katagori = () => {
         console.log('cek log kategori = ', value);
         console.log('cek log kategori = ', ctg_name);
         console.log('cek log kategori = ', ctg_id);
-        NavigatorService.navigate('Detailkatagori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
+        NavigatorService.navigate('Detailkatagori', { value, ctg_id: ctg_id, ctg_name: ctg_name, })
     }
 
     const renderKategori = (item, index, onPress) => (
@@ -468,7 +392,7 @@ const Katagori = () => {
 
                 <View style={styles.textVocher}>
                     <View style={styles.judul1}>
-                        <Text style={[styles.textVocher, { fontWeight: 'bold' }]}>Promo dan Vocher T.B Global Energy</Text>
+                        <Text style={[styles.textVocher, { fontWeight: 'bold' }]}>Promo dan Vocher</Text>
                     </View>
                 </View>
                 <View style={styles.contentVocher}>
@@ -497,7 +421,20 @@ const Katagori = () => {
                     <Text style={styles.textContent}>Bahan Bangunan Berkualitas</Text>
                 </View>
 
-                <CardProduct />
+                {/* //This Modif */}
+                {state.inArea == 'true' ?
+                    <CardProduct />
+
+                    : state.inArea == 'false' ?
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text>{state.inMessage}</Text>
+                        </View>
+                        :
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text>{state.inMessage}</Text>
+                        </View>
+                }
+
             </ScrollView>
 
             {/* FOOTER */}
