@@ -24,9 +24,10 @@ import axios from 'axios';
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
 import { payment } from "../../Configs/payment";
+import CryptoJS from "crypto-js";
 
 const cartCheckout = (props) => {
-    var CryptoJS = require("crypto-js");
+    // var CryptoJS = require("crypto-js");
     const [selectedItems, setSelectedItems] = useState([]);
     const [stAlu, setAllu] = useState(0);
     const [selected, setSelected] = useState();
@@ -92,7 +93,8 @@ const cartCheckout = (props) => {
         methodeCode: '',
         mb_id: '',
         adminfee: 0,
-        totalOngkir: 0
+        totalOngkir: 0,
+        dariHal: 'cartCheckout'
     })
 
 
@@ -423,6 +425,7 @@ const cartCheckout = (props) => {
             odr_shp_id: state.shp_id,
             odr_adr_id: state.adr_id,
             odr_pay_id: state.odr_pay_id,
+            odr_ongkir: state.shpPrice
         }
         console.log('CEK BODY ===> ' + JSON.stringify(body));
 
@@ -632,7 +635,7 @@ const cartCheckout = (props) => {
             email: state.mb_email,
             amount: total,
             paymentMethod: state.methodeCode,
-            notifyUrl: "https://market.pondok-huda.com/publish/react/notifycheckout/76a9b349329fd3e650942abb594ddb60",
+            notifyUrl: "https://api.bina-apps.com/publish/react/notifycheckout/76a9b349329fd3e650942abb594ddb60",
             comments: "cek",
             referenceId: "1",
             paymentChannel: state.chanelsMethode
@@ -645,7 +648,7 @@ const cartCheckout = (props) => {
         var signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, payment.apikey));
         console.log('date', stringtosign);
 
-        var headers = {
+        const headers = {
             headers: {
                 Accept: 'application/json', 'Content-Type': 'application/json',
                 signature: signature,
@@ -655,7 +658,8 @@ const cartCheckout = (props) => {
 
         }
         console.log('body post payment = ', JSON.stringify(body));
-        axios.post('https://sandbox.ipaymu.com/api/v2/payment/direct', body, headers)
+        axios.post(payment.url + 'payment/direct/', body, headers)
+        // axios.post('https://sandbox.ipaymu.com/api/v2/payment/direct', body, headers)
             .then(response => {
                 console.log('cek result Payment = ' + JSON.stringify(response.data.Data))
 
@@ -705,13 +709,16 @@ const cartCheckout = (props) => {
             .then(response => {
                 if (response.data.status == 201) {
                     console.log('RESPONSE CHECKOUT IPY ----->= ' + JSON.stringify(response.data));
+                    ToastAndroid.show("Berhasil checkout!", ToastAndroid.SHORT)
                     NavigatorService.reset('Infopembayaran', {data: data})
                 } else {
                     console.log('Ipaymu status = ', response.data);
+                    ToastAndroid.show("Gagal checkout!", ToastAndroid.SHORT)
                 }
             })
             .catch(error => {
                 console.log('error response ==> ', error.response.data);
+                ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
             });
     }
     
@@ -756,7 +763,7 @@ const cartCheckout = (props) => {
                 <View style={{ flex: 1 }}>
                     <View>
                         <View style={{ marginBottom: toDp(10), top: toDp(10) }}>
-                            <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
+                            <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id, dariHal: state.dariHal })}>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Image source={allLogo.location} style={styles.iclocation} />
                                     <Text style={styles.txtAlamat}>Alamat Pengiriman</Text>

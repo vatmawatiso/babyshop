@@ -40,7 +40,8 @@ const Belumbayar = (props) => {
         pesan_nf: 'Pesanan dibatalkan',
         jenis_nf: 'Transaksi',
         status: '0',
-        from: ''
+        from: '',
+        id_retail:''
     })
 
 
@@ -52,7 +53,7 @@ const Belumbayar = (props) => {
             let data = JSON.parse(response);
             // const val = JSON.stringify(data);
 
-            // console.log('Profilefiks----------->' + JSON.stringify(data));
+            console.log('Profilefiks----------->' + JSON.stringify(data));
 
             setState(state => ({
                 ...state,
@@ -77,6 +78,18 @@ const Belumbayar = (props) => {
                 ...state,
                 mb_id: ids
             }))
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+
+        AsyncStorage.getItem('saveOrder').then(result => {
+            let data = result;
+            setState(state => ({
+                ...state,
+                odr_id: data[0].odr_id
+            }))
+            console.log('kekek = ', data)
         }).catch(err => {
             console.log('err', err)
         })
@@ -107,6 +120,7 @@ const Belumbayar = (props) => {
 
                 console.log('full ===> ' + JSON.stringify(result.data.data));
                 setState(state => ({ ...state, datas: result.data.data }))
+                AsyncStorage.setItem('saveOrder', JSON.stringify(state.datas))
                 // refresh()
 
             }).catch(err => {
@@ -119,18 +133,22 @@ const Belumbayar = (props) => {
 
     //POST STATUS ORDER
     const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
+        let mb = props.mbid;
+        console.log('retail id = ', retail_id)
+        console.log('odr mb id = ', odr_mb_id)
         const body = {
             odr_status: state.buttonStts,
             pesan_nf: state.pesan_nf,
-            id_tujuan: odr_mb_id,
+            id_tujuan: mb, //gak masuk
             jenis_nf: state.jenis_nf,
-            asal_nf: retail_id,
+            asal_nf: retail_id, //gak masuk
             status: state.status
         }
         console.log('cek body = ', JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        let id_odr = id;
+        let id_odr = id; //gak ada
+        console.log('ccccc ', svr.url + 'order/' + id_odr + '/' + svr.api, body)
         axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
             .then(response => {
                 console.log('Response = ' + JSON.stringify(response.data));
@@ -178,7 +196,8 @@ const Belumbayar = (props) => {
     const refresh = async () => {
         let mb = props.mbid;
         let content = props.con;
-        axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
+        console.log(svr.url + 'order/trxodr/' + mb + '/' + content + '/' + svr.api);
+        axios.get(svr.url + 'order/trxodr/' + mb + '/' + content + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {
                 console.log('full ===> ' + JSON.stringify(result.data.data));

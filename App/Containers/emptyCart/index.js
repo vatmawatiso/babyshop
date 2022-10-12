@@ -24,7 +24,7 @@ const emptyCart = (props) => {
                     <Text style={styles.txt1}>Your Cart Is Empty</Text>
                 {/* <Text style={styles.txt2}>We Are Working On It!</Text> */}
             </View>
-                <Pressable style={styles.btnBack} onPress={() => NavigatorService.reset('Homepage')}>
+                <Pressable style={styles.btnBack} onPress={() => NavigatorService.reset('Beranda')}>
                     <Text style={styles.txtBack}>Back</Text>
                 </Pressable>
             </View>

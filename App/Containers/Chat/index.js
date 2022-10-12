@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: toDp(10),
     minHeight: toDp(221),
-    height: toDp(221),
+    height: toDp(240),
     width: '48%',
     shadowColor: "#000",
     shadowOffset: {

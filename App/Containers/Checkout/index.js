@@ -75,6 +75,7 @@ const Checkout = (props) => {
         totalPrice: 0,
         chanelsMethode: '',
         methodeCode: '',
+        dariHal: 'Checkout'
     })
 
     //get PRODUK
@@ -100,13 +101,7 @@ const Checkout = (props) => {
 
             }))
 
-            // console.log('CEK STATE ASYNC STORAGE nama retail ---->' + JSON.stringify(state.retail_name));
-            // console.log('nama produk --->' + JSON.stringify(state.product_name));
-            // console.log('harga produk ---->' + JSON.stringify(state.price));
-            // // console.log('CEK STATE ASYNC STORAGE thumbnail ---->' + JSON.stringify(state.thumbnail));
-            // console.log('ID RETAIL ---->' + JSON.stringify(state.retail));
-            // console.log('ID PRODUK ---->' + JSON.stringify(state.prd_id));
-            // console.log('BERAT PRODUK ---->' + JSON.stringify(state.berat));
+            console.log('CEK STATE ASYNC STORAGE retail ---->' + JSON.stringify(state.retail));
 
 
         }).catch(err => {
@@ -343,9 +338,10 @@ const Checkout = (props) => {
             setState(state => ({
                 ...state,
                 price: total.data[0].price,
+                // retail: total.data[0].retail
 
             }))
-            // console.log('CEK harga produk ---->' + JSON.stringify(state.price));
+            // console.log('CEK harga produk ---->' + JSON.stringify(state.retail));
             // console.log('CEK harga jasa ---->' + JSON.stringify(state.shp_harga));
             let priceProduk = state.price;
             let priceJasa = state.shp_harga;
@@ -382,13 +378,20 @@ const Checkout = (props) => {
 
     const getJasa = () => {
         // setState(state => ({...state, loading: true }))
-        // let retailID = props.navigation.state.params.value;
-        // console.log(svr.url+'ship-retail/retail/'+retailID+'/'+svr.api);
-        axios.get(svr.url + 'ship-retail/retail/' + state.retail + '/' + svr.api)
+        let rtlid = props.navigation.state.params.retail_id;
+        console.log('cek rtl name ', rtlid)
+        console.log(svr.url + 'ship-retail/retail/' + rtlid + '/' + svr.api)
+        axios.get(svr.url + 'ship-retail/retail/' + rtlid + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/ship-retail/retail/' + state.retail)
             .then(result => {
                 console.log('jasa kirim  ' + JSON.stringify(result));
                 setState(state => ({ ...state, datas: result.data.data }))
+                if (result.data.status == 200) {
+                    console.log('jasa kirim  ' + JSON.stringify(result));
+                    setState(state => ({ ...state, datas: result.data.data }))
+                } else {
+                    ToastAndroid.show("Internal server error!", ToastAndroid.SHORT)
+                }
 
             }).catch(err => {
                 //console.log(err)
@@ -479,7 +482,7 @@ const Checkout = (props) => {
             phone: state.mb_phone,
             email: state.mb_email,
             amount: total,
-            notifyUrl: "https://market.pondok-huda.com/publish/react/notifycheckout/76a9b349329fd3e650942abb594ddb60",
+            notifyUrl: "https://api.bina-apps.com/publish/react/notifycheckout/76a9b349329fd3e650942abb594ddb60",
             comments: "cek",
             referenceId: "1",
             paymentMethod: state.methodeCode,
@@ -517,7 +520,7 @@ const Checkout = (props) => {
                     // TAMBAHAN BARU
                     let res = result.data.Data;
                     let data = {
-                        "odr_id": id ,
+                        "odr_id": id,
                         "SessionId": res.SessionId,
                         "TransactionId": res.TransactionId,
                         "ReferenceId": res.ReferenceId,
@@ -533,15 +536,15 @@ const Checkout = (props) => {
                         "QrImage": res.QrImage,
                         "QrTemplate": res.QrTemplate,
                         "Note": res.Note
+                    }
+
+                    postTransaksi(data);
+                    // NavigatorService.reset('Infopembayaran', {data: response.data.Data})
+                    return true;
+                } else {
+                    console.log('Ipaymu ststus ----> ', response.data.Status);
+                    return false;
                 }
-     
-                postTransaksi(data);
-                // NavigatorService.reset('Infopembayaran', {data: response.data.Data})
-                return true;
-              }else{
-                console.log('Ipaymu ststus ----> ', response.data.Status);
-                return false;
-              }
 
             })
             .catch(err => {
@@ -560,7 +563,7 @@ const Checkout = (props) => {
                 if (response.data.status === 201) {
                     console.log('RESPONSE CHECKOUT IPY = ' + JSON.stringify(response.data));
                     ToastAndroid.show("Berhasil checkout!", ToastAndroid.SHORT)
-                    NavigatorService.reset('Infopembayaran', {data: data})
+                    NavigatorService.reset('Infopembayaran', { data: data })
                 } else {
                     console.log('Ipaymu status = ', response.data);
                     ToastAndroid.show("Gagal checkout!", ToastAndroid.SHORT)
@@ -596,10 +599,10 @@ const Checkout = (props) => {
             alert("Pilih Metode Pembayaran!");
         } else if (Ongkir == '0' || Ongkir == 0 || Ongkir == 'Undefined') {
             alert("Pilih Metode Pengiriman!");
-        } else if(state.shr_jasa.trim() == ''){
+        } else if (state.shr_jasa.trim() == '') {
             alert('Pilih jasa pengiriman!')
             return;
-        }else {
+        } else {
             postProduk()
         }
 
@@ -612,11 +615,11 @@ const Checkout = (props) => {
                 title={'Checkout'}
                 onPress={() => backActions()}
             />
-  
+            <ScrollView>
                 <View style={{ flex: 1 }}>
                     <View>
                         <View style={styles.viewAlamat}>
-                            <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id })}>
+                            <Pressable style={styles.btnAlamat} onPress={() => NavigatorService.navigate('Alamat', { adr_mb_id: state.mb_id, dariHal: state.dariHal })}>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Image source={allLogo.location} style={styles.iclocation} />
                                     <Text style={styles.txtAlamat}>Alamat Pengiriman</Text>
@@ -783,16 +786,17 @@ const Checkout = (props) => {
                         </View>
                     </View>
 
-                    </View>
-            
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: toDp(335), height: toDp(48), }}>
-                            <Pressable style={styles.btn} onPress={() => AllPost(state.methodeCode, TotalsPrice(state.shp_harga,state.adminfee, state.price))}>
-                                <Text style={{ textAlign: 'center', top: toDp(13), color: 'white' }}>Buat Pesanan</Text>
-                            </Pressable>
-                        </View>
-                    
-              
-            
+                </View>
+            </ScrollView>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: toDp(335), height: toDp(48), }}>
+                <Pressable style={styles.btn} onPress={() => AllPost(state.methodeCode, TotalsPrice(state.shp_harga, state.adminfee, state.price))}>
+                    <Text style={{ textAlign: 'center', top: toDp(13), color: 'white' }}>Buat Pesanan</Text>
+                </Pressable>
+            </View>
+
+
+
         </View>
     );
 
@@ -870,7 +874,9 @@ const styles = StyleSheet.create({
     },
     txtAddress: {
         top: toDp(15),
-        fontSize: toDp(12)
+        fontSize: toDp(12),
+        width: toDp(250),
+        // backgroundColor:'cyan'
     },
     txtAlamat: {
         top: toDp(20),
@@ -996,7 +1002,7 @@ const styles = StyleSheet.create({
     txtPayment: {
         margin: 0,
         fontSize: toDp(12),
-        right:toDp(3)
+        right: toDp(3)
     },
     txtTransfer: {
         margin: 0,
@@ -1008,7 +1014,7 @@ const styles = StyleSheet.create({
         height: toDp(14),
         top: toDp(2),
         margin: toDp(4),
-        left:toDp(5)
+        left: toDp(5)
     },
     txtSubTot: {
         fontSize: toDp(12),
@@ -1016,16 +1022,16 @@ const styles = StyleSheet.create({
     },
     txtSubPeng: {
         fontSize: toDp(12),
-     right: toDp(3),
+        right: toDp(3),
     },
     txtBiayaPen: {
         fontSize: toDp(12),
-     right: toDp(3),
+        right: toDp(3),
     },
     txtTotPem: {
         fontSize: toDp(13),
         fontWeight: 'bold',
-     right: toDp(3),
+        right: toDp(3),
     },
     txtTotPem1: {
         fontSize: toDp(13),

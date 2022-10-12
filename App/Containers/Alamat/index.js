@@ -143,7 +143,14 @@ const Alamat = (props) => {
 
 
           }
-          NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id });
+          let asalProps = props.navigation.state.params.dariHal;
+          if (asalProps == 'Checkout') {
+            NavigatorService.navigate('Checkout', {adr_mb_id: state.adr_id})
+          }else if (asalProps == 'cartCheckout'){
+            NavigatorService.navigate('cartCheckout', { adr_mb_id: state.adr_id });
+          }else {
+            NavigatorService.navigate('Profilone', { adr_mb_id: state.adr_id });
+          }
 
           console.log('HASIL ALAMAT UTAMA ==> : ', response.data)
           setState(state => ({ ...state, loading: false }))
@@ -230,7 +237,7 @@ const Alamat = (props) => {
         <View style={{ flexDirection: 'row', left: toDp(60), top: toDp(15) }}>
           <View style={styles.isiAddress}>
             <Text>{item.adr_name} {item.adr_hp}</Text>
-            <Text>{item.adr_address} {displayName(item.cty_name)}</Text>
+            <Text>{item.adr_address.substring(0,22)} {displayName(item.cty_name)}</Text>
             <TouchableOpacity style={styles.btnAlamatUtama} onPress={() => onSetutama()}>
               <Text style={styles.txtAlamatUtama}>Jadikan Alamat Utama</Text>
             </TouchableOpacity>
@@ -339,6 +346,7 @@ const styles = StyleSheet.create({
   },
   isiAddress: {
     bottom: toDp(10),
+    width:toDp(200)
   },
   icLocation: {
     width: toDp(38),
@@ -386,7 +394,8 @@ const styles = StyleSheet.create({
   },
   txtAlamatUtama: {
     fontWeight: 'bold',
-    color: '#F83308'
+    color: '#F83308',
+    marginRight:toDp(5)
   }
 });
 

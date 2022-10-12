@@ -48,7 +48,8 @@ const Infopembayaran = (props) => {
 
   const [state, setState] = useState({
     infoPembayaran: '',
-    mb_id:''
+    mb_id:'',
+    rtlid: ''
   })
 
 
@@ -73,6 +74,19 @@ const Infopembayaran = (props) => {
       console.log('err', err)
     })
 
+
+    // AsyncStorage.getItem('setOrder').then(result => {
+    //   let data = result;
+    //   // setState(state => ({
+    //   //   ...state,
+    //   //   rtlid: data.value.odr_rtl_id
+    //   // }))
+    //   console.log('cekkkkcokkk = ', data.odr_ongkir)
+    // }).catch(err => {
+    //   console.log('err', err)
+    // })
+
+
     const backAction = () => {
       BackGo(from)
     };
@@ -91,7 +105,7 @@ const Infopembayaran = (props) => {
     if (val == 'Orderpage') {
       NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id })
     } else {
-      NavigatorService.reset('Homepage')
+      NavigatorService.reset('Beranda')
     }
 
   }

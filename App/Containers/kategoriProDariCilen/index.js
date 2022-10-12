@@ -19,12 +19,9 @@ import { toDp } from '@percentageToDP';
 import HeaderToko from '@HeaderToko'
 import BackHeader from '@BackHeader'
 import axios from "axios";
-import Carousel, { Pagination } from "react-native-snap-carousel";
-import LinearGradient from 'react-native-linear-gradient'
 import NavigatorService from '@NavigatorService'
-import { TextInput } from "react-native-gesture-handler";
-import { BottomNavigation } from "react-native-paper";
 import NumberFormat from 'react-number-format';
+import { svr } from "../../Configs/apikey";
 
 const { width, height } = Dimensions.get('window')
 
@@ -54,8 +51,8 @@ const kategoriProDariCilent = (props) => {
         picture: data.value.picture,
         retail_id: data.retail_id,
       }))
-       console.log('RTL ID '+ JSON.stringify(state.retail_id));
-       console.log('name '+ JSON.stringify(state.mb_name));
+      console.log('RTL ID ' + JSON.stringify(state.retail_id));
+      console.log('name ' + JSON.stringify(state.mb_name));
 
     }).catch(err => {
       console.log('err', err)
@@ -73,14 +70,15 @@ const kategoriProDariCilent = (props) => {
     detailKategori()
   }, [])
 
-  
+
   const detailKategori = () => {
     const kid = props.navigation.state.params.ctg_id
     let rid2 = props.navigation.state.params.rid2
-    console.log('kid ', (kid))
-    axios.get('https://market.pondok-huda.com/dev/react/product/getct/'+rid2+'/'+kid)
+    console.log('rid2 ', (rid2))
+    console.log(svr.url + 'product/getcrt/' + rid2 + '/' + kid + '/' + svr.api)
+    axios.get(svr.url + 'product/getcrt/' + rid2 + '/' + kid + '/' + svr.api)
       .then(result => {
-        console.log('Detail Kategori '+ JSON.stringify(result.data));
+        console.log('Detail Kategori ' + JSON.stringify(result.data));
         if (result.data.status == 200) {
           //hendle success
           console.log('Produk Bangunan ===> ', result);
@@ -103,7 +101,7 @@ const kategoriProDariCilent = (props) => {
   const getProdukDetail = (id) => {
     // let pid = props.navigation.state.params.id
     console.log('piddddddddddd', id)
-    NavigatorService.navigate('Produk', {value : id} )
+    NavigatorService.navigate('Produk', { value: id })
   }
 
   const RenderItem = (item, index) => (
@@ -120,16 +118,10 @@ const kategoriProDariCilent = (props) => {
             prefix={'Rp. '}
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', marginRight: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          {/* <Text style={{width:toDp(200)}}>Harga: {item.price}</Text> */}
           <Text style={{ width: toDp(200) }}>Stock: {item.stock}</Text>
           <Text style={{ width: toDp(200) }}>Berat: {item.berat}</Text>
           <Text style={{ width: toDp(200) }}>Kategori: {item.category.substr(0, 5)}</Text>
           <Text style={{ width: toDp(200) }}>Kondisi: {item.kondisi}</Text>
-          {/* <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.dariKota}</Text>
-             <Image source={allLogo.icstar} style={styles.star}/>
-             <Text style={styles.bintang}>{item.bintang}</Text>
-             <Text style={styles.terjual}>{item.terjual}</Text> */}
         </ View>
       </ View>
     </Pressable>
@@ -167,7 +159,7 @@ const kategoriProDariCilent = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={styles.bodyMenu}>
+      {/* <View style={styles.bodyMenu}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.txtTerbaru}>Terbaru</Text>
         </TouchableOpacity>
@@ -177,7 +169,7 @@ const kategoriProDariCilent = (props) => {
         <TouchableOpacity style={styles.button2}>
           <Text style={styles.txtHarga}>Harga</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       <CardProduct />
     </View>
   )
@@ -249,7 +241,7 @@ const styles = StyleSheet.create({
     height: toDp(36),
     borderRadius: toDp(10),
     flexDirection: 'row',
-    top:toDp(10),
+    top: toDp(10),
     justifyContent: 'space-between',
     alignItems: 'center',
     shadowColor: "#000",
@@ -317,13 +309,14 @@ const styles = StyleSheet.create({
   },
   txtProduct: {
     width: toDp(100),
-    height: toDp(225),
+    height: toDp(220),
     backgroundColor: 'white',
     bottom: toDp(20)
   },
   imgProduct: {
     width: toDp(100),
-    height: toDp(100)
+    height: toDp(100),
+    borderRadius:toDp(10)
   }
 });
 

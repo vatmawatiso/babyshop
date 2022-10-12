@@ -8,7 +8,8 @@ import {
     ImageBackground,
     Pressable,
     AsyncStorage,
-    ScrollView
+    ScrollView, 
+    ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -48,7 +49,9 @@ const Pengajuan = (props) => {
         rtl_status: '',
         retail_id: '',
         cityname: [],
-        bo_rtlid: false
+        bo_rtlid: false,
+        latitude: '',
+        longitude: '',
     })
 
     // GET CITY
@@ -56,12 +59,19 @@ const Pengajuan = (props) => {
     useEffect(() => {
         city()
 
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                setKordinat()
+            }
+        );
+
     }, [])
 
     const city = () => {
         // setState(state => ({...state, loading: true }))
-        axios.get(svr.url+'city/'+svr.api)
-        // axios.get('https://market.pondok-huda.com/dev/react/city/')
+        axios.get(svr.url + 'city/' + svr.api)
+            // axios.get('https://market.pondok-huda.com/dev/react/city/')
             .then(result => {
                 // handle success
                 //alert(JSON.stringify(result))
@@ -71,7 +81,8 @@ const Pengajuan = (props) => {
 
             }).catch(err => {
                 //console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
     }
@@ -122,22 +133,22 @@ const Pengajuan = (props) => {
             rtl_name: state.rtl_name,
             rtl_phone: state.rtl_phone,
             rtl_addres: state.rtl_addres,
-            rtl_lat: state.rtl_lat,
-            rtl_long: state.rtl_long,
+            rtl_lat: state.latitude,
+            rtl_long: state.longitude,
             rtl_city: state.rtl_city,
             rtl_status: state.rtl_status
         }
         console.log('CEK BODY ===> ' + JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        axios.post(svr.url+'retail/'+svr.api,body)
-        // axios.post('https://market.pondok-huda.com/dev/react/retail/', body)
+        axios.post(svr.url + 'retail/' + svr.api, body)
+            // axios.post('https://market.pondok-huda.com/dev/react/retail/', body)
             .then(response => {
 
                 console.log('CEK URL ===>' + JSON.stringify(response.data.status));
 
                 if (response.data.status === 201) {
-                    alert('Pengajuan berhasil dikirim!')
+                    ToastAndroid.show("Pengajuan berhasil dikirim!", ToastAndroid.SHORT)
 
                     NavigatorService.navigate('Profilone')
 
@@ -146,17 +157,87 @@ const Pengajuan = (props) => {
                     setState(state => ({ ...state, loading: false }))
 
                 } else {
-                    alert('Gagal buat pengajuan!')
+                    ToastAndroid.show("Gagal buat pengajuan!", ToastAndroid.SHORT)
                     setState(state => ({ ...state, loading: false }))
 
                     console.log('CEK ERROR ===>' + JSON.stringify(response.data));
                 }
 
             }).catch(err => {
-                // console.log(err)
-                alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
             })
+    }
+
+
+    const setKordinat = () => {
+        //Penggunaan Promise
+        AsyncStorage.getItem('kordinat').then(response => {
+            let data = JSON.parse(response);
+            if (response !== null) {
+                if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+                    setState(state => ({
+                        ...state,
+                        latlongName: 'Atur Lokasi',
+                        inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+                    }))
+                } else {
+                    setState(state => ({
+                        ...state,
+                        latitude: data.latitude,
+                        longitude: data.longitude,
+
+                    }))
+                }
+            } else {
+                //calback promise reject
+                setState(state => ({
+                    ...state,
+                    latlongName: 'Atur Lokasi',
+                    inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+                }))
+            }
+
+        }).catch(err => {
+            console.log('err', err)
+        })
+
+    }
+
+
+    const validateInput = () => {
+        if (state.mb_name.trim() == '') {
+            alert('Nama tidak boleh kosong!')
+            return;
+        }
+        if (state.rtl_name.trim() == '') {
+            alert('Nama toko tidak boleh kosong!')
+            return;
+        }
+        if (state.rtl_phone.trim() == '') {
+            alert('Nomor Hp tidak boleh kosong!')
+            return;
+        }
+        if (state.rtl_addres.trim() == '') {
+            alert('Alamat tidak boleh kosong!')
+            return;
+        }
+        if (state.rtl_city.trim() == '') {
+            alert('Kota tidak boleh kosong!')
+            return;
+        }
+        if (state.latitude.trim() == '') {
+            alert('Lokasi toko tidak boleh kosong!')
+            return;
+        }
+        if (state.longitude.trim() == '') {
+            alert('Lokasi toko tidak boleh kosong!')
+            return;
+        }
+
+        InputPengajuan()
     }
 
 
@@ -169,9 +250,9 @@ const Pengajuan = (props) => {
             />
 
 
+            <ScrollView>
+                <View style={styles.profilToko}>
 
-            <View style={styles.profilToko}>
-                <ScrollView>
                     <Image source={{ uri: DATA[0].image }} style={styles.imgProfil} />
                     <View style={{ marginLeft: toDp(80), bottom: toDp(30) }}>
                         <Text style={{ fontWeight: 'bold' }}>Gambar Profil</Text>
@@ -223,7 +304,7 @@ const Pengajuan = (props) => {
                             buttonTextStyle={{ fontSize: toDp(12), color: '#4E5A64' }}
                             rowTextStyle={{ fontSize: toDp(12) }}
                             dropdownStyle={{ borderRadius: toDp(5) }}
-                            rowStyle={{ height: toDp(35), padding: toDp(10) }}
+                            rowStyle={{ height: toDp(48), padding: toDp(10) }}
                             defaultButtonText={'Pilih Kota atau Kabupaten'}
                             data={state.cityname}
                             onSelect={(selectedItem, index) => {
@@ -247,32 +328,65 @@ const Pengajuan = (props) => {
                                 );
                             }}
                         />
-                        <Text style={styles.txtDeskripsi}>Latitude</Text>
-                        <TextInput autoCapitalize={'none'}
+                        <Text style={styles.txtDeskripsi}>Set Lokasi Toko Anda</Text>
+                        {state.latitude != '' || state.longitude != '' ?
+                            <>
+                                <View style={{
+                                    backgroundColor: 'white', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15, shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 1,
+                                    },
+                                    shadowOpacity: 0.20,
+                                    shadowRadius: 1.41,
+
+                                    elevation: 2,
+                                }}>
+                                    <Text style={{ color: '#4E5A64', }}>{state.latitude} dan {state.longitude}</Text>
+                                </View>
+                            </>
+                            :
+                            <>
+                                <Pressable onPress={() => NavigatorService.navigate('Peta')} style={{ backgroundColor: '#06BA0D', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                                    <Text style={{ color: 'white', fontWeight: '800' }}>Cari Titik Lokasi</Text>
+                                </Pressable>
+                            </>
+                        }
+
+                        {/* <Pressable onPress={() => NavigatorService.navigate('Peta')} style={{ backgroundColor: '#06BA0D', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                            <Text style={{ color: 'white', fontWeight: '800' }}>Cari Titik Lokasi</Text>
+                        </Pressable> */}
+                        {/* <Text style={styles.txtDeskripsi}>Latitude</Text>
+                        <TextInput
+                            autoCapitalize={'none'}
                             style={styles.textInput1}
                             placeholderTextColor={'#4E5A64'}
-                            placeholder={'Latitude'}
-                            value={state.rtl_lat}
-                            onChangeText={(text) => setState(state => ({ ...state, rtl_lat: text }))}
+                            // placeholder={'Latitude'}
+                            value={state.latitude}
+                            onChangeText={(text) => setState(state => ({ ...state, latitude: text }))}
                         />
                         <Text style={styles.txtDeskripsi}>Longtitude</Text>
-                        <TextInput autoCapitalize={'none'}
+                        <TextInput
+                            autoCapitalize={'none'}
                             style={styles.textInput1}
                             placeholderTextColor={'#4E5A64'}
-                            placeholder={'Longtitude'}
-                            value={state.rtl_long}
-                            onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
-                        />
+                            // placeholder={'Longtitude'}
+                            value={state.longitude}
+                            onChangeText={(text) => setState(state => ({ ...state, longitude: text }))}
+                        /> */}
                     </View>
-                </ScrollView>
-            </View>
 
-            {/* {state.bo_rtlid == true &&
-        <Text>{state.retail_id}</Text>
-      } */}
-            <Pressable style={styles.btnSimpan} onPress={() => InputPengajuan()}>
-                <Text style={styles.txtSimpan}>Simpan</Text>
-            </Pressable>
+                    {/* <Text>{state.latitude} dan {state.longitude}</Text> */}
+
+
+                </View>
+            </ScrollView>
+
+            <View style={{ bottom: 10, alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: toDp(26) }}>
+                <Pressable style={styles.btnSimpan} onPress={() => validateInput()}>
+                    <Text style={styles.txtSimpan}>Simpan</Text>
+                </Pressable>
+            </View>
 
         </View>
     )
@@ -281,6 +395,8 @@ const Pengajuan = (props) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        backgroundColor: 'white',
+        flex: 1
     },
     imgProfil: {
         height: toDp(50),
@@ -289,28 +405,28 @@ const styles = StyleSheet.create({
         left: toDp(15),
         borderRadius: toDp(25)
     },
-    profilToko: {
-        backgroundColor: '#F9F8F8',
-        borderRadius: toDp(10),
-        top: toDp(10),
-        width: toDp(335),
-        height: toDp(490),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+    // profilToko: {
+    //     backgroundColor: '#FFF',
+    //     borderRadius: toDp(10),
+    //     top: toDp(10),
+    //     width: toDp(335),
+    //     height: toDp(490),
+    //     shadowColor: "#000",
+    //     shadowOffset: {
+    //         width: 0,
+    //         height: 1,
+    //     },
+    //     shadowOpacity: 0.20,
+    //     shadowRadius: 1.41,
 
-        elevation: 3,
-    },
+    //     elevation: 3,
+    // },
     btnGanti: {
         width: toDp(90),
         top: toDp(5),
     },
     textInput: {
-        width: toDp(320),
+        width: toDp(340),
         height: toDp(48),
         backgroundColor: '#FFFFFF',
         paddingHorizontal: toDp(15),
@@ -324,10 +440,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
 
-        elevation: 1,
+        elevation: 2,
     },
     textInput1: {
-        width: toDp(320),
+        width: toDp(340),
         height: toDp(48),
         backgroundColor: '#FFFFFF',
         paddingHorizontal: toDp(15),
@@ -342,7 +458,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
 
-        elevation: 1,
+        elevation: 2,
     },
     txtDeskripsi: {
         top: toDp(8),
@@ -357,10 +473,9 @@ const styles = StyleSheet.create({
     },
     btnSimpan: {
         backgroundColor: '#2A334B',
-        width: toDp(335),
+        width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10),
-        top: toDp(20),
         justifyContent: 'center'
     },
     txtSimpan: {
@@ -369,8 +484,8 @@ const styles = StyleSheet.create({
         fontSize: toDp(14)
     },
     dropdown: {
-        width: toDp(320),
-        height: toDp(39),
+        width: toDp(340),
+        height: toDp(48),
         borderRadius: toDp(10),
         top: toDp(2),
         backgroundColor: '#FFFFFF',

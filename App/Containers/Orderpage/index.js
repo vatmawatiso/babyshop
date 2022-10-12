@@ -52,8 +52,8 @@ const Orderpage = (props) => {
               <Pressable style={[styles.presable]} onPress={() => setCon('Dikemas')}>
                 <Text style={[styles.txtOrder, { color: con === 'Dikemas' ? '#6495ED' : 'black' }]}>Dikemas</Text>
               </Pressable>
-              <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
-                <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black' }]}>Dikirim</Text>
+              <Pressable style={[styles.presable]} onPress={() => setCon('Diterima')}>
+                <Text style={[styles.txtOrder, { color: con === 'Diterima' ? '#6495ED' : 'black' }]}>Diterima</Text>
               </Pressable>
               <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
                 <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black' }]}>Selesai</Text>
@@ -76,7 +76,7 @@ const Orderpage = (props) => {
               <SedangDiproses mbid={mb_id} con={con} />
                 : con == 'Dikemas' ?
                   <Dikemas mbid={mb_id} con={con} />
-                  : con == 'Dikirim' ?
+                  : con == 'Diterima' ?
                     <Dikirim mbid={mb_id} con={con} />
                     : con == 'Selesai' ?
                       <Selesai mbid={mb_id} con={con} />

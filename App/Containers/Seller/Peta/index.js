@@ -30,7 +30,7 @@ import MapView, { Marker, LocalTile } from 'react-native-maps'; //setting lokasi
 const latitudeDelta = 0.025  //setting lokasi
 const longitudeDelta = 0.025 //setting lokasi
 
-const A = (props) => {
+const Peta = (props) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [state, setState] = useState({
     lat: '',
@@ -40,54 +40,54 @@ const A = (props) => {
       longitudeDelta,
       latitude: -6.9032739,  //setting ke lokasi bandung
       longitude: 107.5731164 //setting ke lokasi bandung
-    }
+    },
   })
 
   //setting lokasi
   const changeValue = region => {
     setState({ region })
     console.log('Kordinate:' + JSON.stringify(region));
-    
+
     AsyncStorage.setItem('kordinat', JSON.stringify(region))
     console.log('cek kordinat = ', JSON.stringify(region))
     //log gunakan region.latitude dan region.longitude
   }
 
-//   useEffect(() => {
-//     setKordinat()
 
-// }, [])
+  // console.log('asal hal = ', asalProps)
+  // useEffect(() => {
+  //   setState(state => ({
+  //     ...state,
+  //     asalHal: props.navigation.state.params.asalProps
 
-//   const setKordinat = () => {
+  //   }))
+  //   console.log('asal props = '+ JSON.stringify(state.asalHal))
+  // }, [])
 
-//     AsyncStorage.getItem('kordinat').then(response => {
-//         let data = JSON.parse(response);
-//         console.log('cek lat = ', data);
-//         setState(state => ({
-//             ...state,
-//             lat: data.latitude,
-//             long: data.longitude
-//         }))
-    
-
-//         console.log('cek kordinat bener apa gak : ' + state.lat + ' | ' + state.long);
-
-//     }).catch(err => {
-//         console.log('err', err)
-//     })
-
-// }
 
   const backActions = () => {
-    Alert.alert('Konfirmasi', 'Simpan Lokasi?', [
-      {
-        text: 'Tidak',
-        onPress: () => null,
-        style: "cancel"
-      },
-      { text: 'Ya Simpan', onPress: () => NavigatorService.navigate('Beranda') }
-    ]);
-    return true;
+    let asalProps = props.navigation.state.params.asalProps;
+    if (asalProps == 'ubahToko') {
+      Alert.alert('Konfirmasi', 'Simpan Perubahan Lokasi?', [
+        {
+          text: 'Tidak',
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: 'Ya Simpan', onPress: () => NavigatorService.navigate('Ubahtoko') }
+      ]);
+      return true;
+    } else {
+      Alert.alert('Konfirmasi', 'Simpan Lokasi?', [
+        {
+          text: 'Tidak',
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: 'Ya Simpan', onPress: () => NavigatorService.navigate('Pengajuan') }
+      ]);
+      return true;
+    }
 
   };
 
@@ -128,6 +128,21 @@ const A = (props) => {
       <Pressable onPress={() => backActions()} style={{ backgroundColor: '#06BA0D', paddingTop: 10, paddingBottom: 10, paddingLeft: 18, paddingRight: 18, borderRadius: 6, bottom: 0 }}>
         <Text style={{ color: 'white' }}>Set Location</Text>
       </Pressable>
+
+      {/* {state.asalHal == 'ubahToko' ?
+        <>
+          <Pressable onPress={() => NavigatorService.navigate('Ubahtoko')} style={{ backgroundColor: '#06BA0D', paddingTop: 10, paddingBottom: 10, paddingLeft: 18, paddingRight: 18, borderRadius: 6, bottom: 0 }}>
+            <Text style={{ color: 'white' }}>Set Perubahan Location</Text>
+          </Pressable>
+        </>
+        :
+        <>
+          <Pressable onPress={() => backActions()} style={{ backgroundColor: '#06BA0D', paddingTop: 10, paddingBottom: 10, paddingLeft: 18, paddingRight: 18, borderRadius: 6, bottom: 0 }}>
+            <Text style={{ color: 'white' }}>Set Location</Text>
+          </Pressable>
+        </>
+      } */}
+
     </View>
   )
 
@@ -161,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default A;
+export default Peta;

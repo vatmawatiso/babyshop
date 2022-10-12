@@ -150,6 +150,8 @@ const EditProduk = (props) => {
 
   const getProdukDetailbyId = () => {
     let pid = props.navigation.state.params.id;
+    console.log(pid)
+    console.log(svr.url + 'product/' + pid + '/' + svr.api)
     axios.get(svr.url + 'product/' + pid + '/' + svr.api)
       // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
       .then(response => {
@@ -206,6 +208,8 @@ const EditProduk = (props) => {
   }
   const EditProduk = async () => {
     let pid = props.navigation.state.params.id;
+    let rtlid = props.navigation.state.params.rtl_id;
+    console.log('cek rtlid ==> ', rtlid)
     const body = {
       prd_name: state.prd_name,
       // pdd_prd_id: state.pdd_prd_id,
@@ -213,13 +217,13 @@ const EditProduk = (props) => {
       prd_price: state.prd_price,
       prd_thumbnail: state.prd_thumbnail,
       prd_ctg_id: state.prd_ctg_id,
-      prd_rtl_id: state.id_retail,
+      prd_rtl_id: rtlid,
       prd_berat: state.prd_berat,
       // prd_kd_id: state.prd_kd_id,
       // nama_kondisi: state.nama_kondisi,
       // ctg_name: state.ctg_name,
     }
-    console.log('BODY == Produk===>', body);
+    // console.log('BODY == Produk===>', body);
 
     setState(state => ({ ...state, loading: true }))
     const formData = new FormData();
@@ -228,7 +232,7 @@ const EditProduk = (props) => {
     formData.append('prd_stock', state.prd_stock);
     formData.append('prd_price', state.prd_price);
     formData.append('prd_ctg_id', state.prd_ctg_id);
-    formData.append('prd_rtl_id', state.id_retail);
+    formData.append('prd_rtl_id', rtlid);
     formData.append('prd_berat', state.prd_berat);
     // formData.append('prd_kd_id', state.prd_kd_id);
     // formData.append('nama_kondisi', state.nama_kondisi);
@@ -520,6 +524,10 @@ const EditProduk = (props) => {
                 dropdownStyle={{ borderRadius: toDp(10) }}
                 rowStyle={{ height: toDp(48), padding: toDp(5) }}
                 defaultButtonText={'Pilih Kategori'}
+                defaultValue={{
+                  prd_ctg_id: state.prd_ctg_id,
+                  ctg_name: state.ctg_name
+                }}
                 data={state.kategori}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem.ctg_id, index)

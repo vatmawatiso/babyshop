@@ -82,6 +82,17 @@ const Kategori = (props) => {
   ]
 
   useEffect(() => {
+    AsyncStorage.getItem('rtlid').then(rtlid => {
+      let rtl = rtlid;
+      setState(state => ({
+        ...state,
+        rtl_id: rtl
+      }))
+      console.log('cek rtl id = ', state.rtl_id)
+    }).catch(err => {
+      console.log('err', err)
+    })
+
     category()
 
   }, [])
@@ -109,7 +120,7 @@ const Kategori = (props) => {
   const getKategori = (value, ctg_id, ctg_name) => {
     console.log('cekcok = ', ctg_id);
     console.log('cekcok = ', ctg_name);
-    NavigatorService.navigate('Detailkategori', { value, ctg_id: ctg_id, ctg_name: ctg_name })
+    NavigatorService.navigate('Detailkategori', { value, ctg_id: ctg_id, ctg_name: ctg_name, rtl_id: state.rtl_id})
   }
 
 
@@ -146,7 +157,7 @@ const Kategori = (props) => {
               data={state.datas}
               renderItem={({ item, index, value }) => {
                 return (
-                  ListKategori(item, index, () => getKategori(value, item.ctg_id, item.ctg_name))
+                  ListKategori(item, index, () => getKategori(value, item.ctg_id, item.ctg_name, state.retail_id))
                 )
               }}
               ListFooterComponent={() => <View style={{ height: toDp(180) }} />}

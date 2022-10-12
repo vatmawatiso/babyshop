@@ -76,10 +76,11 @@ const Detailkategori = (props) => {
 
   
   const detailKategori = () => {
-    const kid = props.navigation.state.params.ctg_id
-    console.log('kid ', (kid))
-    console.log(svr.url+'product/getct/'+state.retail_id+'/'+kid+'/'+svr.api)
-    axios.get(svr.url+'product/getct/'+state.retail_id+'/'+kid+'/'+svr.api)
+    const kid = props.navigation.state.params.ctg_id;
+    const rtlid = props.navigation.state.params.rtl_id;
+    console.log('kid ', (rtlid))
+    console.log(svr.url+'product/getcrt/'+rtlid+'/'+kid+'/'+svr.api)
+    axios.get(svr.url+'product/getcrt/'+rtlid+'/'+kid+'/'+svr.api)
     // axios.get('https://market.pondok-huda.com/dev/react/product/getct/'+state.retail_id+'/'+kid)
       .then(result => {
         console.log('Detail Kategori '+ JSON.stringify(result.data));
@@ -102,29 +103,22 @@ const Detailkategori = (props) => {
   }
 
   const RenderItem = (item, index) => (
-    <Pressable onPress={() => alert('Produk : ' + index)}>
+    <Pressable>
       <View style={styles.card}>
         <View style={styles.txtProduct}>
           <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
-          <Text style={styles.textproduct}>{item.product_name.substr(0, 5)}</Text>
+          <Text style={styles.textproduct}>{item.product_name}</Text>
           <NumberFormat
             value={item.price}
             displayType={'text'}
             thousandSeparator={'.'}
             decimalSeparator={','}
             prefix={'Rp. '}
-            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', marginRight: toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
+            renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', marginRight: toDp(5), marginTop:toDp(5), marginBottom:toDp(5) }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          {/* <Text style={{width:toDp(200)}}>Harga: {item.price}</Text> */}
-          <Text style={{ width: toDp(200) }}>Stock: {item.stock}</Text>
-          <Text style={{ width: toDp(200) }}>Berat: {item.berat}</Text>
-          <Text style={{ width: toDp(200) }}>Kategori: {item.category.substr(0, 5)}</Text>
-          <Text style={{ width: toDp(200) }}>Kondisi: {item.kondisi}</Text>
-          {/* <Image source={allLogo.icaddress} style={styles.address} />
-             <Text style={styles.dariKota}>{item.dariKota}</Text>
-             <Image source={allLogo.icstar} style={styles.star}/>
-             <Text style={styles.bintang}>{item.bintang}</Text>
-             <Text style={styles.terjual}>{item.terjual}</Text> */}
+          <Text style={{ width: toDp(200), fontSize:toDp(12) }}>Stock: {item.stock}</Text>
+          <Text style={{ width: toDp(200), fontSize:toDp(12)  }}>Berat: {item.berat}</Text>
+          <Text style={{ width: toDp(200), fontSize:toDp(12)  }}>Kategori: {item.category.substr(0, 5)}</Text>
         </ View>
       </ View>
     </Pressable>
@@ -162,7 +156,7 @@ const Detailkategori = (props) => {
         onPress={() => props.navigation.goBack()}
       />
 
-      <View style={styles.bodyMenu}>
+      {/* <View style={styles.bodyMenu}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.txtTerbaru}>Terbaru</Text>
         </TouchableOpacity>
@@ -172,7 +166,7 @@ const Detailkategori = (props) => {
         <TouchableOpacity style={styles.button2}>
           <Text style={styles.txtHarga}>Harga</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       <CardProduct />
     </View>
   )
@@ -270,12 +264,12 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'white',
-    top: toDp(15),
+    top: toDp(5),
     padding: toDp(25),
     marginVertical: toDp(5),
     marginHorizontal: toDp(16),
     borderRadius: toDp(10),
-    height: toDp(235),
+    height: toDp(250),
     right: toDp(2),
     shadowColor: "#000",
     shadowOffset: {
@@ -308,17 +302,19 @@ const styles = StyleSheet.create({
   },
   textproduct: {
     fontWeight: 'bold',
-    fontSize: toDp(12)
+    fontSize: toDp(13),
+    marginTop:toDp(10)
   },
   txtProduct: {
     width: toDp(100),
-    height: toDp(225),
+    height: toDp(170),
     backgroundColor: 'white',
-    bottom: toDp(20)
+    bottom: toDp(10)
   },
   imgProduct: {
     width: toDp(100),
-    height: toDp(100)
+    height: toDp(100),
+    borderRadius:toDp(10)
   }
 });
 

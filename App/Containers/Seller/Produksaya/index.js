@@ -56,7 +56,7 @@ const Produksaya = (props) => {
         picture: data.value.picture,
         retail_id: data.retail_id,
       }))
-      // console.log('RTL ID ' + JSON.stringify(state.retail_id));
+      console.log('RTL ID ' + JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)
@@ -72,12 +72,23 @@ const Produksaya = (props) => {
       console.log('err', err)
     })
 
+    AsyncStorage.getItem('rtlid').then(rtlid => {
+      let rtl = rtlid;
+      setState(state => ({
+        ...state,
+        rtl_id: rtl
+      }))
+      console.log('cek rtl id = ', state.rtl_id)
+    }).catch(err => {
+      console.log('err', err)
+    })
+
     Produkbangunan()
   }, [])
 
   const Produkbangunan = () => {
-    let retail = props.navigation.state.params.retail_id;
-    console.log(retail);
+    let retail = props.navigation.state.params.rtl_id;
+    console.log('cek retail id ==> ', retail);
     console.log(svr.url + 'product/retail/' + retail + '/' + svr.api)
     axios.get(svr.url + 'product/retail/' + retail + '/' + svr.api)
       .then(result => {
@@ -103,7 +114,7 @@ const Produksaya = (props) => {
 
   //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
   const refresh = async () => {
-    let retail = props.navigation.state.params.retail_id;
+    let retail = props.navigation.state.params.rtl_id;
     console.log(retail);
     console.log(svr.url + 'product/retail/' + retail + '/' + svr.api)
     axios.get(svr.url + 'product/retail/' + retail + '/' + svr.api)
@@ -128,7 +139,7 @@ const Produksaya = (props) => {
 
   const renderItem = (item, index) => (
     <View style={styles.card}>
-      <Pressable onPress={() => NavigatorService.navigate('EditProduk', { id: item.id })}>
+      <Pressable onPress={() => NavigatorService.navigate('EditProduk', { id: item.id, rtl_id: state.rtl_id})}>
         <View style={styles.txtProduct}>
           <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
             <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />

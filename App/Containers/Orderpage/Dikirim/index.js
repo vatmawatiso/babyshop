@@ -75,6 +75,7 @@ const Dikirim = (props) => {
     const getOrder = () => {
         let mb = props.mbid;
         let content = props.con;
+        console.log('cek con = ', svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
         axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {

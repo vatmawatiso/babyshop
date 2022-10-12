@@ -200,7 +200,7 @@ const Homeseller = (props) => {
             </View>
             <Text style={styles.textIcon}>Toko Saya</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya', { retail_id: state.retail_id })}>
+          <TouchableOpacity style={styles.presable2} onPress={() => NavigatorService.navigate('Produksaya', { rtl_id: state.rtl_id })}>
             <View style={styles.viewProduk}>
               <Image source={allLogo.product} style={styles.imgProduk} />
             </View>
@@ -285,7 +285,7 @@ const Homeseller = (props) => {
             <Image source={allLogo.ichome} style={styles.ichome} />
             <Text style={styles.txtBeranda}>Beranda</Text>
           </Pressable>
-          <Pressable style={[styles.presable, { backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('Tambahproduk')} >
+          <Pressable style={[styles.presable, { backgroundColor: state.content === 'tambah' ? '#234D6C' : '#2A334B' }]} onPress={() => NavigatorService.navigate('Tambahproduk', {rtl_id: state.rtl_id})} >
             <Image source={allLogo.Plus} style={styles.icplus} />
             <Text style={styles.txtBtnmenu}>Tambah Produk</Text>
           </Pressable>
@@ -533,7 +533,7 @@ const styles = StyleSheet.create({
     width: toDp(50),
     top: toDp(25),
     left: toDp(15),
-    borderRadius: toDp(20)
+    borderRadius: toDp(25)
   },
   profil1: {
     flexDirection: 'row',

@@ -32,7 +32,6 @@ const Produk = (props) => {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [idcat, setIdCat] = useState('');
-  let watchID: ?number = null;
   const [state, setState] = useState({
     id: '',
     arrayUsers: [],
@@ -47,110 +46,68 @@ const Produk = (props) => {
     loading: false,
     loading: true,
     selected: false,
-    id_produk: ''
+    retail_id:'',
+    id_produk: '',
+    lat: [],
+    long: [],
+    inArea: 'false',
+    inMessage: '',
+    inload: 'true',
   })
+
 
 
   useEffect(() => {
 
-    requestLocationPermission();
-    return () => {
-        Geolocation.clearWatch(watchID);
-    };
+    // get id pengguna
+    AsyncStorage.getItem('setProduk').then(response => {
+      let data = JSON.parse(response);
+      setState(state => ({
+        ...state,
+            retail_id: data.data[0].retail,
+      }))
+      console.log('retail name', state.retail_id)
+    }).catch(error => {
+      console.log('error', error)
+    })
 
-}, [watchID])
 
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({ ...state, id: ids }))
+      console.log('id', state.id)
+    }).catch(error => {
+      console.log('error', error)
+    })
 
-const requestLocationPermission = async () => {
-  if (Platform.OS === 'ios') {
-      getOneTimeLocation();
-      subscribeLocationLocation()
-  } else {
-      try {
-          const granted = await PermissionsAndroid.request(
-              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-              {
-                  title: 'Location Access Required',
-                  message: 'This App needs to Access your location',
-              },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-              //To Check, If Permission is granted
-              getOneTimeLocation();
-              subscribeLocationLocation()
-          } else {
-              alert('Permission Denied');
-          }
-      } catch (err) {
-          console.log(err);
+    //Pemanggilan promise saat terjadi back navigation
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        setKordinat()
+          .then(result => {
+            return getProdukDetailbyId(result)
+            setState(state => ({
+              ...state,
+              latitude: result.latitude,
+              longitude: result.longitude
+            }))
+          }, error1 => {
+            setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+          })
+          .then(result2 => {
+            setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
+          },
+            error => {
+              setState(state => ({ ...state, inMessage: error }))
+            })
       }
-  }
-}
+    );
 
-const getOneTimeLocation = () => {
 
-  Geolocation.getCurrentPosition(
-      //Will give you the current location
-      (position) => {
-          console.log('You are Here');
-
-          //getting the Longitude from the location json
-          const currentLongitude =
-              JSON.stringify(position.coords.longitude);
-
-          //getting the Latitude from the location json
-          const currentLatitude =
-              JSON.stringify(position.coords.latitude);
-
-          //Setting Longitude state
-          console.log('HERE LOCATION---->' + currentLatitude + ',' + currentLongitude);
-          let lat = JSON.parse(currentLatitude);
-          let long = JSON.parse(currentLongitude);
-          console.log('latitude ', lat);
-          console.log('longtitude ', long);
-          getProdukDetailbyId(lat, long)
-
-      },
-      (error) => {
-          alert(error.message);
-      },
-      {
-          enableHighAccuracy: true,
-          timeout: 30000,
-          maximumAge: 1000
-      },
-  );
-};
-
-const subscribeLocationLocation = () => {
-  watchID = Geolocation.watchPosition(
-      (position) => {
-          //Will give you the location on location change
-
-          console.log('You are Here');
-          console.log(position);
-
-          //getting the Longitude from the location json
-          const currentLongitude =
-              JSON.stringify(position.coords.longitude);
-
-          //getting the Latitude from the location json
-          const currentLatitude =
-              JSON.stringify(position.coords.latitude);
-
-          //Setting Longitude state
-          console.log('HERE LOCATION SUB---->' + currentLatitude + ',' + currentLongitude);
-      },
-      (error) => {
-          alert(error.message);
-      },
-      {
-          enableHighAccuracy: true,
-          maximumAge: 1000,
-          timeout: 20000
-      },
-  );
-};
+  }, [])
 
   useEffect(() => {
     //getProdukbyId()
@@ -176,58 +133,152 @@ const subscribeLocationLocation = () => {
       console.log('err', err)
     })
 
+    // return (() => {
+    //   getProdukDetailbyId()
+    // })
+
     return (() => {
-      getProdukDetailbyId()
+      //Pemanggilan promise saat buka pertama
+      setKordinat()
+        .then(result => {
+          return getProdukDetailbyId(result)
+          return setState(state => ({
+            ...state,
+            latitude: result.latitude,
+            longitude: result.longitude
+          }))
+        }, error1 => {
+          setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+        })
+        .then(result2 => {
+          setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
+
+        },
+          error => {
+            setState(state => ({ ...state, inMessage: error }))
+          })
+
     })
 
   }, [state.id])
 
 
-  const getProdukDetailbyId = (lat, long) => {
-    let pid = props.navigation.state.params.value;
-    console.log(svr.url + 'product/' + pid + '/' +lat+'/'+long+'/'+ svr.api)
-    Axios.get(svr.url + 'product/' + pid + '/' +lat+'/'+long+'/'+ svr.api)
-      // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
-      .then(response => {
+  const getProdukDetailbyId = (json) => {
+    return new Promise((resolve, reject) => {
+      let pid = props.navigation.state.params.value;
+      console.log('cekkkkkkk = ', json.latitude + '/' + json.longitude);
+      Axios.get(svr.url + 'product/' + pid + '/' + json.latitude + '/' + json.longitude + '/' + svr.api)
+        // Axios.get('https://market.pondok-huda.com/dev/react/product/' + pid)
+        .then(result => {
 
-        console.log('PRODUK =====>' + JSON.stringify(response));
+          console.log('PRODUK =====>' + JSON.stringify(result));
 
-        if (response.data.status == 200) {
-          // //save Async Storage
-          console.log('CHECKOUT===>' + JSON.stringify(response.data));
+          if (result.data.status == 200) {
+            // //save Async Storage
+            console.log('CHECKOUT===>' + JSON.stringify(result.data));
 
-          AsyncStorage.setItem('setProduk', JSON.stringify(response.data))
-          AsyncStorage.setItem('idProduk', JSON.stringify(response.data.data[0].id))
+            AsyncStorage.setItem('setProduk', JSON.stringify(result.data))
+            AsyncStorage.setItem('idProduk', JSON.stringify(result.data.data[0].id))
 
-          // NavigatorService.navigate('Checkout');s
+            // NavigatorService.navigate('Checkout');s
 
-          console.log('HASIL DETAIL PRODUK ==> : ', response.data)
-          setState(state => ({ ...state, loading: false }))
+            // console.log('HASIL DETAIL PRODUK ==> : ', result.data)
+            // setState(state => ({ ...state, loading: false }))
 
 
-          getCurrentWsh()
+            getCurrentWsh()
+            setState(state => ({ ...state, inArea: 'true' }))
+            resolve(result.data.data)
 
-          let thumbnail = [{
-            thum: response.data.data[0]?.thumbnail
-          }]
+            let thumbnail = [{
+              thum: result.data.data[0]?.thumbnail
+            }]
 
-          let images_det = response.data.detail;
-          console.log('response 1 =>', JSON.stringify(response.data.data))
-          if (images_det.length > 0) {
+            let images_det = result.data.detail;
+            console.log('result 1 =>', JSON.stringify(result.data.data))
+            if (images_det.length > 0) {
 
+            } else {
+
+            }
+            setState(state => ({ ...state, produk: result.data.data, detail: result.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail, stock: result.data.data[0]?.stock }))
+            console.log('stock', state.stoks)
+          } else if (result.data.status == 500) {
+            console.log('result 2 =>', result)
+            //This Modif
+            setState(state => ({ ...state, inArea: '500', }))
+            setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+            ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+            reject('Tidak dapat memuat data')
           } else {
-
+            //This Modif
+            setState(state => ({ ...state, inArea: 'false', }))
+            setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
+            //ToastAndroid.show("Data not found", ToastAndroid.SHORT)
+            reject('Lokasi kamu di luar jangkauan penjual')
           }
-          setState(state => ({ ...state, produk: response.data.data, detail: response.data.detail, fotoProduk: images_det.images, thumbnails: thumbnail, stock: response.data.data[0]?.stock }))
-          console.log('stock', state.stoks)
-        } else {
-          console.log('response 2 =>', response)
-        }
-      }).catch(error => {
-        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
-        console.log('error => ', error)
-      })
+        }).catch(error => {
+          //This Modif, pesan inMessage silahkan ganti
+          setState(state => ({ ...state, inArea: '500', }))
+          setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+          ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
+          console.log('error produk =>', error)
+          reject('Tidak dapat memuat data')
+        })
+    })
   }
+
+
+  const setKordinat = () => {
+    setState(state => ({ ...state, arrayData: [] }))
+    setState(state => ({ ...state, inload: 'true' }))
+    //Penggunaan Promise
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem('kordinat').then(response => {
+        let data = JSON.parse(response);
+        if (response !== null) {
+          if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+            setState(state => ({
+              ...state,
+              latlongName: 'Atur Lokasi',
+              inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+            }))
+            reject('Lokasi mu tidak dalam jangkauan')
+          } else {
+            setState(state => ({
+              ...state,
+              latitude: data.latitude,
+              longitude: data.longitude,
+
+            }))
+            //calback promise
+            resolve(data)
+          }
+        } else {
+          //calback promise reject
+          reject('Lokasi mu tidak dalam jangkauan')
+          setState(state => ({
+            ...state,
+            latlongName: 'Atur Lokasi',
+            inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+          }))
+        }
+
+      }).catch(err => {
+        console.log('err', err)
+        //calback promise reject
+        reject('Tidak dapat memuat data')
+      })
+
+    })
+
+
+  }
+
+
 
   //get current wishlist datas
   const getCurrentWsh = () => {
@@ -486,8 +537,8 @@ const subscribeLocationLocation = () => {
                 <Text> : {item[0]?.berat}</Text>
                 <Text> : {item[0]?.kondisi}</Text>
                 <Text> : </Text>
-                <Text style={{width:toDp(200)}}> : {item[0]?.ctyname} {item[0]?.retailaddres}</Text>
-                <Text> : {item[0]?.jarak.substring(0,2)} KM</Text>
+                <Text style={{ width: toDp(200) }}> : {item[0]?.ctyname} {item[0]?.retailaddres}</Text>
+                <Text> : {item[0]?.jarak.substring(0, 2)} KM</Text>
                 <TextInput
                   keyboardType="numeric"
                   autoCapitalize={'none'}
@@ -551,7 +602,7 @@ const subscribeLocationLocation = () => {
   // (ketika klik tombol beli sekarang)
 
   const selectProduk = (value, id) => {
-    NavigatorService.navigate('Checkout', { value, id: id })
+    NavigatorService.navigate('Checkout', { value, id: id, retail_id: state.retail_id })
     console.log('cek', (value));
   }
 
@@ -568,7 +619,7 @@ const subscribeLocationLocation = () => {
 
       <View style={styles.footer}>
         <View style={styles.btnMenu}>
-          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => sendChat(item[0].id, item[0].retail, item[0].retail_name, item[0].product_name, item[0].price, item[0].retailaddres, item[0].thumbnail )} >
+          <TouchableOpacity style={{ left: toDp(25) }} onPress={() => sendChat(item[0].id, item[0].retail, item[0].retail_name, item[0].product_name, item[0].price, item[0].retailaddres, item[0].thumbnail)} >
             <Image source={allLogo.Chat1} style={styles.icchat} />
           </TouchableOpacity>
           <TouchableOpacity style={{ left: toDp(30) }} onPress={() => putCart(item[0].retail, item[0].berat, item[0].id, item[0].product_name, item[0].price)}>

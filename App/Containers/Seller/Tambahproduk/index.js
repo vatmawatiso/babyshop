@@ -85,7 +85,7 @@ const Tambahproduk = (props) => {
         mb_phone: data.value.mb_phone,
         id_retail: data.retail_id,
       }))
-      console.log('cek state ----------->' + JSON.stringify(state.id_retail));
+      console.log('cek  rtl id ----------->' + JSON.stringify(state.id_retail));
       console.log('cek state ----------->' + JSON.stringify(state.mb_name));
 
 
@@ -176,12 +176,14 @@ const Tambahproduk = (props) => {
 
     setState(state => ({ ...state, loading: true }))
     const formData = new FormData();
+    let rtlid = props.navigation.state.params.rtl_id;
+    console.log('cek rtl id ==> ', rtlid)
     formData.append('prd_name', state.prd_name);
     formData.append('pdd_prd_id', state.pdd_prd_id);
     formData.append('prd_stock', state.prd_stock);
     formData.append('prd_price', state.prd_price);
     formData.append('prd_ctg_id', state.prd_ctg_id);
-    formData.append('prd_rtl_id', state.id_retail);
+    formData.append('prd_rtl_id', rtlid);
     formData.append('prd_berat', state.prd_berat);
     formData.append('prd_kd_id', state.prd_kd_id);
     formData.append('nama_kondisi', state.nama_kondisi);
@@ -525,45 +527,45 @@ const Tambahproduk = (props) => {
 
           </View>
 
-
         </View>
-
-        <View style={{ bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: toDp(26), backgroundColor: 'white', paddingVertical: 20, }}>
-          <Text>{JSON.stringify(state.tmb_image)}</Text>
-          <View style={styles.bodySimpan}>
-            <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
-              <Text style={styles.txtSimpan}>Simpan</Text>
-            </Pressable>
-          </View>
-        </View>
-
-
-        {/* Modal */}
-        <View style={styles.modalBuka}>
-          <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
-            <View style={styles.viewModal}>
-              <Pressable style={styles.modalClose} onPress={() => setModalVisible(!modalVisible)}>
-                <Image source={allLogo.iccross} style={{ height: toDp(20), width: toDp(20), right: toDp(10) }} />
-              </Pressable>
-              <View style={styles.viewJudul}>
-                <Text style={styles.txtJudul}>Tambah Foto Produk</Text>
-              </View>
-              {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
-              <View style={styles.viewBtn}>
-                <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => camera()}>
-                  <Text style={styles.txtButon}>Kamera</Text>
-                </Pressable>
-                <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => gallery()}>
-                  <Text style={styles.txtButon}>Galeri</Text>
-                </Pressable>
-              </View>
-            </View>
-          </Modal>
-        </View>
-
-        {/* end modal */}
-
       </ScrollView>
+
+      <View style={{ bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: toDp(26), backgroundColor: 'white', }}>
+        <Text>{JSON.stringify(state.tmb_image)}</Text>
+        <View style={styles.bodySimpan}>
+          <Pressable style={styles.btnSimpan} onPress={() => InputProduk()}>
+            <Text style={styles.txtSimpan}>Simpan</Text>
+          </Pressable>
+        </View>
+      </View>
+
+
+      {/* Modal */}
+      <View style={styles.modalBuka}>
+        <Modal style={styles.modal} visible={modalVisible} transparent={true} animationType="fade">
+          <View style={styles.viewModal}>
+            <Pressable style={styles.modalClose} onPress={() => setModalVisible(!modalVisible)}>
+              <Image source={allLogo.iccross} style={{ height: toDp(20), width: toDp(20), right: toDp(10) }} />
+            </Pressable>
+            <View style={styles.viewJudul}>
+              <Text style={styles.txtJudul}>Tambah Foto Produk</Text>
+            </View>
+            {/* <View style={{height: 1, width: '100%', backgroundColor: 'green', marginTop: 10}}/>    */}
+            <View style={styles.viewBtn}>
+              <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => camera()}>
+                <Text style={styles.txtButon}>Kamera</Text>
+              </Pressable>
+              <Pressable style={[styles.btnImage, { backgroundColor: '#2A334B' }]} onPress={() => gallery()}>
+                <Text style={styles.txtButon}>Galeri</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      {/* end modal */}
+
+
 
     </View>
   )

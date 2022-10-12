@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
   bodyProfil: {
     backgroundColor: 'white',
     width: toDp(340),
-    height: toDp(210),
+    height: toDp(240),
     borderRadius: toDp(10),
     top: toDp(10),
     shadowColor: "#000",
@@ -669,7 +669,7 @@ const styles = StyleSheet.create({
   iclineright: {
     width: toDp(8),
     height: toDp(14),
-    marginLeft: toDp(24),
+    marginLeft: toDp(17),
   },
   txtPengiriman: {
     left: toDp(0),

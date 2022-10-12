@@ -91,6 +91,7 @@ import Katagori from "../Containers/Katagori";
 import Detailkatagori from "../Containers/Detailkatagori";
 import A from "../Containers/A";
 import Map from "../Containers/Amap";
+import Peta from "../Containers/Seller/Peta";
 
 const AppNavigator = createStackNavigator(
   {
@@ -184,6 +185,7 @@ const AppNavigator = createStackNavigator(
     Detailkatagori: { screen: Detailkatagori},
     A: { screen: A},
     Map: { screen: Map},
+    Peta: { screen: Peta},
 
   },
   {

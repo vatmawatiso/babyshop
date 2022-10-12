@@ -130,6 +130,7 @@ const allLogo = {
   reset_password: require('./img/reset_password.png'),
   markerIcon: require('./img/custom_marker.png'),
   map: require('./img/map.png'),
+  warning: require('./img/warning.png'),
 
 
 }

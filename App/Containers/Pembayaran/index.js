@@ -333,6 +333,7 @@ const Pembayaran = (props) => {
 const styles = StyleSheet.create({
   container: {
     // top:toDp(50),
+    backgroundColor:'white',
     flex: 1,
   },
   iclineright: {

@@ -49,7 +49,10 @@ const Ubahtoko = (props) => {
     rtl_lat: '',
     rtl_id: '',
     retail_id: '',
-    bo_rtlid: false
+    bo_rtlid: false,
+    latitude: '',
+    longitude: '',
+    asalProps: 'ubahToko'
   })
 
   //GET CITY
@@ -65,6 +68,14 @@ const Ubahtoko = (props) => {
     console.log("NAMA ---> " + props.navigation.state.params.cty_name);
 
     city()
+
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        setKordinat()
+      }
+    );
+
   }, [])
 
   const city = () => {
@@ -174,8 +185,8 @@ const Ubahtoko = (props) => {
             rtl_id: the_data[0]?.rtl_id
           }))
           // alert('CEK Profil Seller =>'+ JSON.stringify(the_data))
-          console.log('rtl name =>' + JSON.stringify(state.rtl_name))
-          console.log('cty name =>' + JSON.stringify(state.rtl_city))
+          console.log('rtl city =>' + JSON.stringify(state.rtl_city))
+          console.log('cty name =>' + JSON.stringify(state.cty_name))
 
 
         } else if (result.data.status == 500) {
@@ -234,6 +245,43 @@ const Ubahtoko = (props) => {
         ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
         setState(state => ({ ...state, loading: false }))
       })
+  }
+
+
+  const setKordinat = () => {
+    //Penggunaan Promise
+    AsyncStorage.getItem('kordinat').then(response => {
+      let data = JSON.parse(response);
+      if (response !== null) {
+        if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+          setState(state => ({
+            ...state,
+            latlongName: 'Atur Lokasi',
+            inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+          }))
+        } else {
+          setState(state => ({
+            ...state,
+            rtl_lat: data.latitude,
+            rtl_long: data.longitude,
+
+          }))
+        }
+      } else {
+        //calback promise reject
+        setState(state => ({
+          ...state,
+          latlongName: 'Atur Lokasi',
+          inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+        }))
+      }
+
+    }).catch(err => {
+      console.log('err', err)
+    })
+
   }
 
 
@@ -303,16 +351,16 @@ const Ubahtoko = (props) => {
               rowStyle={{ height: toDp(35), padding: toDp(5) }}
               defaultButtonText={'Pilih Kota atau Kabupaten'}
               defaultValue={{
-                cty_id: state.tmp_cty_id,
-                cty_name: state.tmp_cty_name
+                cty_id: state.rtl_city,
+                cty_name: state.cty_name
               }}
               data={state.cityname}
               onSelect={(selectedItem, index) => {
                 // console.log(selectedItem.cty_id, index)
                 // setState(state => ({ ...state, rtl_city: selectedItem.cty_id })) 
-                console.log(selectedItem.cty_name + selectedItem.cty_id)
-                setState(state => ({ ...state, tmp_cty_id: selectedItem.cty_id }))
-                console.log(state.tmp_cty_id);
+                console.log('cek city == ', selectedItem.cty_name + selectedItem.cty_id)
+                setState(state => ({ ...state, rtl_city: selectedItem.cty_id }))
+                console.log('cek alamat == ', state.rtl_city);
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
 
@@ -331,7 +379,26 @@ const Ubahtoko = (props) => {
                 );
               }}
             />
-            <Text style={styles.txtDeskripsi}>Latitude</Text>
+            <Text style={styles.txtDeskripsi}>Set Lokasi Toko Anda</Text>
+            <View style={{
+              backgroundColor: 'white', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15, shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.20,
+              shadowRadius: 1.41,
+
+              elevation: 2,
+            }}>
+              <Text style={{ color: '#4E5A64', }}>{state.rtl_lat} dan {state.rtl_long}</Text>
+            </View>
+
+            <Pressable onPress={() => NavigatorService.navigate('Peta', {asalProps: state.asalProps})} style={{ backgroundColor: '#06BA0D', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+              <Text style={{ color: 'white', fontWeight: '800' }}>Cari Titik Lokasi</Text>
+            </Pressable>
+
+            {/* <Text style={styles.txtDeskripsi}>Latitude</Text>
             <TextInput autoCapitalize={'none'}
               style={styles.textInput1}
               placeholderTextColor={'#4E5A64'}
@@ -344,7 +411,7 @@ const Ubahtoko = (props) => {
               placeholderTextColor={'#4E5A64'}
               value={state.rtl_long}
               onChangeText={(text) => setState(state => ({ ...state, rtl_long: text }))}
-            />
+            /> */}
           </View>
           {/* </ScrollView> */}
           {/* </View> */}
@@ -386,7 +453,7 @@ const styles = StyleSheet.create({
     top: toDp(20),
     left: toDp(15),
     borderRadius: toDp(25),
-    tintColor: 'black'
+    tintColor: 'grey'
   },
   profilToko: {
     backgroundColor: '#F9F8F8',
@@ -469,7 +536,7 @@ const styles = StyleSheet.create({
     fontSize: toDp(14)
   },
   dropdown: {
-    width: toDp(325),
+    width: toDp(340),
     height: toDp(48),
     borderRadius: toDp(10),
     top: toDp(10),

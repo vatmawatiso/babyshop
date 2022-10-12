@@ -13,7 +13,8 @@ import {
     TouchableOpacity,
     ToastAndroid,
     PermissionsAndroid,
-    AsyncStorage
+    AsyncStorage,
+    ActivityIndicator
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -26,18 +27,109 @@ import { BottomNavigation } from "react-native-paper";
 import axios from "axios";
 import NumberFormat from 'react-number-format';
 import { svr } from "../../Configs/apikey";
-import Geolocation from '@react-native-community/geolocation';
 
 const { width, height } = Dimensions.get('window')
 
 const Detailkatagori = (props) => {
     const [src, setSrc] = useState(null);
-    let watchID: ?number = null;
     const [state, setState] = useState({
         datas: [],
         inArea: 'false',
-        inMessage: ''
+        inMessage: '',
+        lat: [],
+        long: [],
+        inload: 'true'
     })
+
+
+    useEffect(() => {
+
+        // get id pengguna
+        AsyncStorage.getItem('uid').then(uids => {
+            let ids = uids;
+            setState(state => ({ ...state, id: ids }))
+            console.log('id', state.id)
+        }).catch(error => {
+            console.log('error', error)
+        })
+
+        //Pemanggilan promise saat terjadi back navigation
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                setKordinat()
+                    .then(result => {
+                        return detailKategori(result)
+                        setState(state => ({
+                            ...state,
+                            latitude: result.latitude,
+                            longitude: result.longitude
+                        }))
+                    }, error1 => {
+                        setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+                    })
+                    .then(result2 => {
+                        setState(state => ({ ...state, datas: result2, inload: 'false' }))
+                    },
+                        error => {
+                            setState(state => ({ ...state, inMessage: error }))
+                        })
+            }
+        );
+
+
+    }, [])
+
+
+    const setKordinat = () => {
+        setState(state => ({ ...state, datas: [] }))
+        setState(state => ({ ...state, inload: 'true' }))
+        //Penggunaan Promise
+        return new Promise((resolve, reject) => {
+            AsyncStorage.getItem('kordinat').then(response => {
+                let data = JSON.parse(response);
+                if (response !== null) {
+                    if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+                        setState(state => ({
+                            ...state,
+                            latlongName: 'Atur Lokasi',
+                            inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+                        }))
+                        reject('Lokasi mu tidak dalam jangkauan')
+                    } else {
+                        setState(state => ({
+                            ...state,
+                            latitude: data.latitude,
+                            longitude: data.longitude,
+
+                        }))
+                        //calback promise
+                        resolve(data)
+                    }
+                } else {
+                    //calback promise reject
+                    reject('Lokasi mu tidak dalam jangkauan')
+                    setState(state => ({
+                        ...state,
+                        latlongName: 'Atur Lokasi',
+                        inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+                    }))
+                }
+
+            }).catch(err => {
+                console.log('err', err)
+                //calback promise reject
+                reject('Tidak dapat memuat data')
+            })
+
+        })
+
+
+    }
+
 
 
     useEffect(() => {
@@ -54,165 +146,71 @@ const Detailkatagori = (props) => {
         })
 
         return (() => {
+            //Pemanggilan promise saat buka pertama
+            setKordinat()
+                .then(result => {
+                    return detailKategori(result)
+                    return setState(state => ({
+                        ...state,
+                        latitude: result.latitude,
+                        longitude: result.longitude
+                    }))
+                }, error1 => {
+                    setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
 
-            detailKategori()
+                })
+                .then(result2 => {
+                    setState(state => ({ ...state, datas: result2, inload: 'false' }))
+
+                },
+                    error => {
+                        setState(state => ({ ...state, inMessage: error }))
+                    })
+
         })
-
-        console.log('loooo');
-        props.navigation.addListener(
-            'didFocus',
-            payload => {
-                alert('load')
-            }
-        );
 
     }, [state.id])
 
 
-    useEffect(() => {
-        requestLocationPermission();
-        return () => {
-            Geolocation.clearWatch(watchID);
-        };
+    const detailKategori = (json) => {
+        return new Promise((resolve, reject) => {
+            const kid = props.navigation.state.params.ctg_id;
+            console.log('cekkkkkkk = ', json.latitude + '/' + json.longitude);
+            axios.get(svr.url + 'product/category/' + kid + '/' + json.latitude + '/' + json.longitude + '/' + svr.api)
+                // axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
+                .then(result => {
+                    if (result.data.status == 200) {
+                        //hendle success
+                        // console.log('Produk Bangunan ===> ', result);
+                        // setState(state => ({ ...state, datas: result.data.data }))
+                        //This Modif
+                        setState(state => ({ ...state, inArea: 'true' }))
+                        resolve(result.data.data)
 
-        // detailKategori()
-    }, [watchID])
+                    } else if (result.data.status == 500) {
+                        //This Modif
+                        setState(state => ({ ...state, inArea: '500', }))
+                        setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+                        ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+                        reject('Tidak dapat memuat data')
 
+                    } else {
+                        //This Modif
+                        setState(state => ({ ...state, inArea: 'false', }))
+                        setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
+                        //ToastAndroid.show("Data not found", ToastAndroid.SHORT)
+                        reject('Lokasi kamu di luar jangkauan penjual')
+                    }
 
-    const requestLocationPermission = async () => {
-        if (Platform.OS === 'ios') {
-            // getOneTimeLocation();
-            subscribeLocationLocation()
-        } else {
-            try {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                    {
-                        title: 'Location Access Required',
-                        message: 'This App needs to Access your location',
-                    },
-                );
-                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                    //To Check, If Permission is granted
-                    // getOneTimeLocation();
-                    subscribeLocationLocation()
-                } else {
-                    alert('Permission Denied');
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    }
-
-    const getOneTimeLocation = () => {
-
-        Geolocation.getCurrentPosition(
-            //Will give you the current location
-            (position) => {
-                console.log('You are Here');
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //Setting Longitude state
-                console.log('HERE LOCATION---->' + currentLatitude + ',' + currentLongitude);
-
-                let lat = JSON.parse(currentLatitude);
-                let long = JSON.parse(currentLongitude);
-                console.log('latitude ', lat);
-                console.log('longtitude ', long);
-                detailKategori(lat, long)
-
-            },
-            (error) => {
-                alert(error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 30000,
-                maximumAge: 1000
-            },
-        );
-    };
-
-    const subscribeLocationLocation = () => {
-        watchID = Geolocation.watchPosition(
-            (position) => {
-                //Will give you the location on location change
-
-                console.log('You are Here');
-                console.log(position);
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //This Modif
-                console.log('HERE LOCATION SUB---->' + currentLatitude + ',' + currentLongitude);
-                if (currentLongitude != '' && currentLatitude != '') {
-                    detailKategori(currentLatitude, currentLongitude)
-
-                }
-                setState(state => ({ ...state, inMessage: 'Sedang memuat data...' }))
-            },
-            (error) => {
-                alert(error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                maximumAge: 1000,
-                timeout: 20000
-            },
-        );
-    };
-
-
-
-
-    const detailKategori = (lat, long) => {
-        const kid = props.navigation.state.params.ctg_id;
-        console.log('cek kid = ', kid)
-        console.log(svr.url + 'product/category/' + kid + '/' + lat + '/' + long + '/' + svr.api)
-        axios.get(svr.url + 'product/category/' + kid + '/' + lat + '/' + long + '/' + svr.api)
-            // axios.get('https://market.pondok-huda.com/dev/react/product/?ctg_id=' + kid)
-            .then(result => {
-                if (result.data.status == 200) {
-                    //hendle success
-                    console.log('Produk Bangunan ===> ', result);
-                    setState(state => ({ ...state, datas: result.data.data }))
-                    //This Modif
-                    setState(state => ({ ...state, inArea: 'true' }))
-
-                } else if (result.data.status == 500) {
-                    //This Modif
-                    setState(state => ({ ...state, inArea: '500' }))
+                }).catch(err => {
+                    //This Modif, pesan inMessage silahkan ganti
+                    setState(state => ({ ...state, inArea: '500', }))
                     setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
-                    ToastAndroid.show("Produk Belum Ditambahkan!", ToastAndroid.SHORT)
-
-                } else {
-                    //This Modif
-                    setState(state => ({ ...state, inArea: 'false' }))
-                    setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
-                    ToastAndroid.show("Data not found!", ToastAndroid.SHORT)
-                }
-
-            }).catch(err => {
-                //This Modif
-                setState(state => ({ ...state, inArea: '500' }))
-                setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
-                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
-
-            })
+                    ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
+                    console.log('error produk =>', error)
+                    reject('Tidak dapat memuat data')
+                })
+        })
     }
 
     const displayName = (retail) => {
@@ -301,6 +299,20 @@ const Detailkatagori = (props) => {
             />
 
             <View style={{ bottom: toDp(20) }}>
+
+                {/* //This Modif */}
+
+
+                {
+                    state.inload == 'true' ?
+                        <View style={{ marginTop: toDp(150) }}>
+                            <ActivityIndicator size="large" color="#0000ff" />
+
+                        </View>
+                        : <></>
+                }
+
+
                 {/* //This Modif */}
                 {state.inArea == 'true' ?
                     <CardProduct />
@@ -323,6 +335,7 @@ const Detailkatagori = (props) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        backgroundColor:'white'
     },
     bodyMenu: {
         flexDirection: 'row',

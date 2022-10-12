@@ -376,6 +376,8 @@ const Login = (props) => {
   }
 
 
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+
   return (
     <View style={styles.container}>
       <Loader loading={state.loading} />
@@ -406,9 +408,11 @@ const Login = (props) => {
               onChangeText={(text) => Shaone(text)}
             />
             <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-              <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+              {/* <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} /> */}
+               {state.secureTextEntry ? <Text style={styles.icVisibility}>Show</Text> : <Text style={styles.icVisibility}>Hide</Text>}
             </Pressable>
           </View>
+
           <Pressable style={{ top: toDp(10), }} onPress={() => NavigatorService.navigate('Lupapassword')}>
             <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
           </Pressable>
@@ -576,7 +580,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 2,
+    elevation: 0,
   },
   positionRight: {
     width: '100%',
@@ -596,6 +600,7 @@ const styles = StyleSheet.create({
   presableShow: {
     padding: toDp(4),
     position: 'absolute',
+    zIndex: 15,
     right: toDp(8),
     top: Platform.OS === 'ios' ? toDp(30) : toDp(53)
   },
@@ -643,9 +648,10 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center'
   },
   icVisibility: {
-    width: toDp(24),
+    width: toDp(36),
     height: toDp(24),
-    tintColor: '#4E5A64'
+    // backgroundColor:'cyan',
+    tintColor: '#4E5A64',
   },
   rowFooter: {
     justifyContent: 'center',

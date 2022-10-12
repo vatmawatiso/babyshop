@@ -13,13 +13,16 @@ import {
   TouchableOpacity,
   AsyncStorage,
   LogBox,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
 import NavigatorService from '@NavigatorService';
 import Axios from 'axios';
 import NumberFormat from 'react-number-format';
+import { svr } from '../../Configs/apikey';
+
+
 const { width, height } = Dimensions.get('window')
 const Cari = (props) => {
   const [filtered, setFiltered] = useState([]);
@@ -32,8 +35,53 @@ const Cari = (props) => {
     ws_mb_id: '',
     ws_rtl_id: '',
     ws_prd_id: '',
-    dataSearch: []
+    dataSearch: [],
+    lat: [],
+    long: [],
+    inArea: 'false',
+    inMessage: '',
+    inload: 'true',
+    keyword: ''
   })
+
+
+  useEffect(() => {
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({ ...state, id: ids }))
+      console.log('id', state.id)
+    }).catch(error => {
+      console.log('error', error)
+    })
+
+    //Pemanggilan promise saat terjadi back navigation
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        setKordinat()
+          .then(result => {
+            return getProduk(result)
+            setState(state => ({
+              ...state,
+              latitude: result.latitude,
+              longitude: result.longitude
+            }))
+          }, error1 => {
+            setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+          })
+          .then(result2 => {
+            setState(state => ({ ...state, setFiltered: result2, inload: 'false' }))
+          },
+            error => {
+              setState(state => ({ ...state, inMessage: error }))
+            })
+      }
+    );
+
+
+  }, [])
 
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
@@ -51,47 +99,133 @@ const Cari = (props) => {
     })
 
     return (() => {
-      // if (state.key != '') {
-      getProduk()
-      // }
+      //Pemanggilan promise saat buka pertama
+      setKordinat()
+        .then(result => {
+          return getProduk(result)
+          return setState(state => ({
+            ...state,
+            latitude: result.latitude,
+            longitude: result.longitude
+          }))
+        }, error1 => {
+          setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+        })
+        .then(result2 => {
+          setState(state => ({ ...state, setFiltered: result2, inload: 'false' }))
+
+        },
+          error => {
+            setState(state => ({ ...state, inMessage: error }))
+          })
 
     })
-    console.log('loooo');
-    props.navigation.addListener(
-      'didFocus',
-      payload => {
-        alert('load')
-      }
-    );
+
 
   }, [state.id_member])
 
   // ambil adata produknya
-  const getProduk = () => {
-    Axios.get('https://market.pondok-huda.com/dev/react/product/')
-      .then(result => {
-        console.log('result', result);
-        // setState(state => ({...state, dataSearch: result.data.data}))
-        getCurrentWsh()
-        setFiltered(result.data.data);
-        setmasterData(result.data.data);
+  const getProduk = (json) => {
+    return new Promise((resolve, reject) => {
+      console.log('cek produk = ', svr.url + 'product/' + json.latitude + '/' + json.longitude + '/' + svr.api);
+      Axios.get(svr.url + 'product/' + json.latitude + '/' + json.longitude + '/' + svr.api)
+        .then(result => {
+          console.log('result', result);
+          // setState(state => ({...state, dataSearch: result.data.data}))
+
+          if (result.data.status == 200) {
+            getCurrentWsh()
+            // setState(state => ({ ...state, arrayData: result.data.data }))
+            //This Modif
+            setFiltered(result.data.data);
+            setmasterData(result.data.data);
+            setState(state => ({ ...state, inArea: 'true' }))
+            resolve(result.data.data)
 
 
-      }).catch(error => {
-        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
-        console.log(error)
-      })
+          } else if (result.data.status == 500) {
+            //This Modif
+            setState(state => ({ ...state, inArea: '500', }))
+            setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+            ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+            reject('Tidak dapat memuat data')
+          } else {
+            //This Modif
+            setState(state => ({ ...state, inArea: 'false', }))
+            setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
+            //ToastAndroid.show("Data not found", ToastAndroid.SHORT)
+            reject('Lokasi kamu di luar jangkauan penjual')
+          }
+
+
+        }).catch(error => {
+          //This Modif, pesan inMessage silahkan ganti
+          setState(state => ({ ...state, inArea: '500', }))
+          setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+          ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
+          console.log('error produk =>', error)
+          reject('Tidak dapat memuat data')
+        })
+    })
   }
 
-  // const refresh = () => {
-  //   setState(state => ({...state, loading: false,}))
-  // }
+
+  const setKordinat = () => {
+    setState(state => ({ ...state, arrayData: [] }))
+    setState(state => ({ ...state, inload: 'true' }))
+    //Penggunaan Promise
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem('kordinat').then(response => {
+        let data = JSON.parse(response);
+        if (response !== null) {
+          if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+            setState(state => ({
+              ...state,
+              latlongName: 'Atur Lokasi',
+              inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+            }))
+            reject('Lokasi mu tidak dalam jangkauan')
+          } else {
+            setState(state => ({
+              ...state,
+              latitude: data.latitude,
+              longitude: data.longitude,
+
+            }))
+            //calback promise
+            resolve(data)
+          }
+        } else {
+          //calback promise reject
+          reject('Lokasi mu tidak dalam jangkauan')
+          setState(state => ({
+            ...state,
+            latlongName: 'Atur Lokasi',
+            inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+          }))
+        }
+
+      }).catch(err => {
+        console.log('err', err)
+        //calback promise reject
+        reject('Tidak dapat memuat data')
+      })
+
+    })
+
+
+  }
+
+
   //get current wishlist datas
   const getCurrentWsh = () => {
     AsyncStorage.getItem('uid').then(uids => {
       let idmb = uids;
-
-      Axios.get('https://market.pondok-huda.com/dev/react/wishlist/oid/' + idmb)
+      console.log(svr.url + 'wishlist/oid/' + idmb + '/' + svr.api)
+      Axios.get(svr.url + 'wishlist/oid/' + idmb + '/' + svr.api)
         .then(result => {
           console.log('current Wishlish---->' + state.id_member);
           let oid = result.data;
@@ -125,7 +259,8 @@ const Cari = (props) => {
         ws_prd_id: id
       }
       console.log('data -----=>', body);
-      Axios.post('https://market.pondok-huda.com/dev/react/wishlist/', body)
+      console.log(svr.url + 'wishlist/' + svr.api, body)
+      Axios.post(svr.url + 'wishlist/' + svr.api, body)
         .then(response => {
           console.log('wishlist -----=>', response.data);
 
@@ -155,7 +290,8 @@ const Cari = (props) => {
     if (selectItems.length > 0) {
       if (selectedItems.some(i => i.ws_prd_id === id) && selectedItems.some(i => i.ws_mb_id == ws_mb_id)) {
         console.log('unloved');
-        Axios.delete('https://market.pondok-huda.com/dev/react/wishlist/delete/' + ws_mb_id + '/' + id)
+        console.log(svr.url + 'wishlist/delete/' + ws_mb_id + '/' + id + '/' + svr.api)
+        Axios.delete(svr.url + 'wishlist/delete/' + ws_mb_id + '/' + id + '/' + svr.api)
           .then(response => {
             console.log('response =>', response)
             if (response.data.status == 200) {
@@ -192,25 +328,40 @@ const Cari = (props) => {
   }
 
 
+  // const searchFilter = (text) => {
+  //   const newData = masterData.filter(item => {
+  //     const itemData = `${item.product_name.toUpperCase()}
+  //                       ${item.category.toUpperCase()}`;
 
-  const searchFilter = (text) => {
-    if (text) {
-      const newData = masterData.filter((item) => {
-        const itemData = `${item.product_name} ${item.category}` ?
-          `${item.product_name.toLowerCase()} ${item.category.toLowerCase()}`
-          : ''.toLowerCase();
-        const textData = text.toLowerCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFiltered(newData);
-      setSearch(text);
-      // setState(state => ({ ...state, key: text }))
-    } else {
-      setFiltered(masterData)
-      setSearch(text);
-      // setState(state => ({ ...state, key: text }))
-    }
-  }
+  //     const textData = text.toUpperCase();
+
+  //     return itemData.indexOf(textData) > -1;
+  //   });
+
+  //   setFiltered(newData);
+  //   setSearch(text);
+  // }
+
+
+
+  // const searchFilter = (text) => {
+  //   if (text) {
+  //     const newData = masterData.filter((item) => {
+  //       const itemData = `${item.product_name} ${item.category}` ?
+  //         `${item.product_name.toLowerCase()} ${item.category.toLowerCase()}`
+  //         : ''.toLowerCase();
+  //       const textData = text.toLowerCase();
+  //       return itemData.indexOf(textData) > -1;
+  //     });
+  //     setFiltered(newData);
+  //     setSearch(text);
+  //     // setState(state => ({ ...state, key: text }))
+  //   } else {
+  //     setFiltered(masterData)
+  //     setSearch(text);
+  //     // setState(state => ({ ...state, key: text }))
+  //   }
+  // }
 
   // render untuk data produk
   const RenderItem = ({ item, index, onPress, selected, unLike, onPressProduk }) => (
@@ -247,15 +398,12 @@ const Cari = (props) => {
             prefix={'Rp. '}
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
-          <Text style={styles.harga}>{item.retail_name}</Text>
-          <Image source={allLogo.icaddress} style={styles.address} />
+          <Text style={{ marginTop: toDp(5) }}>{item.retail_name}</Text>
+          <Image source={allLogo.address} style={styles.address} />
           <Text style={styles.dariKota}>{item.retailaddres}</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
-          <View style={{ flexDirection: 'row', top: 25, right: 30 }}>
-            <Text style={styles.terjual}>Terjual</Text>
-            <Text style={styles.terjual}>{item.lainnya.terjual}</Text>
-          </View>
+          <Text style={styles.terjual}>|| {item.lainnya.terjual} Terjual</Text>
         </ View>
       </Pressable>
     </ View>
@@ -264,52 +412,63 @@ const Cari = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.icSearch} source={require('../../Assets/img/ic_search.png')} />
-      <TextInput
-        style={styles.textInput}
-        placeholder="Pencarian..."
-        value={search}
-        placeholderTextColor='white'
-        onChangeText={(text) => searchFilter(text)}
 
-      />
-      <TouchableOpacity style={styles.icBack} onPress={() => props.navigation.goBack()}>
-        <Image source={allLogo.Left} style={{width:toDp(38), height:toDp(38)}} />
-      </TouchableOpacity>
-      <View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-        {/* <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 20, }}> List of data</Text> */}
+      <View style={{ flexDirection: 'row', }}>
+        <TouchableOpacity style={styles.icBack} onPress={() => props.navigation.goBack()}>
+          <Image source={allLogo.Left} style={{ width: toDp(38), height: toDp(38) }} />
+        </TouchableOpacity>
 
-        <FlatList style={{ backgroundColor: 'white', width: width, marginTop: toDp(10), }}
-          columnWrapperStyle={{ justifyContent: 'space-between', marginHorizontal: toDp(15) }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            bottom: toDp(13),
-            paddingBottom: toDp(3),
-          }}
+        <Image style={styles.icSearch} source={require('../../Assets/img/ic_search.png')} />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Pencarian..."
+          value={state.keyword}
+          placeholderTextColor='white'
+          onChangeText={(text) => setState(state => ({...state, keyword: text }))}
 
-          numColumns={2}
-          data={filtered}
-          renderItem={({ item, index }) => (
-            <RenderItem
-              item={item}
-              index={index}
-              onPress={() => selectItems(item.prd_id, item.retail, index)}
-              selected={getSelected(item.prd_id, state.id_member)}
-              unLike={() => deSelectItems(item.prd_id, item.retail, state.id_member)}
-              onPressProduk={() => selectProduk(item.prd_id)}
-            />
-          )
-
-            // return(RenderItem (item, index))
-          }
-          KeyExtractor={(item, index) => index.toString()}
-          ListFooterComponent={() => <View style={{ height: toDp(100) }} />}
         />
-
-
-
       </View>
 
+
+      {state.inArea == true ?
+        <View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginBottom: 20 }}>
+
+          <FlatList
+            columnWrapperStyle={{ justifyContent: 'space-between', marginHorizontal: toDp(15) }}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              bottom: toDp(50),
+              paddingBottom: toDp(70),
+            }}
+
+            numColumns={2}
+            data={filtered}
+            renderItem={({ item, index }) => (
+              <RenderItem
+                item={item}
+                index={index}
+                onPress={() => selectItems(item.prd_id, item.retail, index)}
+                selected={getSelected(item.prd_id, state.id_member)}
+                unLike={() => deSelectItems(item.prd_id, item.retail, state.id_member)}
+                onPressProduk={() => selectProduk(item.prd_id)}
+              />
+            )
+
+              // return(RenderItem (item, index))
+            }
+            KeyExtractor={(item, index) => index.toString()}
+            ListFooterComponent={() => <View style={{ height: toDp(80) }} />}
+          />
+
+        </View>
+        :
+        <View style={styles.vnotfound}>
+          <Image source={allLogo.warning} style={{ width: toDp(200), height: toDp(200), marginTop: toDp(-50) }} />
+          <View style={{ marginTop: 40, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{fontSize:16, fontWeight:'bold', color:'#909090' }}>Mau Cari Apa ?</Text>
+          </View>
+        </View>
+      }
     </View>
   )
 }
@@ -319,16 +478,21 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     alignItems: 'center',
-    width: width,
     flex: 1
+  },
+  vnotfound: {
+    marginVertical: '40%',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center'
   },
   icSearch: {
     width: toDp(25),
     height: toDp(25),
     position: 'absolute',
     zIndex: toDp(2),
-    marginTop: toDp(18),
-    right: toDp(270),
+    marginTop: toDp(22),
+    right: toDp(295),
     tintColor: '#fff'
   },
   icBack: {
@@ -336,34 +500,32 @@ const styles = StyleSheet.create({
     height: toDp(38),
     resizeMode: 'contain',
     tintColor: 'black',
-    marginHorizontal: toDp(8),
+    marginHorizontal: toDp(10),
+    left: 10,
+    marginTop: 13
     // position: 'absolute',
     // zIndex: 3,
-    right: toDp(150),
-    bottom: 44
   },
   textInput: {
     backgroundColor: '#2A334B',
-    left: 18,
-    width: '82%',
-    paddingLeft: toDp(50),
-    marginTop: toDp(5),
     borderRadius: toDp(15),
     height: 50,
+    width: toDp(300),
     fontSize: 15,
-    // fontWeight: 'bold',
-    paddingHorizontal: 10,
-    color: 'white'
-    // position: 'absolute',
+    color: 'white',
+    paddingLeft: toDp(40),
+    paddingHorizontal: toDp(10),
+    marginTop: 10,
+    marginRight: 30
   },
   card: {
     backgroundColor: '#FFF',
-    top: toDp(10),
+    top: toDp(60),
     padding: toDp(0),
     marginVertical: toDp(5),
     // marginHorizontal: toDp(16),
-    borderRadius: toDp(20),
-    minHeight: toDp(220),
+    borderRadius: toDp(10),
+    minHeight: toDp(221),
     // right: toDp(2),
     width: '48%',
     shadowColor: "#000",
@@ -386,7 +548,9 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   address: {
-    bottom: toDp(-4)
+    top: toDp(10),
+    width: toDp(15),
+    height: toDp(15)
   },
   star: {
     bottom: toDp(3),
@@ -394,16 +558,16 @@ const styles = StyleSheet.create({
   },
   dariKota: {
     bottom: toDp(6),
-    left: toDp(15)
+    left: toDp(20)
   },
   textproduct: {
     fontWeight: 'bold',
     fontSize: toDp(12)
   },
   txtProduct: {
+    borderRadius: toDp(10),
+    padding: toDp(20),
 
-    borderRadius: toDp(20),
-    padding: toDp(20)
   },
   imgProduct: {
     width: toDp(100),

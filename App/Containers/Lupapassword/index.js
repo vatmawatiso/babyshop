@@ -10,7 +10,8 @@ import {
     Pressable,
     ScrollView,
     AsyncStorage,
-    ToastAndroid
+    ToastAndroid,
+    TouchableOpacity
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -276,7 +277,8 @@ const Lupapassword = (props) => {
                             />
 
                             <Pressable style={styles.presableShow1} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-                                <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} />
+                                {/* <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} /> */}
+                                {state.secureTextEntry ? <Text style={styles.icVisibility}>Show</Text> : <Text style={styles.icVisibility}>Hide</Text>}
                             </Pressable>
 
                             {state.valPass === true ? (
@@ -287,22 +289,23 @@ const Lupapassword = (props) => {
                         </View>
                     ) : null
                 }
+
                 {state.getUsername == true ? (
-                    <Pressable style={styles.btnKirim} onPress={() => fetchUser()}>
+                    <TouchableOpacity style={styles.btnKirim} onPress={() => fetchUser()}>
                         <Text style={styles.txtKirim}>Kirim</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 )
                     : state.showEmail == true ? (
-                        <Pressable style={styles.btnKirim} onPress={() => verifyEmail()}>
+                        <TouchableOpacity style={styles.btnKirim} onPress={() => verifyEmail()}>
                             <Text style={styles.txtKirim}>Verifikasi</Text>
-                        </Pressable>
+                        </TouchableOpacity>
                     )
                         : state.resetPassword == true ? (
                             // <>
                             //     {state.btnReset == true ? (
-                            <Pressable style={styles.btnKirim} onPress={() => updatePass()}>
-                                <Text style={styles.txtKirim}>Ubah Password</Text>
-                            </Pressable>
+                            <TouchableOpacity style={styles.btnKirim} onPress={() => updatePass()}>
+                                <Text style={styles.txtKirim}>Ubahs Password</Text>
+                            </TouchableOpacity>
                             //     ) : null
                             // }
                             // </>
@@ -318,10 +321,9 @@ const Lupapassword = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        // top:toDp(50),
-        // justifyContent:'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        flex:1
     },
     txtForget: {
         fontWeight: 'bold',
@@ -334,12 +336,15 @@ const styles = StyleSheet.create({
     },
     txtKirim: {
         textAlign: 'center',
+        justifyContent:'center',
         top: toDp(15),
-        color: 'white'
+        // height:toDp(48),
+        color: 'white',
+        // backgroundColor:'cyan'
     },
     btnKirim: {
         backgroundColor: '#2A334B',
-        top: toDp(40),
+        top: toDp(30),
         width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10)
@@ -362,12 +367,13 @@ const styles = StyleSheet.create({
     },
     presableShow1: {
         position: 'absolute',
-        top: toDp(35),
+        top: toDp(38),
         left: '90%'
     },
     icVisibility: {
-        width: toDp(24),
+        width: toDp(36),
         height: toDp(24),
+        right:toDp(10),
         tintColor: '#4E5A64'
     },
     textInput: {
@@ -376,6 +382,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: toDp(8),
         borderRadius: toDp(10),
         marginTop: toDp(8),
+        borderWidth:0.5,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -384,7 +391,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
 
-        elevation: 2,
+        elevation: 0,
     },
     msgError: {
         color: 'red',
