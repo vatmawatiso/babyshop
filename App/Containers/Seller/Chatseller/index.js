@@ -205,7 +205,7 @@ const Chatseller = (props) => {
       ToastAndroid.show("Tidak dapat mengirimkan pesan kosong.", ToastAndroid.SHORT)
     } else {
       const body = {
-        "pengirim_id": state.rtl_id ,
+        "pengirim_id": state.rtl_id,
         "penerima": send_id,
         "pesan": isiChat,
         "current_uid": state.id,
@@ -220,7 +220,7 @@ const Chatseller = (props) => {
       console.log('cek body sender id = ', (state.id));
 
       // https://market.pondok-huda.com/publish/react/chat/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
-      axios.post(svr.url + 'chat/'+chat_id+ '/' + svr.api, body)
+      axios.post(svr.url + 'chat/' + chat_id + '/' + svr.api, body)
         .then(result => {
           console.log('Hasil =', result)
           setIsiChat('')
@@ -241,25 +241,28 @@ const Chatseller = (props) => {
         <View style={styles.card}>
           <Pressable onPress={() => alert('hbd yesung')}>
             <View style={styles.txtProduct}>
-              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
                 <Image source={{ uri: item?.thumbnail }} style={styles.imgProduct} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <View style={{ justifyContent: 'center', width: '70%' }}>
-                    <Text style={styles.textproduct}>{item?.product_name}</Text>
-                  </View>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: toDp(10) }}>
+                <View style={{ justifyContent: 'center', width: '70%' }}>
+                  <Text numberOfLines={2} style={styles.textproduct}>{item?.product_name}</Text>
                 </View>
-                <NumberFormat
-                  value={item?.price}
-                  displayType={'text'}
-                  thousandSeparator={'.'}
-                  decimalSeparator={','}
-                  prefix={'Rp. '}
-                  renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>}
-                />
+              </View>
+              <Text style={{ marginTop: toDp(5), fontSize: toDp(10) }}>{item?.retail_name}</Text>
+              <NumberFormat
+                value={item?.price}
+                displayType={'text'}
+                thousandSeparator={'.'}
+                decimalSeparator={','}
+                prefix={'Rp. '}
+                renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', fontSize: toDp(15) }}>{formattedValue}</Text>} // <--- Don't forget this!
+              />
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(10), }}>
                 <Image source={allLogo.address} style={styles.address} />
                 <Text style={styles.dariKota}>{item?.retailaddres}</Text>
-              </View>
-            </View>
+              </ View>
+            </ View>
           </Pressable>
         </View>
       </View>
@@ -281,7 +284,7 @@ const Chatseller = (props) => {
         renderItem={({ item, index }) => {
           return (
             item.from === state.id ? (
-              <View style={{left: 8}}>
+              <View style={{ left: 8 }}>
                 {item.prd_id != '' ?
                   renderProduk(state.produk[index])
                   : <View></View>
@@ -298,8 +301,8 @@ const Chatseller = (props) => {
                 </View>
               </View>
             ) : (
-              <View style={{left: 8}}>
-                 {item.prd_id != '' ?
+              <View style={{ left: 8 }}>
+                {item.prd_id != '' ?
                   renderProduk(state.produk[index])
                   : <View></View>
                 }
@@ -355,9 +358,9 @@ const styles = StyleSheet.create({
 
   },
   cardchat: {
-    width: '70%', 
-    padding: toDp(8), 
-    borderRadius: toDp(8), 
+    width: '70%',
+    padding: toDp(8),
+    borderRadius: toDp(8),
     marginBottom: toDp(15),
     shadowColor: "#000",
     shadowOffset: {
@@ -430,10 +433,14 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFF',
+    top: toDp(10),
+    padding: toDp(0),
+    marginVertical: toDp(5),
+    // marginHorizontal: toDp(16),
     borderRadius: toDp(10),
-    minHeight: toDp(221),
-    height: toDp(221),
-    width: '45%',
+    minHeight: toDp(240),
+    // right: toDp(2),
+    width: '48%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -441,6 +448,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+
     elevation: 5,
   },
   txtProduct: {
@@ -452,22 +460,21 @@ const styles = StyleSheet.create({
     height: toDp(100)
   },
   textproduct: {
-    fontWeight: 'bold',
-    fontSize: toDp(12)
+    textTransform: 'uppercase',
+    fontSize: toDp(12),
   },
   address: {
-    top: toDp(7),
-    width: toDp(15),
-    height: toDp(15),
-    right: '25%'
+    width: toDp(12),
+    height: toDp(12),
+    marginBottom:toDp(12)
   },
   star: {
     bottom: toDp(3),
     left: toDp(2)
   },
   dariKota: {
-    bottom: toDp(10),
-    left: toDp(20)
+    left: toDp(3),
+    fontSize: toDp(12)
   },
 });
 

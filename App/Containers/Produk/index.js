@@ -46,7 +46,7 @@ const Produk = (props) => {
     loading: false,
     loading: true,
     selected: false,
-    retail_id:'',
+    retail_id: '',
     id_produk: '',
     lat: [],
     long: [],
@@ -58,19 +58,6 @@ const Produk = (props) => {
 
 
   useEffect(() => {
-
-    // get id pengguna
-    AsyncStorage.getItem('setProduk').then(response => {
-      let data = JSON.parse(response);
-      setState(state => ({
-        ...state,
-            retail_id: data.data[0].retail,
-      }))
-      console.log('retail name', state.retail_id)
-    }).catch(error => {
-      console.log('error', error)
-    })
-
 
     // get id pengguna
     AsyncStorage.getItem('uid').then(uids => {
@@ -99,6 +86,17 @@ const Produk = (props) => {
           })
           .then(result2 => {
             setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
+
+            AsyncStorage.getItem('setProduk').then(response => {
+              let data = JSON.parse(response);
+              setState(state => ({
+                ...state,
+                retail_id: data.data[0].retail,
+              }))
+              console.log('retail name', state.retail_id)
+            }).catch(error => {
+              console.log('error', error)
+            })
           },
             error => {
               setState(state => ({ ...state, inMessage: error }))

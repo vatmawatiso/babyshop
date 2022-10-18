@@ -118,22 +118,26 @@ const Checkout = (props) => {
     useEffect(() => {
 
         AsyncStorage.getItem('member').then(response => {
+            //Cek ini
             let data = JSON.parse(response);
-            // const val = JSON.stringify(data);
-
-            // console.log('Profilefiks----------->' + JSON.stringify(data));
-
-            setState(state => ({
-                ...state,
-                mb_id: data.mb_id,
-                mb_name: data.value.mb_name,
-                mb_email: data.value.mb_email,
-                mb_phone: data.value.mb_phone,
-                mb_type: data.value.mb_type,
-                picture: data.value.picture,
-            }))
-            console.log('mb_id ---->' + JSON.stringify(state.mb_id));
-
+            if(data.value.mb_id!='' &&
+                data.value.mb_name!='' &&
+                data.value.mb_email!='' &&
+                data.value.mb_phone!=''
+            ){
+                  setState(state => ({
+                      ...state,
+                      mb_id: data.mb_id,
+                      mb_name: data.value.mb_name,
+                      mb_email: data.value.mb_email,
+                      mb_phone: data.value.mb_phone,
+                      mb_type: data.value.mb_type,
+                      picture: data.value.picture,
+                  }))
+                    console.log('mb_id ---->' + JSON.stringify(state.mb_id));
+            }else{
+                alertShown()
+            }
         }).catch(err => {
             console.log('err', err)
         })
@@ -187,6 +191,21 @@ const Checkout = (props) => {
     }, [])
 
 
+    //Cek ini
+    const alertShown = () => {
+        Alert.alert(
+            "Peringatan",
+            "Datamu belum lengkap, lengkapi sekarang!",
+            [
+                {
+                    text: "Lengkapi",
+                    onPress: () => NavigatorService.navigate('Editprofil')
+                }
+            ]
+        )
+    }
+
+
     const paymentMethode = () => {
 
         AsyncStorage.getItem('paymentMethode').then(response => {
@@ -219,7 +238,7 @@ const Checkout = (props) => {
     }
 
 
-    const backActions = () => {
+    const gobackAction  = () => {
         Alert.alert('Konfirmasi', 'Batalkan transaksi?', [
             {
                 text: 'Tidak',
@@ -231,11 +250,6 @@ const Checkout = (props) => {
         return true;
 
     };
-
-    const backHandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        backActions
-    );
 
 
     const BackGo = () => {
@@ -613,7 +627,7 @@ const Checkout = (props) => {
         <View style={styles.container}>
             <Header
                 title={'Checkout'}
-                onPress={() => backActions()}
+                onPress={() => gobackAction()}
             />
             <ScrollView>
                 <View style={{ flex: 1 }}>

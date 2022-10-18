@@ -36,7 +36,7 @@ const Keranjang = (props) => {
   //// NOTE:
   //Kasih batas maksimal QTY sesuai stok produknya
   //Ketika tambah data ke keranjang, QTY langsung 1.
-
+  //Cek ini
   const [state, setState] = useState({
     dataCart: [],
     totalCart: [],
@@ -46,7 +46,13 @@ const Keranjang = (props) => {
     id: '',
     mb_id: '',
     crt_id: '',
-    id_cart: ''
+    id_cart: '',
+    mb_id:'',
+    mb_name:'',
+    mb_email:'',
+    mb_phone:'',
+    mb_type:'',
+    picture:'',
   })
 
   useEffect(() => {
@@ -59,10 +65,54 @@ const Keranjang = (props) => {
       console.log('error', error)
     })
 
+
+    AsyncStorage.getItem('member').then(response => {
+      let data = JSON.parse(response);
+      //Cek ini
+      if(data.value.mb_id!='' &&
+          data.value.mb_name!='' &&
+          data.value.mb_email!='' &&
+          data.value.mb_phone!=''
+      ){
+          setState(state => ({
+              ...state,
+              mb_id: data.value.mb_id,
+              mb_name: data.value.mb_name,
+              mb_email: data.value.mb_email,
+              mb_phone: data.value.mb_phone,
+              mb_type: data.value.mb_type,
+              picture: data.value.picture,
+          }))
+
+      }else{
+          alertShown()
+      }
+      console.log('mb_id ---->' + JSON.stringify(state.mb_id));
+
+
+  }).catch(err => {
+      console.log('err', err)
+  })
+
     getCart()
     // getTotalCart()
 
   }, [])
+
+
+    //Cek ini
+    const alertShown = () => {
+      Alert.alert(
+        "Peringatan",
+        "Datamu belum lengkap, lengkapi sekarang!",
+        [
+          {
+            text: "Lengkapi",
+            onPress: () => NavigatorService.navigate('Editprofil')
+          }
+        ]
+      )
+    }
 
 
 

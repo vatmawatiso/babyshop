@@ -121,8 +121,8 @@ const Sudahdibayar = (props) => {
 
         setState(state => ({ ...state, loading: true }))
         let id_odr = id;
-        axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
-            // axios.post('https://market.pondok-huda.com/dev/react/addres/?adr_id=' + idm, body)
+        // console.log(svr.url + 'order/' + id_odr + '/' + svr.api, body)
+        axios.post(svr.url + 'order/sellerchange/' + id_odr + '/statusupdate/' + svr.api, body)
             .then(response => {
                 console.log('-----Ubah stts =====>', response.data);
                 const STATUS = {

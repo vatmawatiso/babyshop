@@ -58,8 +58,13 @@ const Infopembayaran = (props) => {
 
     let data = props.navigation.state.params.data;
     let from = props.navigation.state.params.from;
-    setState(state => ({ ...state, infoPembayaran: data}))
+    setState(state => ({ 
+      ...state, 
+      infoPembayaran: data,
+      rtlid: data.odr_id
+    }))
     console.log('CALBAKK--->', JSON.stringify(from));
+    console.log('CALBAKK data--->', JSON.stringify(state.rtlid));
 
     console.log('set Checkout ----------->' + JSON.stringify(data));
 
@@ -250,7 +255,7 @@ const Infopembayaran = (props) => {
       </View>
       <View style={{ position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'center', width: '100%', }}>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-          <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id })}>
+          <Pressable style={styles.btnBayar} onPress={() => NavigatorService.navigate('Orderpage', { content: 'Belum Dibayar', mb_id: state.mb_id, rtlid: state.rtlid })}>
             <Text style={styles.txtBayar}>Cek Status</Text>
           </Pressable>
         </View>

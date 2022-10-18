@@ -48,12 +48,12 @@ const Rekeningtoko = (props) => {
     //GET DATA BANK PER MEMBER
     const getBank = () => {
         let mbid = props.navigation.state.params.mb_id;
-        // https://market.pondok-huda.com/publish/react/rekening/member/MB000000002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
+        console.log(svr.url + 'rekening/member/' + mbid + '/' + svr.api)
         axios.get(svr.url + 'rekening/member/' + mbid + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/category/')
             .then(result => {
                 // handle success
-                if (result.data.status === 201) {
+                if (result.data.status === 200) {
                     console.log('get rekening = >', JSON.stringify(result.data));
                     setState(state => ({
                         ...state,
@@ -85,7 +85,6 @@ const Rekeningtoko = (props) => {
     //FUNGSI REFRESH DATA TERBARU GET ORDER DENGAN MENGOSONGKAN DATA SEBELUMNYA
     const refresh = async () => {
         let mbid = props.navigation.state.params.mb_id;
-        // https://market.pondok-huda.com/publish/react/rekening/member/MB000000002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
         axios.get(svr.url + 'rekening/member/' + mbid + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/category/')
             .then(result => {
@@ -94,9 +93,11 @@ const Rekeningtoko = (props) => {
                     ...state,
                     dataBank: result.data.data,
                     nama: result.data.data[0].nama,
-                    methode: result.data.data.pay_name
+                    methode: result.data.data.pay_name,
+                    nomer_rek: result.data.data[0].nomer_rek
                 }))
                 console.log('get BANK = >', state.dataBank);
+                console.log('get BANK = >', state.nomer_rek);
                 // alert(JSON.stringify(result.data));
 
             }).catch(err => {
@@ -138,7 +139,7 @@ const Rekeningtoko = (props) => {
     const hideRek = (text) => {
         const num = text.length;
         console.log('cek num = ', num);
-        // let nomer_rek = text
+        let nomer_rek = text
         // console.log('isi = ', text);
         let hiddenRekening = "";
         for (let i = 0; i < num; i++) {
@@ -207,7 +208,7 @@ const Rekeningtoko = (props) => {
             <TouchableOpacity onPress={() => onPress()}>
                 <View style={{ flexDirection: 'column', padding: toDp(15), }}>
                     <Text>{item.nama}</Text>
-                    <Text>TABUNGAN {item.pay_name}</Text>
+                    <Text>{item.pay_name}</Text>
                     <Text style={{ marginTop: toDp(8), fontSize: toDp(20), color: '#0960A1', fontWeight: 'bold' }}>{hideRek(item.nomer_rek)}</Text>
 
                     <View style={{ marginLeft: toDp(205), bottom: toDp(85), }}>

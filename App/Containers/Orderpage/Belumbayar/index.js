@@ -82,22 +82,26 @@ const Belumbayar = (props) => {
             console.log('err', err)
         })
 
-
-        AsyncStorage.getItem('saveOrder').then(result => {
-            let data = result;
-            setState(state => ({
-                ...state,
-                odr_id: data[0].odr_id
-            }))
-            console.log('kekek = ', data)
-        }).catch(err => {
-            console.log('err', err)
-        })
-
         //*Bagian Update
         getOrder()
     }, [])
-    
+
+    const alertShownbatal = (id, transid, total, fee, qtyall) => {
+      Alert.alert(
+        "Konfirmasi",
+        "Yakin ingin membatalkan pesanan ini?",
+        [
+          {
+            text: "KEMBALI",
+            onPress: () => console.log('Batal')
+          },
+          {
+            text: "YAKIN",
+            onPress: () => ubahStatus(id, transid, total, fee, qtyall)
+          }
+        ]
+      )
+    }
 
     const getOrder = () => {
         let mb = props.mbid;
@@ -132,62 +136,52 @@ const Belumbayar = (props) => {
     }
 
     //POST STATUS ORDER
-    const ubahStatus = async (odr_mb_id, id, retail_id, retail_name, total_bayar, odr_status, subtotal, qtyall) => {
+    const ubahStatus = async (id, transid, total, fee, qtyall) => { //bl ubah
         let mb = props.mbid;
-        console.log('retail id = ', retail_id)
-        console.log('odr mb id = ', odr_mb_id)
         const body = {
             odr_status: state.buttonStts,
             pesan_nf: state.pesan_nf,
-            id_tujuan: mb, //gak masuk
+            id_tujuan: mb,
             jenis_nf: state.jenis_nf,
-            asal_nf: retail_id, //gak masuk
+            transactionId: transid,
             status: state.status
         }
         console.log('cek body = ', JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        let id_odr = id; //gak ada
+        let id_odr = id; // ada
+
         console.log('ccccc ', svr.url + 'order/' + id_odr + '/' + svr.api, body)
         axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
             .then(response => {
                 console.log('Response = ' + JSON.stringify(response.data));
-                const STATUS = {
-                    odr_id: id,
-                    retail_id: retail_id,
-                    retail_name: retail_name,
-                    total_bayar: total_bayar,
-                    odr_status: odr_status,
-                    subtotal: subtotal
-                }
+
                 if (response.data.status == 200) {
                     // alert('Berhasil ubah status order!')
                     ToastAndroid.show("Berhasil ubah status order!", ToastAndroid.SHORT)
                     refresh()
 
-                    if (Object.keys(STATUS).length === 0) {
-                        // alert('Status yang dimasukkan salah!')
-                        ToastAndroid.show("Status yang dimasukkan salah!", ToastAndroid.SHORT)
-                    } else {
-                        // save Async storage
-                        console.log('LOG STATUS ===> ' + JSON.stringify(STATUS));
-                        AsyncStorage.setItem('setStatusPro', JSON.stringify(STATUS))
-
-                    }
                     console.log('HASIL = ', response.data);
                     setState(state => ({ ...state, loading: false }))
-                } else {
+
+                } else if(response.data.status == 500) {
                     // alert('Gagal Ubah Status!')
-                    ToastAndroid.show("Gagal Ubah Status!", ToastAndroid.SHORT)
-                    console.log('HASIL = ', response.data.status);
+                    ToastAndroid.show("Terjadi Kesalahan, Coba lagi nanti!", ToastAndroid.SHORT)
+                    console.log('HASIL = ', response.data);
+                    setState(state => ({ ...state, loading: false }))
+
+                } else{
+                    // alert('Gagal Ubah Status!')
+                    ToastAndroid.show("Data Pesanan Tidak Ditemukan!", ToastAndroid.SHORT)
+                    console.log('HASIL = ', response.data);
                     setState(state => ({ ...state, loading: false }))
                 }
 
             }).catch(err => {
                 // alert('Gagal menerima data dari server!')
-                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
+                ToastAndroid.show("Opps, Terjadi Kesalahan, Coba lagi nanti!" + err, ToastAndroid.SHORT)
                 setState(state => ({ ...state, loading: false }))
-                console.log(' tec erorr = ' + JSON.stringify(response.data))
+                console.log(' tec erorr = ' + JSON.stringify(err))
             })
     }
 
@@ -299,8 +293,9 @@ const Belumbayar = (props) => {
                                             <Text style={{ fontSize: toDp(12), }}>{item.Expired}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-
-                                            <Pressable style={styles.buttonPay} onPress={() => ubahStatus(item.odr_mb_id, item.id, item.retail_id, item.retail_name, item.total_bayar, item.odr_status, item.subtotal)}>
+                                                                                                          {/*$id, $odr_status, $pesan_nf, $id_tujuan, $jenis_nf, $asal_nf, $status
+                                                                                                          id, transid, total, fee, qtyall*/}
+                                            <Pressable style={styles.buttonPay} onPress={() => alertShownbatal(item.odr_id, item.TransactionId, item.Total, item.Fee, item.qtyall)}>
                                                 <Text style={styles.txtButtonPay}>Batalkan</Text>
                                             </Pressable>
                                         </View>

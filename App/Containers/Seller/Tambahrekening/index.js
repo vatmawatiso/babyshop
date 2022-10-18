@@ -10,7 +10,8 @@ import {
     SafeAreaView,
     TextInput,
     AsyncStorage,
-    ToastAndroid
+    ToastAndroid,
+    TouchableOpacity,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -105,7 +106,7 @@ const Tambahrekening = (props) => {
                 if (result.data.status == 201) {
                     // alert('Sukses tambah rekening!')
                     ToastAndroid.show("Berhasil tambah rekening!", ToastAndroid.SHORT)
-                    NavigatorService.navigate('Rekeningtoko', {rk_mb_id: state.mb_id})
+                    NavigatorService.navigate('Rekeningtoko', { rk_mb_id: state.mb_id })
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
                     //NavigatorService.navigation('Alamattoko');
@@ -196,9 +197,11 @@ const Tambahrekening = (props) => {
                         </SafeAreaView>
                     </View>
                 </View>
-                <Pressable style={styles.btnKategori} onPress={() => postRekening()}>
+            </View>
+            <View style={{marginTop:toDp(30)}}>
+                <TouchableOpacity style={styles.btnKategori} onPress={() => postRekening()}>
                     <Text style={styles.txtSimpan}>Simpan</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -271,7 +274,6 @@ const styles = StyleSheet.create({
         width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10),
-        top: toDp(30),
         left: toDp(10),
         justifyContent: 'center',
         shadowColor: "#000",

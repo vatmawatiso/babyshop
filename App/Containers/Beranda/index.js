@@ -61,7 +61,7 @@ const Beranda = (props) => {
         long: [],
         inArea: 'false',
         inMessage: '',
-        inload:'true',
+        inload: 'true',
     })
 
     useEffect(() => {
@@ -79,25 +79,25 @@ const Beranda = (props) => {
             'didFocus',
             payload => {
                 setKordinat()
-                .then(result =>{
-                    return produk(result)
-                    setState(state => ({
-                        ...state,
-                        latitude: result.latitude,
-                        longitude: result.longitude
-                    }))
-                }, error1 => {
-                   setState(state => ({ ...state, inMessage: error1,inload: 'false' }))
+                    .then(result => {
+                        return produk(result)
+                        setState(state => ({
+                            ...state,
+                            latitude: result.latitude,
+                            longitude: result.longitude
+                        }))
+                    }, error1 => {
+                        setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
 
-                })
-                .then( result2 => {
-                    setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
-                },
-                error => {
-                    setState(state => ({ ...state, inMessage: error }))
-                })
+                    })
+                    .then(result2 => {
+                        setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
+                    },
+                        error => {
+                            setState(state => ({ ...state, inMessage: error }))
+                        })
             }
-          );
+        );
 
 
     }, [])
@@ -119,26 +119,26 @@ const Beranda = (props) => {
         })
 
         return (() => {
-          //Pemanggilan promise saat buka pertama
-          setKordinat()
-          .then(result =>{
-              return produk(result)
-              return setState(state => ({
-                  ...state,
-                  latitude: result.latitude,
-                  longitude: result.longitude
-              }))
-          }, error1 => {
-             setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+            //Pemanggilan promise saat buka pertama
+            setKordinat()
+                .then(result => {
+                    return produk(result)
+                    return setState(state => ({
+                        ...state,
+                        latitude: result.latitude,
+                        longitude: result.longitude
+                    }))
+                }, error1 => {
+                    setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
 
-          })
-          .then( result2 => {
-              setState(state => ({ ...state, arrayData: result2, inload: 'false'}))
+                })
+                .then(result2 => {
+                    setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
 
-          },
-          error => {
-              setState(state => ({ ...state, inMessage: error }))
-          })
+                },
+                    error => {
+                        setState(state => ({ ...state, inMessage: error }))
+                    })
 
         })
 
@@ -149,47 +149,47 @@ const Beranda = (props) => {
 
     // get produk yg kotak2 besar
     const produk = (json) => {
-      //Penggunaan Promise
-      return new Promise((resolve, reject)=>{
-          console.log('cekkkkkkk = ', json.latitude + '/' + json.longitude);
-          Axios.get(svr.url + 'product/' + json.latitude + '/' + json.longitude + '/' + svr.api)
-              // Axios.get('https://market.pondok-huda.com/dev/react/product/')
-              .then(result => {
-                     console.log('get produk', result.data);
+        //Penggunaan Promise
+        return new Promise((resolve, reject) => {
+            console.log('cekkkkkkk = ', json.latitude + '/' + json.longitude);
+            Axios.get(svr.url + 'product/' + json.latitude + '/' + json.longitude + '/' + svr.api)
+                // Axios.get('https://market.pondok-huda.com/dev/react/product/')
+                .then(result => {
+                    console.log('get produk', result.data);
 
-                  if (result.data.status == 200) {
-                      getCurrentWsh()
-                      // setState(state => ({ ...state, arrayData: result.data.data }))
-                      //This Modif
-                      setState(state => ({ ...state, inArea: 'true'}))
-                      resolve(result.data.data)
+                    if (result.data.status == 200) {
+                        getCurrentWsh()
+                        // setState(state => ({ ...state, arrayData: result.data.data }))
+                        //This Modif
+                        setState(state => ({ ...state, inArea: 'true' }))
+                        resolve(result.data.data)
 
 
-                  } else if (result.data.status == 500) {
-                      //This Modif
-                      setState(state => ({ ...state, inArea: '500',}))
-                      setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
-                      ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
-                      reject('Tidak dapat memuat data')
-                  } else {
-                      //This Modif
-                      setState(state => ({ ...state, inArea: 'false',}))
-                      setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
-                      //ToastAndroid.show("Data not found", ToastAndroid.SHORT)
-                      reject('Lokasi kamu di luar jangkauan penjual')
-                  }
+                    } else if (result.data.status == 500) {
+                        //This Modif
+                        setState(state => ({ ...state, inArea: '500', }))
+                        setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+                        ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+                        reject('Tidak dapat memuat data')
+                    } else {
+                        //This Modif
+                        setState(state => ({ ...state, inArea: 'false', }))
+                        setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
+                        //ToastAndroid.show("Data not found", ToastAndroid.SHORT)
+                        reject('Lokasi kamu di luar jangkauan penjual')
+                    }
 
-                  // console.log('result2 =>', result.data.data)
-              }).catch(error => {
-                  //This Modif, pesan inMessage silahkan ganti
-                  setState(state => ({ ...state, inArea: '500',}))
-                  setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
-                  ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
-                  console.log('error produk =>', error)
-                  reject('Tidak dapat memuat data')
-              })
+                    // console.log('result2 =>', result.data.data)
+                }).catch(error => {
+                    //This Modif, pesan inMessage silahkan ganti
+                    setState(state => ({ ...state, inArea: '500', }))
+                    setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+                    ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
+                    console.log('error produk =>', error)
+                    reject('Tidak dapat memuat data')
+                })
 
-      })
+        })
     }
 
 
@@ -354,7 +354,7 @@ const Beranda = (props) => {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: toDp(10) }}>
                         <View style={{ justifyContent: 'center', width: '70%' }}>
-                            <Text style={styles.textproduct}>{item.product_name}</Text>
+                            <Text numberOfLines={2} style={styles.textproduct}>{item.product_name}</Text>
                         </View>
                         <View>
                             {
@@ -369,19 +369,28 @@ const Beranda = (props) => {
                             }
                         </View>
                     </View>
+                    <Text style={{ marginTop: toDp(5), fontSize: toDp(10) }}>{item.retail_name}</Text>
                     <NumberFormat
                         value={item.price}
                         displayType={'text'}
                         thousandSeparator={'.'}
                         decimalSeparator={','}
                         prefix={'Rp. '}
-                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', fontSize: toDp(15) }}>{formattedValue}</Text>} // <--- Don't forget this!
                     />
-                    <Image source={allLogo.address} style={styles.address} />
-                    <Text style={styles.dariKota}>{item.ctyname}, {item.jarak.substring(0, 2)} KM</Text>
-                    <Image source={allLogo.icstar} style={styles.star} />
-                    <Text style={styles.bintang}>{item.lainnya.rating}</Text>
-                    <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(10), }}>
+                        <Image source={allLogo.address} style={styles.address} />
+                        <Text style={styles.dariKota}>{item.retailaddres}</Text>
+                    </ View>
+                    <Text style={{left: toDp(15), fontSize:toDp(12)}}>{item.jarak.substring(0,3)} KM</Text>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(2), }}>
+                        <Image source={allLogo.icstar} style={styles.star} />
+
+                        <Text style={styles.bintang}>{item.lainnya.rating}</Text>
+
+                        <Text style={styles.terjual}>|| {item.lainnya.terjual} Terjual</Text>
+                    </View>
                 </ View>
             </Pressable>
         </ View>
@@ -423,49 +432,49 @@ const Beranda = (props) => {
 
 
     const setKordinat = () => {
-      setState(state => ({ ...state, arrayData: []}))
-      setState(state => ({ ...state, inload: 'true' }))
-      //Penggunaan Promise
-      return new Promise((resolve, reject) => {
-        AsyncStorage.getItem('kordinat').then(response => {
-            let data = JSON.parse(response);
-            if(response !== null){
-                  if ((data.latitude == '' && data.latitude == null )|| (data.longitude == '' && data.longitude == null)) {
-                      setState(state => ({
-                          ...state,
-                          latlongName: 'Atur Lokasi',
-                          inMessage:'Lokasi mu tidak dalam jangkauan',
+        setState(state => ({ ...state, arrayData: [] }))
+        setState(state => ({ ...state, inload: 'true' }))
+        //Penggunaan Promise
+        return new Promise((resolve, reject) => {
+            AsyncStorage.getItem('kordinat').then(response => {
+                let data = JSON.parse(response);
+                if (response !== null) {
+                    if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+                        setState(state => ({
+                            ...state,
+                            latlongName: 'Atur Lokasi',
+                            inMessage: 'Lokasi mu tidak dalam jangkauan',
 
-                      }))
-                      reject('Lokasi mu tidak dalam jangkauan')
-                  } else {
-                      setState(state => ({
-                          ...state,
-                          latitude: data.latitude,
-                          longitude: data.longitude,
+                        }))
+                        reject('Lokasi mu tidak dalam jangkauan')
+                    } else {
+                        setState(state => ({
+                            ...state,
+                            latitude: data.latitude,
+                            longitude: data.longitude,
 
-                      }))
-                      //calback promise
-                      resolve(data)
-                  }
-            }else{
+                        }))
+                        //calback promise
+                        resolve(data)
+                    }
+                } else {
+                    //calback promise reject
+                    reject('Lokasi mu tidak dalam jangkauan')
+                    setState(state => ({
+                        ...state,
+                        latlongName: 'Atur Lokasi',
+                        inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+                    }))
+                }
+
+            }).catch(err => {
+                console.log('err', err)
                 //calback promise reject
-                reject('Lokasi mu tidak dalam jangkauan')
-                setState(state => ({
-                    ...state,
-                    latlongName: 'Atur Lokasi',
-                    inMessage:'Lokasi mu tidak dalam jangkauan',
+                reject('Tidak dapat memuat data')
+            })
 
-                }))
-            }
-
-        }).catch(err => {
-            console.log('err', err)
-            //calback promise reject
-            reject('Tidak dapat memuat data')
         })
-
-      })
 
 
     }
@@ -487,9 +496,9 @@ const Beranda = (props) => {
                         <Image source={allLogo.map} style={styles.ikon} />
                         <View>
                             <Text style={{ marginTop: toDp(5), marginLeft: toDp(15), fontSize: toDp(11) }}>Lokasi kamu</Text>
-                            <Text style={{ marginLeft: toDp(15), marginTop: toDp(5), fontSize:toDp(13),fontWeight: '800' }}>
+                            <Text style={{ marginLeft: toDp(15), marginTop: toDp(5), fontSize: toDp(13), fontWeight: '800' }}>
                                 {state.latitude != '' || state.longitude != '' ?
-                                    state.latitude+', '+state.longitude
+                                    state.latitude + ', ' + state.longitude
                                     :
                                     'Atur Lokasi'
                                 }
@@ -551,9 +560,9 @@ const Beranda = (props) => {
                 {/* //This Modif */}
 
                 {
-                  state.inload=='true'?
-                    <ActivityIndicator size="large" color="#0000ff" />
-                  :<></>
+                    state.inload == 'true' ?
+                        <ActivityIndicator size="large" color="#0000ff" />
+                        : <></>
 
                 }
 
@@ -585,7 +594,7 @@ const Beranda = (props) => {
                     <Image source={allLogo.ichome} style={styles.iconik} />
                     <Text style={{ color: 'white', fontSize: toDp(11) }}>Beranda</Text>
                 </Pressable>
-                <Pressable style={styles.btnmenu} onPress={() => NavigatorService.navigate('Katagori', {latitude: state.latitude, longitude: state.longitude})}>
+                <Pressable style={styles.btnmenu} onPress={() => NavigatorService.navigate('Katagori', { latitude: state.latitude, longitude: state.longitude })}>
                     <Image source={allLogo.iccategory} style={styles.iconik} />
                     <Text style={{ color: 'white', fontSize: toDp(11) }}>Kategori</Text>
                 </Pressable >
@@ -675,29 +684,27 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     bintang: {
-        bottom: toDp(17),
-        left: toDp(20)
+        left: toDp(5)
     },
     terjual: {
-        bottom: toDp(37),
-        left: toDp(33)
+        left: toDp(3),
+        marginRight: 0,
+        fontSize:toDp(12)
     },
     address: {
-        top: toDp(8),
-        width: toDp(15),
-        height: toDp(15)
+        width: toDp(12),
+        height: toDp(12)
     },
     star: {
-        bottom: toDp(3),
-        left: toDp(2)
+        right: toDp(0)
     },
     dariKota: {
-        bottom: toDp(10),
-        left: toDp(20)
+        left: toDp(3),
+        fontSize:toDp(12)
     },
     textproduct: {
-        fontWeight: 'bold',
-        fontSize: toDp(12)
+        textTransform: 'uppercase',
+        fontSize: toDp(12),
     },
     txtProduct: {
         borderRadius: toDp(10),

@@ -73,7 +73,8 @@ const Nilaiorder = (props) => {
       compressImageMaxWidth: 720,
       compressImageMaxHeight: 720
     },
-    mbid: ''
+    mbid: '',
+    ulas: 'sudahDiulas'
   })
   const [rating, setRating] = useState(0);
 
@@ -139,15 +140,17 @@ const Nilaiorder = (props) => {
 
       if (response.data.status == 201) {
         ToastAndroid.show("Berhasil kirim komentar", ToastAndroid.SHORT)
-
-        props.navigation.goBack()
-        console.log('Response 200 ==> : ' + JSON.stringify(response.data))
+        NavigatorService.navigate('Ulasansaya', {mb_id: state.mb_id})
+        // props.navigation.goBack()
+        console.log('Response 201 ==> : ' + JSON.stringify(response.data))
         setState(state => ({ ...state, loading: false }))
         //NavigatorService.navigation('Alamattoko');
 
       } else if (response.data.status == 200) {
         ToastAndroid.show("Order sudah diberi ulasan!", ToastAndroid.SHORT)
-        NavigatorService.navigate('Ulasansaya', {mb_id: state.mb_id})
+        // props.navigation.goBack({ulas: state.ulas})
+        NavigatorService.navigate('Orderpage', { content: 'Selesai', mb_id: state.mb_id, ulas: state.ulas})
+        console.log('cekkkcokkk = ', state.ulas)
         
       } else if (response.data.status == 500) {
         ToastAndroid.show("Data tidak ditemukan!')!", ToastAndroid.SHORT)

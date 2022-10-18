@@ -52,8 +52,8 @@ const Login = (props) => {
     AsyncStorage.setItem('login', '')
     GoogleSignin.configure({
       offlineAccess: true,
-      webClientId: '1052179751583-3p83i6eiiq8hiinddq6o13egn9b25ias.apps.googleusercontent.com',
-      androidClientId: '1052179751583-gdk2ej0h361m19lh2lkbq247e27i8msa.apps.googleusercontent.com',
+      webClientId: '1074872779717-2qkssa1l8pbq24ki9jikge5869o6tamh.apps.googleusercontent.com',
+      androidClientId: '1074872779717-t4sfanhv7h7uqb0mirs960oa5dqjotkv.apps.googleusercontent.com',
       scopes: ['profile', 'email']
     })
   }, [])
@@ -71,7 +71,7 @@ const Login = (props) => {
       const ugDatas = JSON.stringify(userInfo);
       const newData = JSON.parse(ugDatas);
       state.GUser.push({ userInfo });
-      //NavigatorService.navigate('Homepage')
+      //NavigatorService.navigate('Beranda')
 
       let body = {
         mb_name: newData.user.name,
@@ -124,8 +124,8 @@ const Login = (props) => {
       mb_email: email
     }
     setState(state => ({ ...state, loading: true }))
+    console.log('cek login ==> ', svr.url + 'login-member/sosmed/' + svr.api, data)
     axios.post(svr.url + 'login-member/sosmed/' + svr.api, data)
-      // axios.post('http://192.168.43.234/dev/react/login-member/sosmed/7J54SR2X7F56VPOP3WXFYBLI171P68C53WNSSPQQ6/', data)
       .then(response => {
         console.log('response cek login =>', response)
         if (response.data.status == 200) {
@@ -376,12 +376,9 @@ const Login = (props) => {
   }
 
 
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-
   return (
     <View style={styles.container}>
       <Loader loading={state.loading} />
-
       <StatusBar barStyle="dark-content" translucent={true} backgroundColor={'transparent'} />
       <View style={styles.viewLogoApp}>
         <Image source={allLogo.icbina} style={styles.logoApp} />
@@ -408,26 +405,13 @@ const Login = (props) => {
               onChangeText={(text) => Shaone(text)}
             />
             <Pressable style={styles.presableShow} onPress={() => setState(state => ({ ...state, secureTextEntry: !state.secureTextEntry }))}>
-              {/* <Image source={state.secureTextEntry ? allLogo.icVisibilityOff : allLogo.icVisibilityOn} style={styles.icVisibility} /> */}
-               {state.secureTextEntry ? <Text style={styles.icVisibility}>Show</Text> : <Text style={styles.icVisibility}>Hide</Text>}
+              {state.secureTextEntry ? <Text style={styles.icVisibility}>Show</Text> : <Text style={styles.icVisibility}>Hide</Text>}
             </Pressable>
           </View>
 
           <Pressable style={{ top: toDp(10), }} onPress={() => NavigatorService.navigate('Lupapassword')}>
             <Text style={styles.textForgot}>Lupa Kata Sandi ?</Text>
           </Pressable>
-
-          {/* <View style={styles.viewRow}>
-            <Pressable
-              style={styles.pressableLogin} onPress={() => getlogin()}>
-              <Text style={styles.textLogin}>Masuk</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => NavigatorService.navigate('Register')}
-              style={styles.pressableSignup}>
-              <Text style={styles.textSignup}>Daftar</Text>
-            </Pressable>
-          </View> */}
 
           <View style={styles.signInWith}>
             <TouchableOpacity style={[styles.btnSignInWith, { width: toDp(90), height: toDp(48), paddingLeft: toDp(25), backgroundColor: '#516675', }]} onPress={() => NavigatorService.navigate('Register')}>
@@ -461,7 +445,6 @@ const Login = (props) => {
             </View>
           </View>
         </View>
-
       </ScrollView>
     </View>
   )

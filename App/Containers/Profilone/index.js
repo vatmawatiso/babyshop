@@ -669,7 +669,7 @@ const styles = StyleSheet.create({
   iclineright: {
     width: toDp(8),
     height: toDp(14),
-    marginLeft: toDp(17),
+    marginLeft: toDp(13),
   },
   txtPengiriman: {
     left: toDp(0),
@@ -711,33 +711,12 @@ const styles = StyleSheet.create({
   },
   txtAddress: {
     fontSize: toDp(13),
-    bottom: toDp(10)
+    bottom: toDp(10),
+    width:toDp(250)
   }
 
 });
 
 export default Profilone;
-
-
-        // const datas = {                                 
-        //   id: result.data.data[0].mb_id,                 
-        //   value: result.data.data[0],
-        //   tipe: result.data.data[0].mb_type,
-        //   retail_idtl_srtl_status.data.rtl_id                      
-
-        // }wq  
-        // console.log('DATAS' + JSON.stringify(datas));
-
-        // if (datas.retail_idtl_srtl_status_id) {
-        //   // alert('Nama Pengguna atau Kata Sandi Salah!')
-        //      NavigatorService.navigate('Homeseller')
-        // } else {
-        //   console.log(JSON.stringify(datas));
-
-        //   NavigatorService.reset('Ubahtoko')
-        // }
-
-        // NavigatorService.reset('Homepage')
-        // setState(state => ({ ...state, loading: false }))
 
       

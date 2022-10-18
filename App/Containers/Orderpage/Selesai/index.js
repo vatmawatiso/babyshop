@@ -37,22 +37,84 @@ const Selesai = (props) => {
         item: '',
         mb_id: '',
         odr_id: '',
+        komentar: [],
+        ulasan: '',
+        komen: ''
+
     })
 
+
+   
+
     useEffect(() => {
+
+        let komen = props.ulas
+        console.log('cek komen => ', komen)
+
+        AsyncStorage.getItem('uid').then(uids => {
+            // console.log('ids', uids)
+            let ids = uids;
+            setState(state => ({
+                ...state,
+                mb_id: ids,
+            }))
+            console.log('cekcok =c', ids)
+        }).catch(err => {
+            console.log('err', err)
+        })
+
         //*Bagian Update
         getOrder()
+        // getUlasan()
     }, [])
+
+
+    const getUlasan = () => {
+        let mbid = props.mbid;
+        console.log('cek mbid = ', mbid)
+        console.log(svr.url + 'komentar/member/' + mbid + '/' + svr.api)
+        axios.get(svr.url + 'komentar/member/' + mbid + '/' + svr.api)
+            .then(result => {
+                // handle success
+                if (result.data.status == 200) {
+                    setState(state => ({
+                        ...state,
+                        komentar: result.data.data,
+                        ulasan: result.data.data[0].km_id,
+
+                    }))
+                    console.log('get Ulasan = ' + JSON.stringify(state.ulasan));
+                } else if (result.data.status == 500) {
+                    ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+                } else {
+                    ToastAndroid.show("Ulasan not found", ToastAndroid.SHORT)
+                }
+
+            }).catch(err => {
+                // alert('Gagal menerima data dari server!' + err)
+                ToastAndroid.show("Gagal menerima data dari server!" + err, ToastAndroid.SHORT)
+                setState(state => ({ ...state, loading: false }))
+            })
+    }
+
 
     const getOrder = () => {
         let mb = props.mbid;
         let content = props.con;
+        console.log('cek mb = ', mb)
         axios.get(svr.url + 'order/getodr/' + mb + '/' + content + '/' + svr.api)
             // axios.get('https://market.pondok-huda.com/dev/react/order/getodr/' + mb + '/' + content)
             .then(result => {
                 //hendle success
-                console.log('full ===> ' + JSON.stringify(result.data.data));
-                setState(state => ({ ...state, datas: result.data.data }))
+                if (result.data.status == 200) {
+                    console.log('full ===> ' + JSON.stringify(result.data.data));
+                    setState(state => ({ ...state, datas: result.data.data }))
+                } else if (result.data.status == 500) {
+                    ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+                } else {
+                    ToastAndroid.show("Ulasan not found", ToastAndroid.SHORT)
+                }
+
                 // refresh()
 
             }).catch(err => {
@@ -86,8 +148,9 @@ const Selesai = (props) => {
         console.log('cek props = ', thumbnail)
         console.log('cek props = ', subtotal)
         console.log('cek props = ', prd_id)
-        NavigatorService.navigate('Nilaiorder', { id: id, retail_id: retail_id, retail_name: retail_name, prd_name: prd_name, thumbnail: thumbnail, subtotal: subtotal, qtyall: qtyall, prd_id: prd_id })
+        NavigatorService.navigate('Nilaiorder', { id: id, retail_id: retail_id, retail_name: retail_name, prd_name: prd_name, thumbnail: thumbnail, subtotal: subtotal, qtyall: qtyall, prd_id: prd_id, mb_id: state.mb_id })
     }
+
 
 
     return (
@@ -143,15 +206,14 @@ const Selesai = (props) => {
 
                                 <View style={{ justifyContent: 'space-between', alignItems: 'flex-end', margin: toDp(5), top: toDp(10) }}>
                                     <View style={{ flexDirection: 'row', marginTop: toDp(10), justifyContent: 'space-between' }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall, item.items[0]?.prd_id)}>
-                                            {/* <Text style={styles.txtButtonPay}>Nilai</Text> */}
-                                            {item.id != '' ?
+                                        <Pressable style={styles.buttonPay} onPress={() => Komen(item.id, item.retail_id, item.retail_name, item.items[0]?.prd_name, item.items[0]?.thumbnail, item.subtotal, item.qtyall, item.items[0]?.prd_id, state.mb_id)}>
+                                            {state.ulasan != state.ulasan ?
                                                 <>
-                                                    <Text style={styles.txtButtonPay}>Nilai</Text>
+                                                    <Text style={styles.txtButtonPay}>Lihat Ulasan</Text>
                                                 </>
                                                 :
                                                 <>
-                                                    <Text style={styles.txtButtonPay}>Lihat Ulasan</Text>
+                                                    <Text style={styles.txtButtonPay}>Nilai</Text>
                                                 </>
                                             }
                                         </Pressable>

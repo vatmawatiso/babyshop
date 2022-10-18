@@ -131,6 +131,7 @@ const allLogo = {
   markerIcon: require('./img/custom_marker.png'),
   map: require('./img/map.png'),
   warning: require('./img/warning.png'),
+  search_null: require('./img/search_null.png'),
 
 
 }

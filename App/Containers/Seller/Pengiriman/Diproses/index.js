@@ -108,7 +108,8 @@ const Diproses = (props) => {
 
         setState(state => ({ ...state, loading: true }))
         let id_odr = id;
-        axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
+        // axios.post(svr.url + 'order/' + id_odr + '/' + svr.api, body)
+        axios.post(svr.url + 'order/sellerchange/' + id_odr + '/statusupdate/' + svr.api, body)
             .then(response => {
                 console.log('Response = ' + JSON.stringify(response.data));
                 const STATUS = {

@@ -101,8 +101,8 @@ const RiwayatTransaksi = (props) => {
                 displayType={'text'}
                 thousandSeparator={'.'}
                 decimalSeparator={','}
-                prefix={'-Rp '}
-                renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                prefix={'+Rp '}
+                renderText={formattedValue => <Text style={{color: '#209849', fontWeight: 'bold' }}>{formattedValue}</Text>} // <--- Don't forget this!
               />
            
           ) : null
@@ -116,8 +116,8 @@ const RiwayatTransaksi = (props) => {
                 displayType={'text'}
                 thousandSeparator={'.'}
                 decimalSeparator={','}
-                prefix={'+Rp '}
-                renderText={formattedValue => <Text style={{ color: '#209849', fontWeight: 'bold' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                prefix={'-Rp '}
+                renderText={formattedValue => <Text style={{ color: '#f83308', fontWeight: 'bold' }}>{formattedValue}</Text>} // <--- Don't forget this!
               />
            
           ) : null

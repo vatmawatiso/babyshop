@@ -376,7 +376,7 @@ const Katagori = (props) => {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: toDp(10) }}>
                         <View style={{ justifyContent: 'center', width: '70%' }}>
-                            <Text style={styles.textproduct}>{item.product_name}</Text>
+                            <Text numberOfLines={2} style={styles.textproduct}>{item.product_name}</Text>
                         </View>
                         <View>
                             {
@@ -398,13 +398,23 @@ const Katagori = (props) => {
                         thousandSeparator={'.'}
                         decimalSeparator={','}
                         prefix={'Rp. '}
-                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', fontSize: toDp(15) }}>{formattedValue}</Text>} // <--- Don't forget this!
                     />
-                    <Image source={allLogo.address} style={styles.address} />
-                    <Text style={styles.dariKota}>{item.ctyname}, {item.jarak.substring(0, 2)} KM</Text>
-                    <Image source={allLogo.icstar} style={styles.star} />
-                    <Text style={styles.bintang}>{item.lainnya.rating}</Text>
-                    <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
+                    <Text style={{ marginTop: toDp(5), fontSize: toDp(10) }}>{item.retail_name}</Text>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(10), }}>
+                        <Image source={allLogo.address} style={styles.address} />
+                        <Text style={styles.dariKota}>{item.retailaddres}</Text>
+                    </ View>
+                    <Text style={{left: toDp(15), fontSize:toDp(12)}}>{item.jarak.substring(0,3)} KM</Text>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(2), }}>
+                        <Image source={allLogo.icstar} style={styles.star} />
+
+                        <Text style={styles.bintang}>{item.lainnya.rating}</Text>
+
+                        <Text style={styles.terjual}>|| {item.lainnya.terjual} Terjual</Text>
+                    </View>
                 </ View>
             </Pressable>
         </ View>
@@ -770,29 +780,27 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     bintang: {
-        bottom: toDp(17),
-        left: toDp(20)
+        left: toDp(5)
     },
     terjual: {
-        bottom: toDp(37),
-        left: toDp(33)
+        left: toDp(3),
+        marginRight: 0,
+        fontSize: toDp(12)
     },
     address: {
-        top: toDp(7),
-        width: toDp(15),
-        height: toDp(15)
+        width: toDp(12),
+        height: toDp(12)
     },
     star: {
-        bottom: toDp(3),
-        left: toDp(2)
+        right: toDp(0)
     },
     dariKota: {
-        bottom: toDp(10),
-        left: toDp(20)
+        left: toDp(3),
+        fontSize: toDp(12)
     },
     textproduct: {
-        fontWeight: 'bold',
-        fontSize: toDp(12)
+        textTransform: 'uppercase',
+        fontSize: toDp(12),
     },
     txtProduct: {
         borderRadius: toDp(10),

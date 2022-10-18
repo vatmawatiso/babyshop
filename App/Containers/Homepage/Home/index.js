@@ -11,9 +11,11 @@ import {
   Pressable,
   FlatList,
   ScrollView,
-  AsyncStorage, 
+  AsyncStorage,
   LogBox,
-  ToastAndroid
+  ToastAndroid,
+  PermissionsAndroid,
+  ActivityIndicator
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -24,6 +26,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import Axios from "axios";
 import NumberFormat from 'react-number-format';
 import { svr } from "../../../Configs/apikey";
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 const { width, height } = Dimensions.get('window');
 const itemWidth = (width - 15) / 2;
@@ -33,6 +36,8 @@ const Home = (props) => {
   const [pid, setPid] = useState('MB000000032')
   const [selectedItems, setSelectedItems] = useState([]);
   const [current, setCurrent] = useState(0)
+  const [text, setText] = useState('');
+  const [src, setSrc] = useState(null);
   const [state, setState] = useState({
     id: '',
     arrayUsers: [],
@@ -46,8 +51,54 @@ const Home = (props) => {
     ws_prd_id: '',
     id_retail: 'RTL000001',
     curWishlist: [],
-    isHide: ''
+    isHide: '',
+    latitude: '',
+    longitude: '',
+    latlongName: '',
+    lat: [],
+    long: [],
+    inArea: 'false',
+    inMessage: '',
+    inload: 'true',
   })
+
+  useEffect(() => {
+    // get id pengguna
+    AsyncStorage.getItem('uid').then(uids => {
+      let ids = uids;
+      setState(state => ({ ...state, id: ids }))
+      console.log('id', state.id)
+    }).catch(error => {
+      console.log('error', error)
+    })
+
+    //Pemanggilan promise saat terjadi back navigation
+    props.navigation.addListener(
+      'didFocus',
+      payload => {
+        setKordinat()
+          .then(result => {
+            return produk(result)
+            setState(state => ({
+              ...state,
+              latitude: result.latitude,
+              longitude: result.longitude
+            }))
+          }, error1 => {
+            setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+          })
+          .then(result2 => {
+            setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
+          },
+            error => {
+              setState(state => ({ ...state, inMessage: error }))
+            })
+      }
+    );
+
+
+  }, [])
 
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
@@ -66,45 +117,79 @@ const Home = (props) => {
     })
 
     return (() => {
-      produk()
+      //Pemanggilan promise saat buka pertama
+      setKordinat()
+        .then(result => {
+          return produk(result)
+          return setState(state => ({
+            ...state,
+            latitude: result.latitude,
+            longitude: result.longitude
+          }))
+        }, error1 => {
+          setState(state => ({ ...state, inMessage: error1, inload: 'false' }))
+
+        })
+        .then(result2 => {
+          setState(state => ({ ...state, arrayData: result2, inload: 'false' }))
+
+        },
+          error => {
+            setState(state => ({ ...state, inMessage: error }))
+          })
+
     })
 
-    console.log('loooo');
-    props.navigation.addListener(
-      'didFocus',
-      payload => {
-        alert('load')
-      }
-    );
 
   }, [state.id_member])
 
 
 
-  const displayName = (product_name) => {
-    let count = '';
-    let nama = '';
-    count = product_name.split(' ' || '-');
-    nama = count.slice(0, 2).join(' ');
-    return nama
-  }
-
   // get produk yg kotak2 besar
-  const produk = () => {
-    Axios.get(svr.url + 'product/' + svr.api)
-      // Axios.get('https://market.pondok-huda.com/dev/react/product/')
-      .then(result => {
-        console.log('get produk', result);
-        getCurrentWsh()
-        setState(state => ({ ...state, arrayData: result.data.data }))
+  const produk = (json) => {
+    //Penggunaan Promise
+    return new Promise((resolve, reject) => {
+      console.log('cekkkkkkk = ', json.latitude + '/' + json.longitude);
+      Axios.get(svr.url + 'product/' + json.latitude + '/' + json.longitude + '/' + svr.api)
+        // Axios.get('https://market.pondok-huda.com/dev/react/product/')
+        .then(result => {
+          console.log('get produk', result.data);
 
-        // console.log('result2 =>', result.data.data)
-      }).catch(error => {
-        // alert('Gagal Coba Lagi Nanti')
-        ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
-        console.log('error produk =>', error)
-      })
+          if (result.data.status == 200) {
+            getCurrentWsh()
+            // setState(state => ({ ...state, arrayData: result.data.data }))
+            //This Modif
+            setState(state => ({ ...state, inArea: 'true' }))
+            resolve(result.data.data)
+
+
+          } else if (result.data.status == 500) {
+            //This Modif
+            setState(state => ({ ...state, inArea: '500', }))
+            setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+            ToastAndroid.show("Internal server error", ToastAndroid.SHORT)
+            reject('Tidak dapat memuat data')
+          } else {
+            //This Modif
+            setState(state => ({ ...state, inArea: 'false', }))
+            setState(state => ({ ...state, inMessage: 'Lokasi kamu di luar jangkauan penjual' }))
+            //ToastAndroid.show("Data not found", ToastAndroid.SHORT)
+            reject('Lokasi kamu di luar jangkauan penjual')
+          }
+
+          // console.log('result2 =>', result.data.data)
+        }).catch(error => {
+          //This Modif, pesan inMessage silahkan ganti
+          setState(state => ({ ...state, inArea: '500', }))
+          setState(state => ({ ...state, inMessage: 'Tidak dapat memuat data' }))
+          ToastAndroid.show("Gagal menerima data dari server!" + error, ToastAndroid.SHORT)
+          console.log('error produk =>', error)
+          reject('Tidak dapat memuat data')
+        })
+
+    })
   }
+
 
   // get nama toko
   const listRetail = () => {
@@ -120,6 +205,7 @@ const Home = (props) => {
         console.log('error retail =>', error)
       })
   }
+
 
   //get current wishlist datas
   const getCurrentWsh = () => {
@@ -150,6 +236,7 @@ const Home = (props) => {
       console.log(err);
     })
   }
+
 
   // memasukan produk ke wishlist
   const selectItems = (id, retail, index) => {
@@ -184,6 +271,7 @@ const Home = (props) => {
 
   };
 
+
   // unlike produk
   const deSelectItems = (id, retail, ws_mb_id) => {
     if (selectItems.length > 0) {
@@ -210,6 +298,7 @@ const Home = (props) => {
     }
   }
 
+
   // filter button
   const getSelected = (id, ws_mb_id) => {
     if (selectItems.length > 0) {
@@ -220,6 +309,7 @@ const Home = (props) => {
       }
     }
   }
+
 
 
   const renderItemExpore = (item, index) => {
@@ -266,7 +356,7 @@ const Home = (props) => {
               {
                 selected == false ?
                   <TouchableOpacity onPress={() => onPress()} key={index}>
-                    <Image source={allLogo.love} style={{ width: toDp(30), height: toDp(30), tintColor:'black', marginLeft:toDp(13) }} />
+                    <Image source={allLogo.love} style={{ width: toDp(30), height: toDp(30), tintColor: 'black', marginLeft: toDp(13) }} />
                   </TouchableOpacity>
                   :
                   <TouchableOpacity onPress={unLike} key={index}>
@@ -284,7 +374,7 @@ const Home = (props) => {
             renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
           />
           <Image source={allLogo.address} style={styles.address} />
-          <Text style={styles.dariKota}>{item.ctyname}, {item.jarak.substring(0,2)} KM</Text>
+          <Text style={styles.dariKota}>{item.ctyname}, {item.jarak.substring(0, 2)} KM</Text>
           <Image source={allLogo.icstar} style={styles.star} />
           <Text style={styles.bintang}>{item.lainnya.rating}</Text>
           <Text style={styles.terjual}>| Terjual {item.lainnya.terjual}</Text>
@@ -325,11 +415,77 @@ const Home = (props) => {
   }
 
 
+  const setKordinat = () => {
+    setState(state => ({ ...state, arrayData: [] }))
+    setState(state => ({ ...state, inload: 'true' }))
+    //Penggunaan Promise
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem('kordinat').then(response => {
+        let data = JSON.parse(response);
+        if (response !== null) {
+          if ((data.latitude == '' && data.latitude == null) || (data.longitude == '' && data.longitude == null)) {
+            setState(state => ({
+              ...state,
+              latlongName: 'Atur Lokasi',
+              inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+            }))
+            reject('Lokasi mu tidak dalam jangkauan')
+          } else {
+            setState(state => ({
+              ...state,
+              latitude: data.latitude,
+              longitude: data.longitude,
+
+            }))
+            //calback promise
+            resolve(data)
+          }
+        } else {
+          //calback promise reject
+          reject('Lokasi mu tidak dalam jangkauan')
+          setState(state => ({
+            ...state,
+            latlongName: 'Atur Lokasi',
+            inMessage: 'Lokasi mu tidak dalam jangkauan',
+
+          }))
+        }
+
+      }).catch(err => {
+        console.log('err', err)
+        //calback promise reject
+        reject('Tidak dapat memuat data')
+      })
+
+    })
+
+
+  }
+
+
 
   return (
     <View style={styles.container}>
 
       <ScrollView style={styles.ScrollView}>
+        <View style={{ alignItems: 'center', marginTop: toDp(10), }}>
+          <TouchableOpacity style={styles.btnLokasi} onPress={() => NavigatorService.navigate('Map')}>
+            <Image source={allLogo.map} style={styles.ikon} />
+            <View>
+              <Text style={{ marginTop: toDp(5), marginLeft: toDp(15), fontSize: toDp(11) }}>Lokasi kamu</Text>
+              <Text style={{ marginLeft: toDp(15), marginTop: toDp(5), fontSize: toDp(13), fontWeight: '800' }}>
+                {state.latitude != '' || state.longitude != '' ?
+                  state.latitude + ', ' + state.longitude
+                  :
+                  'Atur Lokasi'
+                }
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+        </View>
+
         <View style={{ width: '100%', height: toDp(230), marginTop: toDp(-5), backgroundColor: 'white' }}>
           <Carousel
             layout={"default"}
@@ -379,9 +535,28 @@ const Home = (props) => {
           : null
         }
 
+        {/* //This Modif */}
 
+        {
+          state.inload == 'true' ?
+            <ActivityIndicator size="large" color="#0000ff" />
+            : <></>
 
-        <CardProduct />
+        }
+
+        {state.inArea == 'true' ?
+          <CardProduct />
+
+          : state.inArea == 'false' ?
+            <View style={{ width: '100%', alignItems: 'center' }}>
+              <Text>{state.inMessage}</Text>
+            </View>
+            :
+            <View style={{ width: '100%', alignItems: 'center' }}>
+              <Text>{state.inMessage}</Text>
+            </View>
+        }
+
       </ScrollView>
 
 
@@ -393,14 +568,54 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: 'white',
-    // bottom:toDp(140)
-  },
-  textIcon: {
+    alignItems: 'center',
+    // backgroundColor: color.back,
+},
+btnLokasi: {
+    backgroundColor: 'white',
+    width: toDp(335),
+    height: toDp(60),
+    flexDirection: 'row',
+    borderRadius: toDp(10),
+    marginBottom: toDp(10),
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 3,
+},
+ikon: {
+    height: toDp(28),
+    width: toDp(28),
+    marginTop: toDp(15),
+    marginLeft: toDp(10),
+    resizeMode: 'contain',
+    tintColor: '#f83308'
+},
+iconik: {
+    width: toDp(28),
+    height: toDp(26),
+    resizeMode: 'contain',
+    tintColor: 'white'
+},
+btnmenu: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: toDp(10),
+},
+content: {
+    flex: 1,
+},
+textIcon: {
     fontSize: toDp(10),
-  },
-  card: {
+},
+card: {
     backgroundColor: '#FFF',
     top: toDp(10),
     padding: toDp(0),
@@ -412,53 +627,51 @@ const styles = StyleSheet.create({
     width: '48%',
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 2,
+        width: 0,
+        height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
     elevation: 5,
-  },
-  bintang: {
-    bottom: toDp(17),
-    left: toDp(20)
-  },
-  terjual: {
-    bottom: toDp(37),
-    left: toDp(33)
-  },
-  address: {
-    top: toDp(8),
-    width:toDp(15),
-    height:toDp(15)
-  },
-  star: {
-    bottom: toDp(3),
-    left: toDp(2)
-  },
-  dariKota: {
-    bottom: toDp(10),
-    left: toDp(20)
-  },
-  textproduct: {
-    fontWeight: 'bold',
-    fontSize: toDp(12)
-  },
-  txtProduct: {
+},
+bintang: {
+    left: toDp(5)
+},
+terjual: {
+    left: toDp(3),
+    marginRight: 0,
+    fontSize:toDp(12)
+},
+address: {
+    width: toDp(12),
+    height: toDp(12)
+},
+star: {
+    right: toDp(0)
+},
+dariKota: {
+    left: toDp(3),
+    fontSize:toDp(12)
+},
+textproduct: {
+    textTransform: 'uppercase',
+    fontSize: toDp(12),
+},
+txtProduct: {
     borderRadius: toDp(10),
     padding: toDp(20)
-  },
-  imgProduct: {
+},
+imgProduct: {
     width: toDp(100),
     height: toDp(100)
-  },
-  imgProfile: {
+},
+imgProfile: {
     width: toDp(80),
     height: toDp(80),
     borderRadius: toDp(10),
-  },
-  viewRenderExplore: {
+},
+viewRenderExplore: {
     backgroundColor: 'white',
     width: '100%',
     height: toDp(200),
@@ -468,19 +681,19 @@ const styles = StyleSheet.create({
     marginTop: toDp(0),
     padding: toDp(10),
     top: toDp(10)
-  },
-  viewImage: {
+},
+viewImage: {
     width: '100%',
     height: toDp(200),
     resizeMode: 'contain',
     position: 'absolute',
-  },
-  viewImageContent: {
+},
+viewImageContent: {
     width: '100%',
     height: toDp(200),
     zIndex: 2
-  },
-  imageProfile: {
+},
+imageProfile: {
     width: '100%',
     height: '100%',
     borderRadius: toDp(10),
@@ -488,74 +701,104 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  gradientTop: {
+},
+gradientTop: {
     width: '100%',
     height: toDp(130),
     top: toDp(0),
     borderTopLeftRadius: toDp(10),
     borderTopRightRadius: toDp(10),
     zIndex: 1,
-  },
-  gradientBottom: {
+},
+gradientBottom: {
     width: '100%',
     height: toDp(130),
     borderBottomLeftRadius: toDp(10),
     borderBottomRightRadius: toDp(10),
     position: 'absolute',
     bottom: toDp(0),
-  },
-  icResidentSilang: {
+},
+icResidentSilang: {
     width: toDp(28),
     height: toDp(28),
-  },
-  touchSilangExplore: {
+},
+touchSilangExplore: {
     padding: toDp(4),
     position: 'absolute',
     right: toDp(16),
     top: toDp(16),
-  },
-  viewDetail: {
+},
+viewDetail: {
     position: 'absolute',
     bottom: toDp(16),
     left: toDp(16),
     zIndex: 2
-  },
-  textNameExplore: {
+},
+textNameExplore: {
     fontSize: toDp(24),
     color: '#FFFFFF',
-  },
-  textWork: {
+},
+textWork: {
     marginTop: toDp(4),
     fontSize: toDp(14),
     color: '#FFFFFF',
-  },
-  textDistance: {
+},
+textDistance: {
     marginTop: toDp(4),
     fontSize: toDp(14),
     color: '#FFFFFF',
-  },
-  content: {
+},
+content: {
     width: toDp(350),
     height: toDp(70),
     bottom: toDp(5),
     flexDirection: 'row',
     left: toDp(5),
     backgroundColor: 'white'
-  },
-  presable: {
+},
+presable: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: toDp(8),
     marginHorizontal: toDp(5),
-  },
-  icon: {
+},
+icon: {
     height: toDp(38),
     width: toDp(38),
     resizeMode: 'contain',
     tintColor: '#f83308'
-  }
+},
+buttonSubmit: {
+    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: toDp(10),
+    width: toDp(340),
+    height: toDp(52),
+    flexDirection: 'row',
+    backgroundColor: '#2A334B',
+    borderRadius: toDp(10)
+},
+btnSimpan: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2A334B',
+    width: toDp(335),
+    height: toDp(48),
+    borderRadius: toDp(10),
+    marginTop: toDp(25),
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 2,
+},
 });
 
 export default Home;

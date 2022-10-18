@@ -222,49 +222,43 @@ const Detailkatagori = (props) => {
     }
 
     const renderItem = (item, index) => (
-        <Pressable>
-            <View style={styles.card}>
+        <View style={styles.card}>
+            <Pressable onPress={() => onPressProduk()}>
                 <View style={styles.txtProduct}>
-                    <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
-                    <Text style={styles.textproduct}>{item.product_name.substring(0, 15)}</Text>
-                    <Text style={{ fontSize: toDp(12), right: toDp(1), fontWeight: 'bold' }}>{displayName(item.retail_name)}</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: toDp(10) }}>
+                        <Image source={{ uri: item.thumbnail }} style={styles.imgProduct} />
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: toDp(10) }}>
+                        <View style={{ justifyContent: 'center', width: '82%' }}>
+                            <Text numberOfLines={2} style={styles.textproduct}>{item.product_name}</Text>
+                        </View>
+                    </View>
                     <NumberFormat
                         value={item.price}
                         displayType={'text'}
                         thousandSeparator={'.'}
                         decimalSeparator={','}
                         prefix={'Rp. '}
-                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800' }}>{formattedValue}</Text>} // <--- Don't forget this!
+                        renderText={formattedValue => <Text style={{ color: '#F83308', fontWeight: '800', fontSize: toDp(15) }}>{formattedValue}</Text>} // <--- Don't forget this!
                     />
-                    <View>
+                    <Text style={{ marginTop: toDp(5), fontSize: toDp(10) }}>{item.retail_name}</Text>
 
-                        <View style={{ flexDirection: 'column' }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image source={allLogo.address} style={styles.address} />
-                                <Text style={{ marginLeft: toDp(10), marginTop: toDp(5) }}>{item.ctyname}{"\n"}{item.jarak.substring(0, 2)} KM</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image source={allLogo.icstar} style={styles.star} />
-                                <Text style={{ marginLeft: toDp(10), marginTop: toDp(5) }}>{item.lainnya.ratting}</Text>
-                                <Text style={{ marginLeft: toDp(10), marginTop: toDp(5) }}> | Terjual {item.lainnya.terjual}</Text>
-                            </View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', marginLeft: toDp(10), marginTop: toDp(7) }}>
-                            <View>
-                                <Text style={{ fontSize: toDp(12), right: toDp(9) }}>Stok</Text>
-                                <Text style={{ fontSize: toDp(12), right: toDp(9) }}>Kondisi</Text>
-                            </View>
-                            <View>
-                                <Text style={{ fontSize: toDp(12), right: toDp(9) }}> : {item.stock}</Text>
-                                <Text style={{ fontSize: toDp(12), right: toDp(9) }}> : {item.kondisi}</Text>
-                            </View>
-                        </View>
-
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(10), }}>
+                        <Image source={allLogo.address} style={styles.address} />
+                        <Text style={styles.dariKota}>{item.retailaddres}</Text>
                     </ View>
+                    <Text style={{left: toDp(15), fontSize:toDp(12)}}>{item.jarak.substring(0,3)} KM</Text>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: toDp(2), }}>
+                        <Image source={allLogo.icstar} style={styles.star} />
+
+                        <Text style={styles.bintang}>{item.lainnya.rating}</Text>
+
+                        <Text style={styles.terjual}>|| {item.lainnya.terjual} Terjual</Text>
+                    </View>
                 </ View>
-            </View>
-        </Pressable>
+            </Pressable>
+        </ View>
     );
 
     const CardProduct = () => {
@@ -335,7 +329,7 @@ const Detailkatagori = (props) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor:'white'
+        backgroundColor: 'white'
     },
     bodyMenu: {
         flexDirection: 'row',
@@ -364,59 +358,59 @@ const styles = StyleSheet.create({
         marginHorizontal: toDp(20),
     },
     card: {
-        backgroundColor: 'white',
-        right: toDp(12),
+        backgroundColor: '#fff',
+        top: toDp(0),
+        padding: toDp(0),
         marginVertical: toDp(5),
-        marginHorizontal: toDp(20),
+        marginHorizontal: toDp(10),
         borderRadius: toDp(10),
-        minHeight: toDp(200),
-        width: '90%',
-        shadowColor: "#000",
+
+        // right: toDp(2),
+        width: '44%',
+
+        shadowColor: "#CCC",
         shadowOffset: {
-            width: 0,
+            width: 2,
             height: 2,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        shadowOpacity: 1,
+        shadowRadius: 9.84,
 
-        elevation: 5,
+        elevation: 12,
     },
     bintang: {
-        bottom: toDp(17),
-        left: toDp(15)
+        left: toDp(5)
     },
     terjual: {
-        bottom: toDp(37),
-        left: toDp(28)
+        left: toDp(3),
+        marginRight: 0,
+        fontSize:toDp(12)
     },
-    address: {
-        bottom: toDp(-4)
-    },
+    // address: {
+    //     bottom: toDp(-4)
+    // },
     dariKota: {
-        bottom: toDp(6),
-        left: toDp(10)
+        left: toDp(3),
+        fontSize:toDp(12)
     },
     textproduct: {
-        width: toDp(100),
-        fontWeight: 'bold',
-        fontSize: toDp(12)
+        textTransform:'uppercase',
+        fontSize: toDp(12),
     },
     txtProduct: {
         borderRadius: toDp(10),
-        padding: toDp(20)
+        padding: toDp(14),
     },
     imgProduct: {
         width: toDp(100),
         height: toDp(100)
     },
     address: {
-        top: toDp(7),
-        width: toDp(15),
-        height: toDp(15)
+        width: toDp(12),
+        height: toDp(12)
     },
     star: {
-        marginTop: toDp(9),
-        marginLeft: toDp(3)
+        right: toDp(0)
     },
 });
 

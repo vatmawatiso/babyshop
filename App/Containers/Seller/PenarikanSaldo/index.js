@@ -59,7 +59,7 @@ const PenarikanSaldo = (props) => {
                 mb_phone: data.value.mb_phone,
                 mb_type: data.value.mb_type,
                 picture: data.value.picture,
-                retail_id: data.retail_id,
+                // retail_id: data.retail_id,
             }))
             // console.log('RTL ID ' + JSON.stringify(state.retail_id));
         }).catch(err => {
@@ -106,6 +106,7 @@ const PenarikanSaldo = (props) => {
 
     //POST / PENARIKAN SALDO
     const tarikSaldo = async () => {
+        let rtlid = props.navigation.state.params.retail_id;
         console.log('rtl id = ', rtlid);
         const body = {
             ps_rtl_id: state.retail_id,
@@ -117,7 +118,7 @@ const PenarikanSaldo = (props) => {
         console.log('Body tarik saldo ' + JSON.stringify(body));
 
         setState(state => ({ ...state, loading: true }))
-        // https://market.pondok-huda.com/publish/react/transaksi/penarikan/RTL00000004/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
+        console.log(svr.url + 'transaksi/penarikan/' + rtlid + '/' + svr.api, body)
         axios.post(svr.url + 'transaksi/penarikan/' + rtlid + '/' + svr.api, body)
             // axios.post('https://market.pondok-huda.com/dev/react/category/', body)
             .then(result => {

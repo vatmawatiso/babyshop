@@ -364,7 +364,8 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 18,
     fontWeight: 'bold',
-    backgroundColor: '#FFF',
+    backgroundColor: 'white',
+    flex:1
   },
   txtTransfer: {
     fontWeight: 'bold',

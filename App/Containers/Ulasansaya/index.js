@@ -47,8 +47,9 @@ const Ulasansaya = (props) => {
 
 
     const getUlasan = () => {
-        const mbid = props.navigation.state.params.mb_id
-        //https://market.pondok-huda.com/publish/react/komentar/member/MB000000001/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
+        const mbid = props.navigation.state.params.mb_id;
+        console.log('cek mbid = ', mbid)
+        console.log(svr.url + 'komentar/member/' + mbid + '/' + svr.api)
         axios.get(svr.url + 'komentar/member/' + mbid + '/' + svr.api)
             .then(result => {
                 // handle success
@@ -90,7 +91,7 @@ const Ulasansaya = (props) => {
                                 <Image source={allLogo.noimage} style={styles.fotokm} />
                             </>
                         }
-                        <StarRating style={{ right: toDp(7), paddingTop: toDp(5) }}
+                        <StarRating style={{ right: toDp(7), paddingTop: toDp(5), }}
                             rating={item.ratting}
                             starSize={toDp(15)}
                             enableHalfStar={false}

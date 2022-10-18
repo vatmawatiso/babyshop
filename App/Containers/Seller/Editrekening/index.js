@@ -10,6 +10,7 @@ import {
     SafeAreaView,
     TextInput,
     AsyncStorage,
+    TouchableOpacity,
     ToastAndroid
 } from "react-native";
 import { allLogo } from '@Assets';
@@ -134,7 +135,7 @@ const Editrekening = (props) => {
                 if (result.data.status == 201) {
                     // alert('Sukses edit rekening!')
                     ToastAndroid.show("Berhasil edit rekening!", ToastAndroid.SHORT)
-                    NavigatorService.navigate('Rekeningtoko', {rk_mb_id: state.mb_id})
+                    NavigatorService.navigate('Rekeningtoko', { rk_mb_id: state.mb_id })
                     console.log('HASIL ==> : ' + JSON.stringify(result.data))
                     setState(state => ({ ...state, loading: false }))
                     //NavigatorService.navigation('Alamattoko');
@@ -248,9 +249,12 @@ const Editrekening = (props) => {
                         </SafeAreaView>
                     </View>
                 </View>
-                <Pressable style={styles.btnKategori} onPress={() => Editrek()}>
+
+            </View>
+            <View style={{marginTop:toDp(40)}}>
+                <TouchableOpacity style={styles.btnKategori} onPress={() => Editrek()}>
                     <Text style={styles.txtSimpan}>Simpan</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -323,7 +327,6 @@ const styles = StyleSheet.create({
         width: toDp(340),
         height: toDp(48),
         borderRadius: toDp(10),
-        top: toDp(30),
         left: toDp(12),
         justifyContent: 'center',
         shadowColor: "#000",

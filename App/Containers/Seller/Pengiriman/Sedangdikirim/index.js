@@ -34,7 +34,7 @@ const Sedangdikirim = (props) => {
         item: '',
         rtl_id: '',
         odr_id: '',
-        buttonStts: 'Diterima',
+        buttonStts: 'Dikirim',
         pesan_nf: 'Barang sudah diterima oleh pembeli',
         jenis_nf: 'Notifikasi status order diproses',
         status: '0',
@@ -225,10 +225,10 @@ const Sedangdikirim = (props) => {
                                 
                                 <View style={{ borderWidth: toDp(0.5), borderColor: 'grey', top: toDp(10) }} />
 
-                                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(15) }}>
+                                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', alignItems: 'center', margin: toDp(5), top:toDp(10) }}>
                                     <View style={{ marginTop: toDp(10), }}>
-                                        <Pressable style={styles.buttonPay} onPress={() => konfirmPesanan(item)}>
-                                            <Text style={styles.txtButtonPay}>Diterima</Text>
+                                        <Pressable style={styles.buttonPay}>
+                                        <Text style={styles.txtButtonPay}>Pesanan sedang menunggu konfirmasi diterima oleh penerima</Text>
                                         </Pressable>
                                     </View>
 
@@ -294,17 +294,17 @@ const styles = StyleSheet.create({
         elevation: 15,
     },
     buttonPay: {
-        backgroundColor: '#2A334B',
+        backgroundColor: '#94dfb8',
         borderRadius: toDp(8),
-        width: toDp(120),
-        height: toDp(48),
+        marginRight: toDp(35),
+        width: toDp(270),
+        height: toDp(40),
         fontSize: toDp(18),
         justifyContent: 'center',
-        bottom: toDp(8),
     },
     txtButtonPay: {
-        color: 'white',
-        fontSize: toDp(13),
+        color: 'black',
+        fontSize: toDp(12),
         textAlign: 'center'
     }
 });

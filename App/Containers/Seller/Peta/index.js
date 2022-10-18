@@ -54,20 +54,9 @@ const Peta = (props) => {
   }
 
 
-  // console.log('asal hal = ', asalProps)
-  // useEffect(() => {
-  //   setState(state => ({
-  //     ...state,
-  //     asalHal: props.navigation.state.params.asalProps
-
-  //   }))
-  //   console.log('asal props = '+ JSON.stringify(state.asalHal))
-  // }, [])
-
-
   const backActions = () => {
-    let asalProps = props.navigation.state.params.asalProps;
-    if (asalProps == 'ubahToko') {
+    let asal = props.navigation.state.params.asalProps;
+    if (asal == 'ubahToko') {
       Alert.alert('Konfirmasi', 'Simpan Perubahan Lokasi?', [
         {
           text: 'Tidak',

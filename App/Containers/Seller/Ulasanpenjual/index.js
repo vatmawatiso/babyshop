@@ -49,7 +49,6 @@ const Ulasanpenjual = (props) => {
     const getUlasan = () => {
         const rtlid = props.navigation.state.params.retail_id
         console.log('cek rtl id = ', rtlid)
-        //https://market.pondok-huda.com/publish/react/komentar/retail/RTL00000002/Q4Z96LIFSXUJBK9U6ZACCB2CJDQAR0XH4R6O6ARVG
         axios.get(svr.url + 'komentar/retail/' + rtlid + '/' + svr.api)
             .then(result => {
                 // handle success

@@ -49,9 +49,9 @@ const Pengiriman = (props) => {
               <Pressable style={[styles.presable]} onPress={() => setCon('Dikirim')}>
                 <Text style={[styles.txtOrder, { color: con === 'Dikirim' ? '#6495ED' : 'black', left: toDp(5) }]}>Dikirim</Text>
               </Pressable>
-              <Pressable style={[styles.presable]} onPress={() => setCon('Diterima')}>
+              {/* <Pressable style={[styles.presable]} onPress={() => setCon('Diterima')}>
                 <Text style={[styles.txtOrder, { color: con === 'Diterima' ? '#6495ED' : 'black', left: toDp(6) }]}>Diterima</Text>
-              </Pressable>
+              </Pressable> */}
               <Pressable style={[styles.presable]} onPress={() => setCon('Selesai')}>
                 <Text style={[styles.txtOrder, { color: con === 'Selesai' ? '#6495ED' : 'black', left: toDp(6) }]}>Selesai</Text>
               </Pressable>
@@ -73,8 +73,8 @@ const Pengiriman = (props) => {
                 <Diproses retail_id={retail_id} con={con} />
                 : con == 'Dikirim' ?
                   <Sedangdikirim retail_id={retail_id} con={con} />
-                  : con == 'Diterima' ?
-                    <Diterima retail_id={retail_id} con={con} />
+                  // : con == 'Diterima' ?
+                  //   <Diterima retail_id={retail_id} con={con} />
                     : con == 'Selesai' ?
                       <Sudahselesai retail_id={retail_id} con={con} />
                       :

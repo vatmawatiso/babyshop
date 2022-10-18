@@ -53,7 +53,7 @@ const Saldopenjual = (props) => {
         picture: data.value.picture,
         retail_id: data.retail_id,
       }))
-      // console.log('RTL ID ' + JSON.stringify(state.retail_id));
+      console.log('RTL ID  ==>' + JSON.stringify(state.retail_id));
 
     }).catch(err => {
       console.log('err', err)

@@ -52,6 +52,7 @@ const Pengajuan = (props) => {
         bo_rtlid: false,
         latitude: '',
         longitude: '',
+        asalProps: 'Pengajuan'
     })
 
     // GET CITY
@@ -228,14 +229,14 @@ const Pengajuan = (props) => {
             alert('Kota tidak boleh kosong!')
             return;
         }
-        if (state.latitude.trim() == '') {
-            alert('Lokasi toko tidak boleh kosong!')
-            return;
-        }
-        if (state.longitude.trim() == '') {
-            alert('Lokasi toko tidak boleh kosong!')
-            return;
-        }
+        // if (state.latitude.trim() && state.longitude.trim() == '') {
+        //     alert('Lokasi toko tidak boleh kosong!')
+        //     return;
+        // }
+        // if (state.longitude.trim() == '') {
+        //     alert('Lokasi toko tidak boleh kosong!')
+        //     return;
+        // }
 
         InputPengajuan()
     }
@@ -347,7 +348,7 @@ const Pengajuan = (props) => {
                             </>
                             :
                             <>
-                                <Pressable onPress={() => NavigatorService.navigate('Peta')} style={{ backgroundColor: '#06BA0D', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                                <Pressable onPress={() => NavigatorService.navigate('Peta', {asalProps: state.asalProps})} style={{ backgroundColor: '#06BA0D', width: 340, height: 48, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                                     <Text style={{ color: 'white', fontWeight: '800' }}>Cari Titik Lokasi</Text>
                                 </Pressable>
                             </>
